@@ -1,5 +1,5 @@
 public struct PayPal {
-    public private(set) var text = "Hello, World!"
+    public private(set) var text = "Hello, PayPal module!"
 
     public init() {
     }

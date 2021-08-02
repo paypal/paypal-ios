@@ -7,12 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8034A9DE26B8756F0055AF13 /* PaymentsCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */; };
+		8034A9E626B875C90055AF13 /* PaymentsCore_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034A9E526B875C90055AF13 /* PaymentsCore_Tests.swift */; };
+		8034A9E726B875C90055AF13 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; };
+		80B9F85426B8750000D67843 /* PaymentsCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 80B9F85326B8750000D67843 /* PaymentsCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		OBJ_22 /* PayPal.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* PayPal.swift */; };
-		OBJ_40 /* PayPalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* PayPalTests.swift */; };
+		OBJ_40 /* PayPal_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* PayPal_Tests.swift */; };
+		OBJ_42 /* PayPal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "PayPal::PayPal::Product" /* PayPal.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		806F1E2A26B85142007A60E6 /* PBXContainerItemProxy */ = {
+		8034A9E826B875C90055AF13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 80B9F85026B8750000D67843;
+			remoteInfo = PaymentsCore;
+		};
+		80B9F84A26B8749E00D67843 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
@@ -22,15 +34,35 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		806F1E4C26B853F1007A60E6 /* PayPal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = PayPal.framework; path = "/Users/scannillo/pp/iOS-SDK/build/Debug/PayPal.framework"; sourceTree = "<absolute>"; };
-		806F1E4D26B853F1007A60E6 /* PayPalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = PayPalTests.xctest; path = "/Users/scannillo/pp/iOS-SDK/build/Debug/PayPalTests.xctest"; sourceTree = "<absolute>"; };
-		OBJ_12 /* PayPalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalTests.swift; sourceTree = "<group>"; };
+		8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsCore.swift; sourceTree = "<group>"; };
+		8034A9E326B875C90055AF13 /* PaymentsCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaymentsCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8034A9E526B875C90055AF13 /* PaymentsCore_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsCore_Tests.swift; sourceTree = "<group>"; };
+		80B9F85126B8750000D67843 /* PaymentsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PaymentsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		80B9F85326B8750000D67843 /* PaymentsCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaymentsCore.h; sourceTree = "<group>"; };
+		OBJ_12 /* PayPal_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPal_Tests.swift; sourceTree = "<group>"; };
 		OBJ_16 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_9 /* PayPal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPal.swift; sourceTree = "<group>"; };
+		"PayPal::PayPal::Product" /* PayPal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PayPal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"PayPal::PayPalTests::Product" /* PayPalTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = PayPalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8034A9E026B875C90055AF13 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8034A9E726B875C90055AF13 /* PaymentsCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		80B9F84E26B8750000D67843 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		OBJ_23 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
@@ -42,15 +74,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
+				OBJ_42 /* PayPal.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8034A9E426B875C90055AF13 /* PaymentsCoreTests */ = {
+			isa = PBXGroup;
+			children = (
+				8034A9E526B875C90055AF13 /* PaymentsCore_Tests.swift */,
+			);
+			name = PaymentsCoreTests;
+			path = Tests/PaymentsCoreTests;
+			sourceTree = "<group>";
+		};
+		80B9F85226B8750000D67843 /* PaymentsCore */ = {
+			isa = PBXGroup;
+			children = (
+				80B9F85326B8750000D67843 /* PaymentsCore.h */,
+				8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */,
+			);
+			name = PaymentsCore;
+			path = Sources/PaymentsCore;
+			sourceTree = "<group>";
+		};
 		OBJ_10 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				8034A9E426B875C90055AF13 /* PaymentsCoreTests */,
 				OBJ_11 /* PayPalTests */,
 			);
 			name = Tests;
@@ -59,25 +112,38 @@
 		OBJ_11 /* PayPalTests */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_12 /* PayPalTests.swift */,
+				OBJ_12 /* PayPal_Tests.swift */,
 			);
 			name = PayPalTests;
 			path = Tests/PayPalTests;
 			sourceTree = SOURCE_ROOT;
 		};
+		OBJ_13 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				"PayPal::PayPal::Product" /* PayPal.framework */,
+				"PayPal::PayPalTests::Product" /* PayPalTests.xctest */,
+				80B9F85126B8750000D67843 /* PaymentsCore.framework */,
+				8034A9E326B875C90055AF13 /* PaymentsCoreTests.xctest */,
+			);
+			name = Products;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
+				OBJ_13 /* Products */,
+				OBJ_16 /* README.md */,
 				OBJ_7 /* Sources */,
 				OBJ_10 /* Tests */,
-				OBJ_16 /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				80B9F85226B8750000D67843 /* PaymentsCore */,
 				OBJ_8 /* PayPal */,
 			);
 			name = Sources;
@@ -94,7 +160,54 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		80B9F84C26B8750000D67843 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				80B9F85426B8750000D67843 /* PaymentsCore.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		8034A9E226B875C90055AF13 /* PaymentsCoreTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8034A9EA26B875C90055AF13 /* Build configuration list for PBXNativeTarget "PaymentsCoreTests" */;
+			buildPhases = (
+				8034A9DF26B875C90055AF13 /* Sources */,
+				8034A9E026B875C90055AF13 /* Frameworks */,
+				8034A9E126B875C90055AF13 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8034A9E926B875C90055AF13 /* PBXTargetDependency */,
+			);
+			name = PaymentsCoreTests;
+			productName = PaymentsCoreTests;
+			productReference = 8034A9E326B875C90055AF13 /* PaymentsCoreTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		80B9F85026B8750000D67843 /* PaymentsCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 80B9F85526B8750000D67843 /* Build configuration list for PBXNativeTarget "PaymentsCore" */;
+			buildPhases = (
+				80B9F84C26B8750000D67843 /* Headers */,
+				80B9F84D26B8750000D67843 /* Sources */,
+				80B9F84E26B8750000D67843 /* Frameworks */,
+				80B9F84F26B8750000D67843 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PaymentsCore;
+			productName = PaymentsCore;
+			productReference = 80B9F85126B8750000D67843 /* PaymentsCore.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		"PayPal::PayPal" /* PayPal */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_18 /* Build configuration list for PBXNativeTarget "PayPal" */;
@@ -108,7 +221,7 @@
 			);
 			name = PayPal;
 			productName = PayPal;
-			productReference = 806F1E4C26B853F1007A60E6 /* PayPal.framework */;
+			productReference = "PayPal::PayPal::Product" /* PayPal.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		"PayPal::PayPalTests" /* PayPalTests */ = {
@@ -125,7 +238,7 @@
 			);
 			name = PayPalTests;
 			productName = PayPalTests;
-			productReference = 806F1E4D26B853F1007A60E6 /* PayPalTests.xctest */;
+			productReference = "PayPal::PayPalTests::Product" /* PayPalTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -135,7 +248,21 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftMigration = 9999;
+				LastSwiftUpdateCheck = 1300;
 				LastUpgradeCheck = 9999;
+				TargetAttributes = {
+					8034A9E226B875C90055AF13 = {
+						CreatedOnToolsVersion = 13.0;
+						DevelopmentTeam = 43253H4X22;
+						ProvisioningStyle = Automatic;
+					};
+					80B9F85026B8750000D67843 = {
+						CreatedOnToolsVersion = 13.0;
+						DevelopmentTeam = 43253H4X22;
+						LastSwiftMigration = 1300;
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "PayPal" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -145,17 +272,52 @@
 				en,
 			);
 			mainGroup = OBJ_5;
-			productRefGroup = OBJ_5;
+			productRefGroup = OBJ_13 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				"PayPal::PayPal" /* PayPal */,
 				"PayPal::PayPalTests" /* PayPalTests */,
+				80B9F85026B8750000D67843 /* PaymentsCore */,
+				8034A9E226B875C90055AF13 /* PaymentsCoreTests */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		8034A9E126B875C90055AF13 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		80B9F84F26B8750000D67843 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		8034A9DF26B875C90055AF13 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8034A9E626B875C90055AF13 /* PaymentsCore_Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		80B9F84D26B8750000D67843 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8034A9DE26B8756F0055AF13 /* PaymentsCore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		OBJ_21 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
@@ -168,21 +330,301 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_40 /* PayPalTests.swift in Sources */,
+				OBJ_40 /* PayPal_Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		8034A9E926B875C90055AF13 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 80B9F85026B8750000D67843 /* PaymentsCore */;
+			targetProxy = 8034A9E826B875C90055AF13 /* PBXContainerItemProxy */;
+		};
 		OBJ_43 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "PayPal::PayPal" /* PayPal */;
-			targetProxy = 806F1E2A26B85142007A60E6 /* PBXContainerItemProxy */;
+			targetProxy = 80B9F84A26B8749E00D67843 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		8034A9EB26B875C90055AF13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 43253H4X22;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.PaymentsCoreTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8034A9EC26B875C90055AF13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 43253H4X22;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.PaymentsCoreTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		80B9F85626B8750000D67843 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 43253H4X22;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.PaymentsCore";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		80B9F85726B8750000D67843 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 43253H4X22;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.PaymentsCore";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		OBJ_19 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -353,6 +795,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8034A9EA26B875C90055AF13 /* Build configuration list for PBXNativeTarget "PaymentsCoreTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8034A9EB26B875C90055AF13 /* Debug */,
+				8034A9EC26B875C90055AF13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		80B9F85526B8750000D67843 /* Build configuration list for PBXNativeTarget "PaymentsCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				80B9F85626B8750000D67843 /* Debug */,
+				80B9F85726B8750000D67843 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		OBJ_18 /* Build configuration list for PBXNativeTarget "PayPal" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

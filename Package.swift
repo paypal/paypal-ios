@@ -8,6 +8,9 @@ let package = Package(
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
+            name: "PaymentsCore",
+            targets: ["PaymentsCore"]),
+        .library(
             name: "PayPal",
             targets: ["PayPal"]),
     ],
@@ -21,8 +24,8 @@ let package = Package(
         .target(
             name: "PayPal",
             dependencies: []),
-        .testTarget(
-            name: "PayPalTests",
-            dependencies: ["PayPal"]),
+        .target(
+            name: "PaymentsCore",
+            dependencies: [])
     ]
 )
