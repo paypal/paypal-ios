@@ -1,11 +1,7 @@
-//
-//  ViewController.swift
-//  Demo
-//
-//  Created by Cannillo, Sammy on 8/2/21.
-//
-
 import UIKit
+import Card
+import PaymentsCore
+import PayPal
 
 class ViewController: UIViewController {
 

@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		805AB85026B87A87003BEE0D /* Card.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 805AB84D26B87A87003BEE0D /* Card.framework */; };
+		805AB85126B87A87003BEE0D /* Card.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 805AB84D26B87A87003BEE0D /* Card.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		805AB85226B87A87003BEE0D /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 805AB84E26B87A87003BEE0D /* PaymentsCore.framework */; };
+		805AB85326B87A87003BEE0D /* PaymentsCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 805AB84E26B87A87003BEE0D /* PaymentsCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		805AB85426B87A87003BEE0D /* PayPal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 805AB84F26B87A87003BEE0D /* PayPal.framework */; };
+		805AB85526B87A87003BEE0D /* PayPal.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 805AB84F26B87A87003BEE0D /* PayPal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		806F1E3926B85367007A60E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806F1E3826B85367007A60E6 /* AppDelegate.swift */; };
 		806F1E3B26B85367007A60E6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806F1E3A26B85367007A60E6 /* SceneDelegate.swift */; };
 		806F1E3D26B85367007A60E6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806F1E3C26B85367007A60E6 /* ViewController.swift */; };
@@ -15,7 +21,26 @@
 		806F1E4526B85369007A60E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 806F1E4326B85369007A60E6 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		805AB85626B87A87003BEE0D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				805AB85526B87A87003BEE0D /* PayPal.framework in Embed Frameworks */,
+				805AB85326B87A87003BEE0D /* PaymentsCore.framework in Embed Frameworks */,
+				805AB85126B87A87003BEE0D /* Card.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		805AB84D26B87A87003BEE0D /* Card.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Card.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		805AB84E26B87A87003BEE0D /* PaymentsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PaymentsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		805AB84F26B87A87003BEE0D /* PayPal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PayPal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		806F1E3526B85367007A60E6 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		806F1E3826B85367007A60E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		806F1E3A26B85367007A60E6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -31,17 +56,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				805AB85426B87A87003BEE0D /* PayPal.framework in Frameworks */,
+				805AB85226B87A87003BEE0D /* PaymentsCore.framework in Frameworks */,
+				805AB85026B87A87003BEE0D /* Card.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		805AB84C26B87A87003BEE0D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				805AB84D26B87A87003BEE0D /* Card.framework */,
+				805AB84E26B87A87003BEE0D /* PaymentsCore.framework */,
+				805AB84F26B87A87003BEE0D /* PayPal.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		806F1E2C26B85367007A60E6 = {
 			isa = PBXGroup;
 			children = (
 				806F1E3726B85367007A60E6 /* Demo */,
 				806F1E3626B85367007A60E6 /* Products */,
+				805AB84C26B87A87003BEE0D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,6 +116,7 @@
 				806F1E3126B85367007A60E6 /* Sources */,
 				806F1E3226B85367007A60E6 /* Frameworks */,
 				806F1E3326B85367007A60E6 /* Resources */,
+				805AB85626B87A87003BEE0D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
