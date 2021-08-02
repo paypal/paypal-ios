@@ -13,6 +13,9 @@ let package = Package(
         .library(
             name: "PayPal",
             targets: ["PayPal"]),
+        .library(
+            name: "Card",
+            targets: ["Card"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -22,10 +25,13 @@ let package = Package(
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
-            name: "PayPal",
+            name: "PaymentsCore",
             dependencies: []),
         .target(
-            name: "PaymentsCore",
+            name: "Card",
+            dependencies: []),
+        .target(
+            name: "PayPal",
             dependencies: [])
     ]
 )
