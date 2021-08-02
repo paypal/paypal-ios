@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		805AB85026B87A87003BEE0D /* Card.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 805AB84D26B87A87003BEE0D /* Card.framework */; };
 		805AB85126B87A87003BEE0D /* Card.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 805AB84D26B87A87003BEE0D /* Card.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		805AB85226B87A87003BEE0D /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 805AB84E26B87A87003BEE0D /* PaymentsCore.framework */; };
-		805AB85326B87A87003BEE0D /* PaymentsCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 805AB84E26B87A87003BEE0D /* PaymentsCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		805AB85426B87A87003BEE0D /* PayPal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 805AB84F26B87A87003BEE0D /* PayPal.framework */; };
 		805AB85526B87A87003BEE0D /* PayPal.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 805AB84F26B87A87003BEE0D /* PayPal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		806F1E3926B85367007A60E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806F1E3826B85367007A60E6 /* AppDelegate.swift */; };
@@ -29,7 +27,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				805AB85526B87A87003BEE0D /* PayPal.framework in Embed Frameworks */,
-				805AB85326B87A87003BEE0D /* PaymentsCore.framework in Embed Frameworks */,
 				805AB85126B87A87003BEE0D /* Card.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -57,7 +54,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				805AB85426B87A87003BEE0D /* PayPal.framework in Frameworks */,
-				805AB85226B87A87003BEE0D /* PaymentsCore.framework in Frameworks */,
 				805AB85026B87A87003BEE0D /* Card.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

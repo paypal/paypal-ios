@@ -1,6 +1,5 @@
 import UIKit
 import Card
-import PaymentsCore
 import PayPal
 
 class ViewController: UIViewController {
