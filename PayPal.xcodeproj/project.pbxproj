@@ -10,8 +10,6 @@
 		8034A9DE26B8756F0055AF13 /* PaymentsCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */; };
 		8034A9E626B875C90055AF13 /* PaymentsCore_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034A9E526B875C90055AF13 /* PaymentsCore_Tests.swift */; };
 		8034A9E726B875C90055AF13 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; };
-		80B9F85426B8750000D67843 /* PaymentsCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 80B9F85326B8750000D67843 /* PaymentsCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		80E8DADC26B8783800FAFC3F /* Card.h in Headers */ = {isa = PBXBuildFile; fileRef = 80E8DADB26B8783800FAFC3F /* Card.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		80E8DAE126B8784600FAFC3F /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E8DAE026B8784600FAFC3F /* Card.swift */; };
 		80E8DAE926B8785D00FAFC3F /* Card_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E8DAE826B8785D00FAFC3F /* Card_Tests.swift */; };
 		80E8DAEA26B8785D00FAFC3F /* Card.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E8DAD926B8783800FAFC3F /* Card.framework */; };
@@ -49,9 +47,7 @@
 		8034A9E326B875C90055AF13 /* PaymentsCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaymentsCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8034A9E526B875C90055AF13 /* PaymentsCore_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsCore_Tests.swift; sourceTree = "<group>"; };
 		80B9F85126B8750000D67843 /* PaymentsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PaymentsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		80B9F85326B8750000D67843 /* PaymentsCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaymentsCore.h; sourceTree = "<group>"; };
 		80E8DAD926B8783800FAFC3F /* Card.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Card.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		80E8DADB26B8783800FAFC3F /* Card.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Card.h; sourceTree = "<group>"; };
 		80E8DAE026B8784600FAFC3F /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		80E8DAE626B8785D00FAFC3F /* CardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		80E8DAE826B8785D00FAFC3F /* Card_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card_Tests.swift; sourceTree = "<group>"; };
@@ -124,7 +120,6 @@
 		80B9F85226B8750000D67843 /* PaymentsCore */ = {
 			isa = PBXGroup;
 			children = (
-				80B9F85326B8750000D67843 /* PaymentsCore.h */,
 				8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */,
 			);
 			name = PaymentsCore;
@@ -134,7 +129,6 @@
 		80E8DADA26B8783800FAFC3F /* Card */ = {
 			isa = PBXGroup;
 			children = (
-				80E8DADB26B8783800FAFC3F /* Card.h */,
 				80E8DAE026B8784600FAFC3F /* Card.swift */,
 			);
 			name = Card;
@@ -214,25 +208,6 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		80B9F84C26B8750000D67843 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				80B9F85426B8750000D67843 /* PaymentsCore.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		80E8DAD426B8783800FAFC3F /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				80E8DADC26B8783800FAFC3F /* Card.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
 		8034A9E226B875C90055AF13 /* PaymentsCoreTests */ = {
 			isa = PBXNativeTarget;
@@ -256,7 +231,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 80B9F85526B8750000D67843 /* Build configuration list for PBXNativeTarget "PaymentsCore" */;
 			buildPhases = (
-				80B9F84C26B8750000D67843 /* Headers */,
 				80B9F84D26B8750000D67843 /* Sources */,
 				80B9F84E26B8750000D67843 /* Frameworks */,
 				80B9F84F26B8750000D67843 /* Resources */,
@@ -274,7 +248,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 80E8DADD26B8783800FAFC3F /* Build configuration list for PBXNativeTarget "Card" */;
 			buildPhases = (
-				80E8DAD426B8783800FAFC3F /* Headers */,
 				80E8DAD526B8783800FAFC3F /* Sources */,
 				80E8DAD626B8783800FAFC3F /* Frameworks */,
 				80E8DAD726B8783800FAFC3F /* Resources */,
