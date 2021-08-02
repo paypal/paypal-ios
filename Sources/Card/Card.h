@@ -1,10 +1,3 @@
-//
-//  Card.h
-//  Card
-//
-//  Created by Cannillo, Sammy on 8/2/21.
-//
-
 #import <Foundation/Foundation.h>
 
 //! Project version number for Card.

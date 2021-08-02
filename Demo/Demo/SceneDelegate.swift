@@ -1,10 +1,3 @@
-//
-//  SceneDelegate.swift
-//  Demo
-//
-//  Created by Cannillo, Sammy on 8/2/21.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
