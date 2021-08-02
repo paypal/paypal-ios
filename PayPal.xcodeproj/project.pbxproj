@@ -118,7 +118,7 @@
 				8034A9E526B875C90055AF13 /* PaymentsCore_Tests.swift */,
 			);
 			name = PaymentsCoreTests;
-			path = Tests/PaymentsCoreTests;
+			path = UnitTests/PaymentsCoreTests;
 			sourceTree = "<group>";
 		};
 		80B9F85226B8750000D67843 /* PaymentsCore */ = {
@@ -137,7 +137,8 @@
 				80E8DADB26B8783800FAFC3F /* Card.h */,
 				80E8DAE026B8784600FAFC3F /* Card.swift */,
 			);
-			path = Card;
+			name = Card;
+			path = Sources/Card;
 			sourceTree = "<group>";
 		};
 		80E8DAE726B8785D00FAFC3F /* CardTests */ = {
@@ -145,12 +146,14 @@
 			children = (
 				80E8DAE826B8785D00FAFC3F /* Card_Tests.swift */,
 			);
-			path = CardTests;
+			name = CardTests;
+			path = UnitTests/CardTests;
 			sourceTree = "<group>";
 		};
 		OBJ_10 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				80E8DAE726B8785D00FAFC3F /* CardTests */,
 				8034A9E426B875C90055AF13 /* PaymentsCoreTests */,
 				OBJ_11 /* PayPalTests */,
 			);
@@ -163,7 +166,7 @@
 				OBJ_12 /* PayPal_Tests.swift */,
 			);
 			name = PayPalTests;
-			path = Tests/PayPalTests;
+			path = UnitTests/PayPalTests;
 			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_13 /* Products */ = {
@@ -186,8 +189,6 @@
 				OBJ_16 /* README.md */,
 				OBJ_7 /* Sources */,
 				OBJ_10 /* Tests */,
-				80E8DADA26B8783800FAFC3F /* Card */,
-				80E8DAE726B8785D00FAFC3F /* CardTests */,
 				OBJ_13 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -195,6 +196,7 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				80E8DADA26B8783800FAFC3F /* Card */,
 				80B9F85226B8750000D67843 /* PaymentsCore */,
 				OBJ_8 /* PayPal */,
 			);
