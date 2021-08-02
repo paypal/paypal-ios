@@ -207,6 +207,7 @@
 				80DB6F0E26B89D9600277E54 /* PayPal.framework */,
 			);
 			name = Products;
+			path = ..;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		OBJ_5 = {
@@ -224,9 +225,9 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				80DB6F0F26B89D9600277E54 /* PayPal */,
 				80E8DADA26B8783800FAFC3F /* Card */,
 				80B9F85226B8750000D67843 /* PaymentsCore */,
+				80DB6F0F26B89D9600277E54 /* PayPal */,
 			);
 			name = Sources;
 			sourceTree = SOURCE_ROOT;
