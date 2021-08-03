@@ -3,7 +3,7 @@ on: [pull_request, workflow_dispatch]
 jobs:
   unit_test_job:
     name: Unit
-    runs-on: macOS-latest
+    runs-on: macOS-11
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
