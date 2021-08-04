@@ -13,10 +13,12 @@ Pod::Spec.new do |s|
 
   s.subspec "Card" do |s|
     s.source_files  = "Sources/Card/*.swift"
+    s.dependency "PayPal/PaymentsCore"
   end
 
   s.subspec "PayPal" do |s|
     s.source_files  = "Sources/PayPal/*.swift"
+    s.dependency "PayPal/PaymentsCore"
   end
 
   s.subspec "PaymentsCore" do |s|
