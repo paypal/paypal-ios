@@ -28,6 +28,13 @@
 			remoteGlobalIDString = 80B9F85026B8750000D67843;
 			remoteInfo = PaymentsCore;
 		};
+		80903D4826BADDD7003A381D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 80DB6F0D26B89D9600277E54;
+			remoteInfo = PayPal;
+		};
 		80DB6F1926B89DC700277E54 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
@@ -345,6 +352,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				80903D4926BADDD7003A381D /* PBXTargetDependency */,
 			);
 			name = PayPalTests;
 			productName = PayPalTests;
@@ -505,6 +513,11 @@
 			isa = PBXTargetDependency;
 			target = 80B9F85026B8750000D67843 /* PaymentsCore */;
 			targetProxy = 8034A9E826B875C90055AF13 /* PBXContainerItemProxy */;
+		};
+		80903D4926BADDD7003A381D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 80DB6F0D26B89D9600277E54 /* PayPal */;
+			targetProxy = 80903D4826BADDD7003A381D /* PBXContainerItemProxy */;
 		};
 		80DB6F1A26B89DC700277E54 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
