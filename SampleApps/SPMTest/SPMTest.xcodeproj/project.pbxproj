@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8007854726BD8FE300ECED2F /* Card in Frameworks */ = {isa = PBXBuildFile; productRef = 8007854626BD8FE300ECED2F /* Card */; };
+		8007854926BD8FE300ECED2F /* PayPal in Frameworks */ = {isa = PBXBuildFile; productRef = 8007854826BD8FE300ECED2F /* PayPal */; };
+		8007854B26BD8FE300ECED2F /* PaymentsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 8007854A26BD8FE300ECED2F /* PaymentsCore */; };
 		80C6FD6726BD8AFF00B73E76 /* SPMTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C6FD6626BD8AFF00B73E76 /* SPMTestApp.swift */; };
 		80C6FD6926BD8AFF00B73E76 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C6FD6826BD8AFF00B73E76 /* ContentView.swift */; };
 		80C6FD6B26BD8B0000B73E76 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80C6FD6A26BD8B0000B73E76 /* Assets.xcassets */; };
 		80C6FD6E26BD8B0000B73E76 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80C6FD6D26BD8B0000B73E76 /* Preview Assets.xcassets */; };
-		80C6FD7626BD8B4000B73E76 /* Card in Frameworks */ = {isa = PBXBuildFile; productRef = 80C6FD7526BD8B4000B73E76 /* Card */; };
-		80C6FD7826BD8B4000B73E76 /* PayPal in Frameworks */ = {isa = PBXBuildFile; productRef = 80C6FD7726BD8B4000B73E76 /* PayPal */; };
-		80C6FD7A26BD8B4000B73E76 /* PaymentsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 80C6FD7926BD8B4000B73E76 /* PaymentsCore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,9 +29,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				80C6FD7626BD8B4000B73E76 /* Card in Frameworks */,
-				80C6FD7826BD8B4000B73E76 /* PayPal in Frameworks */,
-				80C6FD7A26BD8B4000B73E76 /* PaymentsCore in Frameworks */,
+				8007854726BD8FE300ECED2F /* Card in Frameworks */,
+				8007854926BD8FE300ECED2F /* PayPal in Frameworks */,
+				8007854B26BD8FE300ECED2F /* PaymentsCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,9 +90,9 @@
 			);
 			name = SPMTest;
 			packageProductDependencies = (
-				80C6FD7526BD8B4000B73E76 /* Card */,
-				80C6FD7726BD8B4000B73E76 /* PayPal */,
-				80C6FD7926BD8B4000B73E76 /* PaymentsCore */,
+				8007854626BD8FE300ECED2F /* Card */,
+				8007854826BD8FE300ECED2F /* PayPal */,
+				8007854A26BD8FE300ECED2F /* PaymentsCore */,
 			);
 			productName = SPMTest;
 			productReference = 80C6FD6326BD8AFF00B73E76 /* SPMTest.app */;
@@ -123,7 +123,7 @@
 			);
 			mainGroup = 80C6FD5A26BD8AFF00B73E76;
 			packageReferences = (
-				80C6FD7426BD8B4000B73E76 /* XCRemoteSwiftPackageReference "iOS-SDK" */,
+				8007854526BD8FE300ECED2F /* XCRemoteSwiftPackageReference "iOS-SDK" */,
 			);
 			productRefGroup = 80C6FD6426BD8AFF00B73E76 /* Products */;
 			projectDirPath = "";
@@ -359,9 +359,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		80C6FD7426BD8B4000B73E76 /* XCRemoteSwiftPackageReference "iOS-SDK" */ = {
+		8007854526BD8FE300ECED2F /* XCRemoteSwiftPackageReference "iOS-SDK" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "file:///Users/scannillo/pp/iOS-SDK";
+			repositoryURL = "https://github.com/paypal/iOS-SDK.git";
 			requirement = {
 				branch = main;
 				kind = branch;
@@ -370,19 +370,19 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		80C6FD7526BD8B4000B73E76 /* Card */ = {
+		8007854626BD8FE300ECED2F /* Card */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 80C6FD7426BD8B4000B73E76 /* XCRemoteSwiftPackageReference "iOS-SDK" */;
+			package = 8007854526BD8FE300ECED2F /* XCRemoteSwiftPackageReference "iOS-SDK" */;
 			productName = Card;
 		};
-		80C6FD7726BD8B4000B73E76 /* PayPal */ = {
+		8007854826BD8FE300ECED2F /* PayPal */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 80C6FD7426BD8B4000B73E76 /* XCRemoteSwiftPackageReference "iOS-SDK" */;
+			package = 8007854526BD8FE300ECED2F /* XCRemoteSwiftPackageReference "iOS-SDK" */;
 			productName = PayPal;
 		};
-		80C6FD7926BD8B4000B73E76 /* PaymentsCore */ = {
+		8007854A26BD8FE300ECED2F /* PaymentsCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 80C6FD7426BD8B4000B73E76 /* XCRemoteSwiftPackageReference "iOS-SDK" */;
+			package = 8007854526BD8FE300ECED2F /* XCRemoteSwiftPackageReference "iOS-SDK" */;
 			productName = PaymentsCore;
 		};
 /* End XCSwiftPackageProductDependency section */

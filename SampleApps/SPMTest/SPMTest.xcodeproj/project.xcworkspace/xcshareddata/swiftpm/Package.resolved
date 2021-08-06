@@ -3,10 +3,10 @@
     "pins": [
       {
         "package": "PayPal",
-        "repositoryURL": "/Users/scannillo/pp/iOS-SDK",
+        "repositoryURL": "https://github.com/paypal/iOS-SDK.git",
         "state": {
           "branch": "main",
-          "revision": "424a99f255dbd8e592e7efccdb4f56b5a558a515",
+          "revision": "5eb90df832ba1dc461aadb97a69fad70902acc8f",
           "version": null
         }
       }
