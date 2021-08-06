@@ -1,11 +1,6 @@
-//
-//  ContentView.swift
-//  SPMTest
-//
-//  Created by Cannillo, Sammy on 8/6/21.
-//
-
 import SwiftUI
+import Card
+import PayPal
 
 struct ContentView: View {
     var body: some View {

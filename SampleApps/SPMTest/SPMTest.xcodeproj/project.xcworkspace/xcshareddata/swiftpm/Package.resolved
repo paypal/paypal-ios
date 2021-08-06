@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "PayPal",
+        "repositoryURL": "/Users/scannillo/pp/iOS-SDK",
+        "state": {
+          "branch": "main",
+          "revision": "424a99f255dbd8e592e7efccdb4f56b5a558a515",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
