@@ -46,14 +46,13 @@ cardClient = CardClient(config: paymentConfig)
 card = Card(number: 4111111111111111, cvv: 123, ...)
 
 // STEP 4: Call checkout method
-cardClient?.checkoutWithCard(orderID: ORDER_ID, card: card) { (result, error) in
-    if (error != nil) {
-        // handle checkout error
-        return
+cardClient?.checkoutWithCard(orderID: ORDER_ID, card: card) { result in
+    switch result {
+    case .success(let orderId):
+      // Send orderID to your server to process the payment
+    case .error(let error):
+      // handle checkout error
     }
-    
-    guard let orderID = result?.orderID else { return }
-    // Send orderID to your server to process the payment
 }
 
 // STEP 5: Send orderID to your server to capture/authorize
