@@ -7,10 +7,6 @@ platform :ios do
   desc "Runs the test target, which executes all the unit tests for each module
   within the SDK"
   lane :tests do
-    xcode_select(
-      "/Applications/Xcode-13.0.app"
-    )
-
     run_tests(
       workspace: "PayPal.xcworkspace",
       device: "iPhone 8",
