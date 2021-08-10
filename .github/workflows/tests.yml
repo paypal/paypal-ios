@@ -10,4 +10,4 @@ jobs:
       - name: Use Xcode 13
         run: sudo xcode-select -switch /Applications/Xcode_13.0.app
       - name: Run Unit Tests
-        run: set -o pipefail && xcodebuild -workspace 'PayPal.xcworkspace' -sdk 'iphonesimulator' -configuration 'Debug' -scheme 'UnitTests' -destination 'name=iPhone 12,platform=iOS Simulator'  test | xcpretty
+        run: bundle exec fastlane tests 
