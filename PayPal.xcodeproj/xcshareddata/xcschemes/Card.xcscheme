@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "80B9F85026B8750000D67843"
-               BuildableName = "PaymentsCore.framework"
-               BlueprintName = "PaymentsCore"
+               BlueprintIdentifier = "80E8DAD826B8783800FAFC3F"
+               BuildableName = "Card.framework"
+               BlueprintName = "Card"
                ReferencedContainer = "container:PayPal.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -51,9 +51,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "80B9F85026B8750000D67843"
-            BuildableName = "PaymentsCore.framework"
-            BlueprintName = "PaymentsCore"
+            BlueprintIdentifier = "80E8DAD826B8783800FAFC3F"
+            BuildableName = "Card.framework"
+            BlueprintName = "Card"
             ReferencedContainer = "container:PayPal.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
