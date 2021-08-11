@@ -1,10 +1,10 @@
 # PayPal iOS SDK
 
-Welcome to PayPal's iOS SDK. This library will help you accept card, PayPal, Venmo, and alternative payments in your iOS app.
+Welcome to PayPal's iOS SDK. This library will help you accept card, PayPal, Venmo, and alternative payment methods in your iOS app.
 
 ## Support
 
-The PayPal iOS SDK supports a minimum deployment target of iOS 13+ and requires Xcode 13+. See our [Client Deprecation policy](https://developer.paypal.com/braintree/docs/guides/client-sdk/deprecation-policy/ios/v5) to plan for updates.
+The PayPal iOS SDK supports a minimum deployment target of iOS 13+ and requires Xcode 13+ and macOS Big Sur 11.3+. See our [Client Deprecation policy](https://developer.paypal.com/braintree/docs/guides/client-sdk/deprecation-policy/ios/v5) to plan for updates.
 
 ### Package Managers
 This SDK supports:
