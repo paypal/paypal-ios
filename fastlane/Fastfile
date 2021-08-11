@@ -10,7 +10,8 @@ platform :ios do
     run_tests(
       workspace: "PayPal.xcworkspace",
       device: "iPhone 8",
-      scheme: "UnitTests"
+      scheme: "UnitTests",
+      skip_build: true
     )
   end
 end
