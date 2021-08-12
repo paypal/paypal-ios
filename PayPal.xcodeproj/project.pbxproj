@@ -252,7 +252,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 80B9F85526B8750000D67843 /* Build configuration list for PBXNativeTarget "PaymentsCore" */;
 			buildPhases = (
-				BECAB74226C2E045003A3160 /* ShellScript */,
+				BECAB74226C2E045003A3160 /* Swiftlint */,
 				80B9F84D26B8750000D67843 /* Sources */,
 				80B9F84E26B8750000D67843 /* Frameworks */,
 				80B9F84F26B8750000D67843 /* Resources */,
@@ -431,7 +431,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		BECAB74226C2E045003A3160 /* ShellScript */ = {
+		BECAB74226C2E045003A3160 /* Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -440,13 +440,14 @@
 			);
 			inputPaths = (
 			);
+			name = Swiftlint;
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "echo \"Running Swiftlint\"\nsh scripts/swiftlint.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

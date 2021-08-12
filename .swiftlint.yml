@@ -1,0 +1,19 @@
+# Required Swiftlint Version
+# swiftlint_version: 0.34.0
+
+# Paths to include in lint
+included:
+  - Demo
+  - Sources
+  - UnitTests
+
+excluded:
+  - Sources/PayPalCheckoutOld
+  - Carthage
+  - Pods
+
+indentation: 4 # Indentation with 4 spaces
+line_length:
+  warning: 100 # Column line length
+  ignores_comments: true
+  ignores_urls: true
