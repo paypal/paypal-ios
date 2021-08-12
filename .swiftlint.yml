@@ -6,14 +6,9 @@ included:
   - Demo
   - Sources
   - UnitTests
-
-excluded:
-  - Sources/PayPalCheckoutOld
-  - Carthage
-  - Pods
-
+  
 indentation: 4 # Indentation with 4 spaces
 line_length:
-  warning: 100 # Column line length
+  warning: 120 # Column line length
   ignores_comments: true
   ignores_urls: true
