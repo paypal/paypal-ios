@@ -7,11 +7,14 @@ platform :ios do
   desc "Runs the test target, which executes all the unit tests for each module
   within the SDK"
   lane :tests do
-    run_tests(
-      workspace: "PayPal.xcworkspace",
-      device: "iPhone 8",
-      scheme: "UnitTests",
-      skip_build: true
-    )
+    sh("
+      set -o pipefail && xcodebuild \
+      -workspace '../PayPal.xcworkspace' \
+      -sdk 'iphonesimulator' \
+      -configuration 'Debug' \
+      -scheme 'UnitTests' \
+      -destination 'name=iPhone 12,platform=iOS Simulator' \
+      test | xcpretty
+      ")
   end
 end
