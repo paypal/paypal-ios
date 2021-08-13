@@ -59,6 +59,18 @@ cardClient?.checkoutWithCard(orderID: ORDER_ID, card: card) { result in
 
 ```
 
+## Prerequisites
+
+### SwiftLint
+
+Ensure that you have `SwiftLint` installed as we utilize it within our project.
+
+To install via [Homebrew](https://brew.sh/) run:
+```
+brew install swiftlint
+```
+Our Xcode project has a `Run Phase` which integrates in `SwiftLint` so the only prerequisite is installing via `Homebrew`.
+
 
 ## Testing
 
