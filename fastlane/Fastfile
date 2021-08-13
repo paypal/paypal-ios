@@ -6,7 +6,7 @@ platform :ios do
 
   desc "Runs the test target, which executes all the unit tests for each module
   within the SDK"
-  lane :tests do
+  lane :unit_tests do
     sh("
       set -o pipefail && xcodebuild \
       -workspace '../PayPal.xcworkspace' \
@@ -24,7 +24,7 @@ platform :ios do
     MINIMUM_COVERAGE = 100.0
 
     # Run the test lane to get coverage profdata files
-    tests
+    unit_tests
 
     # Ensure the code coverage directory is empty before creating new coverage
     sh("rm -rf coverage")

@@ -12,4 +12,4 @@ jobs:
       - name: Install Dependencies
         run: bundle install
       - name: Run Unit Tests
-        run: bundle exec fastlane tests
+        run: bundle exec fastlane unit_tests
