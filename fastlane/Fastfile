@@ -37,12 +37,11 @@ platform :ios do
       configuration: "Debug",
       json_report: true,
     )
-    
+
+    # Interpret JSON report and output relevant coverage data
     UI.header "Coverage Data"
     file = File.open "coverage/report.json"
     data = JSON.load file
-
-    targets = data["targets"]
 
     def get_coverage(hash, indent_count)
       name = hash["name"]
@@ -52,6 +51,8 @@ platform :ios do
       coverage < MINIMUM_COVERAGE ? UI.error(output) : UI.success(output.green)
       return coverage
     end
+
+    targets = data["targets"]
 
     total_coverage_data = data["targets"].map { |target|
       coverage = get_coverage(target, 0)
@@ -72,7 +73,7 @@ platform :ios do
     }
 
     if total_coverage_data.any? {|target_percent| target_percent < MINIMUM_COVERAGE }
-      UI.user_error!("Failure: All frameworks must have at least #{MINIMUM_COVERAGE}% coverage")
+      UI.user_error!("Failure: All frameworks must have at least #{MINIMUM_COVERAGE}% code coverage")
     end
   end
 end
