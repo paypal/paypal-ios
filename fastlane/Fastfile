@@ -16,36 +16,63 @@ platform :ios do
       -destination 'name=iPhone 12,platform=iOS Simulator' \
       test | xcpretty
       ")
-
-    # run_tests(
-    #   workspace: "PayPal.xcworkspace",
-    #   device: "iPhone 12",
-    #   scheme: "UnitTests",
-    #   skip_build: true,
-    #   output_types: "",
-    #   code_coverage: true
-    # )
   end
 
+  desc "Runs the test suite and calculates code coverage percentages for each
+  module within the SDK"
   lane :coverage do
+    MINIMUM_COVERAGE = 100.0
+
+    # Run the test lane to get coverage profdata files
     tests
-    slather(
-      scheme: "PayPal",
-      proj: "PayPal.xcodeproj",
-      workspace: "PayPal.xcworkspace",
-      configuration: "Debug"
-    )
-    slather(
-      scheme: "Card",
-      proj: "PayPal.xcodeproj",
-      workspace: "PayPal.xcworkspace",
-      configuration: "Debug"
-    )
-    slather(
+
+    # Ensure the code coverage directory is empty before creating new coverage
+    sh("rm -rf coverage")
+
+    # Use xcov to get the coverage percentages
+    xcov(
       scheme: "PaymentsCore",
-      proj: "PayPal.xcodeproj",
       workspace: "PayPal.xcworkspace",
-      configuration: "Debug"
+      output_directory: "fastlane/coverage",
+      configuration: "Debug",
+      json_report: true,
     )
+    
+    UI.header "Coverage Data"
+    file = File.open "coverage/report.json"
+    data = JSON.load file
+
+    targets = data["targets"]
+
+    def get_coverage(hash, indent_count)
+      name = hash["name"]
+      coverage = hash["coverage"].to_f * 100
+      indentation = "\t" * indent_count
+      output = indentation + "#{name}: #{coverage}%"
+      coverage < MINIMUM_COVERAGE ? UI.error(output) : UI.success(output.green)
+      return coverage
+    end
+
+    total_coverage_data = data["targets"].map { |target|
+      coverage = get_coverage(target, 0)
+
+      if coverage < MINIMUM_COVERAGE
+        filesForOutput = target["files"].each { |file|
+          file_coverage = get_coverage(file, 1)
+
+          if file_coverage < MINIMUM_COVERAGE
+            file["functions"].each { |function|
+              get_coverage(function, 2)
+            }
+          end
+        }
+      end
+      UI.message ""
+      coverage
+    }
+
+    if total_coverage_data.any? {|target_percent| target_percent < MINIMUM_COVERAGE }
+      UI.user_error!("Failure: All frameworks must have at least #{MINIMUM_COVERAGE}% coverage")
+    end
   end
 end
