@@ -35,4 +35,6 @@ Carthage/
 .swiftpm
 .build
 */xcshareddata/swiftpm
+
+# Fastlane
 /fastlane/report.xml
