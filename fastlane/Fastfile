@@ -43,26 +43,20 @@ platform :ios do
     file = File.open "coverage/report.json"
     data = JSON.load file
 
-    def get_coverage(hash, indent_count)
-      name = hash["name"]
-      coverage = hash["coverage"].to_f * 100
-      indentation = "\t" * indent_count
-      output = indentation + "#{name}: #{coverage}%"
-      coverage < MINIMUM_COVERAGE ? UI.error(output) : UI.success(output.green)
-      return coverage
-    end
-
     targets = data["targets"]
 
-    total_coverage_data = data["targets"].map { |target|
+    # Iterate through all of the targets. If any target is below our minimum
+    # coverage percentage, iterate through that target's files and output the
+    # coverage data of ones that are poorly tested
+    total_coverage_data = data["targets"].map {|target|
       coverage = get_coverage(target, 0)
 
       if coverage < MINIMUM_COVERAGE
-        filesForOutput = target["files"].each { |file|
+        filesForOutput = target["files"].each {|file|
           file_coverage = get_coverage(file, 1)
 
           if file_coverage < MINIMUM_COVERAGE
-            file["functions"].each { |function|
+            file["functions"].each {|function|
               get_coverage(function, 2)
             }
           end
@@ -72,8 +66,20 @@ platform :ios do
       coverage
     }
 
+    #If the overall coverage percentage for any module is below our minimum threshhold, fail the test
     if total_coverage_data.any? {|target_percent| target_percent < MINIMUM_COVERAGE }
       UI.user_error!("Failure: All frameworks must have at least #{MINIMUM_COVERAGE}% code coverage")
     end
+  end
+
+  desc "Get code coverage data from the input JSON dictionary, output it to the
+  terminal, and return the coverge percentage"
+  def get_coverage(hash, indent_count)
+    name = hash["name"]
+    coverage = hash["coverage"].to_f * 100
+    indentation = "\t" * indent_count
+    output = indentation + "#{name}: #{coverage}%"
+    coverage < MINIMUM_COVERAGE ? UI.error(output) : UI.success(output)
+    return coverage
   end
 end
