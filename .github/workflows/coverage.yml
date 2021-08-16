@@ -11,5 +11,5 @@ jobs:
         run: sudo xcode-select -switch /Applications/Xcode_13.0.app
       - name: Install Dependencies
         run: bundle install
-      - name: Run Unit Tests
+      - name: Calculate Unit Test Code Coverage
         run: bundle exec fastlane coverage
