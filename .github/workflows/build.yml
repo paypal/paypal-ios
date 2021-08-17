@@ -16,9 +16,9 @@ jobs:
     name: SwiftLint
     runs-on: macOS-11
     steps:
-    - name: Check out repository
-    - uses: actions/checkout@v2
-    - name: Install Bundle
-      run: bundle install
-    - name: Run SwiftLint
-      run: bundle exec fastlane lint
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Install Bundle
+        run: bundle install
+      - name: Run SwiftLint
+        run: bundle exec fastlane lint
