@@ -12,7 +12,8 @@ jobs:
       - name: Run pod lib lint
         run: pod lib lint
 
-    swiftlint:
+  swiftlint:
+    name: SwiftLint
     runs-on: macOS-11
     steps:
     - name: Check out repository
