@@ -63,14 +63,12 @@ cardClient?.checkoutWithCard(orderID: ORDER_ID, card: card) { result in
 
 ### SwiftLint
 
-Ensure that you have `SwiftLint` installed as we utilize it within our project.
+If you would like to run SwiftLint outside of CI for all of the modules within the `iOS-SDK`, run the following:
 
-To install via [Homebrew](https://brew.sh/) run:
 ```
-brew install swiftlint
+bundle install
+bundle exec fastlane lint
 ```
-Our Xcode project has a `Run Phase` which integrates in `SwiftLint` so the only prerequisite is installing via `Homebrew`.
-
 
 ## Testing
 
