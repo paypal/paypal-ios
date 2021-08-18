@@ -1,4 +1,5 @@
 # Required Swiftlint Version
+# URL: https://github.com/realm/SwiftLint
 # swiftlint_version: 0.39.2
 
 # Paths to include in lint
@@ -55,7 +56,6 @@ opt_in_rules:
   - vertical_whitespace_opening_braces
   - yoda_condition
 
-
 custom_rules:
   array_constructor:
     name: "Array/Dictionary initializer"
@@ -63,7 +63,6 @@ custom_rules:
     capture_group: 1
     message: "Use explicit type annotation when initializing empty arrays and dictionaries"
     severity: warning
-
 
 attributes:
   always_on_same_line:

@@ -59,7 +59,7 @@ cardClient?.checkoutWithCard(orderID: ORDER_ID, card: card) { result in
 
 ```
 
-## Prerequisites
+## Development
 
 ### SwiftLint
 

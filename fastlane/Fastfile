@@ -24,7 +24,6 @@ platform :ios do
       mode: :lint,
       config_file: ".swiftlint.yml",
       raise_if_swiftlint_error: true,
-      ignore_exit_status: true,
       strict: true
     )
   end
