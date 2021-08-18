@@ -21,7 +21,7 @@ platform :ios do
   desc "Runs the test suite and calculates code coverage percentages for each
   module within the SDK"
   lane :coverage do
-    MINIMUM_COVERAGE = 100.0
+    MINIMUM_COVERAGE = 80.0
 
     # Run the test lane to get coverage profdata files
     unit_tests
@@ -31,7 +31,7 @@ platform :ios do
 
     # Use xcov to get the coverage percentages
     xcov(
-      scheme: "PaymentsCore",
+      scheme: "Demo",
       workspace: "PayPal.xcworkspace",
       output_directory: "fastlane/coverage",
       configuration: "Debug",
