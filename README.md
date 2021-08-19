@@ -59,17 +59,6 @@ cardClient?.checkoutWithCard(orderID: ORDER_ID, card: card) { result in
 
 ```
 
-## Development
-
-### SwiftLint
-
-If you would like to run SwiftLint outside of CI for all of the modules within the `iOS-SDK`, run the following:
-
-```
-bundle install
-bundle exec fastlane lint
-```
-
 ## Testing
 
 This project uses the `XCTest` framework provided by Xcode. Every code path should be unit tested. Unit tests should make up most of the test coverage, with integration, and then UI tests following.
