@@ -35,6 +35,7 @@ Carthage/
 .swiftpm
 .build
 */xcshareddata/swiftpm
+SampleApps/SPMTest/SPMTest.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
 
 # Fastlane
 /fastlane/report.xml

@@ -1,4 +1,4 @@
-#if !COCOAPODS
+#if canImport(PaymentsCore)
 import PaymentsCore
 #endif
 
