@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "PayPal",
+        "repositoryURL": "https://github.com/paypal/iOS-SDK.git",
+        "state": {
+          "branch": "main",
+          "revision": "5eb90df832ba1dc461aadb97a69fad70902acc8f",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}

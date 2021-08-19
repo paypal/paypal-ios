@@ -81,6 +81,12 @@ bundle install
 bundle exec fastlane unit_tests
 ```
 
+If you would like to get the code coverage for all of the modules within the `iOS-SDK`, run the following:
+```
+bundle install
+bundle exec fastlane coverage
+```
+
 ### CI
 
 GitHub Actions CI will run all tests and build commands per package manager on each PR.

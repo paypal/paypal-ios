@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "PayPal::PayPal"
+               BlueprintIdentifier = "80DB6F0D26B89D9600277E54"
                BuildableName = "PayPal.framework"
                BlueprintName = "PayPal"
                ReferencedContainer = "container:PayPal.xcodeproj">
@@ -26,7 +26,8 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <Testables>
       </Testables>
    </TestAction>
@@ -50,7 +51,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "PayPal::PayPal"
+            BlueprintIdentifier = "80DB6F0D26B89D9600277E54"
             BuildableName = "PayPal.framework"
             BlueprintName = "PayPal"
             ReferencedContainer = "container:PayPal.xcodeproj">
