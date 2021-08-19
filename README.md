@@ -64,6 +64,13 @@ cardClient?.checkoutWithCard(orderID: ORDER_ID, card: card) { result in
 
 This project uses the `XCTest` framework provided by Xcode. Every code path should be unit tested. Unit tests should make up most of the test coverage, with integration, and then UI tests following.
 
+This project also takes advantage of `Fastlane` to run tests through our CI and from terminal.
+In order to invoke our unit tests through terminal, run the following commands from the root level directory of the repository:
+```
+bundle install
+bundle exec fastlane unit_tests
+```
+
 ### CI
 
 GitHub Actions CI will run all tests and build commands per package manager on each PR.

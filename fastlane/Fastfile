@@ -1,0 +1,20 @@
+
+skip_docs
+default_platform(:ios)
+
+platform :ios do
+
+  desc "Runs the test target, which executes all the unit tests for each module
+  within the SDK"
+  lane :unit_tests do
+    sh("
+      set -o pipefail && xcodebuild \
+      -workspace '../PayPal.xcworkspace' \
+      -sdk 'iphonesimulator' \
+      -configuration 'Debug' \
+      -scheme 'UnitTests' \
+      -destination 'name=iPhone 12,platform=iOS Simulator' \
+      test | xcpretty
+      ")
+  end
+end
