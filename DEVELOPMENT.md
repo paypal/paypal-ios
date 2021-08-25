@@ -4,7 +4,7 @@ This document outlines development practices that we follow while developing thi
 
 ## SwiftLint
 
-If you would like to run SwiftLint outside of CI for all of the paths included in the `.swiftlint.yml`, run the following:
+To run [SwiftLint](https://github.com/realm/SwiftLint) for all of the paths included in the `.swiftlint.yml`, run the following:
 
 ```
 bundle install

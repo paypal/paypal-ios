@@ -25,15 +25,4 @@ jobs:
         run: cd SampleApps/SPMTest && swift package resolve
       - name: Build & archive SPMTest
         run: xcodebuild -project 'SampleApps/SPMTest/SPMTest.xcodeproj' -scheme 'SPMTest' clean build archive CODE_SIGNING_ALLOWED=NO
-  swiftlint:
-    name: SwiftLint
-    runs-on: macOS-11
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
-      - name: Use Xcode 13
-        run: sudo xcode-select -switch /Applications/Xcode_13.0.app
-      - name: Install Dependencies
-        run: bundle install
-      - name: Run SwiftLint
-        run: bundle exec fastlane lint
+
