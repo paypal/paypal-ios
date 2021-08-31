@@ -2,7 +2,6 @@ name: SwiftLint
 on: [pull_request, workflow_dispatch]
 jobs:
   swiftlint:
-    name: SwiftLint
     runs-on: macOS-11
     steps:
       - name: Check out repository
