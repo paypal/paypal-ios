@@ -82,4 +82,14 @@ platform :ios do
     coverage < MINIMUM_COVERAGE ? UI.error(output) : UI.success(output)
     return coverage
   end
+
+  desc "Runs SwiftLint and returns any errors if our linter rule aren't met"
+  lane :lint do
+    swiftlint(
+      mode: :lint,
+      config_file: ".swiftlint.yml",
+      raise_if_swiftlint_error: true,
+      strict: true
+    )
+  end
 end
