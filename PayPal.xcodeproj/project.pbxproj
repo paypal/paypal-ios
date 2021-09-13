@@ -16,6 +16,15 @@
 		80E8DAE126B8784600FAFC3F /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E8DAE026B8784600FAFC3F /* Card.swift */; };
 		80E8DAE926B8785D00FAFC3F /* Card_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E8DAE826B8785D00FAFC3F /* Card_Tests.swift */; };
 		80E8DAEA26B8785D00FAFC3F /* Card.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E8DAD926B8783800FAFC3F /* Card.framework */; };
+		BEA100E726EF9EDA0036A6A5 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100E626EF9EDA0036A6A5 /* APIClient.swift */; };
+		BEA100E926EFA1EE0036A6A5 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100E826EFA1EE0036A6A5 /* APIRequest.swift */; };
+		BEA100EC26EFA7790036A6A5 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100EB26EFA7790036A6A5 /* HTTPMethod.swift */; };
+		BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */; };
+		BEA100F026EFA7C20036A6A5 /* SDKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100EF26EFA7C20036A6A5 /* SDKError.swift */; };
+		BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100F126EFA7DE0036A6A5 /* Environment.swift */; };
+		BEA100F426EFA8C20036A6A5 /* APIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100F326EFA8C20036A6A5 /* APIClientTests.swift */; };
+		BEA100F726EFB52D0036A6A5 /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100F626EFB52D0036A6A5 /* URLProtocolMock.swift */; };
+		BEA100F926EFB7B10036A6A5 /* MockRequestResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100F826EFB7B10036A6A5 /* MockRequestResponse.swift */; };
 		OBJ_40 /* PayPal_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* PayPal_Tests.swift */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +63,15 @@
 		80E8DAE026B8784600FAFC3F /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		80E8DAE626B8785D00FAFC3F /* CardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		80E8DAE826B8785D00FAFC3F /* Card_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card_Tests.swift; sourceTree = "<group>"; };
+		BEA100E626EF9EDA0036A6A5 /* APIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		BEA100E826EFA1EE0036A6A5 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
+		BEA100EB26EFA7790036A6A5 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
+		BEA100EF26EFA7C20036A6A5 /* SDKError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDKError.swift; sourceTree = "<group>"; };
+		BEA100F126EFA7DE0036A6A5 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		BEA100F326EFA8C20036A6A5 /* APIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientTests.swift; sourceTree = "<group>"; };
+		BEA100F626EFB52D0036A6A5 /* URLProtocolMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolMock.swift; sourceTree = "<group>"; };
+		BEA100F826EFB7B10036A6A5 /* MockRequestResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRequestResponse.swift; sourceTree = "<group>"; };
 		OBJ_12 /* PayPal_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPal_Tests.swift; sourceTree = "<group>"; };
 		OBJ_16 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
@@ -113,7 +131,9 @@
 		8034A9E426B875C90055AF13 /* PaymentsCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				BEA100FA26EFB8120036A6A5 /* NetworkingMocks */,
 				8034A9E526B875C90055AF13 /* PaymentsCore_Tests.swift */,
+				BEA100F326EFA8C20036A6A5 /* APIClientTests.swift */,
 			);
 			name = PaymentsCoreTests;
 			path = UnitTests/PaymentsCoreTests;
@@ -129,6 +149,7 @@
 		80B9F85226B8750000D67843 /* PaymentsCore */ = {
 			isa = PBXGroup;
 			children = (
+				BEA100E526EF9EDA0036A6A5 /* Networking */,
 				8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */,
 			);
 			name = PaymentsCore;
@@ -162,12 +183,50 @@
 			path = UnitTests/CardTests;
 			sourceTree = "<group>";
 		};
+		BEA100E526EF9EDA0036A6A5 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				BEA100F526EFB4A90036A6A5 /* Protocols */,
+				BEA100EA26EFA7670036A6A5 /* Enums */,
+				BEA100E626EF9EDA0036A6A5 /* APIClient.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		BEA100EA26EFA7670036A6A5 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				BEA100EB26EFA7790036A6A5 /* HTTPMethod.swift */,
+				BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */,
+				BEA100EF26EFA7C20036A6A5 /* SDKError.swift */,
+				BEA100F126EFA7DE0036A6A5 /* Environment.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		BEA100F526EFB4A90036A6A5 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				BEA100E826EFA1EE0036A6A5 /* APIRequest.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		BEA100FA26EFB8120036A6A5 /* NetworkingMocks */ = {
+			isa = PBXGroup;
+			children = (
+				BEA100F626EFB52D0036A6A5 /* URLProtocolMock.swift */,
+				BEA100F826EFB7B10036A6A5 /* MockRequestResponse.swift */,
+				OBJ_11 /* PayPalTests */,
+			);
+			path = NetworkingMocks;
+			sourceTree = "<group>";
+		};
 		OBJ_10 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				80E8DAE726B8785D00FAFC3F /* CardTests */,
 				8034A9E426B875C90055AF13 /* PaymentsCoreTests */,
-				OBJ_11 /* PayPalTests */,
 			);
 			name = Tests;
 			sourceTree = SOURCE_ROOT;
@@ -178,7 +237,7 @@
 				OBJ_12 /* PayPal_Tests.swift */,
 			);
 			name = PayPalTests;
-			path = UnitTests/PayPalTests;
+			path = UnitTests/PaymentsCoreTests/NetworkingMocks/PayPalTests;
 			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_13 /* Products */ = {
@@ -439,6 +498,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8034A9E626B875C90055AF13 /* PaymentsCore_Tests.swift in Sources */,
+				BEA100F726EFB52D0036A6A5 /* URLProtocolMock.swift in Sources */,
+				BEA100F926EFB7B10036A6A5 /* MockRequestResponse.swift in Sources */,
+				BEA100F426EFA8C20036A6A5 /* APIClientTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,7 +508,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEA100EC26EFA7790036A6A5 /* HTTPMethod.swift in Sources */,
 				8034A9DE26B8756F0055AF13 /* PaymentsCore.swift in Sources */,
+				BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */,
+				BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */,
+				BEA100F026EFA7C20036A6A5 /* SDKError.swift in Sources */,
+				BEA100E926EFA1EE0036A6A5 /* APIRequest.swift in Sources */,
+				BEA100E726EF9EDA0036A6A5 /* APIClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
