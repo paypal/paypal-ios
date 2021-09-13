@@ -3,23 +3,18 @@ import Foundation
 public class APIClient {
 
     public var urlSession: URLSession
+    public var environment: Environment
 
-    public init(urlSession: URLSession = .shared) {
+    public init(urlSession: URLSession = .shared, environment: Environment) {
         self.urlSession = urlSession
+        self.environment = environment
     }
-  
-  // Other convenience functions?
-  // Reference: NXO
-  // handle empty body?
-  // make requests typed?
-  // unit tests network request?
-  
 
     public func fetch<T: Codable>(
         endpoint: APIRequest,
         completion: @escaping (Result<T, Error>) -> Void
     ) {
-        guard let request = endpoint.urlRequest else {
+        guard let request = endpoint.toURLRequest(environment: environment) else {
             // TODO: return an error
             return
         }

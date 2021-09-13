@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06E406D526EFE7E8002533B1 /* AccessTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E406D426EFE7E8002533B1 /* AccessTokenRequest.swift */; };
+		06E406D726EFE7F9002533B1 /* AccessTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E406D626EFE7F9002533B1 /* AccessTokenResponse.swift */; };
+		06E406DA26EFEB9F002533B1 /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E406D926EFEB9F002533B1 /* URLSession+Extension.swift */; };
 		8034A9DE26B8756F0055AF13 /* PaymentsCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */; };
 		8034A9E626B875C90055AF13 /* PaymentsCore_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034A9E526B875C90055AF13 /* PaymentsCore_Tests.swift */; };
 		8034A9E726B875C90055AF13 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; };
@@ -53,6 +56,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		06E406D426EFE7E8002533B1 /* AccessTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRequest.swift; sourceTree = "<group>"; };
+		06E406D626EFE7F9002533B1 /* AccessTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenResponse.swift; sourceTree = "<group>"; };
+		06E406D926EFEB9F002533B1 /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
 		8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsCore.swift; sourceTree = "<group>"; };
 		8034A9E326B875C90055AF13 /* PaymentsCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaymentsCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8034A9E526B875C90055AF13 /* PaymentsCore_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsCore_Tests.swift; sourceTree = "<group>"; };
@@ -128,9 +134,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		06E406D126EFE7B3002533B1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				06E406D326EFE7DA002533B1 /* Responses */,
+				06E406D226EFE7CF002533B1 /* Requests */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		06E406D226EFE7CF002533B1 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				06E406D426EFE7E8002533B1 /* AccessTokenRequest.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		06E406D326EFE7DA002533B1 /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				06E406D626EFE7F9002533B1 /* AccessTokenResponse.swift */,
+			);
+			path = Responses;
+			sourceTree = "<group>";
+		};
+		06E406D826EFEB8A002533B1 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				06E406D926EFEB9F002533B1 /* URLSession+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		8034A9E426B875C90055AF13 /* PaymentsCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				06E406D826EFEB8A002533B1 /* Extensions */,
 				BEA100FA26EFB8120036A6A5 /* NetworkingMocks */,
 				8034A9E526B875C90055AF13 /* PaymentsCore_Tests.swift */,
 				BEA100F326EFA8C20036A6A5 /* APIClientTests.swift */,
@@ -186,6 +226,7 @@
 		BEA100E526EF9EDA0036A6A5 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				06E406D126EFE7B3002533B1 /* Models */,
 				BEA100F526EFB4A90036A6A5 /* Protocols */,
 				BEA100EA26EFA7670036A6A5 /* Enums */,
 				BEA100E626EF9EDA0036A6A5 /* APIClient.swift */,
@@ -511,10 +552,13 @@
 				BEA100EC26EFA7790036A6A5 /* HTTPMethod.swift in Sources */,
 				8034A9DE26B8756F0055AF13 /* PaymentsCore.swift in Sources */,
 				BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */,
+				06E406D726EFE7F9002533B1 /* AccessTokenResponse.swift in Sources */,
 				BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */,
 				BEA100F026EFA7C20036A6A5 /* SDKError.swift in Sources */,
+				06E406DA26EFEB9F002533B1 /* URLSession+Extension.swift in Sources */,
 				BEA100E926EFA1EE0036A6A5 /* APIRequest.swift in Sources */,
 				BEA100E726EF9EDA0036A6A5 /* APIClient.swift in Sources */,
+				06E406D526EFE7E8002533B1 /* AccessTokenRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
