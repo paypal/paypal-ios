@@ -10,6 +10,8 @@
 		06E406D526EFE7E8002533B1 /* AccessTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E406D426EFE7E8002533B1 /* AccessTokenRequest.swift */; };
 		06E406D726EFE7F9002533B1 /* AccessTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E406D626EFE7F9002533B1 /* AccessTokenResponse.swift */; };
 		06E406DA26EFEB9F002533B1 /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E406D926EFEB9F002533B1 /* URLSession+Extension.swift */; };
+		3DA86E6026F248F600F609A5 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA86E5F26F248F600F609A5 /* Bundle+Extensions.swift */; };
+		3DA86E6226F29C3D00F609A5 /* EmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA86E6126F29C3D00F609A5 /* EmptyResponse.swift */; };
 		8034A9DE26B8756F0055AF13 /* PaymentsCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */; };
 		8034A9E626B875C90055AF13 /* PaymentsCore_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034A9E526B875C90055AF13 /* PaymentsCore_Tests.swift */; };
 		8034A9E726B875C90055AF13 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; };
@@ -23,7 +25,7 @@
 		BEA100E926EFA1EE0036A6A5 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100E826EFA1EE0036A6A5 /* APIRequest.swift */; };
 		BEA100EC26EFA7790036A6A5 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100EB26EFA7790036A6A5 /* HTTPMethod.swift */; };
 		BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */; };
-		BEA100F026EFA7C20036A6A5 /* SDKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100EF26EFA7C20036A6A5 /* SDKError.swift */; };
+		BEA100F026EFA7C20036A6A5 /* CoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100EF26EFA7C20036A6A5 /* CoreError.swift */; };
 		BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100F126EFA7DE0036A6A5 /* Environment.swift */; };
 		BEA100F426EFA8C20036A6A5 /* APIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100F326EFA8C20036A6A5 /* APIClientTests.swift */; };
 		BEA100F726EFB52D0036A6A5 /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100F626EFB52D0036A6A5 /* URLProtocolMock.swift */; };
@@ -59,6 +61,8 @@
 		06E406D426EFE7E8002533B1 /* AccessTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRequest.swift; sourceTree = "<group>"; };
 		06E406D626EFE7F9002533B1 /* AccessTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenResponse.swift; sourceTree = "<group>"; };
 		06E406D926EFEB9F002533B1 /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
+		3DA86E5F26F248F600F609A5 /* Bundle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extensions.swift"; sourceTree = "<group>"; };
+		3DA86E6126F29C3D00F609A5 /* EmptyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResponse.swift; sourceTree = "<group>"; };
 		8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsCore.swift; sourceTree = "<group>"; };
 		8034A9E326B875C90055AF13 /* PaymentsCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaymentsCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8034A9E526B875C90055AF13 /* PaymentsCore_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsCore_Tests.swift; sourceTree = "<group>"; };
@@ -73,7 +77,7 @@
 		BEA100E826EFA1EE0036A6A5 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		BEA100EB26EFA7790036A6A5 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
-		BEA100EF26EFA7C20036A6A5 /* SDKError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDKError.swift; sourceTree = "<group>"; };
+		BEA100EF26EFA7C20036A6A5 /* CoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreError.swift; sourceTree = "<group>"; };
 		BEA100F126EFA7DE0036A6A5 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		BEA100F326EFA8C20036A6A5 /* APIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientTests.swift; sourceTree = "<group>"; };
 		BEA100F626EFB52D0036A6A5 /* URLProtocolMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolMock.swift; sourceTree = "<group>"; };
@@ -155,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				06E406D626EFE7F9002533B1 /* AccessTokenResponse.swift */,
+				3DA86E6126F29C3D00F609A5 /* EmptyResponse.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -163,6 +168,14 @@
 			isa = PBXGroup;
 			children = (
 				06E406D926EFEB9F002533B1 /* URLSession+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3DA86E5E26F248D300F609A5 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3DA86E5F26F248F600F609A5 /* Bundle+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -191,6 +204,7 @@
 			children = (
 				BEA100E526EF9EDA0036A6A5 /* Networking */,
 				8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */,
+				3DA86E5E26F248D300F609A5 /* Extensions */,
 			);
 			name = PaymentsCore;
 			path = Sources/PaymentsCore;
@@ -239,7 +253,7 @@
 			children = (
 				BEA100EB26EFA7790036A6A5 /* HTTPMethod.swift */,
 				BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */,
-				BEA100EF26EFA7C20036A6A5 /* SDKError.swift */,
+				BEA100EF26EFA7C20036A6A5 /* CoreError.swift */,
 				BEA100F126EFA7DE0036A6A5 /* Environment.swift */,
 			);
 			path = Enums;
@@ -549,12 +563,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DA86E6226F29C3D00F609A5 /* EmptyResponse.swift in Sources */,
 				BEA100EC26EFA7790036A6A5 /* HTTPMethod.swift in Sources */,
 				8034A9DE26B8756F0055AF13 /* PaymentsCore.swift in Sources */,
+				3DA86E6026F248F600F609A5 /* Bundle+Extensions.swift in Sources */,
 				BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */,
 				06E406D726EFE7F9002533B1 /* AccessTokenResponse.swift in Sources */,
 				BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */,
-				BEA100F026EFA7C20036A6A5 /* SDKError.swift in Sources */,
+				BEA100F026EFA7C20036A6A5 /* CoreError.swift in Sources */,
 				06E406DA26EFEB9F002533B1 /* URLSession+Extension.swift in Sources */,
 				BEA100E926EFA1EE0036A6A5 /* APIRequest.swift in Sources */,
 				BEA100E726EF9EDA0036A6A5 /* APIClient.swift in Sources */,

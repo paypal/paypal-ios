@@ -1,11 +1,13 @@
 import Foundation
 
 public protocol APIRequest {
+    associatedtype ResponseType: Codable
+    
     var path: String { get }
     var method: HTTPMethod { get }
     var headers: [HTTPHeader: String] { get }
     var queryParameters: [String: String] { get }
-    var body: Data { get }
+    var body: Data? { get }
 
     func toURLRequest(environment: Environment) -> URLRequest?
 }
@@ -35,3 +37,4 @@ public extension APIRequest {
         return request
     }
 }
+

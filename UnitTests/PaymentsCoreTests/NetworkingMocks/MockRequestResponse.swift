@@ -9,9 +9,9 @@ protocol MockRequestResponse {
 }
 
 class MockAccessTokenRequestResponse: MockRequestResponse {
-    
-    let mockResponse: String =
-    """
+    let success: Bool
+
+    let mockSuccessResponse: String = """
     {
       "scope": "https://uri.paypal.com/services/invoicing https://uri.paypal.com/services/payments/futurepayments https://uri.paypal.com/services/identity/document-verifications/readwrite https://uri.paypal.com/services/apis/history/api-calls https://uri.paypal.com/services/identity/users/profile/view https://uri.paypal.com/services/referred-disputes/readwrite https://uri.paypal.com/services/identity/applications/classic-credentials/view https://uri.paypal.com/customer/account/testaccount https://uri.paypal.com/services/tickets/read https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/location/address-normalization/address-suggest https://api.paypal.com/v1/payments/.* https://uri.paypal.com/services/identity/users/intents/admin https://uri.paypal.com/services/payments/payment https://uri.paypal.com/services/customer/onboarding/admin https://uri.paypal.com/services/payments/channelpartner https://uri.paypal.com/services/personalization/message-recommendations/credit-cache/flush https://uri.paypal.com/services/risk/identity-verification-results/readwrite https://uri.paypal.com/services/applications/webhooks https://uri.paypal.com/services/identity/document-verifications/verify/readwrite https://uri.paypal.com/services/security/dukpt-trsm-types/initial-keys-derive https://uri.paypal.com/services/marketplaces/billing-agreements/read https://uri.paypal.com/services/location/address-normalization/address-verify https://uri.paypal.com/services/security/dukpt-trsm-types/pinblock-translate https://api.paypal.com/v1/developer/.* https://uri.paypal.com/services/personalization/message-recommendations/read https://uri.paypal.com/services/marketplaces/users/read https://uri.paypal.com/services/customer/onboarding/partner openid https://uri.paypal.com/services/security/dukpt-trsm-types/decrypt https://uri.paypal.com/services/marketplaces/transactions/read https://uri.paypal.com/services/identity/users/intents https://uri.paypal.com/services/risk/identity-verifications/readwrite https://uri.paypal.com/services/risk/raas/transaction-context https://uri.paypal.com/services/identity/document-verifications/read https://uri.paypal.com/services/credit/messages/read https://uri.paypal.com/services/security/zones/fail-over-key https://uri.paypal.com/services/customer/onboarding/applications https://uri.paypal.com/services/identity/proxyclient https://uri.paypal.com/services/marketplaces/off-platform-transactions/read https://uri.paypal.com/services/identity/credential-availability-check https://uri.paypal.com/services/marketplaces/payouts/read https://api.paypal.com/v1/vault/credit-card/.* https://uri.paypal.com/services/subscriptions https://uri.paypal.com/services/customer/onboarding/eligibility https://uri.paypal.com/services/tickets/readwrite",
       "access_token": "TestToken",
@@ -20,9 +20,21 @@ class MockAccessTokenRequestResponse: MockRequestResponse {
       "nonce": "2021-09-13T15:00:23ZLpaHBzwLdATlXfE-G4NJsoxi9jPsYuMzOIE4u1TqDx8"
     }
     """
-    
+
+    let mockFailureResponse: String =  """
+    {
+        "error": "unsupported_grant_type",
+        "error_description": "unsupported grant_type"
+    }
+    """
+
+    init(success: Bool) {
+        self.success = success
+    }
+
     var responseData: Data? {
-        mockResponse.data(using: .utf8)
+        let responseString = success ? mockSuccessResponse : mockFailureResponse
+        return responseString.data(using: .utf8)
     }
     
     func canHandle(request: URLRequest) -> Bool {
