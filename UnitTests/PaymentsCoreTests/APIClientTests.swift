@@ -38,8 +38,8 @@ class APIClientTests: XCTestCase {
             switch result {
             case .success:
                 XCTFail("Should not be able to successfully decode a result")
-            case .failure:
-                expect.fulfill()
+            case .failure(let error):
+              XCTAssertNotNil(error)
             }
 
             expect.fulfill()
