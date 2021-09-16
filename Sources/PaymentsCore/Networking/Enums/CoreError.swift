@@ -7,6 +7,7 @@ import Foundation
 public enum CoreError: Error {
     case networkingError(Error)
     case decodingError(Error)
+    case encodingError(Error)
     case noResponseData
     case noUrlRequest
     case unknown

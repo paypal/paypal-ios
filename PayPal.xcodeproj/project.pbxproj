@@ -7,11 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06CE009926F3D1660000CC46 /* CoreConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009826F3D1660000CC46 /* CoreConfig.swift */; };
+		06CE009B26F3D5A40000CC46 /* CardClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009A26F3D5A40000CC46 /* CardClient.swift */; };
+		06CE009E26F3DE5E0000CC46 /* OrderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009D26F3DE5E0000CC46 /* OrderData.swift */; };
+		06CE00A126F3DF190000CC46 /* ConfirmPaymentSourceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009F26F3DF100000CC46 /* ConfirmPaymentSourceRequest.swift */; };
+		06CE00A426F3EA4B0000CC46 /* ConfirmPaymentSourceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE00A226F3E32A0000CC46 /* ConfirmPaymentSourceResponse.swift */; };
 		06E406D526EFE7E8002533B1 /* AccessTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E406D426EFE7E8002533B1 /* AccessTokenRequest.swift */; };
 		06E406D726EFE7F9002533B1 /* AccessTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E406D626EFE7F9002533B1 /* AccessTokenResponse.swift */; };
 		06E406DA26EFEB9F002533B1 /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E406D926EFEB9F002533B1 /* URLSession+Extension.swift */; };
 		3DA86E6226F29C3D00F609A5 /* EmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA86E6126F29C3D00F609A5 /* EmptyResponse.swift */; };
-		06CE009926F3D1660000CC46 /* CoreConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009826F3D1660000CC46 /* CoreConfig.swift */; };
 		8034A9DE26B8756F0055AF13 /* PaymentsCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */; };
 		8034A9E626B875C90055AF13 /* PaymentsCore_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034A9E526B875C90055AF13 /* PaymentsCore_Tests.swift */; };
 		8034A9E726B875C90055AF13 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; };
@@ -58,11 +62,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		06CE009826F3D1660000CC46 /* CoreConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreConfig.swift; sourceTree = "<group>"; };
+		06CE009A26F3D5A40000CC46 /* CardClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardClient.swift; sourceTree = "<group>"; };
+		06CE009D26F3DE5E0000CC46 /* OrderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderData.swift; sourceTree = "<group>"; };
+		06CE009F26F3DF100000CC46 /* ConfirmPaymentSourceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPaymentSourceRequest.swift; sourceTree = "<group>"; };
+		06CE00A226F3E32A0000CC46 /* ConfirmPaymentSourceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPaymentSourceResponse.swift; sourceTree = "<group>"; };
 		06E406D426EFE7E8002533B1 /* AccessTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRequest.swift; sourceTree = "<group>"; };
 		06E406D626EFE7F9002533B1 /* AccessTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenResponse.swift; sourceTree = "<group>"; };
 		06E406D926EFEB9F002533B1 /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
 		3DA86E6126F29C3D00F609A5 /* EmptyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResponse.swift; sourceTree = "<group>"; };
-		06CE009826F3D1660000CC46 /* CoreConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreConfig.swift; sourceTree = "<group>"; };
 		8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsCore.swift; sourceTree = "<group>"; };
 		8034A9E326B875C90055AF13 /* PaymentsCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaymentsCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8034A9E526B875C90055AF13 /* PaymentsCore_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsCore_Tests.swift; sourceTree = "<group>"; };
@@ -138,6 +146,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		06CE009C26F3DE530000CC46 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				06CE009D26F3DE5E0000CC46 /* OrderData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		06E406D126EFE7B3002533B1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -151,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				06E406D426EFE7E8002533B1 /* AccessTokenRequest.swift */,
+				06CE009F26F3DF100000CC46 /* ConfirmPaymentSourceRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -159,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				06E406D626EFE7F9002533B1 /* AccessTokenResponse.swift */,
+				06CE00A226F3E32A0000CC46 /* ConfirmPaymentSourceResponse.swift */,
 				3DA86E6126F29C3D00F609A5 /* EmptyResponse.swift */,
 			);
 			path = Responses;
@@ -194,6 +212,7 @@
 		80B9F85226B8750000D67843 /* PaymentsCore */ = {
 			isa = PBXGroup;
 			children = (
+				06CE009C26F3DE530000CC46 /* Models */,
 				BEA100E526EF9EDA0036A6A5 /* Networking */,
 				8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */,
 				06CE009826F3D1660000CC46 /* CoreConfig.swift */,
@@ -215,6 +234,7 @@
 			isa = PBXGroup;
 			children = (
 				80E8DAE026B8784600FAFC3F /* Card.swift */,
+				06CE009A26F3D5A40000CC46 /* CardClient.swift */,
 			);
 			name = Card;
 			path = Sources/Card;
@@ -555,12 +575,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06CE00A126F3DF190000CC46 /* ConfirmPaymentSourceRequest.swift in Sources */,
 				3DA86E6226F29C3D00F609A5 /* EmptyResponse.swift in Sources */,
 				BEA100EC26EFA7790036A6A5 /* HTTPMethod.swift in Sources */,
 				06CE009926F3D1660000CC46 /* CoreConfig.swift in Sources */,
 				8034A9DE26B8756F0055AF13 /* PaymentsCore.swift in Sources */,
 				BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */,
 				06E406D726EFE7F9002533B1 /* AccessTokenResponse.swift in Sources */,
+				06CE00A426F3EA4B0000CC46 /* ConfirmPaymentSourceResponse.swift in Sources */,
 				BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */,
 				BEA100F026EFA7C20036A6A5 /* CoreError.swift in Sources */,
 				06E406DA26EFEB9F002533B1 /* URLSession+Extension.swift in Sources */,
@@ -582,6 +604,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06CE009B26F3D5A40000CC46 /* CardClient.swift in Sources */,
+				06CE009E26F3DE5E0000CC46 /* OrderData.swift in Sources */,
 				80E8DAE126B8784600FAFC3F /* Card.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
