@@ -36,11 +36,10 @@ class APIClientTests: XCTestCase {
 
         apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, correlationId in
             switch result {
-            case .success(let response):
-                XCTAssertEqual(response?.accessToken, "TestToken")
-            case .failure(let error):
-
-                print(error.localizedDescription)
+            case .success:
+                XCTFail("Should not be able to successfully decode a result")
+            case .failure:
+                expect.fulfill()
             }
 
             expect.fulfill()
@@ -49,7 +48,3 @@ class APIClientTests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
 }
-
-// TODO:
-// - Create more mock (also test failure response)
-// - Move mockTokenRequestresponse => separate folder for mocks

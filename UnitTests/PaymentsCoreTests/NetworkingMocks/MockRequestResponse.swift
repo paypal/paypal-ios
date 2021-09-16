@@ -48,6 +48,7 @@ class MockAccessTokenRequestResponse: MockRequestResponse {
         guard let url = request.url else {
             fatalError("No URL for request")
         }
-        return HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: [:]) ?? HTTPURLResponse()
+        let statusCode = success ? 200 : 400
+        return HTTPURLResponse(url: url, statusCode: statusCode, httpVersion: nil, headerFields: [:]) ?? HTTPURLResponse()
     }
 }
