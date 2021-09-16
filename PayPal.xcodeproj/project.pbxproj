@@ -12,6 +12,7 @@
 		06E406DA26EFEB9F002533B1 /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E406D926EFEB9F002533B1 /* URLSession+Extension.swift */; };
 		3DA86E6026F248F600F609A5 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA86E5F26F248F600F609A5 /* Bundle+Extensions.swift */; };
 		3DA86E6226F29C3D00F609A5 /* EmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA86E6126F29C3D00F609A5 /* EmptyResponse.swift */; };
+		06CE009926F3D1660000CC46 /* CoreConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009826F3D1660000CC46 /* CoreConfig.swift */; };
 		8034A9DE26B8756F0055AF13 /* PaymentsCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */; };
 		8034A9E626B875C90055AF13 /* PaymentsCore_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034A9E526B875C90055AF13 /* PaymentsCore_Tests.swift */; };
 		8034A9E726B875C90055AF13 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; };
@@ -63,6 +64,7 @@
 		06E406D926EFEB9F002533B1 /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
 		3DA86E5F26F248F600F609A5 /* Bundle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extensions.swift"; sourceTree = "<group>"; };
 		3DA86E6126F29C3D00F609A5 /* EmptyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResponse.swift; sourceTree = "<group>"; };
+		06CE009826F3D1660000CC46 /* CoreConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreConfig.swift; sourceTree = "<group>"; };
 		8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsCore.swift; sourceTree = "<group>"; };
 		8034A9E326B875C90055AF13 /* PaymentsCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaymentsCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8034A9E526B875C90055AF13 /* PaymentsCore_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsCore_Tests.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				BEA100E526EF9EDA0036A6A5 /* Networking */,
 				8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */,
 				3DA86E5E26F248D300F609A5 /* Extensions */,
+				06CE009826F3D1660000CC46 /* CoreConfig.swift */,
 			);
 			name = PaymentsCore;
 			path = Sources/PaymentsCore;
@@ -565,6 +568,7 @@
 			files = (
 				3DA86E6226F29C3D00F609A5 /* EmptyResponse.swift in Sources */,
 				BEA100EC26EFA7790036A6A5 /* HTTPMethod.swift in Sources */,
+				06CE009926F3D1660000CC46 /* CoreConfig.swift in Sources */,
 				8034A9DE26B8756F0055AF13 /* PaymentsCore.swift in Sources */,
 				3DA86E6026F248F600F609A5 /* Bundle+Extensions.swift in Sources */,
 				BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */,
