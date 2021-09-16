@@ -7,9 +7,4 @@ extension URLSession {
         self.init(configuration: configuration)
         URLProtocol.registerClass(urlProtocol)
     }
-    
-    func unregister<Protocol: URLProtocol>(urlProtocol: Protocol.Type) {
-        configuration.protocolClasses = []
-        URLProtocol.unregisterClass(urlProtocol)
-    }
 }
