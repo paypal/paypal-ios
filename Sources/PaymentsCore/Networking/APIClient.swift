@@ -24,7 +24,7 @@ public class APIClient {
             guard let response = response as? HTTPURLResponse else { return }
             let correlationId = response.allHeaderFields["Paypal-Debug-Id"] as? String
 
-            let finish: (Result<T.ResponseType?, CoreError>) -> () = { result in
+            let finish: (Result<T.ResponseType?, CoreError>) -> Void = { result in
                 /// For discussion:
                 /// When a network request to a PayPal API fails, we have some associated error information in the body data of the response.
                 /// This error data doesn't have the same format, but we should discuss and plan for how we want to surface this to the merchant
@@ -49,8 +49,7 @@ public class APIClient {
                         let decodedData = try JSONDecoder().decode(T.ResponseType.self, from: data)
                         finish(.success(decodedData))
                     }
-                }
-                catch let decodingError {
+                } catch let decodingError {
                     finish(.failure(.decodingError(decodingError)))
                 }
 

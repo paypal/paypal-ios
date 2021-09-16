@@ -2,7 +2,7 @@ import Foundation
 
 public protocol APIRequest {
     associatedtype ResponseType: Codable
-    
+
     var path: String { get }
     var method: HTTPMethod { get }
     var headers: [HTTPHeader: String] { get }
@@ -16,7 +16,8 @@ public extension APIRequest {
     var queryParameters: [String: String] { [:] }
 
     func toURLRequest(environment: Environment) -> URLRequest? {
-        var urlComponents = URLComponents(url: environment.baseURL.appendingPathComponent(path), resolvingAgainstBaseURL: false)
+        let completeUrl = environment.baseURL.appendingPathComponent(path)
+        var urlComponents = URLComponents(url: completeUrl, resolvingAgainstBaseURL: false)
 
         queryParameters.forEach {
             urlComponents?.queryItems?.append(URLQueryItem(name: $0.key, value: $0.value))
@@ -37,4 +38,3 @@ public extension APIRequest {
         return request
     }
 }
-
