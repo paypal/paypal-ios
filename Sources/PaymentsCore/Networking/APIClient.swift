@@ -38,9 +38,8 @@ public class APIClient {
             switch response.statusCode {
             case 200..<300:
                 do {
-                    if T.ResponseType.self == EmptyResponse.self {
-                        // TODO: Force unwrapping?
-                        finish(.success(EmptyResponse() as! T.ResponseType))
+                    if let emptyResponse = EmptyResponse() as? T.ResponseType {
+                        finish(.success(emptyResponse))
                     } else {
                         guard let data = data else {
                             finish(.failure(.noResponseData))

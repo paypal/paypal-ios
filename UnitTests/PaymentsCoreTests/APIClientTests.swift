@@ -1,5 +1,6 @@
 import XCTest
 @testable import PaymentsCore
+@testable import Card
 
 class APIClientTests: XCTestCase {
     
@@ -18,7 +19,7 @@ class APIClientTests: XCTestCase {
         apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, correlationId in
             switch result {
             case .success(let response):
-                XCTAssertEqual(response?.accessToken, "TestToken")
+                XCTAssertEqual(response.accessToken, "TestToken")
             case .failure(let error):
                 XCTFail("Wrong mock response with error: \(error)")
             }
@@ -47,4 +48,9 @@ class APIClientTests: XCTestCase {
 
         waitForExpectations(timeout: 1)
     }
+
+    // TODO: Unit tests
+    // - Write mock response (success + error) + tests
+    // - Write CardExpiry tests (encode to expected value)
+    // - Test ConfirmPaymentSourceRequest.path => pass in orderID => correct path
 }
