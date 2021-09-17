@@ -10,7 +10,13 @@ public class CardClient {
         self.apiClient = APIClient(environment: config.environment)
     }
 
-    public func approveOrder(orderID: String, card: Card, completion: (Result<OrderData, Error>) -> Void) {
+    /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card to the order to be paid when the order is captured.
+    /// You will need to handle capturing/authorizing the order in their server.
+    /// - Parameters:
+    ///   - orderID: The ID of the order to be approved
+    ///   - card: The card to be charged for this order
+    ///   - completion: Completion handler for approveOrder, which contains data of the order if success, or an error if failure
+    public func approveOrder(orderID: String, card: Card, completion: @escaping (Result<OrderData, Error>) -> Void) {
         let cardDictionary = ["payment_source": ["card": card]]
 
         do {
@@ -23,7 +29,7 @@ public class CardClient {
             apiClient.fetch(endpoint: confirmPaymentRequest) { result, _ in
                 switch result {
                 case .success(let response):
-                    let orderData = OrderData(orderID: response.id, status: response.status)
+                    let orderData = OrderData(orderID: response.id, status: OrderStatus(rawValue: response.status))
                     completion(.success(orderData))
 
                 case .failure(let error):
@@ -36,6 +42,3 @@ public class CardClient {
         }
     }
 }
-
-
-// let data = ["payment_source": ["card": card]]

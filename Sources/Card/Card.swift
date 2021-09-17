@@ -5,12 +5,18 @@ import PaymentsCore
 public struct Card: Codable {
     var number: String
     var expiry: CardExpiry
-    var securityCode: String
+    var securityCode: String?
 
     enum CodingKeys: String, CodingKey {
         case number
         case expiry
         case securityCode = "security_code"
+    }
+
+    init(number: String, expiry: CardExpiry, securityCode: String? = nil) {
+        self.number = number
+        self.expiry = expiry
+        self.securityCode = securityCode
     }
 }
 
