@@ -44,7 +44,8 @@ final class DemoMerchantAPI {
 
     func processOrder(processOrderParams: ProcessOrderParams, completion: @escaping ((Result<Order, URLResponseError>) -> Void)) {
         // TODO: get environment from settings in Demo app
-        guard let url = URL(string: DemoSettings.Environment.sandbox.baseURL + "/\(processOrderParams.intent)-order") else {
+        guard let url = URL(string: DemoSettings.Environment.sandbox.baseURL
+                            + "/\(processOrderParams.intent)-order") else {
             completion(.failure(.invalidURL))
             return
         }

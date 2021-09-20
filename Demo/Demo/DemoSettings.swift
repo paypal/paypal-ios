@@ -6,7 +6,7 @@ class DemoSettings {
 
     enum Environment {
         case sandbox, production
-        
+
         var baseURL: String {
             switch self {
             case .sandbox:
