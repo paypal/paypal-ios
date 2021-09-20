@@ -1,7 +1,9 @@
+// swiftlint:disable convenience_type
+
 import Foundation
 
 class DemoSettings {
-    
+
     enum Environment {
         case sandbox, production
         
@@ -14,5 +16,6 @@ class DemoSettings {
             }
         }
     }
-    
+
+    // TODO: add other settings configuration here
 }

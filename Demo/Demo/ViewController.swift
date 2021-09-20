@@ -3,15 +3,15 @@ import Card
 import PayPal
 
 class ViewController: UIViewController {
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        
+
         // TODO: Update Demo UI with proper Card & PayPal checkout demos
         fetchOrderID()
     }
-    
+
     func fetchOrderID() {
         let amount = Amount(currencyCode: "USD", value: "10.00")
         let orderRequestParams = CreateOrderParams(
@@ -28,5 +28,4 @@ class ViewController: UIViewController {
             }
         }
     }
-    
 }
