@@ -20,7 +20,7 @@ class APIClientTests: XCTestCase {
         apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, correlationID in
             switch result {
             case .success(let response):
-                XCTAssertEqual(response?.accessToken, "TestToken")
+                XCTAssertEqual(response.accessToken, "TestToken")
             case .failure(let error):
                 XCTFail("Wrong mock response with error: \(error)")
             }

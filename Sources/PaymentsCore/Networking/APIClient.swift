@@ -13,7 +13,7 @@ public class APIClient {
 
     public func fetch<T: APIRequest>(
         endpoint: T,
-        completion: @escaping (Result<T.ResponseType?, CoreError>, CorrelationID?) -> Void
+        completion: @escaping (Result<T.ResponseType, CoreError>, CorrelationID?) -> Void
     ) {
         guard let request = endpoint.toURLRequest(environment: environment) else {
             completion(.failure(.noURLRequest), nil)
@@ -24,7 +24,7 @@ public class APIClient {
             guard let response = response as? HTTPURLResponse else { return }
             let correlationID = response.allHeaderFields["Paypal-Debug-Id"] as? String
 
-            let finish: (Result<T.ResponseType?, CoreError>) -> Void = { result in
+            let finish: (Result<T.ResponseType, CoreError>) -> Void = { result in
                 /// For discussion:
                 /// When a network request to a PayPal API fails, we have some associated error information in the body data of the response.
                 /// This error data doesn't have the same format, but we should discuss and plan for how we want to surface this to the merchant
@@ -38,8 +38,8 @@ public class APIClient {
             switch response.statusCode {
             case 200..<300:
                 do {
-                    if T.ResponseType.self == EmptyResponse.self {
-                        finish(.success(nil))
+                    if let emptyResponse = EmptyResponse() as? T.ResponseType {
+                        finish(.success(emptyResponse))
                     } else {
                         guard let data = data else {
                             finish(.failure(.noResponseData))
