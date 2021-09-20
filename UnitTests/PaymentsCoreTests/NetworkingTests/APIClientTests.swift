@@ -10,7 +10,7 @@ class APIClientTests: XCTestCase {
         )
     }()
 
-    func testFetch_withValidTokenRequest_returnsValidAccessToken() {
+    func testFetch_withAccessTokenSuccessMockResponse_returnsValidAccessToken() {
         let expect = expectation(description: "Get mock response for access token request")
 
         URLProtocolMock.requestResponses.append(
@@ -31,7 +31,7 @@ class APIClientTests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
 
-    func testFetch_withInvalidAccessTokenRequest_returnsNoURLRequest() {
+    func testFetch_withAccessTokenFailureMockResponse_returnsNoURLRequest() {
         let expect = expectation(description: "Get mock response for access token request")
 
         URLProtocolMock.requestResponses.append(
@@ -52,7 +52,7 @@ class APIClientTests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
 
-    func testFetch_withInvalidAccessTokenRequest_returnsDecodingError() {
+    func testFetch_withAccessTokenInvalidMockResponse_returnsDecodingError() {
         let expect = expectation(description: "Get mock response for access token request")
 
         URLProtocolMock.requestResponses.append(
