@@ -1,13 +1,10 @@
 import Foundation
 
+
+/// Request method associated with a URL request
+/// For more information, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
+/// Methods can be added here as they are needed
 public enum HTTPMethod: String {
     case get = "GET"
-    case head = "HEAD"
     case post = "POST"
-    case put = "PUT"
-    case delete = "DELETE"
-    case connect = "CONNECT"
-    case options = "OPTIONS"
-    case patch = "PATCH"
-    case redirect = "REDIRECT"
 }
