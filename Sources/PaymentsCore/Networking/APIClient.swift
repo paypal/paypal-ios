@@ -13,7 +13,7 @@ public class APIClient {
 
     public func fetch<T: APIRequest>(
         endpoint: T,
-        completion: @escaping (Result<T.ResponseType?, CoreError>, CorrelationID?) -> Void
+        completion: @escaping (Result<T.ResponseType, CoreError>, CorrelationID?) -> Void
     ) {
         guard let request = endpoint.toURLRequest(environment: environment) else {
             completion(.failure(.noURLRequest), nil)
