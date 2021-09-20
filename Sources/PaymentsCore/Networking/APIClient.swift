@@ -1,7 +1,7 @@
 import Foundation
 
 public class APIClient {
-    public typealias CorrelationId = String
+    public typealias CorrelationID = String
 
     public var urlSession: URLSession
     public var environment: Environment
@@ -13,22 +13,22 @@ public class APIClient {
 
     public func fetch<T: APIRequest>(
         endpoint: T,
-        completion: @escaping (Result<T.ResponseType, CoreError>, CorrelationId?) -> Void
+        completion: @escaping (Result<T.ResponseType?, CoreError>, CorrelationID?) -> Void
     ) {
         guard let request = endpoint.toURLRequest(environment: environment) else {
-            completion(.failure(.noUrlRequest), nil)
+            completion(.failure(.noURLRequest), nil)
             return
         }
 
         let task = urlSession.dataTask(with: request) { data, response, error in
             guard let response = response as? HTTPURLResponse else { return }
-            let correlationId = response.allHeaderFields["Paypal-Debug-Id"] as? String
+            let correlationID = response.allHeaderFields["Paypal-Debug-Id"] as? String
 
             let finish: (Result<T.ResponseType, CoreError>) -> Void = { result in
                 /// For discussion:
                 /// When a network request to a PayPal API fails, we have some associated error information in the body data of the response.
                 /// This error data doesn't have the same format, but we should discuss and plan for how we want to surface this to the merchant
-                completion(result, correlationId)
+                completion(result, correlationID)
             }
 
             if let error = error {

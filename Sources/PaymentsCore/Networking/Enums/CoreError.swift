@@ -9,6 +9,6 @@ public enum CoreError: Error {
     case decodingError(Error)
     case encodingError(Error)
     case noResponseData
-    case noUrlRequest
+    case noURLRequest
     case unknown
 }
