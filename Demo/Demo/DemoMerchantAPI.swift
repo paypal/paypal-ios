@@ -1,18 +1,5 @@
 import Foundation
 
-enum Environment {
-    case sandbox, production
-    
-    var baseURL: URL {
-        switch self {
-        case .sandbox:
-            return URL(string: "https://ppcp-sample-merchant-sand.herokuapp.com")!
-        case .production:
-            return URL(string: "https://ppcp-sample-merchant-prod.herokuapp.com")!
-        }
-    }
-}
-
 final class DemoMerchantAPI {
 
     static let sharedService = DemoMerchantAPI()
@@ -21,7 +8,7 @@ final class DemoMerchantAPI {
 
     func createOrder(orderParams: CreateOrderParams, completion: @escaping ((Order?, Error?) -> Void)) {
         // TODO: get environment from settings in Demo app
-        var components = URLComponents(url: Environment.sandbox.baseURL, resolvingAgainstBaseURL: false)!
+        var components = URLComponents(url: DemoSettings.Environment.sandbox.baseURL, resolvingAgainstBaseURL: false)!
         components.path = "/order"
         components.queryItems = [URLQueryItem(name: "countryCode", value: "US")]
 
@@ -50,7 +37,7 @@ final class DemoMerchantAPI {
 
     func processOrder(processOrderParams: ProcessOrderParams, completion: @escaping ((Order?, Error?) -> Void)) {
         // TODO: get environment from settings in Demo app
-        var components = URLComponents(url: Environment.sandbox.baseURL, resolvingAgainstBaseURL: false)!
+        var components = URLComponents(url: DemoSettings.Environment.sandbox.baseURL, resolvingAgainstBaseURL: false)!
         components.path = "/\(processOrderParams.intent.lowercased())-order" // TODO: does case matter?
 
         var urlRequest = URLRequest(url: components.url!)
