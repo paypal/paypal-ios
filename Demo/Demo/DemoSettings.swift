@@ -5,12 +5,12 @@ class DemoSettings {
     enum Environment {
         case sandbox, production
         
-        var baseURL: URL {
+        var baseURL: String {
             switch self {
             case .sandbox:
-                return URL(string: "https://ppcp-sample-merchant-sand.herokuapp.com")!
+                return "https://ppcp-sample-merchant-sand.herokuapp.com"
             case .production:
-                return URL(string: "https://ppcp-sample-merchant-prod.herokuapp.com")!
+                return "https://ppcp-sample-merchant-prod.herokuapp.com"
             }
         }
     }

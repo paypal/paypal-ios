@@ -14,9 +14,11 @@ class ViewController: UIViewController {
     
     func fetchOrderID() {
         let amount = Amount(currencyCode: "USD", value: "10.00")
-        let orderRequestParams = CreateOrderParams(intent: "CAPTURE",
-                                                   purchaseUnits: [PurchaseUnit(amount: amount)])
-        
+        let orderRequestParams = CreateOrderParams(
+            intent: "CAPTURE",
+            purchaseUnits: [PurchaseUnit(amount: amount)]
+        )
+
         DemoMerchantAPI.sharedService.createOrder(orderParams: orderRequestParams) { result in
             switch result {
             case .success(let order):
