@@ -1,11 +1,11 @@
 import Foundation
 
-public class AccessTokenResponse: Codable {
-    var scope: String
-    var accessToken: String
-    var tokenType: String
-    var expiresIn: Int
-    var nonce: String
+public struct AccessTokenResponse: Codable {
+    let scope: String
+    let accessToken: String
+    let tokenType: String
+    let expiresIn: Int
+    let nonce: String
 
     enum CodingKeys: String, CodingKey {
         case scope
