@@ -38,7 +38,7 @@ final class DemoMerchantAPI {
     func processOrder(processOrderParams: ProcessOrderParams, completion: @escaping ((Order?, Error?) -> Void)) {
         // TODO: get environment from settings in Demo app
         var components = URLComponents(url: DemoSettings.Environment.sandbox.baseURL, resolvingAgainstBaseURL: false)!
-        components.path = "/\(processOrderParams.intent.lowercased())-order" // TODO: does case matter?
+        components.path = "/\(processOrderParams.intent)-order"
 
         var urlRequest = URLRequest(url: components.url!)
         urlRequest.httpMethod = "POST"
