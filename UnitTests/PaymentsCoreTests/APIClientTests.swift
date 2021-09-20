@@ -15,7 +15,7 @@ class APIClientTests: XCTestCase {
 
         URLProtocolMock.requestResponses.append(MockAccessTokenRequestResponse(success: true))
         
-        apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, correlationId in
+        apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, correlationID in
             switch result {
             case .success(let response):
                 XCTAssertEqual(response?.accessToken, "TestToken")
@@ -34,7 +34,7 @@ class APIClientTests: XCTestCase {
 
         URLProtocolMock.requestResponses.append(MockAccessTokenRequestResponse(success: false))
 
-        apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, correlationId in
+        apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, correlationID in
             switch result {
             case .success:
                 XCTFail("Should not be able to successfully decode a result")
