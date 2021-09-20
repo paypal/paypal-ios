@@ -261,7 +261,6 @@
 			children = (
 				BEA100F626EFB52D0036A6A5 /* URLProtocolMock.swift */,
 				BEA100F826EFB7B10036A6A5 /* MockRequestResponse.swift */,
-				OBJ_11 /* PayPalTests */,
 			);
 			path = NetworkingMocks;
 			sourceTree = "<group>";
@@ -269,6 +268,7 @@
 		OBJ_10 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				OBJ_11 /* PayPalTests */,
 				80E8DAE726B8785D00FAFC3F /* CardTests */,
 				8034A9E426B875C90055AF13 /* PaymentsCoreTests */,
 			);
@@ -280,8 +280,7 @@
 			children = (
 				OBJ_12 /* PayPal_Tests.swift */,
 			);
-			name = PayPalTests;
-			path = UnitTests/PaymentsCoreTests/NetworkingMocks/PayPalTests;
+			path = PayPalTests;
 			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_13 /* Products */ = {
