@@ -13,7 +13,9 @@ class APIClientTests: XCTestCase {
     func testFetch_withValidTokenRequest_returnsValidAccessToken() {
         let expect = expectation(description: "Get mock response for access token request")
 
-        URLProtocolMock.requestResponses.append(MockAccessTokenRequestResponse(success: true))
+        URLProtocolMock.requestResponses.append(
+            MockAccessTokenRequestResponse(responseString: MockAccessTokenRequestResponse.mockSuccessResponse, statusCode: 200)
+        )
         
         apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, correlationID in
             switch result {
@@ -32,7 +34,9 @@ class APIClientTests: XCTestCase {
     func testFetch_withInvalidAccessTokenRequest_returnsNoURLRequest() {
         let expect = expectation(description: "Get mock response for access token request")
 
-        URLProtocolMock.requestResponses.append(MockAccessTokenRequestResponse(success: false))
+        URLProtocolMock.requestResponses.append(
+            MockAccessTokenRequestResponse(responseString: MockAccessTokenRequestResponse.mockFailureResponse, statusCode: 404)
+        )
 
         apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, correlationID in
             switch result {
@@ -40,6 +44,30 @@ class APIClientTests: XCTestCase {
                 XCTFail("Should not be able to successfully decode a result")
             case .failure(let error):
                 XCTAssertNotNil(error)
+            }
+
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: 1)
+    }
+
+    func testFetch_withInvalidAccessTokenRequest_returnsDecodingError() {
+        let expect = expectation(description: "Get mock response for access token request")
+
+        URLProtocolMock.requestResponses.append(
+            MockAccessTokenRequestResponse(responseString: MockAccessTokenRequestResponse.mockInvalidResponse, statusCode: 200)
+        )
+
+        apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, correlationId in
+            switch result {
+            case .success:
+                XCTFail("Should not succeed as the mock response has invalid format")
+            case let .failure(error):
+                guard case .decodingError(_) = error else {
+                    XCTFail("Expect error to be CoreError.decodingError")
+                    return
+                }
             }
 
             expect.fulfill()
