@@ -11,6 +11,8 @@
 		06E406D726EFE7F9002533B1 /* AccessTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E406D626EFE7F9002533B1 /* AccessTokenResponse.swift */; };
 		06E406DA26EFEB9F002533B1 /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E406D926EFEB9F002533B1 /* URLSession+Extension.swift */; };
 		3DA86E6226F29C3D00F609A5 /* EmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA86E6126F29C3D00F609A5 /* EmptyResponse.swift */; };
+		3DE22C5D26F8E7A20074A2E4 /* AccessTokenRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE22C5C26F8E7A20074A2E4 /* AccessTokenRequestTests.swift */; };
+		3DE22C5F26F8F3CE0074A2E4 /* EnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE22C5E26F8F3CE0074A2E4 /* EnvironmentTests.swift */; };
 		8034A9DE26B8756F0055AF13 /* PaymentsCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */; };
 		8034A9E626B875C90055AF13 /* PaymentsCore_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034A9E526B875C90055AF13 /* PaymentsCore_Tests.swift */; };
 		8034A9E726B875C90055AF13 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; };
@@ -61,6 +63,8 @@
 		06E406D626EFE7F9002533B1 /* AccessTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenResponse.swift; sourceTree = "<group>"; };
 		06E406D926EFEB9F002533B1 /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
 		3DA86E6126F29C3D00F609A5 /* EmptyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResponse.swift; sourceTree = "<group>"; };
+		3DE22C5C26F8E7A20074A2E4 /* AccessTokenRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRequestTests.swift; sourceTree = "<group>"; };
+		3DE22C5E26F8F3CE0074A2E4 /* EnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentTests.swift; sourceTree = "<group>"; };
 		8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsCore.swift; sourceTree = "<group>"; };
 		8034A9E326B875C90055AF13 /* PaymentsCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaymentsCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8034A9E526B875C90055AF13 /* PaymentsCore_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsCore_Tests.swift; sourceTree = "<group>"; };
@@ -170,13 +174,31 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		3DE22C6026F8F7F80074A2E4 /* NetworkingTests */ = {
+			isa = PBXGroup;
+			children = (
+				BEA100FA26EFB8120036A6A5 /* NetworkingMocks */,
+				BEA100F326EFA8C20036A6A5 /* APIClientTests.swift */,
+				3DE22C6126F8F8030074A2E4 /* RequestTests */,
+			);
+			path = NetworkingTests;
+			sourceTree = "<group>";
+		};
+		3DE22C6126F8F8030074A2E4 /* RequestTests */ = {
+			isa = PBXGroup;
+			children = (
+				3DE22C5C26F8E7A20074A2E4 /* AccessTokenRequestTests.swift */,
+			);
+			path = RequestTests;
+			sourceTree = "<group>";
+		};
 		8034A9E426B875C90055AF13 /* PaymentsCoreTests */ = {
 			isa = PBXGroup;
 			children = (
 				06E406D826EFEB8A002533B1 /* Extensions */,
-				BEA100FA26EFB8120036A6A5 /* NetworkingMocks */,
 				8034A9E526B875C90055AF13 /* PaymentsCore_Tests.swift */,
-				BEA100F326EFA8C20036A6A5 /* APIClientTests.swift */,
+				3DE22C6026F8F7F80074A2E4 /* NetworkingTests */,
+				3DE22C5E26F8F3CE0074A2E4 /* EnvironmentTests.swift */,
 			);
 			name = PaymentsCoreTests;
 			path = UnitTests/PaymentsCoreTests;
@@ -540,10 +562,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DE22C5D26F8E7A20074A2E4 /* AccessTokenRequestTests.swift in Sources */,
 				8034A9E626B875C90055AF13 /* PaymentsCore_Tests.swift in Sources */,
 				BEA100F726EFB52D0036A6A5 /* URLProtocolMock.swift in Sources */,
 				BEA100F926EFB7B10036A6A5 /* MockRequestResponse.swift in Sources */,
 				BEA100F426EFA8C20036A6A5 /* APIClientTests.swift in Sources */,
+				3DE22C5F26F8F3CE0074A2E4 /* EnvironmentTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
