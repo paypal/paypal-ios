@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 
 class AccessTokenRequestTests: XCTestCase {
-    func testAccessTokenRequest_toURLRequest_vendsCorrectURL() throws {
+    func testAccessTokenRequest_toURLRequest_vendsCorrectURLString() throws {
         let expectedUrl = "https://api.sandbox.paypal.com/v1/oauth2/token"
         let environment = Environment.sandbox
 
