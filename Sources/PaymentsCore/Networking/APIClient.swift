@@ -16,7 +16,7 @@ public class APIClient {
         completion: @escaping (Result<T.ResponseType?, CoreError>, CorrelationID?) -> Void
     ) {
         guard let request = endpoint.toURLRequest(environment: environment) else {
-            completion(.failure(.noUrlRequest), nil)
+            completion(.failure(.noURLRequest), nil)
             return
         }
 

@@ -8,6 +8,6 @@ public enum CoreError: Error {
     case networkingError(Error)
     case decodingError(Error)
     case noResponseData
-    case noUrlRequest
+    case noURLRequest
     case unknown
 }
