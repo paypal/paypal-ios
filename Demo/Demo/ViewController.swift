@@ -8,6 +8,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
+        // TODO: Update Demo UI with proper Card & PayPal checkout demos
         fetchOrderID()
     }
     
@@ -16,17 +17,13 @@ class ViewController: UIViewController {
         let orderRequestParams = CreateOrderParams(intent: "CAPTURE",
                                                    purchaseUnits: [PurchaseUnit(amount: amount)])
         
-        DemoMerchantAPI.sharedService.createOrder(orderParams: orderRequestParams) { order, error in
-            if let error = error {
+        DemoMerchantAPI.sharedService.createOrder(orderParams: orderRequestParams) { result in
+            switch result {
+            case .success(let order):
+                print("✅ fetched orderID: \(order.id) with status: \(order.status)")
+            case .failure(let error):
                 print(error)
-                return
             }
-            
-            guard let order = order else {
-                return
-            }
-            
-            print("Get orderID: \(order)")
         }
     }
     
