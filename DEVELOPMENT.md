@@ -4,9 +4,10 @@ This document outlines development practices that we follow while developing thi
 
 ## SwiftLint
 
-To run [SwiftLint](https://github.com/realm/SwiftLint) for all of the paths included in the `.swiftlint.yml`, run the following:
+Ensure that you have [SwiftLint](https://github.com/realm/SwiftLint) installed as we utilize it within our project.
 
+To install via [Homebrew](https://brew.sh/) run:
 ```
-bundle install
-bundle exec fastlane lint
+brew install swiftlint
 ```
+Our Xcode project has a `Run Phase` which integrates in `SwiftLint` so the only prerequisite is installing via `Homebrew`.
