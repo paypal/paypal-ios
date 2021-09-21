@@ -11,16 +11,15 @@ import PaymentsCore
 struct MockEmptyRequest: APIRequest, MockRequestResponse {
     typealias ResponseType = EmptyResponse
 
-    var path: String { "mock/request" }
+    var path: String { "/mock/request" }
     var method: HTTPMethod { .post }
     var headers: [HTTPHeader: String] { [:] }
     var body: Data? { Data() }
 
-    var responseData: Data? = nil
+    var responseData: Data? = Data()
 
     func canHandle(request: URLRequest) -> Bool {
-        print(request.url?.path)
-        return request.url?.path == path
+        request.url?.path == path
     }
 
     func response(for request: URLRequest) -> HTTPURLResponse {
