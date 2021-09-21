@@ -13,8 +13,18 @@ class APIClient_Tests: XCTestCase {
     func testFetch_withAccessTokenSuccessMockResponse_returnsValidAccessToken() {
         let expect = expectation(description: "Get mock response for access token request")
 
+        let mockSuccessResponse: String = """
+        {
+          "scope": "https://uri.paypal.com/services/invoicing",
+          "access_token": "TestToken",
+          "token_type": "Bearer",
+          "expires_in": 29688,
+          "nonce": "2021-09-13T15:00:23ZLpaHBzwLdATlXfE-G4NJsoxi9jPsYuMzOIE4u1TqDx8"
+        }
+        """
+
         URLProtocolMock.requestResponses.append(
-            MockAccessTokenRequestResponse(responseString: MockAccessTokenRequestResponse.mockSuccessResponse, statusCode: 200)
+            MockAccessTokenRequestResponse(responseString: mockSuccessResponse, statusCode: 200)
         )
         
         apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, correlationID in
@@ -34,8 +44,15 @@ class APIClient_Tests: XCTestCase {
     func testFetch_withAccessTokenFailureMockResponse_returnsNoURLRequest() {
         let expect = expectation(description: "Get mock response for access token request")
 
+        let mockFailureResponse: String = """
+        {
+            "error": "unsupported_grant_type",
+            "error_description": "unsupported grant_type"
+        }
+        """
+
         URLProtocolMock.requestResponses.append(
-            MockAccessTokenRequestResponse(responseString: MockAccessTokenRequestResponse.mockFailureResponse, statusCode: 404)
+            MockAccessTokenRequestResponse(responseString: mockFailureResponse, statusCode: 404)
         )
 
         apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, correlationID in
@@ -55,8 +72,14 @@ class APIClient_Tests: XCTestCase {
     func testFetch_withAccessTokenInvalidMockResponse_returnsDecodingError() {
         let expect = expectation(description: "Get mock response for access token request")
 
+        let mockInvalidResponse: String = """
+        {
+            "test": "wrong response format"
+        }
+        """
+
         URLProtocolMock.requestResponses.append(
-            MockAccessTokenRequestResponse(responseString: MockAccessTokenRequestResponse.mockInvalidResponse, statusCode: 200)
+            MockAccessTokenRequestResponse(responseString: mockInvalidResponse, statusCode: 200)
         )
 
         apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, correlationId in
