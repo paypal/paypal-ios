@@ -1,8 +1,15 @@
-// swiftlint:disable convenience_type
-
 import Foundation
 
 class DemoSettings {
+
+    static var sharedSettings = DemoSettings()
+
+    private init() {}
+
+    var environment: Environment {
+        // TODO: pull settings from a shared config - for now, just hardcoding to sandbox
+        .sandbox
+    }
 
     enum Environment {
         case sandbox, production

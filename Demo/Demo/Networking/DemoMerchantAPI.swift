@@ -6,9 +6,13 @@ final class DemoMerchantAPI {
 
     private init() {}
 
+    /// This function replicates a way a merchant may go about creating an order on their server and is not part of the SDK flow.
+    /// - Parameters:
+    ///   - orderParams: the parameters to create the order with
+    ///   - completion: a result object vending either the order or an error
     func createOrder(orderParams: CreateOrderParams, completion: @escaping ((Result<Order, URLResponseError>) -> Void)) {
         // TODO: get environment from settings in Demo app
-        guard let url = URL(string: DemoSettings.Environment.sandbox.baseURL + "/order?countryCode=US") else {
+        guard let url = buildURL(environment: DemoSettings.sharedSettings.environment, endpoint: "/order?countryCode=US") else {
             completion(.failure(.invalidURL))
             return
         }
@@ -42,10 +46,14 @@ final class DemoMerchantAPI {
         .resume()
     }
 
+    /// This function replicates a way a merchant may go about processing an order on their server and is not part of the SDK flow.
+    /// - Parameters:
+    ///   - processOrderParams: the parameters to process the order with
+    ///   - completion: a result object vending either the order or an error
     func processOrder(processOrderParams: ProcessOrderParams, completion: @escaping ((Result<Order, URLResponseError>) -> Void)) {
+        // TODO: finalize functionality once we add approve order/card module
         // TODO: get environment from settings in Demo app
-        let fullURLPath = DemoSettings.Environment.sandbox.baseURL + "/\(processOrderParams.intent)-order"
-        guard let url = URL(string: fullURLPath) else {
+        guard let url = buildURL(environment: DemoSettings.sharedSettings.environment, endpoint: "/\(processOrderParams.intent)-order") else {
             completion(.failure(.invalidURL))
             return
         }
@@ -74,5 +82,9 @@ final class DemoMerchantAPI {
             }
         }
         .resume()
+    }
+
+    private func buildURL(environment: DemoSettings.Environment, endpoint: String) -> URL? {
+        URL(string: environment.baseURL + endpoint)
     }
 }
