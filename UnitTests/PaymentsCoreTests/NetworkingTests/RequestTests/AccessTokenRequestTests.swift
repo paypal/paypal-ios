@@ -18,7 +18,7 @@ class AccessTokenRequestTests: XCTestCase {
         let accessTokenRequest = AccessTokenRequest(clientID: testClientId)
 
         let urlRequest = try XCTUnwrap(accessTokenRequest.toURLRequest(environment: environment))
-
-        XCTAssert(urlRequest.url?.absoluteString == expectedUrl)
+   
+        XCTAssertEqual(urlRequest.url?.absoluteString, expectedUrl)
     }
 }
