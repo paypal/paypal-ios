@@ -98,4 +98,34 @@ class APIClient_Tests: XCTestCase {
 
         waitForExpectations(timeout: 1)
     }
+
+    func testParseDataObject_withNilData_throwsEmptyDataError() throws {
+        XCTAssertThrowsError(
+            try apiClient.parseDataObject(nil, type: AccessTokenRequest.self)
+        ) { error in
+            guard case NetworkingError.noResponseData = error else {
+                XCTFail("Expected `NetworkingError.noResponseData`")
+                return
+            }
+        }
+    }
+
+    func testFetch_withEmptyResponse_vendsSuccessfully() {
+        let expect = expectation(description: "Get empty response type for mock request")
+
+        let emptyRequest = MockEmptyRequest()
+
+        URLProtocolMock.requestResponses.append(emptyRequest)
+
+        apiClient.fetch(endpoint: emptyRequest) { result, _ in
+            
+            guard case .success(_) = result else {
+                XCTFail("Expected successful empty response")
+                return
+            }
+            expect.fulfill()
+        }
+
+        waitForExpectations(timeout: 10)
+    }
 }

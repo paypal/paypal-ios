@@ -41,16 +41,13 @@ public class APIClient {
                     if let emptyResponse = EmptyResponse() as? T.ResponseType {
                         finish(.success(emptyResponse))
                     } else {
-                        guard let data = data else {
-                            finish(.failure(.noResponseData))
-                            return
-                        }
-
-                        let decodedData = try JSONDecoder().decode(T.ResponseType.self, from: data)
-                        finish(.success(decodedData))
+                        let responseType = try self.parseDataObject(data, type: T.self)
+                        finish(.success(responseType))
                     }
-                } catch let decodingError {
-                    finish(.failure(.decodingError(decodingError)))
+                } catch let networkingError as NetworkingError {
+                    finish(.failure(networkingError))
+                } catch {
+                    finish(.failure(.decodingError(error)))
                 }
 
             default:
@@ -61,5 +58,13 @@ public class APIClient {
         }
 
         task.resume()
+    }
+
+    public func parseDataObject<T: APIRequest>(_ data: Data?, type: T.Type) throws -> T.ResponseType {
+        guard let data = data else {
+            throw NetworkingError.noResponseData
+        }
+        let decodedData = try JSONDecoder().decode(T.ResponseType.self, from: data)
+        return decodedData
     }
 }
