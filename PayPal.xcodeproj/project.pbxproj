@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		061A329E26FA37B70003A736 /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100F626EFB52D0036A6A5 /* URLProtocolMock.swift */; };
+		061A329F26FA37B80003A736 /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100F626EFB52D0036A6A5 /* URLProtocolMock.swift */; };
+		061A32A026FA37BD0003A736 /* MockRequestResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100F826EFB7B10036A6A5 /* MockRequestResponse.swift */; };
+		061A32A126FA37BE0003A736 /* MockRequestResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100F826EFB7B10036A6A5 /* MockRequestResponse.swift */; };
+		061A32A426FA37E90003A736 /* MockAccessTokenRequestResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061A32A326FA37E90003A736 /* MockAccessTokenRequestResponse.swift */; };
+		061A32A526FA37E90003A736 /* MockAccessTokenRequestResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061A32A326FA37E90003A736 /* MockAccessTokenRequestResponse.swift */; };
+		061A32A626FA37E90003A736 /* MockAccessTokenRequestResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061A32A326FA37E90003A736 /* MockAccessTokenRequestResponse.swift */; };
 		06E406D526EFE7E8002533B1 /* AccessTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E406D426EFE7E8002533B1 /* AccessTokenRequest.swift */; };
 		06E406D726EFE7F9002533B1 /* AccessTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E406D626EFE7F9002533B1 /* AccessTokenResponse.swift */; };
 		06E406DA26EFEB9F002533B1 /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E406D926EFEB9F002533B1 /* URLSession+Extension.swift */; };
@@ -59,6 +66,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		061A32A326FA37E90003A736 /* MockAccessTokenRequestResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAccessTokenRequestResponse.swift; sourceTree = "<group>"; };
 		06E406D426EFE7E8002533B1 /* AccessTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRequest.swift; sourceTree = "<group>"; };
 		06E406D626EFE7F9002533B1 /* AccessTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenResponse.swift; sourceTree = "<group>"; };
 		06E406D926EFEB9F002533B1 /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
@@ -140,6 +148,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		061A32A226FA37D00003A736 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				061A32A326FA37E90003A736 /* MockAccessTokenRequestResponse.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
 		06E406D126EFE7B3002533B1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -177,7 +193,6 @@
 		3DE22C6026F8F7F80074A2E4 /* NetworkingTests */ = {
 			isa = PBXGroup;
 			children = (
-				BEA100FA26EFB8120036A6A5 /* NetworkingMocks */,
 				BEA100F326EFA8C20036A6A5 /* APIClientTests.swift */,
 				3DE22C6126F8F8030074A2E4 /* RequestTests */,
 			);
@@ -281,6 +296,7 @@
 		BEA100FA26EFB8120036A6A5 /* NetworkingMocks */ = {
 			isa = PBXGroup;
 			children = (
+				061A32A226FA37D00003A736 /* Mocks */,
 				BEA100F626EFB52D0036A6A5 /* URLProtocolMock.swift */,
 				BEA100F826EFB7B10036A6A5 /* MockRequestResponse.swift */,
 			);
@@ -290,6 +306,7 @@
 		OBJ_10 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				BEA100FA26EFB8120036A6A5 /* NetworkingMocks */,
 				OBJ_11 /* PayPalTests */,
 				80E8DAE726B8785D00FAFC3F /* CardTests */,
 				8034A9E426B875C90055AF13 /* PaymentsCoreTests */,
@@ -566,6 +583,7 @@
 				8034A9E626B875C90055AF13 /* PaymentsCore_Tests.swift in Sources */,
 				BEA100F726EFB52D0036A6A5 /* URLProtocolMock.swift in Sources */,
 				BEA100F926EFB7B10036A6A5 /* MockRequestResponse.swift in Sources */,
+				061A32A426FA37E90003A736 /* MockAccessTokenRequestResponse.swift in Sources */,
 				BEA100F426EFA8C20036A6A5 /* APIClientTests.swift in Sources */,
 				3DE22C5F26F8F3CE0074A2E4 /* EnvironmentTests.swift in Sources */,
 			);
@@ -609,7 +627,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				061A32A526FA37E90003A736 /* MockAccessTokenRequestResponse.swift in Sources */,
 				80E8DAE926B8785D00FAFC3F /* Card_Tests.swift in Sources */,
+				061A32A026FA37BD0003A736 /* MockRequestResponse.swift in Sources */,
+				061A329E26FA37B70003A736 /* URLProtocolMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -617,7 +638,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				061A32A626FA37E90003A736 /* MockAccessTokenRequestResponse.swift in Sources */,
 				OBJ_40 /* PayPal_Tests.swift in Sources */,
+				061A32A126FA37BE0003A736 /* MockRequestResponse.swift in Sources */,
+				061A329F26FA37B80003A736 /* URLProtocolMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
