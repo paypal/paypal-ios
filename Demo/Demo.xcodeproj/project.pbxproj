@@ -22,6 +22,7 @@
 		80F33CF126F8E7D9006811B1 /* ProcessOrderParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CF026F8E7D9006811B1 /* ProcessOrderParams.swift */; };
 		80F33CF326F8EA50006811B1 /* DemoSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CF226F8EA50006811B1 /* DemoSettings.swift */; };
 		BE1766B326F911A2007EF438 /* URLResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1766B226F911A2007EF438 /* URLResponseError.swift */; };
+		BE1766D726FA7AC3007EF438 /* InAppSettingsKit in Frameworks */ = {isa = PBXBuildFile; productRef = BE1766D626FA7AC3007EF438 /* InAppSettingsKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -65,6 +66,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				805AB85026B87A87003BEE0D /* Card.framework in Frameworks */,
+				BE1766D726FA7AC3007EF438 /* InAppSettingsKit in Frameworks */,
 				80DB6F1D26B89DDA00277E54 /* PayPal.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -152,6 +154,9 @@
 			dependencies = (
 			);
 			name = Demo;
+			packageProductDependencies = (
+				BE1766D626FA7AC3007EF438 /* InAppSettingsKit */,
+			);
 			productName = Demo;
 			productReference = 806F1E3526B85367007A60E6 /* Demo.app */;
 			productType = "com.apple.product-type.application";
@@ -180,6 +185,9 @@
 				Base,
 			);
 			mainGroup = 806F1E2C26B85367007A60E6;
+			packageReferences = (
+				BE1766D526FA7AC3007EF438 /* XCRemoteSwiftPackageReference "InAppSettingsKit" */,
+			);
 			productRefGroup = 806F1E3626B85367007A60E6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -424,6 +432,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BE1766D526FA7AC3007EF438 /* XCRemoteSwiftPackageReference "InAppSettingsKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/futuretap/InAppSettingsKit";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BE1766D626FA7AC3007EF438 /* InAppSettingsKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BE1766D526FA7AC3007EF438 /* XCRemoteSwiftPackageReference "InAppSettingsKit" */;
+			productName = InAppSettingsKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 806F1E2D26B85367007A60E6 /* Project object */;
 }

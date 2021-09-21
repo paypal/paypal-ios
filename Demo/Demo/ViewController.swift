@@ -1,6 +1,7 @@
 import UIKit
 import Card
 import PayPal
+import InAppSettingsKit
 
 class ViewController: UIViewController {
 
@@ -8,8 +9,19 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
 
+        if #available(iOS 15.0, *) {
+            navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
+        }
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(settingsTapped))
+
         // TODO: Update Demo UI with proper Card & PayPal checkout demos
         fetchOrderID()
+    }
+
+    @objc func settingsTapped() {
+        let appSettingsViewController = IASKAppSettingsViewController()
+        navigationController?.pushViewController(appSettingsViewController, animated: true)
     }
 
     func fetchOrderID() {
