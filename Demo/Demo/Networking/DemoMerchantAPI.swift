@@ -1,5 +1,6 @@
 import Foundation
 
+/// API Client used to create and process orders on sample merchant server
 final class DemoMerchantAPI {
 
     static let sharedService = DemoMerchantAPI()
@@ -12,7 +13,7 @@ final class DemoMerchantAPI {
     ///   - completion: a result object vending either the order or an error
     func createOrder(orderParams: CreateOrderParams, completion: @escaping ((Result<Order, URLResponseError>) -> Void)) {
         // TODO: get environment from settings in Demo app
-        guard let url = buildURL(environment: DemoSettings.sharedSettings.environment, endpoint: "/order?countryCode=US") else {
+        guard let url = URL(string: DemoSettings.sharedSettings.environment.baseURL + "/order?countryCode=US") else {
             completion(.failure(.invalidURL))
             return
         }
@@ -46,14 +47,15 @@ final class DemoMerchantAPI {
         .resume()
     }
 
-    /// This function replicates a way a merchant may go about processing an order on their server and is not part of the SDK flow.
+    /// This function replicates a way a merchant may go about authorizing/capturing an order on their server and is not part of the SDK flow.
     /// - Parameters:
     ///   - processOrderParams: the parameters to process the order with
     ///   - completion: a result object vending either the order or an error
     func processOrder(processOrderParams: ProcessOrderParams, completion: @escaping ((Result<Order, URLResponseError>) -> Void)) {
         // TODO: finalize functionality once we add approve order/card module
         // TODO: get environment from settings in Demo app
-        guard let url = buildURL(environment: DemoSettings.sharedSettings.environment, endpoint: "/\(processOrderParams.intent)-order") else {
+        let url = URL(string: DemoSettings.sharedSettings.environment.baseURL + "/\(processOrderParams.intent)-order")
+        guard let url = url else {
             completion(.failure(.invalidURL))
             return
         }
@@ -82,9 +84,5 @@ final class DemoMerchantAPI {
             }
         }
         .resume()
-    }
-
-    private func buildURL(environment: DemoSettings.Environment, endpoint: String) -> URL? {
-        URL(string: environment.baseURL + endpoint)
     }
 }
