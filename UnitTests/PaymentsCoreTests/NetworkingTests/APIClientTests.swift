@@ -65,7 +65,7 @@ class APIClientTests: XCTestCase {
                 XCTFail("Should not succeed as the mock response has invalid format")
             case let .failure(error):
                 guard case .decodingError(_) = error else {
-                    XCTFail("Expect error to be CoreError.decodingError")
+                    XCTFail("Expect error to be NetworkingError.decodingError")
                     return
                 }
             }
