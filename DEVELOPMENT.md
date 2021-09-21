@@ -10,4 +10,4 @@ To install via [Homebrew](https://brew.sh/) run:
 ```
 brew install swiftlint
 ```
-Our Xcode project has a `Run Phase` which integrates in `SwiftLint` so the only prerequisite is installing via `Homebrew`.
+Our Xcode workspace has a `Run Phase` which integrates in `SwiftLint` so the only prerequisite is installing via `Homebrew`.
