@@ -1,11 +1,11 @@
 import XCTest
-@testable import PaymentsCore
+@testable import Card
 
-final class PayPalTests: XCTestCase {
+final class Card_Tests: XCTestCase {
     func testExample() throws {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        XCTAssertEqual(PaymentsCore().text, "Hello, PaymentsCore module!")
+        XCTAssertEqual(Card().text, "Hello, Card module!")
     }
 }

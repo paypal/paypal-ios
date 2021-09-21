@@ -1,7 +1,7 @@
 import XCTest
 @testable import PaymentsCore
 
-class APIClientTests: XCTestCase {
+class APIClient_Tests: XCTestCase {
     
     lazy var apiClient: APIClient = {
         APIClient(
