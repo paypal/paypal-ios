@@ -2,7 +2,7 @@ import XCTest
 @testable import PaymentsCore
 
 class APIClient_Tests: XCTestCase {
-    
+
     lazy var apiClient: APIClient = {
         APIClient(
             urlSession: URLSession(urlProtocol: URLProtocolMock.self),
@@ -15,19 +15,19 @@ class APIClient_Tests: XCTestCase {
 
         let mockSuccessResponse: String = """
         {
-          "scope": "https://uri.paypal.com/services/invoicing",
-          "access_token": "TestToken",
-          "token_type": "Bearer",
-          "expires_in": 29688,
-          "nonce": "2021-09-13T15:00:23ZLpaHBzwLdATlXfE-G4NJsoxi9jPsYuMzOIE4u1TqDx8"
+            "scope": "https://uri.paypal.com/services/invoicing",
+            "access_token": "TestToken",
+            "token_type": "Bearer",
+            "expires_in": 29688,
+            "nonce": "2021-09-13T15:00:23ZLpaHBzwLdATlXfE-G4NJsoxi9jPsYuMzOIE4u1TqDx8"
         }
         """
 
         URLProtocolMock.requestResponses.append(
             MockAccessTokenRequestResponse(responseString: mockSuccessResponse, statusCode: 200)
         )
-        
-        apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, correlationID in
+
+        apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, _ in
             switch result {
             case .success(let response):
                 XCTAssertEqual(response.accessToken, "TestToken")
@@ -54,7 +54,7 @@ class APIClient_Tests: XCTestCase {
             MockAccessTokenRequestResponse(responseString: mockFailureResponse, statusCode: 404)
         )
 
-        apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, correlationID in
+        apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, _ in
             switch result {
             case .success:
                 XCTFail("Should not be able to successfully decode a result")
@@ -80,7 +80,7 @@ class APIClient_Tests: XCTestCase {
             MockAccessTokenRequestResponse(responseString: mockInvalidResponse, statusCode: 200)
         )
 
-        apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, correlationId in
+        apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, _ in
             switch result {
             case .success:
                 XCTFail("Should not succeed as the mock response has invalid format")

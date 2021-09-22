@@ -19,7 +19,7 @@ class MockAccessTokenRequestResponse: MockRequestResponse {
     func canHandle(request: URLRequest) -> Bool {
         request.url?.path == "/v1/oauth2/token"
     }
-    
+
     func response(for request: URLRequest) -> HTTPURLResponse? {
         guard let url = request.url else {
             return nil
