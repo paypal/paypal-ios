@@ -126,12 +126,12 @@
 			children = (
 				806F1E3826B85367007A60E6 /* AppDelegate.swift */,
 				806F1E4126B85369007A60E6 /* Assets.xcassets */,
-				80F33CF226F8EA50006811B1 /* DemoSettings.swift */,
 				806F1E4626B85369007A60E6 /* Info.plist */,
 				806F1E4326B85369007A60E6 /* LaunchScreen.storyboard */,
 				80F33CEB26F8E799006811B1 /* Models */,
 				BE1766B526FA562B007EF438 /* Networking */,
 				80561B3C26FB5F300023138C /* Features */,
+				80F33CF226F8EA50006811B1 /* DemoSettings.swift */,
 				806F1E3A26B85367007A60E6 /* SceneDelegate.swift */,
 				806F1E3C26B85367007A60E6 /* ViewController.swift */,
 			);

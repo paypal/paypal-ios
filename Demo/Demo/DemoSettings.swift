@@ -47,9 +47,8 @@ final class DemoSettings {
     static var intent: Intent {
         return UserDefaults.standard.string(forKey: IntentDefaultsKey).flatMap( { Intent(rawValue: $0) }) ?? .capture
     }
-    
-    static var demoType: DemoType {
-        UserDefaults.standard.string(forKey: DemoTypeDefaultsKey).flatMap( { DemoType(rawValue: $0) }) ?? .card
-    }
 
+    static var demoType: DemoType {
+        return UserDefaults.standard.string(forKey: DemoTypeDefaultsKey).flatMap( { DemoType(rawValue: $0) }) ?? .card
+    }
 }
