@@ -64,25 +64,3 @@ class MockRequestResponse<Response: Codable>: APIRequest, MockResponse {
         return HTTPURLResponse(url: url, statusCode: statusCode, httpVersion: nil, headerFields: [:])
     }
 }
-
-class MockEmptyRequest: MockRequestResponse<EmptyResponse> {
-    init(path: String = "/mock/path") {
-        super.init(responseType: EmptyResponse.self, path: path)
-    }
-
-    override func toURLRequest(environment: Environment) -> URLRequest? {
-        super.toURLRequest(environment: environment)
-    }
-}
-
-class MockNoReponseRequest: MockEmptyRequest {
-    override func response(for request: URLRequest) -> HTTPURLResponse? {
-        return nil
-    }
-}
-
-class MockNoURLRequest: MockEmptyRequest {
-    override func toURLRequest(environment: Environment) -> URLRequest? {
-        return nil
-    }
-}

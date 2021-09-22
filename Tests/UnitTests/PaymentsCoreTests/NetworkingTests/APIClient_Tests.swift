@@ -102,7 +102,7 @@ class APIClient_Tests: XCTestCase {
 
     func testFetch_withEmptyResponse_vendsSuccessfully() {
         let expect = expectation(description: "Get empty response type for mock request")
-        let emptyRequest = MockEmptyRequest()
+        let emptyRequest = MockEmptyRequestResponse()
 
         URLProtocolMock.requestResponses.append(emptyRequest)
 
