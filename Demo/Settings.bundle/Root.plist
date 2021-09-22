@@ -10,51 +10,73 @@
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
-			<string>Group</string>
+			<string>Settings</string>
 		</dict>
 		<dict>
 			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
+			<string>PSMultiValueSpecifier</string>
 			<key>Title</key>
-			<string>Name</string>
+			<string>Environment</string>
 			<key>Key</key>
-			<string>name_preference</string>
+			<string>environment</string>
 			<key>DefaultValue</key>
-			<string></string>
-			<key>IsSecure</key>
-			<false/>
-			<key>KeyboardType</key>
-			<string>Alphabet</string>
-			<key>AutocapitalizationType</key>
-			<string>None</string>
-			<key>AutocorrectionType</key>
-			<string>No</string>
+			<string>sandbox</string>
+			<key>Titles</key>
+			<array>
+				<string>Sandbox</string>
+				<string>Production</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>sandbox</string>
+				<string>production</string>
+			</array>
 		</dict>
 		<dict>
 			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
+			<string>PSMultiValueSpecifier</string>
 			<key>Title</key>
-			<string>Enabled</string>
+			<string>Intent</string>
 			<key>Key</key>
-			<string>enabled_preference</string>
+			<string>intent</string>
 			<key>DefaultValue</key>
-			<true/>
+			<string>capture</string>
+			<key>Titles</key>
+			<array>
+				<string>Capture</string>
+				<string>Authorize</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>capture</string>
+				<string>authorize</string>
+			</array>
 		</dict>
 		<dict>
 			<key>Type</key>
-			<string>PSSliderSpecifier</string>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Feature</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Title</key>
+			<string>Integration Type</string>
 			<key>Key</key>
-			<string>slider_preference</string>
+			<string>integration_type</string>
 			<key>DefaultValue</key>
-			<real>0.5</real>
-			<key>MinimumValue</key>
-			<integer>0</integer>
-			<key>MaximumValue</key>
-			<integer>1</integer>
-			<key>MinimumValueImage</key>
-			<string></string>
-			<key>MaximumValueImage</key>
-			<string></string>
+			<string>card</string>
+			<key>Titles</key>
+			<array>
+				<string>Card</string>
+				<string>PayPal</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>card</string>
+				<string>paypal</string>
+			</array>
 		</dict>
 	</array>
 </dict>
