@@ -1,23 +1,33 @@
-//
-//  MockEmptyRequest.swift
-//  MockEmptyRequest
-//
-//  Created by Jones, Jon on 9/21/21.
-//
-
 import Foundation
 import PaymentsCore
 
-class MockEmptyRequest: APIRequest, MockRequestResponse {
-    typealias ResponseType = EmptyResponse
+class MockRequest<Response: Codable>: APIRequest, MockRequestResponse {
+    typealias ResponseType = Response
 
-    var path: String { "/mock/request" }
-    var method: HTTPMethod { .post }
-    var headers: [HTTPHeader: String] { [:] }
-    var body: Data? { Data() }
+    let path: String
+    let method: HTTPMethod
+    let headers: [HTTPHeader: String]
+    let body: Data?
 
-    var responseData: Data? = Data()
-    let responseError: Error? = nil
+    let statusCode: Int
+    let responseData: Data?
+    let responseError: Error?
+
+    init<Request: APIRequest>(
+        request: Request,
+        statusCode: Int = 200,
+        responseString: String? = nil,
+        error: Error? = nil
+    ) where Response == Request.ResponseType {
+        self.path = request.path
+        self.method = request.method
+        self.headers = request.headers
+        self.body = request.body
+        
+        self.responseData = responseString?.data(using: .utf8)
+        self.responseError = error
+        self.statusCode = statusCode
+    }
 
     func canHandle(request: URLRequest) -> Bool {
         request.url?.path == path
@@ -31,8 +41,16 @@ class MockEmptyRequest: APIRequest, MockRequestResponse {
     }
 }
 
+class MockEmptyRequest: MockRequest<EmptyResponse> { }
+
 class MockNoReponseRequest: MockEmptyRequest {
     override func response(for request: URLRequest) -> HTTPURLResponse? {
+        return nil
+    }
+}
+
+class MockNoURLRequest: MockEmptyRequest {
+    func toURLRequest(environment: Environment) -> URLRequest? {
         return nil
     }
 }
