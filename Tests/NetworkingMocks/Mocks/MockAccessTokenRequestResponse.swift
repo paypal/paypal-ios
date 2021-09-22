@@ -1,6 +1,6 @@
 import Foundation
 
-class MockAccessTokenRequestResponse: MockRequestResponse {
+class MockAccessTokenRequestResponse: MockResponse {
 
     var responseString: String?
     var statusCode: Int

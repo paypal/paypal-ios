@@ -1,7 +1,7 @@
 import Foundation
 import PaymentsCore
 
-class MockRequest<Response: Codable>: APIRequest, MockRequestResponse {
+class MockRequestResponse<Response: Codable>: APIRequest, MockResponse {
     typealias ResponseType = Response
 
     let path: String
@@ -23,10 +23,30 @@ class MockRequest<Response: Codable>: APIRequest, MockRequestResponse {
         self.method = request.method
         self.headers = request.headers
         self.body = request.body
-        
+
+        self.statusCode = statusCode
         self.responseData = responseString?.data(using: .utf8)
         self.responseError = error
+    }
+
+    init<Response: Codable>(
+        responseType: Response.Type,
+        path: String,
+        method: HTTPMethod = .post,
+        headers: [HTTPHeader: String] = [:],
+        body: Data? = nil,
+        statusCode: Int = 200,
+        responseString: String? = nil,
+        responseError: Error? = nil
+    ) {
+        self.path = path
+        self.method = method
+        self.headers = headers
+        self.body = body
+
         self.statusCode = statusCode
+        self.responseData = responseString?.data(using: .utf8)
+        self.responseError = responseError
     }
 
     func canHandle(request: URLRequest) -> Bool {
@@ -37,11 +57,15 @@ class MockRequest<Response: Codable>: APIRequest, MockRequestResponse {
         guard let url = request.url else {
             return nil
         }
-        return HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: [:])
+        return HTTPURLResponse(url: url, statusCode: statusCode, httpVersion: nil, headerFields: [:])
     }
 }
 
-class MockEmptyRequest: MockRequest<EmptyResponse> { }
+class MockEmptyRequest: MockRequestResponse<EmptyResponse> {
+    init(path: String = "/mock/path") {
+        super.init(responseType: EmptyResponse.self, path: path)
+    }
+}
 
 class MockNoReponseRequest: MockEmptyRequest {
     override func response(for request: URLRequest) -> HTTPURLResponse? {

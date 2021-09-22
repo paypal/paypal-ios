@@ -1,6 +1,6 @@
 import Foundation
 
-protocol MockRequestResponse {
+protocol MockResponse {
     var responseData: Data? { get }
     var responseError: Error? { get }
 

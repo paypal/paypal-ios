@@ -10,7 +10,7 @@ class URLProtocolMock: URLProtocol {
 
     // MARK: - Variables
 
-    static var requestResponses: [MockRequestResponse] = []
+    static var requestResponses: [MockResponse] = []
 
     // MARK: - Override URLProtocol Functions
 
@@ -48,7 +48,7 @@ class URLProtocolMock: URLProtocol {
     // MARK: - Private Functions
 
     private func resolveRequest(
-        with requestResponse: MockRequestResponse,
+        with requestResponse: MockResponse,
         client: URLProtocolClient
     ) {
         if let response = requestResponse.response(for: request) {
