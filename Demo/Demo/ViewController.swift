@@ -20,24 +20,22 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-
-        // Note to Jax:
-        // Moved this stuff to viewWillAppear to test the Settings toggles are properly working.
-        // Also, the prod server is broken right now, so we will expect those requests to fail.
         displayDemoTypeViewController()
+        
+        // TODO: Update Demo UI with proper Card & PayPal checkout demos
         fetchOrderID()
     }
 
     @objc func settingsTapped() {
         let appSettingsViewController = IASKAppSettingsViewController()
+        appSettingsViewController.showDoneButton = false
         navigationController?.pushViewController(appSettingsViewController, animated: true)
-        // TODO: Get rid of "done" button on InAppSettings screen
     }
 
     func fetchOrderID() {
         let amount = Amount(currencyCode: "USD", value: "10.00")
         let orderRequestParams = CreateOrderParams(
-            intent: DemoSettings.intent.rawValue.uppercased(),
+            intent: DemoSettings.intent.rawValue,
             purchaseUnits: [PurchaseUnit(amount: amount)]
         )
 
