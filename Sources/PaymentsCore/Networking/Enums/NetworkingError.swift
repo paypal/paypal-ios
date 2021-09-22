@@ -12,5 +12,5 @@ public enum NetworkingError: Error {
     case noURLRequest
     case unknown
 
-    //TODO: Write localized descriptions for each error case
+    // TODO: Write localized descriptions for each error case
 }

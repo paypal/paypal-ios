@@ -107,7 +107,7 @@ class APIClient_Tests: XCTestCase {
         URLProtocolMock.requestResponses.append(emptyRequest)
 
         apiClient.fetch(endpoint: emptyRequest) { result, _ in
-            guard case .success(_) = result else {
+            guard case .success = result else {
                 XCTFail("Expected successful empty response")
                 return
             }
