@@ -14,14 +14,23 @@ class ViewController: UIViewController {
         }
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(settingsTapped))
-
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
         // TODO: Update Demo UI with proper Card & PayPal checkout demos
+        
+        // Note to Jax:
+        // Moved this to viewWillAppear to test that it gets called with proper env after toggling in Settings
+        // The prod server is broken right now, so we will expect those requests to fail.
         fetchOrderID()
     }
 
     @objc func settingsTapped() {
         let appSettingsViewController = IASKAppSettingsViewController()
         navigationController?.pushViewController(appSettingsViewController, animated: true)
+        // TODO: Get rid of "done" button on InAppSettings screen
     }
 
     func fetchOrderID() {
@@ -36,7 +45,7 @@ class ViewController: UIViewController {
             case .success(let order):
                 print("✅ fetched orderID: \(order.id) with status: \(order.status)")
             case .failure(let error):
-                print(error)
+                print("❌ failed to fetch orderID: \(error)")
             }
         }
     }
