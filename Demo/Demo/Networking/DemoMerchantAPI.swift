@@ -13,7 +13,7 @@ final class DemoMerchantAPI {
     ///   - completion: a result object vending either the order or an error
     func createOrder(orderParams: CreateOrderParams, completion: @escaping ((Result<Order, URLResponseError>) -> Void)) {
         // TODO: get environment from settings in Demo app
-        guard let url = URL(string: DemoSettings.sharedSettings.environment.baseURL + "/order?countryCode=US") else {
+        guard let url = URL(string: DemoSettings.environment.baseURL + "/order?countryCode=US") else {
             completion(.failure(.invalidURL))
             return
         }
@@ -54,7 +54,7 @@ final class DemoMerchantAPI {
     func processOrder(processOrderParams: ProcessOrderParams, completion: @escaping ((Result<Order, URLResponseError>) -> Void)) {
         // TODO: finalize functionality once we add approve order/card module
         // TODO: get environment from settings in Demo app
-        let url = URL(string: DemoSettings.sharedSettings.environment.baseURL + "/\(processOrderParams.intent)-order")
+        let url = URL(string: DemoSettings.environment.baseURL + "/\(processOrderParams.intent)-order")
         guard let url = url else {
             completion(.failure(.invalidURL))
             return

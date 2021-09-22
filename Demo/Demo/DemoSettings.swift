@@ -1,28 +1,29 @@
 import Foundation
 
-class DemoSettings {
-
-    static var sharedSettings = DemoSettings()
-
-    private init() {}
-
-    var environment: Environment {
-        // TODO: pull settings from a shared config - for now, just hardcoding to sandbox
-        .sandbox
-    }
-
-    enum Environment {
-        case sandbox, production
-
-        var baseURL: String {
-            switch self {
-            case .sandbox:
-                return "https://ppcp-sample-merchant-sand.herokuapp.com"
-            case .production:
-                return "https://ppcp-sample-merchant-prod.herokuapp.com"
-            }
+enum Environment: String {
+    case sandbox = "sandbox"
+    case production = "production"
+    
+    var baseURL: String {
+        switch self {
+        case .sandbox:
+            return "https://ppcp-sample-merchant-sand.herokuapp.com"
+        case .production:
+            return "https://ppcp-sample-merchant-prod.herokuapp.com"
         }
     }
+}
 
-    // TODO: add other settings configuration here
+class DemoSettings {
+    
+    static let EnvironmentDefaultsKey = "environment"
+    
+    static var environment: Environment {
+        guard let defaultsValue = UserDefaults.standard.string(forKey: EnvironmentDefaultsKey),
+              let environment = Environment(rawValue: defaultsValue) else {
+                  return .sandbox
+              }
+        return environment
+    }
+
 }
