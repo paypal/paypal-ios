@@ -62,11 +62,11 @@
 			<key>Type</key>
 			<string>PSMultiValueSpecifier</string>
 			<key>Title</key>
-			<string>Integration Type</string>
+			<string>Demo Type</string>
 			<key>Key</key>
-			<string>integration_type</string>
+			<string>demo_type</string>
 			<key>DefaultValue</key>
-			<string>card</string>
+			<string></string>
 			<key>Titles</key>
 			<array>
 				<string>Card</string>

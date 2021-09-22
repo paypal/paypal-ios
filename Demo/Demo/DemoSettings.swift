@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 enum Environment: String {
     case sandbox
@@ -19,10 +19,26 @@ enum Intent: String {
     case authorize
 }
 
-class DemoSettings {
+// TODO: Should the demo toggle logic live elsewhere, or in this DemoSettings file?
+enum DemoType: String {
+    case card
+    case paypal
     
-    static let EnvironmentDefaultsKey = "environment"
-    static let IntentDefaultsKey = "intent"
+    var viewController: UIViewController.Type {
+        switch self {
+        case .card:
+            return CardDemoViewController.self
+        case .paypal:
+            return PayPalDemoViewController.self
+        }
+    }
+}
+
+final class DemoSettings {
+    
+    private static let EnvironmentDefaultsKey = "environment"
+    private static let IntentDefaultsKey = "intent"
+    private static let DemoTypeDefaultsKey = "demo_type"
     
     static var environment: Environment {
         guard let defaultsValue = UserDefaults.standard.string(forKey: EnvironmentDefaultsKey),
@@ -38,6 +54,14 @@ class DemoSettings {
                   return .capture
               }
         return intent
+    }
+    
+    static var demoType: DemoType {
+        guard let defaultsValue = UserDefaults.standard.string(forKey: DemoTypeDefaultsKey),
+              let demoType = DemoType(rawValue: defaultsValue) else {
+                  return .card
+              }
+        return demoType
     }
 
 }

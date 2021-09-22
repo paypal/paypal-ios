@@ -14,16 +14,17 @@ class ViewController: UIViewController {
         }
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(settingsTapped))
+        
+        displayDemoTypeViewController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
-        // TODO: Update Demo UI with proper Card & PayPal checkout demos
-        
+
         // Note to Jax:
-        // Moved this to viewWillAppear to test that it gets called with proper env after toggling in Settings
-        // The prod server is broken right now, so we will expect those requests to fail.
+        // Moved this stuff to viewWillAppear to test the Settings toggles are properly working.
+        // Also, the prod server is broken right now, so we will expect those requests to fail.
+        displayDemoTypeViewController()
         fetchOrderID()
     }
 
@@ -49,4 +50,17 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    func displayDemoTypeViewController() {
+        let demoViewControllerType = DemoSettings.demoType.viewController
+        let demoViewController = demoViewControllerType.init()
+                
+        addChild(demoViewController)
+        view.addSubview(demoViewController.view)
+        
+        //  Currently now you can toggle b/w the orange(card) and purple(paypal) VCs after updating your settings.
+        // TODO: - Make it cleaner. Do we want to present it as childVCs?
+        // TODO: - Do we want a parent VC class with order creation & order processing logic? Include some type of footer in each demo VC that shows result status & "processOrder/auth/capture" button.
+    }
+    
 }
