@@ -24,7 +24,7 @@ class ViewController: UIViewController {
             case .success(let order):
                 print("✅ fetched orderID: \(order.id) with status: \(order.status)")
             case .failure(let error):
-                print(error)
+                print("❌ failed to fetch orderID: \(error)")
             }
         }
     }
