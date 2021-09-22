@@ -15,7 +15,12 @@ public protocol APIRequest {
 public extension APIRequest {
     var queryParameters: [String: String] { [:] }
 
+    // Default implementation vends response from helper function
     func toURLRequest(environment: Environment) -> URLRequest? {
+        composeURLRequest(environment: environment)
+    }
+
+    func composeURLRequest(environment: Environment) -> URLRequest? {
         let completeUrl = environment.baseURL.appendingPathComponent(path)
         var urlComponents = URLComponents(url: completeUrl, resolvingAgainstBaseURL: false)
 

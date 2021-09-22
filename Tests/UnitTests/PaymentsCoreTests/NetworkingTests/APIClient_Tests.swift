@@ -43,7 +43,7 @@ class APIClient_Tests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
 
-    func testFetch_withAccessTokenFailureMockResponse_returnsNoURLRequest() {
+    func testFetch_withAccessTokenFailureMockResponse_vendsUnknownError() {
         let expect = expectation(description: "Get mock response for access token request")
 
         let mockFailureResponse: String = """
@@ -116,56 +116,74 @@ class APIClient_Tests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
 
-//    func testFetch_withError_failsSuccessfully() {
-//        let expect = expectation(description: "should vend error to client call site")
-//        let serverError = NSError(
-//            domain: URLError.errorDomain,
-//            code: NSURLErrorBadServerResponse,
-//            userInfo: nil
-//        )
-//        let mockResponse = MockAccessTokenRequestResponse(
-//            responseString: nil,
-//            statusCode: 400,
-//            error: serverError
-//        )
-//        URLProtocolMock.requestResponses.append(mockResponse)
-//
-//        let request = AccessTokenRequest(clientID: "123")
-//
-//        apiClient.fetch(endpoint: request) { result, _ in
-//            guard case .failure(.networkingError) = result else {
-//                XCTFail("Should receive a networking error response")
-//                return
-//            }
-//            expect.fulfill()
-//        }
-//        waitForExpectations(timeout: 1)
-//    }
-//
-//    func testFetch_noResponse_vendsNoReponseError() {
-//        let expect = expectation(description: "Should receive bad URLResponse error")
-//        let noReponseRequest = MockNoReponseRequest()
-//
-//        URLProtocolMock.requestResponses.append(noReponseRequest)
-//
-//        apiClient.fetch(endpoint: noReponseRequest) { result, _ in
-//            guard case .failure(.badURLResponse) = result else {
-//                XCTFail("Expected bad URLResponse error")
-//                return
-//            }
-//            expect.fulfill()
-//        }
-//        waitForExpectations(timeout: 1)
-//    }
-//
-//    func testParseDataObject_withNilData_throwsEmptyDataError() throws {
-//        XCTAssertThrowsError(
-//            try apiClient.parseDataObject(nil, type: AccessTokenRequest.self)
-//        ) { error in
-//            guard case NetworkingError.noResponseData = error else {
-//                XCTFail("Expected `NetworkingError.noResponseData`")
-//                return
-//            }
-//        }
-//    }
+    func testFetch_withError_failsSuccessfully() {
+        let expect = expectation(description: "should vend error to client call site")
+        let serverError = NSError(
+            domain: URLError.errorDomain,
+            code: NSURLErrorBadServerResponse,
+            userInfo: nil
+        )
+
+        let mockRequest = MockRequestResponse(
+            request: AccessTokenRequest(clientID: "123"),
+            statusCode: 400,
+            error: serverError
+        )
+
+        URLProtocolMock.requestResponses.append(mockRequest)
+
+        apiClient.fetch(endpoint: mockRequest) { result, _ in
+            guard case .failure(.networkingError) = result else {
+                XCTFail("Should receive a networking error response")
+                return
+            }
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+
+    func testFetch_noResponse_vendsNoReponseError() {
+        let expect = expectation(description: "Should receive bad URLResponse error")
+        let noReponseRequest = MockNoReponseRequest()
+
+        URLProtocolMock.requestResponses.append(noReponseRequest)
+
+        apiClient.fetch(endpoint: noReponseRequest) { result, _ in
+            guard case .failure(.badURLResponse) = result else {
+                XCTFail("Expected bad URLResponse error")
+                return
+            }
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+
+    func testFetch_noURLRequest_vendsNoURLRequestError() {
+        let expect = expectation(description: "Should receive noURLRequest error")
+
+        // Mock request whose API object does not vend a URLRequest
+        let noURLRequest = MockNoURLRequest()
+
+        URLProtocolMock.requestResponses.append(noURLRequest)
+
+        apiClient.fetch(endpoint: noURLRequest) { result, _ in
+            guard case .failure(.noURLRequest) = result else {
+                XCTFail("Expected bad URLResponse error")
+                return
+            }
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+
+    func testParseDataObject_withNilData_throwsEmptyDataError() throws {
+        XCTAssertThrowsError(
+            try apiClient.parseDataObject(nil, type: AccessTokenRequest.self)
+        ) { error in
+            guard case NetworkingError.noResponseData = error else {
+                XCTFail("Expected `NetworkingError.noResponseData`")
+                return
+            }
+        }
+    }
 }
