@@ -1,6 +1,6 @@
 import UIKit
 
-class CardDemoViewController: UIViewController {
+class CardDemoViewController: FeatureBaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

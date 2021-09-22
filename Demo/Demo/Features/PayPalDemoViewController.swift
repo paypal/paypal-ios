@@ -1,6 +1,6 @@
 import UIKit
 
-class PayPalDemoViewController: UIViewController {
+class PayPalDemoViewController: FeatureBaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

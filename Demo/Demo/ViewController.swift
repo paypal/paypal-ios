@@ -14,8 +14,6 @@ class ViewController: UIViewController {
         }
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(settingsTapped))
-        
-        displayDemoTypeViewController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -24,8 +22,7 @@ class ViewController: UIViewController {
         // Note to Jax:
         // Moved this stuff to viewWillAppear to test the Settings toggles are properly working.
         // Also, the prod server is broken right now, so we will expect those requests to fail.
-        displayDemoTypeViewController()
-        fetchOrderID()
+        displayDemoFeatureViewController()
     }
 
     @objc func settingsTapped() {
@@ -33,25 +30,8 @@ class ViewController: UIViewController {
         navigationController?.pushViewController(appSettingsViewController, animated: true)
         // TODO: Get rid of "done" button on InAppSettings screen
     }
-
-    func fetchOrderID() {
-        let amount = Amount(currencyCode: "USD", value: "10.00")
-        let orderRequestParams = CreateOrderParams(
-            intent: DemoSettings.intent.rawValue.uppercased(),
-            purchaseUnits: [PurchaseUnit(amount: amount)]
-        )
-
-        DemoMerchantAPI.sharedService.createOrder(orderParams: orderRequestParams) { result in
-            switch result {
-            case .success(let order):
-                print("✅ fetched orderID: \(order.id) with status: \(order.status)")
-            case .failure(let error):
-                print("❌ failed to fetch orderID: \(error)")
-            }
-        }
-    }
     
-    func displayDemoTypeViewController() {
+    func displayDemoFeatureViewController() {
         let demoViewControllerType = DemoSettings.demoType.viewController
         let demoViewController = demoViewControllerType.init()
                 
