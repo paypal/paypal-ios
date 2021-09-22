@@ -36,7 +36,7 @@ class ViewController: UIViewController {
     func fetchOrderID() {
         let amount = Amount(currencyCode: "USD", value: "10.00")
         let orderRequestParams = CreateOrderParams(
-            intent: "CAPTURE",
+            intent: DemoSettings.intent.rawValue.uppercased(),
             purchaseUnits: [PurchaseUnit(amount: amount)]
         )
 

@@ -1,8 +1,8 @@
 import Foundation
 
 enum Environment: String {
-    case sandbox = "sandbox"
-    case production = "production"
+    case sandbox
+    case production
     
     var baseURL: String {
         switch self {
@@ -14,9 +14,15 @@ enum Environment: String {
     }
 }
 
+enum Intent: String {
+    case capture
+    case authorize
+}
+
 class DemoSettings {
     
     static let EnvironmentDefaultsKey = "environment"
+    static let IntentDefaultsKey = "intent"
     
     static var environment: Environment {
         guard let defaultsValue = UserDefaults.standard.string(forKey: EnvironmentDefaultsKey),
@@ -24,6 +30,14 @@ class DemoSettings {
                   return .sandbox
               }
         return environment
+    }
+    
+    static var intent: Intent {
+        guard let defaultsValue = UserDefaults.standard.string(forKey: IntentDefaultsKey),
+              let intent = Intent(rawValue: defaultsValue) else {
+                  return .capture
+              }
+        return intent
     }
 
 }
