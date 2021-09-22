@@ -14,6 +14,7 @@ disabled_rules:
   - orphaned_doc_comment
   - todo
   - unused_capture_list
+  - type_name # tests will have have the format <SUT>_Tests
 
 opt_in_rules:
   - array_init
@@ -53,7 +54,6 @@ opt_in_rules:
   - unneeded_parentheses_in_closure_argument
   - unused_import
   - vertical_whitespace_closing_braces
-  - vertical_whitespace_opening_braces
   - yoda_condition
 
 custom_rules:
