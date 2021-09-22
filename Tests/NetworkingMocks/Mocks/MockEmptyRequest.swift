@@ -8,7 +8,7 @@
 import Foundation
 import PaymentsCore
 
-struct MockEmptyRequest: APIRequest, MockRequestResponse {
+class MockEmptyRequest: APIRequest, MockRequestResponse {
     typealias ResponseType = EmptyResponse
 
     var path: String { "/mock/request" }
@@ -17,15 +17,22 @@ struct MockEmptyRequest: APIRequest, MockRequestResponse {
     var body: Data? { Data() }
 
     var responseData: Data? = Data()
+    let responseError: Error? = nil
 
     func canHandle(request: URLRequest) -> Bool {
         request.url?.path == path
     }
 
-    func response(for request: URLRequest) -> HTTPURLResponse {
+    func response(for request: URLRequest) -> HTTPURLResponse? {
         guard let url = request.url else {
-            fatalError("No URL for request")
+            return nil
         }
-        return HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: [:]) ?? HTTPURLResponse()
+        return HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: [:])
+    }
+}
+
+class MockNoReponseRequest: MockEmptyRequest {
+    override func response(for request: URLRequest) -> HTTPURLResponse? {
+        return nil
     }
 }

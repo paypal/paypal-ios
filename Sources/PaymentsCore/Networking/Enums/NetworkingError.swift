@@ -7,7 +7,10 @@ import Foundation
 public enum NetworkingError: Error {
     case networkingError(Error)
     case decodingError(Error)
+    case badURLResponse
     case noResponseData
     case noURLRequest
     case unknown
+
+    //TODO: Write localized descriptions for each error case
 }

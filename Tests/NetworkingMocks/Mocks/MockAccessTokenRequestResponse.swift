@@ -4,27 +4,26 @@ class MockAccessTokenRequestResponse: MockRequestResponse {
 
     var responseString: String?
     var statusCode: Int
-
-    init(responseString: String?, statusCode: Int) {
-        self.responseString = responseString
-        self.statusCode = statusCode
-    }
+    let responseError: Error?
 
     var responseData: Data? {
         return responseString?.data(using: .utf8)
     }
-    
+
+    init(responseString: String?, statusCode: Int, error: Error? = nil) {
+        self.responseString = responseString
+        self.statusCode = statusCode
+        self.responseError = error
+    }
+
     func canHandle(request: URLRequest) -> Bool {
-        guard let url = request.url, url.path == "/v1/oauth2/token" else {
-            return false
-        }
-        return true
+        request.url?.path == "/v1/oauth2/token"
     }
     
-    func response(for request: URLRequest) -> HTTPURLResponse {
+    func response(for request: URLRequest) -> HTTPURLResponse? {
         guard let url = request.url else {
-            fatalError("No URL for request")
+            return nil
         }
-        return HTTPURLResponse(url: url, statusCode: statusCode, httpVersion: nil, headerFields: [:]) ?? HTTPURLResponse()
+        return HTTPURLResponse(url: url, statusCode: statusCode, httpVersion: nil, headerFields: [:])
     }
 }
