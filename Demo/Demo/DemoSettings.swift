@@ -41,27 +41,15 @@ final class DemoSettings {
     private static let DemoTypeDefaultsKey = "demo_type"
     
     static var environment: Environment {
-        guard let defaultsValue = UserDefaults.standard.string(forKey: EnvironmentDefaultsKey),
-              let environment = Environment(rawValue: defaultsValue) else {
-                  return .sandbox
-              }
-        return environment
+        return UserDefaults.standard.string(forKey: EnvironmentDefaultsKey).flatMap( { Environment(rawValue: $0) }) ?? .sandbox
     }
     
     static var intent: Intent {
-        guard let defaultsValue = UserDefaults.standard.string(forKey: IntentDefaultsKey),
-              let intent = Intent(rawValue: defaultsValue) else {
-                  return .capture
-              }
-        return intent
+        return UserDefaults.standard.string(forKey: IntentDefaultsKey).flatMap( { Intent(rawValue: $0) }) ?? .capture
     }
     
     static var demoType: DemoType {
-        guard let defaultsValue = UserDefaults.standard.string(forKey: DemoTypeDefaultsKey),
-              let demoType = DemoType(rawValue: defaultsValue) else {
-                  return .card
-              }
-        return demoType
+        UserDefaults.standard.string(forKey: DemoTypeDefaultsKey).flatMap( { DemoType(rawValue: $0) }) ?? .card
     }
 
 }

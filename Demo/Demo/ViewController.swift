@@ -19,16 +19,13 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
 
-        // Note to Jax:
-        // Moved this stuff to viewWillAppear to test the Settings toggles are properly working.
-        // Also, the prod server is broken right now, so we will expect those requests to fail.
         displayDemoFeatureViewController()
     }
 
     @objc func settingsTapped() {
         let appSettingsViewController = IASKAppSettingsViewController()
+        appSettingsViewController.showDoneButton = false
         navigationController?.pushViewController(appSettingsViewController, animated: true)
-        // TODO: Get rid of "done" button on InAppSettings screen
     }
     
     func displayDemoFeatureViewController() {

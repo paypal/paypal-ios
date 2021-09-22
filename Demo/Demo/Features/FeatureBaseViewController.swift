@@ -24,6 +24,8 @@ class FeatureBaseViewController: UIViewController {
     }
     
     func fetchOrderID() {
+        // TODO: - The prod server is broken right now, so we will expect those requests to fail.
+
         let amount = Amount(currencyCode: "USD", value: "10.00")
         let orderRequestParams = CreateOrderParams(
             intent: DemoSettings.intent.rawValue.uppercased(),
