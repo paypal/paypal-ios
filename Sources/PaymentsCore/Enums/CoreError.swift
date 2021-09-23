@@ -4,12 +4,8 @@ import Foundation
 /// For further reading, see https://developer.apple.com/documentation/swift/error
 /// For Discussion:
 /// Error conforming enum vs Error conforming Struct?
-public enum NetworkingError: Error {
-    case networkingError(Error)
-    case decodingError(Error)
-    case badURLResponse
-    case noResponseData
-    case noURLRequest
+public enum CoreError: Error {
+    case encodingError(Error)
     case unknown
 
     // TODO: Write localized descriptions for each error case
