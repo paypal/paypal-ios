@@ -1,7 +1,8 @@
 import UIKit
 
+// TODO: Should this be a base view controller or should we just have this as a class for our views to inherit from?
 class FeatureBaseViewController: UIViewController {
-    
+
     let containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -19,16 +20,13 @@ class FeatureBaseViewController: UIViewController {
     }()
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-        
         configureBottomView()
-        fetchOrderID()
     }
-    
+
     func configureBottomView() {
         view.addSubview(containerView)
         containerView.addSubview(titleLabel)
-        
+
         NSLayoutConstraint.activate([
             containerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
@@ -40,9 +38,10 @@ class FeatureBaseViewController: UIViewController {
             titleLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
         ])
     }
-    
+
     func fetchOrderID() {
-        // TODO: - The prod server is broken right now, so we will expect those requests to fail.
+        // TODO: The prod server is broken right now, so we will expect those requests to fail.
+        // TODO: Pass order details into this function
 
         let amount = Amount(currencyCode: "USD", value: "10.00")
         let orderRequestParams = CreateOrderParams(
@@ -51,27 +50,42 @@ class FeatureBaseViewController: UIViewController {
         )
 
         DemoMerchantAPI.sharedService.createOrder(orderParams: orderRequestParams) { result in
+            self.processOrder(status: "Processing your order")
             switch result {
             case .success(let order):
+                self.processOrder(status: "Successfully \(order.status.lowercased()) your order")
                 print("✅ fetched orderID: \(order.id) with status: \(order.status)")
                 DispatchQueue.main.async {
-                    self.processOrder(orderID: order.id, status: order.status, success: true)
+                    self.displayAlert(message: "Order ID: \(order.id) has a status of \(order.status.lowercased())", success: true)
                 }
             case .failure(let error):
+                self.processOrder(status: "Your order has failed, please try again")
                 print("❌ failed to fetch orderID: \(error)")
                 DispatchQueue.main.async {
-                    self.processOrder(orderID: nil, status: nil, success: false)
+                    self.displayAlert(message: "Error: \(error)", success: false)
                 }
             }
         }
     }
-    
-    func processOrder(orderID: String?, status: String?, success: Bool) {
-        // TODO: - Update progress bar/ toolbar to show status of demo (order fetched, processing, etc)
-        let successText = "😎 Order ID: \(orderID ?? "") Status: \(status ?? "")"
-        let failureText = "😕 Failed to create order"
 
-        titleLabel.text = success ? successText : failureText
+    // TODO: Do we need this/the bottom container or are we fine using the alert function instead to display these details?
+    func processOrder(status: String) {
+        DispatchQueue.main.async {
+            self.titleLabel.text = status
+        }
     }
     
+    private func displayAlert(message: String, success: Bool) {
+        let successTitle = "😎 Successful Order"
+        let failureTitle = "😕 Failed Order"
+        let title = success ? successTitle : failureTitle
+
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okayAction = UIAlertAction(title: "Okay", style: .default) { action in
+            self.navigationController?.popViewController(animated: true)
+        }
+
+        alertController.addAction(okayAction)
+        present(alertController, animated: true, completion: nil)
+    }
 }
