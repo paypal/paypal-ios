@@ -2,16 +2,25 @@ import Foundation
 import PaymentsCore
 
 public class CardClient {
+
     let apiClient: APIClient
     let config: CoreConfig
     
+    /// Initialize a CardClient to process card payment
+    /// - Parameter config: The CoreConfig object
     public init(config: CoreConfig) {
         self.config = config
         self.apiClient = APIClient(environment: config.environment)
     }
 
-    /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card to the order to be paid when the order is captured.
-    /// You will need to handle capturing/authorizing the order in their server.
+    /// For internal use for testing/mocking purpose
+    init(config: CoreConfig, apiClient: APIClient) {
+        self.config = config
+        self.apiClient = apiClient
+    }
+
+    /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
+    /// After the order has been successfully approved, you will need to handle capturing/authorizing the order in your server.
     /// - Parameters:
     ///   - orderID: The ID of the order to be approved
     ///   - card: The card to be charged for this order

@@ -2,6 +2,7 @@ import Foundation
 
 /// Describes request to confirm a payment source (approve an order)
 public struct ConfirmPaymentSourceRequest: APIRequest {
+
     public typealias ResponseType = ConfirmPaymentSourceResponse
 
     let clientID: String
@@ -13,7 +14,7 @@ public struct ConfirmPaymentSourceRequest: APIRequest {
     public var body: Data?
 
     public var headers: [HTTPHeader: String] {
-        // TODO: Remove when this endpoint is updated and can be used with low-scoped token
+        // TODO: Remove clientSecret when this endpoint is updated and can be used with low-scoped token
         // For now, include your clientSecret here and your clientID in CoreConfig to test this request
         let clientSecret = ""
         let encodedClientID = "\(clientID):\(clientSecret)".data(using: .utf8)?.base64EncodedString() ?? ""
