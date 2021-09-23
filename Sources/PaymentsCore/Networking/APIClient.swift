@@ -1,6 +1,6 @@
 import Foundation
 
-public class APIClient {
+public final class APIClient {
     public typealias CorrelationID = String
 
     public var urlSession: URLSession
@@ -65,7 +65,7 @@ public class APIClient {
         task.resume()
     }
 
-    public func parseDataObject<T: APIRequest>(_ data: Data?, type: T.Type) throws -> T.ResponseType {
+    func parseDataObject<T: APIRequest>(_ data: Data?, type: T.Type) throws -> T.ResponseType {
         guard let data = data else {
             throw NetworkingError.noResponseData
         }
