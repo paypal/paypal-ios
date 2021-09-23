@@ -10,7 +10,7 @@ class URLProtocolMock: URLProtocol {
 
     // MARK: - Variables
 
-    static var requestResponses: [MockRequestResponse] = []
+    static var requestResponses: [MockResponse] = []
 
     // MARK: - Override URLProtocol Functions
 
@@ -48,28 +48,29 @@ class URLProtocolMock: URLProtocol {
     // MARK: - Private Functions
 
     private func resolveRequest(
-      with requestResponse: MockRequestResponse,
-      client: URLProtocolClient
+        with requestResponse: MockResponse,
+        client: URLProtocolClient
     ) {
-      client.urlProtocol(
-        self,
-        didReceive: requestResponse.response(for: request),
-        cacheStoragePolicy: .notAllowed
-      )
+        if let response = requestResponse.response(for: request) {
+            client.urlProtocol(
+                self,
+                didReceive: response,
+                cacheStoragePolicy: .notAllowed
+            )
+        }
 
-      if let data = requestResponse.responseData {
-        client.urlProtocol(
-          self,
-          didLoad: data
-        )
-      }
-      else {
-        client.urlProtocol(
-          self,
-          didFailWithError: Errors.noData
-        )
-      }
+        if let data = requestResponse.responseData {
+            client.urlProtocol(
+                self,
+                didLoad: data
+            )
+        } else if let error = requestResponse.responseError {
+            client.urlProtocol(
+                self,
+                didFailWithError: error
+            )
+        }
 
-      client.urlProtocolDidFinishLoading(self)
+        client.urlProtocolDidFinishLoading(self)
     }
 }

@@ -1,6 +1,6 @@
 import Foundation
 
-public class APIClient {
+public final class APIClient {
     public typealias CorrelationID = String
 
     public var urlSession: URLSession
@@ -13,7 +13,7 @@ public class APIClient {
 
     public func fetch<T: APIRequest>(
         endpoint: T,
-        completion: @escaping (Result<T.ResponseType, CoreError>, CorrelationID?) -> Void
+        completion: @escaping (Result<T.ResponseType, NetworkingError>, CorrelationID?) -> Void
     ) {
         guard let request = endpoint.toURLRequest(environment: environment) else {
             completion(.failure(.noURLRequest), nil)
@@ -21,18 +21,23 @@ public class APIClient {
         }
 
         let task = urlSession.dataTask(with: request) { data, response, error in
-            guard let response = response as? HTTPURLResponse else { return }
-            let correlationID = response.allHeaderFields["Paypal-Debug-Id"] as? String
-
-            let finish: (Result<T.ResponseType, CoreError>) -> Void = { result in
+            let finish: (Result<T.ResponseType, NetworkingError>) -> Void = { result in
                 /// For discussion:
                 /// When a network request to a PayPal API fails, we have some associated error information in the body data of the response.
                 /// This error data doesn't have the same format, but we should discuss and plan for how we want to surface this to the merchant
+                let httpResponse = response as? HTTPURLResponse
+                let correlationID = httpResponse?.allHeaderFields["Paypal-Debug-Id"] as? String
                 completion(result, correlationID)
             }
 
             if let error = error {
                 finish(.failure(.networkingError(error)))
+                return
+            }
+
+            guard let response = response as? HTTPURLResponse else {
+                finish(.failure(.badURLResponse))
+                return
             }
 
             switch response.statusCode {
@@ -41,16 +46,13 @@ public class APIClient {
                     if let emptyResponse = EmptyResponse() as? T.ResponseType {
                         finish(.success(emptyResponse))
                     } else {
-                        guard let data = data else {
-                            finish(.failure(.noResponseData))
-                            return
-                        }
-
-                        let decodedData = try JSONDecoder().decode(T.ResponseType.self, from: data)
-                        finish(.success(decodedData))
+                        let responseType = try self.parseDataObject(data, type: T.self)
+                        finish(.success(responseType))
                     }
-                } catch let decodingError {
-                    finish(.failure(.decodingError(decodingError)))
+                } catch let networkingError as NetworkingError {
+                    finish(.failure(networkingError))
+                } catch {
+                    finish(.failure(.decodingError(error)))
                 }
 
             default:
@@ -61,5 +63,13 @@ public class APIClient {
         }
 
         task.resume()
+    }
+
+    func parseDataObject<T: APIRequest>(_ data: Data?, type: T.Type) throws -> T.ResponseType {
+        guard let data = data else {
+            throw NetworkingError.noResponseData
+        }
+        let decodedData = try JSONDecoder().decode(T.ResponseType.self, from: data)
+        return decodedData
     }
 }

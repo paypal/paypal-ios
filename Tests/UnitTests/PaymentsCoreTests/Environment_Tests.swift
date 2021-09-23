@@ -1,14 +1,7 @@
-//
-//  EnvironmentTests.swift
-//  EnvironmentTests
-//
-//  Created by Jones, Jon on 9/20/21.
-//
-
 import XCTest
 @testable import PaymentsCore
 
-class EnvironmentTests: XCTestCase {
+class Environment_Tests: XCTestCase {
     func testEnvironment_sandboxURL_matchesExpectation() throws {
         let expectedUrlString = "https://api.sandbox.paypal.com"
         XCTAssertEqual(Environment.sandbox.baseURL.absoluteString, expectedUrlString)

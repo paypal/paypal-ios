@@ -38,7 +38,7 @@ public class CardClient {
             }
         }
         catch {
-            completion(.failure(CoreError.encodingError(error)))
+            completion(.failure(NetworkingError.encodingError(error)))
         }
     }
 }

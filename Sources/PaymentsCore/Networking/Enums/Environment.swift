@@ -4,7 +4,7 @@ public enum Environment {
     case sandbox
     case production
 
-    //swiftlint: disable force_unwrapping
+    // swiftlint:disable force_unwrapping
     var baseURL: URL {
         switch self {
         case .sandbox:
@@ -13,5 +13,5 @@ public enum Environment {
             return URL(string: "https://api.paypal.com")!
         }
     }
-    //swiftlint: enable force_unwrapping
+    // swiftlint:enable force_unwrapping
 }
