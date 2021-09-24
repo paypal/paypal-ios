@@ -19,16 +19,35 @@ enum Intent: String {
     case authorize
 }
 
+enum DemoType: String {
+    case card
+    case paypal
+
+    var viewController: UIViewController.Type {
+        switch self {
+        case .card:
+            return CardDemoViewController.self
+        case .paypal:
+            return PayPalDemoViewController.self
+        }
+    }
+}
+
 final class DemoSettings {
     
     private static let EnvironmentDefaultsKey = "environment"
     private static let IntentDefaultsKey = "intent"
+    private static let DemoTypeDefaultsKey = "demo_type"
 
     static var environment: Environment {
-        return UserDefaults.standard.string(forKey: EnvironmentDefaultsKey).flatMap( { Environment(rawValue: $0) }) ?? .sandbox
+        UserDefaults.standard.string(forKey: EnvironmentDefaultsKey).flatMap( { Environment(rawValue: $0) }) ?? .sandbox
     }
     
     static var intent: Intent {
-        return UserDefaults.standard.string(forKey: IntentDefaultsKey).flatMap( { Intent(rawValue: $0) }) ?? .capture
+        UserDefaults.standard.string(forKey: IntentDefaultsKey).flatMap( { Intent(rawValue: $0) }) ?? .capture
+    }
+
+    static var demoType: DemoType {
+        UserDefaults.standard.string(forKey: DemoTypeDefaultsKey).flatMap( { DemoType(rawValue: $0) }) ?? .card
     }
 }

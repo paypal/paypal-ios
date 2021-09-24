@@ -52,6 +52,32 @@
 				<string>authorize</string>
 			</array>
 		</dict>
+    <dict>
+      <key>Type</key>
+      <string>PSGroupSpecifier</string>
+      <key>Title</key>
+      <string>Feature</string>
+    </dict>
+    <dict>
+      <key>Type</key>
+      <string>PSMultiValueSpecifier</string>
+      <key>Title</key>
+      <string>Demo Type</string>
+      <key>Key</key>
+      <string>demo_type</string>
+      <key>DefaultValue</key>
+      <string></string>
+      <key>Titles</key>
+      <array>
+        <string>Card</string>
+        <string>PayPal</string>
+      </array>
+      <key>Values</key>
+      <array>
+        <string>card</string>
+        <string>paypal</string>
+      </array>
+    </dict>
 	</array>
 </dict>
 </plist>
