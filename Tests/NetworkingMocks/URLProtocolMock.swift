@@ -5,12 +5,11 @@ class URLProtocolMock: URLProtocol {
 
     private enum Errors: String, Error {
         case noResponse = "no_response_to_match"
-        case noData = "data_is_nil"
     }
 
     // MARK: - Variables
 
-    static var requestResponses: [MockResponse] = []
+    static var requestResponses: [ResponseMock] = []
 
     // MARK: - Override URLProtocol Functions
 
@@ -25,7 +24,7 @@ class URLProtocolMock: URLProtocol {
     override func startLoading() {
         guard let client = client else { return }
 
-        // Here we try to match the request to the proper MockRequestResponse otherwise don't
+        // Here we try to match the request to the proper RequestResponseMock otherwise don't
         guard
             let firstIndex = Self.requestResponses
                 .firstIndex(where: { $0.canHandle(request: request) })
@@ -48,7 +47,7 @@ class URLProtocolMock: URLProtocol {
     // MARK: - Private Functions
 
     private func resolveRequest(
-        with requestResponse: MockResponse,
+        with requestResponse: ResponseMock,
         client: URLProtocolClient
     ) {
         if let response = requestResponse.response(for: request) {

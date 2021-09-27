@@ -1,7 +1,7 @@
 import Foundation
 import PaymentsCore
 
-class MockEmptyRequestResponse: MockRequestResponse<EmptyResponse> {
+class EmptyRequestResponseMock: RequestResponseMock<EmptyResponse> {
     init(path: String = "/mock/path") {
         super.init(responseType: EmptyResponse.self, path: path)
     }
@@ -11,13 +11,13 @@ class MockEmptyRequestResponse: MockRequestResponse<EmptyResponse> {
     }
 }
 
-class MockNoReponseRequest: MockEmptyRequestResponse {
+class NoReponseRequestMock: EmptyRequestResponseMock {
     override func response(for request: URLRequest) -> HTTPURLResponse? {
         return nil
     }
 }
 
-class MockNoURLRequest: MockEmptyRequestResponse {
+class NoURLRequestMock: EmptyRequestResponseMock {
     override func toURLRequest(environment: Environment) -> URLRequest? {
         return nil
     }

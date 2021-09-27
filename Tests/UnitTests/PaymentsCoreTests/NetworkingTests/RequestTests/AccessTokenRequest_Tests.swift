@@ -1,10 +1,3 @@
-//
-//  APIRequestTests.swift
-//  APIRequestTests
-//
-//  Created by Jones, Jon on 9/20/21.
-//
-
 import Foundation
 @testable import PaymentsCore
 import XCTest

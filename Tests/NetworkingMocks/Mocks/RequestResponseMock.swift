@@ -1,7 +1,7 @@
 import Foundation
 import PaymentsCore
 
-class MockRequestResponse<Response: Codable>: APIRequest, MockResponse {
+class RequestResponseMock<Response: Codable>: APIRequest, ResponseMock {
     typealias ResponseType = Response
 
     let path: String

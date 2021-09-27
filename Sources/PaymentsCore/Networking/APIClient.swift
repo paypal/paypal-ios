@@ -31,12 +31,12 @@ public final class APIClient {
             }
 
             if let error = error {
-                finish(.failure(.networkingError(error)))
+                finish(.failure(.connectionIssue(error)))
                 return
             }
 
             guard let response = response as? HTTPURLResponse else {
-                finish(.failure(.badURLResponse))
+                finish(.failure(.invalidURLResponse))
                 return
             }
 
@@ -52,7 +52,7 @@ public final class APIClient {
                 } catch let networkingError as NetworkingError {
                     finish(.failure(networkingError))
                 } catch {
-                    finish(.failure(.decodingError(error)))
+                    finish(.failure(.parsingError(error)))
                 }
 
             default:

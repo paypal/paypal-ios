@@ -5,9 +5,10 @@ import Foundation
 /// For Discussion:
 /// Error conforming enum vs Error conforming Struct?
 public enum NetworkingError: Error {
-    case networkingError(Error)
-    case decodingError(Error)
-    case badURLResponse
+
+    case connectionIssue(Error)
+    case parsingError(Error)
+    case invalidURLResponse
     case noResponseData
     case noURLRequest
     case unknown
