@@ -14,4 +14,5 @@ public enum NetworkingError: Error {
     case unknown
 
     // TODO: Write localized descriptions for each error case
+    // TODO: Should make error cases easier to compare - conforming to Equatable and adding errorCode?
 }
