@@ -5,12 +5,14 @@ import Foundation
 /// For Discussion:
 /// Error conforming enum vs Error conforming Struct?
 public enum NetworkingError: Error {
-    case networkingError(Error)
-    case decodingError(Error)
-    case badURLResponse
+
+    case connectionIssue(Error)
+    case parsingError(Error)
+    case invalidURLResponse
     case noResponseData
     case noURLRequest
     case unknown
 
     // TODO: Write localized descriptions for each error case
+    // TODO: Should make error cases easier to compare - conforming to Equatable and adding errorCode?
 }

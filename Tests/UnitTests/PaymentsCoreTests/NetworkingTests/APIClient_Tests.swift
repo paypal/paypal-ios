@@ -10,7 +10,7 @@ class APIClient_Tests: XCTestCase {
         )
     }()
 
-    func testFetch_withAccessTokenSuccessMockResponse_returnsValidAccessToken() {
+    func testFetch_withAccessTokenSuccessMockResponse_vendsValidAccessToken() {
         let expect = expectation(description: "Get mock response for access token request")
 
         let mockSuccessResponse: String = """
@@ -23,7 +23,7 @@ class APIClient_Tests: XCTestCase {
         }
         """
 
-        let mockRequestResponse = MockRequestResponse(
+        let mockRequestResponse = RequestResponseMock(
             request: AccessTokenRequest(clientID: ""),
             statusCode: 200,
             responseString: mockSuccessResponse
@@ -53,7 +53,7 @@ class APIClient_Tests: XCTestCase {
         }
         """
 
-        let mockRequestResponse = MockRequestResponse(
+        let mockRequestResponse = RequestResponseMock(
             request: AccessTokenRequest(clientID: ""),
             statusCode: 404,
             responseString: mockFailureResponse
@@ -72,7 +72,7 @@ class APIClient_Tests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
 
-    func testFetch_withAccessTokenInvalidMockResponse_returnsDecodingError() {
+    func testFetch_withAccessTokenInvalidMockResponse_vendsDecodingError() {
         let expect = expectation(description: "Get mock response for access token request")
 
         let mockInvalidResponse: String = """
@@ -81,7 +81,7 @@ class APIClient_Tests: XCTestCase {
         }
         """
 
-        let mockRequestResponse = MockRequestResponse(
+        let mockRequestResponse = RequestResponseMock(
             request: AccessTokenRequest(clientID: ""),
             statusCode: 200,
             responseString: mockInvalidResponse
@@ -90,7 +90,7 @@ class APIClient_Tests: XCTestCase {
         URLProtocolMock.requestResponses.append(mockRequestResponse)
 
         apiClient.fetch(endpoint: mockRequestResponse) { result, _ in
-            guard case .failure(.decodingError) = result else {
+            guard case .failure(.parsingError) = result else {
                 XCTFail("Expect NetworkingError.decodingError for invalid response")
                 return
             }
@@ -100,9 +100,9 @@ class APIClient_Tests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
 
-    func testFetch_withEmptyResponse_vendsSuccessfully() {
+    func testFetch_withRequestExpectingEmptyResponse_vendsSuccessResult() {
         let expect = expectation(description: "Get empty response type for mock request")
-        let emptyRequest = MockEmptyRequestResponse()
+        let emptyRequest = EmptyRequestResponseMock()
 
         URLProtocolMock.requestResponses.append(emptyRequest)
 
@@ -116,7 +116,7 @@ class APIClient_Tests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
 
-    func testFetch_withError_failsSuccessfully() {
+    func testFetch_withServerError_vendsConnectionIssueError() {
         let expect = expectation(description: "should vend error to client call site")
         let serverError = NSError(
             domain: URLError.errorDomain,
@@ -124,7 +124,7 @@ class APIClient_Tests: XCTestCase {
             userInfo: nil
         )
 
-        let mockRequest = MockRequestResponse(
+        let mockRequest = RequestResponseMock(
             request: AccessTokenRequest(clientID: "123"),
             statusCode: 400,
             error: serverError
@@ -133,7 +133,7 @@ class APIClient_Tests: XCTestCase {
         URLProtocolMock.requestResponses.append(mockRequest)
 
         apiClient.fetch(endpoint: mockRequest) { result, _ in
-            guard case .failure(.networkingError) = result else {
+            guard case .failure(.connectionIssue) = result else {
                 XCTFail("Should receive a networking error response")
                 return
             }
@@ -142,14 +142,14 @@ class APIClient_Tests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
 
-    func testFetch_noResponse_vendsNoReponseError() {
+    func testFetch_withNoResponseMock_vendsNoReponseError() {
         let expect = expectation(description: "Should receive bad URLResponse error")
-        let noReponseRequest = MockNoReponseRequest()
+        let noReponseRequest = NoReponseRequestMock()
 
         URLProtocolMock.requestResponses.append(noReponseRequest)
 
         apiClient.fetch(endpoint: noReponseRequest) { result, _ in
-            guard case .failure(.badURLResponse) = result else {
+            guard case .failure(.invalidURLResponse) = result else {
                 XCTFail("Expected bad URLResponse error")
                 return
             }
@@ -158,11 +158,11 @@ class APIClient_Tests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
 
-    func testFetch_noURLRequest_vendsNoURLRequestError() {
+    func testFetch_withNoURLRequest_vendsNoURLRequestError() {
         let expect = expectation(description: "Should receive noURLRequest error")
 
         // Mock request whose API object does not vend a URLRequest
-        let noURLRequest = MockNoURLRequest()
+        let noURLRequest = NoURLRequestMock()
 
         URLProtocolMock.requestResponses.append(noURLRequest)
 
