@@ -3,7 +3,7 @@ import XCTest
 @testable import Card
 
 class APIClientTests: XCTestCase {
-    
+
     lazy var apiClient: APIClient = {
         APIClient(
             urlSession: URLSession(urlProtocol: URLProtocolMock.self),
@@ -15,8 +15,8 @@ class APIClientTests: XCTestCase {
         let expect = expectation(description: "Get mock response for access token request")
 
         URLProtocolMock.requestResponses.append(MockAccessTokenRequestResponse(success: true))
-        
-        apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, correlationId in
+
+        apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, _ in
             switch result {
             case .success(let response):
                 XCTAssertEqual(response.accessToken, "TestToken")
@@ -35,12 +35,12 @@ class APIClientTests: XCTestCase {
 
         URLProtocolMock.requestResponses.append(MockAccessTokenRequestResponse(success: false))
 
-        apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, correlationId in
+        apiClient.fetch(endpoint: AccessTokenRequest(clientID: "")) { result, _ in
             switch result {
             case .success:
                 XCTFail("Should not be able to successfully decode a result")
             case .failure(let error):
-              XCTAssertNotNil(error)
+                XCTAssertNotNil(error)
             }
 
             expect.fulfill()

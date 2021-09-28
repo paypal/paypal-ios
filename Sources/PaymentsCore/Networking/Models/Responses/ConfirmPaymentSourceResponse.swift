@@ -9,4 +9,3 @@ public struct ConfirmPaymentSourceResponse: Codable {
         case status
     }
 }
-

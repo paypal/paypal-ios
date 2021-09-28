@@ -5,7 +5,7 @@ public class CardClient {
 
     let apiClient: APIClient
     let config: CoreConfig
-    
+
     /// Initialize a CardClient to process card payment
     /// - Parameter config: The CoreConfig object
     public init(config: CoreConfig) {
@@ -45,8 +45,7 @@ public class CardClient {
                     completion(.failure(error))
                 }
             }
-        }
-        catch {
+        } catch {
             completion(.failure(CoreError.encodingError(error)))
         }
     }

@@ -3,7 +3,7 @@ import Foundation
 public struct CardExpiry: Codable {
 
     var expiryString: String
-    
+
     /// Initialize a card expiry object
     /// - Parameters:
     ///   - month: The card expiration month (1 to 12)
