@@ -13,7 +13,12 @@ class ViewController: UIViewController {
             navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
         }
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(settingsTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "Settings",
+            style: .plain,
+            target: self,
+            action: #selector(settingsTapped)
+        )
     }
 
     override func viewWillAppear(_ animated: Bool) {

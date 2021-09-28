@@ -48,7 +48,7 @@ class CardDemoViewController: FeatureBaseViewController {
     }()
 
     lazy var payButton: UIButton = {
-      let payButton = UIButton()
+        let payButton = UIButton()
         payButton.setTitle("Pay", for: .normal)
         payButton.layer.cornerRadius = 8
         payButton.backgroundColor = .systemBlue
@@ -56,7 +56,7 @@ class CardDemoViewController: FeatureBaseViewController {
         payButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
         payButton.addTarget(self, action: #selector(didTapPayButton), for: .touchUpInside)
         payButton.translatesAutoresizingMaskIntoConstraints = false
-      return payButton
+        return payButton
     }()
 
     override func viewDidLoad() {
@@ -97,7 +97,7 @@ class CardDemoViewController: FeatureBaseViewController {
 
             payButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             payButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            payButton.heightAnchor.constraint(equalToConstant: 40),
+            payButton.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
 

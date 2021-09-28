@@ -1,6 +1,5 @@
 import UIKit
 
-// TODO: Should this be a base view controller or should we just have this as a class for our views to inherit from?
 class FeatureBaseViewController: UIViewController {
 
     let containerView: UIView = {
@@ -20,6 +19,7 @@ class FeatureBaseViewController: UIViewController {
     }()
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         configureBottomView()
     }
 
@@ -35,7 +35,7 @@ class FeatureBaseViewController: UIViewController {
 
             titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
         ])
     }
 
@@ -74,14 +74,14 @@ class FeatureBaseViewController: UIViewController {
             self.titleLabel.text = status
         }
     }
-    
+
     private func displayAlert(message: String, success: Bool) {
         let successTitle = "😎 Successful Order"
         let failureTitle = "😕 Failed Order"
         let title = success ? successTitle : failureTitle
 
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okayAction = UIAlertAction(title: "Okay", style: .default) { action in
+        let okayAction = UIAlertAction(title: "Okay", style: .default) { _ in
             self.navigationController?.popViewController(animated: true)
         }
 

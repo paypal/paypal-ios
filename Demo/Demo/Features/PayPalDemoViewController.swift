@@ -7,5 +7,4 @@ class PayPalDemoViewController: FeatureBaseViewController {
 
         view.backgroundColor = UIColor.purple
     }
-
 }
