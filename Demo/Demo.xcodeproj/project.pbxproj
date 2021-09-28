@@ -12,11 +12,16 @@
 		806F1E3926B85367007A60E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806F1E3826B85367007A60E6 /* AppDelegate.swift */; };
 		806F1E3B26B85367007A60E6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806F1E3A26B85367007A60E6 /* SceneDelegate.swift */; };
 		806F1E3D26B85367007A60E6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806F1E3C26B85367007A60E6 /* ViewController.swift */; };
-		806F1E4026B85367007A60E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 806F1E3E26B85367007A60E6 /* Main.storyboard */; };
 		806F1E4226B85369007A60E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 806F1E4126B85369007A60E6 /* Assets.xcassets */; };
 		806F1E4526B85369007A60E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 806F1E4326B85369007A60E6 /* LaunchScreen.storyboard */; };
 		80DB6F1D26B89DDA00277E54 /* PayPal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80DB6F1C26B89DDA00277E54 /* PayPal.framework */; };
 		80DB6F1E26B89DDA00277E54 /* PayPal.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 80DB6F1C26B89DDA00277E54 /* PayPal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		80F33CE826F8DE29006811B1 /* DemoMerchantAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CE726F8DE29006811B1 /* DemoMerchantAPI.swift */; };
+		80F33CED26F8E7A9006811B1 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CEC26F8E7A9006811B1 /* Order.swift */; };
+		80F33CEF26F8E7CC006811B1 /* CreateOrderParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CEE26F8E7CC006811B1 /* CreateOrderParams.swift */; };
+		80F33CF126F8E7D9006811B1 /* ProcessOrderParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CF026F8E7D9006811B1 /* ProcessOrderParams.swift */; };
+		80F33CF326F8EA50006811B1 /* DemoSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CF226F8EA50006811B1 /* DemoSettings.swift */; };
+		BE1766B326F911A2007EF438 /* URLResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1766B226F911A2007EF438 /* URLResponseError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,11 +47,16 @@
 		806F1E3826B85367007A60E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		806F1E3A26B85367007A60E6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		806F1E3C26B85367007A60E6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		806F1E3F26B85367007A60E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		806F1E4126B85369007A60E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		806F1E4426B85369007A60E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		806F1E4626B85369007A60E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		80DB6F1C26B89DDA00277E54 /* PayPal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PayPal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		80F33CE726F8DE29006811B1 /* DemoMerchantAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoMerchantAPI.swift; sourceTree = "<group>"; };
+		80F33CEC26F8E7A9006811B1 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
+		80F33CEE26F8E7CC006811B1 /* CreateOrderParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrderParams.swift; sourceTree = "<group>"; };
+		80F33CF026F8E7D9006811B1 /* ProcessOrderParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessOrderParams.swift; sourceTree = "<group>"; };
+		80F33CF226F8EA50006811B1 /* DemoSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSettings.swift; sourceTree = "<group>"; };
+		BE1766B226F911A2007EF438 /* URLResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLResponseError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,14 +104,35 @@
 			isa = PBXGroup;
 			children = (
 				806F1E3826B85367007A60E6 /* AppDelegate.swift */,
+				806F1E4126B85369007A60E6 /* Assets.xcassets */,
+				80F33CF226F8EA50006811B1 /* DemoSettings.swift */,
+				806F1E4626B85369007A60E6 /* Info.plist */,
+				806F1E4326B85369007A60E6 /* LaunchScreen.storyboard */,
+				80F33CEB26F8E799006811B1 /* Models */,
+				BE1766B526FA562B007EF438 /* Networking */,
 				806F1E3A26B85367007A60E6 /* SceneDelegate.swift */,
 				806F1E3C26B85367007A60E6 /* ViewController.swift */,
-				806F1E3E26B85367007A60E6 /* Main.storyboard */,
-				806F1E4126B85369007A60E6 /* Assets.xcassets */,
-				806F1E4326B85369007A60E6 /* LaunchScreen.storyboard */,
-				806F1E4626B85369007A60E6 /* Info.plist */,
 			);
 			path = Demo;
+			sourceTree = "<group>";
+		};
+		80F33CEB26F8E799006811B1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				80F33CEC26F8E7A9006811B1 /* Order.swift */,
+				80F33CEE26F8E7CC006811B1 /* CreateOrderParams.swift */,
+				80F33CF026F8E7D9006811B1 /* ProcessOrderParams.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BE1766B526FA562B007EF438 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				80F33CE726F8DE29006811B1 /* DemoMerchantAPI.swift */,
+				BE1766B226F911A2007EF438 /* URLResponseError.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -165,7 +196,6 @@
 			files = (
 				806F1E4526B85369007A60E6 /* LaunchScreen.storyboard in Resources */,
 				806F1E4226B85369007A60E6 /* Assets.xcassets in Resources */,
-				806F1E4026B85367007A60E6 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,7 +206,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80F33CED26F8E7A9006811B1 /* Order.swift in Sources */,
 				806F1E3D26B85367007A60E6 /* ViewController.swift in Sources */,
+				80F33CF126F8E7D9006811B1 /* ProcessOrderParams.swift in Sources */,
+				80F33CF326F8EA50006811B1 /* DemoSettings.swift in Sources */,
+				80F33CE826F8DE29006811B1 /* DemoMerchantAPI.swift in Sources */,
+				80F33CEF26F8E7CC006811B1 /* CreateOrderParams.swift in Sources */,
+				BE1766B326F911A2007EF438 /* URLResponseError.swift in Sources */,
 				806F1E3926B85367007A60E6 /* AppDelegate.swift in Sources */,
 				806F1E3B26B85367007A60E6 /* SceneDelegate.swift in Sources */,
 			);
@@ -185,14 +221,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		806F1E3E26B85367007A60E6 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				806F1E3F26B85367007A60E6 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		806F1E4326B85369007A60E6 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -332,7 +360,6 @@
 				INFOPLIST_FILE = Demo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -360,7 +387,6 @@
 				INFOPLIST_FILE = Demo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
