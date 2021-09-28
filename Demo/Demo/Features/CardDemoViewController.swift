@@ -48,14 +48,10 @@ class CardDemoViewController: FeatureBaseViewController {
     }()
 
     lazy var payButton: UIButton = {
-        let payButton = UIButton()
-        payButton.setTitle("Pay", for: .normal)
+        let payButton = button(title: "Pay", action: #selector(didTapPayButton))
         payButton.layer.cornerRadius = 8
         payButton.backgroundColor = .systemBlue
         payButton.tintColor = .white
-        payButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
-        payButton.addTarget(self, action: #selector(didTapPayButton), for: .touchUpInside)
-        payButton.translatesAutoresizingMaskIntoConstraints = false
         return payButton
     }()
 

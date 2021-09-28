@@ -27,6 +27,9 @@
 		BE1766B326F911A2007EF438 /* URLResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1766B226F911A2007EF438 /* URLResponseError.swift */; };
 		BE1766D726FA7AC3007EF438 /* InAppSettingsKit in Frameworks */ = {isa = PBXBuildFile; productRef = BE1766D626FA7AC3007EF438 /* InAppSettingsKit */; };
 		BE1766D926FA7BC8007EF438 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BE1766D826FA7BC8007EF438 /* Settings.bundle */; };
+		BECD84A027036DC2007CCAE4 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD849F27036DC2007CCAE4 /* Environment.swift */; };
+		BECD84A227036DDB007CCAE4 /* Intent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD84A127036DDB007CCAE4 /* Intent.swift */; };
+		BECD84A427036E02007CCAE4 /* DemoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD84A327036E02007CCAE4 /* DemoType.swift */; };
 		BEE0EB6226FCE0510021AD42 /* UIVIewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE0EB6126FCE0510021AD42 /* UIVIewController+Extensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +70,9 @@
 		80F33CF226F8EA50006811B1 /* DemoSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSettings.swift; sourceTree = "<group>"; };
 		BE1766B226F911A2007EF438 /* URLResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLResponseError.swift; sourceTree = "<group>"; };
 		BE1766D826FA7BC8007EF438 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		BECD849F27036DC2007CCAE4 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		BECD84A127036DDB007CCAE4 /* Intent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intent.swift; sourceTree = "<group>"; };
+		BECD84A327036E02007CCAE4 /* DemoType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoType.swift; sourceTree = "<group>"; };
 		BEE0EB6126FCE0510021AD42 /* UIVIewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIVIewController+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -128,7 +134,7 @@
 			children = (
 				806F1E3826B85367007A60E6 /* AppDelegate.swift */,
 				806F1E4126B85369007A60E6 /* Assets.xcassets */,
-				80F33CF226F8EA50006811B1 /* DemoSettings.swift */,
+				BECD849E27036D95007CCAE4 /* Enums */,
 				BEE0EB6326FD10D90021AD42 /* Extensions */,
 				80561B3C26FB5F300023138C /* Features */,
 				806F1E4626B85369007A60E6 /* Info.plist */,
@@ -158,6 +164,17 @@
 				BE1766B226F911A2007EF438 /* URLResponseError.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		BECD849E27036D95007CCAE4 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				80F33CF226F8EA50006811B1 /* DemoSettings.swift */,
+				BECD84A327036E02007CCAE4 /* DemoType.swift */,
+				BECD849F27036DC2007CCAE4 /* Environment.swift */,
+				BECD84A127036DDB007CCAE4 /* Intent.swift */,
+			);
+			path = Enums;
 			sourceTree = "<group>";
 		};
 		BEE0EB6326FD10D90021AD42 /* Extensions */ = {
@@ -246,9 +263,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BECD84A427036E02007CCAE4 /* DemoType.swift in Sources */,
 				80F33CED26F8E7A9006811B1 /* Order.swift in Sources */,
 				80561B3A26FB5F1C0023138C /* PayPalDemoViewController.swift in Sources */,
 				80561B3E26FB72D80023138C /* FeatureBaseViewController.swift in Sources */,
+				BECD84A027036DC2007CCAE4 /* Environment.swift in Sources */,
 				806F1E3D26B85367007A60E6 /* ViewController.swift in Sources */,
 				BEE0EB6226FCE0510021AD42 /* UIVIewController+Extensions.swift in Sources */,
 				80F33CF126F8E7D9006811B1 /* ProcessOrderParams.swift in Sources */,
@@ -256,6 +275,7 @@
 				80F33CE826F8DE29006811B1 /* DemoMerchantAPI.swift in Sources */,
 				80561B3826FB5F0F0023138C /* CardDemoViewController.swift in Sources */,
 				80F33CEF26F8E7CC006811B1 /* CreateOrderParams.swift in Sources */,
+				BECD84A227036DDB007CCAE4 /* Intent.swift in Sources */,
 				BE1766B326F911A2007EF438 /* URLResponseError.swift in Sources */,
 				806F1E3926B85367007A60E6 /* AppDelegate.swift in Sources */,
 				806F1E3B26B85367007A60E6 /* SceneDelegate.swift in Sources */,

@@ -1,38 +1,5 @@
 import UIKit
 
-enum Environment: String {
-    case sandbox
-    case production
-
-    var baseURL: String {
-        switch self {
-        case .sandbox:
-            return "https://ppcp-sample-merchant-sand.herokuapp.com"
-        case .production:
-            return "https://ppcp-sample-merchant-prod.herokuapp.com"
-        }
-    }
-}
-
-enum Intent: String {
-    case capture
-    case authorize
-}
-
-enum DemoType: String {
-    case card
-    case paypal
-
-    var viewController: UIViewController.Type {
-        switch self {
-        case .card:
-            return CardDemoViewController.self
-        case .paypal:
-            return PayPalDemoViewController.self
-        }
-    }
-}
-
 enum DemoSettings {
 
     private static let EnvironmentDefaultsKey = "environment"
