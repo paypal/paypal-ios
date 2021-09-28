@@ -111,7 +111,7 @@ final class CardClient_Tests: XCTestCase {
                 clientID: ""
             )
         )
-        let mockRequestResponse = MockRequestResponse(
+        let mockRequestResponse = RequestResponseMock(
             request: confirmPaymentSourceRequest,
             statusCode: statusCode,
             responseString: mockResponse
