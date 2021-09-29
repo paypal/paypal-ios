@@ -22,9 +22,9 @@ final class Card_Tests: XCTestCase {
 
     func testCard_givenAnExpirationDate_returnsExpiryStringInCorrectFormat() {
         let cardExpiry = ExpirationDate(month: 5, year: 2020)
-        XCTAssert(cardExpiry.expiryString == "2020-05")
+        XCTAssert(cardExpiry.expirationDateString == "2020-05")
 
         let newExpiry = ExpirationDate(month: 11, year: 2025)
-        XCTAssert(newExpiry.expiryString == "2025-11")
+        XCTAssert(newExpiry.expirationDateString == "2025-11")
     }
 }

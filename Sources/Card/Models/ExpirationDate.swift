@@ -2,7 +2,7 @@ import Foundation
 
 public struct ExpirationDate: Codable {
 
-    var expiryString: String
+    var expirationDateString: String
 
     /// Initialize a card expiry object
     /// - Parameters:
@@ -11,16 +11,16 @@ public struct ExpirationDate: Codable {
     public init(month: Int, year: Int) {
         let isSingleDigit = (1...9).contains(month)
         let monthString = isSingleDigit ? "0\(month)" : "\(month)"
-        expiryString = "\(year)-\(monthString)"
+        expirationDateString = "\(year)-\(monthString)"
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        expiryString = try container.decode(String.self)
+        expirationDateString = try container.decode(String.self)
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
-        try container.encode(expiryString)
+        try container.encode(expirationDateString)
     }
 }
