@@ -12,7 +12,7 @@
 		061A32A126FA37BE0003A736 /* ResponseMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100F826EFB7B10036A6A5 /* ResponseMock.swift */; };
 		065A4DBC26FCD8090007014A /* CoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DBB26FCD8080007014A /* CoreError.swift */; };
 		065A4DBF26FCDA5B0007014A /* CardClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DBE26FCDA5B0007014A /* CardClient_Tests.swift */; };
-		065A4DC126FCDFCC0007014A /* CardExpiry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DC026FCDFCC0007014A /* CardExpiry.swift */; };
+		065A4DC126FCDFCC0007014A /* ExpirationDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DC026FCDFCC0007014A /* ExpirationDate.swift */; };
 		065A4DC326FCE1D20007014A /* ConfirmPaymentSourceRequest_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DC226FCE1D20007014A /* ConfirmPaymentSourceRequest_Tests.swift */; };
 		065A4DC526FCE5A20007014A /* OrderStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DC426FCE5A20007014A /* OrderStatus.swift */; };
 		06B6C1B22703A7E4007D112C /* RequestResponseMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9AA98D26FA71B1001D2237 /* RequestResponseMock.swift */; };
@@ -77,7 +77,7 @@
 /* Begin PBXFileReference section */
 		065A4DBB26FCD8080007014A /* CoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreError.swift; sourceTree = "<group>"; };
 		065A4DBE26FCDA5B0007014A /* CardClient_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardClient_Tests.swift; sourceTree = "<group>"; };
-		065A4DC026FCDFCC0007014A /* CardExpiry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardExpiry.swift; sourceTree = "<group>"; };
+		065A4DC026FCDFCC0007014A /* ExpirationDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDate.swift; sourceTree = "<group>"; };
 		065A4DC226FCE1D20007014A /* ConfirmPaymentSourceRequest_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPaymentSourceRequest_Tests.swift; sourceTree = "<group>"; };
 		065A4DC426FCE5A20007014A /* OrderStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderStatus.swift; sourceTree = "<group>"; };
 		06CE009826F3D1660000CC46 /* CoreConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreConfig.swift; sourceTree = "<group>"; };
@@ -198,7 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				80E8DAE026B8784600FAFC3F /* Card.swift */,
-				065A4DC026FCDFCC0007014A /* CardExpiry.swift */,
+				065A4DC026FCDFCC0007014A /* ExpirationDate.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -706,7 +706,7 @@
 			files = (
 				06CE009B26F3D5A40000CC46 /* CardClient.swift in Sources */,
 				06CE009E26F3DE5E0000CC46 /* OrderData.swift in Sources */,
-				065A4DC126FCDFCC0007014A /* CardExpiry.swift in Sources */,
+				065A4DC126FCDFCC0007014A /* ExpirationDate.swift in Sources */,
 				065A4DC526FCE5A20007014A /* OrderStatus.swift in Sources */,
 				80E8DAE126B8784600FAFC3F /* Card.swift in Sources */,
 			);

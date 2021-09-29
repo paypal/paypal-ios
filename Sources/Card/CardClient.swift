@@ -3,8 +3,8 @@ import PaymentsCore
 
 public class CardClient {
 
-    let apiClient: APIClient
-    let config: CoreConfig
+    private let apiClient: APIClient
+    private let config: CoreConfig
 
     /// Initialize a CardClient to process card payment
     /// - Parameter config: The CoreConfig object

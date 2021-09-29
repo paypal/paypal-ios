@@ -1,6 +1,6 @@
 import Foundation
 
-public struct CardExpiry: Codable {
+public struct ExpirationDate: Codable {
 
     var expiryString: String
 

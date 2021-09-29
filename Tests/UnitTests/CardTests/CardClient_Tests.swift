@@ -30,7 +30,7 @@ final class CardClient_Tests: XCTestCase {
         }
         """
 
-        let card = Card(number: "", expiry: CardExpiry(month: 1, year: 2021), securityCode: "")
+        let card = Card(number: "", expirationDate: ExpirationDate(month: 1, year: 2021), securityCode: "")
         try setupConfirmCardPaymentSourceMock(card: card, mockResponse: mockSuccessResponse, statusCode: 200)
 
         cardClient.approveOrder(orderID: "", card: card) { result in
@@ -64,7 +64,7 @@ final class CardClient_Tests: XCTestCase {
         }
         """
 
-        let card = Card(number: "", expiry: CardExpiry(month: 1, year: 2021), securityCode: "")
+        let card = Card(number: "", expirationDate: ExpirationDate(month: 1, year: 2021), securityCode: "")
         try setupConfirmCardPaymentSourceMock(card: card, mockResponse: mockFailureResponse, statusCode: 404)
 
         cardClient.approveOrder(orderID: "", card: card) { result in
@@ -88,7 +88,7 @@ final class CardClient_Tests: XCTestCase {
         }
         """
 
-        let card = Card(number: "", expiry: CardExpiry(month: 1, year: 2021), securityCode: "")
+        let card = Card(number: "", expirationDate: ExpirationDate(month: 1, year: 2021), securityCode: "")
         try setupConfirmCardPaymentSourceMock(card: card, mockResponse: mockInvalidResponse, statusCode: 200)
 
         cardClient.approveOrder(orderID: "", card: card) { result in
