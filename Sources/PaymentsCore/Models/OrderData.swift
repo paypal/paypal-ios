@@ -1,6 +1,11 @@
 import Foundation
 
 public struct OrderData {
-    let orderID: String
-    let status: OrderStatus?
+    public let orderID: String
+    public let status: OrderStatus?
+
+    public init(orderID: String, status: OrderStatus?) {
+        self.orderID = orderID
+        self.status = status
+    }
 }
