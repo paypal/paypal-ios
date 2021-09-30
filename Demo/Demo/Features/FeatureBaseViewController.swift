@@ -2,13 +2,6 @@ import UIKit
 
 class FeatureBaseViewController: UIViewController {
 
-    let containerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
     let titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -24,18 +17,12 @@ class FeatureBaseViewController: UIViewController {
     }
 
     func configureBottomView() {
-        view.addSubview(containerView)
-        containerView.addSubview(titleLabel)
+        view.addSubview(titleLabel)
 
         NSLayoutConstraint.activate([
-            containerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            containerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            containerView.heightAnchor.constraint(equalToConstant: 60),
-
-            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
+            titleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
         ])
     }
 
