@@ -13,7 +13,7 @@ class ViewController: UIViewController {
             navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
         }
 
-        let settingButton = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(settingsTapped))
+        let settingsButton = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(settingsTapped))
         navigationItem.rightBarButtonItem = settingButton
     }
 
