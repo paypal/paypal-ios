@@ -1,5 +1,7 @@
 import Foundation
+#if canImport(PaymentsCore)
 import PaymentsCore
+#endif
 
 public class CardClient {
 
