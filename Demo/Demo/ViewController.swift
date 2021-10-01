@@ -14,7 +14,7 @@ class ViewController: UIViewController {
         }
 
         let settingsButton = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(settingsTapped))
-        navigationItem.rightBarButtonItem = settingButton
+        navigationItem.rightBarButtonItem = settingsButton
     }
 
     override func viewWillAppear(_ animated: Bool) {

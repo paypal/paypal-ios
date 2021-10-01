@@ -60,7 +60,7 @@ class CardDemoViewController: FeatureBaseViewController {
 
         view.backgroundColor = .systemBackground
 
-        processOrder(status: "Enter your card details to begin")
+        processOrder(paymentMethod: .card, state: .notStarted)
         setupUI()
         setupConstraints()
     }
@@ -99,6 +99,7 @@ class CardDemoViewController: FeatureBaseViewController {
 
     @objc func didTapPayButton() {
         // TODO: Pass card / order details into fetchOrderID
-        fetchOrderID()
+        processOrder(paymentMethod: .card, state: .orderProcessing)
+        fetchOrderID(paymentMethod: .card)
     }
 }
