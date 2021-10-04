@@ -8,17 +8,13 @@ final class ConfirmPaymentSourceRequest_Tests: XCTestCase {
     func testEncodingPaymentSource_withValidCardDictionary_expectsValidPaymentSourceBody() throws {
         let card = Card(
             number: "4032036247327321",
-            expirationDate: ExpirationDate(month: 11, year: 2024),
+            expirationMonth: "11",
+            expirationYear: "2024",
             securityCode: "222"
         )
-        let cardDictionary = ["card": card]
 
         let confirmPaymentSourceRequest = try XCTUnwrap(
-            ConfirmPaymentSourceRequest(
-                paymentSource: cardDictionary,
-                orderID: "",
-                clientID: ""
-            )
+            ConfirmPaymentSourceRequest(card: card, orderID: "", clientID: "")
         )
 
         let paymentSourceBody = try XCTUnwrap(confirmPaymentSourceRequest.body)

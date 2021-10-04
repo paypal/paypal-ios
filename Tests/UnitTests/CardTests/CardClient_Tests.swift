@@ -30,7 +30,7 @@ final class CardClient_Tests: XCTestCase {
         }
         """
 
-        let card = Card(number: "", expirationDate: ExpirationDate(month: 1, year: 2021), securityCode: "")
+        let card = Card(number: "", expirationMonth: "01", expirationYear: "2021", securityCode: "")
         try setupConfirmCardPaymentSourceMock(card: card, mockResponse: mockSuccessResponse, statusCode: 200)
 
         cardClient.approveOrder(orderID: "", card: card) { result in
@@ -64,7 +64,7 @@ final class CardClient_Tests: XCTestCase {
         }
         """
 
-        let card = Card(number: "", expirationDate: ExpirationDate(month: 1, year: 2021), securityCode: "")
+        let card = Card(number: "", expirationMonth: "01", expirationYear: "2021", securityCode: "")
         try setupConfirmCardPaymentSourceMock(card: card, mockResponse: mockFailureResponse, statusCode: 404)
 
         cardClient.approveOrder(orderID: "", card: card) { result in
@@ -88,7 +88,7 @@ final class CardClient_Tests: XCTestCase {
         }
         """
 
-        let card = Card(number: "", expirationDate: ExpirationDate(month: 1, year: 2021), securityCode: "")
+        let card = Card(number: "", expirationMonth: "01", expirationYear: "2021", securityCode: "")
         try setupConfirmCardPaymentSourceMock(card: card, mockResponse: mockInvalidResponse, statusCode: 200)
 
         cardClient.approveOrder(orderID: "", card: card) { result in
@@ -106,7 +106,7 @@ final class CardClient_Tests: XCTestCase {
     private func setupConfirmCardPaymentSourceMock(card: Card, mockResponse: String, statusCode: Int) throws {
         let confirmPaymentSourceRequest = try XCTUnwrap(
             ConfirmPaymentSourceRequest(
-                paymentSource: card,
+                card: card,
                 orderID: "",
                 clientID: ""
             )

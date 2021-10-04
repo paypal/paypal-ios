@@ -5,10 +5,13 @@ public final class APIClient {
 
     public var urlSession: URLSession
     public var environment: Environment
+    
+    private let decoder = JSONDecoder()
 
     public init(urlSession: URLSession = .shared, environment: Environment) {
         self.urlSession = urlSession
         self.environment = environment
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
     }
 
     public func fetch<T: APIRequest>(
@@ -69,7 +72,7 @@ public final class APIClient {
         guard let data = data else {
             throw NetworkingError.noResponseData
         }
-        let decodedData = try JSONDecoder().decode(T.ResponseType.self, from: data)
+        let decodedData = try decoder.decode(T.ResponseType.self, from: data)
         return decodedData
     }
 }

@@ -32,7 +32,7 @@ public class CardClient {
 
         do {
             let confirmPaymentRequest = try ConfirmPaymentSourceRequest(
-                paymentSource: cardDictionary,
+                card: card,
                 orderID: orderID,
                 clientID: config.clientID
             )

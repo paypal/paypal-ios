@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(PaymentsCore)
+import PaymentsCore
+#endif
 
 /// Describes request to confirm a payment source (approve an order)
 public struct ConfirmPaymentSourceRequest: APIRequest {
@@ -12,6 +15,8 @@ public struct ConfirmPaymentSourceRequest: APIRequest {
     public var path: String
     public var method: HTTPMethod = .post
     public var body: Data?
+    
+    private let jsonEncoder = JSONEncoder()
 
     public var headers: [HTTPHeader: String] {
         // TODO: Remove clientSecret when this endpoint is updated and can be used with low-scoped token
@@ -32,17 +37,19 @@ public struct ConfirmPaymentSourceRequest: APIRequest {
     ///
     /// For more information on the expected body structure, see PayPal's internal
     /// [API reference](https://ppaas/api/3719176155270329#apiReference)
-    public init<T: Encodable>(
-        paymentSource: T,
+    public init(
+        card: Card,
         orderID: String,
         clientID: String
     ) throws {
-        let paymentSource = ["payment_source": paymentSource]
-
+        let paymentSource = [ "payment_source": [ "card": card ] ]
+        
         self.clientID = clientID
         self.orderID = orderID
 
         path = String(format: pathFormat, orderID)
-        body = try JSONEncoder().encode(paymentSource)
+        
+        jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
+        body = try jsonEncoder.encode(paymentSource)
     }
 }
