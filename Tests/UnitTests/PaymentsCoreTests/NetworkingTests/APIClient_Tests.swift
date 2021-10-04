@@ -15,11 +15,11 @@ class APIClient_Tests: XCTestCase {
 
         let mockSuccessResponse: String = """
         {
-            "scope": "https://uri.paypal.com/services/invoicing",
-            "access_token": "TestToken",
-            "token_type": "Bearer",
-            "expires_in": 29688,
-            "nonce": "2021-09-13T15:00:23ZLpaHBzwLdATlXfE-G4NJsoxi9jPsYuMzOIE4u1TqDx8"
+            "scope": "fake-scope",
+            "access_token": "fake-token",
+            "token_type": "fake-bearer",
+            "expires_in": 1,
+            "nonce": "fake-nonce"
         }
         """
 
@@ -37,7 +37,7 @@ class APIClient_Tests: XCTestCase {
                 return
             }
 
-            XCTAssertEqual(response.accessToken, "TestToken")
+            XCTAssertEqual(response.accessToken, "fake-token")
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -176,14 +176,4 @@ class APIClient_Tests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
 
-    func testParseDataObject_withNilData_throwsEmptyDataError() throws {
-        XCTAssertThrowsError(
-            try apiClient.parseDataObject(nil, type: AccessTokenRequest.self)
-        ) { error in
-            guard case NetworkingError.noResponseData = error else {
-                XCTFail("Expected `NetworkingError.noResponseData`")
-                return
-            }
-        }
-    }
 }
