@@ -17,15 +17,15 @@ class FeatureBaseViewController: UIViewController {
         return view
     }()
 
-    lazy var amountTextField: UITextField = {
-        let textField = textField(placeholder: "Amount")
-        textField.text = "10.00"
+    lazy var amountTextField: CustomTextField = {
+        let textField = CustomTextField(placeholderText: "Amount", defaultValue: "10.00")
         textField.keyboardType = .decimalPad
         return textField
     }()
 
-    lazy var createOrderButton: UIButton = {
-        let createOrderButton = button(title: "Create Order", action: #selector(createOrderTapped))
+    lazy var createOrderButton: CustomButton = {
+        let createOrderButton = CustomButton(title: "Create Order")
+        createOrderButton.addTarget(self, action: #selector(createOrderTapped), for: .touchUpInside)
         createOrderButton.tintColor = .systemPink
         return createOrderButton
     }()

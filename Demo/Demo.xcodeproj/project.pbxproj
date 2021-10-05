@@ -30,7 +30,8 @@
 		BECD84A027036DC2007CCAE4 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD849F27036DC2007CCAE4 /* Environment.swift */; };
 		BECD84A227036DDB007CCAE4 /* Intent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD84A127036DDB007CCAE4 /* Intent.swift */; };
 		BECD84A427036E02007CCAE4 /* DemoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD84A327036E02007CCAE4 /* DemoType.swift */; };
-		BEE0EB6226FCE0510021AD42 /* UIVIewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE0EB6126FCE0510021AD42 /* UIVIewController+Extensions.swift */; };
+		BED041AF270CA0FB00C80954 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED041AE270CA0FB00C80954 /* CustomButton.swift */; };
+		BED041B1270CB33900C80954 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED041B0270CB33900C80954 /* CustomTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -73,7 +74,8 @@
 		BECD849F27036DC2007CCAE4 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		BECD84A127036DDB007CCAE4 /* Intent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intent.swift; sourceTree = "<group>"; };
 		BECD84A327036E02007CCAE4 /* DemoType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoType.swift; sourceTree = "<group>"; };
-		BEE0EB6126FCE0510021AD42 /* UIVIewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIVIewController+Extensions.swift"; sourceTree = "<group>"; };
+		BED041AE270CA0FB00C80954 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		BED041B0270CB33900C80954 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,7 +182,8 @@
 		BEE0EB6326FD10D90021AD42 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				BEE0EB6126FCE0510021AD42 /* UIVIewController+Extensions.swift */,
+				BED041AE270CA0FB00C80954 /* CustomButton.swift */,
+				BED041B0270CB33900C80954 /* CustomTextField.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -269,13 +272,14 @@
 				80561B3E26FB72D80023138C /* FeatureBaseViewController.swift in Sources */,
 				BECD84A027036DC2007CCAE4 /* Environment.swift in Sources */,
 				806F1E3D26B85367007A60E6 /* ViewController.swift in Sources */,
-				BEE0EB6226FCE0510021AD42 /* UIVIewController+Extensions.swift in Sources */,
 				80F33CF126F8E7D9006811B1 /* ProcessOrderParams.swift in Sources */,
+				BED041B1270CB33900C80954 /* CustomTextField.swift in Sources */,
 				80F33CF326F8EA50006811B1 /* DemoSettings.swift in Sources */,
 				80F33CE826F8DE29006811B1 /* DemoMerchantAPI.swift in Sources */,
 				80561B3826FB5F0F0023138C /* CardDemoViewController.swift in Sources */,
 				80F33CEF26F8E7CC006811B1 /* CreateOrderParams.swift in Sources */,
 				BECD84A227036DDB007CCAE4 /* Intent.swift in Sources */,
+				BED041AF270CA0FB00C80954 /* CustomButton.swift in Sources */,
 				BE1766B326F911A2007EF438 /* URLResponseError.swift in Sources */,
 				806F1E3926B85367007A60E6 /* AppDelegate.swift in Sources */,
 				806F1E3B26B85367007A60E6 /* SceneDelegate.swift in Sources */,

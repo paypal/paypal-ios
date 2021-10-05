@@ -31,29 +31,27 @@ class CardDemoViewController: FeatureBaseViewController {
         return view
     }()
 
-    lazy var cardNumberTextField: UITextField = {
-        let textField = textField(placeholder: "Card Number")
+    lazy var cardNumberTextField: CustomTextField = {
+        let textField = CustomTextField(placeholderText: "Card Number")
         textField.keyboardType = .numberPad
         return textField
     }()
 
-    lazy var expirationTextField: UITextField = {
-        let textField = textField(placeholder: "Expiration")
+    lazy var expirationTextField: CustomTextField = {
+        let textField = CustomTextField(placeholderText: "Expiration")
         textField.keyboardType = .numberPad
         return textField
     }()
 
-    lazy var cvvTextField: UITextField = {
-        let textField = textField(placeholder: "CVV")
+    lazy var cvvTextField: CustomTextField = {
+        let textField = CustomTextField(placeholderText: "CVV")
         textField.keyboardType = .numberPad
         return textField
     }()
 
     lazy var payButton: UIButton = {
-        let payButton = button(
-            title: "\(DemoSettings.intent.rawValue.capitalized) Order",
-            action: #selector(didTapPayButton)
-        )
+        let payButton = CustomButton(title: "\(DemoSettings.intent.rawValue.capitalized) Order")
+        payButton.addTarget(self, action: #selector(didTapPayButton), for: .touchUpInside)
         payButton.layer.cornerRadius = 8
         payButton.backgroundColor = .systemBlue
         payButton.tintColor = .white
