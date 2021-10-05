@@ -5,7 +5,7 @@ public final class APIClient {
 
     public var urlSession: URLSession
     public var environment: Environment
-    
+
     private let decoder = JSONDecoder()
 
     public init(urlSession: URLSession = .shared, environment: Environment) {
@@ -33,12 +33,12 @@ public final class APIClient {
                 completion(.failure(.invalidURLResponse), nil)
                 return
             }
-            
+
             guard let data = data else {
                 completion(.failure(.noResponseData), nil)
                 return
             }
-            
+
             let correlationID = response.allHeaderFields["Paypal-Debug-Id"] as? String
 
             switch response.statusCode {

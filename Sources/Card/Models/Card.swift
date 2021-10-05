@@ -12,7 +12,7 @@ public struct Card: Encodable {
     public var expirationMonth: String
     public var expirationYear: String
     public var securityCode: String
-    
+
     enum CodingKeys: String, CodingKey {
         case number
         case expiry
@@ -22,7 +22,7 @@ public struct Card: Encodable {
     public var expiry: String {
         return "\(expirationYear)-\(expirationMonth)"
     }
-    
+
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(number, forKey: .number)
