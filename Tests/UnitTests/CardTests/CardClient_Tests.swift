@@ -47,7 +47,7 @@ final class CardClient_Tests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
 
-    func testApproveCardOrder_withCardFailureMockResponse_returnsError() throws {
+    func testApproveCardOrder_withCardFailureMockResponse_returnsUnknownError() throws {
         let expect = expectation(description: "Get success mock response")
 
         let mockFailureResponse: String = """
@@ -79,7 +79,7 @@ final class CardClient_Tests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
 
-    func testApproveCardOrder_withInvalidFormatMockResponse_returnsError() throws {
+    func testApproveCardOrder_withInvalidFormatMockResponse_returnsParsingError() throws {
         let expect = expectation(description: "Get success mock response")
 
         let mockInvalidResponse: String = """
