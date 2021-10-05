@@ -1,28 +1,36 @@
 import UIKit
 
-enum OrderState {
-    case notStarted
-    case orderProcessing
-    case orderCreated
-    case orderFailed
-}
-
-enum PaymentMethod: String {
-    case card = "card"
-    case paypal = "PayPal"
-}
-
 class FeatureBaseViewController: UIViewController {
 
-    lazy var processOrderButton: UIButton = {
-        let processOrderButton = button(
-            title: "\(DemoSettings.intent.rawValue.capitalized) Order",
-            action: #selector(didTapProcessOrderButton)
-        )
-        return processOrderButton
+    private enum Constants {
+        static let stackViewSpacing: CGFloat = 16
+        static let layoutSpacing: CGFloat = 16
+    }
+
+    lazy var stackView: UIStackView = {
+        let view = UIStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.axis = .horizontal
+        view.alignment = .center
+        view.distribution = .fillEqually
+        view.spacing = Constants.stackViewSpacing
+        return view
     }()
 
-    let titleLabel: UILabel = {
+    lazy var amountTextField: UITextField = {
+        let textField = textField(placeholder: "Amount")
+        textField.text = "10.00"
+        textField.keyboardType = .decimalPad
+        return textField
+    }()
+
+    lazy var createOrderButton: UIButton = {
+        let createOrderButton = button(title: "Create Order", action: #selector(createOrderTapped))
+        createOrderButton.tintColor = .systemPink
+        return createOrderButton
+    }()
+
+    lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -31,33 +39,37 @@ class FeatureBaseViewController: UIViewController {
         return label
     }()
 
+    private var orderID: String?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureBottomView()
-        processOrderButton.isHidden = true
+        updateTitle("Tap create order to begin")
     }
 
     func configureBottomView() {
-        view.addSubview(processOrderButton)
+        view.addSubview(stackView)
+        stackView.addArrangedSubview(amountTextField)
+        stackView.addArrangedSubview(createOrderButton)
         view.addSubview(titleLabel)
 
         NSLayoutConstraint.activate([
-            processOrderButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            processOrderButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            processOrderButton.heightAnchor.constraint(equalToConstant: 40),
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Constants.layoutSpacing),
+            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Constants.layoutSpacing),
+            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -Constants.layoutSpacing),
 
-            titleLabel.topAnchor.constraint(equalTo: processOrderButton.bottomAnchor, constant: 16),
             titleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+            titleLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.layoutSpacing)
         ])
     }
 
-    func fetchOrderID(paymentMethod: PaymentMethod) {
+    @objc func createOrderTapped() {
         // TODO: The prod server is broken right now, so we will expect those requests to fail.
-        // TODO: Pass order details into this function
 
-        let amount = Amount(currencyCode: "USD", value: "10.00")
+        updateTitle("Creating order...")
+
+        let amount = Amount(currencyCode: "USD", value: amountTextField.text ?? "")
         let orderRequestParams = CreateOrderParams(
             intent: DemoSettings.intent.rawValue.uppercased(),
             purchaseUnits: [PurchaseUnit(amount: amount)]
@@ -66,38 +78,23 @@ class FeatureBaseViewController: UIViewController {
         DemoMerchantAPI.sharedService.createOrder(orderParams: orderRequestParams) { result in
             switch result {
             case .success(let order):
-                self.processOrder(paymentMethod: paymentMethod, orderID: order.id, state: .orderCreated)
-                DispatchQueue.main.async {
-                    self.processOrderButton.isHidden = false
-                }
+                self.updateTitle("Order ID: \(order.id)")
+                self.orderID = order.id
                 print("✅ fetched orderID: \(order.id) with status: \(order.status)")
             case .failure(let error):
-                self.processOrder(paymentMethod: paymentMethod, state: .orderFailed)
+                self.updateTitle("Your order has failed, please try again")
                 print("❌ failed to fetch orderID: \(error)")
             }
         }
     }
 
-    func processOrder(paymentMethod: PaymentMethod, orderID: String? = nil, state: OrderState) {
-        let message: String
+    func processOrder() {
+        // TODO: Pass in card details once card client is merged and call processOrder from DemoMerchantAPI
+    }
 
-        switch state {
-        case .notStarted:
-            message = "Enter your \(paymentMethod) details to begin"
-        case .orderProcessing:
-            message = "Processing your \(paymentMethod) order"
-        case .orderCreated:
-            message = "Order ID: \(orderID ?? "")"
-        case .orderFailed:
-            message = "Your order has failed, please try again"
-        }
-
+    func updateTitle(_ message: String) {
         DispatchQueue.main.async {
             self.titleLabel.text = message
         }
-    }
-
-    @objc func didTapProcessOrderButton() {
-        // TODO: Add thing to process the order here!
     }
 }

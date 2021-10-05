@@ -8,6 +8,8 @@ class CardDemoViewController: FeatureBaseViewController {
 
     private enum Constants {
         static let stackViewSpacing: CGFloat = 16
+        static let layoutSpacing: CGFloat = 16
+        static let textFieldHeight: CGFloat = 40
     }
 
     let mainStackView: UIStackView = {
@@ -48,7 +50,10 @@ class CardDemoViewController: FeatureBaseViewController {
     }()
 
     lazy var payButton: UIButton = {
-        let payButton = button(title: "Pay", action: #selector(didTapPayButton))
+        let payButton = button(
+            title: "\(DemoSettings.intent.rawValue.capitalized) Order",
+            action: #selector(didTapPayButton)
+        )
         payButton.layer.cornerRadius = 8
         payButton.backgroundColor = .systemBlue
         payButton.tintColor = .white
@@ -60,7 +65,6 @@ class CardDemoViewController: FeatureBaseViewController {
 
         view.backgroundColor = .systemBackground
 
-        processOrder(paymentMethod: .card, state: .notStarted)
         setupUI()
         setupConstraints()
     }
@@ -81,25 +85,24 @@ class CardDemoViewController: FeatureBaseViewController {
             mainStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             mainStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
-            secondaryStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            secondaryStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            secondaryStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.layoutSpacing),
+            secondaryStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.layoutSpacing),
 
-            cardNumberTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            cardNumberTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            cardNumberTextField.heightAnchor.constraint(equalToConstant: 40),
+            cardNumberTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.layoutSpacing),
+            cardNumberTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.layoutSpacing),
+            cardNumberTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
 
-            expirationTextField.heightAnchor.constraint(equalToConstant: 40),
-            cvvTextField.heightAnchor.constraint(equalToConstant: 40),
+            expirationTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
+            cvvTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
 
-            payButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            payButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            payButton.heightAnchor.constraint(equalToConstant: 40)
+            payButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.layoutSpacing),
+            payButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.layoutSpacing),
+            payButton.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight)
         ])
     }
 
     @objc func didTapPayButton() {
-        // TODO: Pass card / order details into fetchOrderID
-        processOrder(paymentMethod: .card, state: .orderProcessing)
-        fetchOrderID(paymentMethod: .card)
+        updateTitle("Processing order...")
+        // TODO: Call `processOrder`
     }
 }
