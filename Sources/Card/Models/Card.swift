@@ -1,11 +1,11 @@
 import Foundation
 
-
 /// Initialize a card object
 /// - Parameters:
-///   - number: The card number
-///   - expiry: The card's expiration date
-///   - securityCode: The card's security code (CVV, CVC, CVN, CVE, or CID)
+///   - number: The full card number, or PAN.
+///   - expirationMonth: The card's expiration month in MM format.
+///   - expirationYear: The card's expiration year in YYYY format.
+///   - securityCode: The card's security code (CVV, CVC, CVN, CVE, or CID).
 public struct Card: Encodable {
 
     public var number: String
