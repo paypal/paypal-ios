@@ -26,7 +26,6 @@
 		3D9AA98E26FA71B1001D2237 /* RequestResponseMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9AA98D26FA71B1001D2237 /* RequestResponseMock.swift */; };
 		3DE22C5D26F8E7A20074A2E4 /* AccessTokenRequest_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE22C5C26F8E7A20074A2E4 /* AccessTokenRequest_Tests.swift */; };
 		3DE22C5F26F8F3CE0074A2E4 /* Environment_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE22C5E26F8F3CE0074A2E4 /* Environment_Tests.swift */; };
-		8034A9DE26B8756F0055AF13 /* PaymentsCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */; };
 		8034A9E726B875C90055AF13 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; };
 		8048D28C270B9DE00072214A /* ConfirmPaymentSourceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE00A226F3E32A0000CC46 /* ConfirmPaymentSourceResponse.swift */; };
 		8048D28E270BB0470072214A /* EmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8048D28D270BB0470072214A /* EmptyResponse.swift */; };
@@ -90,7 +89,6 @@
 		3D9AA98D26FA71B1001D2237 /* RequestResponseMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResponseMock.swift; sourceTree = "<group>"; };
 		3DE22C5C26F8E7A20074A2E4 /* AccessTokenRequest_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRequest_Tests.swift; sourceTree = "<group>"; };
 		3DE22C5E26F8F3CE0074A2E4 /* Environment_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment_Tests.swift; sourceTree = "<group>"; };
-		8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsCore.swift; sourceTree = "<group>"; };
 		8034A9E326B875C90055AF13 /* PaymentsCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaymentsCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8048D28D270BB0470072214A /* EmptyResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyResponse.swift; sourceTree = "<group>"; };
 		80B9F85126B8750000D67843 /* PaymentsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PaymentsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -282,7 +280,6 @@
 				065A4DBA26FCD7F70007014A /* Enums */,
 				06CE009C26F3DE530000CC46 /* Models */,
 				BEA100E526EF9EDA0036A6A5 /* Networking */,
-				8034A9DD26B8756F0055AF13 /* PaymentsCore.swift */,
 				06CE009826F3D1660000CC46 /* CoreConfig.swift */,
 			);
 			name = PaymentsCore;
@@ -674,7 +671,6 @@
 				06CE009926F3D1660000CC46 /* CoreConfig.swift in Sources */,
 				BEA100EC26EFA7790036A6A5 /* HTTPMethod.swift in Sources */,
 				8048D28E270BB0470072214A /* EmptyResponse.swift in Sources */,
-				8034A9DE26B8756F0055AF13 /* PaymentsCore.swift in Sources */,
 				BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */,
 				06E406D726EFE7F9002533B1 /* AccessTokenResponse.swift in Sources */,
 				BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */,
