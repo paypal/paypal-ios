@@ -24,22 +24,22 @@ public final class APIClient {
         }
 
         let task = urlSession.dataTask(with: request) { data, response, error in
+            let correlationID = (response as? HTTPURLResponse)?.allHeaderFields["Paypal-Debug-Id"] as? String
+
             if let error = error {
-                completion(.failure(.connectionIssue(error)), nil)
+                completion(.failure(.connectionIssue(error)), correlationID)
                 return
             }
 
             guard let response = response as? HTTPURLResponse else {
-                completion(.failure(.invalidURLResponse), nil)
+                completion(.failure(.invalidURLResponse), correlationID)
                 return
             }
 
             guard let data = data else {
-                completion(.failure(.noResponseData), nil)
+                completion(.failure(.noResponseData), correlationID)
                 return
             }
-
-            let correlationID = response.allHeaderFields["Paypal-Debug-Id"] as? String
 
             switch response.statusCode {
             case 200..<300:
@@ -47,21 +47,26 @@ public final class APIClient {
                     // TODO: Get rid of this empty case, relevant tests, & files.
                     if let emptyResponse = EmptyResponse() as? T.ResponseType {
                         completion(.success(emptyResponse), correlationID)
+                        return
                     } else {
                         let decodedData = try self.decoder.decode(T.ResponseType.self, from: data)
                         completion(.success(decodedData), correlationID)
+                        return
                     }
                 } catch let networkingError as NetworkingError {
                     completion(.failure(networkingError), correlationID)
+                    return
                 } catch {
                     // TODO: Returning this error will always be nil at this point
                     completion(.failure(.parsingError(error)), correlationID)
+                    return
                 }
 
             default:
                 // TODO:
                 // Add networking error cases (ie more descriptive networking errors / handle 400 responses, 500 errors, etc
                 completion(.failure(.unknown), nil)
+                return
             }
         }
 
