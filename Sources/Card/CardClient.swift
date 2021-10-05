@@ -28,8 +28,6 @@ public class CardClient {
     ///   - card: The card to be charged for this order
     ///   - completion: Completion handler for approveOrder, which contains data of the order if success, or an error if failure
     public func approveOrder(orderID: String, card: Card, completion: @escaping (Result<OrderData, Error>) -> Void) {
-        let cardDictionary = ["card": card]
-
         do {
             let confirmPaymentRequest = try ConfirmPaymentSourceRequest(
                 card: card,
