@@ -6,22 +6,17 @@ class CardDemoViewController: FeatureBaseViewController {
     // TODO: Animate pay button to indicate loading
     // TODO: Disable pay button until fields are filled out
 
-    private enum Constants {
-        static let stackViewSpacing: CGFloat = 16
-        static let layoutSpacing: CGFloat = 16
-        static let textFieldHeight: CGFloat = 40
-    }
+    typealias Constants = FeatureBaseViewController.Constants
 
-    let mainStackView: UIStackView = {
+    let cardFormStackView: UIStackView = {
         let view = UIStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .vertical
-        view.alignment = .center
         view.spacing = Constants.stackViewSpacing
         return view
     }()
 
-    let secondaryStackView: UIStackView = {
+    let expirationCVVStackView: UIStackView = {
         let view = UIStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .horizontal
@@ -63,38 +58,30 @@ class CardDemoViewController: FeatureBaseViewController {
 
         view.backgroundColor = .systemBackground
 
-        setupUI()
+        addSubviews()
         setupConstraints()
     }
 
-    func setupUI() {
-        view.addSubview(mainStackView)
+    func addSubviews() {
+        view.addSubview(cardFormStackView)
 
-        mainStackView.addArrangedSubview(cardNumberTextField)
-        mainStackView.addArrangedSubview(secondaryStackView)
-        mainStackView.addArrangedSubview(payButton)
+        cardFormStackView.addArrangedSubview(cardNumberTextField)
+        cardFormStackView.addArrangedSubview(expirationCVVStackView)
+        cardFormStackView.addArrangedSubview(payButton)
 
-        secondaryStackView.addArrangedSubview(expirationTextField)
-        secondaryStackView.addArrangedSubview(cvvTextField)
+        expirationCVVStackView.addArrangedSubview(expirationTextField)
+        expirationCVVStackView.addArrangedSubview(cvvTextField)
     }
 
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            mainStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            mainStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            cardFormStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            cardFormStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.layoutSpacing),
+            cardFormStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.layoutSpacing),
 
-            secondaryStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.layoutSpacing),
-            secondaryStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.layoutSpacing),
-
-            cardNumberTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.layoutSpacing),
-            cardNumberTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.layoutSpacing),
             cardNumberTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
-
             expirationTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
             cvvTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
-
-            payButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.layoutSpacing),
-            payButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.layoutSpacing),
             payButton.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight)
         ])
     }

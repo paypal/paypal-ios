@@ -2,12 +2,13 @@ import UIKit
 
 class FeatureBaseViewController: UIViewController {
 
-    private enum Constants {
+    enum Constants {
         static let stackViewSpacing: CGFloat = 16
         static let layoutSpacing: CGFloat = 16
+        static let textFieldHeight: CGFloat = 40
     }
 
-    lazy var stackView: UIStackView = {
+    lazy var createOrderStackView: UIStackView = {
         let view = UIStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .horizontal
@@ -30,7 +31,7 @@ class FeatureBaseViewController: UIViewController {
         return createOrderButton
     }()
 
-    lazy var titleLabel: UILabel = {
+    lazy var bottomStatusLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -48,19 +49,27 @@ class FeatureBaseViewController: UIViewController {
     }
 
     func configureBottomView() {
-        view.addSubview(stackView)
-        stackView.addArrangedSubview(amountTextField)
-        stackView.addArrangedSubview(createOrderButton)
-        view.addSubview(titleLabel)
+        view.addSubview(createOrderStackView)
+        createOrderStackView.addArrangedSubview(amountTextField)
+        createOrderStackView.addArrangedSubview(createOrderButton)
+        view.addSubview(bottomStatusLabel)
 
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Constants.layoutSpacing),
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Constants.layoutSpacing),
-            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -Constants.layoutSpacing),
+            createOrderStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Constants.layoutSpacing),
+            createOrderStackView.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                constant: Constants.layoutSpacing
+            ),
+            createOrderStackView.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                constant: -Constants.layoutSpacing
+            ),
 
-            titleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.layoutSpacing)
+            amountTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
+
+            bottomStatusLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            bottomStatusLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            bottomStatusLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.layoutSpacing)
         ])
     }
 
@@ -94,7 +103,7 @@ class FeatureBaseViewController: UIViewController {
 
     func updateTitle(_ message: String) {
         DispatchQueue.main.async {
-            self.titleLabel.text = message
+            self.bottomStatusLabel.text = message
         }
     }
 }
