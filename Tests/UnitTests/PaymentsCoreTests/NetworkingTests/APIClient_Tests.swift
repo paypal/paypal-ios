@@ -175,5 +175,4 @@ class APIClient_Tests: XCTestCase {
         }
         waitForExpectations(timeout: 1)
     }
-
 }
