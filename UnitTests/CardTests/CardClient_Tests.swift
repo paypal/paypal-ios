@@ -8,14 +8,12 @@ final class CardClient_Tests: XCTestCase {
     // MARK: - Helper Properties
     
     let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])
-
     let card = Card(
         number: "411111111111",
         expirationMonth: "01",
         expirationYear: "2021",
         securityCode: "123"
     )
-    
     let config = CoreConfig(clientID: "", environment: .sandbox)
     
     var mockURLSession: URLSessionMock!

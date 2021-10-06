@@ -22,6 +22,7 @@
 		803C31B5270E46EB0067D36E /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; };
 		803C31B7270E49160067D36E /* Card_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803C31B6270E49160067D36E /* Card_Tests.swift */; };
 		803C31B9270E4C560067D36E /* URLSessionMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803C31B8270E4C560067D36E /* URLSessionMock.swift */; };
+		803C31BB270E55760067D36E /* MockAccessTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803C31BA270E55760067D36E /* MockAccessTokenRequest.swift */; };
 		8048D28C270B9DE00072214A /* ConfirmPaymentSourceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE00A226F3E32A0000CC46 /* ConfirmPaymentSourceResponse.swift */; };
 		8048D28E270BB0470072214A /* EmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8048D28D270BB0470072214A /* EmptyResponse.swift */; };
 		805AB85926B88882003BEE0D /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; platformFilter = ios; };
@@ -88,6 +89,7 @@
 		8034A9E326B875C90055AF13 /* PaymentsCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaymentsCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		803C31B6270E49160067D36E /* Card_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card_Tests.swift; sourceTree = "<group>"; };
 		803C31B8270E4C560067D36E /* URLSessionMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionMock.swift; sourceTree = "<group>"; };
+		803C31BA270E55760067D36E /* MockAccessTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAccessTokenRequest.swift; sourceTree = "<group>"; };
 		8048D28D270BB0470072214A /* EmptyResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyResponse.swift; sourceTree = "<group>"; };
 		80B9F85126B8750000D67843 /* PaymentsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PaymentsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80DB6F0E26B89D9600277E54 /* PayPal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PayPal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -242,6 +244,7 @@
 				3DE22C5C26F8E7A20074A2E4 /* AccessTokenRequest_Tests.swift */,
 				BEA100F326EFA8C20036A6A5 /* APIClient_Tests.swift */,
 				3DE22C5E26F8F3CE0074A2E4 /* Environment_Tests.swift */,
+				803C31BA270E55760067D36E /* MockAccessTokenRequest.swift */,
 			);
 			path = PaymentsCoreTests;
 			sourceTree = "<group>";
@@ -682,6 +685,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DE22C5D26F8E7A20074A2E4 /* AccessTokenRequest_Tests.swift in Sources */,
+				803C31BB270E55760067D36E /* MockAccessTokenRequest.swift in Sources */,
 				BEA100F426EFA8C20036A6A5 /* APIClient_Tests.swift in Sources */,
 				3DE22C5F26F8F3CE0074A2E4 /* Environment_Tests.swift in Sources */,
 			);

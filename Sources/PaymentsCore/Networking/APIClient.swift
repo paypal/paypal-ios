@@ -53,9 +53,6 @@ public final class APIClient {
                         completion(.success(decodedData), correlationID)
                         return
                     }
-                } catch let networkingError as NetworkingError {
-                    completion(.failure(networkingError), correlationID)
-                    return
                 } catch {
                     // TODO: Returning this error will always be nil at this point
                     completion(.failure(.parsingError(error)), correlationID)
