@@ -2,6 +2,7 @@ import Foundation
 import PaymentsCore
 
 class EmptyRequestResponseMock: RequestResponseMock<EmptyResponse> {
+
     init(path: String = "/mock/path") {
         super.init(responseType: EmptyResponse.self, path: path)
     }
