@@ -3,7 +3,7 @@ import Foundation
 public final class APIClient {
     public typealias CorrelationID = String
 
-    public var urlSession: URLSession
+    public var urlSession: URLSessionProtocol
     public var environment: Environment
 
     public init(urlSession: URLSession = .shared, environment: Environment) {
@@ -20,7 +20,7 @@ public final class APIClient {
             return
         }
 
-        let task = urlSession.dataTask(with: request) { data, response, error in
+        urlSession.performRequest(with: request) { data, response, error in
             let finish: (Result<T.ResponseType, NetworkingError>) -> Void = { result in
                 /// For discussion:
                 /// When a network request to a PayPal API fails, we have some associated error information in the body data of the response.
@@ -61,8 +61,6 @@ public final class APIClient {
                 finish(.failure(.unknown))
             }
         }
-
-        task.resume()
     }
 
     func parseDataObject<T: APIRequest>(_ data: Data?, type: T.Type) throws -> T.ResponseType {
@@ -72,4 +70,19 @@ public final class APIClient {
         let decodedData = try JSONDecoder().decode(T.ResponseType.self, from: data)
         return decodedData
     }
+}
+
+public protocol URLSessionProtocol {
+    
+    func performRequest(with urlRequest: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)
+    
+}
+
+extension URLSession: URLSessionProtocol {
+    
+    public func performRequest(with urlRequest: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        let task = dataTask(with: urlRequest, completionHandler: completionHandler)
+        task.resume()
+    }
+    
 }
