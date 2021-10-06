@@ -34,9 +34,6 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     /// Creates a request to attach a payment source to a specific order.
     /// In order to use this initializer, the `paymentSource` parameter has to
     /// contain the entire dictionary as it exists underneath the `payment_source` key.
-    ///
-    /// For more information on the expected body structure, see PayPal's internal
-    /// [API reference](https://ppaas/api/3719176155270329#apiReference)
     init(
         card: Card,
         orderID: String,
