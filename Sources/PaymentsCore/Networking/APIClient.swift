@@ -3,8 +3,8 @@ import Foundation
 public final class APIClient {
     public typealias CorrelationID = String
 
-    public var urlSession: URLSessionProtocol
-    public var environment: Environment
+    private var urlSession: URLSessionProtocol
+    private var environment: Environment
 
     private let decoder = JSONDecoder()
 
@@ -70,16 +70,12 @@ public final class APIClient {
 }
 
 public protocol URLSessionProtocol {
-    
     func performRequest(with urlRequest: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)
-    
 }
 
 extension URLSession: URLSessionProtocol {
-    
     public func performRequest(with urlRequest: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
         let task = dataTask(with: urlRequest, completionHandler: completionHandler)
         task.resume()
     }
-    
 }

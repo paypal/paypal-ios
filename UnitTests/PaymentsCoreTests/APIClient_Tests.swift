@@ -8,7 +8,7 @@ class APIClient_Tests: XCTestCase {
     
     let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])
     let config = CoreConfig(clientID: "", environment: .sandbox)
-    let accessTokenRequest = AccessTokenRequest(clientID: "")
+    let accessTokenRequest = AccessTokenRequest(clientID: "") // TODO: use something dumber here
     
     var mockURLSession: URLSessionMock!
     var apiClient: APIClient!
