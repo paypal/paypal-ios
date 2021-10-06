@@ -258,6 +258,25 @@
 			path = PaymentsCoreTests;
 			sourceTree = "<group>";
 		};
+		803C31B2270E42B00067D36E /* URLSessionMocks */ = {
+			isa = PBXGroup;
+			children = (
+				80E74405270E411200BACECA /* URLProtocolMock.swift */,
+				80E74407270E411A00BACECA /* URLSession+Extension.swift */,
+			);
+			path = URLSessionMocks;
+			sourceTree = "<group>";
+		};
+		803C31B3270E42BC0067D36E /* RequestMocks */ = {
+			isa = PBXGroup;
+			children = (
+				80E743FF270E40F300BACECA /* BasicRequestMocks.swift */,
+				80E74401270E40FF00BACECA /* RequestResponseMocks.swift */,
+				80E74403270E410700BACECA /* ResponseMock.swift */,
+			);
+			path = RequestMocks;
+			sourceTree = "<group>";
+		};
 		805AB85726B8887D003BEE0D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -308,11 +327,8 @@
 		80E743F9270E40CE00BACECA /* TestShared */ = {
 			isa = PBXGroup;
 			children = (
-				80E743FF270E40F300BACECA /* BasicRequestMocks.swift */,
-				80E74401270E40FF00BACECA /* RequestResponseMocks.swift */,
-				80E74403270E410700BACECA /* ResponseMock.swift */,
-				80E74405270E411200BACECA /* URLProtocolMock.swift */,
-				80E74407270E411A00BACECA /* URLSession+Extension.swift */,
+				803C31B3270E42BC0067D36E /* RequestMocks */,
+				803C31B2270E42B00067D36E /* URLSessionMocks */,
 			);
 			path = TestShared;
 			sourceTree = "<group>";
