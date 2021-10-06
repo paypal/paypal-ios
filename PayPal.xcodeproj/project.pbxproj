@@ -12,7 +12,6 @@
 		061A32A126FA37BE0003A736 /* ResponseMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100F826EFB7B10036A6A5 /* ResponseMock.swift */; };
 		06E406D526EFE7E8002533B1 /* AccessTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E406D426EFE7E8002533B1 /* AccessTokenRequest.swift */; };
 		06E406D726EFE7F9002533B1 /* AccessTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E406D626EFE7F9002533B1 /* AccessTokenResponse.swift */; };
-		06E406DA26EFEB9F002533B1 /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E406D926EFEB9F002533B1 /* URLSession+Extension.swift */; };
 		3D43E87826FB9921004C38EC /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100F626EFB52D0036A6A5 /* URLProtocolMock.swift */; };
 		3D43E87A26FBC8E3004C38EC /* BasicRequestMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D43E87926FBC8E3004C38EC /* BasicRequestMocks.swift */; };
 		3D9AA98E26FA71B1001D2237 /* RequestResponseMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9AA98D26FA71B1001D2237 /* RequestResponseMock.swift */; };
@@ -24,6 +23,7 @@
 		805AB85926B88882003BEE0D /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; platformFilter = ios; };
 		80DB6F1626B89DA800277E54 /* PayPal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DB6F1526B89DA800277E54 /* PayPal.swift */; };
 		80DB6F1726B89DC700277E54 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; platformFilter = ios; };
+		80E743A4270E2FFC00BACECA /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E406D926EFEB9F002533B1 /* URLSession+Extension.swift */; };
 		80E8DAE126B8784600FAFC3F /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E8DAE026B8784600FAFC3F /* Card.swift */; };
 		80E8DAE926B8785D00FAFC3F /* Card_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E8DAE826B8785D00FAFC3F /* Card_Tests.swift */; };
 		80E8DAEA26B8785D00FAFC3F /* Card.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E8DAD926B8783800FAFC3F /* Card.framework */; };
@@ -146,15 +146,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		061A32A226FA37D00003A736 /* Mocks */ = {
-			isa = PBXGroup;
-			children = (
-				3D9AA98D26FA71B1001D2237 /* RequestResponseMock.swift */,
-				3D43E87926FBC8E3004C38EC /* BasicRequestMocks.swift */,
-			);
-			path = Mocks;
-			sourceTree = "<group>";
-		};
 		061A32A826FA3C330003A736 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -192,38 +183,14 @@
 			path = Responses;
 			sourceTree = "<group>";
 		};
-		06E406D826EFEB8A002533B1 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				06E406D926EFEB9F002533B1 /* URLSession+Extension.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		3DE22C6026F8F7F80074A2E4 /* NetworkingTests */ = {
-			isa = PBXGroup;
-			children = (
-				BEA100F326EFA8C20036A6A5 /* APIClient_Tests.swift */,
-				3DE22C6126F8F8030074A2E4 /* RequestTests */,
-			);
-			path = NetworkingTests;
-			sourceTree = "<group>";
-		};
-		3DE22C6126F8F8030074A2E4 /* RequestTests */ = {
-			isa = PBXGroup;
-			children = (
-				3DE22C5C26F8E7A20074A2E4 /* AccessTokenRequest_Tests.swift */,
-			);
-			path = RequestTests;
-			sourceTree = "<group>";
-		};
 		8034A9E426B875C90055AF13 /* PaymentsCoreTests */ = {
 			isa = PBXGroup;
 			children = (
-				BEA100FA26EFB8120036A6A5 /* NetworkingMocks */,
-				06E406D826EFEB8A002533B1 /* Extensions */,
-				3DE22C6026F8F7F80074A2E4 /* NetworkingTests */,
+				3DE22C5C26F8E7A20074A2E4 /* AccessTokenRequest_Tests.swift */,
+				BEA100F326EFA8C20036A6A5 /* APIClient_Tests.swift */,
 				3DE22C5E26F8F3CE0074A2E4 /* Environment_Tests.swift */,
+				80E743A5270E304400BACECA /* RequestMocks */,
+				80E743A6270E304D00BACECA /* URLSessionMocks */,
 			);
 			name = PaymentsCoreTests;
 			path = ../../UnitTests/PaymentsCoreTests;
@@ -253,6 +220,25 @@
 			);
 			name = PayPal;
 			path = Sources/PayPal;
+			sourceTree = "<group>";
+		};
+		80E743A5270E304400BACECA /* RequestMocks */ = {
+			isa = PBXGroup;
+			children = (
+				3D43E87926FBC8E3004C38EC /* BasicRequestMocks.swift */,
+				3D9AA98D26FA71B1001D2237 /* RequestResponseMock.swift */,
+				BEA100F826EFB7B10036A6A5 /* ResponseMock.swift */,
+			);
+			path = RequestMocks;
+			sourceTree = "<group>";
+		};
+		80E743A6270E304D00BACECA /* URLSessionMocks */ = {
+			isa = PBXGroup;
+			children = (
+				BEA100F626EFB52D0036A6A5 /* URLProtocolMock.swift */,
+				06E406D926EFEB9F002533B1 /* URLSession+Extension.swift */,
+			);
+			path = URLSessionMocks;
 			sourceTree = "<group>";
 		};
 		80E8DADA26B8783800FAFC3F /* Card */ = {
@@ -301,16 +287,6 @@
 				BEA100E826EFA1EE0036A6A5 /* APIRequest.swift */,
 			);
 			path = Protocols;
-			sourceTree = "<group>";
-		};
-		BEA100FA26EFB8120036A6A5 /* NetworkingMocks */ = {
-			isa = PBXGroup;
-			children = (
-				061A32A226FA37D00003A736 /* Mocks */,
-				BEA100F626EFB52D0036A6A5 /* URLProtocolMock.swift */,
-				BEA100F826EFB7B10036A6A5 /* ResponseMock.swift */,
-			);
-			path = NetworkingMocks;
 			sourceTree = "<group>";
 		};
 		OBJ_11 /* PayPalTests */ = {
@@ -605,6 +581,7 @@
 				3D43E87A26FBC8E3004C38EC /* BasicRequestMocks.swift in Sources */,
 				BEA100F726EFB52D0036A6A5 /* URLProtocolMock.swift in Sources */,
 				3D9AA98E26FA71B1001D2237 /* RequestResponseMock.swift in Sources */,
+				80E743A4270E2FFC00BACECA /* URLSession+Extension.swift in Sources */,
 				BEA100F926EFB7B10036A6A5 /* ResponseMock.swift in Sources */,
 				BEA100F426EFA8C20036A6A5 /* APIClient_Tests.swift in Sources */,
 				3DE22C5F26F8F3CE0074A2E4 /* Environment_Tests.swift in Sources */,
@@ -622,7 +599,6 @@
 				06E406D726EFE7F9002533B1 /* AccessTokenResponse.swift in Sources */,
 				BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */,
 				BEA100F026EFA7C20036A6A5 /* NetworkingError.swift in Sources */,
-				06E406DA26EFEB9F002533B1 /* URLSession+Extension.swift in Sources */,
 				BEA100E926EFA1EE0036A6A5 /* APIRequest.swift in Sources */,
 				BEA100E726EF9EDA0036A6A5 /* APIClient.swift in Sources */,
 				06E406D526EFE7E8002533B1 /* AccessTokenRequest.swift in Sources */,
