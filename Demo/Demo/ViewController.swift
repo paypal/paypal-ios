@@ -1,6 +1,7 @@
 import UIKit
 import Card
 import PayPal
+import InAppSettingsKit
 
 class ViewController: UIViewController {
 
@@ -8,24 +9,32 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
 
-        // TODO: Update Demo UI with proper Card & PayPal checkout demos
-        fetchOrderID()
+        if #available(iOS 15.0, *) {
+            navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
+        }
+
+        let settingsButton = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(settingsTapped))
+        navigationItem.rightBarButtonItem = settingsButton
     }
 
-    func fetchOrderID() {
-        let amount = Amount(currencyCode: "USD", value: "10.00")
-        let orderRequestParams = CreateOrderParams(
-            intent: "CAPTURE",
-            purchaseUnits: [PurchaseUnit(amount: amount)]
-        )
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
 
-        DemoMerchantAPI.sharedService.createOrder(orderParams: orderRequestParams) { result in
-            switch result {
-            case .success(let order):
-                print("✅ fetched orderID: \(order.id) with status: \(order.status)")
-            case .failure(let error):
-                print("❌ failed to fetch orderID: \(error)")
-            }
-        }
+        displayDemoFeatureViewController()
+    }
+
+    @objc func settingsTapped() {
+        let appSettingsViewController = IASKAppSettingsViewController()
+        appSettingsViewController.showDoneButton = false
+        navigationController?.pushViewController(appSettingsViewController, animated: true)
+    }
+
+    func displayDemoFeatureViewController() {
+        let demoViewControllerType = DemoSettings.demoType.viewController
+        let demoViewController = demoViewControllerType.init()
+        demoViewController.modalPresentationStyle = .fullScreen
+
+        addChild(demoViewController)
+        view.addSubview(demoViewController.view)
     }
 }

@@ -7,13 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		80561B3826FB5F0F0023138C /* CardDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80561B3726FB5F0F0023138C /* CardDemoViewController.swift */; };
+		80561B3A26FB5F1C0023138C /* PayPalDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80561B3926FB5F1C0023138C /* PayPalDemoViewController.swift */; };
+		80561B3E26FB72D80023138C /* FeatureBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80561B3D26FB72D80023138C /* FeatureBaseViewController.swift */; };
 		805AB85026B87A87003BEE0D /* Card.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 805AB84D26B87A87003BEE0D /* Card.framework */; };
 		805AB85126B87A87003BEE0D /* Card.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 805AB84D26B87A87003BEE0D /* Card.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		806F1E3926B85367007A60E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806F1E3826B85367007A60E6 /* AppDelegate.swift */; };
 		806F1E3B26B85367007A60E6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806F1E3A26B85367007A60E6 /* SceneDelegate.swift */; };
 		806F1E3D26B85367007A60E6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806F1E3C26B85367007A60E6 /* ViewController.swift */; };
 		806F1E4226B85369007A60E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 806F1E4126B85369007A60E6 /* Assets.xcassets */; };
-		806F1E4526B85369007A60E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 806F1E4326B85369007A60E6 /* LaunchScreen.storyboard */; };
 		80DB6F1D26B89DDA00277E54 /* PayPal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80DB6F1C26B89DDA00277E54 /* PayPal.framework */; };
 		80DB6F1E26B89DDA00277E54 /* PayPal.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 80DB6F1C26B89DDA00277E54 /* PayPal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		80F33CE826F8DE29006811B1 /* DemoMerchantAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CE726F8DE29006811B1 /* DemoMerchantAPI.swift */; };
@@ -22,6 +24,13 @@
 		80F33CF126F8E7D9006811B1 /* ProcessOrderParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CF026F8E7D9006811B1 /* ProcessOrderParams.swift */; };
 		80F33CF326F8EA50006811B1 /* DemoSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CF226F8EA50006811B1 /* DemoSettings.swift */; };
 		BE1766B326F911A2007EF438 /* URLResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1766B226F911A2007EF438 /* URLResponseError.swift */; };
+		BE1766D726FA7AC3007EF438 /* InAppSettingsKit in Frameworks */ = {isa = PBXBuildFile; productRef = BE1766D626FA7AC3007EF438 /* InAppSettingsKit */; };
+		BE1766D926FA7BC8007EF438 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BE1766D826FA7BC8007EF438 /* Settings.bundle */; };
+		BECD84A027036DC2007CCAE4 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD849F27036DC2007CCAE4 /* Environment.swift */; };
+		BECD84A227036DDB007CCAE4 /* Intent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD84A127036DDB007CCAE4 /* Intent.swift */; };
+		BECD84A427036E02007CCAE4 /* DemoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD84A327036E02007CCAE4 /* DemoType.swift */; };
+		BED041AF270CA0FB00C80954 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED041AE270CA0FB00C80954 /* CustomButton.swift */; };
+		BED041B1270CB33900C80954 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED041B0270CB33900C80954 /* CustomTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,6 +49,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		80561B3726FB5F0F0023138C /* CardDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDemoViewController.swift; sourceTree = "<group>"; };
+		80561B3926FB5F1C0023138C /* PayPalDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalDemoViewController.swift; sourceTree = "<group>"; };
+		80561B3D26FB72D80023138C /* FeatureBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureBaseViewController.swift; sourceTree = "<group>"; };
 		805AB84D26B87A87003BEE0D /* Card.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Card.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		805AB84E26B87A87003BEE0D /* PaymentsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PaymentsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		805AB84F26B87A87003BEE0D /* PayPal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PayPal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -48,7 +60,6 @@
 		806F1E3A26B85367007A60E6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		806F1E3C26B85367007A60E6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		806F1E4126B85369007A60E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		806F1E4426B85369007A60E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		806F1E4626B85369007A60E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		80DB6F1C26B89DDA00277E54 /* PayPal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PayPal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80F33CE726F8DE29006811B1 /* DemoMerchantAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoMerchantAPI.swift; sourceTree = "<group>"; };
@@ -57,6 +68,12 @@
 		80F33CF026F8E7D9006811B1 /* ProcessOrderParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessOrderParams.swift; sourceTree = "<group>"; };
 		80F33CF226F8EA50006811B1 /* DemoSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSettings.swift; sourceTree = "<group>"; };
 		BE1766B226F911A2007EF438 /* URLResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLResponseError.swift; sourceTree = "<group>"; };
+		BE1766D826FA7BC8007EF438 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		BECD849F27036DC2007CCAE4 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		BECD84A127036DDB007CCAE4 /* Intent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intent.swift; sourceTree = "<group>"; };
+		BECD84A327036E02007CCAE4 /* DemoType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoType.swift; sourceTree = "<group>"; };
+		BED041AE270CA0FB00C80954 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		BED041B0270CB33900C80954 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +82,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				805AB85026B87A87003BEE0D /* Card.framework in Frameworks */,
+				BE1766D726FA7AC3007EF438 /* InAppSettingsKit in Frameworks */,
 				80DB6F1D26B89DDA00277E54 /* PayPal.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -72,6 +90,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		80561B3C26FB5F300023138C /* FeatureViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				80561B3D26FB72D80023138C /* FeatureBaseViewController.swift */,
+				80561B3726FB5F0F0023138C /* CardDemoViewController.swift */,
+				80561B3926FB5F1C0023138C /* PayPalDemoViewController.swift */,
+			);
+			path = FeatureViewControllers;
+			sourceTree = "<group>";
+		};
 		805AB84C26B87A87003BEE0D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -87,8 +115,9 @@
 			isa = PBXGroup;
 			children = (
 				806F1E3726B85367007A60E6 /* Demo */,
-				806F1E3626B85367007A60E6 /* Products */,
 				805AB84C26B87A87003BEE0D /* Frameworks */,
+				806F1E3626B85367007A60E6 /* Products */,
+				BE1766D826FA7BC8007EF438 /* Settings.bundle */,
 			);
 			sourceTree = "<group>";
 		};
@@ -104,13 +133,14 @@
 			isa = PBXGroup;
 			children = (
 				806F1E3826B85367007A60E6 /* AppDelegate.swift */,
+				806F1E3A26B85367007A60E6 /* SceneDelegate.swift */,
 				806F1E4126B85369007A60E6 /* Assets.xcassets */,
-				80F33CF226F8EA50006811B1 /* DemoSettings.swift */,
 				806F1E4626B85369007A60E6 /* Info.plist */,
-				806F1E4326B85369007A60E6 /* LaunchScreen.storyboard */,
 				80F33CEB26F8E799006811B1 /* Models */,
 				BE1766B526FA562B007EF438 /* Networking */,
-				806F1E3A26B85367007A60E6 /* SceneDelegate.swift */,
+				BECD849E27036D95007CCAE4 /* DemoSettings */,
+				BEE0EB6326FD10D90021AD42 /* Views */,
+				80561B3C26FB5F300023138C /* FeatureViewControllers */,
 				806F1E3C26B85367007A60E6 /* ViewController.swift */,
 			);
 			path = Demo;
@@ -135,6 +165,26 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
+		BECD849E27036D95007CCAE4 /* DemoSettings */ = {
+			isa = PBXGroup;
+			children = (
+				80F33CF226F8EA50006811B1 /* DemoSettings.swift */,
+				BECD84A327036E02007CCAE4 /* DemoType.swift */,
+				BECD849F27036DC2007CCAE4 /* Environment.swift */,
+				BECD84A127036DDB007CCAE4 /* Intent.swift */,
+			);
+			path = DemoSettings;
+			sourceTree = "<group>";
+		};
+		BEE0EB6326FD10D90021AD42 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BED041AE270CA0FB00C80954 /* CustomButton.swift */,
+				BED041B0270CB33900C80954 /* CustomTextField.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -152,6 +202,9 @@
 			dependencies = (
 			);
 			name = Demo;
+			packageProductDependencies = (
+				BE1766D626FA7AC3007EF438 /* InAppSettingsKit */,
+			);
 			productName = Demo;
 			productReference = 806F1E3526B85367007A60E6 /* Demo.app */;
 			productType = "com.apple.product-type.application";
@@ -180,6 +233,9 @@
 				Base,
 			);
 			mainGroup = 806F1E2C26B85367007A60E6;
+			packageReferences = (
+				BE1766D526FA7AC3007EF438 /* XCRemoteSwiftPackageReference "InAppSettingsKit" */,
+			);
 			productRefGroup = 806F1E3626B85367007A60E6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -194,7 +250,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				806F1E4526B85369007A60E6 /* LaunchScreen.storyboard in Resources */,
+				BE1766D926FA7BC8007EF438 /* Settings.bundle in Resources */,
 				806F1E4226B85369007A60E6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -206,12 +262,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BECD84A427036E02007CCAE4 /* DemoType.swift in Sources */,
 				80F33CED26F8E7A9006811B1 /* Order.swift in Sources */,
+				80561B3A26FB5F1C0023138C /* PayPalDemoViewController.swift in Sources */,
+				80561B3E26FB72D80023138C /* FeatureBaseViewController.swift in Sources */,
+				BECD84A027036DC2007CCAE4 /* Environment.swift in Sources */,
 				806F1E3D26B85367007A60E6 /* ViewController.swift in Sources */,
 				80F33CF126F8E7D9006811B1 /* ProcessOrderParams.swift in Sources */,
+				BED041B1270CB33900C80954 /* CustomTextField.swift in Sources */,
 				80F33CF326F8EA50006811B1 /* DemoSettings.swift in Sources */,
 				80F33CE826F8DE29006811B1 /* DemoMerchantAPI.swift in Sources */,
+				80561B3826FB5F0F0023138C /* CardDemoViewController.swift in Sources */,
 				80F33CEF26F8E7CC006811B1 /* CreateOrderParams.swift in Sources */,
+				BECD84A227036DDB007CCAE4 /* Intent.swift in Sources */,
+				BED041AF270CA0FB00C80954 /* CustomButton.swift in Sources */,
 				BE1766B326F911A2007EF438 /* URLResponseError.swift in Sources */,
 				806F1E3926B85367007A60E6 /* AppDelegate.swift in Sources */,
 				806F1E3B26B85367007A60E6 /* SceneDelegate.swift in Sources */,
@@ -219,17 +283,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		806F1E4326B85369007A60E6 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				806F1E4426B85369007A60E6 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		806F1E4726B85369007A60E6 /* Debug */ = {
@@ -359,7 +412,6 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Demo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -386,7 +438,6 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Demo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -424,6 +475,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BE1766D526FA7AC3007EF438 /* XCRemoteSwiftPackageReference "InAppSettingsKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/futuretap/InAppSettingsKit";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BE1766D626FA7AC3007EF438 /* InAppSettingsKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BE1766D526FA7AC3007EF438 /* XCRemoteSwiftPackageReference "InAppSettingsKit" */;
+			productName = InAppSettingsKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 806F1E2D26B85367007A60E6 /* Project object */;
 }
