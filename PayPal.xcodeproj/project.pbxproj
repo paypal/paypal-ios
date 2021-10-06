@@ -153,8 +153,7 @@
 				80E8DAE726B8785D00FAFC3F /* CardTests */,
 				8034A9E426B875C90055AF13 /* PaymentsCoreTests */,
 			);
-			name = UnitTests;
-			path = Tests/UnitTests;
+			path = UnitTests;
 			sourceTree = "<group>";
 		};
 		06E406D126EFE7B3002533B1 /* Models */ = {
@@ -192,8 +191,7 @@
 				80E743A5270E304400BACECA /* RequestMocks */,
 				80E743A6270E304D00BACECA /* URLSessionMocks */,
 			);
-			name = PaymentsCoreTests;
-			path = ../../UnitTests/PaymentsCoreTests;
+			path = PaymentsCoreTests;
 			sourceTree = "<group>";
 		};
 		805AB85726B8887D003BEE0D /* Frameworks */ = {
@@ -255,8 +253,7 @@
 			children = (
 				80E8DAE826B8785D00FAFC3F /* Card_Tests.swift */,
 			);
-			name = CardTests;
-			path = ../../UnitTests/CardTests;
+			path = CardTests;
 			sourceTree = "<group>";
 		};
 		BEA100E526EF9EDA0036A6A5 /* Networking */ = {
