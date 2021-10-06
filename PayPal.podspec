@@ -12,16 +12,16 @@ Pod::Spec.new do |s|
   s.compiler_flags = "-Wall -Werror -Wextra"
 
   s.subspec "Card" do |s|
-    s.source_files  = "Sources/Card/*.swift"
+    s.source_files  = "Sources/Card/**/*.swift"
     s.dependency "PayPal/PaymentsCore"
   end
 
   s.subspec "PayPal" do |s|
-    s.source_files  = "Sources/PayPal/*.swift"
+    s.source_files  = "Sources/PayPal/**/*.swift"
     s.dependency "PayPal/PaymentsCore"
   end
 
   s.subspec "PaymentsCore" do |s|
-    s.source_files  = "Sources/PaymentsCore/*.swift"
+    s.source_files  = "Sources/PaymentsCore/**/*.swift"
   end
 end

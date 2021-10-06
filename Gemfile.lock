@@ -211,6 +211,7 @@ GEM
     xcresult (0.2.1)
 
 PLATFORMS
+  universal-darwin-20
   x86_64-darwin-19
 
 DEPENDENCIES
@@ -218,4 +219,4 @@ DEPENDENCIES
   xcov
 
 BUNDLED WITH
-   2.2.25
+   2.2.26
