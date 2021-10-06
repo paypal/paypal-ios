@@ -44,7 +44,7 @@ class CardDemoViewController: FeatureBaseViewController {
         return textField
     }()
 
-    lazy var payButton: UIButton = {
+    lazy var payButton: CustomButton = {
         let payButton = CustomButton(title: "\(DemoSettings.intent.rawValue.capitalized) Order")
         payButton.addTarget(self, action: #selector(didTapPayButton), for: .touchUpInside)
         payButton.layer.cornerRadius = 8
