@@ -8,7 +8,7 @@ public final class APIClient {
 
     private let decoder = JSONDecoder()
 
-    public init(urlSession: URLSession = .shared, environment: Environment) {
+    public init(urlSession: URLSessionProtocol = URLSession.shared, environment: Environment) {
         self.urlSession = urlSession
         self.environment = environment
         decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -23,7 +23,7 @@ public final class APIClient {
             return
         }
 
-        let task = urlSession.dataTask(with: request) { data, response, error in
+        urlSession.performRequest(with: request) { data, response, error in
             let correlationID = (response as? HTTPURLResponse)?.allHeaderFields["Paypal-Debug-Id"] as? String
 
             if let error = error {

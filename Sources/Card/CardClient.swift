@@ -46,6 +46,11 @@ public class CardClient {
                 }
             }
         } catch {
+            // TODO: There is no way to test this scenario
+            // since we cannot test the `try` of ConfirmPaymentSourceRequest
+            // failing.
+            // This deserves a re-write. Also not sure if the try
+            // pattern there is necessary at all.
             completion(.failure(CoreError.encodingError(error)))
         }
     }
