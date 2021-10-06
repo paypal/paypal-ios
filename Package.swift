@@ -30,7 +30,7 @@ let package = Package(
             dependencies: []),
         .target(
             name: "Card",
-            dependencies: []),
+            dependencies: ["PaymentsCore"]),
         .target(
             name: "PayPal",
             dependencies: [])
