@@ -10,7 +10,7 @@ class APIClient_Tests: XCTestCase {
     let config = CoreConfig(clientID: "", environment: .sandbox)
     let fakeRequest = FakeRequest()
     
-    var mockURLSession: URLSessionMock!
+    var mockURLSession: MockURLSession!
     var apiClient: APIClient!
     
     // MARK: - Test lifecycle
@@ -18,7 +18,7 @@ class APIClient_Tests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        mockURLSession = URLSessionMock()
+        mockURLSession = MockURLSession()
         mockURLSession.cannedError = nil
         mockURLSession.cannedURLResponse = nil
         mockURLSession.cannedData = nil

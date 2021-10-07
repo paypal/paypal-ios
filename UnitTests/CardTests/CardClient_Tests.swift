@@ -16,7 +16,7 @@ final class CardClient_Tests: XCTestCase {
     )
     let config = CoreConfig(clientID: "", environment: .sandbox)
     
-    var mockURLSession: URLSessionMock!
+    var mockURLSession: MockURLSession!
     var apiClient: APIClient!
     var cardClient: CardClient!
     
@@ -25,7 +25,7 @@ final class CardClient_Tests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        mockURLSession = URLSessionMock()
+        mockURLSession = MockURLSession()
         mockURLSession.cannedError = nil
         mockURLSession.cannedURLResponse = nil
         mockURLSession.cannedData = nil
