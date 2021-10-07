@@ -29,7 +29,6 @@
 		80DB6F1726B89DC700277E54 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; platformFilter = ios; };
 		80E743B3270E3D1200BACECA /* OrderStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DC426FCE5A20007014A /* OrderStatus.swift */; };
 		80E74400270E40F300BACECA /* FakeRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E743FF270E40F300BACECA /* FakeRequests.swift */; };
-		80E74408270E411A00BACECA /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E74407270E411A00BACECA /* URLSession+Extension.swift */; };
 		80E8DAE126B8784600FAFC3F /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E8DAE026B8784600FAFC3F /* Card.swift */; };
 		80E8DAEA26B8785D00FAFC3F /* Card.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E8DAD926B8783800FAFC3F /* Card.framework */; };
 		BC0A82A5270B9533006E9A21 /* ConfirmPaymentSourceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009F26F3DF100000CC46 /* ConfirmPaymentSourceRequest.swift */; };
@@ -91,7 +90,6 @@
 		80DB6F1526B89DA800277E54 /* PayPal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPal.swift; sourceTree = "<group>"; };
 		80E743F8270E40CE00BACECA /* TestShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TestShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80E743FF270E40F300BACECA /* FakeRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeRequests.swift; sourceTree = "<group>"; };
-		80E74407270E411A00BACECA /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
 		80E8DAD926B8783800FAFC3F /* Card.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Card.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80E8DAE026B8784600FAFC3F /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		80E8DAE626B8785D00FAFC3F /* CardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -240,23 +238,6 @@
 			path = PaymentsCoreTests;
 			sourceTree = "<group>";
 		};
-		803C31B2270E42B00067D36E /* URLSessionMocks */ = {
-			isa = PBXGroup;
-			children = (
-				80E74407270E411A00BACECA /* URLSession+Extension.swift */,
-				803C31B8270E4C560067D36E /* URLSessionMock.swift */,
-			);
-			path = URLSessionMocks;
-			sourceTree = "<group>";
-		};
-		803C31B3270E42BC0067D36E /* RequestMocks */ = {
-			isa = PBXGroup;
-			children = (
-				80E743FF270E40F300BACECA /* FakeRequests.swift */,
-			);
-			path = RequestMocks;
-			sourceTree = "<group>";
-		};
 		805AB85726B8887D003BEE0D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -288,8 +269,8 @@
 		80E743F9270E40CE00BACECA /* TestShared */ = {
 			isa = PBXGroup;
 			children = (
-				803C31B3270E42BC0067D36E /* RequestMocks */,
-				803C31B2270E42B00067D36E /* URLSessionMocks */,
+				803C31B8270E4C560067D36E /* URLSessionMock.swift */,
+				80E743FF270E40F300BACECA /* FakeRequests.swift */,
 			);
 			path = TestShared;
 			sourceTree = "<group>";
@@ -711,7 +692,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				803C31B9270E4C560067D36E /* URLSessionMock.swift in Sources */,
-				80E74408270E411A00BACECA /* URLSession+Extension.swift in Sources */,
 				80E74400270E40F300BACECA /* FakeRequests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -36,7 +36,7 @@ final class CardClient_Tests: XCTestCase {
     
     // MARK: - approveOrder() tests
     
-    func testApproveOrder_withInvalidPaymentSourceRequest_returnsEncodingError() {
+    func testApproveOrder_withValidJSONRequest_returnsOrderData() {
         let expect = expectation(description: "Get success mock response")
 
         let jsonResponse = """
@@ -57,21 +57,21 @@ final class CardClient_Tests: XCTestCase {
         mockURLSession.cannedData = jsonResponse.data(using: String.Encoding.utf8)!
 
         cardClient.approveOrder(orderID: "", card: card) { result in
-            guard case .success(let orderData) = result else {
-                XCTFail("Expect success response")
-                return
+            switch result {
+            case .success(let orderData):
+                XCTAssertEqual(orderData.orderID, "testOrderID")
+                XCTAssertEqual(orderData.status, .approved)
+            case .failure(_):
+                XCTFail()
             }
-
-            XCTAssertEqual(orderData.orderID, "testOrderID")
-            XCTAssertEqual(orderData.status, .approved)
+            
             expect.fulfill()
         }
 
         waitForExpectations(timeout: 1)
-        
     }
 
-    func testApproveCardOrder_withInvalidFormatMockResponse_returnsParsingError() throws {
+    func testApproveOrder_withInvalidJSONResponse_returnsParseError() throws {
         let expect = expectation(description: "Get success mock response")
 
         let jsonResponse = """

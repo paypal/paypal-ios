@@ -26,6 +26,7 @@ class APIClient_Tests: XCTestCase {
         apiClient = APIClient(urlSession: mockURLSession, environment: .sandbox)
     }
     
+    // MARK: - fetch() tests
     
     // TODO: This test is specific to AccessToken, move it out of this file.
     func testFetch_whenAccessTokenSuccessResponse_returnsValidAccessToken() {
@@ -62,7 +63,7 @@ class APIClient_Tests: XCTestCase {
         }
         waitForExpectations(timeout: 1)
     }
-    
+        
     func testFetch_whenServerError_returnsConnectionError() {
         let expect = expectation(description: "should vend error to client call site")
         let serverError = NSError(
