@@ -8,7 +8,7 @@ class APIClient_Tests: XCTestCase {
     
     let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])
     let config = CoreConfig(clientID: "", environment: .sandbox)
-    let accessTokenRequest = AccessTokenRequest(clientID: "") // TODO: use something dumber here
+    let fakeRequest = FakeRequest()
     
     var mockURLSession: URLSessionMock!
     var apiClient: APIClient!
@@ -43,6 +43,8 @@ class APIClient_Tests: XCTestCase {
 
         mockURLSession.cannedURLResponse = successURLResponse
         mockURLSession.cannedData = jsonResponse.data(using: String.Encoding.utf8)!
+        
+        let accessTokenRequest = AccessTokenRequest(clientID: "")
 
         apiClient.fetch(endpoint: accessTokenRequest) { result, _ in
             switch result {
@@ -70,8 +72,8 @@ class APIClient_Tests: XCTestCase {
         )
 
         mockURLSession.cannedError = serverError
-
-        apiClient.fetch(endpoint: accessTokenRequest) { result, _ in
+        
+        apiClient.fetch(endpoint: fakeRequest) { result, _ in
             guard case .failure(.connectionIssue) = result else {
                 XCTFail("")
                 return
@@ -81,14 +83,13 @@ class APIClient_Tests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
 
-    func testFetch_whenNoResponseData_returnsMissingDataError() {
+    func testFetch_whenNoURLResponse_returnsInvalidURLResponseError() {
         let expect = expectation(description: "Get mock response for access token request")
 
+        mockURLSession.cannedURLResponse = nil
 
-        mockURLSession.cannedURLResponse = successURLResponse
-
-        apiClient.fetch(endpoint: accessTokenRequest) { result, _ in
-            guard case .failure(.noResponseData) = result else {
+        apiClient.fetch(endpoint: fakeRequest) { result, _ in
+            guard case .failure(.invalidURLResponse) = result else {
                 XCTFail()
                 return
             }
@@ -97,14 +98,14 @@ class APIClient_Tests: XCTestCase {
         }
         waitForExpectations(timeout: 1)
     }
-    
-    func testFetch_whenNoURLResponse_returnsInvalidURLResponseError() {
+
+    func testFetch_whenNoResponseData_returnsMissingDataError() {
         let expect = expectation(description: "Get mock response for access token request")
 
-        mockURLSession.cannedURLResponse = nil
+        mockURLSession.cannedURLResponse = successURLResponse
 
-        apiClient.fetch(endpoint: accessTokenRequest) { result, _ in
-            guard case .failure(.invalidURLResponse) = result else {
+        apiClient.fetch(endpoint: fakeRequest) { result, _ in
+            guard case .failure(.noResponseData) = result else {
                 XCTFail()
                 return
             }
@@ -126,93 +127,82 @@ class APIClient_Tests: XCTestCase {
         mockURLSession.cannedURLResponse = successURLResponse
         mockURLSession.cannedData = jsonResponse.data(using: String.Encoding.utf8)!
 
-        apiClient.fetch(endpoint: accessTokenRequest) { result, _ in
-            guard case .failure(.parsingError) = result else {
+        apiClient.fetch(endpoint: fakeRequest) { result, _ in
+            switch result {
+            case .success(_):
                 XCTFail()
-                return
+            case .failure(let error):
+                XCTAssertNotNil(error)
             }
 
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
     }
-    
+
     // TODO: Get more granual here. Also, do we want to move this check for
     // non-success status code above data parsing in our source code?
     func testFetch_whenBadStatusCode_returnsUnknownError() {
         let expect = expectation(description: "Get mock response for access token request")
-        
+
         let jsonResponse = """
         { "some": "json" }
         """
 
         mockURLSession.cannedData = jsonResponse.data(using: String.Encoding.utf8)!
-        
+
         mockURLSession.cannedURLResponse = HTTPURLResponse(
             url: URL(string: "www.fake.com")!,
             statusCode: 500,
             httpVersion: "1",
             headerFields: [:]
         )
-                
-        apiClient.fetch(endpoint: accessTokenRequest) { result, _ in
+
+        apiClient.fetch(endpoint: fakeRequest) { result, _ in
             guard case .failure(.unknown) = result else {
                 XCTFail()
                 return
             }
-            
+
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
     }
 
-//    func testFetch_withRequestExpectingEmptyResponse_vendsSuccessResult() {
-//        let expect = expectation(description: "Get empty response type for mock request")
-//        let emptyRequest = EmptyRequestResponseMock()
-//
-//        URLProtocolMock.requestResponses.append(emptyRequest)
-//
-//        apiClient.fetch(endpoint: emptyRequest) { result, _ in
-//            guard case .success = result else {
-//                XCTFail("Expected successful empty response")
-//                return
-//            }
-//            expect.fulfill()
-//        }
-//        waitForExpectations(timeout: 1)
-//    }
+    func testFetch_whenPayPalDebugHeader_returnsCorrelationID() {
+        let expect = expectation(description: "Should receive noURLRequest error")
 
-//    func testFetch_withNoResponseMock_vendsNoReponseError() {
-//        let expect = expectation(description: "Should receive bad URLResponse error")
-//        let noReponseRequest = NoReponseRequestMock()
-//
-//        URLProtocolMock.requestResponses.append(noReponseRequest)
-//
-//        apiClient.fetch(endpoint: noReponseRequest) { result, _ in
-//            guard case .failure(.invalidURLResponse) = result else {
-//                XCTFail("Expected bad URLResponse error")
-//                return
-//            }
-//            expect.fulfill()
-//        }
-//        waitForExpectations(timeout: 1)
-//    }
+        mockURLSession.cannedURLResponse = HTTPURLResponse(
+            url: URL(string: "www.fake.com")!,
+            statusCode: 200,
+            httpVersion: "1",
+            headerFields: ["Paypal-Debug-Id": "fake-id"]
+        )
 
-//    func testFetch_withNoURLRequest_vendsNoURLRequestError() {
-//        let expect = expectation(description: "Should receive noURLRequest error")
-//
-//        // Mock request whose API object does not vend a URLRequest
-//        let noURLRequest = NoURLRequestMock()
-//
-//        URLProtocolMock.requestResponses.append(noURLRequest)
-//
-//        apiClient.fetch(endpoint: noURLRequest) { result, _ in
-//            guard case .failure(.noURLRequest) = result else {
-//                XCTFail("Expected bad URLResponse error")
-//                return
-//            }
-//            expect.fulfill()
-//        }
-//        waitForExpectations(timeout: 1)
-//    }
+        apiClient.fetch(endpoint: fakeRequest) { _, correlationID in
+            XCTAssertEqual(correlationID, "fake-id")
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+
+    func testFetch_withNoURLRequest_returnsNoURLRequestError() {
+        let expect = expectation(description: "Should receive noURLRequest error")
+
+        // Mock request whose API object does not vend a URLRequest
+        let noURLRequest = FakeRequestNoURL()
+
+        apiClient.fetch(endpoint: noURLRequest) { result, _ in
+            switch result {
+            case .success(_):
+                XCTFail()
+            case .failure(let error):
+                XCTAssertNotNil(error)
+            }
+
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+
 }

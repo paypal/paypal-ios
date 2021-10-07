@@ -6,12 +6,21 @@ public final class APIClient {
     private var urlSession: URLSessionProtocol
     private var environment: Environment
 
-    private let decoder = JSONDecoder()
-
-    public init(urlSession: URLSessionProtocol = URLSession.shared, environment: Environment) {
-        self.urlSession = urlSession
-        self.environment = environment
+    private var decoder: JSONDecoder {
+        let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
+        return decoder
+    }
+
+    public init(environment: Environment) {
+        self.environment = environment
+        self.urlSession = URLSession.shared
+    }
+    
+    /// For internal use for testing purpose
+    init(urlSession: URLSessionProtocol, environment: Environment) {
+        self.environment = environment
+        self.urlSession = urlSession
     }
 
     public func fetch<T: APIRequest>(
@@ -44,15 +53,9 @@ public final class APIClient {
             switch response.statusCode {
             case 200..<300:
                 do {
-                    // TODO: Get rid of this empty case, relevant tests, & files.
-                    if let emptyResponse = EmptyResponse() as? T.ResponseType {
-                        completion(.success(emptyResponse), correlationID)
-                        return
-                    } else {
-                        let decodedData = try self.decoder.decode(T.ResponseType.self, from: data)
-                        completion(.success(decodedData), correlationID)
-                        return
-                    }
+                    let decodedData = try self.decoder.decode(T.ResponseType.self, from: data)
+                    completion(.success(decodedData), correlationID)
+                    return
                 } catch {
                     // TODO: Returning this error will always be nil at this point
                     completion(.failure(.parsingError(error)), correlationID)

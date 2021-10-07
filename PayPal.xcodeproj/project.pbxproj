@@ -24,15 +24,11 @@
 		803C31B9270E4C560067D36E /* URLSessionMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803C31B8270E4C560067D36E /* URLSessionMock.swift */; };
 		803C31BB270E55760067D36E /* MockAccessTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803C31BA270E55760067D36E /* MockAccessTokenRequest.swift */; };
 		8048D28C270B9DE00072214A /* ConfirmPaymentSourceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE00A226F3E32A0000CC46 /* ConfirmPaymentSourceResponse.swift */; };
-		8048D28E270BB0470072214A /* EmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8048D28D270BB0470072214A /* EmptyResponse.swift */; };
 		805AB85926B88882003BEE0D /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; platformFilter = ios; };
 		80DB6F1626B89DA800277E54 /* PayPal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DB6F1526B89DA800277E54 /* PayPal.swift */; };
 		80DB6F1726B89DC700277E54 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; platformFilter = ios; };
 		80E743B3270E3D1200BACECA /* OrderStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DC426FCE5A20007014A /* OrderStatus.swift */; };
-		80E74400270E40F300BACECA /* BasicRequestMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E743FF270E40F300BACECA /* BasicRequestMocks.swift */; };
-		80E74402270E40FF00BACECA /* RequestResponseMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E74401270E40FF00BACECA /* RequestResponseMocks.swift */; };
-		80E74404270E410700BACECA /* ResponseMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E74403270E410700BACECA /* ResponseMock.swift */; };
-		80E74406270E411200BACECA /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E74405270E411200BACECA /* URLProtocolMock.swift */; };
+		80E74400270E40F300BACECA /* FakeRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E743FF270E40F300BACECA /* FakeRequests.swift */; };
 		80E74408270E411A00BACECA /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E74407270E411A00BACECA /* URLSession+Extension.swift */; };
 		80E8DAE126B8784600FAFC3F /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E8DAE026B8784600FAFC3F /* Card.swift */; };
 		80E8DAEA26B8785D00FAFC3F /* Card.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E8DAD926B8783800FAFC3F /* Card.framework */; };
@@ -90,15 +86,11 @@
 		803C31B6270E49160067D36E /* Card_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card_Tests.swift; sourceTree = "<group>"; };
 		803C31B8270E4C560067D36E /* URLSessionMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionMock.swift; sourceTree = "<group>"; };
 		803C31BA270E55760067D36E /* MockAccessTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAccessTokenRequest.swift; sourceTree = "<group>"; };
-		8048D28D270BB0470072214A /* EmptyResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyResponse.swift; sourceTree = "<group>"; };
 		80B9F85126B8750000D67843 /* PaymentsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PaymentsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80DB6F0E26B89D9600277E54 /* PayPal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PayPal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80DB6F1526B89DA800277E54 /* PayPal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPal.swift; sourceTree = "<group>"; };
 		80E743F8270E40CE00BACECA /* TestShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TestShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		80E743FF270E40F300BACECA /* BasicRequestMocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicRequestMocks.swift; sourceTree = "<group>"; };
-		80E74401270E40FF00BACECA /* RequestResponseMocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResponseMocks.swift; sourceTree = "<group>"; };
-		80E74403270E410700BACECA /* ResponseMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseMock.swift; sourceTree = "<group>"; };
-		80E74405270E411200BACECA /* URLProtocolMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolMock.swift; sourceTree = "<group>"; };
+		80E743FF270E40F300BACECA /* FakeRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeRequests.swift; sourceTree = "<group>"; };
 		80E74407270E411A00BACECA /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
 		80E8DAD926B8783800FAFC3F /* Card.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Card.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80E8DAE026B8784600FAFC3F /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
@@ -233,7 +225,6 @@
 			isa = PBXGroup;
 			children = (
 				06E406D626EFE7F9002533B1 /* AccessTokenResponse.swift */,
-				8048D28D270BB0470072214A /* EmptyResponse.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -252,7 +243,6 @@
 		803C31B2270E42B00067D36E /* URLSessionMocks */ = {
 			isa = PBXGroup;
 			children = (
-				80E74405270E411200BACECA /* URLProtocolMock.swift */,
 				80E74407270E411A00BACECA /* URLSession+Extension.swift */,
 				803C31B8270E4C560067D36E /* URLSessionMock.swift */,
 			);
@@ -262,9 +252,7 @@
 		803C31B3270E42BC0067D36E /* RequestMocks */ = {
 			isa = PBXGroup;
 			children = (
-				80E743FF270E40F300BACECA /* BasicRequestMocks.swift */,
-				80E74401270E40FF00BACECA /* RequestResponseMocks.swift */,
-				80E74403270E410700BACECA /* ResponseMock.swift */,
+				80E743FF270E40F300BACECA /* FakeRequests.swift */,
 			);
 			path = RequestMocks;
 			sourceTree = "<group>";
@@ -699,7 +687,6 @@
 				06E11C0D270609E200477DCE /* OrderData.swift in Sources */,
 				06CE009926F3D1660000CC46 /* CoreConfig.swift in Sources */,
 				BEA100EC26EFA7790036A6A5 /* HTTPMethod.swift in Sources */,
-				8048D28E270BB0470072214A /* EmptyResponse.swift in Sources */,
 				BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */,
 				06E406D726EFE7F9002533B1 /* AccessTokenResponse.swift in Sources */,
 				BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */,
@@ -724,11 +711,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				803C31B9270E4C560067D36E /* URLSessionMock.swift in Sources */,
-				80E74402270E40FF00BACECA /* RequestResponseMocks.swift in Sources */,
 				80E74408270E411A00BACECA /* URLSession+Extension.swift in Sources */,
-				80E74404270E410700BACECA /* ResponseMock.swift in Sources */,
-				80E74400270E40F300BACECA /* BasicRequestMocks.swift in Sources */,
-				80E74406270E411200BACECA /* URLProtocolMock.swift in Sources */,
+				80E74400270E40F300BACECA /* FakeRequests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
