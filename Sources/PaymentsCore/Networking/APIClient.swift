@@ -16,7 +16,7 @@ public final class APIClient {
         self.environment = environment
         self.urlSession = URLSession.shared
     }
-    
+
     /// For internal use for testing purpose
     init(urlSession: URLSessionProtocol, environment: Environment) {
         self.environment = environment
