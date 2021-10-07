@@ -1,6 +1,7 @@
 import XCTest
 @testable import PaymentsCore
 @testable import Card
+@testable import TestShared
 
 final class CardClient_Tests: XCTestCase {
 

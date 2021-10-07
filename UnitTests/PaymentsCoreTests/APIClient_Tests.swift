@@ -1,5 +1,6 @@
 import XCTest
 @testable import PaymentsCore
+@testable import TestShared
 
 class APIClient_Tests: XCTestCase {
 
