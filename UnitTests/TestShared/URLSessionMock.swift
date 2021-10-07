@@ -1,5 +1,5 @@
 import Foundation
-import PaymentsCore
+@testable import PaymentsCore
 
 class URLSessionMock: URLSessionProtocol {
     

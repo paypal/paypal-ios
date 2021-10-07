@@ -72,12 +72,12 @@ public final class APIClient {
     }
 }
 
-public protocol URLSessionProtocol {
+protocol URLSessionProtocol {
     func performRequest(with urlRequest: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)
 }
 
 extension URLSession: URLSessionProtocol {
-    public func performRequest(with urlRequest: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
+    func performRequest(with urlRequest: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
         let task = dataTask(with: urlRequest, completionHandler: completionHandler)
         task.resume()
     }
