@@ -2,7 +2,7 @@ import UIKit
 
 class CustomButton: UIButton {
     var titleHolder: String?
-    //swiftlint:disable:next implicitly_unwrapped_optional
+    // swiftlint:disable:next implicitly_unwrapped_optional
     var activityIndicator: UIActivityIndicatorView!
 
     convenience init(title: String) {
