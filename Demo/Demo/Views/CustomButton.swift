@@ -1,6 +1,7 @@
 import UIKit
 
 class CustomButton: UIButton {
+
     convenience init(title: String) {
         self.init(type: .system)
 

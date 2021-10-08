@@ -1,10 +1,7 @@
 import UIKit
 
 class CardDemoViewController: FeatureBaseViewController {
-    // TODO: Validate card fields are filled out
-    // TODO: Add proper spacing / styling / max characters to card fields
     // TODO: Animate pay button to indicate loading
-    // TODO: Disable pay button until fields are filled out
 
     typealias Constants = FeatureBaseViewController.Constants
 
@@ -28,18 +25,23 @@ class CardDemoViewController: FeatureBaseViewController {
 
     lazy var cardNumberTextField: CustomTextField = {
         let textField = CustomTextField(placeholderText: "Card Number")
+        textField.addTarget(self, action: #selector(editingChanged), for: .editingChanged)
+        textField.addTarget(self, action: #selector(cardNumberDidChange), for: .editingChanged)
         textField.keyboardType = .numberPad
         return textField
     }()
 
     lazy var expirationTextField: CustomTextField = {
         let textField = CustomTextField(placeholderText: "Expiration")
+        textField.addTarget(self, action: #selector(editingChanged), for: .editingChanged)
+        textField.addTarget(self, action: #selector(expirationDateDidChange), for: .editingChanged)
         textField.keyboardType = .numberPad
         return textField
     }()
 
     lazy var cvvTextField: CustomTextField = {
         let textField = CustomTextField(placeholderText: "CVV")
+        textField.addTarget(self, action: #selector(editingChanged), for: .editingChanged)
         textField.keyboardType = .numberPad
         return textField
     }()
@@ -50,8 +52,11 @@ class CardDemoViewController: FeatureBaseViewController {
         payButton.layer.cornerRadius = 8
         payButton.backgroundColor = .systemBlue
         payButton.tintColor = .white
+        payButton.isEnabled = false
         return payButton
     }()
+
+    private let cardFormatter = CardFormatter()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,5 +94,28 @@ class CardDemoViewController: FeatureBaseViewController {
     @objc func didTapPayButton() {
         updateTitle("Processing order...")
         // TODO: Call `processOrder`
+    }
+
+    @objc private func editingChanged() {
+        guard
+            let cardNumberCount = cardNumberTextField.text?.count,
+            let expirationDateCount = expirationTextField.text?.count,
+            let cvvCount = cvvTextField.text?.count,
+            cardNumberCount >= 18 && cardNumberCount <= 19,
+            expirationDateCount >= 7 && expirationDateCount <= 9,
+            cvvCount >= 3 && cvvCount <= 4
+        else {
+            payButton.isEnabled = false
+            return
+        }
+        payButton.isEnabled = true
+    }
+
+    @objc private func cardNumberDidChange() {
+        cardNumberTextField.text = cardFormatter.formatCardNumber(cardNumberTextField.text ?? "")
+    }
+
+    @objc private func expirationDateDidChange() {
+        expirationTextField.text = cardFormatter.formatExpirationDate(expirationTextField.text ?? "")
     }
 }
