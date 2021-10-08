@@ -1,7 +1,6 @@
 import UIKit
 
 class CardDemoViewController: FeatureBaseViewController {
-    // TODO: Animate pay button to indicate loading
 
     typealias Constants = FeatureBaseViewController.Constants
 
@@ -93,8 +92,9 @@ class CardDemoViewController: FeatureBaseViewController {
 
     @objc func didTapPayButton() {
         updateTitle("Processing order...")
-        // TODO: Call `processOrder`
-    }
+        payButton.startAnimating()
+        // TODO: Call `processOrder` and `payButton.stopAnimating()` once process order is complete
+        }
 
     @objc private func editingChanged() {
         guard
