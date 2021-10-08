@@ -57,6 +57,7 @@ class CardDemoViewController: FeatureBaseViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .systemBackground
+        navigationItem.title = "Card"
 
         addSubviews()
         setupConstraints()
