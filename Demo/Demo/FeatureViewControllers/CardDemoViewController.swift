@@ -25,7 +25,6 @@ class CardDemoViewController: FeatureBaseViewController {
     lazy var cardNumberTextField: CustomTextField = {
         let textField = CustomTextField(placeholderText: "Card Number")
         textField.addTarget(self, action: #selector(editingChanged), for: .editingChanged)
-        textField.addTarget(self, action: #selector(cardNumberDidChange), for: .editingChanged)
         textField.keyboardType = .numberPad
         return textField
     }()
@@ -33,7 +32,6 @@ class CardDemoViewController: FeatureBaseViewController {
     lazy var expirationTextField: CustomTextField = {
         let textField = CustomTextField(placeholderText: "Expiration")
         textField.addTarget(self, action: #selector(editingChanged), for: .editingChanged)
-        textField.addTarget(self, action: #selector(expirationDateDidChange), for: .editingChanged)
         textField.keyboardType = .numberPad
         return textField
     }()
@@ -97,6 +95,9 @@ class CardDemoViewController: FeatureBaseViewController {
         }
 
     @objc private func editingChanged() {
+        cardNumberTextField.text = cardFormatter.formatCardNumber(cardNumberTextField.text ?? "")
+        expirationTextField.text = cardFormatter.formatExpirationDate(expirationTextField.text ?? "")
+
         guard
             let cardNumberCount = cardNumberTextField.text?.count,
             let expirationDateCount = expirationTextField.text?.count,
@@ -109,13 +110,5 @@ class CardDemoViewController: FeatureBaseViewController {
             return
         }
         payButton.isEnabled = true
-    }
-
-    @objc private func cardNumberDidChange() {
-        cardNumberTextField.text = cardFormatter.formatCardNumber(cardNumberTextField.text ?? "")
-    }
-
-    @objc private func expirationDateDidChange() {
-        expirationTextField.text = cardFormatter.formatExpirationDate(expirationTextField.text ?? "")
     }
 }
