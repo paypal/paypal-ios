@@ -92,7 +92,7 @@ class CardDemoViewController: FeatureBaseViewController {
         updateTitle("Processing order...")
         payButton.startAnimating()
         // TODO: Call `processOrder` and `payButton.stopAnimating()` once process order is complete
-        }
+    }
 
     @objc private func editingChanged() {
         cardNumberTextField.text = cardFormatter.formatCardNumber(cardNumberTextField.text ?? "")

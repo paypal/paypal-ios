@@ -7,7 +7,7 @@ class CardFormatter {
 
         var cardString: String = newCardNumber.replacingOccurrences(of: " ", with: "")
 
-        let cardType = getCardType(cardString)
+        let cardType = CardType.unknown.getCardType(cardString)
 
         if previousCardNumber.count == cardType.maxLength + cardType.cardNumberIndices.count {
             return previousCardNumber
@@ -43,15 +43,5 @@ class CardFormatter {
         }
         currentExpirationDate = newExpirationDate
         return currentExpirationDate
-    }
-
-    private func getCardType(_ cardNumber: String) -> CardType {
-        if cardNumber.starts(with: "34") || cardNumber.starts(with: "37") {
-            return .americanExpress
-        } else if cardNumber.starts(with: "4") {
-            return .visa
-        } else {
-            return .unknown
-        }
     }
 }

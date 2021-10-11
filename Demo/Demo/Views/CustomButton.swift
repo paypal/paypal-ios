@@ -1,9 +1,15 @@
 import UIKit
 
 class CustomButton: UIButton {
+
     var titleHolder: String?
-    // swiftlint:disable:next implicitly_unwrapped_optional
-    var activityIndicator: UIActivityIndicatorView!
+
+    let activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.color = UIColor.white
+        return activityIndicator
+    }()
 
     convenience init(title: String) {
         self.init(type: .system)
@@ -28,23 +34,12 @@ class CustomButton: UIButton {
     func startAnimating() {
         self.setTitle("", for: .normal)
 
-        if activityIndicator == nil {
-            activityIndicator = createActivityIndicator()
-        }
-
         showSpinning()
     }
 
     func stopAnimating() {
         self.setTitle(titleHolder, for: .normal)
         activityIndicator.stopAnimating()
-    }
-
-    private func createActivityIndicator() -> UIActivityIndicatorView {
-        let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.color = UIColor.white
-        return activityIndicator
     }
 
     private func showSpinning() {
