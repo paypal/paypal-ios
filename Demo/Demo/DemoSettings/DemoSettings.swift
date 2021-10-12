@@ -20,4 +20,13 @@ enum DemoSettings {
         UserDefaults.standard.string(forKey: DemoTypeDefaultsKey)
             .flatMap { DemoType(rawValue: $0) } ?? .card
     }
+
+    static var clientID: String {
+        switch environment {
+        case .sandbox:
+            return "AdFeO5qt2rodLjSgxSj66sjlBylwpacFtov1VgnptN_VclH1ZNhIcgS1px02mNIOUSEO54B-5drJ7F85"
+        case .production:
+            return "TODO"
+        }
+    }
 }

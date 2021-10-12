@@ -13,6 +13,13 @@ public struct Card: Encodable {
     public var expirationYear: String
     public var securityCode: String
 
+    public init(number: String, expirationMonth: String, expirationYear: String, securityCode: String) {
+        self.number = number
+        self.expirationMonth = expirationMonth
+        self.expirationYear = expirationYear
+        self.securityCode = securityCode
+    }
+
     enum CodingKeys: String, CodingKey {
         case number
         case expiry
