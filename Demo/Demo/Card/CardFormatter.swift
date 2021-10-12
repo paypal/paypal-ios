@@ -9,17 +9,13 @@ class CardFormatter {
 
         let cardType = CardType.unknown.getCardType(cardString)
 
-        if previousCardNumber.count == cardType.maxLength + cardType.cardNumberIndices.count {
-            return previousCardNumber
-        } else {
-            cardType.cardNumberIndices.forEach { index in
-                if index < cardString.count {
-                    let index = cardString.index(cardString.startIndex, offsetBy: index)
-                    cardString.insert(" ", at: index)
-                }
+        cardType.cardNumberIndices.forEach { index in
+            if index < cardString.count {
+                let index = cardString.index(cardString.startIndex, offsetBy: index)
+                cardString.insert(" ", at: index)
             }
-            return cardString
         }
+        return cardString
     }
 
     func formatExpirationDate( _ newExpirationDate: String, previousExpirationDate: String = "") -> String? {

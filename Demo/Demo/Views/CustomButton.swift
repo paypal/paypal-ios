@@ -25,6 +25,10 @@ class CustomButton: UIButton {
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
+
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(activityIndicator)
+        setupConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -33,20 +37,12 @@ class CustomButton: UIButton {
 
     func startAnimating() {
         self.setTitle("", for: .normal)
-
-        showSpinning()
+        activityIndicator.startAnimating()
     }
 
     func stopAnimating() {
         self.setTitle(titleHolder, for: .normal)
         activityIndicator.stopAnimating()
-    }
-
-    private func showSpinning() {
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(activityIndicator)
-        setupConstraints()
-        activityIndicator.startAnimating()
     }
 
     private func setupConstraints() {

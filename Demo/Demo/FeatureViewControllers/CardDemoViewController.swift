@@ -1,6 +1,6 @@
 import UIKit
 
-class CardDemoViewController: FeatureBaseViewController {
+class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
     typealias Constants = FeatureBaseViewController.Constants
 
@@ -60,6 +60,10 @@ class CardDemoViewController: FeatureBaseViewController {
 
         view.backgroundColor = .systemBackground
 
+        cardNumberTextField.delegate = self
+        expirationTextField.delegate = self
+        cvvTextField.delegate = self
+
         addSubviews()
         setupConstraints()
     }
@@ -88,6 +92,26 @@ class CardDemoViewController: FeatureBaseViewController {
         ])
     }
 
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == cardNumberTextField {
+            let cleanedText = cardNumberTextField.text?.replacingOccurrences(of: " ", with: "") ?? ""
+            let currentCharacterCount = cleanedText.count
+            let newLength = currentCharacterCount + string.count - range.length
+            return newLength <= CardType.unknown.getCardType(cleanedText).maxLength
+        } else if textField == expirationTextField {
+            var cleanedText = expirationTextField.text?.replacingOccurrences(of: "/", with: "") ?? ""
+            cleanedText = cleanedText.replacingOccurrences(of: " ", with: "")
+            let currentCharacterCount = cleanedText.count
+            let newLength = currentCharacterCount + string.count - range.length
+            return newLength <= 4
+        } else if textField == cvvTextField {
+            let currentCharacterCount = cvvTextField.text?.count ?? 0
+            let newLength = currentCharacterCount + string.count - range.length
+            return newLength <= 4
+        }
+        return true
+    }
+
     @objc func didTapPayButton() {
         updateTitle("Processing order...")
         payButton.startAnimating()
@@ -99,10 +123,10 @@ class CardDemoViewController: FeatureBaseViewController {
         expirationTextField.text = cardFormatter.formatExpirationDate(expirationTextField.text ?? "")
 
         guard
-            let cardNumberCount = cardNumberTextField.text?.count,
+            let cardNumberCount = cardNumberTextField.text?.replacingOccurrences(of: " ", with: "").count,
             let expirationDateCount = expirationTextField.text?.count,
             let cvvCount = cvvTextField.text?.count,
-            cardNumberCount >= 18 && cardNumberCount <= 19,
+            cardNumberCount >= 15 && cardNumberCount <= 19,
             expirationDateCount >= 7 && expirationDateCount <= 9,
             cvvCount >= 3 && cvvCount <= 4
         else {
