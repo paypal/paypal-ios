@@ -17,9 +17,6 @@ public struct Card: Encodable {
     /// The card holder's name as it appears on the card.
     public var name: String?
 
-    /// Type of card. i.e Credit, Debit and so on.
-    public var type: CardType?
-
     /// The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).
     public var billingAddress: Address?
 
@@ -27,9 +24,7 @@ public struct Card: Encodable {
         case number
         case expiry
         case securityCode
-
         case name
-        case type
         case billingAddress
     }
 
@@ -44,7 +39,6 @@ public struct Card: Encodable {
         try container.encode(expiry, forKey: .expiry)
         try container.encode(securityCode, forKey: .securityCode)
         try container.encode(name, forKey: .name)
-        try container.encode(type, forKey: .type)
         try container.encode(billingAddress, forKey: .billingAddress)
     }
 }
