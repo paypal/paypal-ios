@@ -21,7 +21,7 @@ class APIClient_Tests: XCTestCase {
         mockURLSession = MockURLSession()
         mockURLSession.cannedError = nil
         mockURLSession.cannedURLResponse = nil
-        mockURLSession.cannedData = nil
+        mockURLSession.cannedJSONData = nil
         
         apiClient = APIClient(urlSession: mockURLSession, environment: .sandbox)
     }
@@ -43,7 +43,7 @@ class APIClient_Tests: XCTestCase {
         """
 
         mockURLSession.cannedURLResponse = successURLResponse
-        mockURLSession.cannedData = jsonResponse.data(using: String.Encoding.utf8)!
+        mockURLSession.cannedJSONData = jsonResponse
         
         let accessTokenRequest = AccessTokenRequest(clientID: "")
 
@@ -126,7 +126,7 @@ class APIClient_Tests: XCTestCase {
         """
 
         mockURLSession.cannedURLResponse = successURLResponse
-        mockURLSession.cannedData = jsonResponse.data(using: String.Encoding.utf8)!
+        mockURLSession.cannedJSONData = jsonResponse
 
         apiClient.fetch(endpoint: fakeRequest) { result, _ in
             switch result {
@@ -150,7 +150,7 @@ class APIClient_Tests: XCTestCase {
         { "some": "json" }
         """
 
-        mockURLSession.cannedData = jsonResponse.data(using: String.Encoding.utf8)!
+        mockURLSession.cannedJSONData = jsonResponse
 
         mockURLSession.cannedURLResponse = HTTPURLResponse(
             url: URL(string: "www.fake.com")!,

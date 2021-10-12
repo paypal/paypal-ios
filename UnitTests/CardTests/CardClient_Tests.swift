@@ -28,7 +28,7 @@ final class CardClient_Tests: XCTestCase {
         mockURLSession = MockURLSession()
         mockURLSession.cannedError = nil
         mockURLSession.cannedURLResponse = nil
-        mockURLSession.cannedData = nil
+        mockURLSession.cannedJSONData = nil
         
         apiClient = APIClient(urlSession: mockURLSession, environment: .sandbox)
         cardClient = CardClient(config: config, apiClient: apiClient)
@@ -54,7 +54,7 @@ final class CardClient_Tests: XCTestCase {
         """
         
         mockURLSession.cannedURLResponse = successURLResponse
-        mockURLSession.cannedData = jsonResponse.data(using: String.Encoding.utf8)!
+        mockURLSession.cannedJSONData = jsonResponse
 
         cardClient.approveOrder(orderID: "", card: card) { result in
             switch result {
@@ -81,7 +81,7 @@ final class CardClient_Tests: XCTestCase {
         """
 
         mockURLSession.cannedURLResponse = successURLResponse
-        mockURLSession.cannedData = jsonResponse.data(using: String.Encoding.utf8)!
+        mockURLSession.cannedJSONData = jsonResponse
 
         cardClient.approveOrder(orderID: "", card: card) { result in
             guard case .failure(NetworkingError.parsingError) = result else {
