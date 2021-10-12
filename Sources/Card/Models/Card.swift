@@ -6,7 +6,7 @@ public struct Card: Encodable {
         case number
         case expiry
         case securityCode
-        case name
+        case cardHolderName = "name"
         case billingAddress
     }
 
@@ -23,7 +23,7 @@ public struct Card: Encodable {
     public var securityCode: String
 
     /// The card holder's name as it appears on the card.
-    public var name: String?
+    public var cardHolderName: String?
 
     /// The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).
     public var billingAddress: Address?
@@ -33,12 +33,28 @@ public struct Card: Encodable {
         "\(expirationYear)-\(expirationMonth)"
     }
 
+    public init(
+        number: String,
+        expirationMonth: String,
+        expirationYear: String,
+        securityCode: String,
+        cardHolderName: String? = nil,
+        billingAddress: Address? = nil
+    ) {
+        self.number = number
+        self.expirationMonth = expirationMonth
+        self.expirationYear = expirationYear
+        self.securityCode = securityCode
+        self.cardHolderName = cardHolderName
+        self.billingAddress = billingAddress
+    }
+
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(number, forKey: .number)
         try container.encode(expiry, forKey: .expiry)
         try container.encode(securityCode, forKey: .securityCode)
-        try container.encode(name, forKey: .name)
+        try container.encode(cardHolderName, forKey: .cardHolderName)
         try container.encode(billingAddress, forKey: .billingAddress)
     }
 }
