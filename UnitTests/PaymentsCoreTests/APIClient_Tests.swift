@@ -30,7 +30,7 @@ class APIClient_Tests: XCTestCase {
     
     // TODO: This test is specific to AccessToken, move it out of this file.
     func testFetch_whenAccessTokenSuccessResponse_returnsValidAccessToken() {
-        let expect = expectation(description: "Get mock response for access token request")
+        let expect = expectation(description: "Callback invoked.")
 
         let jsonResponse = """
         {
@@ -65,7 +65,7 @@ class APIClient_Tests: XCTestCase {
     }
         
     func testFetch_whenServerError_returnsConnectionError() {
-        let expect = expectation(description: "should vend error to client call site")
+        let expect = expectation(description: "Callback invoked.")
         let serverError = NSError(
             domain: URLError.errorDomain,
             code: NSURLErrorBadServerResponse,
@@ -85,7 +85,7 @@ class APIClient_Tests: XCTestCase {
     }
 
     func testFetch_whenNoURLResponse_returnsInvalidURLResponseError() {
-        let expect = expectation(description: "Get mock response for access token request")
+        let expect = expectation(description: "Callback invoked.")
 
         mockURLSession.cannedURLResponse = nil
 
@@ -101,7 +101,7 @@ class APIClient_Tests: XCTestCase {
     }
 
     func testFetch_whenNoResponseData_returnsMissingDataError() {
-        let expect = expectation(description: "Get mock response for access token request")
+        let expect = expectation(description: "Callback invoked.")
 
         mockURLSession.cannedURLResponse = successURLResponse
 
@@ -117,7 +117,7 @@ class APIClient_Tests: XCTestCase {
     }
 
     func testFetch_whenInvalidData_returnsParseError() {
-        let expect = expectation(description: "Get mock response for access token request")
+        let expect = expectation(description: "Callback invoked.")
 
         let jsonResponse = """
         {
@@ -144,7 +144,7 @@ class APIClient_Tests: XCTestCase {
     // TODO: Get more granual here. Also, do we want to move this check for
     // non-success status code above data parsing in our source code?
     func testFetch_whenBadStatusCode_returnsUnknownError() {
-        let expect = expectation(description: "Get mock response for access token request")
+        let expect = expectation(description: "Callback invoked.")
 
         let jsonResponse = """
         { "some": "json" }
@@ -171,7 +171,7 @@ class APIClient_Tests: XCTestCase {
     }
 
     func testFetch_whenPayPalDebugHeader_returnsCorrelationID() {
-        let expect = expectation(description: "Should receive noURLRequest error")
+        let expect = expectation(description: "Callback invoked.")
 
         mockURLSession.cannedURLResponse = HTTPURLResponse(
             url: URL(string: "www.fake.com")!,
@@ -188,7 +188,7 @@ class APIClient_Tests: XCTestCase {
     }
 
     func testFetch_withNoURLRequest_returnsNoURLRequestError() {
-        let expect = expectation(description: "Should receive noURLRequest error")
+        let expect = expectation(description: "Callback invoked.")
 
         // Mock request whose API object does not vend a URLRequest
         let noURLRequest = FakeRequestNoURL()

@@ -37,7 +37,7 @@ final class CardClient_Tests: XCTestCase {
     // MARK: - approveOrder() tests
     
     func testApproveOrder_withValidJSONRequest_returnsOrderData() {
-        let expect = expectation(description: "Get success mock response")
+        let expect = expectation(description: "Callback invoked.")
 
         let jsonResponse = """
         {
@@ -72,7 +72,7 @@ final class CardClient_Tests: XCTestCase {
     }
 
     func testApproveOrder_withInvalidJSONResponse_returnsParseError() throws {
-        let expect = expectation(description: "Get success mock response")
+        let expect = expectation(description: "Callback invoked.")
 
         let jsonResponse = """
         {
