@@ -7,7 +7,6 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
 
         if #available(iOS 15.0, *) {
             navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
@@ -33,6 +32,8 @@ class ViewController: UIViewController {
         let demoViewControllerType = DemoSettings.demoType.viewController
         let demoViewController = demoViewControllerType.init()
         demoViewController.modalPresentationStyle = .fullScreen
+
+        navigationItem.title = DemoSettings.demoType.rawValue.uppercased()
 
         addChild(demoViewController)
         view.addSubview(demoViewController.view)
