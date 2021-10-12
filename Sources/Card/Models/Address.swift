@@ -5,6 +5,15 @@ import Foundation
 /// and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).
 public class Address: Codable {
 
+    enum CodingKeys: String, CodingKey {
+        case addressLine1
+        case addressLine2
+        case adminArea2
+        case adminArea1
+        case postalCode
+        case countryCode
+    }
+
     /// The first line of the address. For example, number or street. For example, `173 Drury Lane`.
     /// Required for data entry and compliance and risk checks. Must contain the full address.
     var addressLine1: String?

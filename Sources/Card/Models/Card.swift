@@ -2,6 +2,14 @@ import Foundation
 
 public struct Card: Encodable {
 
+    enum CodingKeys: String, CodingKey {
+        case number
+        case expiry
+        case securityCode
+        case name
+        case billingAddress
+    }
+
     /// The primary account number (PAN) for the payment card.
     public var number: String
 
@@ -19,14 +27,6 @@ public struct Card: Encodable {
 
     /// The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).
     public var billingAddress: Address?
-
-    enum CodingKeys: String, CodingKey {
-        case number
-        case expiry
-        case securityCode
-        case name
-        case billingAddress
-    }
 
     /// The expiration year and month, in ISO-8601 `YYYY-MM` date format.
     public var expiry: String {
