@@ -6,11 +6,11 @@ public final class APIClient {
     private var urlSession: URLSessionProtocol
     private var environment: Environment
 
-    private var decoder: JSONDecoder {
+    private var decoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         return decoder
-    }
+    }()
 
     public init(environment: Environment) {
         self.environment = environment
