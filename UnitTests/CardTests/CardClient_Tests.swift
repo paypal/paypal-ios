@@ -52,7 +52,7 @@ final class CardClient_Tests: XCTestCase {
             }
         }
         """
-        
+      
         mockURLSession.cannedURLResponse = successURLResponse
         mockURLSession.cannedJSONData = jsonResponse
 
@@ -75,6 +75,7 @@ final class CardClient_Tests: XCTestCase {
         let expect = expectation(description: "Callback invoked.")
 
         let jsonResponse = """
+
         {
             "some_unexpected_response": "something"
         }

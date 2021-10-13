@@ -33,6 +33,7 @@ class APIClient_Tests: XCTestCase {
         let expect = expectation(description: "Callback invoked.")
 
         let jsonResponse = """
+
         {
             "scope": "fake-scope",
             "access_token": "fake-token",
@@ -164,7 +165,6 @@ class APIClient_Tests: XCTestCase {
                 XCTFail()
                 return
             }
-
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -200,7 +200,6 @@ class APIClient_Tests: XCTestCase {
             case .failure(let error):
                 XCTAssertNotNil(error)
             }
-
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)

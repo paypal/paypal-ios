@@ -232,7 +232,7 @@
 				8036C1E0270F9BE700C0F091 /* APIClient_Tests.swift */,
 				8036C1E1270F9BE700C0F091 /* Environment_Tests.swift */,
 			);
-			path = PaymentsCoreTests;
+			path = RequestMocks;
 			sourceTree = "<group>";
 		};
 		805AB85726B8887D003BEE0D /* Frameworks */ = {

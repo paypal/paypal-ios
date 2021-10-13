@@ -12,8 +12,6 @@ class FeatureBaseViewController: UIViewController {
         let view = UIStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .horizontal
-        view.alignment = .center
-        view.distribution = .fillEqually
         view.spacing = Constants.stackViewSpacing
         return view
     }()
@@ -27,7 +25,6 @@ class FeatureBaseViewController: UIViewController {
     lazy var createOrderButton: CustomButton = {
         let createOrderButton = CustomButton(title: "Create Order")
         createOrderButton.addTarget(self, action: #selector(createOrderTapped), for: .touchUpInside)
-        createOrderButton.tintColor = .systemPink
         return createOrderButton
     }()
 
