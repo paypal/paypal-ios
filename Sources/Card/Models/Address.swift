@@ -1,8 +1,6 @@
 import Foundation
 
-/// The portable international postal address.
-/// Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata)
-/// and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).
+/// The postal address.
 public struct Address: Codable {
 
     enum CodingKeys: String, CodingKey {
@@ -14,17 +12,16 @@ public struct Address: Codable {
         case countryCode
     }
 
-    /// The first line of the address. For example, number or street. For example, `173 Drury Lane`.
-    /// Required for data entry and compliance and risk checks. Must contain the full address.
+    /// The first line of the address.
     public var addressLine1: String?
 
-    /// The second line of the address. For example, suite or apartment number.
+    /// The second line of the address.
     public var addressLine2: String?
 
-    /// A city, town, or village. Smaller than `admin_area_level_1`.
+    /// A city, town, or village. Smaller than `region`.
     public var locality: String?
 
-    /// The highest level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. Format for postal delivery. For example, `CA` and not `California`. Value, by country, is:
+    /// The highest level sub-division in a country, which is usually a province or state. Format for postal delivery, for example, `CA` and not `California`. Value, by country, is:
     /// - UK: a county.
     /// - US: a state.
     /// - Canada: a province.
