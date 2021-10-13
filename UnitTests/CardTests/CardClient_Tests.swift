@@ -4,94 +4,86 @@ import XCTest
 @testable import TestShared
 
 final class CardClient_Tests: XCTestCase {
+    
+    // MARK: - Helper Properties
+    
+    let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])
+    let card = Card(
+        number: "411111111111",
+        expirationMonth: "01",
+        expirationYear: "2021",
+        securityCode: "123"
+    )
+    let config = CoreConfig(clientID: "", environment: .sandbox)
+    
+    var mockURLSession: MockURLSession!
+    var apiClient: APIClient!
+    var cardClient: CardClient!
+    
+    // MARK: - Test lifecycle
+    
+    override func setUp() {
+        super.setUp()
+        
+        mockURLSession = MockURLSession()
+        mockURLSession.cannedError = nil
+        mockURLSession.cannedURLResponse = nil
+        mockURLSession.cannedJSONData = nil
+        
+        apiClient = APIClient(urlSession: mockURLSession, environment: .sandbox)
+        cardClient = CardClient(config: config, apiClient: apiClient)
+    }
+    
+    // MARK: - approveOrder() tests
+    
+    func testApproveOrder_withValidJSONRequest_returnsOrderData() {
+        let expect = expectation(description: "Callback invoked.")
 
-    lazy var cardClient: CardClient = {
-        let config = CoreConfig(clientID: "", environment: .sandbox)
-        let apiClient = APIClient(
-            urlSession: URLSession(urlProtocol: URLProtocolMock.self),
-            environment: .sandbox
-        )
-        return CardClient(config: config, apiClient: apiClient)
-    }()
+        let jsonResponse = """
+        {
+            "id": "testOrderID",
+            "status": "APPROVED",
+            "payment_source": {
+                "card": {
+                    "last_digits": "7321",
+                    "brand": "VISA",
+                    "type": "CREDIT"
+                }
+            }
+        }
+        """
+        
+        mockURLSession.cannedURLResponse = successURLResponse
+        mockURLSession.cannedJSONData = jsonResponse
 
-//    func testApproveCardOrder_withCardSuccessMockResponse_returnsValidOrderData() throws {
-//        let expect = expectation(description: "Get success mock response")
-//
-//        let mockSuccessResponse: String = """
-//        {
-//            "id": "testOrderID",
-//            "status": "APPROVED",
-//            "payment_source": {
-//                "card": {
-//                    "last_digits": "7321",
-//                    "brand": "VISA",
-//                    "type": "CREDIT"
-//                }
-//            }
-//        }
-//        """
-//
-//        let card = Card(number: "", expirationMonth: "01", expirationYear: "2021", securityCode: "")
-//        try setupConfirmCardPaymentSourceMock(card: card, mockResponse: mockSuccessResponse, statusCode: 200)
-//
-//        cardClient.approveOrder(orderID: "", card: card) { result in
-//            guard case .success(let orderData) = result else {
-//                XCTFail("Expect success response")
-//                return
-//            }
-//
-//            XCTAssertEqual(orderData.orderID, "testOrderID")
-//            XCTAssertEqual(orderData.status, .approved)
-//            expect.fulfill()
-//        }
-//
-//        waitForExpectations(timeout: 1)
-//    }
-//
-//    func testApproveCardOrder_withCardFailureMockResponse_returnsUnknownError() throws {
-//        let expect = expectation(description: "Get success mock response")
-//
-//        let mockFailureResponse: String = """
-//        {
-//            "name": "RESOURCE_NOT_FOUND",
-//            "details": [
-//                {
-//                    "issue": "INVALID_RESOURCE_ID",
-//                    "description": "Specified resource ID does not exist. Please check the resource ID and try again."
-//                }
-//            ],
-//            "message": "The specified resource does not exist.",
-//            "debug_id": "81db5c4ddfa35"
-//        }
-//        """
-//
-//        let card = Card(number: "", expirationMonth: "01", expirationYear: "2021", securityCode: "")
-//        try setupConfirmCardPaymentSourceMock(card: card, mockResponse: mockFailureResponse, statusCode: 404)
-//
-//        cardClient.approveOrder(orderID: "", card: card) { result in
-//            guard case .failure(NetworkingError.unknown) = result else {
-//                XCTFail("Expect NetworkingError.unknown for status code 404")
-//                return
-//            }
-//
-//            expect.fulfill()
-//        }
-//
-//        waitForExpectations(timeout: 1)
-//    }
+        cardClient.approveOrder(orderID: "", card: card) { result in
+            switch result {
+            case .success(let orderData):
+                XCTAssertEqual(orderData.orderID, "testOrderID")
+                XCTAssertEqual(orderData.status, .approved)
+            case .failure(_):
+                XCTFail()
+            }
+            
+            expect.fulfill()
+        }
 
-    func testApproveCardOrder_withInvalidFormatMockResponse_returnsParsingError() throws {
-        let expect = expectation(description: "Get success mock response")
+        waitForExpectations(timeout: 1)
+    }
 
-        let mockInvalidResponse: String = """
+    func testApproveOrder_withInvalidJSONResponse_returnsParseError() throws {
+        let expect = expectation(description: "Callback invoked.")
+
+        let jsonResponse = """
         {
             "some_unexpected_response": "something"
         }
         """
 
-        let card = Card(number: "", expirationMonth: "01", expirationYear: "2021", securityCode: "")
-        try setupConfirmCardPaymentSourceMock(card: card, mockResponse: mockInvalidResponse, statusCode: 200)
+        mockURLSession.cannedURLResponse = successURLResponse
+        mockURLSession.cannedJSONData = jsonResponse
 
+        // TODO: Update CardClient to use PayPalSDKError
         cardClient.approveOrder(orderID: "", card: card) { result in
             switch result {
             case .success(_):
@@ -106,20 +98,4 @@ final class CardClient_Tests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
 
-    private func setupConfirmCardPaymentSourceMock(card: Card, mockResponse: String, statusCode: Int) throws {
-        let confirmPaymentSourceRequest = try XCTUnwrap(
-            ConfirmPaymentSourceRequest(
-                card: card,
-                orderID: "",
-                clientID: ""
-            )
-        )
-        let mockRequestResponse = RequestResponseMock(
-            request: confirmPaymentSourceRequest,
-            statusCode: statusCode,
-            responseString: mockResponse
-        )
-
-        URLProtocolMock.requestResponses.append(mockRequestResponse)
-    }
 }
