@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		065A4DBC26FCD8090007014A /* CoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DBB26FCD8080007014A /* CoreError.swift */; };
+		065A4DBC26FCD8090007014A /* PayPalSDKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DBB26FCD8080007014A /* PayPalSDKError.swift */; };
 		065A4DBF26FCDA5B0007014A /* CardClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DBE26FCDA5B0007014A /* CardClient_Tests.swift */; };
 		06CE009926F3D1660000CC46 /* CoreConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009826F3D1660000CC46 /* CoreConfig.swift */; };
 		06CE009B26F3D5A40000CC46 /* CardClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009A26F3D5A40000CC46 /* CardClient.swift */; };
@@ -40,7 +40,7 @@
 		BEA100E926EFA1EE0036A6A5 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100E826EFA1EE0036A6A5 /* APIRequest.swift */; };
 		BEA100EC26EFA7790036A6A5 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100EB26EFA7790036A6A5 /* HTTPMethod.swift */; };
 		BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */; };
-		BEA100F026EFA7C20036A6A5 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100EF26EFA7C20036A6A5 /* NetworkingError.swift */; };
+		BEA100F026EFA7C20036A6A5 /* PaymentsCoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100EF26EFA7C20036A6A5 /* PaymentsCoreError.swift */; };
 		BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100F126EFA7DE0036A6A5 /* Environment.swift */; };
 		BEA100F426EFA8C20036A6A5 /* APIClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100F326EFA8C20036A6A5 /* APIClient_Tests.swift */; };
 		OBJ_40 /* PayPal_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* PayPal_Tests.swift */; };
@@ -71,7 +71,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		065A4DBB26FCD8080007014A /* CoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreError.swift; sourceTree = "<group>"; };
+		065A4DBB26FCD8080007014A /* PayPalSDKError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalSDKError.swift; sourceTree = "<group>"; };
 		065A4DBE26FCDA5B0007014A /* CardClient_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardClient_Tests.swift; sourceTree = "<group>"; };
 		065A4DC226FCE1D20007014A /* ConfirmPaymentSourceRequest_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPaymentSourceRequest_Tests.swift; sourceTree = "<group>"; };
 		065A4DC426FCE5A20007014A /* OrderStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderStatus.swift; sourceTree = "<group>"; };
@@ -103,7 +103,7 @@
 		BEA100E826EFA1EE0036A6A5 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		BEA100EB26EFA7790036A6A5 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
-		BEA100EF26EFA7C20036A6A5 /* NetworkingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingError.swift; sourceTree = "<group>"; };
+		BEA100EF26EFA7C20036A6A5 /* PaymentsCoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsCoreError.swift; sourceTree = "<group>"; };
 		BEA100F126EFA7DE0036A6A5 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		BEA100F326EFA8C20036A6A5 /* APIClient_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient_Tests.swift; sourceTree = "<group>"; };
 		OBJ_12 /* PayPal_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPal_Tests.swift; sourceTree = "<group>"; };
@@ -186,7 +186,7 @@
 		065A4DBA26FCD7F70007014A /* Enums */ = {
 			isa = PBXGroup;
 			children = (
-				065A4DBB26FCD8080007014A /* CoreError.swift */,
+				065A4DBB26FCD8080007014A /* PayPalSDKError.swift */,
 				065A4DC426FCE5A20007014A /* OrderStatus.swift */,
 			);
 			path = Enums;
@@ -338,7 +338,7 @@
 			children = (
 				BEA100EB26EFA7790036A6A5 /* HTTPMethod.swift */,
 				BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */,
-				BEA100EF26EFA7C20036A6A5 /* NetworkingError.swift */,
+				BEA100EF26EFA7C20036A6A5 /* PaymentsCoreError.swift */,
 				BEA100F126EFA7DE0036A6A5 /* Environment.swift */,
 			);
 			path = Enums;
@@ -696,9 +696,9 @@
 				BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */,
 				06E406D726EFE7F9002533B1 /* AccessTokenResponse.swift in Sources */,
 				BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */,
-				BEA100F026EFA7C20036A6A5 /* NetworkingError.swift in Sources */,
+				BEA100F026EFA7C20036A6A5 /* PaymentsCoreError.swift in Sources */,
 				BEA100E926EFA1EE0036A6A5 /* APIRequest.swift in Sources */,
-				065A4DBC26FCD8090007014A /* CoreError.swift in Sources */,
+				065A4DBC26FCD8090007014A /* PayPalSDKError.swift in Sources */,
 				BEA100E726EF9EDA0036A6A5 /* APIClient.swift in Sources */,
 				06E406D526EFE7E8002533B1 /* AccessTokenRequest.swift in Sources */,
 			);

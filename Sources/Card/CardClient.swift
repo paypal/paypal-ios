@@ -46,7 +46,8 @@ public class CardClient {
                 }
             }
         } catch {
-            completion(.failure(CoreError.encodingError(error)))
+            // TODO: Convert to PayPalSDK Error
+            completion(.failure(error))
         }
     }
 }
