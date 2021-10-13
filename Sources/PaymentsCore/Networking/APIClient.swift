@@ -44,17 +44,8 @@ public final class APIClient {
             switch response.statusCode {
             case 200..<300:
                 do {
-                    // TODO: Get rid of this empty case, relevant tests, & files.
-                    if let emptyResponse = EmptyResponse() as? T.ResponseType {
-                        completion(.success(emptyResponse), correlationID)
-                        return
-                    } else {
-                        let decodedData = try self.decoder.decode(T.ResponseType.self, from: data)
-                        completion(.success(decodedData), correlationID)
-                        return
-                    }
-                } catch let networkingError as NetworkingError {
-                    completion(.failure(networkingError), correlationID)
+                    let decodedData = try self.decoder.decode(T.ResponseType.self, from: data)
+                    completion(.success(decodedData), correlationID)
                     return
                 } catch {
                     // TODO: Returning this error will always be nil at this point
