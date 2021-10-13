@@ -37,7 +37,7 @@
 		BEA100E926EFA1EE0036A6A5 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100E826EFA1EE0036A6A5 /* APIRequest.swift */; };
 		BEA100EC26EFA7790036A6A5 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100EB26EFA7790036A6A5 /* HTTPMethod.swift */; };
 		BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */; };
-		BEA100F026EFA7C20036A6A5 /* PaymentsCoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100EF26EFA7C20036A6A5 /* PaymentsCoreError.swift */; };
+		BEA100F026EFA7C20036A6A5 /* APIClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100EF26EFA7C20036A6A5 /* APIClientError.swift */; };
 		BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100F126EFA7DE0036A6A5 /* Environment.swift */; };
 		OBJ_40 /* PayPal_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* PayPal_Tests.swift */; };
 /* End PBXBuildFile section */
@@ -96,7 +96,7 @@
 		BEA100E826EFA1EE0036A6A5 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		BEA100EB26EFA7790036A6A5 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
-		BEA100EF26EFA7C20036A6A5 /* PaymentsCoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsCoreError.swift; sourceTree = "<group>"; };
+		BEA100EF26EFA7C20036A6A5 /* APIClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientError.swift; sourceTree = "<group>"; };
 		BEA100F126EFA7DE0036A6A5 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		OBJ_12 /* PayPal_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPal_Tests.swift; sourceTree = "<group>"; };
 		OBJ_16 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -178,7 +178,6 @@
 		065A4DBA26FCD7F70007014A /* Enums */ = {
 			isa = PBXGroup;
 			children = (
-				065A4DBB26FCD8080007014A /* PayPalSDKError.swift */,
 				065A4DC426FCE5A20007014A /* OrderStatus.swift */,
 			);
 			path = Enums;
@@ -245,6 +244,7 @@
 		80B9F85226B8750000D67843 /* PaymentsCore */ = {
 			isa = PBXGroup;
 			children = (
+				065A4DBB26FCD8080007014A /* PayPalSDKError.swift */,
 				065A4DBA26FCD7F70007014A /* Enums */,
 				06CE009C26F3DE530000CC46 /* Models */,
 				BEA100E526EF9EDA0036A6A5 /* Networking */,
@@ -310,7 +310,7 @@
 			children = (
 				BEA100EB26EFA7790036A6A5 /* HTTPMethod.swift */,
 				BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */,
-				BEA100EF26EFA7C20036A6A5 /* PaymentsCoreError.swift */,
+				BEA100EF26EFA7C20036A6A5 /* APIClientError.swift */,
 				BEA100F126EFA7DE0036A6A5 /* Environment.swift */,
 			);
 			path = Enums;
@@ -667,7 +667,7 @@
 				BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */,
 				06E406D726EFE7F9002533B1 /* AccessTokenResponse.swift in Sources */,
 				BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */,
-				BEA100F026EFA7C20036A6A5 /* PaymentsCoreError.swift in Sources */,
+				BEA100F026EFA7C20036A6A5 /* APIClientError.swift in Sources */,
 				BEA100E926EFA1EE0036A6A5 /* APIRequest.swift in Sources */,
 				065A4DBC26FCD8090007014A /* PayPalSDKError.swift in Sources */,
 				BEA100E726EF9EDA0036A6A5 /* APIClient.swift in Sources */,

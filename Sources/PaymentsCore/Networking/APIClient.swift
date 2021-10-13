@@ -28,12 +28,7 @@ public final class APIClient {
         completion: @escaping (Result<T.ResponseType, PayPalSDKError>, CorrelationID?) -> Void
     ) {
         guard let request = endpoint.toURLRequest(environment: environment) else {
-            let error = PayPalSDKError(
-                code: PaymentsCoreError.Code.noURLRequest.rawValue,
-                domain: PaymentsCoreError.domain,
-                errorDescription: "todo"
-            )
-            completion(.failure(error), nil)
+            completion(.failure(APIClientError.invalidURLRequestError), nil)
             return
         }
 
@@ -41,32 +36,17 @@ public final class APIClient {
             let correlationID = (response as? HTTPURLResponse)?.allHeaderFields["Paypal-Debug-Id"] as? String
 
             if let error = error {
-                let error = PayPalSDKError(
-                    code: PaymentsCoreError.Code.connectionIssue.rawValue,
-                    domain: PaymentsCoreError.domain,
-                    errorDescription: "todo"
-                )
-                completion(.failure(error), correlationID)
+                completion(.failure(APIClientError.networkConnectionError), correlationID)
                 return
             }
 
             guard let response = response as? HTTPURLResponse else {
-                let error = PayPalSDKError(
-                    code: PaymentsCoreError.Code.invalidURLResponse.rawValue,
-                    domain: PaymentsCoreError.domain,
-                    errorDescription: "todo"
-                )
-                completion(.failure(error), correlationID)
+                completion(.failure(APIClientError.invalidURLResponseError), correlationID)
                 return
             }
 
             guard let data = data else {
-                let error = PayPalSDKError(
-                    code: PaymentsCoreError.Code.noURLRequest.rawValue,
-                    domain: PaymentsCoreError.domain,
-                    errorDescription: "todo"
-                )
-                completion(.failure(error), correlationID)
+                completion(.failure(APIClientError.noResponseDataError), correlationID)
                 return
             }
 
@@ -77,25 +57,14 @@ public final class APIClient {
                     completion(.success(decodedData), correlationID)
                     return
                 } catch {
-                    // TODO: Returning this error will always be nil at this point
-                    let error = PayPalSDKError(
-                        code: PaymentsCoreError.Code.parsingError.rawValue,
-                        domain: PaymentsCoreError.domain,
-                        errorDescription: "todo"
-                    )
-                    completion(.failure(error), correlationID)
+                    completion(.failure(APIClientError.dataParsingError), correlationID)
                     return
                 }
 
             default:
                 // TODO:
                 // Add networking error cases (ie more descriptive networking errors / handle 400 responses, 500 errors, etc
-                let error = PayPalSDKError(
-                    code: PaymentsCoreError.Code.unknown.rawValue,
-                    domain: PaymentsCoreError.domain,
-                    errorDescription: "todo"
-                )
-                completion(.failure(error), nil)
+                completion(.failure(APIClientError.unknownError), nil)
                 return
             }
         }

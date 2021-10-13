@@ -79,72 +79,79 @@ class APIClient_Tests: XCTestCase {
             case .success(_):
                 XCTFail()
             case .failure(let error):
-                XCTAssertEqual(error.domain, "PaymentsCoreErrorDomain")
-                XCTAssertEqual(error.code, PaymentsCoreError.Code.connectionIssue.rawValue)
-                XCTAssertEqual(error.localizedDescription, "todo")
+                XCTAssertEqual(error.domain, "APIClientErrorDomain")
+                XCTAssertEqual(error.code, APIClientError.Code.badNetworkConnection.rawValue)
+//                XCTAssertEqual(error.localizedDescription, "todo")
             }
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
     }
 
-//    func testFetch_whenNoURLResponse_returnsInvalidURLResponseError() {
-//        let expect = expectation(description: "Callback invoked.")
-//
-//        mockURLSession.cannedURLResponse = nil
-//
-//        apiClient.fetch(endpoint: fakeRequest) { result, _ in
-//            guard case .failure(.invalidURLResponse) = result else {
-//                XCTFail()
-//                return
-//            }
-//
-//            expect.fulfill()
-//        }
-//        waitForExpectations(timeout: 1)
-//    }
-//
-//    func testFetch_whenNoResponseData_returnsMissingDataError() {
-//        let expect = expectation(description: "Callback invoked.")
-//
-//        mockURLSession.cannedURLResponse = successURLResponse
-//
-//        apiClient.fetch(endpoint: fakeRequest) { result, _ in
-//            guard case .failure(.noResponseData) = result else {
-//                XCTFail()
-//                return
-//            }
-//
-//            expect.fulfill()
-//        }
-//        waitForExpectations(timeout: 1)
-//    }
-//
-//    func testFetch_whenInvalidData_returnsParseError() {
-//        let expect = expectation(description: "Callback invoked.")
-//
-//        let jsonResponse = """
-//        {
-//            "test": "wrong response format"
-//        }
-//        """
-//
-//        mockURLSession.cannedURLResponse = successURLResponse
-//        mockURLSession.cannedJSONData = jsonResponse
-//
-//        apiClient.fetch(endpoint: fakeRequest) { result, _ in
-//            switch result {
-//            case .success(_):
-//                XCTFail()
-//            case .failure(let error):
-//                XCTAssertNotNil(error)
-//            }
-//
-//            expect.fulfill()
-//        }
-//        waitForExpectations(timeout: 1)
-//    }
-//
+    func testFetch_whenNoURLResponse_returnsInvalidURLResponseError() {
+        let expect = expectation(description: "Callback invoked.")
+
+        mockURLSession.cannedURLResponse = nil
+
+        apiClient.fetch(endpoint: fakeRequest) { result, _ in
+            switch result {
+            case .success(_):
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error.domain, "APIClientErrorDomain")
+                XCTAssertEqual(error.code, APIClientError.Code.invalidURLResponse.rawValue)
+//                XCTAssertEqual(error.localizedDescription, "todo")
+            }
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+
+    func testFetch_whenNoResponseData_returnsMissingDataError() {
+        let expect = expectation(description: "Callback invoked.")
+
+        mockURLSession.cannedURLResponse = successURLResponse
+
+        apiClient.fetch(endpoint: fakeRequest) { result, _ in
+            switch result {
+            case .success(_):
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error.domain, "APIClientErrorDomain")
+                XCTAssertEqual(error.code, APIClientError.Code.noResponseData.rawValue)
+//                XCTAssertEqual(error.localizedDescription, "todo")
+            }
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+
+    func testFetch_whenInvalidData_returnsParseError() {
+        let expect = expectation(description: "Callback invoked.")
+
+        let jsonResponse = """
+        {
+            "test": "wrong response format"
+        }
+        """
+
+        mockURLSession.cannedURLResponse = successURLResponse
+        mockURLSession.cannedJSONData = jsonResponse
+
+        apiClient.fetch(endpoint: fakeRequest) { result, _ in
+            switch result {
+            case .success(_):
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error.domain, "APIClientErrorDomain")
+                XCTAssertEqual(error.code, APIClientError.Code.dataParsingError.rawValue)
+//                XCTAssertEqual(error.localizedDescription, "todo")
+            }
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+
 //    // TODO: Get more granual here. Also, do we want to move this check for
 //    // non-success status code above data parsing in our source code?
 //    func testFetch_whenBadStatusCode_returnsUnknownError() {
@@ -173,41 +180,43 @@ class APIClient_Tests: XCTestCase {
 //        }
 //        waitForExpectations(timeout: 1)
 //    }
-//
-//    func testFetch_whenPayPalDebugHeader_returnsCorrelationID() {
-//        let expect = expectation(description: "Callback invoked.")
-//
-//        mockURLSession.cannedURLResponse = HTTPURLResponse(
-//            url: URL(string: "www.fake.com")!,
-//            statusCode: 200,
-//            httpVersion: "1",
-//            headerFields: ["Paypal-Debug-Id": "fake-id"]
-//        )
-//
-//        apiClient.fetch(endpoint: fakeRequest) { _, correlationID in
-//            XCTAssertEqual(correlationID, "fake-id")
-//            expect.fulfill()
-//        }
-//        waitForExpectations(timeout: 1)
-//    }
-//
-//    func testFetch_withNoURLRequest_returnsNoURLRequestError() {
-//        let expect = expectation(description: "Callback invoked.")
-//
-//        // Mock request whose API object does not vend a URLRequest
-//        let noURLRequest = FakeRequestNoURL()
-//
-//        apiClient.fetch(endpoint: noURLRequest) { result, _ in
-//            switch result {
-//            case .success(_):
-//                XCTFail()
-//            case .failure(let error):
-//                XCTAssertNotNil(error)
-//            }
-//
-//            expect.fulfill()
-//        }
-//        waitForExpectations(timeout: 1)
-//    }
+
+    func testFetch_whenPayPalDebugHeader_returnsCorrelationID() {
+        let expect = expectation(description: "Callback invoked.")
+
+        mockURLSession.cannedURLResponse = HTTPURLResponse(
+            url: URL(string: "www.fake.com")!,
+            statusCode: 200,
+            httpVersion: "1",
+            headerFields: ["Paypal-Debug-Id": "fake-id"]
+        )
+
+        apiClient.fetch(endpoint: fakeRequest) { _, correlationID in
+            XCTAssertEqual(correlationID, "fake-id")
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+
+    func testFetch_withNoURLRequest_returnsInvalidURLRequestError() {
+        let expect = expectation(description: "Callback invoked.")
+
+        // Mock request whose API object does not vend a URLRequest
+        let noURLRequest = FakeRequestNoURL()
+
+        apiClient.fetch(endpoint: noURLRequest) { result, _ in
+            switch result {
+            case .success(_):
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error.domain, "APIClientErrorDomain")
+                XCTAssertEqual(error.code, APIClientError.Code.invalidURLRequest.rawValue)
+//                XCTAssertEqual(error.localizedDescription, "todo")
+            }
+
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
 
 }
