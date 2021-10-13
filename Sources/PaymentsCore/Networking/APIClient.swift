@@ -3,15 +3,24 @@ import Foundation
 public final class APIClient {
     public typealias CorrelationID = String
 
-    public var urlSession: URLSession
-    public var environment: Environment
+    private var urlSession: URLSessionProtocol
+    private var environment: Environment
 
-    private let decoder = JSONDecoder()
-
-    public init(urlSession: URLSession = .shared, environment: Environment) {
-        self.urlSession = urlSession
-        self.environment = environment
+    private var decoder: JSONDecoder = {
+        let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
+        return decoder
+    }()
+
+    public init(environment: Environment) {
+        self.environment = environment
+        self.urlSession = URLSession.shared
+    }
+
+    /// For internal use for testing purpose
+    init(urlSession: URLSessionProtocol, environment: Environment) {
+        self.environment = environment
+        self.urlSession = urlSession
     }
 
     public func fetch<T: APIRequest>(
@@ -23,7 +32,7 @@ public final class APIClient {
             return
         }
 
-        let task = urlSession.dataTask(with: request) { data, response, error in
+        urlSession.performRequest(with: request) { data, response, error in
             let correlationID = (response as? HTTPURLResponse)?.allHeaderFields["Paypal-Debug-Id"] as? String
 
             if let error = error {
@@ -60,7 +69,16 @@ public final class APIClient {
                 return
             }
         }
+    }
+}
 
+protocol URLSessionProtocol {
+    func performRequest(with urlRequest: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)
+}
+
+extension URLSession: URLSessionProtocol {
+    func performRequest(with urlRequest: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        let task = dataTask(with: urlRequest, completionHandler: completionHandler)
         task.resume()
     }
 }

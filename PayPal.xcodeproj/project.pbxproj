@@ -14,23 +14,21 @@
 		06E11C0D270609E200477DCE /* OrderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009D26F3DE5E0000CC46 /* OrderData.swift */; };
 		06E406D526EFE7E8002533B1 /* AccessTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E406D426EFE7E8002533B1 /* AccessTokenRequest.swift */; };
 		06E406D726EFE7F9002533B1 /* AccessTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E406D626EFE7F9002533B1 /* AccessTokenResponse.swift */; };
-		3DE22C5D26F8E7A20074A2E4 /* AccessTokenRequest_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE22C5C26F8E7A20074A2E4 /* AccessTokenRequest_Tests.swift */; };
-		3DE22C5F26F8F3CE0074A2E4 /* Environment_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE22C5E26F8F3CE0074A2E4 /* Environment_Tests.swift */; };
 		8034A9E726B875C90055AF13 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; };
+		8036C1E3270F9BE700C0F091 /* AccessTokenRequest_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036C1DF270F9BE700C0F091 /* AccessTokenRequest_Tests.swift */; };
+		8036C1E4270F9BE700C0F091 /* APIClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036C1E0270F9BE700C0F091 /* APIClient_Tests.swift */; };
+		8036C1E5270F9BE700C0F091 /* Environment_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036C1E1270F9BE700C0F091 /* Environment_Tests.swift */; };
 		803C31B1270E41690067D36E /* TestShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E743F8270E40CE00BACECA /* TestShared.framework */; };
 		803C31B4270E430E0067D36E /* TestShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E743F8270E40CE00BACECA /* TestShared.framework */; };
 		803C31B5270E46EB0067D36E /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; };
 		803C31B7270E49160067D36E /* Card_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803C31B6270E49160067D36E /* Card_Tests.swift */; };
+		803C31B9270E4C560067D36E /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803C31B8270E4C560067D36E /* MockURLSession.swift */; };
 		8048D28C270B9DE00072214A /* ConfirmPaymentSourceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE00A226F3E32A0000CC46 /* ConfirmPaymentSourceResponse.swift */; };
 		805AB85926B88882003BEE0D /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; platformFilter = ios; };
 		80DB6F1626B89DA800277E54 /* PayPal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DB6F1526B89DA800277E54 /* PayPal.swift */; };
 		80DB6F1726B89DC700277E54 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; platformFilter = ios; };
 		80E743B3270E3D1200BACECA /* OrderStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DC426FCE5A20007014A /* OrderStatus.swift */; };
-		80E74400270E40F300BACECA /* BasicRequestMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E743FF270E40F300BACECA /* BasicRequestMocks.swift */; };
-		80E74402270E40FF00BACECA /* RequestResponseMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E74401270E40FF00BACECA /* RequestResponseMocks.swift */; };
-		80E74404270E410700BACECA /* ResponseMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E74403270E410700BACECA /* ResponseMock.swift */; };
-		80E74406270E411200BACECA /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E74405270E411200BACECA /* URLProtocolMock.swift */; };
-		80E74408270E411A00BACECA /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E74407270E411A00BACECA /* URLSession+Extension.swift */; };
+		80E74400270E40F300BACECA /* FakeRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E743FF270E40F300BACECA /* FakeRequests.swift */; };
 		80E8DAE126B8784600FAFC3F /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E8DAE026B8784600FAFC3F /* Card.swift */; };
 		80E8DAEA26B8785D00FAFC3F /* Card.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E8DAD926B8783800FAFC3F /* Card.framework */; };
 		BC0A82A5270B9533006E9A21 /* ConfirmPaymentSourceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009F26F3DF100000CC46 /* ConfirmPaymentSourceRequest.swift */; };
@@ -41,7 +39,6 @@
 		BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */; };
 		BEA100F026EFA7C20036A6A5 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100EF26EFA7C20036A6A5 /* NetworkingError.swift */; };
 		BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100F126EFA7DE0036A6A5 /* Environment.swift */; };
-		BEA100F426EFA8C20036A6A5 /* APIClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100F326EFA8C20036A6A5 /* APIClient_Tests.swift */; };
 		OBJ_40 /* PayPal_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* PayPal_Tests.swift */; };
 /* End PBXBuildFile section */
 
@@ -81,20 +78,17 @@
 		06CE00A226F3E32A0000CC46 /* ConfirmPaymentSourceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPaymentSourceResponse.swift; sourceTree = "<group>"; };
 		06E406D426EFE7E8002533B1 /* AccessTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRequest.swift; sourceTree = "<group>"; };
 		06E406D626EFE7F9002533B1 /* AccessTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenResponse.swift; sourceTree = "<group>"; };
-		3DE22C5C26F8E7A20074A2E4 /* AccessTokenRequest_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRequest_Tests.swift; sourceTree = "<group>"; };
-		3DE22C5E26F8F3CE0074A2E4 /* Environment_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment_Tests.swift; sourceTree = "<group>"; };
 		8034A9E326B875C90055AF13 /* PaymentsCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaymentsCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8036C1DF270F9BE700C0F091 /* AccessTokenRequest_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccessTokenRequest_Tests.swift; path = UnitTests/PaymentsCoreTests/AccessTokenRequest_Tests.swift; sourceTree = SOURCE_ROOT; };
+		8036C1E0270F9BE700C0F091 /* APIClient_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIClient_Tests.swift; path = UnitTests/PaymentsCoreTests/APIClient_Tests.swift; sourceTree = SOURCE_ROOT; };
+		8036C1E1270F9BE700C0F091 /* Environment_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Environment_Tests.swift; path = UnitTests/PaymentsCoreTests/Environment_Tests.swift; sourceTree = SOURCE_ROOT; };
 		803C31B6270E49160067D36E /* Card_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card_Tests.swift; sourceTree = "<group>"; };
-		8048D28D270BB0470072214A /* EmptyResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyResponse.swift; sourceTree = "<group>"; };
+		803C31B8270E4C560067D36E /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		80B9F85126B8750000D67843 /* PaymentsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PaymentsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80DB6F0E26B89D9600277E54 /* PayPal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PayPal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80DB6F1526B89DA800277E54 /* PayPal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPal.swift; sourceTree = "<group>"; };
 		80E743F8270E40CE00BACECA /* TestShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TestShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		80E743FF270E40F300BACECA /* BasicRequestMocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicRequestMocks.swift; sourceTree = "<group>"; };
-		80E74401270E40FF00BACECA /* RequestResponseMocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResponseMocks.swift; sourceTree = "<group>"; };
-		80E74403270E410700BACECA /* ResponseMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseMock.swift; sourceTree = "<group>"; };
-		80E74405270E411200BACECA /* URLProtocolMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolMock.swift; sourceTree = "<group>"; };
-		80E74407270E411A00BACECA /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
+		80E743FF270E40F300BACECA /* FakeRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeRequests.swift; sourceTree = "<group>"; };
 		80E8DAD926B8783800FAFC3F /* Card.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Card.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80E8DAE026B8784600FAFC3F /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		80E8DAE626B8785D00FAFC3F /* CardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,7 +98,6 @@
 		BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
 		BEA100EF26EFA7C20036A6A5 /* NetworkingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingError.swift; sourceTree = "<group>"; };
 		BEA100F126EFA7DE0036A6A5 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
-		BEA100F326EFA8C20036A6A5 /* APIClient_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient_Tests.swift; sourceTree = "<group>"; };
 		OBJ_12 /* PayPal_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPal_Tests.swift; sourceTree = "<group>"; };
 		OBJ_16 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
@@ -174,10 +167,10 @@
 		061A32A826FA3C330003A736 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				80E743F9270E40CE00BACECA /* TestShared */,
-				OBJ_11 /* PayPalTests */,
 				80E8DAE726B8785D00FAFC3F /* CardTests */,
-				8034A9E426B875C90055AF13 /* PaymentsCoreTests */,
+				8036C1DE270F9BCF00C0F091 /* PaymentsCoreTests */,
+				OBJ_11 /* PayPalTests */,
+				80E743F9270E40CE00BACECA /* TestShared */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";
@@ -232,33 +225,14 @@
 			path = Responses;
 			sourceTree = "<group>";
 		};
-		8034A9E426B875C90055AF13 /* PaymentsCoreTests */ = {
+		8036C1DE270F9BCF00C0F091 /* PaymentsCoreTests */ = {
 			isa = PBXGroup;
 			children = (
-				3DE22C5C26F8E7A20074A2E4 /* AccessTokenRequest_Tests.swift */,
-				BEA100F326EFA8C20036A6A5 /* APIClient_Tests.swift */,
-				3DE22C5E26F8F3CE0074A2E4 /* Environment_Tests.swift */,
+				8036C1DF270F9BE700C0F091 /* AccessTokenRequest_Tests.swift */,
+				8036C1E0270F9BE700C0F091 /* APIClient_Tests.swift */,
+				8036C1E1270F9BE700C0F091 /* Environment_Tests.swift */,
 			);
 			path = PaymentsCoreTests;
-			sourceTree = "<group>";
-		};
-		803C31B2270E42B00067D36E /* URLSessionMocks */ = {
-			isa = PBXGroup;
-			children = (
-				80E74405270E411200BACECA /* URLProtocolMock.swift */,
-				80E74407270E411A00BACECA /* URLSession+Extension.swift */,
-			);
-			path = URLSessionMocks;
-			sourceTree = "<group>";
-		};
-		803C31B3270E42BC0067D36E /* RequestMocks */ = {
-			isa = PBXGroup;
-			children = (
-				80E743FF270E40F300BACECA /* BasicRequestMocks.swift */,
-				80E74401270E40FF00BACECA /* RequestResponseMocks.swift */,
-				80E74403270E410700BACECA /* ResponseMock.swift */,
-			);
-			path = RequestMocks;
 			sourceTree = "<group>";
 		};
 		805AB85726B8887D003BEE0D /* Frameworks */ = {
@@ -292,8 +266,8 @@
 		80E743F9270E40CE00BACECA /* TestShared */ = {
 			isa = PBXGroup;
 			children = (
-				803C31B3270E42BC0067D36E /* RequestMocks */,
-				803C31B2270E42B00067D36E /* URLSessionMocks */,
+				803C31B8270E4C560067D36E /* MockURLSession.swift */,
+				80E743FF270E40F300BACECA /* FakeRequests.swift */,
 			);
 			path = TestShared;
 			sourceTree = "<group>";
@@ -676,9 +650,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3DE22C5D26F8E7A20074A2E4 /* AccessTokenRequest_Tests.swift in Sources */,
-				BEA100F426EFA8C20036A6A5 /* APIClient_Tests.swift in Sources */,
-				3DE22C5F26F8F3CE0074A2E4 /* Environment_Tests.swift in Sources */,
+				8036C1E5270F9BE700C0F091 /* Environment_Tests.swift in Sources */,
+				8036C1E3270F9BE700C0F091 /* AccessTokenRequest_Tests.swift in Sources */,
+				8036C1E4270F9BE700C0F091 /* APIClient_Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -713,11 +687,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				80E74402270E40FF00BACECA /* RequestResponseMocks.swift in Sources */,
-				80E74408270E411A00BACECA /* URLSession+Extension.swift in Sources */,
-				80E74404270E410700BACECA /* ResponseMock.swift in Sources */,
-				80E74400270E40F300BACECA /* BasicRequestMocks.swift in Sources */,
-				80E74406270E411200BACECA /* URLProtocolMock.swift in Sources */,
+				803C31B9270E4C560067D36E /* MockURLSession.swift in Sources */,
+				80E74400270E40F300BACECA /* FakeRequests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
