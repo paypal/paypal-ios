@@ -63,13 +63,34 @@ class APIClient_Tests: XCTestCase {
         }
         waitForExpectations(timeout: 1)
     }
+    
+    func testFetch_withNoURLRequest_returnsInvalidURLRequestError() {
+        let expect = expectation(description: "Callback invoked.")
+
+        // Mock request whose API object does not vend a URLRequest
+        let noURLRequest = FakeRequestNoURL()
+
+        apiClient.fetch(endpoint: noURLRequest) { result, _ in
+            switch result {
+            case .success(_):
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error.domain, "APIClientErrorDomain")
+                XCTAssertEqual(error.code, APIClientError.Code.invalidURLRequest.rawValue)
+                XCTAssertEqual(error.localizedDescription, "An error occured constructing an HTTP request. Contact developer.paypal.com/support.")
+            }
+
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
         
-    func testFetch_whenServerError_returnsConnectionError() {
+    func testFetch_whenServerError_returnsURLSessionError() {
         let expect = expectation(description: "Callback invoked.")
         let serverError = NSError(
             domain: URLError.errorDomain,
             code: NSURLErrorBadServerResponse,
-            userInfo: nil
+            userInfo: [NSLocalizedDescriptionKey: "fake-error"]
         )
 
         mockURLSession.cannedError = serverError
@@ -81,7 +102,7 @@ class APIClient_Tests: XCTestCase {
             case .failure(let error):
                 XCTAssertEqual(error.domain, "APIClientErrorDomain")
                 XCTAssertEqual(error.code, APIClientError.Code.urlSessionError.rawValue)
-//                XCTAssertEqual(error.localizedDescription, "todo")
+                XCTAssertEqual(error.localizedDescription, "fake-error")
             }
             expect.fulfill()
         }
@@ -100,7 +121,7 @@ class APIClient_Tests: XCTestCase {
             case .failure(let error):
                 XCTAssertEqual(error.domain, "APIClientErrorDomain")
                 XCTAssertEqual(error.code, APIClientError.Code.invalidURLResponse.rawValue)
-//                XCTAssertEqual(error.localizedDescription, "todo")
+                XCTAssertEqual(error.localizedDescription, "An error occured due to an invalid HTTP response. Contact developer.paypal.com/support.")
             }
             expect.fulfill()
         }
@@ -119,7 +140,7 @@ class APIClient_Tests: XCTestCase {
             case .failure(let error):
                 XCTAssertEqual(error.domain, "APIClientErrorDomain")
                 XCTAssertEqual(error.code, APIClientError.Code.noResponseData.rawValue)
-//                XCTAssertEqual(error.localizedDescription, "todo")
+                XCTAssertEqual(error.localizedDescription, "An error occured due to missing HTTP response data. Contact developer.paypal.com/support.")
             }
             expect.fulfill()
         }
@@ -139,14 +160,14 @@ class APIClient_Tests: XCTestCase {
             case .failure(let error):
                 XCTAssertEqual(error.domain, "APIClientErrorDomain")
                 XCTAssertEqual(error.code, APIClientError.Code.dataParsingError.rawValue)
-//                XCTAssertEqual(error.localizedDescription, "todo")
+                XCTAssertEqual(error.localizedDescription, "An error occured parsing HTTP response data. Contact developer.paypal.com/support.")
             }
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
     }
 
-    func testFetch_whenBadStatusCode_withErrorData_returnsErrorMessage() {
+    func testFetch_whenBadStatusCode_withErrorData_returnsReadableErrorMessage() {
         let expect = expectation(description: "Callback invoked.")
 
         let jsonResponse = """
@@ -199,7 +220,7 @@ class APIClient_Tests: XCTestCase {
             case .failure(let error):
                 XCTAssertEqual(error.domain, "APIClientErrorDomain")
                 XCTAssertEqual(error.code, APIClientError.Code.unknown.rawValue)
-//                XCTAssertEqual(error.localizedDescription, "todo")
+                XCTAssertEqual(error.localizedDescription, "An unknown error occured. Contact developer.paypal.com/support.")
             }
 
             expect.fulfill()
@@ -219,27 +240,6 @@ class APIClient_Tests: XCTestCase {
 
         apiClient.fetch(endpoint: fakeRequest) { _, correlationID in
             XCTAssertEqual(correlationID, "fake-id")
-            expect.fulfill()
-        }
-        waitForExpectations(timeout: 1)
-    }
-
-    func testFetch_withNoURLRequest_returnsInvalidURLRequestError() {
-        let expect = expectation(description: "Callback invoked.")
-
-        // Mock request whose API object does not vend a URLRequest
-        let noURLRequest = FakeRequestNoURL()
-
-        apiClient.fetch(endpoint: noURLRequest) { result, _ in
-            switch result {
-            case .success(_):
-                XCTFail()
-            case .failure(let error):
-                XCTAssertEqual(error.domain, "APIClientErrorDomain")
-                XCTAssertEqual(error.code, APIClientError.Code.invalidURLRequest.rawValue)
-//                XCTAssertEqual(error.localizedDescription, "todo")
-            }
-
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)

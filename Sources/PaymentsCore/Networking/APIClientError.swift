@@ -30,7 +30,7 @@ enum APIClientError {
     static let unknownError = PayPalSDKError(
         code: Code.unknown.rawValue,
         domain: domain,
-        errorDescription: "todo"
+        errorDescription: "An unknown error occured. Contact developer.paypal.com/support."
     )
     
     static let urlSessionError: (String) -> PayPalSDKError = { description in
@@ -44,25 +44,25 @@ enum APIClientError {
     static let dataParsingError = PayPalSDKError(
         code: Code.dataParsingError.rawValue,
         domain: domain,
-        errorDescription: "todo"
+        errorDescription: "An error occured parsing HTTP response data. Contact developer.paypal.com/support."
     )
     
     static let invalidURLResponseError = PayPalSDKError(
         code: Code.invalidURLResponse.rawValue,
         domain: domain,
-        errorDescription: "todo"
+        errorDescription: "An error occured due to an invalid HTTP response. Contact developer.paypal.com/support."
     )
     
     static let noResponseDataError = PayPalSDKError(
         code: Code.noResponseData.rawValue,
         domain: domain,
-        errorDescription: "todo"
+        errorDescription: "An error occured due to missing HTTP response data. Contact developer.paypal.com/support."
     )
     
     static let invalidURLRequestError = PayPalSDKError(
         code: Code.invalidURLRequest.rawValue,
         domain: domain,
-        errorDescription: "todo"
+        errorDescription: "An error occured constructing an HTTP request. Contact developer.paypal.com/support."
     )
 
     static let serverResponseError: (String) -> PayPalSDKError = { description in

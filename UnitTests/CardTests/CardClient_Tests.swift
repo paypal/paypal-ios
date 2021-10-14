@@ -89,7 +89,7 @@ final class CardClient_Tests: XCTestCase {
             case .success(_):
                 XCTFail()
             case .failure(let error):
-                XCTAssertEqual(error.localizedDescription, "todo")
+                XCTAssertEqual(error.localizedDescription, "An error occured parsing HTTP response data. Contact developer.paypal.com/support.")
             }
             
             expect.fulfill()
