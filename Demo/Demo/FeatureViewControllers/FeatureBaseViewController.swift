@@ -37,7 +37,7 @@ class FeatureBaseViewController: UIViewController {
         return label
     }()
 
-    var orderID: String?
+    private var orderID: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
