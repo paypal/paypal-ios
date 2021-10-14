@@ -5,7 +5,7 @@ struct APIClientError {
     static let domain = "APIClientErrorDomain"
 
     enum Code: Int {
-        /// 0. Unknown error.
+        /// 0. An unknown error occured.
         case unknown
         
         /// 1. Error returned from URLSession while making request.
