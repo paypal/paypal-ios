@@ -247,11 +247,11 @@
 		80B9F85226B8750000D67843 /* PaymentsCore */ = {
 			isa = PBXGroup;
 			children = (
-				065A4DBB26FCD8080007014A /* PayPalSDKError.swift */,
+				06CE009826F3D1660000CC46 /* CoreConfig.swift */,
 				065A4DBA26FCD7F70007014A /* Enums */,
 				06CE009C26F3DE530000CC46 /* Models */,
 				BEA100E526EF9EDA0036A6A5 /* Networking */,
-				06CE009826F3D1660000CC46 /* CoreConfig.swift */,
+				065A4DBB26FCD8080007014A /* PayPalSDKError.swift */,
 			);
 			name = PaymentsCore;
 			path = Sources/PaymentsCore;
@@ -300,10 +300,11 @@
 		BEA100E526EF9EDA0036A6A5 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				BEA100E626EF9EDA0036A6A5 /* APIClient.swift */,
+				BEA100EF26EFA7C20036A6A5 /* APIClientError.swift */,
+				BEA100EA26EFA7670036A6A5 /* Enums */,
 				06E406D126EFE7B3002533B1 /* Models */,
 				BEA100F526EFB4A90036A6A5 /* Protocols */,
-				BEA100EA26EFA7670036A6A5 /* Enums */,
-				BEA100E626EF9EDA0036A6A5 /* APIClient.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -313,7 +314,6 @@
 			children = (
 				BEA100EB26EFA7790036A6A5 /* HTTPMethod.swift */,
 				BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */,
-				BEA100EF26EFA7C20036A6A5 /* APIClientError.swift */,
 				BEA100F126EFA7DE0036A6A5 /* Environment.swift */,
 			);
 			path = Enums;
