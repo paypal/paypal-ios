@@ -1,6 +1,6 @@
 import Foundation
 
-struct APIClientError {
+enum APIClientError {
 
     static let domain = "APIClientErrorDomain"
 
