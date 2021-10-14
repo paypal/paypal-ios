@@ -5,6 +5,6 @@ struct ErrorData: Codable {
     let message: String
 
     var readableDescription: String {
-        return name + " - " + message
+        return name + ": " + message
     }
 }
