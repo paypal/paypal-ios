@@ -36,7 +36,7 @@ public final class APIClient {
             let correlationID = (response as? HTTPURLResponse)?.allHeaderFields["Paypal-Debug-Id"] as? String
 
             if let error = error {
-                completion(.failure(APIClientError.networkConnectionError), correlationID)
+                completion(.failure(APIClientError.urlSessionError(error.localizedDescription)), correlationID)
                 return
             }
 
@@ -55,17 +55,17 @@ public final class APIClient {
                 do {
                     let decodedData = try self.decoder.decode(T.ResponseType.self, from: data)
                     completion(.success(decodedData), correlationID)
-                    return
                 } catch {
                     completion(.failure(APIClientError.dataParsingError), correlationID)
-                    return
                 }
-
             default:
-                // TODO:
-                // Add networking error cases (ie more descriptive networking errors / handle 400 responses, 500 errors, etc
-                completion(.failure(APIClientError.unknownError), nil)
-                return
+                do {
+                    let errorData = try self.decoder.decode(ErrorData.self, from: data)
+                    completion(.failure(APIClientError.responseError(errorData.readableDescription)), correlationID)
+                }
+                catch {
+                    completion(.failure(APIClientError.unknownError), correlationID)
+                }
             }
         }
     }

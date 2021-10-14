@@ -8,8 +8,8 @@ struct APIClientError {
         /// 0. Unknown error.
         case unknown
         
-        /// 1. Network connection failure.
-        case badNetworkConnection
+        /// 1. Error returned from URLSession while making request
+        case urlSessionError
         
         /// 2. Error parsing HTTP response data.
         case dataParsingError
@@ -22,13 +22,18 @@ struct APIClientError {
         
         /// 5. There was an error constructing the URLRequest.
         case invalidURLRequest
+
+        /// 6. The request response returned an error message
+        case networkingResponseError
     }
     
-    static let networkConnectionError = PayPalSDKError(
-        code: Code.badNetworkConnection.rawValue,
-        domain: domain,
-        errorDescription: "todo"
-    )
+    static let urlSessionError = (String) -> PayPalSDKError = { description in
+        return PayPalSDKError(
+            code: Code.urlSessionError.rawValue,
+            domain: domain,
+            errorDescription: description
+        )
+    }
     
     static let dataParsingError = PayPalSDKError(
         code: Code.dataParsingError.rawValue,
@@ -60,8 +65,16 @@ struct APIClientError {
         domain: domain,
         errorDescription: "todo"
     )
-    
-    
+
+    static let responseError: (String) -> PayPalSDKError = { description in
+        return PayPalSDKError(
+            code: Code.networkingResponseError.rawValue,
+            domain: "Response Error" ,
+            errorDescription: description
+        )
+    }
+
+
     // NOTE: Maybe it is OK if the errorDescription is sometimes bubbled up from the raw API?
     // Let's do some manual tests. Do we have Card #s that we can trigger an error response from
     // using orders/v2?
