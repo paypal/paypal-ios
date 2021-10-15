@@ -46,17 +46,8 @@ public class CardClient {
                 }
             }
         } catch {
-            // TODO: There is no way to test this scenario
-            // since we cannot test the `try` of ConfirmPaymentSourceRequest
-            // failing.
-            // This deserves a re-write. Also not sure if the try
-            // pattern there is necessary at all.
-            let error = PayPalSDKError(
-                code: 0,
-                domain: "",
-                errorDescription: ""
-            )
-            completion(.failure(error))
+            // We don't expect this block to ever execute.
+            completion(.failure(CardClientError.encodingError))
         }
     }
 }

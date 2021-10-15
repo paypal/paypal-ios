@@ -89,7 +89,7 @@ final class CardClient_Tests: XCTestCase {
             case .success(_):
                 XCTFail()
             case .failure(let error):
-                XCTAssertEqual(error.domain, "APIClientErrorDomain")
+                XCTAssertEqual(error.domain, APIClientError.domain)
                 XCTAssertEqual(error.code, APIClientError.Code.dataParsingError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "An error occured parsing HTTP response data. Contact developer.paypal.com/support.")
             }
