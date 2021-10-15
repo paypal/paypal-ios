@@ -8,11 +8,11 @@ final class CardClient_Tests: XCTestCase {
     private let config = CoreConfig(clientID: "", environment: .sandbox)
     private let card = Card(number: "", expirationMonth: "01", expirationYear: "2021", securityCode: "")
     
-    private var api: APIClientMock!
+    private var api: MockAPIClient!
     private var sut: CardClient!
     
     override func setUp() {
-        api = APIClientMock()
+        api = MockAPIClient()
         sut = CardClient(api: api)
     }
     

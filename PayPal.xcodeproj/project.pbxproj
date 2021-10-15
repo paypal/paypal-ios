@@ -35,8 +35,8 @@
 		BC4B31842719D15400F44BD8 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4B317E2719D14D00F44BD8 /* HTTPClient.swift */; };
 		BC4B31852719D15700F44BD8 /* HTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4B317F2719D14D00F44BD8 /* HTTPResponse.swift */; };
 		BC4B31902719D2B100F44BD8 /* APIClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4B318A2719D20800F44BD8 /* APIClient_Tests.swift */; };
-		BC4B31932719D2D400F44BD8 /* APIClientMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4B318C2719D23B00F44BD8 /* APIClientMock.swift */; };
-		BC4B31942719D2D800F44BD8 /* HttpClientMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4B318E2719D24300F44BD8 /* HttpClientMock.swift */; };
+		BC4B31932719D2D400F44BD8 /* MockAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4B318C2719D23B00F44BD8 /* MockAPIClient.swift */; };
+		BC4B31942719D2D800F44BD8 /* MockHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4B318E2719D24300F44BD8 /* MockHTTPClient.swift */; };
 		BC4B31952719D2E200F44BD8 /* CardClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4B31862719D1EA00F44BD8 /* CardClient_Tests.swift */; };
 		BC4B31962719D2E600F44BD8 /* ConfirmPaymentSourceBody_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4B31872719D1EA00F44BD8 /* ConfirmPaymentSourceBody_Tests.swift */; };
 		BCBDDAA42719D9FF008E1F4C /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBDDAA32719D9FF008E1F4C /* URLSessionProtocol.swift */; };
@@ -104,8 +104,8 @@
 		BC4B31862719D1EA00F44BD8 /* CardClient_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardClient_Tests.swift; sourceTree = "<group>"; };
 		BC4B31872719D1EA00F44BD8 /* ConfirmPaymentSourceBody_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmPaymentSourceBody_Tests.swift; sourceTree = "<group>"; };
 		BC4B318A2719D20800F44BD8 /* APIClient_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClient_Tests.swift; sourceTree = "<group>"; };
-		BC4B318C2719D23B00F44BD8 /* APIClientMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIClientMock.swift; path = API/APIClientMock.swift; sourceTree = "<group>"; };
-		BC4B318E2719D24300F44BD8 /* HttpClientMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HttpClientMock.swift; path = HttpClient/HttpClientMock.swift; sourceTree = "<group>"; };
+		BC4B318C2719D23B00F44BD8 /* MockAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockAPIClient.swift; path = API/MockAPIClient.swift; sourceTree = "<group>"; };
+		BC4B318E2719D24300F44BD8 /* MockHTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockHTTPClient.swift; path = HttpClient/MockHTTPClient.swift; sourceTree = "<group>"; };
 		BCBDDAA32719D9FF008E1F4C /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		BCBDDAA52719DA2D008E1F4C /* URLSession+URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+URLSessionProtocol.swift"; sourceTree = "<group>"; };
 		BCBDDAA82719DF5B008E1F4C /* CorrelationID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationID.swift; sourceTree = "<group>"; };
@@ -258,8 +258,8 @@
 		80E743F9270E40CE00BACECA /* TestShared */ = {
 			isa = PBXGroup;
 			children = (
-				BC4B318E2719D24300F44BD8 /* HttpClientMock.swift */,
-				BC4B318C2719D23B00F44BD8 /* APIClientMock.swift */,
+				BC4B318C2719D23B00F44BD8 /* MockAPIClient.swift */,
+				BC4B318E2719D24300F44BD8 /* MockHTTPClient.swift */,
 				803C31B8270E4C560067D36E /* MockURLSession.swift */,
 			);
 			path = TestShared;
@@ -701,8 +701,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC4B31942719D2D800F44BD8 /* HttpClientMock.swift in Sources */,
-				BC4B31932719D2D400F44BD8 /* APIClientMock.swift in Sources */,
+				BC4B31942719D2D800F44BD8 /* MockHTTPClient.swift in Sources */,
+				BC4B31932719D2D400F44BD8 /* MockAPIClient.swift in Sources */,
 				803C31B9270E4C560067D36E /* MockURLSession.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

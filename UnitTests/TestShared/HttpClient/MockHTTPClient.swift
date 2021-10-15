@@ -2,7 +2,7 @@
 import UIKit
 @testable import PaymentsCore
 
-class HttpClientMock: HTTP {
+class MockHTTPClient: HTTP {
     
     // MARK: - Properties
     private var defaultSendStub: HTTPResponse?
@@ -22,7 +22,7 @@ class HttpClientMock: HTTP {
         }
     }
     
-    // MARK: - HttpClientMock
+    // MARK: - MockHTTPClient
     func stubSend(with httpResponse: HTTPResponse) {
         defaultSendStub = httpResponse
     }

@@ -2,7 +2,7 @@
 import UIKit
 @testable import PaymentsCore
 
-class APIClientMock: API {
+class MockAPIClient: API {
     
     private(set) var lastSentRequest: APIRequest?
     

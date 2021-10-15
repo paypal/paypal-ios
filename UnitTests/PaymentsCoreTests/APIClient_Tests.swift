@@ -11,10 +11,10 @@ class APIClient_Tests: XCTestCase {
     private var sandboxConfig = CoreConfig(clientID: "123", environment: .sandbox)
     private var productionConfig = CoreConfig(clientID: "123", environment: .production)
     
-    private var http: HttpClientMock!
+    private var http: MockHTTPClient!
     
     override func setUp() {
-        http = HttpClientMock()
+        http = MockHTTPClient()
     }
     
     func testSend_properlyResolvesSandboxURLs() {
