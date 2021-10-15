@@ -102,7 +102,7 @@ private_over_fileprivate:
   validate_extensions: true
 
 trailing_whitespace:
-  ignores_empty_lines: true
+  ignores_empty_lines: false
   ignores_comments: true
 
 vertical_whitespace:
