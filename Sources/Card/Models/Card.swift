@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Card: Encodable {
+public struct Card: Encodable, Equatable {
 
     enum CodingKeys: String, CodingKey {
         case number

@@ -18,7 +18,7 @@ final class ConfirmPaymentSourceBody_Tests: XCTestCase {
         let dataAsString = String(data: data!, encoding: .utf8)
 
         let expected = """
-        {"payment_source":{"card":{"number":"4032036247327321","security_code":"222","expiry":"2024-11"}}}
+        {"payment_source":{"card":{"number":"4032036247327321","security_code":"222","billing_address":null,"name":null,"expiry":"2024-11"}}}
         """
         XCTAssertEqual(expected, dataAsString)
     }
