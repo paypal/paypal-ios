@@ -75,7 +75,7 @@ class APIClient_Tests: XCTestCase {
             case .success(_):
                 XCTFail()
             case .failure(let error):
-                XCTAssertEqual(error.domain, "APIClientErrorDomain")
+                XCTAssertEqual(error.domain, APIClientError.domain)
                 XCTAssertEqual(error.code, APIClientError.Code.invalidURLRequest.rawValue)
                 XCTAssertEqual(error.localizedDescription, "An error occured constructing an HTTP request. Contact developer.paypal.com/support.")
             }
@@ -100,7 +100,7 @@ class APIClient_Tests: XCTestCase {
             case .success(_):
                 XCTFail()
             case .failure(let error):
-                XCTAssertEqual(error.domain, "APIClientErrorDomain")
+                XCTAssertEqual(error.domain, APIClientError.domain)
                 XCTAssertEqual(error.code, APIClientError.Code.urlSessionError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "fake-error")
             }
@@ -119,7 +119,7 @@ class APIClient_Tests: XCTestCase {
             case .success(_):
                 XCTFail()
             case .failure(let error):
-                XCTAssertEqual(error.domain, "APIClientErrorDomain")
+                XCTAssertEqual(error.domain, APIClientError.domain)
                 XCTAssertEqual(error.code, APIClientError.Code.invalidURLResponse.rawValue)
                 XCTAssertEqual(error.localizedDescription, "An error occured due to an invalid HTTP response. Contact developer.paypal.com/support.")
             }
@@ -138,7 +138,7 @@ class APIClient_Tests: XCTestCase {
             case .success(_):
                 XCTFail()
             case .failure(let error):
-                XCTAssertEqual(error.domain, "APIClientErrorDomain")
+                XCTAssertEqual(error.domain, APIClientError.domain)
                 XCTAssertEqual(error.code, APIClientError.Code.noResponseData.rawValue)
                 XCTAssertEqual(error.localizedDescription, "An error occured due to missing HTTP response data. Contact developer.paypal.com/support.")
             }
@@ -158,7 +158,7 @@ class APIClient_Tests: XCTestCase {
             case .success(_):
                 XCTFail()
             case .failure(let error):
-                XCTAssertEqual(error.domain, "APIClientErrorDomain")
+                XCTAssertEqual(error.domain, APIClientError.domain)
                 XCTAssertEqual(error.code, APIClientError.Code.dataParsingError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "An error occured parsing HTTP response data. Contact developer.paypal.com/support.")
             }
@@ -191,7 +191,7 @@ class APIClient_Tests: XCTestCase {
             case .success(_):
                 XCTFail()
             case .failure(let error):
-                XCTAssertEqual(error.domain, "APIClientErrorDomain")
+                XCTAssertEqual(error.domain, APIClientError.domain)
                 XCTAssertEqual(error.code, APIClientError.Code.serverResponseError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "ERROR_NAME: The requested action could not be performed.")
             }
@@ -218,7 +218,7 @@ class APIClient_Tests: XCTestCase {
             case .success(_):
                 XCTFail()
             case .failure(let error):
-                XCTAssertEqual(error.domain, "APIClientErrorDomain")
+                XCTAssertEqual(error.domain, APIClientError.domain)
                 XCTAssertEqual(error.code, APIClientError.Code.unknown.rawValue)
                 XCTAssertEqual(error.localizedDescription, "An unknown error occured. Contact developer.paypal.com/support.")
             }

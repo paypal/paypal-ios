@@ -248,10 +248,10 @@
 			isa = PBXGroup;
 			children = (
 				06CE009826F3D1660000CC46 /* CoreConfig.swift */,
+				065A4DBB26FCD8080007014A /* PayPalSDKError.swift */,
 				065A4DBA26FCD7F70007014A /* Enums */,
 				06CE009C26F3DE530000CC46 /* Models */,
 				BEA100E526EF9EDA0036A6A5 /* Networking */,
-				065A4DBB26FCD8080007014A /* PayPalSDKError.swift */,
 			);
 			name = PaymentsCore;
 			path = Sources/PaymentsCore;
