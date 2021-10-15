@@ -17,7 +17,7 @@ final class CardClient_Tests: XCTestCase {
     }
     
     func testApproveOrder_shouldSendAnAPIRequest() {
-        sut.approveOrder(orderID: "123", card: card) { _ in }
+        sut.approveOrder(orderID: "123", card: card) { _, _ in }
         
         let apiRequest = api.lastSentRequest!
         XCTAssertEqual("/v2/checkout/orders/123/confirm-payment-source", apiRequest.path)
@@ -29,6 +29,7 @@ final class CardClient_Tests: XCTestCase {
     
     func testApproveOrder_whenSuccessful_callbackOrderData() {
         var successResponse = HttpResponse(status: 200)
+        successResponse.headers["Paypal-Debug-Id"] = "sample-correlation-id"
         successResponse.body = """
             {
                 "id": "testOrderID",
@@ -45,7 +46,7 @@ final class CardClient_Tests: XCTestCase {
         api.stubSend(with: successResponse)
         
         let expect = expectation(description: "callback order data")
-        sut.approveOrder(orderID: "123", card: card) { result in
+        sut.approveOrder(orderID: "123", card: card) { result, correlationID in
             guard case .success(let orderData) = result else {
                 XCTFail("Expect success response")
                 return
@@ -53,6 +54,7 @@ final class CardClient_Tests: XCTestCase {
 
             XCTAssertEqual(orderData.orderID, "testOrderID")
             XCTAssertEqual(orderData.status, .approved)
+            XCTAssertEqual("sample-correlation-id", correlationID)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -60,6 +62,7 @@ final class CardClient_Tests: XCTestCase {
     
     func testApproveOrder_whenResourceNotFound_callbackUnknownError() {
         var notFoundResponse = HttpResponse(status: 404)
+        notFoundResponse.headers["Paypal-Debug-Id"] = "sample-correlation-id"
         notFoundResponse.body = """
             {
                 "name": "RESOURCE_NOT_FOUND",
@@ -76,12 +79,13 @@ final class CardClient_Tests: XCTestCase {
         api.stubSend(with: notFoundResponse)
         
         let expect = expectation(description: "callback unknown error")
-        sut.approveOrder(orderID: "123", card: card) { result in
+        sut.approveOrder(orderID: "123", card: card) { result, correlationID in
             guard case .failure(NetworkingError.unknown) = result else {
                 XCTFail("Expect NetworkingError.unknown for status code 404")
                 return
             }
             
+            XCTAssertEqual("sample-correlation-id", correlationID)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -89,6 +93,7 @@ final class CardClient_Tests: XCTestCase {
     
     func testApproveOrder_whenResponseFormatIsInvalid_callbackParsingError() {
         var unexpectedResponse = HttpResponse(status: 200)
+        unexpectedResponse.headers["Paypal-Debug-Id"] = "sample-correlation-id"
         unexpectedResponse.body = """
             {
                 "some_unexpected_response": "something"
@@ -97,12 +102,13 @@ final class CardClient_Tests: XCTestCase {
         api.stubSend(with: unexpectedResponse)
         
         let expect = expectation(description: "callback parsing error")
-        sut.approveOrder(orderID: "123", card: card) { result in
+        sut.approveOrder(orderID: "123", card: card) { result, correlationID in
             guard case .failure(NetworkingError.parsingError) = result else {
                 XCTFail("Expect NetworkingError.parsingError for invalid response")
                 return
             }
 
+            XCTAssertEqual("sample-correlation-id", correlationID)
             expect.fulfill()
         }
 

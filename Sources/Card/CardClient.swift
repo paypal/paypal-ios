@@ -25,7 +25,7 @@ public class CardClient {
     ///   - orderID: The ID of the order to be approved
     ///   - card: The card to be charged for this order
     ///   - completion: Completion handler for approveOrder, which contains data of the order if success, or an error if failure
-    public func approveOrder(orderID: String, card: Card, completion: @escaping (Result<OrderData, Error>) -> Void) {
+    public func approveOrder(orderID: String, card: Card, completion: @escaping (Result<OrderData, Error>, CorrelationID?) -> Void) {
         let path = "/v2/checkout/orders/\(orderID)/confirm-payment-source"
         var request = APIRequest(method: .post, path: path)
         request.body = ConfirmPaymentSourceBody(card: card)
@@ -34,14 +34,14 @@ public class CardClient {
             let correlationID = response.headers["Paypal-Debug-Id"] as? String
             
             if response.status == 404 {
-                completion(.failure(NetworkingError.unknown))
+                completion(.failure(NetworkingError.unknown), correlationID)
             } else {
                 do {
                     let result = try self.parseResult(from: response)
                     let orderData = OrderData(orderID: result.id, status: OrderStatus(rawValue: result.status))
-                    completion(.success(orderData))
+                    completion(.success(orderData), correlationID)
                 } catch {
-                    completion(.failure(error))
+                    completion(.failure(error), correlationID)
                 }
             }
         }
