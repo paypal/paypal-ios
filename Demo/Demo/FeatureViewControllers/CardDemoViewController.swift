@@ -98,48 +98,35 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         guard let cardNumber = cardNumberTextField.text, let expirationDate = expirationTextField.text, let cvv = cvvTextField.text
         else { return true }
 
+        /// Holders for the cursor positions
+        let positionOriginal = textField.beginningOfDocument
+        let cursorLocation = textField.position(from: positionOriginal, offset: (range.location + NSString(string: string).length))
+
         /// Get full string by appending the current text field with the new characters
         guard let current = textField.text else { return true }
         guard let changedRange = Range(range, in: current) else { return true }
         let new = current.replacingCharacters(in: changedRange, with: string)
 
-        /// Format text field based on the card type
         if textField == cardNumberTextField {
-            /// clean the text field test to remove spaces
-            let cleanedText = new.replacingOccurrences(of: " ", with: "")
+            /// Format text field based on the card type
+            formatCardNumber(textField: textField, newString: new)
 
-            /// check that the count of the text field is less than or equal to the card types max length
-            guard cleanedText.count <= CardType.unknown.getCardType(cleanedText).maxLength else {
-                return false
-            }
-
-            textField.text = cardFormatter.formatCardNumber(cleanedText)
             toggleButton(cardNumber: textField.text ?? "", expirationDate: expirationDate, cvv: cvv)
 
-            // WIP: Adjust cursor
-            if string.isEmpty {
-                let location = textField.position(from: textField.beginningOfDocument, offset: range.location) ?? textField.endOfDocument
-                textField.selectedTextRange = textField.textRange(from: location, to: location)
-            } else {
-                let offset = (textField.text ?? "").count - cardNumber.count
-                let location = textField.position(from: textField.beginningOfDocument, offset: range.location + offset) ?? textField.endOfDocument
-                textField.selectedTextRange = textField.textRange(from: location, to: location)
+            if let cursorLocation = cursorLocation {
+                textField.selectedTextRange = textField.textRange(from: cursorLocation, to: cursorLocation)
             }
-            // End WIP
 
             return false
-        /// format expiration date text field
         } else if textField == expirationTextField {
-            /// clean the text field text to remove slash and spaces
-            let cleanedText = new.replacingOccurrences(of: "/", with: "").replacingOccurrences(of: " ", with: "")
+            /// format expiration date text field
+            formatExpirationDate(textField: textField, newString: new)
+            toggleButton(cardNumber: cardNumber, expirationDate: textField.text ?? "", cvv: cvv)
 
-            /// limit expiration date to 4 characters max
-            guard cleanedText.count <= 4 else {
-                return false
+            if let cursorLocation = cursorLocation {
+                textField.selectedTextRange = textField.textRange(from: cursorLocation, to: cursorLocation)
             }
 
-            textField.text = cardFormatter.formatExpirationDate(cleanedText)
-            toggleButton(cardNumber: cardNumber, expirationDate: textField.text ?? "", cvv: cvv)
             return false
         } else if textField == cvvTextField {
             /// Limit cvv character count to be 4 characters max
@@ -149,6 +136,7 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
             textField.text = new
             toggleButton(cardNumber: cardNumber, expirationDate: expirationDate, cvv: textField.text ?? "")
+
             return false
         }
         return true
@@ -158,6 +146,26 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         updateTitle("Processing order...")
         payButton.startAnimating()
         // TODO: Call `processOrder` and `payButton.stopAnimating()` once process order is complete
+    }
+
+    private func formatCardNumber(textField: UITextField, newString: String) {
+        /// clean the text field test to remove spaces
+        let cleanedText = newString.replacingOccurrences(of: " ", with: "")
+
+        /// check that the count of the text field is less than or equal to the card types max length
+        guard cleanedText.count <= CardType.unknown.getCardType(cleanedText).maxLength else { return }
+
+        textField.text = cardFormatter.formatCardNumber(cleanedText)
+    }
+
+    private func formatExpirationDate(textField: UITextField, newString: String) {
+        /// clean the text field text to remove slash and spaces
+        let cleanedText = newString.replacingOccurrences(of: "/", with: "").replacingOccurrences(of: " ", with: "")
+
+        /// limit expiration date to 4 characters max
+        guard cleanedText.count <= 4 else { return }
+
+        textField.text = cardFormatter.formatExpirationDate(cleanedText)
     }
 
     private func toggleButton(cardNumber: String, expirationDate: String, cvv: String) {
