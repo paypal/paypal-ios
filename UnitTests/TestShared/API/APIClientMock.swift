@@ -4,12 +4,12 @@ import UIKit
 
 class APIClientMock: API {
     
-    private(set) var lastSentRequest: APIRequest2?
+    private(set) var lastSentRequest: APIRequest?
     
     private var sendStub: HttpResponse?
     private var pendingCallback: ((HttpResponse) -> Void)?
     
-    func send(_ apiRequest: APIRequest2, completion: @escaping (HttpResponse) -> Void) {
+    func send(_ apiRequest: APIRequest, completion: @escaping (HttpResponse) -> Void) {
         lastSentRequest = apiRequest
         if let stub = sendStub {
             completion(stub)

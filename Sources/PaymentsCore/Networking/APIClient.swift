@@ -1,7 +1,7 @@
 
 import UIKit
 
-public class APIClient2: API {
+public class APIClient: API {
     
     private let http: Http
     private let config: CoreConfig
@@ -18,7 +18,7 @@ public class APIClient2: API {
         self.decoder.keyDecodingStrategy = .convertFromSnakeCase
     }
 
-    public func send(_ apiRequest: APIRequest2, completion: @escaping (HttpResponse) -> Void) {
+    public func send(_ apiRequest: APIRequest, completion: @escaping (HttpResponse) -> Void) {
         if let urlRequest = urlRequest(from: apiRequest) {
             http.send(urlRequest, completion: completion)
         } else {
@@ -26,7 +26,7 @@ public class APIClient2: API {
         }
     }
     
-    private func urlRequest(from apiRequest: APIRequest2) -> URLRequest? {
+    private func urlRequest(from apiRequest: APIRequest) -> URLRequest? {
         let completeUrl = config.environment.baseURL.appendingPathComponent(apiRequest.path)
         let urlComponents = URLComponents(url: completeUrl, resolvingAgainstBaseURL: false)
 

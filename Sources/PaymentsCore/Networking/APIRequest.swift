@@ -1,7 +1,7 @@
 
 import UIKit
 
-public struct APIRequest2 {
+public struct APIRequest {
     
     public var method: HTTPMethod
     public var path: String

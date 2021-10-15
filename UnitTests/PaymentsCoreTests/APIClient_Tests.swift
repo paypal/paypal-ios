@@ -2,7 +2,7 @@ import XCTest
 @testable import PaymentsCore
 @testable import TestShared
 
-class APIClient_Tests2: XCTestCase {
+class APIClient_Tests: XCTestCase {
     
     struct APIRequestBodyMock: APIRequestBody, Decodable {
         let property: String
@@ -18,9 +18,9 @@ class APIClient_Tests2: XCTestCase {
     }
     
     func testSend_properlyResolvesSandboxURLs() {
-        let sut = APIClient2(config: sandboxConfig, http: http)
+        let sut = APIClient(config: sandboxConfig, http: http)
         
-        let apiRequest = APIRequest2(method: .post, path: "/sample/url")
+        let apiRequest = APIRequest(method: .post, path: "/sample/url")
         sut.send(apiRequest) { _ in }
         
         let urlRequest = http.lastSentRequest!
@@ -28,9 +28,9 @@ class APIClient_Tests2: XCTestCase {
     }
     
     func testSend_properlyResolvesProductionURLs() {
-        let sut = APIClient2(config: productionConfig, http: http)
+        let sut = APIClient(config: productionConfig, http: http)
         
-        let apiRequest = APIRequest2(method: .post, path: "/sample/url")
+        let apiRequest = APIRequest(method: .post, path: "/sample/url")
         sut.send(apiRequest) { _ in }
         
         let urlRequest = http.lastSentRequest!
@@ -38,9 +38,9 @@ class APIClient_Tests2: XCTestCase {
     }
     
     func testSend_properlySetsHttpMethod() {
-        let sut = APIClient2(config: sandboxConfig, http: http)
+        let sut = APIClient(config: sandboxConfig, http: http)
         
-        let apiRequest = APIRequest2(method: .post, path: "/sample/url")
+        let apiRequest = APIRequest(method: .post, path: "/sample/url")
         sut.send(apiRequest) { _ in }
         
         let urlRequest = http.lastSentRequest!
@@ -48,9 +48,9 @@ class APIClient_Tests2: XCTestCase {
     }
     
     func testSend_properlySetsHttpBody() {
-        let sut = APIClient2(config: sandboxConfig, http: http)
+        let sut = APIClient(config: sandboxConfig, http: http)
         
-        var apiRequest = APIRequest2(method: .post, path: "/sample/url")
+        var apiRequest = APIRequest(method: .post, path: "/sample/url")
         apiRequest.body = APIRequestBodyMock(property: "value")
         
         sut.send(apiRequest) { _ in }
@@ -63,9 +63,9 @@ class APIClient_Tests2: XCTestCase {
     }
     
     func testSend_setsContentTypeHeaderToJSON() {
-        let sut = APIClient2(config: sandboxConfig, http: http)
+        let sut = APIClient(config: sandboxConfig, http: http)
         
-        let apiRequest = APIRequest2(method: .post, path: "/sample/url")
+        let apiRequest = APIRequest(method: .post, path: "/sample/url")
         
         sut.send(apiRequest) { _ in }
         let urlRequest = http.lastSentRequest!
@@ -74,9 +74,9 @@ class APIClient_Tests2: XCTestCase {
     }
     
     func testSend_setsAcceptLanguageHeaderToEN() {
-        let sut = APIClient2(config: sandboxConfig, http: http)
+        let sut = APIClient(config: sandboxConfig, http: http)
         
-        let apiRequest = APIRequest2(method: .post, path: "/sample/url")
+        let apiRequest = APIRequest(method: .post, path: "/sample/url")
         
         sut.send(apiRequest) { _ in }
         let urlRequest = http.lastSentRequest!
@@ -86,9 +86,9 @@ class APIClient_Tests2: XCTestCase {
     
     func testSend_setsAuthenticationHeaderToBasicAuthWithClientID() {
 
-        let sut = APIClient2(config: sandboxConfig, http: http)
+        let sut = APIClient(config: sandboxConfig, http: http)
         
-        let apiRequest = APIRequest2(method: .post, path: "/sample/url")
+        let apiRequest = APIRequest(method: .post, path: "/sample/url")
         
         sut.send(apiRequest) { _ in }
         let urlRequest = http.lastSentRequest!
@@ -100,9 +100,9 @@ class APIClient_Tests2: XCTestCase {
         let httpResponse = HttpResponse(status: 123)
         http.stubSend(with: httpResponse)
         
-        let sut = APIClient2(config: sandboxConfig, http: http)
+        let sut = APIClient(config: sandboxConfig, http: http)
         
-        let apiRequest = APIRequest2(method: .post, path: "/sample/url")
+        let apiRequest = APIRequest(method: .post, path: "/sample/url")
         
         let expect = expectation(description: "forwards http response to completion handler")
         sut.send(apiRequest) { response in

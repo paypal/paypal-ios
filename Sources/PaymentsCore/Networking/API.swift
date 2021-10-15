@@ -3,5 +3,5 @@ import UIKit
 
 public protocol API {
 
-    func send(_ apiRequest: APIRequest2, completion: @escaping (HttpResponse) -> Void)
+    func send(_ apiRequest: APIRequest, completion: @escaping (HttpResponse) -> Void)
 }

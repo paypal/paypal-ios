@@ -3,7 +3,7 @@ import Foundation
 import PaymentsCore
 #endif
 
-public class CardClient2 {
+public class CardClient {
 
     private let api: API
     private let decoder = JSONDecoder()
@@ -11,7 +11,7 @@ public class CardClient2 {
     /// Initialize a CardClient to process card payment
     /// - Parameter config: The CoreConfig object
     public convenience init(config: CoreConfig) {
-        self.init(api: APIClient2(config: config))
+        self.init(api: APIClient(config: config))
     }
 
     /// For internal use for testing/mocking purpose
@@ -27,7 +27,7 @@ public class CardClient2 {
     ///   - completion: Completion handler for approveOrder, which contains data of the order if success, or an error if failure
     public func approveOrder(orderID: String, card: Card, completion: @escaping (Result<OrderData, Error>) -> Void) {
         let path = "/v2/checkout/orders/\(orderID)/confirm-payment-source"
-        var request = APIRequest2(method: .post, path: path)
+        var request = APIRequest(method: .post, path: path)
         request.body = ConfirmPaymentSourceBody(card: card)
         
         api.send(request) { response in
