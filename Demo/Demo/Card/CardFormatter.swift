@@ -2,48 +2,30 @@ class CardFormatter {
 
     func formatCardNumber(_ cardNumber: String) -> String {
         /// remove spaces from card string
-        var cleanedCardString: String = cardNumber.replacingOccurrences(of: " ", with: "")
+        var formattedCardNumber: String = cardNumber.replacingOccurrences(of: " ", with: "")
 
         /// gets the card type to know how to format card string
-        let cardType = CardType.unknown.getCardType(cleanedCardString)
+        let cardType = CardType.unknown.getCardType(formattedCardNumber)
 
         /// loops through where the space should be based on the card types indices and inserts a space at the desired index
         cardType.cardNumberIndices.forEach { index in
-            if index < cleanedCardString.count {
-                let index = cleanedCardString.index(cleanedCardString.startIndex, offsetBy: index)
-                cleanedCardString.insert(" ", at: index)
+            if index < formattedCardNumber.count {
+                let index = formattedCardNumber.index(formattedCardNumber.startIndex, offsetBy: index)
+                formattedCardNumber.insert(" ", at: index)
             }
         }
-        return cleanedCardString
+        return formattedCardNumber
     }
 
     func formatExpirationDate( _ expirationDate: String) -> String? {
-        /// holder for expiration date
-        var currentExpirationDate = expirationDate
+        /// holder for the current expiration date
+        var formattedDate = expirationDate
 
-        /// ensures that we can delete past the " / " in the string
-        if currentExpirationDate.count == 4 {
-            currentExpirationDate = String(currentExpirationDate.prefix(2))
-            return currentExpirationDate
+        /// if the date count is greater than 2 append " / " after the month to format as MM/YY
+        if formattedDate.count > 2 {
+            formattedDate.insert(contentsOf: " / ", at: formattedDate.index(formattedDate.startIndex, offsetBy: 2))
         }
 
-        /// removes `/` and spaces from expiration date string
-        var dateText = currentExpirationDate.replacingOccurrences(of: "/", with: "")
-        dateText = dateText.replacingOccurrences(of: " ", with: "")
-
-        /// holder for new date to return
-        var newExpirationDate = ""
-
-        /// loops through the date and appends a " / " if after month and the character if entering the year
-        for (index, character) in dateText.enumerated() {
-            if index == 1 {
-                newExpirationDate = "\(newExpirationDate)\(character) / "
-            } else {
-                newExpirationDate.append(character)
-            }
-        }
-        /// sets the current expiration date to the formatted date
-        currentExpirationDate = newExpirationDate
-        return currentExpirationDate
+        return formattedDate
     }
 }
