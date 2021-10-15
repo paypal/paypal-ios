@@ -25,38 +25,31 @@ public class CardClient {
     ///   - orderID: The ID of the order to be approved
     ///   - card: The card to be charged for this order
     ///   - completion: Completion handler for approveOrder, which contains data of the order if success, or an error if failure
-    public func approveOrder(orderID: String, card: Card, completion: @escaping (Result<OrderData, Error>, CorrelationID?) -> Void) {
+    public func approveOrder(
+        orderID: String,
+        card: Card,
+        completion: @escaping (Result<OrderData, NetworkingError>, CorrelationID?) -> Void
+    ) {
         let path = "/v2/checkout/orders/\(orderID)/confirm-payment-source"
         var request = APIRequest(method: .post, path: path)
         request.body = ConfirmPaymentSourceBody(card: card)
-        
+
         api.send(request) { response in
             let correlationID = response.headers["Paypal-Debug-Id"] as? String
-            
+
             if response.status == 404 {
                 completion(.failure(NetworkingError.unknown), correlationID)
-            } else {
+            } else if let body = response.body {
                 do {
-                    let result = try self.parseResult(from: response)
+                    let result = try self.decoder.decode(ConfirmPaymentSourceResponse.self, from: body)
                     let orderData = OrderData(orderID: result.id, status: OrderStatus(rawValue: result.status))
                     completion(.success(orderData), correlationID)
                 } catch {
-                    completion(.failure(error), correlationID)
+                    completion(.failure(.parsingError(error)), correlationID)
                 }
+            } else {
+                completion(.failure(.unknown), correlationID)
             }
         }
-    }
-    
-    private func parseResult(from httpResponse: HTTPResponse) throws -> ConfirmPaymentSourceResponse {
-        var result: ConfirmPaymentSourceResponse!
-        if let body = httpResponse.body {
-            result = try? self.decoder.decode(ConfirmPaymentSourceResponse.self, from: body)
-        }
-        
-        if result == nil {
-            let error = NSError(domain: "com.paypal.ios", code: -1, userInfo: [ "reason": "parsing_error" ])
-            throw NetworkingError.parsingError(error)
-        }
-        return result
     }
 }

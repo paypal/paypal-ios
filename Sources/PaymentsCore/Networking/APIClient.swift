@@ -1,17 +1,16 @@
-
 import UIKit
 
 public class APIClient: API {
-    
+
     private let http: HTTP
     private let config: CoreConfig
-    
+
     private let decoder = JSONDecoder()
-    
+
     public convenience init(config: CoreConfig) {
         self.init(config: config, http: HTTPClient())
     }
-    
+
     init(config: CoreConfig, http: HTTP) {
         self.http = http
         self.config = config
@@ -25,7 +24,7 @@ public class APIClient: API {
             // TODO: handle error
         }
     }
-    
+
     private func urlRequest(from apiRequest: APIRequest) -> URLRequest? {
         let completeUrl = config.environment.baseURL.appendingPathComponent(apiRequest.path)
         let urlComponents = URLComponents(url: completeUrl, resolvingAgainstBaseURL: false)
@@ -37,7 +36,7 @@ public class APIClient: API {
         var request = URLRequest(url: url)
         request.httpMethod = apiRequest.method.rawValue
         request.httpBody = apiRequest.body?.encoded()
-        
+
         // TODO: Remove clientSecret when this endpoint is updated and can be used with low-scoped token
         // For now, include your clientSecret here and your clientID in CoreConfig to test this request
         let clientSecret = ""
