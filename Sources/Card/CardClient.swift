@@ -51,6 +51,11 @@ public class CardClient {
             // failing.
             // This deserves a re-write. Also not sure if the try
             // pattern there is necessary at all.
+            let error = PayPalSDKError(
+                code: 0,
+                domain: "",
+                errorDescription: ""
+            )
             completion(.failure(error))
         }
     }
