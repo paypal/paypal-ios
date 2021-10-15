@@ -9,16 +9,16 @@ class HttpClient: Http {
     static let STATUS_UNDETERMINED = -1
     
     // MARK: - Properties
-    private let urlSession: URLSession
+    private let urlSession: URLSessionProtocol
     
     // MARK: - Initializers
-    public init(urlSession: URLSession = .shared) {
+    public init(urlSession: URLSessionProtocol = URLSession.shared) {
         self.urlSession = urlSession
     }
 
     // MARK: - Http
     func send(_ urlRequest: URLRequest, completion: @escaping (HttpResponse) -> Void) {
-        let task = urlSession.dataTask(with: urlRequest) { data, response, error in
+        urlSession.performRequest(with: urlRequest) { data, response, error in
             var status: Int!
             var headers: [AnyHashable: Any] = [:]
             if let httpResponse = response as? HTTPURLResponse {
@@ -29,6 +29,5 @@ class HttpClient: Http {
             }
             completion(HttpResponse(status: status, headers: headers, body: data, error: error))
         }
-        task.resume()
     }
 }
