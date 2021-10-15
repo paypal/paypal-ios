@@ -83,7 +83,6 @@ final class CardClient_Tests: XCTestCase {
         mockURLSession.cannedURLResponse = successURLResponse
         mockURLSession.cannedJSONData = jsonResponse
 
-        // TODO: Update CardClient to use PayPalSDKError
         cardClient.approveOrder(orderID: "", card: card) { result in
             switch result {
             case .success(_):
