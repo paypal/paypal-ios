@@ -41,7 +41,6 @@
 		BC4B31962719D2E600F44BD8 /* ConfirmPaymentSourceBody_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4B31872719D1EA00F44BD8 /* ConfirmPaymentSourceBody_Tests.swift */; };
 		BCBDDAA42719D9FF008E1F4C /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBDDAA32719D9FF008E1F4C /* URLSessionProtocol.swift */; };
 		BCBDDAA62719DA2D008E1F4C /* URLSession+URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBDDAA52719DA2D008E1F4C /* URLSession+URLSessionProtocol.swift */; };
-		BEA100E926EFA1EE0036A6A5 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100E826EFA1EE0036A6A5 /* APIRequest.swift */; };
 		BEA100EC26EFA7790036A6A5 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100EB26EFA7790036A6A5 /* HTTPMethod.swift */; };
 		BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */; };
 		BEA100F026EFA7C20036A6A5 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100EF26EFA7C20036A6A5 /* NetworkingError.swift */; };
@@ -107,7 +106,6 @@
 		BC4B318E2719D24300F44BD8 /* HttpClientMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HttpClientMock.swift; path = HttpClient/HttpClientMock.swift; sourceTree = "<group>"; };
 		BCBDDAA32719D9FF008E1F4C /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		BCBDDAA52719DA2D008E1F4C /* URLSession+URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+URLSessionProtocol.swift"; sourceTree = "<group>"; };
-		BEA100E826EFA1EE0036A6A5 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		BEA100EB26EFA7790036A6A5 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
 		BEA100EF26EFA7C20036A6A5 /* NetworkingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingError.swift; sourceTree = "<group>"; };
@@ -314,7 +312,6 @@
 		BEA100F526EFB4A90036A6A5 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				BEA100E826EFA1EE0036A6A5 /* APIRequest.swift */,
 				BCBDDAA32719D9FF008E1F4C /* URLSessionProtocol.swift */,
 				BCBDDAA52719DA2D008E1F4C /* URLSession+URLSessionProtocol.swift */,
 			);
@@ -672,7 +669,6 @@
 				BC4B31792719D0D400F44BD8 /* APIRequest2.swift in Sources */,
 				BC4B31732719CFE300F44BD8 /* API.swift in Sources */,
 				BC4B31852719D15700F44BD8 /* HttpResponse.swift in Sources */,
-				BEA100E926EFA1EE0036A6A5 /* APIRequest.swift in Sources */,
 				065A4DBC26FCD8090007014A /* CoreError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
