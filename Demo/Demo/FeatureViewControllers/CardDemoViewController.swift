@@ -24,21 +24,18 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
     lazy var cardNumberTextField: CustomTextField = {
         let textField = CustomTextField(placeholderText: "Card Number")
-        textField.addTarget(self, action: #selector(editingChanged), for: .editingChanged)
         textField.keyboardType = .numberPad
         return textField
     }()
 
     lazy var expirationTextField: CustomTextField = {
         let textField = CustomTextField(placeholderText: "Expiration")
-        textField.addTarget(self, action: #selector(editingChanged), for: .editingChanged)
         textField.keyboardType = .numberPad
         return textField
     }()
 
     lazy var cvvTextField: CustomTextField = {
         let textField = CustomTextField(placeholderText: "CVV")
-        textField.addTarget(self, action: #selector(editingChanged), for: .editingChanged)
         textField.keyboardType = .numberPad
         return textField
     }()
@@ -93,46 +90,56 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let cardNumber = cardNumberTextField.text, let expiry = expirationTextField.text, let cvv = cvvTextField.text
+        else { return true }
+
+        // Get new string
+        guard let current = textField.text else { return true }
+        guard let changedRange = Range(range, in: current) else { return true }
+        let new = current.replacingCharacters(in: changedRange, with: string)
+
+        // Format string
         if textField == cardNumberTextField {
             let cleanedText = cardNumberTextField.text?.replacingOccurrences(of: " ", with: "") ?? ""
             let currentCharacterCount = cleanedText.count
             let newLength = currentCharacterCount + string.count - range.length
             return newLength <= CardType.unknown.getCardType(cleanedText).maxLength
         } else if textField == expirationTextField {
-            var cleanedText = expirationTextField.text?.replacingOccurrences(of: "/", with: "") ?? ""
-            cleanedText = cleanedText.replacingOccurrences(of: " ", with: "")
-            let currentCharacterCount = cleanedText.count
-            let newLength = currentCharacterCount + string.count - range.length
-            return newLength <= 4
+            // Format expiration to MM / YY and limit character count
+
+            let cleanedNew = new.replacingOccurrences(of: "/", with: "").replacingOccurrences(of: " ", with: "")
+
+            // Limit character count. This should be MMYY (4 characters max)
+            guard cleanedNew.count <= 4 else {
+                return false
+            }
+
+            // Set textField to be new string and format with " / "
+            textField.text = cleanedNew
+            if cleanedNew.count > 2 {
+                textField.text?.insert(contentsOf: " / ", at: cleanedNew.index(cleanedNew.startIndex, offsetBy: 2))
+            }
+
+            // Enable/disable button
+            toggleButton(cardNumber: cardNumber, expiry: cleanedNew, cvv: cvv)
+            return false
         } else if textField == cvvTextField {
-            let currentCharacterCount = cvvTextField.text?.count ?? 0
-            let newLength = currentCharacterCount + string.count - range.length
-            return newLength <= 4
+            // Limit cvv character count to be 4 characters max
+            toggleButton(cardNumber: cardNumber, expiry: expiry, cvv: new)
+            return new.count <= 4
         }
         return true
+    }
+
+    private func toggleButton(cardNumber: String, expiry: String, cvv: String) {
+        // TODO: card number
+        let enabled = expiry.count == 4 && cvv.count >= 3 && cvv.count <= 4
+        payButton.isEnabled = enabled
     }
 
     @objc func didTapPayButton() {
         updateTitle("Processing order...")
         payButton.startAnimating()
         // TODO: Call `processOrder` and `payButton.stopAnimating()` once process order is complete
-    }
-
-    @objc private func editingChanged() {
-        cardNumberTextField.text = cardFormatter.formatCardNumber(cardNumberTextField.text ?? "")
-        expirationTextField.text = cardFormatter.formatExpirationDate(expirationTextField.text ?? "")
-
-        guard
-            let cardNumberCount = cardNumberTextField.text?.replacingOccurrences(of: " ", with: "").count,
-            let expirationDateCount = expirationTextField.text?.count,
-            let cvvCount = cvvTextField.text?.count,
-            cardNumberCount >= 15 && cardNumberCount <= 19,
-            expirationDateCount >= 7 && expirationDateCount <= 9,
-            cvvCount >= 3 && cvvCount <= 4
-        else {
-            payButton.isEnabled = false
-            return
-        }
-        payButton.isEnabled = true
     }
 }
