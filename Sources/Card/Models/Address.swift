@@ -12,16 +12,16 @@ public struct Address: Codable {
         case countryCode
     }
 
-    /// The first line of the address.
+    /// Optional. The first line of the address.
     public var addressLine1: String?
 
-    /// The second line of the address.
+    /// Optional. The second line of the address.
     public var addressLine2: String?
 
-    /// A city, town, or village. Smaller than `region`.
+    /// Optional. A city, town, or village. Smaller than `region`.
     public var locality: String?
 
-    /// The highest level sub-division in a country, which is usually a province or state. Format for postal delivery, for example, `CA` and not `California`. Value, by country, is:
+    /// Optional. The highest level sub-division in a country, which is usually a province or state. Format for postal delivery, for example, `CA` and not `California`. Value, by country, is:
     /// - UK: a county.
     /// - US: a state.
     /// - Canada: a province.
@@ -29,7 +29,7 @@ public struct Address: Codable {
     /// - Switzerland: a kanton.
     public var region: String?
 
-    /// The postal code, which is the zip code or equivalent. Typically required for countries with a postal code or an equivalent.
+    /// Optional. The postal code, which is the zip code or equivalent. Typically required for countries with a postal code or an equivalent.
     /// See [postal code](https://en.wikipedia.org/wiki/Postal_code).
     public var postalCode: String?
 

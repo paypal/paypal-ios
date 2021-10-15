@@ -22,10 +22,10 @@ public struct Card: Encodable {
     /// The three- or four-digit security code of the card. Also known as the CVV, CVC, CVN, CVE, or CID.
     public var securityCode: String
 
-    /// The card holder's name as it appears on the card.
+    /// Optional. The card holder's name as it appears on the card.
     public var cardholderName: String?
 
-    /// The billing address
+    /// Optional. The billing address
     public var billingAddress: Address?
 
     /// The expiration year and month, in ISO-8601 `YYYY-MM` date format.
