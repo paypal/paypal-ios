@@ -90,10 +90,15 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        /// Ensures that only numbers are entered into our text fields
+        guard CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string)) else {
+            return false
+        }
+
         guard let cardNumber = cardNumberTextField.text, let expirationDate = expirationTextField.text, let cvv = cvvTextField.text
         else { return true }
 
-        /// Get new string by
+        /// Get full string by appending the current text field with the new characters
         guard let current = textField.text else { return true }
         guard let changedRange = Range(range, in: current) else { return true }
         let new = current.replacingCharacters(in: changedRange, with: string)
