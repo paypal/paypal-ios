@@ -115,6 +115,18 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
             textField.text = cardFormatter.formatCardNumber(cleanedText)
             toggleButton(cardNumber: textField.text ?? "", expirationDate: expirationDate, cvv: cvv)
+
+            // WIP: Adjust cursor
+            if string.isEmpty {
+                let location = textField.position(from: textField.beginningOfDocument, offset: range.location) ?? textField.endOfDocument
+                textField.selectedTextRange = textField.textRange(from: location, to: location)
+            } else {
+                let offset = (textField.text ?? "").count - cardNumber.count
+                let location = textField.position(from: textField.beginningOfDocument, offset: range.location + offset) ?? textField.endOfDocument
+                textField.selectedTextRange = textField.textRange(from: location, to: location)
+            }
+            // End WIP
+
             return false
         /// format expiration date text field
         } else if textField == expirationTextField {
