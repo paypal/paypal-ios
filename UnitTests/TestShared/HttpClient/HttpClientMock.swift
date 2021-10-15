@@ -2,18 +2,18 @@
 import UIKit
 @testable import PaymentsCore
 
-class HttpClientMock: Http {
+class HttpClientMock: HTTP {
     
     // MARK: - Properties
-    private var defaultSendStub: HttpResponse?
+    private var defaultSendStub: HTTPResponse?
     
-    private var sendStubs: [URLRequest: HttpResponse] = [:]
-    private var pendingCallbacks: [URLRequest: ((HttpResponse) -> Void)] = [:]
+    private var sendStubs: [URLRequest: HTTPResponse] = [:]
+    private var pendingCallbacks: [URLRequest: ((HTTPResponse) -> Void)] = [:]
     
     private(set) var lastSentRequest: URLRequest?
     
-    // MARK: - Http
-    func send(_ urlRequest: URLRequest, completion: @escaping (HttpResponse) -> Void) {
+    // MARK: - HTTP
+    func send(_ urlRequest: URLRequest, completion: @escaping (HTTPResponse) -> Void) {
         lastSentRequest = urlRequest
         if let stub = sendStubs[urlRequest] ?? defaultSendStub {
             completion(stub)
@@ -23,11 +23,11 @@ class HttpClientMock: Http {
     }
     
     // MARK: - HttpClientMock
-    func stubSend(with httpResponse: HttpResponse) {
+    func stubSend(with httpResponse: HTTPResponse) {
         defaultSendStub = httpResponse
     }
     
-    func stubSend(_ urlRequest: URLRequest, with httpResponse: HttpResponse) {
+    func stubSend(_ urlRequest: URLRequest, with httpResponse: HTTPResponse) {
         if let completion = pendingCallbacks[urlRequest] {
             completion(httpResponse)
         } else {

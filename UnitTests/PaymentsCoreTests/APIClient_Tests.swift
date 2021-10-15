@@ -97,7 +97,7 @@ class APIClient_Tests: XCTestCase {
     }
     
     func testSend_forwardsHTTPResponseToCompletionHandler() {
-        let httpResponse = HttpResponse(status: 123)
+        let httpResponse = HTTPResponse(status: 123)
         http.stubSend(with: httpResponse)
         
         let sut = APIClient(config: sandboxConfig, http: http)

@@ -3,22 +3,22 @@ import UIKit
 
 public class APIClient: API {
     
-    private let http: Http
+    private let http: HTTP
     private let config: CoreConfig
     
     private let decoder = JSONDecoder()
     
     public convenience init(config: CoreConfig) {
-        self.init(config: config, http: HttpClient())
+        self.init(config: config, http: HTTPClient())
     }
     
-    init(config: CoreConfig, http: Http) {
+    init(config: CoreConfig, http: HTTP) {
         self.http = http
         self.config = config
         self.decoder.keyDecodingStrategy = .convertFromSnakeCase
     }
 
-    public func send(_ apiRequest: APIRequest, completion: @escaping (HttpResponse) -> Void) {
+    public func send(_ apiRequest: APIRequest, completion: @escaping (HTTPResponse) -> Void) {
         if let urlRequest = urlRequest(from: apiRequest) {
             http.send(urlRequest, completion: completion)
         } else {

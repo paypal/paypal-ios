@@ -28,7 +28,7 @@ final class CardClient_Tests: XCTestCase {
     }
     
     func testApproveOrder_whenSuccessful_callbackOrderData() {
-        var successResponse = HttpResponse(status: 200)
+        var successResponse = HTTPResponse(status: 200)
         successResponse.headers["Paypal-Debug-Id"] = "sample-correlation-id"
         successResponse.body = """
             {
@@ -61,7 +61,7 @@ final class CardClient_Tests: XCTestCase {
     }
     
     func testApproveOrder_whenResourceNotFound_callbackUnknownError() {
-        var notFoundResponse = HttpResponse(status: 404)
+        var notFoundResponse = HTTPResponse(status: 404)
         notFoundResponse.headers["Paypal-Debug-Id"] = "sample-correlation-id"
         notFoundResponse.body = """
             {
@@ -92,7 +92,7 @@ final class CardClient_Tests: XCTestCase {
     }
     
     func testApproveOrder_whenResponseFormatIsInvalid_callbackParsingError() {
-        var unexpectedResponse = HttpResponse(status: 200)
+        var unexpectedResponse = HTTPResponse(status: 200)
         unexpectedResponse.headers["Paypal-Debug-Id"] = "sample-correlation-id"
         unexpectedResponse.body = """
             {

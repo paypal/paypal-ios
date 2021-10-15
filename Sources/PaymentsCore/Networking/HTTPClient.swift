@@ -1,7 +1,7 @@
 
 import UIKit
 
-class HttpClient: Http {
+class HTTPClient: HTTP {
     
     // MARK: - Constants
     
@@ -16,8 +16,8 @@ class HttpClient: Http {
         self.urlSession = urlSession
     }
 
-    // MARK: - Http
-    func send(_ urlRequest: URLRequest, completion: @escaping (HttpResponse) -> Void) {
+    // MARK: - HTTP
+    func send(_ urlRequest: URLRequest, completion: @escaping (HTTPResponse) -> Void) {
         urlSession.performRequest(with: urlRequest) { data, response, error in
             var status: Int!
             var headers: [AnyHashable: Any] = [:]
@@ -27,7 +27,7 @@ class HttpClient: Http {
             } else {
                 status = Self.STATUS_UNDETERMINED
             }
-            completion(HttpResponse(status: status, headers: headers, body: data, error: error))
+            completion(HTTPResponse(status: status, headers: headers, body: data, error: error))
         }
     }
 }

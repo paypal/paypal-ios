@@ -47,7 +47,7 @@ public class CardClient {
         }
     }
     
-    private func parseResult(from httpResponse: HttpResponse) throws -> ConfirmPaymentSourceResponse {
+    private func parseResult(from httpResponse: HTTPResponse) throws -> ConfirmPaymentSourceResponse {
         var result: ConfirmPaymentSourceResponse!
         if let body = httpResponse.body {
             result = try? self.decoder.decode(ConfirmPaymentSourceResponse.self, from: body)

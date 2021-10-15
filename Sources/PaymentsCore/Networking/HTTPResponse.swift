@@ -1,7 +1,7 @@
 
 import UIKit
 
-public struct HttpResponse {
+public struct HTTPResponse {
     public var status: Int
     public var headers: [AnyHashable: Any]
     public var body: Data?

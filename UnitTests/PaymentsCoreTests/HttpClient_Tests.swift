@@ -14,11 +14,11 @@ class HttpClient_Tests: XCTestCase {
     private let url = URL(string: "www.test.com")!
     private var urlSession: MockURLSession!
     
-    private var sut: HttpClient!
+    private var sut: HTTPClient!
     
     override func setUp() {
         urlSession = MockURLSession()
-        sut = HttpClient(urlSession: urlSession)
+        sut = HTTPClient(urlSession: urlSession)
     }
     
     func testSend_performsURLRequest() {

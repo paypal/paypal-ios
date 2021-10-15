@@ -6,10 +6,10 @@ class APIClientMock: API {
     
     private(set) var lastSentRequest: APIRequest?
     
-    private var sendStub: HttpResponse?
-    private var pendingCallback: ((HttpResponse) -> Void)?
+    private var sendStub: HTTPResponse?
+    private var pendingCallback: ((HTTPResponse) -> Void)?
     
-    func send(_ apiRequest: APIRequest, completion: @escaping (HttpResponse) -> Void) {
+    func send(_ apiRequest: APIRequest, completion: @escaping (HTTPResponse) -> Void) {
         lastSentRequest = apiRequest
         if let stub = sendStub {
             completion(stub)
@@ -18,7 +18,7 @@ class APIClientMock: API {
         }
     }
     
-    func stubSend(with httpResponse: HttpResponse) {
+    func stubSend(with httpResponse: HTTPResponse) {
         if let completion = pendingCallback {
             completion(httpResponse)
         } else {
