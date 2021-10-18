@@ -37,9 +37,7 @@ public class CardClient {
         api.send(request) { response in
             let correlationID = response.headers["Paypal-Debug-Id"] as? String
 
-            if response.status == 404 {
-                completion(.failure(NetworkingError.unknown), correlationID)
-            } else if let body = response.body {
+            if response.isSuccessful, let body = response.body {
                 do {
                     let result = try self.decoder.decode(ConfirmPaymentSourceResponse.self, from: body)
                     let orderData = OrderData(orderID: result.id, status: OrderStatus(rawValue: result.status))
@@ -47,6 +45,8 @@ public class CardClient {
                 } catch {
                     completion(.failure(.parsingError(error)), correlationID)
                 }
+            } else if response.status == 404 {
+                completion(.failure(NetworkingError.unknown), correlationID)
             } else {
                 completion(.failure(.unknown), correlationID)
             }

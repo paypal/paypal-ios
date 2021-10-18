@@ -6,6 +6,10 @@ public struct HTTPResponse {
     public var body: Data?
     public var error: Error?
 
+    public var isSuccessful: Bool {
+        (200...299).contains(status)
+    }
+
     init(status: Int, headers: [AnyHashable: Any] = [:], body: Data? = nil, error: Error? = nil) {
         self.status = status
         self.headers = headers
