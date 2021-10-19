@@ -2,8 +2,6 @@ import UIKit
 
 class CustomButton: UIButton {
 
-    var titleHolder: String?
-
     let activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.hidesWhenStopped = true
@@ -13,8 +11,6 @@ class CustomButton: UIButton {
 
     convenience init(title: String) {
         self.init(type: .system)
-
-        titleHolder = title
 
         setTitle(title, for: .normal)
         translatesAutoresizingMaskIntoConstraints = false
@@ -36,12 +32,12 @@ class CustomButton: UIButton {
     }
 
     func startAnimating() {
-        self.setTitle("", for: .normal)
+        self.setTitleColor(.clear, for: .normal)
         activityIndicator.startAnimating()
     }
 
     func stopAnimating() {
-        self.setTitle(titleHolder, for: .normal)
+        self.setTitleColor(.none, for: .normal)
         activityIndicator.stopAnimating()
     }
 

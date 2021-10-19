@@ -107,13 +107,13 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
         if textField == cardNumberTextField {
             formatCardNumber(textField: textField, newString: new)
-            toggleButton(cardNumber: textField.text ?? "", expirationDate: expirationDate, cvv: cvv)
-            setCursorLocation(textField: textField, string: string, range: range)
+            enableButton(cardNumber: textField.text ?? "", expirationDate: expirationDate, cvv: cvv)
+            setCursorLocation(textField: textField, range: range)
             return false
         } else if textField == expirationTextField {
             formatExpirationDate(textField: textField, newString: new)
-            toggleButton(cardNumber: cardNumber, expirationDate: textField.text ?? "", cvv: cvv)
-            setCursorLocation(textField: textField, string: string, range: range)
+            enableButton(cardNumber: cardNumber, expirationDate: textField.text ?? "", cvv: cvv)
+            setCursorLocation(textField: textField, range: range)
             return false
         } else if textField == cvvTextField {
             /// Limit cvv character count to be 4 characters max
@@ -122,7 +122,7 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
             }
 
             textField.text = new
-            toggleButton(cardNumber: cardNumber, expirationDate: expirationDate, cvv: textField.text ?? "")
+            enableButton(cardNumber: cardNumber, expirationDate: expirationDate, cvv: textField.text ?? "")
 
             return false
         }
@@ -155,17 +155,18 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         textField.text = cardFormatter.formatExpirationDate(cleanedText)
     }
 
-    private func setCursorLocation(textField: UITextField, string: String, range: NSRange) {
+    private func setCursorLocation(textField: UITextField, range: NSRange) {
+        guard let text = textField.text else { return }
         /// Holders for the cursor positions
         let positionOriginal = textField.beginningOfDocument
-        let cursorLocation = textField.position(from: positionOriginal, offset: (range.location + NSString(string: string).length))
+        let cursorLocation = textField.position(from: positionOriginal, offset: (range.location + NSString(string: text).length))
 
         if let cursorLocation = cursorLocation {
             textField.selectedTextRange = textField.textRange(from: cursorLocation, to: cursorLocation)
         }
     }
 
-    private func toggleButton(cardNumber: String, expirationDate: String, cvv: String) {
+    private func enableButton(cardNumber: String, expirationDate: String, cvv: String) {
         let cleanedCardNumber = cardNumber.replacingOccurrences(of: " ", with: "")
         let cleanedExpirationDate = expirationDate.replacingOccurrences(of: "/", with: "").replacingOccurrences(of: " ", with: "")
 
