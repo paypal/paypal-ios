@@ -117,13 +117,9 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
             return false
         } else if textField == cvvTextField {
             /// Limit cvv character count to be 4 characters max
-            guard new.count <= 4 else {
-                return false
-            }
-
+            guard new.count <= 4 else { return false }
             textField.text = new
             enableButton(cardNumber: cardNumber, expirationDate: expirationDate, cvv: textField.text ?? "")
-
             return false
         }
         return true

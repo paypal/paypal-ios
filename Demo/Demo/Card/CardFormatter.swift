@@ -25,7 +25,6 @@ class CardFormatter {
         if formattedDate.count > 2 {
             formattedDate.insert(contentsOf: " / ", at: formattedDate.index(formattedDate.startIndex, offsetBy: 2))
         }
-
         return formattedDate
     }
 }
