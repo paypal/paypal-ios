@@ -34,7 +34,7 @@ enum APIClientError {
     )
 
     static let urlSessionError: (String) -> PayPalSDKError = { description in
-        return PayPalSDKError(
+        PayPalSDKError(
             code: Code.urlSessionError.rawValue,
             domain: domain,
             errorDescription: description
@@ -66,7 +66,7 @@ enum APIClientError {
     )
 
     static let serverResponseError: (String) -> PayPalSDKError = { description in
-        return PayPalSDKError(
+        PayPalSDKError(
             code: Code.serverResponseError.rawValue,
             domain: domain,
             errorDescription: description
