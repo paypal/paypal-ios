@@ -32,6 +32,8 @@
 		BECD84A427036E02007CCAE4 /* DemoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD84A327036E02007CCAE4 /* DemoType.swift */; };
 		BED041AF270CA0FB00C80954 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED041AE270CA0FB00C80954 /* CustomButton.swift */; };
 		BED041B1270CB33900C80954 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED041B0270CB33900C80954 /* CustomTextField.swift */; };
+		BED042312710833F00C80954 /* CardType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED042302710833F00C80954 /* CardType.swift */; };
+		BED04233271084DF00C80954 /* CardFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED04232271084DF00C80954 /* CardFormatter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -76,6 +78,8 @@
 		BECD84A327036E02007CCAE4 /* DemoType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoType.swift; sourceTree = "<group>"; };
 		BED041AE270CA0FB00C80954 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		BED041B0270CB33900C80954 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		BED042302710833F00C80954 /* CardType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardType.swift; sourceTree = "<group>"; };
+		BED04232271084DF00C80954 /* CardFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardFormatter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,15 +140,16 @@
 			children = (
 				80921C1C2710A0720040D76F /* LaunchScreen.storyboard */,
 				806F1E3826B85367007A60E6 /* AppDelegate.swift */,
-				806F1E3A26B85367007A60E6 /* SceneDelegate.swift */,
 				806F1E4126B85369007A60E6 /* Assets.xcassets */,
+				BECD849E27036D95007CCAE4 /* DemoSettings */,
+				BED0422F2710833100C80954 /* Card */,
+				80561B3C26FB5F300023138C /* FeatureViewControllers */,
 				806F1E4626B85369007A60E6 /* Info.plist */,
 				80F33CEB26F8E799006811B1 /* Models */,
 				BE1766B526FA562B007EF438 /* Networking */,
-				BECD849E27036D95007CCAE4 /* DemoSettings */,
-				BEE0EB6326FD10D90021AD42 /* Views */,
-				80561B3C26FB5F300023138C /* FeatureViewControllers */,
+				806F1E3A26B85367007A60E6 /* SceneDelegate.swift */,
 				806F1E3C26B85367007A60E6 /* ViewController.swift */,
+				BEE0EB6326FD10D90021AD42 /* Views */,
 			);
 			path = Demo;
 			sourceTree = "<group>";
@@ -177,6 +182,15 @@
 				BECD84A127036DDB007CCAE4 /* Intent.swift */,
 			);
 			path = DemoSettings;
+			sourceTree = "<group>";
+		};
+		BED0422F2710833100C80954 /* Card */ = {
+			isa = PBXGroup;
+			children = (
+				BED042302710833F00C80954 /* CardType.swift */,
+				BED04232271084DF00C80954 /* CardFormatter.swift */,
+			);
+			path = Card;
 			sourceTree = "<group>";
 		};
 		BEE0EB6326FD10D90021AD42 /* Views */ = {
@@ -269,6 +283,7 @@
 				BECD84A427036E02007CCAE4 /* DemoType.swift in Sources */,
 				80F33CED26F8E7A9006811B1 /* Order.swift in Sources */,
 				80561B3A26FB5F1C0023138C /* PayPalDemoViewController.swift in Sources */,
+				BED04233271084DF00C80954 /* CardFormatter.swift in Sources */,
 				80561B3E26FB72D80023138C /* FeatureBaseViewController.swift in Sources */,
 				BECD84A027036DC2007CCAE4 /* Environment.swift in Sources */,
 				806F1E3D26B85367007A60E6 /* ViewController.swift in Sources */,
@@ -283,6 +298,7 @@
 				BE1766B326F911A2007EF438 /* URLResponseError.swift in Sources */,
 				806F1E3926B85367007A60E6 /* AppDelegate.swift in Sources */,
 				806F1E3B26B85367007A60E6 /* SceneDelegate.swift in Sources */,
+				BED042312710833F00C80954 /* CardType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

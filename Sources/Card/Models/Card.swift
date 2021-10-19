@@ -1,33 +1,52 @@
 import Foundation
 
-/// Initialize a card object
-/// - Parameters:
-///   - number: The full card number, or PAN.
-///   - expirationMonth: The card's expiration month in MM format.
-///   - expirationYear: The card's expiration year in YYYY format.
-///   - securityCode: The card's security code (CVV, CVC, CVN, CVE, or CID).
 public struct Card: Encodable {
-
-    public var number: String
-    public var expirationMonth: String
-    public var expirationYear: String
-    public var securityCode: String
-
-    public init(number: String, expirationMonth: String, expirationYear: String, securityCode: String) {
-        self.number = number
-        self.expirationMonth = expirationMonth
-        self.expirationYear = expirationYear
-        self.securityCode = securityCode
-    }
 
     enum CodingKeys: String, CodingKey {
         case number
         case expiry
         case securityCode
+        case cardholderName = "name"
+        case billingAddress
     }
 
+    /// The primary account number (PAN) for the payment card.
+    public var number: String
+
+    /// The card expiration month in `MM` format
+    public var expirationMonth: String
+
+    /// The card expiration year in `YYYY` format
+    public var expirationYear: String
+
+    /// The three- or four-digit security code of the card. Also known as the CVV, CVC, CVN, CVE, or CID.
+    public var securityCode: String
+
+    /// Optional. The card holder's name as it appears on the card.
+    public var cardholderName: String?
+
+    /// Optional. The billing address
+    public var billingAddress: Address?
+
+    /// The expiration year and month, in ISO-8601 `YYYY-MM` date format.
     public var expiry: String {
-        return "\(expirationYear)-\(expirationMonth)"
+        "\(expirationYear)-\(expirationMonth)"
+    }
+
+    public init(
+        number: String,
+        expirationMonth: String,
+        expirationYear: String,
+        securityCode: String,
+        cardHolderName: String? = nil,
+        billingAddress: Address? = nil
+    ) {
+        self.number = number
+        self.expirationMonth = expirationMonth
+        self.expirationYear = expirationYear
+        self.securityCode = securityCode
+        self.cardholderName = cardHolderName
+        self.billingAddress = billingAddress
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -35,5 +54,7 @@ public struct Card: Encodable {
         try container.encode(number, forKey: .number)
         try container.encode(expiry, forKey: .expiry)
         try container.encode(securityCode, forKey: .securityCode)
+        try container.encode(cardholderName, forKey: .cardholderName)
+        try container.encode(billingAddress, forKey: .billingAddress)
     }
 }
