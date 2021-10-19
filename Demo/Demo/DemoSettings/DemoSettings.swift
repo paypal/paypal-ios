@@ -26,6 +26,7 @@ enum DemoSettings {
         case .sandbox:
             return "AdFeO5qt2rodLjSgxSj66sjlBylwpacFtov1VgnptN_VclH1ZNhIcgS1px02mNIOUSEO54B-5drJ7F85"
         case .production:
+            // TODO: Investigate getting a prod testing account that doesn't charge real money
             return "TODO"
         }
     }

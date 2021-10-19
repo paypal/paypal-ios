@@ -106,13 +106,26 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         ])
     }
 
+    // MARK: - FeatureBaseViewController Override
+
+    /// Allows us to only enable the pay button once all fields are filled out and we have an order ID
+    override func createOrderTapped(completion: @escaping () -> Void = {}) {
+        super.createOrderTapped {
+            DispatchQueue.main.async {
+                self.enableButton(
+                    cardNumber: self.cardNumberTextField.text ?? "",
+                    expirationDate: self.expirationTextField.text ?? "",
+                    cvv: self.cvvTextField.text ?? ""
+                )
+            }
+        }
+    }
+
     // MARK: - Card Module Integration
 
     @objc func didTapPayButton() {
-        updateTitle("Processing order...")
-        payButton.startAnimating()
-
         updateTitle("Approving order...")
+        payButton.startAnimating()
 
         guard let card = createCard(),
             let orderID = orderID else {
@@ -126,12 +139,14 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
                 if let orderStatus = orderData.status {
                     self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: \(orderStatus.rawValue)")
                 }
-                self.processOrder(orderData: orderData)
+                self.processOrder(orderData: orderData) {
+                    self.payButton.stopAnimating()
+                }
             case .failure(let error):
                 self.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
+                self.payButton.stopAnimating()
             }
         }
-        // TODO: Call `processOrder` and `payButton.stopAnimating()` once process order is complete
     }
 
     private func createCard() -> Card? {
@@ -141,35 +156,13 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
             return nil
         }
 
-        // TODO: Require 4 digit year & don't crash otherwise
-        let expirationComponents = expirationDate.components(separatedBy: "/")
+        let cleanedCardText = cardNumber.replacingOccurrences(of: " ", with: "")
+
+        let expirationComponents = expirationDate.components(separatedBy: " / ")
         let expirationMonth = expirationComponents[0]
-        let expirationYear = expirationComponents[1]
+        let expirationYear = "20" + expirationComponents[1]
 
-        return Card(number: cardNumber, expirationMonth: expirationMonth, expirationYear: expirationYear, securityCode: cvv)
-    }
-
-    private func processOrder(orderData: OrderData) {
-        updateTitle("Authorizing/Capturing order ...")
-
-        let processOrderParams = ProcessOrderParams(
-            orderId: orderData.orderID,
-            intent: DemoSettings.intent.rawValue,
-            countryCode: "US"
-        )
-
-        // TODO: Investigate why sample server is failing to capture/authorize
-
-        DemoMerchantAPI.sharedService.processOrder(processOrderParams: processOrderParams) { result in
-            switch result {
-            case .success(let order):
-                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) success: \(order.status)")
-                print(order)
-            case .failure(let error):
-                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) fail: \(error.localizedDescription)")
-                print(error)
-            }
-        }
+        return Card(number: cleanedCardText, expirationMonth: expirationMonth, expirationYear: expirationYear, securityCode: cvv)
     }
 
     // MARK: - Card Field Formatting
@@ -242,6 +235,12 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
     }
 
     private func enableButton(cardNumber: String, expirationDate: String, cvv: String) {
+        guard orderID != nil else {
+            updateTitle("Create an order to proceed")
+            payButton.isEnabled = false
+            return
+        }
+
         let cleanedCardNumber = cardNumber.replacingOccurrences(of: " ", with: "")
         let cleanedExpirationDate = expirationDate.replacingOccurrences(of: "/", with: "").replacingOccurrences(of: " ", with: "")
 

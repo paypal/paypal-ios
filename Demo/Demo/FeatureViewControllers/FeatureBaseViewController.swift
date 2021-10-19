@@ -1,4 +1,5 @@
 import UIKit
+import PaymentsCore
 
 class FeatureBaseViewController: UIViewController {
 
@@ -24,7 +25,7 @@ class FeatureBaseViewController: UIViewController {
 
     lazy var createOrderButton: CustomButton = {
         let createOrderButton = CustomButton(title: "Create Order")
-        createOrderButton.addTarget(self, action: #selector(createOrderTapped), for: .touchUpInside)
+        createOrderButton.addTarget(self, action: #selector(createOrderTapped(completion:)), for: .touchUpInside)
         return createOrderButton
     }()
 
@@ -70,9 +71,7 @@ class FeatureBaseViewController: UIViewController {
         ])
     }
 
-    @objc func createOrderTapped() {
-        // TODO: The prod server is broken right now, so we will expect those requests to fail.
-
+    @objc func createOrderTapped(completion: @escaping () -> Void = {}) {
         updateTitle("Creating order...")
 
         let amount = Amount(currencyCode: "USD", value: amountTextField.text ?? "")
@@ -91,11 +90,31 @@ class FeatureBaseViewController: UIViewController {
                 self.updateTitle("Your order has failed, please try again")
                 print("❌ failed to fetch orderID: \(error)")
             }
+            completion()
         }
     }
 
-    func processOrder() {
-        // TODO: Pass in card details once card client is merged and call processOrder from DemoMerchantAPI
+    func processOrder(orderData: OrderData, completion: @escaping () -> Void = {}) {
+        var intent = DemoSettings.intent.rawValue.capitalized
+        updateTitle("\(intent.removeLast())ing order ...")
+
+        let processOrderParams = ProcessOrderParams(
+            orderId: orderData.orderID,
+            intent: DemoSettings.intent.rawValue,
+            countryCode: "US"
+        )
+
+        DemoMerchantAPI.sharedService.processOrder(processOrderParams: processOrderParams) { result in
+            switch result {
+            case .success(let order):
+                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) success: \(order.status)")
+                print("✅ processed orderID: \(order.id) with status: \(order.status)")
+            case .failure(let error):
+                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) fail: \(error.localizedDescription)")
+                print("❌ failed to process orderID: \(error)")
+            }
+            completion()
+        }
     }
 
     func updateTitle(_ message: String) {
