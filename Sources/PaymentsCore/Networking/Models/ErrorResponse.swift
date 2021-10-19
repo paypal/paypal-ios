@@ -2,9 +2,13 @@ import Foundation
 
 struct ErrorResponse: Codable {
     let name: String
-    let message: String
+    let message: String?
 
     var readableDescription: String {
-        return name + ": " + message
+        if let message = message {
+            return name + ": " + message
+        } else {
+            return name
+        }
     }
 }
