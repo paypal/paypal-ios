@@ -95,12 +95,10 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
             return false
         }
 
-        guard let cardNumber = cardNumberTextField.text, let expirationDate = expirationTextField.text, let cvv = cvvTextField.text
-        else { return true }
-
-        /// Holders for the cursor positions
-        let positionOriginal = textField.beginningOfDocument
-        let cursorLocation = textField.position(from: positionOriginal, offset: (range.location + NSString(string: string).length))
+        /// Holder for the text fields to avoid unwrapping when toggling the button
+        guard let cardNumber = cardNumberTextField.text, let expirationDate = expirationTextField.text, let cvv = cvvTextField.text else {
+            return true
+        }
 
         /// Get full string by appending the current text field with the new characters
         guard let current = textField.text else { return true }
@@ -108,25 +106,14 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         let new = current.replacingCharacters(in: changedRange, with: string)
 
         if textField == cardNumberTextField {
-            /// Format text field based on the card type
             formatCardNumber(textField: textField, newString: new)
-
             toggleButton(cardNumber: textField.text ?? "", expirationDate: expirationDate, cvv: cvv)
-
-            if let cursorLocation = cursorLocation {
-                textField.selectedTextRange = textField.textRange(from: cursorLocation, to: cursorLocation)
-            }
-
+            setCursorLocation(textField: textField, string: string, range: range)
             return false
         } else if textField == expirationTextField {
-            /// format expiration date text field
             formatExpirationDate(textField: textField, newString: new)
             toggleButton(cardNumber: cardNumber, expirationDate: textField.text ?? "", cvv: cvv)
-
-            if let cursorLocation = cursorLocation {
-                textField.selectedTextRange = textField.textRange(from: cursorLocation, to: cursorLocation)
-            }
-
+            setCursorLocation(textField: textField, string: string, range: range)
             return false
         } else if textField == cvvTextField {
             /// Limit cvv character count to be 4 characters max
@@ -166,6 +153,16 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         guard cleanedText.count <= 4 else { return }
 
         textField.text = cardFormatter.formatExpirationDate(cleanedText)
+    }
+
+    private func setCursorLocation(textField: UITextField, string: String, range: NSRange) {
+        /// Holders for the cursor positions
+        let positionOriginal = textField.beginningOfDocument
+        let cursorLocation = textField.position(from: positionOriginal, offset: (range.location + NSString(string: string).length))
+
+        if let cursorLocation = cursorLocation {
+            textField.selectedTextRange = textField.textRange(from: cursorLocation, to: cursorLocation)
+        }
     }
 
     private func toggleButton(cardNumber: String, expirationDate: String, cvv: String) {

@@ -1,7 +1,7 @@
 enum CardType {
     case americanExpress, visa, discover, masterCard, unknown
 
-    var cardNumberIndices: [Int] {
+    var spaceDelimiterIndeces: [Int] {
         switch self {
         case .americanExpress:
             return [4, 11]
