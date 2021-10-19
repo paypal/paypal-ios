@@ -52,7 +52,7 @@ final class CardClient_Tests: XCTestCase {
             }
         }
         """
-        
+
         mockURLSession.cannedURLResponse = successURLResponse
         mockURLSession.cannedJSONData = jsonResponse
 
@@ -92,7 +92,7 @@ final class CardClient_Tests: XCTestCase {
                 XCTAssertEqual(error.code, APIClientError.Code.dataParsingError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "An error occured parsing HTTP response data. Contact developer.paypal.com/support.")
             }
-            
+
             expect.fulfill()
         }
 

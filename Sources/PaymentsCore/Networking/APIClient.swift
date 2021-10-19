@@ -60,7 +60,7 @@ public final class APIClient {
                 }
             default:
                 do {
-                    let errorData = try self.decoder.decode(ErrorData.self, from: data)
+                    let errorData = try self.decoder.decode(ErrorResponse.self, from: data)
                     completion(.failure(APIClientError.serverResponseError(errorData.readableDescription)), correlationID)
                 } catch {
                     completion(.failure(APIClientError.unknownError), correlationID)
