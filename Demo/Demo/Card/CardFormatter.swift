@@ -8,7 +8,7 @@ class CardFormatter {
         let cardType = CardType.unknown.getCardType(formattedCardNumber)
 
         /// loops through where the space should be based on the card types indices and inserts a space at the desired index
-        cardType.spaceDelimiterIndeces.forEach { index in
+        cardType.spaceDelimiterIndices.forEach { index in
             if index < formattedCardNumber.count {
                 let index = formattedCardNumber.index(formattedCardNumber.startIndex, offsetBy: index)
                 formattedCardNumber.insert(" ", at: index)
