@@ -109,10 +109,10 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
     // MARK: - FeatureBaseViewController Override
 
     /// Allows us to only enable the pay button once all fields are filled out and we have an order ID
-    override func createOrderTapped(completion: @escaping () -> Void = {}) {
-        super.createOrderTapped {
+    override func createOrderTapped(completion: @escaping (String?) -> Void = { _ in }) {
+        super.createOrderTapped { _ in
             DispatchQueue.main.async {
-                self.enableButton(
+                self.enablePayButton(
                     cardNumber: self.cardNumberTextField.text ?? "",
                     expirationDate: self.expirationTextField.text ?? "",
                     cvv: self.cvvTextField.text ?? ""
@@ -185,19 +185,19 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
         if textField == cardNumberTextField {
             formatCardNumber(textField: textField, newString: new)
-            enableButton(cardNumber: textField.text ?? "", expirationDate: expirationDate, cvv: cvv)
+            enablePayButton(cardNumber: textField.text ?? "", expirationDate: expirationDate, cvv: cvv)
             setCursorLocation(textField: textField, range: range)
             return false
         } else if textField == expirationTextField {
             formatExpirationDate(textField: textField, newString: new)
-            enableButton(cardNumber: cardNumber, expirationDate: textField.text ?? "", cvv: cvv)
+            enablePayButton(cardNumber: cardNumber, expirationDate: textField.text ?? "", cvv: cvv)
             setCursorLocation(textField: textField, range: range)
             return false
         } else if textField == cvvTextField {
             /// Limit cvv character count to be 4 characters max
             guard new.count <= 4 else { return false }
             textField.text = new
-            enableButton(cardNumber: cardNumber, expirationDate: expirationDate, cvv: textField.text ?? "")
+            enablePayButton(cardNumber: cardNumber, expirationDate: expirationDate, cvv: textField.text ?? "")
             return false
         }
         return true
@@ -234,7 +234,7 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         }
     }
 
-    private func enableButton(cardNumber: String, expirationDate: String, cvv: String) {
+    private func enablePayButton(cardNumber: String, expirationDate: String, cvv: String) {
         guard orderID != nil else {
             updateTitle("Create an order to proceed")
             payButton.isEnabled = false

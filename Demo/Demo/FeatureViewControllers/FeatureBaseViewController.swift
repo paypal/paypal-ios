@@ -71,7 +71,7 @@ class FeatureBaseViewController: UIViewController {
         ])
     }
 
-    @objc func createOrderTapped(completion: @escaping () -> Void = {}) {
+    @objc func createOrderTapped(completion: @escaping (String?) -> Void = { _ in }) {
         updateTitle("Creating order...")
 
         let amount = Amount(currencyCode: "USD", value: amountTextField.text ?? "")
@@ -86,11 +86,12 @@ class FeatureBaseViewController: UIViewController {
                 self.updateTitle("Order ID: \(order.id)")
                 self.orderID = order.id
                 print("✅ fetched orderID: \(order.id) with status: \(order.status)")
+                completion(order.id)
             case .failure(let error):
                 self.updateTitle("Your order has failed, please try again")
                 print("❌ failed to fetch orderID: \(error)")
+                completion(nil)
             }
-            completion()
         }
     }
 
