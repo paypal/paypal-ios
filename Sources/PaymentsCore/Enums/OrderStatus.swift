@@ -1,7 +1,7 @@
 import Foundation
 
 /// The status of an order
-public enum OrderStatus: String {
+public enum OrderStatus: String, Codable {
     /// The order was created
     case created = "CREATED"
 
