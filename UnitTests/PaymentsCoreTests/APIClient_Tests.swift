@@ -104,6 +104,7 @@ class APIClient_Tests: XCTestCase {
                 XCTAssertEqual(error.code, APIClientError.Code.urlSessionError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "fake-error")
             }
+
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -123,6 +124,7 @@ class APIClient_Tests: XCTestCase {
                 XCTAssertEqual(error.code, APIClientError.Code.invalidURLResponse.rawValue)
                 XCTAssertEqual(error.localizedDescription, "An error occured due to an invalid HTTP response. Contact developer.paypal.com/support.")
             }
+
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -142,6 +144,7 @@ class APIClient_Tests: XCTestCase {
                 XCTAssertEqual(error.code, APIClientError.Code.noResponseData.rawValue)
                 XCTAssertEqual(error.localizedDescription, "An error occured due to missing HTTP response data. Contact developer.paypal.com/support.")
             }
+
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -162,6 +165,7 @@ class APIClient_Tests: XCTestCase {
                 XCTAssertEqual(error.code, APIClientError.Code.dataParsingError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "An error occured parsing HTTP response data. Contact developer.paypal.com/support.")
             }
+
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
