@@ -33,7 +33,6 @@ class APIClient_Tests: XCTestCase {
         let expect = expectation(description: "Callback invoked.")
 
         let jsonResponse = """
-
         {
             "scope": "fake-scope",
             "access_token": "fake-token",
@@ -64,22 +63,48 @@ class APIClient_Tests: XCTestCase {
         }
         waitForExpectations(timeout: 1)
     }
+    
+    func testFetch_withNoURLRequest_returnsInvalidURLRequestError() {
+        let expect = expectation(description: "Callback invoked.")
+
+        // Mock request whose API object does not vend a URLRequest
+        let noURLRequest = FakeRequestNoURL()
+
+        apiClient.fetch(endpoint: noURLRequest) { result, _ in
+            switch result {
+            case .success(_):
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error.domain, APIClientError.domain)
+                XCTAssertEqual(error.code, APIClientError.Code.invalidURLRequest.rawValue)
+                XCTAssertEqual(error.localizedDescription, "An error occured constructing an HTTP request. Contact developer.paypal.com/support.")
+            }
+
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
         
-    func testFetch_whenServerError_returnsConnectionError() {
+    func testFetch_whenServerError_returnsURLSessionError() {
         let expect = expectation(description: "Callback invoked.")
         let serverError = NSError(
             domain: URLError.errorDomain,
             code: NSURLErrorBadServerResponse,
-            userInfo: nil
+            userInfo: [NSLocalizedDescriptionKey: "fake-error"]
         )
 
         mockURLSession.cannedError = serverError
         
         apiClient.fetch(endpoint: fakeRequest) { result, _ in
-            guard case .failure(.connectionIssue) = result else {
-                XCTFail("")
-                return
+            switch result {
+            case .success(_):
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error.domain, APIClientError.domain)
+                XCTAssertEqual(error.code, APIClientError.Code.urlSessionError.rawValue)
+                XCTAssertEqual(error.localizedDescription, "fake-error")
             }
+
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -91,9 +116,13 @@ class APIClient_Tests: XCTestCase {
         mockURLSession.cannedURLResponse = nil
 
         apiClient.fetch(endpoint: fakeRequest) { result, _ in
-            guard case .failure(.invalidURLResponse) = result else {
+            switch result {
+            case .success(_):
                 XCTFail()
-                return
+            case .failure(let error):
+                XCTAssertEqual(error.domain, APIClientError.domain)
+                XCTAssertEqual(error.code, APIClientError.Code.invalidURLResponse.rawValue)
+                XCTAssertEqual(error.localizedDescription, "An error occured due to an invalid HTTP response. Contact developer.paypal.com/support.")
             }
 
             expect.fulfill()
@@ -107,9 +136,13 @@ class APIClient_Tests: XCTestCase {
         mockURLSession.cannedURLResponse = successURLResponse
 
         apiClient.fetch(endpoint: fakeRequest) { result, _ in
-            guard case .failure(.noResponseData) = result else {
+            switch result {
+            case .success(_):
                 XCTFail()
-                return
+            case .failure(let error):
+                XCTAssertEqual(error.domain, APIClientError.domain)
+                XCTAssertEqual(error.code, APIClientError.Code.noResponseData.rawValue)
+                XCTAssertEqual(error.localizedDescription, "An error occured due to missing HTTP response data. Contact developer.paypal.com/support.")
             }
 
             expect.fulfill()
@@ -120,21 +153,17 @@ class APIClient_Tests: XCTestCase {
     func testFetch_whenInvalidData_returnsParseError() {
         let expect = expectation(description: "Callback invoked.")
 
-        let jsonResponse = """
-        {
-            "test": "wrong response format"
-        }
-        """
-
         mockURLSession.cannedURLResponse = successURLResponse
-        mockURLSession.cannedJSONData = jsonResponse
+        mockURLSession.cannedJSONData = "{ \"test\" : \"bad-format\" }"
 
         apiClient.fetch(endpoint: fakeRequest) { result, _ in
             switch result {
             case .success(_):
                 XCTFail()
             case .failure(let error):
-                XCTAssertNotNil(error)
+                XCTAssertEqual(error.domain, APIClientError.domain)
+                XCTAssertEqual(error.code, APIClientError.Code.dataParsingError.rawValue)
+                XCTAssertEqual(error.localizedDescription, "An error occured parsing HTTP response data. Contact developer.paypal.com/support.")
             }
 
             expect.fulfill()
@@ -142,13 +171,14 @@ class APIClient_Tests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
 
-    // TODO: Get more granual here. Also, do we want to move this check for
-    // non-success status code above data parsing in our source code?
-    func testFetch_whenBadStatusCode_returnsUnknownError() {
+    func testFetch_whenBadStatusCode_withErrorData_returnsReadableErrorMessage() {
         let expect = expectation(description: "Callback invoked.")
 
         let jsonResponse = """
-        { "some": "json" }
+        {
+            "name": "ERROR_NAME",
+            "message": "The requested action could not be performed."
+        }
         """
 
         mockURLSession.cannedJSONData = jsonResponse
@@ -161,10 +191,42 @@ class APIClient_Tests: XCTestCase {
         )
 
         apiClient.fetch(endpoint: fakeRequest) { result, _ in
-            guard case .failure(.unknown) = result else {
+            switch result {
+            case .success(_):
                 XCTFail()
-                return
+            case .failure(let error):
+                XCTAssertEqual(error.domain, APIClientError.domain)
+                XCTAssertEqual(error.code, APIClientError.Code.serverResponseError.rawValue)
+                XCTAssertEqual(error.localizedDescription, "ERROR_NAME: The requested action could not be performed.")
             }
+
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testFetch_whenBadStatusCode_withoutErrorData_returnsUnknownError() {
+        let expect = expectation(description: "Callback invoked.")
+
+        mockURLSession.cannedJSONData = ""
+
+        mockURLSession.cannedURLResponse = HTTPURLResponse(
+            url: URL(string: "www.fake.com")!,
+            statusCode: 500,
+            httpVersion: "1",
+            headerFields: [:]
+        )
+
+        apiClient.fetch(endpoint: fakeRequest) { result, _ in
+            switch result {
+            case .success(_):
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error.domain, APIClientError.domain)
+                XCTAssertEqual(error.code, APIClientError.Code.unknown.rawValue)
+                XCTAssertEqual(error.localizedDescription, "An unknown error occured. Contact developer.paypal.com/support.")
+            }
+
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -182,24 +244,6 @@ class APIClient_Tests: XCTestCase {
 
         apiClient.fetch(endpoint: fakeRequest) { _, correlationID in
             XCTAssertEqual(correlationID, "fake-id")
-            expect.fulfill()
-        }
-        waitForExpectations(timeout: 1)
-    }
-
-    func testFetch_withNoURLRequest_returnsNoURLRequestError() {
-        let expect = expectation(description: "Callback invoked.")
-
-        // Mock request whose API object does not vend a URLRequest
-        let noURLRequest = FakeRequestNoURL()
-
-        apiClient.fetch(endpoint: noURLRequest) { result, _ in
-            switch result {
-            case .success(_):
-                XCTFail()
-            case .failure(let error):
-                XCTAssertNotNil(error)
-            }
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
