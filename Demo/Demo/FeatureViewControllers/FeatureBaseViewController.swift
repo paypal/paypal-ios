@@ -97,7 +97,8 @@ class FeatureBaseViewController: UIViewController {
 
     func processOrder(orderData: OrderData, completion: @escaping () -> Void = {}) {
         var intent = DemoSettings.intent.rawValue.capitalized
-        updateTitle("\(intent.removeLast())ing order ...")
+        intent.removeLast()
+        updateTitle("\(intent)ing order ...")
 
         let processOrderParams = ProcessOrderParams(
             orderId: orderData.orderID,
