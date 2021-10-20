@@ -27,7 +27,7 @@ public class CardClient {
     ///   - orderID: The ID of the order to be approved
     ///   - card: The card to be charged for this order
     ///   - completion: Completion handler for approveOrder, which contains data of the order if success, or an error if failure
-    public func approveOrder(orderID: String, card: Card, completion: @escaping (Result<CardResult, Error>) -> Void) {
+    public func approveOrder(orderID: String, card: Card, completion: @escaping (Result<CardResult, PayPalSDKError>) -> Void) {
         do {
             let confirmPaymentRequest = try ConfirmPaymentSourceRequest(
                 card: card,
@@ -53,12 +53,8 @@ public class CardClient {
                 }
             }
         } catch {
-            // TODO: There is no way to test this scenario
-            // since we cannot test the `try` of ConfirmPaymentSourceRequest
-            // failing.
-            // This deserves a re-write. Also not sure if the try
-            // pattern there is necessary at all.
-            completion(.failure(CoreError.encodingError(error)))
+            // We don't expect this block to ever execute.
+            completion(.failure(CardClientError.encodingError))
         }
     }
 }
