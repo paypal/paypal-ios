@@ -13,6 +13,7 @@ public protocol APIRequest {
 }
 
 public extension APIRequest {
+
     var queryParameters: [String: String] { [:] }
 
     // Default implementation vends response from helper function

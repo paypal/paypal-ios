@@ -63,6 +63,11 @@ custom_rules:
     capture_group: 1
     message: "Use explicit type annotation when initializing empty arrays and dictionaries"
     severity: warning
+  space_after_main_type:
+    name: "No space after main type"
+    regex: '(class|struct|extension)((?-s)\s.*\{$\n)(?!^\s*$)' 
+    message: "Empty line required after main declarations"
+    severity: warning
 
 attributes:
   always_on_same_line:
