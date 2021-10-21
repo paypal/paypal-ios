@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		065A4DBC26FCD8090007014A /* PayPalSDKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DBB26FCD8080007014A /* PayPalSDKError.swift */; };
 		0647E70E2714962800F8E517 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0647E70D2714962800F8E517 /* Address.swift */; };
+		0659BFCD2721D3A3001FB3BF /* PayPalCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = 0659BFCC2721D3A3001FB3BF /* PayPalCheckout */; };
+		065A4DBC26FCD8090007014A /* PayPalSDKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DBB26FCD8080007014A /* PayPalSDKError.swift */; };
 		065A4DBF26FCDA5B0007014A /* CardClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DBE26FCDA5B0007014A /* CardClient_Tests.swift */; };
 		06CE009926F3D1660000CC46 /* CoreConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009826F3D1660000CC46 /* CoreConfig.swift */; };
 		06CE009B26F3D5A40000CC46 /* CardClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009A26F3D5A40000CC46 /* CardClient.swift */; };
@@ -70,8 +71,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		065A4DBB26FCD8080007014A /* PayPalSDKError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalSDKError.swift; sourceTree = "<group>"; };
 		0647E70D2714962800F8E517 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
+		065A4DBB26FCD8080007014A /* PayPalSDKError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalSDKError.swift; sourceTree = "<group>"; };
 		065A4DBE26FCDA5B0007014A /* CardClient_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardClient_Tests.swift; sourceTree = "<group>"; };
 		065A4DC226FCE1D20007014A /* ConfirmPaymentSourceRequest_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPaymentSourceRequest_Tests.swift; sourceTree = "<group>"; };
 		065A4DC426FCE5A20007014A /* OrderStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderStatus.swift; sourceTree = "<group>"; };
@@ -132,6 +133,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				80DB6F1726B89DC700277E54 /* PaymentsCore.framework in Frameworks */,
+				0659BFCD2721D3A3001FB3BF /* PayPalCheckout in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,6 +451,9 @@
 			dependencies = (
 			);
 			name = PayPal;
+			packageProductDependencies = (
+				0659BFCC2721D3A3001FB3BF /* PayPalCheckout */,
+			);
 			productName = PayPal;
 			productReference = 80DB6F0E26B89D9600277E54 /* PayPal.framework */;
 			productType = "com.apple.product-type.framework";
@@ -573,6 +578,9 @@
 				en,
 			);
 			mainGroup = OBJ_5;
+			packageReferences = (
+				0659BFCB2721D3A3001FB3BF /* XCRemoteSwiftPackageReference "paypalcheckout-ios" */,
+			);
 			productRefGroup = OBJ_13 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1840,6 +1848,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0659BFCB2721D3A3001FB3BF /* XCRemoteSwiftPackageReference "paypalcheckout-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/paypal/paypalcheckout-ios";
+			requirement = {
+				kind = exactVersion;
+				version = 0.73.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0659BFCC2721D3A3001FB3BF /* PayPalCheckout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0659BFCB2721D3A3001FB3BF /* XCRemoteSwiftPackageReference "paypalcheckout-ios" */;
+			productName = PayPalCheckout;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = OBJ_1 /* Project object */;
 }
