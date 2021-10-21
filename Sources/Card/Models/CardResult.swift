@@ -6,7 +6,7 @@ import PaymentsCore
 /// The result of a card payment flow.
 public struct CardResult {
 
-    /// The order ID associated with your transaction
+    /// The order ID associated with the transaction
     public let orderID: String
 
     /// The current status of the transaction
