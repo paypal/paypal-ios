@@ -16,6 +16,7 @@ disabled_rules:
   - unused_capture_list
   - type_name # tests will have have the format <SUT>_Tests
   - xctfail_message
+  - empty_enum_arguments
 
 opt_in_rules:
   - array_init
