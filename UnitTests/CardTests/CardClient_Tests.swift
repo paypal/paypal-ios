@@ -7,7 +7,8 @@ final class CardClient_Tests: XCTestCase {
 
     // MARK: - Helper Properties
 
-    let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com"), statusCode: 200, httpVersion: "https", headerFields: [:])
+    // swiftlint:disable:next force_unwrapping
+    let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])
     let card = Card(
         number: "411111111111",
         expirationMonth: "01",
@@ -16,9 +17,11 @@ final class CardClient_Tests: XCTestCase {
     )
     let config = CoreConfig(clientID: "", environment: .sandbox)
 
-    var mockURLSession: MockURLSession
-    var apiClient: APIClient
-    var cardClient: CardClient
+    // swiftlint:disable implicitly_unwrapped_optional
+    var mockURLSession: MockURLSession!
+    var apiClient: APIClient!
+    var cardClient: CardClient!
+    // swiftlint:enable implicitly_unwrapped_optional
 
     // MARK: - Test lifecycle
 

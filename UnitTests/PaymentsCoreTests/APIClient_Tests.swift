@@ -6,12 +6,15 @@ class APIClient_Tests: XCTestCase {
 
     // MARK: - Helper Properties
 
-    let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com"), statusCode: 200, httpVersion: "https", headerFields: [:])
+    // swiftlint:disable:next force_unwrapping
+    let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])
     let config = CoreConfig(clientID: "", environment: .sandbox)
     let fakeRequest = FakeRequest()
 
-    var mockURLSession: MockURLSession
-    var apiClient: APIClient
+    // swiftlint:disable implicitly_unwrapped_optional
+    var mockURLSession: MockURLSession!
+    var apiClient: APIClient!
+    // swiftlint:enable implicitly_unwrapped_optional
 
     // MARK: - Test lifecycle
 
@@ -184,7 +187,8 @@ class APIClient_Tests: XCTestCase {
         mockURLSession.cannedJSONData = jsonResponse
 
         mockURLSession.cannedURLResponse = HTTPURLResponse(
-            url: URL(string: "www.fake.com"),
+            // swiftlint:disable:next force_unwrapping
+            url: URL(string: "www.fake.com")!,
             statusCode: 500,
             httpVersion: "1",
             headerFields: [:]
@@ -211,7 +215,8 @@ class APIClient_Tests: XCTestCase {
         mockURLSession.cannedJSONData = ""
 
         mockURLSession.cannedURLResponse = HTTPURLResponse(
-            url: URL(string: "www.fake.com"),
+            // swiftlint:disable:next force_unwrapping
+            url: URL(string: "www.fake.com")!,
             statusCode: 500,
             httpVersion: "1",
             headerFields: [:]
@@ -236,7 +241,8 @@ class APIClient_Tests: XCTestCase {
         let expect = expectation(description: "Callback invoked.")
 
         mockURLSession.cannedURLResponse = HTTPURLResponse(
-            url: URL(string: "www.fake.com"),
+            // swiftlint:disable:next force_unwrapping
+            url: URL(string: "www.fake.com")!,
             statusCode: 200,
             httpVersion: "1",
             headerFields: ["Paypal-Debug-Id": "fake-id"]
