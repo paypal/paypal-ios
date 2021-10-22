@@ -19,10 +19,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     private let jsonEncoder = JSONEncoder()
 
     var headers: [HTTPHeader: String] {
-        // TODO: Remove clientSecret when this endpoint is updated and can be used with low-scoped token
-        // For now, include your clientSecret here and your clientID in CoreConfig to test this request
-        let clientSecret = "EPlHO6SzNhuwYMu02SZDyL1mws7XE4hZFkqqks2YAV-Fn8xHy51WJMtryTP5QKlJPasL2c1v4sdd6LmD"
-        let encodedClientID = "\(clientID):\(clientSecret)".data(using: .utf8)?.base64EncodedString() ?? ""
+        let encodedClientID = "\(clientID):".data(using: .utf8)?.base64EncodedString() ?? ""
 
         return [
             .contentType: "application/json",

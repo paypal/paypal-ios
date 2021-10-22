@@ -6,14 +6,13 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
     // MARK: - PayPal SDK Setup
 
-    let coreConfig = CoreConfig(
-        clientID: DemoSettings.clientID,
-        environment: DemoSettings.environment.paypalSDKEnvironment
-    )
+    var coreConfig: CoreConfig {
+        CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
+    }
 
-    lazy var cardClient: CardClient = {
+    var cardClient: CardClient {
         CardClient(config: coreConfig)
-    }()
+    }
 
     // MARK: - UI Components
 
@@ -109,15 +108,13 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
     // MARK: - FeatureBaseViewController Override
 
     /// Allows us to only enable the pay button once all fields are filled out and we have an order ID
-    override func createOrderTapped(completion: @escaping (String?) -> Void = { _ in }) {
-        super.createOrderTapped { _ in
-            DispatchQueue.main.async {
-                self.enablePayButton(
-                    cardNumber: self.cardNumberTextField.text ?? "",
-                    expirationDate: self.expirationTextField.text ?? "",
-                    cvv: self.cvvTextField.text ?? ""
-                )
-            }
+    override func createOrder(completion: @escaping (String?) -> Void = { _ in }) {
+        super.createOrder { _ in
+            self.enablePayButton(
+                cardNumber: self.cardNumberTextField.text ?? "",
+                expirationDate: self.expirationTextField.text ?? "",
+                cvv: self.cvvTextField.text ?? ""
+            )
         }
     }
 
@@ -183,24 +180,26 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         guard let changedRange = Range(range, in: current) else { return true }
         let new = current.replacingCharacters(in: changedRange, with: string)
 
-        if textField == cardNumberTextField {
+        switch textField {
+        case cardNumberTextField:
             formatCardNumber(textField: textField, newString: new)
             enablePayButton(cardNumber: textField.text ?? "", expirationDate: expirationDate, cvv: cvv)
             setCursorLocation(textField: textField, range: range)
             return false
-        } else if textField == expirationTextField {
+        case expirationTextField:
             formatExpirationDate(textField: textField, newString: new)
             enablePayButton(cardNumber: cardNumber, expirationDate: textField.text ?? "", cvv: cvv)
             setCursorLocation(textField: textField, range: range)
             return false
-        } else if textField == cvvTextField {
+        case cvvTextField:
             /// Limit cvv character count to be 4 characters max
             guard new.count <= 4 else { return false }
             textField.text = new
             enablePayButton(cardNumber: cardNumber, expirationDate: expirationDate, cvv: textField.text ?? "")
             return false
+        default:
+            return true
         }
-        return true
     }
 
     private func formatCardNumber(textField: UITextField, newString: String) {

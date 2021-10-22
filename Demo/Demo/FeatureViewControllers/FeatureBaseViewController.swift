@@ -25,7 +25,7 @@ class FeatureBaseViewController: UIViewController {
 
     lazy var createOrderButton: CustomButton = {
         let createOrderButton = CustomButton(title: "Create Order")
-        createOrderButton.addTarget(self, action: #selector(createOrderTapped(completion:)), for: .touchUpInside)
+        createOrderButton.addTarget(self, action: #selector(createOrderTapped), for: .touchUpInside)
         return createOrderButton
     }()
 
@@ -71,9 +71,12 @@ class FeatureBaseViewController: UIViewController {
         ])
     }
 
-    @objc func createOrderTapped(completion: @escaping (String?) -> Void = { _ in }) {
+    @objc func createOrderTapped() {
         updateTitle("Creating order...")
+        createOrder()
+    }
 
+    func createOrder(completion: @escaping (String?) -> Void = { _ in }) {
         let amount = Amount(currencyCode: "USD", value: amountTextField.text ?? "")
         let orderRequestParams = CreateOrderParams(
             intent: DemoSettings.intent.rawValue.uppercased(),
@@ -86,19 +89,23 @@ class FeatureBaseViewController: UIViewController {
                 self.updateTitle("Order ID: \(order.id)")
                 self.orderID = order.id
                 print("✅ fetched orderID: \(order.id) with status: \(order.status)")
-                completion(order.id)
             case .failure(let error):
                 self.updateTitle("Your order has failed, please try again")
                 print("❌ failed to fetch orderID: \(error)")
-                completion(nil)
+            }
+            DispatchQueue.main.async {
+                completion(self.orderID)
             }
         }
     }
 
     func processOrder(orderData: OrderData, completion: @escaping () -> Void = {}) {
-        var intent = DemoSettings.intent.rawValue.capitalized
-        intent.removeLast()
-        updateTitle("\(intent)ing order ...")
+        switch DemoSettings.intent {
+        case .authorize:
+            updateTitle("Authorizing order...")
+        case .capture:
+            updateTitle("Capturing order...")
+        }
 
         let processOrderParams = ProcessOrderParams(
             orderId: orderData.orderID,
