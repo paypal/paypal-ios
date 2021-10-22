@@ -5,29 +5,29 @@ import XCTest
 class APIClient_Tests: XCTestCase {
 
     // MARK: - Helper Properties
-    
-    let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])
+
+    let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com"), statusCode: 200, httpVersion: "https", headerFields: [:])
     let config = CoreConfig(clientID: "", environment: .sandbox)
     let fakeRequest = FakeRequest()
-    
-    var mockURLSession: MockURLSession!
-    var apiClient: APIClient!
-    
+
+    var mockURLSession: MockURLSession
+    var apiClient: APIClient
+
     // MARK: - Test lifecycle
-    
+
     override func setUp() {
         super.setUp()
-        
+
         mockURLSession = MockURLSession()
         mockURLSession.cannedError = nil
         mockURLSession.cannedURLResponse = nil
         mockURLSession.cannedJSONData = nil
-        
+
         apiClient = APIClient(urlSession: mockURLSession, environment: .sandbox)
     }
-    
+
     // MARK: - fetch() tests
-    
+
     // TODO: This test is specific to AccessToken, move it out of this file.
     func testFetch_whenAccessTokenSuccessResponse_returnsValidAccessToken() {
         let expect = expectation(description: "Callback invoked.")
@@ -44,7 +44,7 @@ class APIClient_Tests: XCTestCase {
 
         mockURLSession.cannedURLResponse = successURLResponse
         mockURLSession.cannedJSONData = jsonResponse
-        
+
         let accessTokenRequest = AccessTokenRequest(clientID: "")
 
         apiClient.fetch(endpoint: accessTokenRequest) { result, _ in
@@ -63,7 +63,7 @@ class APIClient_Tests: XCTestCase {
         }
         waitForExpectations(timeout: 1)
     }
-    
+
     func testFetch_withNoURLRequest_returnsInvalidURLRequestError() {
         let expect = expectation(description: "Callback invoked.")
 
@@ -84,7 +84,7 @@ class APIClient_Tests: XCTestCase {
         }
         waitForExpectations(timeout: 1)
     }
-        
+
     func testFetch_whenServerError_returnsURLSessionError() {
         let expect = expectation(description: "Callback invoked.")
         let serverError = NSError(
@@ -94,7 +94,7 @@ class APIClient_Tests: XCTestCase {
         )
 
         mockURLSession.cannedError = serverError
-        
+
         apiClient.fetch(endpoint: fakeRequest) { result, _ in
             switch result {
             case .success(_):
@@ -184,7 +184,7 @@ class APIClient_Tests: XCTestCase {
         mockURLSession.cannedJSONData = jsonResponse
 
         mockURLSession.cannedURLResponse = HTTPURLResponse(
-            url: URL(string: "www.fake.com")!,
+            url: URL(string: "www.fake.com"),
             statusCode: 500,
             httpVersion: "1",
             headerFields: [:]
@@ -204,14 +204,14 @@ class APIClient_Tests: XCTestCase {
         }
         waitForExpectations(timeout: 1)
     }
-    
+
     func testFetch_whenBadStatusCode_withoutErrorData_returnsUnknownError() {
         let expect = expectation(description: "Callback invoked.")
 
         mockURLSession.cannedJSONData = ""
 
         mockURLSession.cannedURLResponse = HTTPURLResponse(
-            url: URL(string: "www.fake.com")!,
+            url: URL(string: "www.fake.com"),
             statusCode: 500,
             httpVersion: "1",
             headerFields: [:]
@@ -236,7 +236,7 @@ class APIClient_Tests: XCTestCase {
         let expect = expectation(description: "Callback invoked.")
 
         mockURLSession.cannedURLResponse = HTTPURLResponse(
-            url: URL(string: "www.fake.com")!,
+            url: URL(string: "www.fake.com"),
             statusCode: 200,
             httpVersion: "1",
             headerFields: ["Paypal-Debug-Id": "fake-id"]
@@ -248,5 +248,4 @@ class APIClient_Tests: XCTestCase {
         }
         waitForExpectations(timeout: 1)
     }
-
 }

@@ -6,7 +6,7 @@
 included:
   - Demo
   - Sources
-  - Tests
+  - UnitTests
  
 disabled_rules:
   - discarded_notification_center_observer
@@ -15,6 +15,7 @@ disabled_rules:
   - todo
   - unused_capture_list
   - type_name # tests will have have the format <SUT>_Tests
+  - xctfail_message
 
 opt_in_rules:
   - array_init

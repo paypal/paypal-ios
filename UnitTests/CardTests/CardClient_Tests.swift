@@ -4,10 +4,10 @@ import XCTest
 @testable import TestShared
 
 final class CardClient_Tests: XCTestCase {
-    
+
     // MARK: - Helper Properties
-    
-    let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])
+
+    let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com"), statusCode: 200, httpVersion: "https", headerFields: [:])
     let card = Card(
         number: "411111111111",
         expirationMonth: "01",
@@ -15,27 +15,27 @@ final class CardClient_Tests: XCTestCase {
         securityCode: "123"
     )
     let config = CoreConfig(clientID: "", environment: .sandbox)
-    
-    var mockURLSession: MockURLSession!
-    var apiClient: APIClient!
-    var cardClient: CardClient!
-    
+
+    var mockURLSession: MockURLSession
+    var apiClient: APIClient
+    var cardClient: CardClient
+
     // MARK: - Test lifecycle
-    
+
     override func setUp() {
         super.setUp()
-        
+
         mockURLSession = MockURLSession()
         mockURLSession.cannedError = nil
         mockURLSession.cannedURLResponse = nil
         mockURLSession.cannedJSONData = nil
-        
+
         apiClient = APIClient(urlSession: mockURLSession, environment: .sandbox)
         cardClient = CardClient(config: config, apiClient: apiClient)
     }
-    
+
     // MARK: - approveOrder() tests
-    
+
     func testApproveOrder_withValidJSONRequest_returnsOrderData() {
         let expect = expectation(description: "Callback invoked.")
 
@@ -64,7 +64,7 @@ final class CardClient_Tests: XCTestCase {
             case .failure(_):
                 XCTFail()
             }
-            
+
             expect.fulfill()
         }
 
@@ -98,5 +98,4 @@ final class CardClient_Tests: XCTestCase {
 
         waitForExpectations(timeout: 1)
     }
-
 }
