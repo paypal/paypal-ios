@@ -58,7 +58,7 @@ class APIClient_Tests: XCTestCase {
                 XCTAssertEqual(response.scope, "fake-scope")
                 XCTAssertEqual(response.tokenType, "fake-bearer")
                 XCTAssertEqual(response.expiresIn, 1)
-            case .failure(_):
+            case .failure:
                 XCTFail("Expect success response")
             }
 
@@ -75,7 +75,7 @@ class APIClient_Tests: XCTestCase {
 
         apiClient.fetch(endpoint: noURLRequest) { result, _ in
             switch result {
-            case .success(_):
+            case .success:
                 XCTFail()
             case .failure(let error):
                 XCTAssertEqual(error.domain, APIClientError.domain)
@@ -100,7 +100,7 @@ class APIClient_Tests: XCTestCase {
 
         apiClient.fetch(endpoint: fakeRequest) { result, _ in
             switch result {
-            case .success(_):
+            case .success:
                 XCTFail()
             case .failure(let error):
                 XCTAssertEqual(error.domain, APIClientError.domain)
@@ -120,7 +120,7 @@ class APIClient_Tests: XCTestCase {
 
         apiClient.fetch(endpoint: fakeRequest) { result, _ in
             switch result {
-            case .success(_):
+            case .success:
                 XCTFail()
             case .failure(let error):
                 XCTAssertEqual(error.domain, APIClientError.domain)
@@ -140,7 +140,7 @@ class APIClient_Tests: XCTestCase {
 
         apiClient.fetch(endpoint: fakeRequest) { result, _ in
             switch result {
-            case .success(_):
+            case .success:
                 XCTFail()
             case .failure(let error):
                 XCTAssertEqual(error.domain, APIClientError.domain)
@@ -161,7 +161,7 @@ class APIClient_Tests: XCTestCase {
 
         apiClient.fetch(endpoint: fakeRequest) { result, _ in
             switch result {
-            case .success(_):
+            case .success:
                 XCTFail()
             case .failure(let error):
                 XCTAssertEqual(error.domain, APIClientError.domain)
@@ -196,7 +196,7 @@ class APIClient_Tests: XCTestCase {
 
         apiClient.fetch(endpoint: fakeRequest) { result, _ in
             switch result {
-            case .success(_):
+            case .success:
                 XCTFail()
             case .failure(let error):
                 XCTAssertEqual(error.domain, APIClientError.domain)
@@ -224,7 +224,7 @@ class APIClient_Tests: XCTestCase {
 
         apiClient.fetch(endpoint: fakeRequest) { result, _ in
             switch result {
-            case .success(_):
+            case .success:
                 XCTFail()
             case .failure(let error):
                 XCTAssertEqual(error.domain, APIClientError.domain)

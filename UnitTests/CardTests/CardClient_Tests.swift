@@ -64,7 +64,7 @@ final class CardClient_Tests: XCTestCase {
             case .success(let orderData):
                 XCTAssertEqual(orderData.orderID, "testOrderID")
                 XCTAssertEqual(orderData.status, .approved)
-            case .failure(_):
+            case .failure:
                 XCTFail()
             }
 
@@ -88,7 +88,7 @@ final class CardClient_Tests: XCTestCase {
 
         cardClient.approveOrder(orderID: "", card: card) { result in
             switch result {
-            case .success(_):
+            case .success:
                 XCTFail()
             case .failure(let error):
                 XCTAssertEqual(error.domain, APIClientError.domain)
