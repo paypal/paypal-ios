@@ -1,5 +1,7 @@
 import UIKit
 
+// TODO: revert everything we changed in this file! :)
+
 class FeatureBaseViewController: UIViewController {
 
     enum Constants {
@@ -37,7 +39,7 @@ class FeatureBaseViewController: UIViewController {
         return label
     }()
 
-    private var orderID: String?
+    var orderID: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,7 +76,10 @@ class FeatureBaseViewController: UIViewController {
         // TODO: The prod server is broken right now, so we will expect those requests to fail.
 
         updateTitle("Creating order...")
+        createOrder()
+    }
 
+    func createOrder(completion: @escaping (String?) -> Void = { _ in }) {
         let amount = Amount(currencyCode: "USD", value: amountTextField.text ?? "")
         let orderRequestParams = CreateOrderParams(
             intent: DemoSettings.intent.rawValue.uppercased(),
@@ -90,6 +95,9 @@ class FeatureBaseViewController: UIViewController {
             case .failure(let error):
                 self.updateTitle("Your order has failed, please try again")
                 print("❌ failed to fetch orderID: \(error)")
+            }
+            DispatchQueue.main.async {
+                completion(self.orderID)
             }
         }
     }
