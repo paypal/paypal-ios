@@ -1,9 +1,15 @@
+#if canImport(PaymentsCore)
 import PaymentsCore
-import PayPalCheckout
+#endif
 
-// TODO: add documentation
+#if canImport(PayPalCheckout)
+import PayPalCheckout
+#endif
+
 extension CoreConfig {
-    // TODO: handle this throw
+
+    /// Convert `PaymentsCore.CoreConfig` to `PayPalCheckout.CheckoutConfig`
+    /// This function will throw an error if there is no `returnURL`
     func toPayPalCheckoutConfig() throws -> CheckoutConfig {
         guard let returnUrl = returnUrl else {
             throw PayPalError.noReturnUrl
