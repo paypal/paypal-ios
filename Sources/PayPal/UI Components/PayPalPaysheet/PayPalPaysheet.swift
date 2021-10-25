@@ -27,26 +27,25 @@ public class PayPalPaysheet: PayPalUI {
         do {
             let paypalCheckoutConfig = try config.toPayPalCheckoutConfig()
             Checkout.set(config: paypalCheckoutConfig)
+
+            Checkout.start(
+                presentingViewController: presentingViewController,
+                createOrder: { action in
+                    action.set(orderId: orderID)
+                },
+                onApprove: { approval in
+                    self.delegate?.paypal(self, didApproveWith: approval.data.toPayPalResult())
+                },
+                onCancel: {
+                    self.delegate?.paypalDidCancel(self)
+                },
+                onError: { errorInfo in
+                    self.delegate?.paypal(self, didReceiveError: errorInfo.toPayPalSDKError())
+                }
+            )
         } catch {
             let error = (error as? PayPalSDKError) ?? PayPalError.unknown
             delegate?.paypal(self, didReceiveError: error)
-            return
         }
-
-        Checkout.start(
-            presentingViewController: presentingViewController,
-            createOrder: { action in
-                action.set(orderId: orderID)
-            },
-            onApprove: { approval in
-                self.delegate?.paypal(self, didApproveWith: approval.data.toPayPalResult())
-            },
-            onCancel: {
-                self.delegate?.paypalDidCancel(self)
-            },
-            onError: { errorInfo in
-                self.delegate?.paypal(self, didReceiveError: errorInfo.toPayPalSDKError())
-            }
-        )
     }
 }
