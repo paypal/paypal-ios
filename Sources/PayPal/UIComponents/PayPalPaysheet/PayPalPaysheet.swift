@@ -8,7 +8,7 @@ import PaymentsCore
 import PayPalCheckout
 #endif
 
-public typealias PayPalCheckoutCompletion = (PayPalCheckoutState) -> Void
+public typealias PayPalCheckoutCompletion = (PayPalCompletionState) -> Void
 
 /// PayPal Paysheet to handle PayPal transaction
 public class PayPalPaysheet {
