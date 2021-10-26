@@ -50,7 +50,7 @@ public class PayPalPaysheet: PayPalUI {
         }
 
         paypalCheckoutConfig.onError = { errorInfo in
-            self.delegate?.paypal(self, didReceiveError: errorInfo.toPayPalSDKError())
+            self.delegate?.paypal(self, didReceiveError: PayPalError.payPalCheckoutError(errorInfo))
         }
 
         Checkout.set(config: paypalCheckoutConfig)

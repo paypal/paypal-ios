@@ -199,13 +199,13 @@
 			path = UnitTests;
 			sourceTree = "<group>";
 		};
-		0649326C2727014600FA83A6 /* UI Components */ = {
+		0649326C2727014600FA83A6 /* UIComponents */ = {
 			isa = PBXGroup;
 			children = (
 				BE7116172723298100165069 /* PayPalUIDelegate.swift */,
 				0649326D2727015A00FA83A6 /* PayPalPaysheet */,
 			);
-			path = "UI Components";
+			path = UIComponents;
 			sourceTree = "<group>";
 		};
 		0649326D2727015A00FA83A6 /* PayPalPaysheet */ = {
@@ -308,7 +308,7 @@
 		80DB6F0F26B89D9600277E54 /* PayPal */ = {
 			isa = PBXGroup;
 			children = (
-				0649326C2727014600FA83A6 /* UI Components */,
+				0649326C2727014600FA83A6 /* UIComponents */,
 				BE71161D2723586200165069 /* Extensions */,
 				0649326E272703A500FA83A6 /* Enums */,
 				BE7116112723157900165069 /* Models */,

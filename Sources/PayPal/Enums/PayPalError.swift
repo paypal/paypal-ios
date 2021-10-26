@@ -32,15 +32,12 @@ enum PayPalError {
         domain: domain,
         errorDescription: "You need to provide a return URL in the config object to checkout with PayPal."
     )
-}
 
-extension ErrorInfo {
-
-    func toPayPalSDKError() -> PayPalSDKError {
+    static let payPalCheckoutError: (ErrorInfo) -> PayPalSDKError = { errorInfo in
         PayPalSDKError(
             code: PayPalError.Code.payPalCheckoutError.rawValue,
             domain: PayPalError.domain,
-            errorDescription: reason
+            errorDescription: errorInfo.reason
         )
     }
 }
