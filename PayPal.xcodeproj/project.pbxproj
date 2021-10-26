@@ -44,7 +44,6 @@
 		BE7116162723227200165069 /* PayPalPaysheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7116152723227200165069 /* PayPalPaysheet.swift */; };
 		BE7116182723298100165069 /* PayPalUIDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7116172723298100165069 /* PayPalUIDelegate.swift */; };
 		BE71161C27234B8A00165069 /* PayPalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71161B27234B8A00165069 /* PayPalError.swift */; };
-		BE71161F2723587C00165069 /* CoreConfig+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71161E2723587C00165069 /* CoreConfig+Extension.swift */; };
 		BE711621272358E200165069 /* Environment+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE711620272358E200165069 /* Environment+Extension.swift */; };
 		BEA100E726EF9EDA0036A6A5 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100E626EF9EDA0036A6A5 /* APIClient.swift */; };
 		BEA100E926EFA1EE0036A6A5 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100E826EFA1EE0036A6A5 /* APIRequest.swift */; };
@@ -114,7 +113,6 @@
 		BE7116152723227200165069 /* PayPalPaysheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalPaysheet.swift; sourceTree = "<group>"; };
 		BE7116172723298100165069 /* PayPalUIDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalUIDelegate.swift; sourceTree = "<group>"; };
 		BE71161B27234B8A00165069 /* PayPalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalError.swift; sourceTree = "<group>"; };
-		BE71161E2723587C00165069 /* CoreConfig+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreConfig+Extension.swift"; sourceTree = "<group>"; };
 		BE711620272358E200165069 /* Environment+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment+Extension.swift"; sourceTree = "<group>"; };
 		BEA100E626EF9EDA0036A6A5 /* APIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		BEA100E826EFA1EE0036A6A5 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
@@ -360,7 +358,6 @@
 		BE71161D2723586200165069 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				BE71161E2723587C00165069 /* CoreConfig+Extension.swift */,
 				BE711620272358E200165069 /* Environment+Extension.swift */,
 				0649326A2727011700FA83A6 /* ApprovalData+Extension.swift */,
 			);
@@ -761,7 +758,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE71161F2723587C00165069 /* CoreConfig+Extension.swift in Sources */,
 				BE711621272358E200165069 /* Environment+Extension.swift in Sources */,
 				BE7116162723227200165069 /* PayPalPaysheet.swift in Sources */,
 				BE71161C27234B8A00165069 /* PayPalError.swift in Sources */,

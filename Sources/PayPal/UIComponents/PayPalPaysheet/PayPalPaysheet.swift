@@ -14,10 +14,15 @@ public class PayPalPaysheet: PayPalUI {
     public weak var delegate: PayPalUIDelegate?
 
     private let config: CoreConfig
-    private var paypalCheckoutConfig: CheckoutConfig?
+    private let returnURL: String
 
-    public init(config: CoreConfig) {
+    private lazy var paypalCheckoutConfig: CheckoutConfig = {
+        CheckoutConfig(clientID: config.clientID, returnUrl: returnURL)
+    }()
+
+    public init(config: CoreConfig, returnURL: String) {
         self.config = config
+        self.returnURL = returnURL
     }
 
     /// Present PayPal Paysheet and start a PayPal transaction
@@ -25,18 +30,11 @@ public class PayPalPaysheet: PayPalUI {
     ///   - presentingViewController: the ViewController to present PayPalPaysheet on
     ///   - orderID: the order ID for the transaction
     public func start(presentingViewController: UIViewController, orderID: String) {
-        do {
-            paypalCheckoutConfig = try setPayPalCheckoutConfig(orderID: orderID)
-            Checkout.start(presentingViewController: presentingViewController)
-        } catch {
-            let error = (error as? PayPalSDKError) ?? PayPalError.unknown
-            delegate?.paypal(self, didReceiveError: error)
-        }
+        setupPayPalCheckoutConfig(orderID: orderID)
+        Checkout.start(presentingViewController: presentingViewController)
     }
 
-    func setPayPalCheckoutConfig(orderID: String) throws -> CheckoutConfig {
-        let paypalCheckoutConfig = try config.toPayPalCheckoutConfig()
-
+    func setupPayPalCheckoutConfig(orderID: String) {
         paypalCheckoutConfig.createOrder = { action in
             action.set(orderId: orderID)
         }
@@ -54,7 +52,5 @@ public class PayPalPaysheet: PayPalUI {
         }
 
         Checkout.set(config: paypalCheckoutConfig)
-
-        return paypalCheckoutConfig
     }
 }
