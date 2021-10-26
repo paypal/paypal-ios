@@ -26,8 +26,8 @@ enum PayPalError {
 
     static let payPalCheckoutError: (ErrorInfo) -> PayPalSDKError = { errorInfo in
         PayPalSDKError(
-            code: PayPalError.Code.payPalCheckoutError.rawValue,
-            domain: PayPalError.domain,
+            code: Code.payPalCheckoutError.rawValue,
+            domain: domain,
             errorDescription: errorInfo.reason
         )
     }

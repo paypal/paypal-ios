@@ -15,7 +15,4 @@ public struct PayPalResult {
 
     /// Payer ID is also the user id associated with the transaction.
     public let payerID: String
-
-    /// Return URL can be used to redirect control back to the merchant.
-    public let returnURL: URL?
 }
