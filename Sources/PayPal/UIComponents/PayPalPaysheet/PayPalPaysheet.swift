@@ -16,11 +16,9 @@ public class PayPalPaysheet {
     private let config: CoreConfig
     private let returnURL: String
 
-    private lazy var paypalCheckoutConfig: CheckoutConfig = {
+    lazy var paypalCheckoutConfig: CheckoutConfig = {
         CheckoutConfig(clientID: config.clientID, returnUrl: returnURL)
     }()
-
-    private var completion: PayPalCheckoutCompletion?
 
     public init(config: CoreConfig, returnURL: String) {
         self.config = config
@@ -32,26 +30,25 @@ public class PayPalPaysheet {
     ///   - presentingViewController: the ViewController to present PayPalPaysheet on
     ///   - orderID: the order ID for the transaction
     public func start(presentingViewController: UIViewController, orderID: String, completion: PayPalCheckoutCompletion? = nil) {
-        self.completion = completion
-        setupPayPalCheckoutConfig(orderID: orderID)
+        setupPayPalCheckoutConfig(orderID: orderID, completion: completion)
         Checkout.start(presentingViewController: presentingViewController)
     }
 
-    func setupPayPalCheckoutConfig(orderID: String) {
+    func setupPayPalCheckoutConfig(orderID: String, completion: PayPalCheckoutCompletion? = nil) {
         paypalCheckoutConfig.createOrder = { action in
             action.set(orderId: orderID)
         }
 
         paypalCheckoutConfig.onApprove = { approval in
-            self.completion?(.success(result: approval.data.toPayPalResult()))
+            completion?(.success(result: approval.data.toPayPalResult()))
         }
 
         paypalCheckoutConfig.onCancel = {
-            self.completion?(.cancellation)
+            completion?(.cancellation)
         }
 
         paypalCheckoutConfig.onError = { errorInfo in
-            self.completion?(.failure(error: PayPalError.payPalCheckoutError(errorInfo)))
+            completion?(.failure(error: PayPalError.payPalCheckoutError(errorInfo)))
         }
 
         Checkout.set(config: paypalCheckoutConfig)

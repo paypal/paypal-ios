@@ -13,6 +13,7 @@
 		065A4DBC26FCD8090007014A /* PayPalSDKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DBB26FCD8080007014A /* PayPalSDKError.swift */; };
 		065A4DBF26FCDA5B0007014A /* CardClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DBE26FCDA5B0007014A /* CardClient_Tests.swift */; };
 		065EBD8A272862EE001E81C4 /* PayPalCompletionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065EBD89272862EE001E81C4 /* PayPalCompletionState.swift */; };
+		065EBD8C272865E4001E81C4 /* PayPalPaysheetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065EBD8B272865E4001E81C4 /* PayPalPaysheetTests.swift */; };
 		067C92E527270FDE009E3054 /* PayPalEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067C92E427270FDE009E3054 /* PayPalEnvironmentTests.swift */; };
 		06CE009926F3D1660000CC46 /* CoreConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009826F3D1660000CC46 /* CoreConfig.swift */; };
 		06CE009B26F3D5A40000CC46 /* CardClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009A26F3D5A40000CC46 /* CardClient.swift */; };
@@ -83,6 +84,7 @@
 		065A4DC226FCE1D20007014A /* ConfirmPaymentSourceRequest_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPaymentSourceRequest_Tests.swift; sourceTree = "<group>"; };
 		065A4DC426FCE5A20007014A /* OrderStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderStatus.swift; sourceTree = "<group>"; };
 		065EBD89272862EE001E81C4 /* PayPalCompletionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalCompletionState.swift; sourceTree = "<group>"; };
+		065EBD8B272865E4001E81C4 /* PayPalPaysheetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalPaysheetTests.swift; sourceTree = "<group>"; };
 		067C92E427270FDE009E3054 /* PayPalEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalEnvironmentTests.swift; sourceTree = "<group>"; };
 		06CE009826F3D1660000CC46 /* CoreConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreConfig.swift; sourceTree = "<group>"; };
 		06CE009A26F3D5A40000CC46 /* CardClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardClient.swift; sourceTree = "<group>"; };
@@ -394,6 +396,7 @@
 			isa = PBXGroup;
 			children = (
 				067C92E427270FDE009E3054 /* PayPalEnvironmentTests.swift */,
+				065EBD8B272865E4001E81C4 /* PayPalPaysheetTests.swift */,
 			);
 			name = PayPalTests;
 			path = UnitTests/PayPalTests;
@@ -798,6 +801,7 @@
 			buildActionMask = 0;
 			files = (
 				067C92E527270FDE009E3054 /* PayPalEnvironmentTests.swift in Sources */,
+				065EBD8C272865E4001E81C4 /* PayPalPaysheetTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
