@@ -72,11 +72,12 @@ class FeatureBaseViewController: UIViewController {
     }
 
     @objc func createOrderTapped() {
-        updateTitle("Creating order...")
         createOrder()
     }
 
     func createOrder(completion: @escaping (String?) -> Void = { _ in }) {
+        updateTitle("Creating order...")
+
         let amount = Amount(currencyCode: "USD", value: amountTextField.text ?? "")
         let orderRequestParams = CreateOrderParams(
             intent: DemoSettings.intent.rawValue.uppercased(),
