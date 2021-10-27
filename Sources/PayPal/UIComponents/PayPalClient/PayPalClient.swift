@@ -11,7 +11,7 @@ import PayPalCheckout
 public typealias PayPalCheckoutCompletion = (PayPalCompletionState) -> Void
 
 /// PayPal Paysheet to handle PayPal transaction
-public class PayPalPaysheet {
+public class PayPalClient {
 
     private let config: CoreConfig
     private let returnURL: String

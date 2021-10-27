@@ -6,7 +6,7 @@ final class PayPalPaysheet_Tests: XCTestCase {
 
     func testPayPalPaysheet_whenPayPalCheckoutOnCancelInvoked_completionCalledWithCancellationState() throws {
         let config = CoreConfig(clientID: "", environment: .sandbox)
-        let paypalPaysheet = PayPalPaysheet(config: config, returnURL: "")
+        let paypalPaysheet = PayPalClient(config: config, returnURL: "")
 
         let expect = expectation(description: "Expect completion with state == .cancellation")
 
