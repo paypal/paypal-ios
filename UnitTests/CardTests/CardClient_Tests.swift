@@ -35,7 +35,7 @@ final class CardClient_Tests: XCTestCase {
     }
     
     // MARK: - approveOrder() tests
-    
+
     func testApproveOrder_withValidJSONRequest_returnsOrderData() {
         let expect = expectation(description: "Callback invoked.")
 
@@ -52,15 +52,18 @@ final class CardClient_Tests: XCTestCase {
             }
         }
         """
-      
+
         mockURLSession.cannedURLResponse = successURLResponse
         mockURLSession.cannedJSONData = jsonResponse
 
         cardClient.approveOrder(orderID: "", card: card) { result in
             switch result {
-            case .success(let orderData):
-                XCTAssertEqual(orderData.orderID, "testOrderID")
-                XCTAssertEqual(orderData.status, .approved)
+            case .success(let cardResult):
+                XCTAssertEqual(cardResult.orderID, "testOrderID")
+                XCTAssertEqual(cardResult.status, .approved)
+                XCTAssertEqual(cardResult.brand, "VISA")
+                XCTAssertEqual(cardResult.lastFourDigits, "7321")
+                XCTAssertEqual(cardResult.type, "CREDIT")
             case .failure(_):
                 XCTFail()
             }
@@ -75,7 +78,6 @@ final class CardClient_Tests: XCTestCase {
         let expect = expectation(description: "Callback invoked.")
 
         let jsonResponse = """
-
         {
             "some_unexpected_response": "something"
         }
@@ -85,9 +87,13 @@ final class CardClient_Tests: XCTestCase {
         mockURLSession.cannedJSONData = jsonResponse
 
         cardClient.approveOrder(orderID: "", card: card) { result in
-            guard case .failure(NetworkingError.parsingError) = result else {
-                XCTFail("Expect NetworkingError.parsingError for invalid response")
-                return
+            switch result {
+            case .success(_):
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error.domain, APIClientError.domain)
+                XCTAssertEqual(error.code, APIClientError.Code.dataParsingError.rawValue)
+                XCTAssertEqual(error.localizedDescription, "An error occured parsing HTTP response data. Contact developer.paypal.com/support.")
             }
 
             expect.fulfill()
