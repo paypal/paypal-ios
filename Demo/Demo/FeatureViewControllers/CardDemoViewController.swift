@@ -1,6 +1,20 @@
 import UIKit
+import PaymentsCore
+import Card
 
 class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
+
+    // MARK: - PayPal SDK Setup
+
+    var coreConfig: CoreConfig {
+        CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
+    }
+
+    var cardClient: CardClient {
+        CardClient(config: coreConfig)
+    }
+
+    // MARK: - UI Components
 
     typealias Constants = FeatureBaseViewController.Constants
 
@@ -52,6 +66,8 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
     private let cardFormatter = CardFormatter()
 
+    // MARK: - View Lifecycle & UI Setup
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -89,6 +105,63 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         ])
     }
 
+    // MARK: - FeatureBaseViewController Override
+
+    /// Allows us to only enable the pay button once all fields are filled out and we have an order ID
+    @objc override func createOrderTapped() {
+        createOrder { _ in
+            self.enablePayButton(
+                cardNumber: self.cardNumberTextField.text ?? "",
+                expirationDate: self.expirationTextField.text ?? "",
+                cvv: self.cvvTextField.text ?? ""
+            )
+        }
+    }
+
+    // MARK: - Card Module Integration
+
+    @objc func didTapPayButton() {
+        updateTitle("Approving order...")
+        payButton.startAnimating()
+
+        guard let card = createCard(),
+            let orderID = orderID else {
+            updateTitle("Failed: missing card / orderID.")
+            return
+        }
+
+        cardClient.approveOrder(orderID: orderID, card: card) { result in
+            switch result {
+            case .success(let result):
+                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: \(result.status.rawValue)")
+                self.processOrder(orderID: result.orderID) {
+                    self.payButton.stopAnimating()
+                }
+            case .failure(let error):
+                self.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
+                self.payButton.stopAnimating()
+            }
+        }
+    }
+
+    private func createCard() -> Card? {
+        guard let cardNumber = cardNumberTextField.text,
+            let cvv = cvvTextField.text,
+            let expirationDate = expirationTextField.text else {
+            return nil
+        }
+
+        let cleanedCardText = cardNumber.replacingOccurrences(of: " ", with: "")
+
+        let expirationComponents = expirationDate.components(separatedBy: " / ")
+        let expirationMonth = expirationComponents[0]
+        let expirationYear = "20" + expirationComponents[1]
+
+        return Card(number: cleanedCardText, expirationMonth: expirationMonth, expirationYear: expirationYear, securityCode: cvv)
+    }
+
+    // MARK: - Card Field Formatting
+
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         /// Ensures that only numbers are entered into our text fields
         guard CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string)) else {
@@ -105,30 +178,26 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         guard let changedRange = Range(range, in: current) else { return true }
         let new = current.replacingCharacters(in: changedRange, with: string)
 
-        if textField == cardNumberTextField {
+        switch textField {
+        case cardNumberTextField:
             formatCardNumber(textField: textField, newString: new)
-            enableButton(cardNumber: textField.text ?? "", expirationDate: expirationDate, cvv: cvv)
+            enablePayButton(cardNumber: textField.text ?? "", expirationDate: expirationDate, cvv: cvv)
             setCursorLocation(textField: textField, range: range)
             return false
-        } else if textField == expirationTextField {
+        case expirationTextField:
             formatExpirationDate(textField: textField, newString: new)
-            enableButton(cardNumber: cardNumber, expirationDate: textField.text ?? "", cvv: cvv)
+            enablePayButton(cardNumber: cardNumber, expirationDate: textField.text ?? "", cvv: cvv)
             setCursorLocation(textField: textField, range: range)
             return false
-        } else if textField == cvvTextField {
+        case cvvTextField:
             /// Limit cvv character count to be 4 characters max
             guard new.count <= 4 else { return false }
             textField.text = new
-            enableButton(cardNumber: cardNumber, expirationDate: expirationDate, cvv: textField.text ?? "")
+            enablePayButton(cardNumber: cardNumber, expirationDate: expirationDate, cvv: textField.text ?? "")
             return false
+        default:
+            return true
         }
-        return true
-    }
-
-    @objc func didTapPayButton() {
-        updateTitle("Processing order...")
-        payButton.startAnimating()
-        // TODO: Call `processOrder` and `payButton.stopAnimating()` once process order is complete
     }
 
     private func formatCardNumber(textField: UITextField, newString: String) {
@@ -162,7 +231,13 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         }
     }
 
-    private func enableButton(cardNumber: String, expirationDate: String, cvv: String) {
+    private func enablePayButton(cardNumber: String, expirationDate: String, cvv: String) {
+        guard orderID != nil else {
+            updateTitle("Create an order to proceed")
+            payButton.isEnabled = false
+            return
+        }
+
         let cleanedCardNumber = cardNumber.replacingOccurrences(of: " ", with: "")
         let cleanedExpirationDate = expirationDate.replacingOccurrences(of: "/", with: "").replacingOccurrences(of: " ", with: "")
 
