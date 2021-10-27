@@ -100,7 +100,7 @@ class FeatureBaseViewController: UIViewController {
         }
     }
 
-    func processOrder(orderData: OrderData, completion: @escaping () -> Void = {}) {
+    func processOrder(orderID: String, completion: @escaping () -> Void = {}) {
         switch DemoSettings.intent {
         case .authorize:
             updateTitle("Authorizing order...")
@@ -109,7 +109,7 @@ class FeatureBaseViewController: UIViewController {
         }
 
         let processOrderParams = ProcessOrderParams(
-            orderId: orderData.orderID,
+            orderId: orderID,
             intent: DemoSettings.intent.rawValue,
             countryCode: "US"
         )
