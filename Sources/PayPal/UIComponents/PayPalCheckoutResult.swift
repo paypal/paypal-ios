@@ -2,8 +2,8 @@
 import PaymentsCore
 #endif
 
-/// The completion state of a PayPal checkout experience
-public enum PayPalCompletionState {
+/// The result of a PayPal checkout experience
+public enum PayPalCheckoutResult {
 
     /// The order has been successfully approved by the buyer
     case success(result: PayPalResult)

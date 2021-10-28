@@ -15,4 +15,10 @@ public struct PayPalResult {
 
     /// Payer ID is also the user id associated with the transaction.
     public let payerID: String
+
+    init(approvalData: ApprovalData) {
+        orderID = approvalData.ecToken
+        intent = approvalData.intent
+        payerID = approvalData.payerID
+    }
 }

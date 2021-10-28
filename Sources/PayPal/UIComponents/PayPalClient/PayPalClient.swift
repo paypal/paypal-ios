@@ -8,7 +8,7 @@ import PaymentsCore
 import PayPalCheckout
 #endif
 
-public typealias PayPalCheckoutCompletion = (PayPalCompletionState) -> Void
+public typealias PayPalCheckoutCompletion = (PayPalCheckoutResult) -> Void
 
 /// PayPal Paysheet to handle PayPal transaction
 public class PayPalClient {
@@ -17,7 +17,11 @@ public class PayPalClient {
     private let returnURL: String
 
     lazy var paypalCheckoutConfig: CheckoutConfig = {
-        CheckoutConfig(clientID: config.clientID, returnUrl: returnURL)
+        CheckoutConfig(
+            clientID: config.clientID,
+            returnUrl: returnURL,
+            environment: config.environment.toPayPalCheckoutEnvironment()
+        )
     }()
 
     public init(config: CoreConfig, returnURL: String) {
@@ -27,9 +31,10 @@ public class PayPalClient {
 
     /// Present PayPal Paysheet and start a PayPal transaction
     /// - Parameters:
-    ///   - presentingViewController: the ViewController to present PayPalPaysheet on
     ///   - orderID: the order ID for the transaction
-    public func start(presentingViewController: UIViewController, orderID: String, completion: PayPalCheckoutCompletion? = nil) {
+    ///   - presentingViewController: the ViewController to present PayPalPaysheet on, if not provided, the Paysheet will be presented on your top-most ViewController
+    ///   - completion: Completion block to handle buyer's approval, cancellation, and error.
+    public func start(orderID: String, presentingViewController: UIViewController? = nil, completion: PayPalCheckoutCompletion? = nil) {
         setupPayPalCheckoutConfig(orderID: orderID, completion: completion)
         Checkout.start(presentingViewController: presentingViewController)
     }
@@ -40,7 +45,7 @@ public class PayPalClient {
         }
 
         paypalCheckoutConfig.onApprove = { approval in
-            completion?(.success(result: approval.data.toPayPalResult()))
+            completion?(.success(result: PayPalResult(approvalData: approval.data)))
         }
 
         paypalCheckoutConfig.onCancel = {
