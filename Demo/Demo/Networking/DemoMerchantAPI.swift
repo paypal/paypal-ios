@@ -51,7 +51,6 @@ final class DemoMerchantAPI {
     ///   - processOrderParams: the parameters to process the order with
     ///   - completion: a result object vending either the order or an error
     func processOrder(processOrderParams: ProcessOrderParams, completion: @escaping ((Result<Order, URLResponseError>) -> Void)) {
-        // TODO: finalize functionality once we add approve order/card module
         guard let url = buildBaseURL(with: "/\(processOrderParams.intent)-order") else {
             completion(.failure(.invalidURL))
             return

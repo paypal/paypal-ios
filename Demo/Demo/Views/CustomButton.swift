@@ -37,8 +37,10 @@ class CustomButton: UIButton {
     }
 
     func stopAnimating() {
-        self.setTitleColor(.none, for: .normal)
-        activityIndicator.stopAnimating()
+        DispatchQueue.main.async {
+            self.setTitleColor(.none, for: .normal)
+            self.activityIndicator.stopAnimating()
+        }
     }
 
     private func setupConstraints() {

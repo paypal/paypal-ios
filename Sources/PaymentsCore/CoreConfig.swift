@@ -6,4 +6,9 @@ public struct CoreConfig {
 
     public let clientID: String
     public let environment: Environment
+
+    public init(clientID: String, environment: Environment) {
+        self.clientID = clientID
+        self.environment = environment
+    }
 }

@@ -1,7 +1,7 @@
 import Foundation
 
 public protocol APIRequest {
-    associatedtype ResponseType: Codable
+    associatedtype ResponseType: Decodable
 
     var path: String { get }
     var method: HTTPMethod { get }

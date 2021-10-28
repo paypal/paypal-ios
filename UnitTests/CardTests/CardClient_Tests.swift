@@ -61,9 +61,12 @@ final class CardClient_Tests: XCTestCase {
 
         cardClient.approveOrder(orderID: "", card: card) { result in
             switch result {
-            case .success(let orderData):
-                XCTAssertEqual(orderData.orderID, "testOrderID")
-                XCTAssertEqual(orderData.status, .approved)
+            case .success(let cardResult):
+                XCTAssertEqual(cardResult.orderID, "testOrderID")
+                XCTAssertEqual(cardResult.status, .approved)
+                XCTAssertEqual(cardResult.brand, "VISA")
+                XCTAssertEqual(cardResult.lastFourDigits, "7321")
+                XCTAssertEqual(cardResult.type, "CREDIT")
             case .failure:
                 XCTFail()
             }
