@@ -1,17 +1,18 @@
 import XCTest
+import PayPalCheckout
 @testable import PaymentsCore
 @testable import PayPal
 
-final class PayPalPaysheet_Tests: XCTestCase {
+final class PayPalClient_Tests: XCTestCase {
 
-    func testPayPalPaysheet_whenPayPalCheckoutOnCancelInvoked_completionCalledWithCancellationState() throws {
+    func testPayPalClient_whenPayPalCheckoutOnCancelInvoked_completionCalledWithCancellationState() throws {
         let config = CoreConfig(clientID: "", environment: .sandbox)
-        let paypalPaysheet = PayPalClient(config: config, returnURL: "")
+        let client = PayPalClient(config: config, returnURL: "")
 
         let expect = expectation(description: "Expect completion with state == .cancellation")
 
-        paypalPaysheet.setupPayPalCheckoutConfig(orderID: "") { state in
-            switch state {
+        client.setupPayPalCheckoutConfig(orderID: "") { result in
+            switch result {
             case .cancellation:
                 expect.fulfill()
             default:
@@ -19,7 +20,7 @@ final class PayPalPaysheet_Tests: XCTestCase {
             }
         }
 
-        let onCancel = try XCTUnwrap(paypalPaysheet.paypalCheckoutConfig.onCancel)
+        let onCancel = try XCTUnwrap(client.paypalCheckoutConfig.onCancel)
         onCancel()
         waitForExpectations(timeout: 0.2)
     }

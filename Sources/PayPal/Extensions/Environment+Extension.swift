@@ -3,7 +3,7 @@ import PaymentsCore
 #endif
 
 #if canImport(PayPalCheckout)
-import PayPalCheckout
+@_implementationOnly import PayPalCheckout
 #endif
 
 extension PaymentsCore.Environment {

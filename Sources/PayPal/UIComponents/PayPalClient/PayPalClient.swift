@@ -5,7 +5,7 @@ import PaymentsCore
 #endif
 
 #if canImport(PayPalCheckout)
-import PayPalCheckout
+@_implementationOnly import PayPalCheckout
 #endif
 
 public typealias PayPalCheckoutCompletion = (PayPalCheckoutResult) -> Void

@@ -1,5 +1,5 @@
 #if canImport(PayPalCheckout)
-import PayPalCheckout
+@_implementationOnly import PayPalCheckout
 #endif
 
 import Foundation
