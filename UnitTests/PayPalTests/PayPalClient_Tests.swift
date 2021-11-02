@@ -3,7 +3,7 @@ import PayPalCheckout
 @testable import PaymentsCore
 @testable import PayPal
 
-final class PayPalClient_Tests: XCTestCase {
+class PayPalClient_Tests: XCTestCase {
 
     func testPayPalClient_whenPayPalCheckoutOnCancelInvoked_completionCalledWithCancellationState() throws {
         let config = CoreConfig(clientID: "", environment: .sandbox)

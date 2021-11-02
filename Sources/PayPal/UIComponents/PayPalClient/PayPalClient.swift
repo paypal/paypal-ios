@@ -2,9 +2,6 @@ import UIKit
 
 #if canImport(PaymentsCore)
 import PaymentsCore
-#endif
-
-#if canImport(PayPalCheckout)
 @_implementationOnly import PayPalCheckout
 #endif
 
@@ -24,6 +21,10 @@ public class PayPalClient {
         )
     }()
 
+    /// Initialize a PayPalClient to process PayPal transaction
+    /// - Parameters:
+    ///   - config: The CoreConfig object
+    ///   - returnURL: The return URL provided to the PayPal Native UI experience. Used as part of the authentication process to identify your application. This value should match the one set in the `Return URLs` section of your application's dashboard on your [PayPal developer account](https://developer.paypal.com)
     public init(config: CoreConfig, returnURL: String) {
         self.config = config
         self.returnURL = returnURL

@@ -1,8 +1,5 @@
 #if canImport(PaymentsCore)
 import PaymentsCore
-#endif
-
-#if canImport(PayPalCheckout)
 @_implementationOnly import PayPalCheckout
 #endif
 

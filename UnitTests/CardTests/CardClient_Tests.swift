@@ -3,7 +3,7 @@ import XCTest
 @testable import Card
 @testable import TestShared
 
-final class CardClient_Tests: XCTestCase {
+class CardClient_Tests: XCTestCase {
     
     // MARK: - Helper Properties
     

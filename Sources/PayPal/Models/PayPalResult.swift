@@ -10,6 +10,6 @@ public struct PayPalResult {
     /// The order ID associated with the transaction.
     public let orderID: String
 
-    /// Payer ID is also the user id associated with the transaction.
+    /// The Payer ID (or user id) associated with the transaction.
     public let payerID: String
 }
