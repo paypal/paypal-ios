@@ -9,9 +9,6 @@ public struct CardResult {
     /// The order ID associated with the transaction
     public let orderID: String
 
-    /// The current status of the transaction
-    public let status: OrderStatus
-
     /// The last four digits of the provided card
     public let lastFourDigits: String?
 

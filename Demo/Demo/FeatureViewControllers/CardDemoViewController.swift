@@ -133,7 +133,7 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         cardClient.approveOrder(orderID: orderID, card: card) { result in
             switch result {
             case .success(let result):
-                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: \(result.status.rawValue)")
+                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
                 self.processOrder(orderID: result.orderID) {
                     self.payButton.stopAnimating()
                 }

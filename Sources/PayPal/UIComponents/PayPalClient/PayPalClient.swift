@@ -45,7 +45,8 @@ public class PayPalClient {
         }
 
         paypalCheckoutConfig.onApprove = { approval in
-            completion?(.success(result: PayPalResult(approvalData: approval.data)))
+            let payPalResult = PayPalResult(orderID: approval.data.ecToken, payerID: approval.data.payerID)
+            completion?(.success(result: payPalResult))
         }
 
         paypalCheckoutConfig.onCancel = {
