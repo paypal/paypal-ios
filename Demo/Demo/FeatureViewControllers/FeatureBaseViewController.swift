@@ -1,4 +1,5 @@
 import UIKit
+import PaymentsCore
 
 class FeatureBaseViewController: UIViewController {
 
@@ -37,7 +38,7 @@ class FeatureBaseViewController: UIViewController {
         return label
     }()
 
-    private var orderID: String?
+    var orderID: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,8 +72,10 @@ class FeatureBaseViewController: UIViewController {
     }
 
     @objc func createOrderTapped() {
-        // TODO: The prod server is broken right now, so we will expect those requests to fail.
+        createOrder()
+    }
 
+    func createOrder(completion: @escaping (String?) -> Void = { _ in }) {
         updateTitle("Creating order...")
 
         let amount = Amount(currencyCode: "USD", value: amountTextField.text ?? "")
@@ -91,11 +94,37 @@ class FeatureBaseViewController: UIViewController {
                 self.updateTitle("Your order has failed, please try again")
                 print("❌ failed to fetch orderID: \(error)")
             }
+            DispatchQueue.main.async {
+                completion(self.orderID)
+            }
         }
     }
 
-    func processOrder() {
-        // TODO: Pass in card details once card client is merged and call processOrder from DemoMerchantAPI
+    func processOrder(orderID: String, completion: @escaping () -> Void = {}) {
+        switch DemoSettings.intent {
+        case .authorize:
+            updateTitle("Authorizing order...")
+        case .capture:
+            updateTitle("Capturing order...")
+        }
+
+        let processOrderParams = ProcessOrderParams(
+            orderId: orderID,
+            intent: DemoSettings.intent.rawValue,
+            countryCode: "US"
+        )
+
+        DemoMerchantAPI.sharedService.processOrder(processOrderParams: processOrderParams) { result in
+            switch result {
+            case .success(let order):
+                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) success: \(order.status)")
+                print("✅ processed orderID: \(order.id) with status: \(order.status)")
+            case .failure(let error):
+                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) fail: \(error.localizedDescription)")
+                print("❌ failed to process orderID: \(error)")
+            }
+            completion()
+        }
     }
 
     func updateTitle(_ message: String) {

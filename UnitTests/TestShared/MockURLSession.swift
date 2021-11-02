@@ -2,7 +2,7 @@ import Foundation
 @testable import PaymentsCore
 
 class MockURLSession: URLSessionProtocol {
-    
+
     var cannedError: Error?
     var cannedURLResponse: URLResponse?
     var cannedJSONData: String?
