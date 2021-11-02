@@ -1,6 +1,4 @@
-#if canImport(PayPalCheckout)
 @_implementationOnly import PayPalCheckout
-#endif
 
 import Foundation
 

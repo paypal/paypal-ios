@@ -1,6 +1,7 @@
+@_implementationOnly import PayPalCheckout
+
 #if canImport(PaymentsCore)
 import PaymentsCore
-@_implementationOnly import PayPalCheckout
 #endif
 
 enum PayPalError {
