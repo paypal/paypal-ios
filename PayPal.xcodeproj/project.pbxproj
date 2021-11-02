@@ -191,26 +191,10 @@
 			path = UnitTests;
 			sourceTree = "<group>";
 		};
-		0649326C2727014600FA83A6 /* UIComponents */ = {
-			isa = PBXGroup;
-			children = (
-				065EBD89272862EE001E81C4 /* PayPalCheckoutResult.swift */,
-				0649326D2727015A00FA83A6 /* PayPalClient */,
-			);
-			path = UIComponents;
-			sourceTree = "<group>";
-		};
-		0649326D2727015A00FA83A6 /* PayPalClient */ = {
-			isa = PBXGroup;
-			children = (
-				BE7116152723227200165069 /* PayPalClient.swift */,
-			);
-			path = PayPalClient;
-			sourceTree = "<group>";
-		};
 		0649326E272703A500FA83A6 /* Enums */ = {
 			isa = PBXGroup;
 			children = (
+				065EBD89272862EE001E81C4 /* PayPalCheckoutResult.swift */,
 				BE71161B27234B8A00165069 /* PayPalError.swift */,
 			);
 			path = Enums;
@@ -283,7 +267,7 @@
 		80DB6F0F26B89D9600277E54 /* PayPal */ = {
 			isa = PBXGroup;
 			children = (
-				0649326C2727014600FA83A6 /* UIComponents */,
+				BE7116152723227200165069 /* PayPalClient.swift */,
 				BE71161D2723586200165069 /* Extensions */,
 				0649326E272703A500FA83A6 /* Enums */,
 				BE7116112723157900165069 /* Models */,
