@@ -1,6 +1,6 @@
 import UIKit
 
-import PayPalCheckout
+@_implementationOnly import PayPalCheckout
 
 #if canImport(PaymentsCore)
 import PaymentsCore
@@ -40,7 +40,6 @@ public class PayPalClient {
         presentingViewController: UIViewController? = nil,
         completion: @escaping (PayPalCheckoutResult) -> Void
     ) {
-
         nativeCheckoutSDKConfig.createOrder = { action in
             action.set(orderId: orderID)
         }
@@ -77,6 +76,6 @@ protocol PayPalCheckoutConfigProtocol {
 
 extension PayPalCheckout.CheckoutConfig: PayPalCheckoutConfigProtocol {
 
-    // create an mini initializer that only uses 3 params we need, and have it internally call the big intializer
+    // create an mini initializer that only uses 3 params we need, and have it internally call the big initializer
 
 }

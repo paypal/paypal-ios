@@ -16,8 +16,6 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
     // MARK: - UI Components
 
-    typealias Constants = FeatureBaseViewController.Constants
-
     let cardFormStackView: UIStackView = {
         let view = UIStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
