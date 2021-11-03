@@ -40,7 +40,7 @@ public class PayPalClient {
         Checkout.start(presentingViewController: presentingViewController)
     }
 
-    func setupPayPalCheckoutConfig(orderID: String, completion: PayPalCheckoutCompletion? = nil) {
+    private func setupPayPalCheckoutConfig(orderID: String, completion: PayPalCheckoutCompletion? = nil) {
         paypalCheckoutConfig.createOrder = { action in
             action.set(orderId: orderID)
         }
