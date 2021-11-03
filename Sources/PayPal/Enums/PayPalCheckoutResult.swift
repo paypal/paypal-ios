@@ -10,17 +10,4 @@ public enum PayPalCheckoutResult {
 
     /// An error has occurred during the checkout experience
     case failure(error: PayPalSDKError)
-
-    /// The buyer has cancelled the checkout experience
-    case cancellation
 }
-
-
-//Result<PayPalResult, PayPalCheckoutError>
-//
-//switch result {
-//    .success (paypalresult)
-//    .failure (error):
-//        switch .cancel
-//        switch .error
-//}

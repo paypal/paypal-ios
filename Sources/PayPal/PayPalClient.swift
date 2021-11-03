@@ -50,7 +50,7 @@ public class PayPalClient {
         }
 
         nativeCheckoutSDKConfig.onCancel = {
-            completion(.cancellation)
+            completion(.failure(error: PayPalError.cancelled))
         }
 
         nativeCheckoutSDKConfig.onError = { errorInfo in
@@ -61,21 +61,4 @@ public class PayPalClient {
 
         Checkout.start(presentingViewController: presentingViewController)
     }
-}
-
-protocol PayPalCheckoutConfigProtocol {
-
-    var createOrder: CheckoutConfig.CreateOrderCallback? { get set }
-
-    var onApprove: CheckoutConfig.ApprovalCallback? { get set }
-
-    var onCancel: CheckoutConfig.CancelCallback? { get set }
-
-    var onError: CheckoutConfig.ErrorCallback? { get set }
-}
-
-extension PayPalCheckout.CheckoutConfig: PayPalCheckoutConfigProtocol {
-
-    // create an mini initializer that only uses 3 params we need, and have it internally call the big initializer
-
 }

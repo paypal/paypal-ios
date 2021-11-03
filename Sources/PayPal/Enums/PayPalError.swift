@@ -14,6 +14,9 @@ enum PayPalError {
 
         /// 1. Error returned from the PayPal Checkout SDK
         case nativeCheckoutSDKError
+
+        /// 2. The buyer canceled the PayPal Checkout flow
+        case cancelled
     }
 
     static let nativeCheckoutSDKError: (ErrorInfo) -> PayPalSDKError = { errorInfo in
@@ -23,4 +26,10 @@ enum PayPalError {
             errorDescription: errorInfo.reason
         )
     }
+
+    static let cancelled = PayPalSDKError(
+        code: Code.cancelled.rawValue,
+        domain: domain,
+        errorDescription: "The buyer canceled the PayPal Checkout flow"
+    )
 }
