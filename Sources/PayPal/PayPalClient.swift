@@ -13,11 +13,11 @@ public class PayPalClient {
     private let returnURL: String
 
     // TODO: I don't think we can override a lazy var in our tests ... or can we?
-    lazy var paypalCheckoutConfig: CheckoutConfig = {
+    lazy var nativeCheckoutSDKConfig: CheckoutConfig = {
         CheckoutConfig(
             clientID: config.clientID,
             returnUrl: returnURL,
-            environment: config.environment.toPayPalCheckoutEnvironment()
+            environment: config.environment.toNativeCheckoutSDKEnvironment()
         )
     }()
 
@@ -41,24 +41,24 @@ public class PayPalClient {
         completion: @escaping (PayPalCheckoutResult) -> Void
     ) {
 
-        paypalCheckoutConfig.createOrder = { action in
+        nativeCheckoutSDKConfig.createOrder = { action in
             action.set(orderId: orderID)
         }
 
-        paypalCheckoutConfig.onApprove = { approval in
+        nativeCheckoutSDKConfig.onApprove = { approval in
             let payPalResult = PayPalResult(orderID: approval.data.ecToken, payerID: approval.data.payerID)
             completion(.success(result: payPalResult))
         }
 
-        paypalCheckoutConfig.onCancel = {
+        nativeCheckoutSDKConfig.onCancel = {
             completion(.cancellation)
         }
 
-        paypalCheckoutConfig.onError = { errorInfo in
-            completion(.failure(error: PayPalError.payPalCheckoutError(errorInfo)))
+        nativeCheckoutSDKConfig.onError = { errorInfo in
+            completion(.failure(error: PayPalError.nativeCheckoutSDKError(errorInfo)))
         }
 
-        Checkout.set(config: paypalCheckoutConfig)
+        Checkout.set(config: nativeCheckoutSDKConfig)
 
         Checkout.start(presentingViewController: presentingViewController)
     }

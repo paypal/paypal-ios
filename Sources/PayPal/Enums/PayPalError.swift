@@ -13,12 +13,12 @@ enum PayPalError {
         case unknown
 
         /// 1. Error returned from the PayPal Checkout SDK
-        case payPalCheckoutError
+        case nativeCheckoutSDKError
     }
 
-    static let payPalCheckoutError: (ErrorInfo) -> PayPalSDKError = { errorInfo in
+    static let nativeCheckoutSDKError: (ErrorInfo) -> PayPalSDKError = { errorInfo in
         PayPalSDKError(
-            code: Code.payPalCheckoutError.rawValue,
+            code: Code.nativeCheckoutSDKError.rawValue,
             domain: domain,
             errorDescription: errorInfo.reason
         )
