@@ -14,3 +14,13 @@ public enum PayPalCheckoutResult {
     /// The buyer has cancelled the checkout experience
     case cancellation
 }
+
+
+//Result<PayPalResult, PayPalCheckoutError>
+//
+//switch result {
+//    .success (paypalresult)
+//    .failure (error):
+//        switch .cancel
+//        switch .error
+//}

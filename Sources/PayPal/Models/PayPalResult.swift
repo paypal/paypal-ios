@@ -1,4 +1,4 @@
-@_implementationOnly import PayPalCheckout
+import PayPalCheckout
 
 import Foundation
 

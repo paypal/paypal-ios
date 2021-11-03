@@ -1,4 +1,4 @@
-@_implementationOnly import PayPalCheckout
+import PayPalCheckout
 
 #if canImport(PaymentsCore)
 import PaymentsCore

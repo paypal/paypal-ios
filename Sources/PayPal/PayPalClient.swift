@@ -1,12 +1,10 @@
 import UIKit
 
-@_implementationOnly import PayPalCheckout
+import PayPalCheckout
 
 #if canImport(PaymentsCore)
 import PaymentsCore
 #endif
-
-public typealias PayPalCheckoutCompletion = (PayPalCheckoutResult) -> Void
 
 /// PayPal Paysheet to handle PayPal transaction
 public class PayPalClient {
@@ -14,6 +12,7 @@ public class PayPalClient {
     private let config: CoreConfig
     private let returnURL: String
 
+    // TODO: I don't think we can override a lazy var in our tests ... or can we?
     lazy var paypalCheckoutConfig: CheckoutConfig = {
         CheckoutConfig(
             clientID: config.clientID,
@@ -36,29 +35,48 @@ public class PayPalClient {
     ///   - orderID: the order ID for the transaction
     ///   - presentingViewController: the ViewController to present PayPalPaysheet on, if not provided, the Paysheet will be presented on your top-most ViewController
     ///   - completion: Completion block to handle buyer's approval, cancellation, and error.
-    public func start(orderID: String, presentingViewController: UIViewController? = nil, completion: PayPalCheckoutCompletion? = nil) {
-        setupPayPalCheckoutConfig(orderID: orderID, completion: completion)
-        Checkout.start(presentingViewController: presentingViewController)
-    }
+    public func start(
+        orderID: String,
+        presentingViewController: UIViewController? = nil,
+        completion: @escaping (PayPalCheckoutResult) -> Void
+    ) {
 
-    private func setupPayPalCheckoutConfig(orderID: String, completion: PayPalCheckoutCompletion? = nil) {
         paypalCheckoutConfig.createOrder = { action in
             action.set(orderId: orderID)
         }
 
         paypalCheckoutConfig.onApprove = { approval in
             let payPalResult = PayPalResult(orderID: approval.data.ecToken, payerID: approval.data.payerID)
-            completion?(.success(result: payPalResult))
+            completion(.success(result: payPalResult))
         }
 
         paypalCheckoutConfig.onCancel = {
-            completion?(.cancellation)
+            completion(.cancellation)
         }
 
         paypalCheckoutConfig.onError = { errorInfo in
-            completion?(.failure(error: PayPalError.payPalCheckoutError(errorInfo)))
+            completion(.failure(error: PayPalError.payPalCheckoutError(errorInfo)))
         }
 
         Checkout.set(config: paypalCheckoutConfig)
+
+        Checkout.start(presentingViewController: presentingViewController)
     }
+}
+
+protocol PayPalCheckoutConfigProtocol {
+
+    var createOrder: CheckoutConfig.CreateOrderCallback? { get set }
+
+    var onApprove: CheckoutConfig.ApprovalCallback? { get set }
+
+    var onCancel: CheckoutConfig.CancelCallback? { get set }
+
+    var onError: CheckoutConfig.ErrorCallback? { get set }
+}
+
+extension PayPalCheckout.CheckoutConfig: PayPalCheckoutConfigProtocol {
+
+    // create an mini initializer that only uses 3 params we need, and have it internally call the big intializer
+
 }
