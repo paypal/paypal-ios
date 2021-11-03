@@ -1,8 +1,9 @@
 import UIKit
 
+@_implementationOnly import PayPalCheckout
+
 #if canImport(PaymentsCore)
 import PaymentsCore
-@_implementationOnly import PayPalCheckout
 #endif
 
 public typealias PayPalCheckoutCompletion = (PayPalCheckoutResult) -> Void

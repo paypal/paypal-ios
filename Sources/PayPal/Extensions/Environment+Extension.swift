@@ -1,11 +1,17 @@
+@_implementationOnly import PayPalCheckout
+
 #if canImport(PaymentsCore)
 import PaymentsCore
-@_implementationOnly import PayPalCheckout
 #endif
 
-extension PaymentsCore.Environment {
+#if COCOAPODS
+private typealias PayPalEnvironment = PayPal.Environment
+#else
+private typealias PayPalEnvironment = PaymentsCore.Environment
+#endif
 
-    /// Convert `PaymentsCore.Environment` to `PayPalCheckout.Environment`
+extension PayPalEnvironment {
+
     func toPayPalCheckoutEnvironment() -> PayPalCheckout.Environment {
         switch self {
         case .sandbox:
