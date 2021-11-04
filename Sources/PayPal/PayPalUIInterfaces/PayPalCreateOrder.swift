@@ -1,10 +1,3 @@
-//
-//  PayPalCreateOrder.swift
-//  PayPal
-//
-//  Created by Jones, Jon on 11/4/21.
-//
-
 import Foundation
 @_implementationOnly import PayPalCheckout
 

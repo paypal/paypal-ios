@@ -1,10 +1,3 @@
-//
-//  PayPalUIFlow.swift
-//  PayPalUIFlow
-//
-//  Created by Jones, Jon on 11/4/21.
-//
-
 import Foundation
 import UIKit
 @_implementationOnly import PayPalCheckout
