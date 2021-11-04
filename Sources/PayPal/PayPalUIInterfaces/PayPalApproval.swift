@@ -9,7 +9,7 @@ protocol PayPalCheckoutApprovalData {
 
 extension Approval: PayPalCheckoutApprovalData {
     var intent: String {
-        return data.intent
+        data.intent
     }
 
     var payerID: String {
