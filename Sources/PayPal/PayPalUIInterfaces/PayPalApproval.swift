@@ -6,12 +6,7 @@
 //
 
 import Foundation
-import PayPalCheckout
-
-protocol PayPalCheckoutApproval {
-    associatedtype ApprovalDataType: PayPalCheckoutApprovalData
-    var data: ApprovalDataType { get }
-}
+@_implementationOnly import PayPalCheckout
 
 protocol PayPalCheckoutApprovalData {
     var intent: String { get }
@@ -19,5 +14,16 @@ protocol PayPalCheckoutApprovalData {
     var ecToken: String { get }
 }
 
-extension Approval: PayPalCheckoutApproval { }
-extension ApprovalData: PayPalCheckoutApprovalData { }
+extension Approval: PayPalCheckoutApprovalData {
+    var intent: String {
+        return data.intent
+    }
+
+    var payerID: String {
+        data.payerID
+    }
+
+    var ecToken: String {
+        data.ecToken
+    }
+}

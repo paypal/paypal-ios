@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import PayPalCheckout
+@_implementationOnly import PayPalCheckout
 
 protocol PayPalCheckoutErrorInfo {
     var reason: String { get }

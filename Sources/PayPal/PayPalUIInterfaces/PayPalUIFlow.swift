@@ -6,28 +6,41 @@
 //
 
 import Foundation
-import PayPalCheckout
 import UIKit
+@_implementationOnly import PayPalCheckout
 
 protocol PayPalUIFlow {
-    associatedtype ApprovalType: PayPalCheckoutApproval
-    associatedtype PayPalErrorType: PayPalCheckoutErrorInfo
-
-    typealias ApprovalCallback = (ApprovalType) -> Void
+    typealias CreateOrderCallback = (PayPalCreateOrder) -> Void
+    typealias ApprovalCallback = (PayPalCheckoutApprovalData) -> Void
     typealias CancelCallback = () -> Void
-    typealias ErrorCallback = (PayPalErrorType) -> Void
+    typealias ErrorCallback = (PayPalCheckoutErrorInfo) -> Void
 
     static func set(config: CheckoutConfig)
 
-    // swiftlint:disable function_parameter_count
     static func start(
         presentingViewController: UIViewController?,
-        createOrder: CheckoutConfig.CreateOrderCallback?,
+        createOrder: CreateOrderCallback?,
         onApprove: ApprovalCallback?,
-        onShippingChange: CheckoutConfig.ShippingChangeCallback?,
         onCancel: CancelCallback?,
         onError: ErrorCallback?
     )
 }
 
-extension Checkout: PayPalUIFlow { }
+extension Checkout: PayPalUIFlow {
+    static func start(
+        presentingViewController: UIViewController?,
+        createOrder: CreateOrderCallback?,
+        onApprove: ApprovalCallback?,
+        onCancel: CancelCallback?,
+        onError: ErrorCallback?
+    ) {
+        start(
+            presentingViewController: presentingViewController,
+            createOrder: createOrder,
+            onApprove: onApprove,
+            onShippingChange: nil,
+            onCancel: onCancel,
+            onError: onError
+        )
+    }
+}

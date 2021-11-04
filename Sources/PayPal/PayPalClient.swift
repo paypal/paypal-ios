@@ -12,6 +12,10 @@ public class PayPalClient {
     private let config: CoreConfig
     private let returnURL: String
 
+    // swiftlint:disable identifier_name
+    private let CheckoutFlow: PayPalUIFlow.Type
+    // swiftlint:enable identifier_name
+
     // TODO: I don't think we can override a lazy var in our tests ... or can we?
     lazy var nativeCheckoutSDKConfig: CheckoutConfig = {
         CheckoutConfig(
@@ -25,9 +29,14 @@ public class PayPalClient {
     /// - Parameters:
     ///   - config: The CoreConfig object
     ///   - returnURL: The return URL provided to the PayPal Native UI experience. Used as part of the authentication process to identify your application. This value should match the one set in the `Return URLs` section of your application's dashboard on your [PayPal developer account](https://developer.paypal.com)
-    public init(config: CoreConfig, returnURL: String) {
+    public convenience init(config: CoreConfig, returnURL: String) {
+        self.init(config: config, returnURL: returnURL, checkoutFlow: Checkout.self)
+    }
+
+    init(config: CoreConfig, returnURL: String, checkoutFlow: PayPalUIFlow.Type) {
         self.config = config
         self.returnURL = returnURL
+        self.CheckoutFlow = checkoutFlow
     }
 
     /// Present PayPal Paysheet and start a PayPal transaction
@@ -57,8 +66,14 @@ public class PayPalClient {
             completion(.failure(error: PayPalError.nativeCheckoutSDKError(errorInfo)))
         }
 
-        Checkout.set(config: nativeCheckoutSDKConfig)
+        CheckoutFlow.set(config: nativeCheckoutSDKConfig)
 
-        Checkout.start(presentingViewController: presentingViewController)
+        CheckoutFlow.start(
+            presentingViewController: presentingViewController,
+            createOrder: nil,
+            onApprove: nil,
+            onCancel: nil,
+            onError: nil
+        )
     }
 }

@@ -22,6 +22,7 @@
 		3D25238427344F330099E4EB /* PayPalUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25238127344F330099E4EB /* PayPalUIFlow.swift */; };
 		3D25238527344F330099E4EB /* PayPalErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25238227344F330099E4EB /* PayPalErrorType.swift */; };
 		3D25238627344F330099E4EB /* PayPalApproval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25238327344F330099E4EB /* PayPalApproval.swift */; };
+		3D252388273477DA0099E4EB /* PayPalCreateOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D252387273477DA0099E4EB /* PayPalCreateOrder.swift */; };
 		3DC42BA927187E8300B71645 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC42BA827187E8300B71645 /* ErrorResponse.swift */; };
 		8034A9E726B875C90055AF13 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; };
 		8036C1E3270F9BE700C0F091 /* AccessTokenRequest_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036C1DF270F9BE700C0F091 /* AccessTokenRequest_Tests.swift */; };
@@ -95,6 +96,7 @@
 		3D25238127344F330099E4EB /* PayPalUIFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PayPalUIFlow.swift; path = Sources/PayPal/PayPalUIInterfaces/PayPalUIFlow.swift; sourceTree = SOURCE_ROOT; };
 		3D25238227344F330099E4EB /* PayPalErrorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PayPalErrorType.swift; path = Sources/PayPal/PayPalUIInterfaces/PayPalErrorType.swift; sourceTree = SOURCE_ROOT; };
 		3D25238327344F330099E4EB /* PayPalApproval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PayPalApproval.swift; path = Sources/PayPal/PayPalUIInterfaces/PayPalApproval.swift; sourceTree = SOURCE_ROOT; };
+		3D252387273477DA0099E4EB /* PayPalCreateOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalCreateOrder.swift; sourceTree = "<group>"; };
 		3DC42BA827187E8300B71645 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		8034A9E326B875C90055AF13 /* PaymentsCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaymentsCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8036C1DF270F9BE700C0F091 /* AccessTokenRequest_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccessTokenRequest_Tests.swift; path = UnitTests/PaymentsCoreTests/AccessTokenRequest_Tests.swift; sourceTree = SOURCE_ROOT; };
@@ -246,6 +248,7 @@
 			isa = PBXGroup;
 			children = (
 				3D25238327344F330099E4EB /* PayPalApproval.swift */,
+				3D252387273477DA0099E4EB /* PayPalCreateOrder.swift */,
 				3D25238227344F330099E4EB /* PayPalErrorType.swift */,
 				3D25238127344F330099E4EB /* PayPalUIFlow.swift */,
 			);
@@ -733,6 +736,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D25238427344F330099E4EB /* PayPalUIFlow.swift in Sources */,
+				3D252388273477DA0099E4EB /* PayPalCreateOrder.swift in Sources */,
 				065EBD8A272862EE001E81C4 /* PayPalCheckoutResult.swift in Sources */,
 				3D25238527344F330099E4EB /* PayPalErrorType.swift in Sources */,
 				3D25238627344F330099E4EB /* PayPalApproval.swift in Sources */,
