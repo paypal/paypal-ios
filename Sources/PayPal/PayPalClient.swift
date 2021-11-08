@@ -43,7 +43,7 @@ public class PayPalClient {
         completion: @escaping (PayPalCheckoutResult) -> Void
     ) {
         CheckoutFlow.set(config: config, returnURL: returnURL)
-        
+
         CheckoutFlow.start(
             presentingViewController: presentingViewController,
             createOrder: { order in
