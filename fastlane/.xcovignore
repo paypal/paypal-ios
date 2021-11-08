@@ -1,0 +1,2 @@
+# Exclude PayPal Interfaces
+- Sources/PayPal/PayPalUIInterfaces
