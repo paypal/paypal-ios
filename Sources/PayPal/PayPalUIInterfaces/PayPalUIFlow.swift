@@ -1,7 +1,10 @@
 import Foundation
 import UIKit
 @_implementationOnly import PayPalCheckout
+
+#if canImport(PaymentsCore)
 import PaymentsCore
+#endif
 
 protocol PayPalUIFlow {
     typealias CreateOrderCallback = (PayPalCreateOrder) -> Void
