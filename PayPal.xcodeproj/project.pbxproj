@@ -23,6 +23,7 @@
 		3D25238527344F330099E4EB /* PayPalErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25238227344F330099E4EB /* PayPalErrorType.swift */; };
 		3D25238627344F330099E4EB /* PayPalApproval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25238327344F330099E4EB /* PayPalApproval.swift */; };
 		3D252388273477DA0099E4EB /* PayPalCreateOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D252387273477DA0099E4EB /* PayPalCreateOrder.swift */; };
+		3D25238C273979170099E4EB /* MockCheckout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25238B273979170099E4EB /* MockCheckout.swift */; };
 		3DC42BA927187E8300B71645 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC42BA827187E8300B71645 /* ErrorResponse.swift */; };
 		8034A9E726B875C90055AF13 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; };
 		8036C1E3270F9BE700C0F091 /* AccessTokenRequest_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036C1DF270F9BE700C0F091 /* AccessTokenRequest_Tests.swift */; };
@@ -97,6 +98,7 @@
 		3D25238227344F330099E4EB /* PayPalErrorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PayPalErrorType.swift; path = Sources/PayPal/PayPalUIInterfaces/PayPalErrorType.swift; sourceTree = SOURCE_ROOT; };
 		3D25238327344F330099E4EB /* PayPalApproval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PayPalApproval.swift; path = Sources/PayPal/PayPalUIInterfaces/PayPalApproval.swift; sourceTree = SOURCE_ROOT; };
 		3D252387273477DA0099E4EB /* PayPalCreateOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalCreateOrder.swift; sourceTree = "<group>"; };
+		3D25238B273979170099E4EB /* MockCheckout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCheckout.swift; sourceTree = "<group>"; };
 		3DC42BA827187E8300B71645 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		8034A9E326B875C90055AF13 /* PaymentsCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaymentsCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8036C1DF270F9BE700C0F091 /* AccessTokenRequest_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccessTokenRequest_Tests.swift; path = UnitTests/PaymentsCoreTests/AccessTokenRequest_Tests.swift; sourceTree = SOURCE_ROOT; };
@@ -377,6 +379,7 @@
 		OBJ_11 /* PayPalTests */ = {
 			isa = PBXGroup;
 			children = (
+				3D25238B273979170099E4EB /* MockCheckout.swift */,
 				067C92E427270FDE009E3054 /* PayPalEnvironment_Tests.swift */,
 				065EBD8B272865E4001E81C4 /* PayPalClient_Tests.swift */,
 			);
@@ -784,6 +787,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				3D25238C273979170099E4EB /* MockCheckout.swift in Sources */,
 				067C92E527270FDE009E3054 /* PayPalEnvironment_Tests.swift in Sources */,
 				065EBD8C272865E4001E81C4 /* PayPalClient_Tests.swift in Sources */,
 			);

@@ -1,5 +1,3 @@
-@_implementationOnly import PayPalCheckout
-
 #if canImport(PaymentsCore)
 import PaymentsCore
 #endif
@@ -19,7 +17,7 @@ enum PayPalError {
         case cancelled
     }
 
-    static let nativeCheckoutSDKError: (ErrorInfo) -> PayPalSDKError = { errorInfo in
+    static let nativeCheckoutSDKError: (PayPalCheckoutErrorInfo) -> PayPalSDKError = { errorInfo in
         PayPalSDKError(
             code: Code.nativeCheckoutSDKError.rawValue,
             domain: domain,
