@@ -6,7 +6,7 @@ import UIKit
 import PaymentsCore
 #endif
 
-protocol PayPalUIFlow {
+protocol CheckoutProtocol {
     typealias CreateOrderCallback = (PayPalCreateOrder) -> Void
     typealias ApprovalCallback = (PayPalCheckoutApprovalData) -> Void
     typealias CancelCallback = () -> Void
@@ -23,7 +23,7 @@ protocol PayPalUIFlow {
     )
 }
 
-extension Checkout: PayPalUIFlow {
+extension Checkout: CheckoutProtocol {
     static func set(config: CoreConfig, returnURL: String) {
         let nxoConfig = CheckoutConfig(
             clientID: config.clientID,

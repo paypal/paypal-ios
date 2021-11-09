@@ -13,7 +13,7 @@ public class PayPalClient {
     private let returnURL: String
 
     // swiftlint:disable identifier_name
-    private let CheckoutFlow: PayPalUIFlow.Type
+    private let CheckoutFlow: CheckoutProtocol.Type
     // swiftlint:enable identifier_name
 
     /// Initialize a PayPalClient to process PayPal transaction
@@ -26,7 +26,7 @@ public class PayPalClient {
         self.CheckoutFlow = Checkout.self
     }
 
-    init(config: CoreConfig, returnURL: String, checkoutFlow: PayPalUIFlow.Type) {
+    init(config: CoreConfig, returnURL: String, checkoutFlow: CheckoutProtocol.Type) {
         self.config = config
         self.returnURL = returnURL
         self.CheckoutFlow = checkoutFlow
@@ -57,7 +57,8 @@ public class PayPalClient {
                 completion(.success(result: payPalResult))
             },
             onCancel: {
-                completion(.failure(error: PayPalError.cancelled))
+                completion(.cancellation)
+
             },
             onError: { errorInfo in
                 completion(.failure(error: PayPalError.nativeCheckoutSDKError(errorInfo)))

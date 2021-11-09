@@ -4,7 +4,7 @@ import UIKit
 @testable import PayPal
 @testable import PaymentsCore
 
-class MockCheckout: PayPalUIFlow {
+class MockCheckout: CheckoutProtocol {
     static var onApprove: ApprovalCallback?
     static var onCancel: CancelCallback?
     static var onError: ErrorCallback?

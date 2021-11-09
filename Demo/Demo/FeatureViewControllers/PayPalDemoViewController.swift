@@ -70,6 +70,9 @@ class PayPalDemoViewController: FeatureBaseViewController {
             case .failure(let error):
                 self.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
                 print("❌ There was an error: \(error)")
+            case .cancellation:
+                self.updateTitle("\(DemoSettings.intent) cancelled")
+                print("❌ Buyer has cancelled the PayPal flow")
             }
         }
     }

@@ -24,6 +24,8 @@ class PayPalClient_Tests: XCTestCase {
                 XCTAssertEqual(approvalResult.payerID, approval.payerID)
             case .failure:
                 XCTFail()
+            case .cancellation:
+                XCTFail()
             }
         }
 
@@ -35,15 +37,12 @@ class PayPalClient_Tests: XCTestCase {
             switch result {
             case .success:
                 XCTFail()
-            case .failure(let error):
-                let cancelledError = PayPalError.cancelled
-                XCTAssertEqual(error.code, cancelledError.code)
-                XCTAssertEqual(error.domain, cancelledError.domain)
-                XCTAssertEqual(error.errorDescription, cancelledError.errorDescription)
+            case .failure:
+                XCTFail()
+            case .cancellation:
+                MockCheckout.triggerCancel()
             }
         }
-
-        MockCheckout.triggerCancel()
     }
 
     func testStart_whenNativeSDKOnErrorCalled_returnsCheckoutError() {
@@ -57,6 +56,8 @@ class PayPalClient_Tests: XCTestCase {
                 XCTAssertEqual(sdkError.code, PayPalError.Code.nativeCheckoutSDKError.rawValue)
                 XCTAssertEqual(sdkError.domain, PayPalError.domain)
                 XCTAssertEqual(sdkError.errorDescription, error.reason)
+            case .cancellation:
+                XCTFail()
             }
         }
 
