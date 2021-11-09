@@ -58,7 +58,6 @@ public class PayPalClient {
             },
             onCancel: {
                 completion(.cancellation)
-
             },
             onError: { errorInfo in
                 completion(.failure(error: PayPalError.nativeCheckoutSDKError(errorInfo)))
