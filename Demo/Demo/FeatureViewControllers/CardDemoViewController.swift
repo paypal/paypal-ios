@@ -4,16 +4,6 @@ import Card
 
 class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
-    // MARK: - PayPal SDK Setup
-
-    var coreConfig: CoreConfig {
-        CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
-    }
-
-    var cardClient: CardClient {
-        CardClient(config: coreConfig)
-    }
-
     // MARK: - UI Components
 
     let cardFormStackView: UIStackView = {
@@ -127,6 +117,13 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
             updateTitle("Failed: missing card / orderID.")
             return
         }
+
+        checkoutWithCard(card, orderID: orderID)
+    }
+
+    func checkoutWithCard(_ card: Card, orderID: String) {
+        let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
+        let cardClient = CardClient(config: config)
 
         cardClient.approveOrder(orderID: orderID, card: card) { result in
             switch result {

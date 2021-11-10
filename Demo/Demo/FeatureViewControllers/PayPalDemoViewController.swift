@@ -4,10 +4,6 @@ import PaymentsCore
 
 class PayPalDemoViewController: FeatureBaseViewController {
 
-    // MARK: - SDK Setup
-
-    let config = CoreConfig(clientID: DemoSettings.clientID, environment: .sandbox)
-
     // MARK: - UI Components
 
     lazy var payPalButton: CustomButton = {
@@ -60,6 +56,7 @@ class PayPalDemoViewController: FeatureBaseViewController {
     }
 
     func checkoutWithPayPal(orderID: String) {
+        let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
         let payPalClient = PayPalClient(config: config, returnURL: DemoSettings.paypalReturnUrl)
 
         payPalClient.start(orderID: orderID, presentingViewController: self) { [weak self] state in
