@@ -60,7 +60,8 @@ class PayPalDemoViewController: FeatureBaseViewController {
     }
 
     func checkoutWithPayPal(orderID: String) {
-        let payPalClient = PayPalClient(config: config, returnURL: "")
+        let payPalClient = PayPalClient(config: config, returnURL: DemoSettings.paypalReturnUrl)
+
         payPalClient.start(orderID: orderID, presentingViewController: self) { [weak self] state in
             guard let self = self else { return }
             switch state {
