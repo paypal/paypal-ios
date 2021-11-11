@@ -1,7 +1,7 @@
 import XCTest
 @testable import Card
 
-final class Card_Tests: XCTestCase {
+class Card_Tests: XCTestCase {
     func testCard_setsProperExpiryStringFormat() {
         let card = Card(
             number: "4111111111111111",

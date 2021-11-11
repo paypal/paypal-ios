@@ -3,7 +3,7 @@ import XCTest
 @testable import PaymentsCore
 @testable import Card
 
-final class ConfirmPaymentSourceRequest_Tests: XCTestCase {
+class ConfirmPaymentSourceRequest_Tests: XCTestCase {
 
     func testEncodingPaymentSource_withValidCardDictionary_expectsValidPaymentSourceBody() throws {
         let card = Card(

@@ -4,19 +4,7 @@ import Card
 
 class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
-    // MARK: - PayPal SDK Setup
-
-    var coreConfig: CoreConfig {
-        CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
-    }
-
-    var cardClient: CardClient {
-        CardClient(config: coreConfig)
-    }
-
     // MARK: - UI Components
-
-    typealias Constants = FeatureBaseViewController.Constants
 
     let cardFormStackView: UIStackView = {
         let view = UIStackView()
@@ -130,10 +118,17 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
             return
         }
 
+        checkoutWithCard(card, orderID: orderID)
+    }
+
+    func checkoutWithCard(_ card: Card, orderID: String) {
+        let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
+        let cardClient = CardClient(config: config)
+
         cardClient.approveOrder(orderID: orderID, card: card) { result in
             switch result {
             case .success(let result):
-                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: \(result.status.rawValue)")
+                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
                 self.processOrder(orderID: result.orderID) {
                     self.payButton.stopAnimating()
                 }

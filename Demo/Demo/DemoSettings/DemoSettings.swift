@@ -30,4 +30,14 @@ enum DemoSettings {
             return "TODO"
         }
     }
+
+    static var paypalReturnUrl: String {
+        switch environment {
+        case .sandbox:
+            return "northstar://paypalpay"
+        case .production:
+            // TODO: Investigate getting a prod testing account that doesn't charge real money
+            return "TODO"
+        }
+    }
 }
