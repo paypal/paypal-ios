@@ -40,7 +40,6 @@ public class CardClient {
                 case .success(let response):
                     let cardResult = CardResult(
                         orderID: response.id,
-                        status: response.status,
                         lastFourDigits: response.paymentSource.card.lastDigits,
                         brand: response.paymentSource.card.brand,
                         type: response.paymentSource.card.type

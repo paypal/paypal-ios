@@ -7,7 +7,6 @@ import PaymentsCore
 
 struct ConfirmPaymentSourceResponse: Decodable {
     let id: String
-    let status: OrderStatus
     let paymentSource: PaymentSource
 }
 

@@ -32,6 +32,7 @@ Pods
 Carthage/
 
 # SPM
+Package.resolved
 .swiftpm
 .build
 */xcshareddata/swiftpm
