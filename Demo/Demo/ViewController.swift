@@ -2,6 +2,7 @@ import UIKit
 import Card
 import PayPal
 import InAppSettingsKit
+import SwiftUI
 
 class ViewController: UIViewController {
 
@@ -29,13 +30,32 @@ class ViewController: UIViewController {
     }
 
     func displayDemoFeatureViewController() {
-        let demoViewControllerType = DemoSettings.demoType.viewController
-        let demoViewController = demoViewControllerType.init()
-        demoViewController.modalPresentationStyle = .fullScreen
+        switch DemoSettings.demoUIFramework {
+        case .uikit:
+            let demoViewControllerType = DemoSettings.demoType.viewController
+            let demoViewController = demoViewControllerType.init()
+            demoViewController.modalPresentationStyle = .fullScreen
 
-        navigationItem.title = DemoSettings.demoType.rawValue.uppercased()
+            navigationItem.title = DemoSettings.demoType.rawValue.uppercased()
 
-        addChild(demoViewController)
-        view.addSubview(demoViewController.view)
+            addChild(demoViewController)
+            view.addSubview(demoViewController.view)
+        case .swiftui:
+            let swiftUIController = UIHostingController(rootView: SwiftUICardDemoView())
+            swiftUIController.modalPresentationStyle = .fullScreen
+            swiftUIController.view.translatesAutoresizingMaskIntoConstraints = false
+
+            navigationItem.title = "SwiftUI Demo"
+            
+            addChild(swiftUIController)
+            view.addSubview(swiftUIController.view)
+            
+            NSLayoutConstraint.activate([
+                swiftUIController.view.topAnchor.constraint(equalTo: view.topAnchor),
+                swiftUIController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                swiftUIController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                swiftUIController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            ])
+        }
     }
 }
