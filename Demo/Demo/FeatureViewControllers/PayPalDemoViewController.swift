@@ -2,24 +2,19 @@ import UIKit
 import PayPal
 import PaymentsCore
 
-class PayPalDemoViewController: FeatureBaseViewController {
+class PayPalDemoViewController: FeatureBaseViewController, PaymentButtonDelegate {
 
     // MARK: - UI Components
-
-    lazy var payPalButton: CustomButton = {
-        let payPalButton = CustomButton(title: "PayPal")
-        payPalButton.addTarget(self, action: #selector(didTapPayPalButton), for: .touchUpInside)
-        payPalButton.layer.cornerRadius = 8
-        payPalButton.backgroundColor = .systemBlue
-        payPalButton.tintColor = .white
-        payPalButton.isEnabled = false
-        return payPalButton
-    }()
+    
+    let payPalButton = PayPalButton()
 
     // MARK: - View Lifecycle & UI Setup
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        payPalButton.delegate = self
+        payPalButton.addTarget(self, action: #selector(paymentButtonTapped), for: .touchUpInside)
 
         view.addSubview(payPalButton)
         view.backgroundColor = .systemBackground
@@ -50,8 +45,8 @@ class PayPalDemoViewController: FeatureBaseViewController {
     }
 
     // MARK: - PayPal Module Integration
-
-    @objc func didTapPayPalButton() {
+    
+    @objc func paymentButtonTapped() {
         checkoutWithPayPal(orderID: orderID ?? "")
     }
 
