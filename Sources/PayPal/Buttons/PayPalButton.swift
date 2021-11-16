@@ -1,5 +1,6 @@
 import UIKit
 
+// Configuration for PayPal Credit button
 public class PayPalButton: PaymentButton {
 
     // MARK: - Init

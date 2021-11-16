@@ -5,10 +5,13 @@ enum PayPalButtonType {
     case payPalCredit
 }
 
+// Handles functionality shared across payment buttons
 public class PaymentButton: UIButton {
 
     // asset identfier path for image and color button assets
     private let bundleIdentifier = Bundle(identifier: "com.paypal.ios-sdk.PayPal")
+
+    // MARK: - Internal Helper Functions
 
     func getButtonColor(for buttonType: PayPalButtonType) -> UIColor? {
         switch buttonType {
@@ -38,6 +41,9 @@ public class PaymentButton: UIButton {
         )
     }
 
+    // MARK: - Override Function
+
+    // Once we layout our subviews, we need to update the logo with the button frame
     public override func layoutSubviews() {
         super.layoutSubviews()
         imageView?.contentMode = .scaleAspectFit
