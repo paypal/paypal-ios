@@ -7,7 +7,7 @@ class PaymentButton_Tests: XCTestCase {
 
     func testInit_whenPayPalButtonCreated_hasUIImageFromAssets() {
         let payPalButton = PayPalButton()
-        XCTAssertEqual(payPalButton.imageView?.image, paymentButton.getButtonLogo(for: .payPal))        
+        XCTAssertEqual(payPalButton.imageView?.image, paymentButton.getButtonLogo(for: .payPal))
     }
 
     func testInit_whenPayPalCreditButtonCreated_hasUIImageFromAssets() {
