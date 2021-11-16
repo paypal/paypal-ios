@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "paypal_color@2x-1.png",
+      "filename" : "paypal-credit-monochrome.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "paypal_color@2x.png",
+      "filename" : "paypal-credit-monochrome@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "paypal_color@3x.png",
+      "filename" : "paypal-credit-monochrome@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

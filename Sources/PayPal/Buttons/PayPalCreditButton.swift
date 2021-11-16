@@ -1,6 +1,6 @@
 import UIKit
 
-public class PayPalButton: UIButton {
+public class PayPalCreditButton: UIButton {
 
     // delegate to hook into the button
     public weak var delegate: PaymentButtonDelegate?
@@ -13,8 +13,8 @@ public class PayPalButton: UIButton {
         super.init(frame: .zero)
         
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = paymentButtons.getButtonColor(for: .payPal)
-        setImage(paymentButtons.getButtonLogo(for: .payPal), for: .normal)
+        backgroundColor = paymentButtons.getButtonColor(for: .payPalCredit)
+        setImage(paymentButtons.getButtonLogo(for: .payPalCredit), for: .normal)
         layer.cornerRadius = 4.0
     }
     

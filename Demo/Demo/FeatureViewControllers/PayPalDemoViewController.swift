@@ -7,6 +7,8 @@ class PayPalDemoViewController: FeatureBaseViewController, PaymentButtonDelegate
     // MARK: - UI Components
     
     let payPalButton = PayPalButton()
+    
+    let payPalCreditButton = PayPalCreditButton()
 
     // MARK: - View Lifecycle & UI Setup
 
@@ -14,9 +16,13 @@ class PayPalDemoViewController: FeatureBaseViewController, PaymentButtonDelegate
         super.viewDidLoad()
         
         payPalButton.delegate = self
+        payPalCreditButton.delegate = self
+
         payPalButton.addTarget(self, action: #selector(paymentButtonTapped), for: .touchUpInside)
+        payPalCreditButton.addTarget(self, action: #selector(paymentButtonTapped), for: .touchUpInside)
 
         view.addSubview(payPalButton)
+        view.addSubview(payPalCreditButton)
         view.backgroundColor = .systemBackground
 
         setupConstraints()
@@ -26,8 +32,13 @@ class PayPalDemoViewController: FeatureBaseViewController, PaymentButtonDelegate
         NSLayoutConstraint.activate([
             payPalButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.layoutSpacing),
             payPalButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.layoutSpacing),
-            payPalButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            payPalButton.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight)
+            payPalButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 50),
+            payPalButton.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
+            
+            payPalCreditButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.layoutSpacing),
+            payPalCreditButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.layoutSpacing),
+            payPalCreditButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
+            payPalCreditButton.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight)
         ])
     }
 
