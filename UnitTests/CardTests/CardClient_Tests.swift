@@ -4,9 +4,10 @@ import XCTest
 @testable import TestShared
 
 class CardClient_Tests: XCTestCase {
-    
+
     // MARK: - Helper Properties
-    
+
+    // swiftlint:disable:next force_unwrapping
     let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])
     let card = Card(
         number: "411111111111",
@@ -15,25 +16,27 @@ class CardClient_Tests: XCTestCase {
         securityCode: "123"
     )
     let config = CoreConfig(clientID: "", environment: .sandbox)
-    
+
+    // swiftlint:disable implicitly_unwrapped_optional
     var mockURLSession: MockURLSession!
     var apiClient: APIClient!
     var cardClient: CardClient!
-    
+    // swiftlint:enable implicitly_unwrapped_optional
+
     // MARK: - Test lifecycle
-    
+
     override func setUp() {
         super.setUp()
-        
+
         mockURLSession = MockURLSession()
         mockURLSession.cannedError = nil
         mockURLSession.cannedURLResponse = nil
         mockURLSession.cannedJSONData = nil
-        
+
         apiClient = APIClient(urlSession: mockURLSession, environment: .sandbox)
         cardClient = CardClient(config: config, apiClient: apiClient)
     }
-    
+
     // MARK: - approveOrder() tests
 
     func testApproveOrder_withValidJSONRequest_returnsOrderData() {
@@ -63,10 +66,10 @@ class CardClient_Tests: XCTestCase {
                 XCTAssertEqual(cardResult.brand, "VISA")
                 XCTAssertEqual(cardResult.lastFourDigits, "7321")
                 XCTAssertEqual(cardResult.type, "CREDIT")
-            case .failure(_):
+            case .failure:
                 XCTFail()
             }
-            
+
             expect.fulfill()
         }
 
@@ -87,7 +90,7 @@ class CardClient_Tests: XCTestCase {
 
         cardClient.approveOrder(orderID: "", card: card) { result in
             switch result {
-            case .success(_):
+            case .success:
                 XCTFail()
             case .failure(let error):
                 XCTAssertEqual(error.domain, APIClientError.domain)
@@ -100,5 +103,4 @@ class CardClient_Tests: XCTestCase {
 
         waitForExpectations(timeout: 1)
     }
-
 }

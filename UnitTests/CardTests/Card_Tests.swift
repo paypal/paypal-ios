@@ -2,6 +2,7 @@ import XCTest
 @testable import Card
 
 class Card_Tests: XCTestCase {
+
     func testCard_setsProperExpiryStringFormat() {
         let card = Card(
             number: "4111111111111111",
@@ -9,7 +10,7 @@ class Card_Tests: XCTestCase {
             expirationYear: "2031",
             securityCode: "123"
         )
-        
+
         XCTAssertEqual(card.expiry, "2031-01")
     }
 
@@ -33,9 +34,11 @@ class Card_Tests: XCTestCase {
         let encodedCard = try JSONEncoder().encode(card)
         let cardJSON = String(data: encodedCard, encoding: .utf8)
 
+        // swiftlint:disable line_length
         let expectedCardJSON = """
         {"number":"4111111111111111","billingAddress":{"admin_area_2":"Test City","addressLine1":"Test Line 1","countryCode":"Test Country","addressLine2":"Test Line 2","admin_area_1":"Test State","postalCode":"Test Zip"},"securityCode":"123","name":"Test Name","expiry":"2031-01"}
         """
+        // swiftlint:enable line_length
 
         XCTAssertEqual(cardJSON, expectedCardJSON)
     }

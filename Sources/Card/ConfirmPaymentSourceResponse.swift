@@ -1,3 +1,5 @@
+// swiftlint:disable space_after_main_type
+
 import Foundation
 #if canImport(PaymentsCore)
 import PaymentsCore
