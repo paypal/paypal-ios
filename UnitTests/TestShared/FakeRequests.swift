@@ -2,11 +2,12 @@ import Foundation
 import PaymentsCore
 
 public struct FakeResponse: Codable {
+
     var fakeParam: String
 }
 
 class FakeRequest: APIRequest {
-    
+
     typealias ResponseType = FakeResponse
 
     public var path = "/fake-path"
@@ -20,9 +21,8 @@ class FakeRequest: APIRequest {
 }
 
 class FakeRequestNoURL: FakeRequest {
-    
+
     override func toURLRequest(environment: Environment) -> URLRequest? {
         return nil
     }
 }
-

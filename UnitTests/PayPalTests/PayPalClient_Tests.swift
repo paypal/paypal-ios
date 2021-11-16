@@ -70,4 +70,3 @@ class PayPalClient_Tests: XCTestCase {
         // when the NXO SDK has a config object already set on it
     }
 }
-
