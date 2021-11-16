@@ -2,21 +2,21 @@ import UIKit
 import PayPal
 import PaymentsCore
 
-class PayPalDemoViewController: FeatureBaseViewController, PaymentButtonDelegate {
+class PayPalDemoViewController: FeatureBaseViewController {
 
     // MARK: - UI Components
-    
+
     let payPalButton = PayPalButton()
-    
+
     let payPalCreditButton = PayPalCreditButton()
 
     // MARK: - View Lifecycle & UI Setup
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        payPalButton.delegate = self
-        payPalCreditButton.delegate = self
+
+        payPalButton.layer.cornerRadius = 4.0
+        payPalCreditButton.layer.cornerRadius = 4.0
 
         payPalButton.addTarget(self, action: #selector(paymentButtonTapped), for: .touchUpInside)
         payPalCreditButton.addTarget(self, action: #selector(paymentButtonTapped), for: .touchUpInside)
@@ -34,7 +34,7 @@ class PayPalDemoViewController: FeatureBaseViewController, PaymentButtonDelegate
             payPalButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.layoutSpacing),
             payPalButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 50),
             payPalButton.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
-            
+
             payPalCreditButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.layoutSpacing),
             payPalCreditButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.layoutSpacing),
             payPalCreditButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
@@ -56,7 +56,7 @@ class PayPalDemoViewController: FeatureBaseViewController, PaymentButtonDelegate
     }
 
     // MARK: - PayPal Module Integration
-    
+
     @objc func paymentButtonTapped() {
         checkoutWithPayPal(orderID: orderID ?? "")
     }
