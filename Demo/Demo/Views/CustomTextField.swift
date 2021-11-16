@@ -1,6 +1,7 @@
 import UIKit
 
 class CustomTextField: UITextField {
+
     convenience init(placeholderText: String? = nil, defaultValue: String? = nil) {
         self.init(frame: .zero)
 

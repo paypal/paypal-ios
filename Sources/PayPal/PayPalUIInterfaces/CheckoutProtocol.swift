@@ -24,6 +24,7 @@ protocol CheckoutProtocol {
 }
 
 extension Checkout: CheckoutProtocol {
+
     static func set(config: CoreConfig, returnURL: String) {
         let nxoConfig = CheckoutConfig(
             clientID: config.clientID,
