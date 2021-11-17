@@ -1,6 +1,6 @@
 import UIKit
 
-// Configuration for PayPal Credit button
+/// Configuration for PayPal Credit button
 public class PayPalCreditButton: PaymentButton {
 
     // MARK: - Init
@@ -17,8 +17,4 @@ public class PayPalCreditButton: PaymentButton {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    // MARK: - Deinit
-
-    deinit { }
 }

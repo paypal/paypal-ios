@@ -5,7 +5,7 @@ enum PayPalButtonType {
     case payPalCredit
 }
 
-// Handles functionality shared across payment buttons
+/// Handles functionality shared across payment buttons
 public class PaymentButton: UIButton {
 
     // asset identfier path for image and color button assets
@@ -43,7 +43,7 @@ public class PaymentButton: UIButton {
 
     // MARK: - Override Function
 
-    // Once we layout our subviews, we need to update the logo with the button frame
+    /// Once we layout our subviews, we need to update the logo with the button frame
     public override func layoutSubviews() {
         super.layoutSubviews()
         imageView?.contentMode = .scaleAspectFit
