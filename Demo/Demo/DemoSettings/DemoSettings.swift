@@ -21,7 +21,7 @@ enum DemoSettings {
         UserDefaults.standard.string(forKey: DemoTypeDefaultsKey)
             .flatMap { DemoType(rawValue: $0) } ?? .card
     }
-    
+
     static var demoUIFramework: DemoUIFramework {
         UserDefaults.standard.string(forKey: DemoUIFrameworkKey)
             .flatMap { DemoUIFramework(rawValue: $0) } ?? .uikit

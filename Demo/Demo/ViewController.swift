@@ -41,20 +41,21 @@ class ViewController: UIViewController {
             addChild(demoViewController)
             view.addSubview(demoViewController.view)
         case .swiftui:
-            let swiftUIController = UIHostingController(rootView: SwiftUICardDemoView())
-            swiftUIController.modalPresentationStyle = .fullScreen
+            let swiftUIController = UIHostingController(rootView: SwiftUICardDemo())
             swiftUIController.view.translatesAutoresizingMaskIntoConstraints = false
+//            swiftUIController.modalPresentationStyle = .fullScreen
+//            swiftUIController.didMove(toParent: self)
 
             navigationItem.title = "SwiftUI Demo"
-            
+
             addChild(swiftUIController)
             view.addSubview(swiftUIController.view)
-            
+
             NSLayoutConstraint.activate([
                 swiftUIController.view.topAnchor.constraint(equalTo: view.topAnchor),
                 swiftUIController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                 swiftUIController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                swiftUIController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                swiftUIController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             ])
         }
     }
