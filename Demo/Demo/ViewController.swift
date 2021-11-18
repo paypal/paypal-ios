@@ -43,8 +43,6 @@ class ViewController: UIViewController {
         case .swiftui:
             let swiftUIController = UIHostingController(rootView: SwiftUICardDemo())
             swiftUIController.view.translatesAutoresizingMaskIntoConstraints = false
-//            swiftUIController.modalPresentationStyle = .fullScreen
-//            swiftUIController.didMove(toParent: self)
 
             navigationItem.title = "SwiftUI Demo"
 

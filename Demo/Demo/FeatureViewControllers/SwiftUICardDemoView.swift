@@ -3,13 +3,15 @@ import SwiftUI
 @available(iOS 13.0.0, *)
 struct SwiftUICardDemo: View {
 
+    // TODO: enable button once all fields are filled out
+    // TODO: integrate card module
+    // TODO: Update focus to be able to tab from field to field in HStack
+
     @State private var cardNumberText: String = ""
     @State private var expirationDateText: String = ""
     @State private var cvvText: String = ""
 
     @State private var isEnabled = false
-    
-    private let cardFormatter = CardFormatter()
 
     var body: some View {
         ZStack {
