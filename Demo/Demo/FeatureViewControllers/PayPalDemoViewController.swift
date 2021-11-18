@@ -6,20 +6,24 @@ class PayPalDemoViewController: FeatureBaseViewController {
 
     // MARK: - UI Components
 
-    let payPalButton = PayPalButton()
+    lazy var payPalButton: PayPalButton = {
+        let payPalButton = PayPalButton()
+        payPalButton.addTarget(self, action: #selector(paymentButtonTapped), for: .touchUpInside)
+        payPalButton.layer.cornerRadius = 4.0
+        return payPalButton
+    }()
 
-    let payPalCreditButton = PayPalCreditButton()
+    lazy var payPalCreditButton: PayPalCreditButton = {
+        let payPalCreditButton = PayPalCreditButton()
+        payPalCreditButton.addTarget(self, action: #selector(paymentButtonTapped), for: .touchUpInside)
+        payPalCreditButton.layer.cornerRadius = 4.0
+        return payPalCreditButton
+    }()
 
     // MARK: - View Lifecycle & UI Setup
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        payPalButton.layer.cornerRadius = 4.0
-        payPalCreditButton.layer.cornerRadius = 4.0
-
-        payPalButton.addTarget(self, action: #selector(paymentButtonTapped), for: .touchUpInside)
-        payPalCreditButton.addTarget(self, action: #selector(paymentButtonTapped), for: .touchUpInside)
 
         view.addSubview(payPalButton)
         view.addSubview(payPalCreditButton)

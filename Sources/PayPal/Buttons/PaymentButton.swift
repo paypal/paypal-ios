@@ -11,6 +11,15 @@ public class PaymentButton: UIButton {
     // asset identfier path for image and color button assets
     private let bundleIdentifier = Bundle(identifier: "com.paypal.ios-sdk.PayPal")
 
+    // MARK: - Override Function
+
+    /// Once we layout our subviews, we need to update the logo with the button frame
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        imageView?.contentMode = .scaleAspectFit
+        imageEdgeInsets = getLogoImageInsets()
+    }
+
     // MARK: - Internal Helper Functions
 
     func getButtonColor(for buttonType: PayPalButtonType) -> UIColor? {
@@ -31,22 +40,14 @@ public class PaymentButton: UIButton {
         }
     }
 
-    func setLogoImageSize() -> UIEdgeInsets {
+    func getLogoImageInsets() -> UIEdgeInsets {
         let buttonSize = frame.size
+        let insetScaleRatio: CGFloat = 4.0
         return UIEdgeInsets(
-            top: buttonSize.height / 4,
-            left: buttonSize.width / 4,
-            bottom: buttonSize.height / 4,
-            right: buttonSize.width / 4
+            top: buttonSize.height / insetScaleRatio,
+            left: buttonSize.width / insetScaleRatio,
+            bottom: buttonSize.height / insetScaleRatio,
+            right: buttonSize.width / insetScaleRatio
         )
-    }
-
-    // MARK: - Override Function
-
-    /// Once we layout our subviews, we need to update the logo with the button frame
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-        imageView?.contentMode = .scaleAspectFit
-        imageEdgeInsets = setLogoImageSize()
     }
 }

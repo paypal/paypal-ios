@@ -3,8 +3,6 @@ import UIKit
 /// Configuration for PayPal button
 public class PayPalButton: PaymentButton {
 
-    // MARK: - Init
-
     public init() {
         super.init(frame: .zero)
 
