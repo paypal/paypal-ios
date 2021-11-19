@@ -1,15 +1,24 @@
 import UIKit
 
-enum PayPalButtonType {
-    case payPal
-    case payPalCredit
-}
-
 /// Handles functionality shared across payment buttons
 public class PaymentButton: UIButton {
 
     // asset identfier path for image and color button assets
-    private let bundleIdentifier = Bundle(identifier: "com.paypal.ios-sdk.PayPal")
+    static var bundle = Bundle(identifier: "com.paypal.ios-sdk.PayPal")
+
+    // MARK: - Init
+
+    init(color: PaymentButtonColor, image: PaymentButtonImage) {
+        super.init(frame: .zero)
+
+        translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = color.rawValue
+        setImage(image.rawValue, for: .normal)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     // MARK: - Override Function
 
@@ -22,25 +31,7 @@ public class PaymentButton: UIButton {
 
     // MARK: - Internal Helper Functions
 
-    func getButtonColor(for buttonType: PayPalButtonType) -> UIColor? {
-        switch buttonType {
-        case .payPal:
-            return UIColor(named: "PayPalGold", in: bundleIdentifier, compatibleWith: nil)
-        case .payPalCredit:
-            return UIColor(named: "PayPalDarkBlue", in: bundleIdentifier, compatibleWith: nil)
-        }
-    }
-
-    func getButtonLogo(for buttonType: PayPalButtonType) -> UIImage? {
-        switch buttonType {
-        case .payPal:
-            return UIImage(named: "PayPalLogo", in: bundleIdentifier, compatibleWith: nil)
-        case .payPalCredit:
-            return UIImage(named: "PayPalCreditLogo", in: bundleIdentifier, compatibleWith: nil)
-        }
-    }
-
-    func getLogoImageInsets() -> UIEdgeInsets {
+    private func getLogoImageInsets() -> UIEdgeInsets {
         let buttonSize = frame.size
         let insetScaleRatio: CGFloat = 4.0
         return UIEdgeInsets(
