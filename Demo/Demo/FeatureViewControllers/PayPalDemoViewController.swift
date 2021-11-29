@@ -4,6 +4,10 @@ import PaymentsCore
 
 class PayPalDemoViewController: FeatureBaseViewController {
 
+    // MARK: - View Spacing
+
+    let buttonSpacing: CGFloat = 50
+
     // MARK: - UI Components
 
     lazy var payPalButton: PayPalButton = {
@@ -36,12 +40,12 @@ class PayPalDemoViewController: FeatureBaseViewController {
         NSLayoutConstraint.activate([
             payPalButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.layoutSpacing),
             payPalButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.layoutSpacing),
-            payPalButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 50),
+            payPalButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: buttonSpacing),
             payPalButton.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
 
             payPalCreditButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.layoutSpacing),
             payPalCreditButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.layoutSpacing),
-            payPalCreditButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
+            payPalCreditButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -buttonSpacing),
             payPalCreditButton.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight)
         ])
     }
