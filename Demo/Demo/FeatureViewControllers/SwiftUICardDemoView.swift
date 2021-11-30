@@ -6,8 +6,6 @@ import Card
 struct SwiftUICardDemo: View {
 
     // TODO: enable button once all fields are filled out
-    // TODO: Update focus to be able to tab from field to field in HStack
-    // TODO: Set max character count on text fields
 
     @State private var cardNumberText: String = ""
     @State private var expirationDateText: String = ""
@@ -24,19 +22,23 @@ struct SwiftUICardDemo: View {
             VStack(spacing: 16) {
                 FloatingLabelTextField(placeholder: "Card Number", text: $cardNumberText)
                     .onChange(of: cardNumberText) { newValue in
-                        cardNumberText = newValue.replacingOccurrences(of: " ", with: "")
-                        cardNumberText = newValue.filter { ("0"..."9").contains($0) }
+                        let cleanedText = newValue.replacingOccurrences(of: " ", with: "")
+                        cardNumberText = String(cleanedText.prefix(CardType.unknown.getCardType(cardNumberText).maxLength))
+                        cardNumberText = cardNumberText.filter { ("0"..."9").contains($0) }
                         cardNumberText = cardFormatter.formatCardNumber(cardNumberText)
                     }
-                HStack(spacing: 16) {
-                    FloatingLabelTextField(placeholder: "Expiration Date", text: $expirationDateText)
-                        .onChange(of: expirationDateText) { newValue in
-                            expirationDateText = newValue.replacingOccurrences(of: "/", with: "").replacingOccurrences(of: " ", with: "")
-                            expirationDateText = newValue.filter { ("0"..."9").contains($0) }
-                            expirationDateText = cardFormatter.formatExpirationDate(expirationDateText)
-                        }
-                    FloatingLabelTextField(placeholder: "CVV", text: $cvvText)
-                }
+                FloatingLabelTextField(placeholder: "Expiration Date", text: $expirationDateText)
+                    .onChange(of: expirationDateText) { newValue in
+                        let cleanedText = newValue.replacingOccurrences(of: " / ", with: "")
+                        expirationDateText = String(cleanedText.prefix(4))
+                        expirationDateText = expirationDateText.filter { ("0"..."9").contains($0) }
+                        expirationDateText = cardFormatter.formatExpirationDate(expirationDateText)
+                    }
+                FloatingLabelTextField(placeholder: "CVV", text: $cvvText)
+                    .onChange(of: cvvText) { newValue in
+                        cvvText = String(newValue.prefix(4))
+                        cvvText = cvvText.filter { ("0"..."9").contains($0) }
+                    }
                 Button("Pay") {
                     isEnabled = isEnabled
                     guard let card = createCard(), let orderID = baseViewModel.orderID else {
@@ -74,7 +76,7 @@ struct SwiftUICardDemo: View {
             }
         }
     }
-    
+
     private func createCard() -> Card? {
         let cleanedCardText = cardNumberText.replacingOccurrences(of: " ", with: "")
 
