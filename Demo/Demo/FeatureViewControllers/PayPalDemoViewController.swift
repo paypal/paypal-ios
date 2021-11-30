@@ -66,7 +66,12 @@ class PayPalDemoViewController: FeatureBaseViewController {
     // MARK: - PayPal Module Integration
 
     @objc func paymentButtonTapped() {
-        checkoutWithPayPal(orderID: orderID ?? "")
+        guard let orderID = orderID else {
+            updateTitle("Failed: missing orderID.")
+            return
+        }
+
+        checkoutWithPayPal(orderID: orderID)
     }
 
     func checkoutWithPayPal(orderID: String) {
