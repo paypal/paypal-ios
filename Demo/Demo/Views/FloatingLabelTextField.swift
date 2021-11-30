@@ -17,9 +17,9 @@ struct FloatingLabelTextField: View {
                 .foregroundColor(.gray)
             TextField("", text: $text)
                 .keyboardType(.numberPad)
-                .onChange(of: text) { newValue in
-                    text = newValue.filter { ("0"..."9").contains($0) }
-                }
+//                .onChange(of: text) { newValue in
+//                    text = newValue.filter { ("0"..."9").contains($0) }
+//                }
         }
         .padding(.top, text.isEmpty ? 0 : 18)
         .animation(.default, value: 0)

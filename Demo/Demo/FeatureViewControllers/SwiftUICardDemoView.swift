@@ -1,4 +1,6 @@
 import SwiftUI
+import PaymentsCore
+import Card
 
 @available(iOS 13.0.0, *)
 struct SwiftUICardDemo: View {
@@ -10,12 +12,13 @@ struct SwiftUICardDemo: View {
     @State private var cardNumberText: String = ""
     @State private var expirationDateText: String = ""
     @State private var cvvText: String = ""
+    @State private var isEnabled = true
 
-    @State private var isEnabled = false
+    @StateObject var baseViewModel = BaseViewModel()
 
     var body: some View {
         ZStack {
-            SwiftUIRepresentable()
+            FeatureBaseViewControllerRepresentable(baseViewModel: baseViewModel)
             VStack(spacing: 16) {
                 FloatingLabelTextField(placeholder: "Card Number", text: $cardNumberText)
                 HStack(spacing: 16) {
@@ -24,6 +27,12 @@ struct SwiftUICardDemo: View {
                 }
                 Button("Pay") {
                     isEnabled = isEnabled
+                    guard let card = createCard(), let orderID = baseViewModel.orderID else {
+                        baseViewModel.updateTitle("Failed: missing card / orderID.")
+                        return
+                    }
+
+                    checkoutWithCard(card, orderID: orderID)
                 }
                 .foregroundColor(.white)
                 .padding()
@@ -34,12 +43,39 @@ struct SwiftUICardDemo: View {
             .padding(.horizontal, 16)
         }
     }
+
+    func checkoutWithCard(_ card: Card, orderID: String) {
+        let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
+        let cardClient = CardClient(config: config)
+
+        cardClient.approveOrder(orderID: orderID, card: card) { result in
+            switch result {
+            case .success(let result):
+                print(result)
+                baseViewModel.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
+                baseViewModel.processOrder(orderID: result.orderID) {
+                    // animate button
+                }
+            case .failure(let error):
+                print(error)
+                baseViewModel.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    func createCard() -> Card? {
+        let expirationComponents = expirationDateText.components(separatedBy: "/")
+        let expirationMonth = expirationComponents[0]
+        let expirationYear = "20" + expirationComponents[1]
+
+        return Card(number: cardNumberText, expirationMonth: expirationMonth, expirationYear: expirationYear, securityCode: cvvText)
+    }
 }
 
 @available(iOS 13.0.0, *)
 struct ContentView_Previews: PreviewProvider {
 
     static var previews: some View {
-        SwiftUICardDemo()
+        SwiftUICardDemo(baseViewModel: BaseViewModel())
     }
 }

@@ -4,12 +4,14 @@ enum DemoType: String {
     case card
     case paypal
 
-    var viewController: UIViewController.Type {
+    var viewController: UIViewController {
+        let baseViewModel = BaseViewModel()
+
         switch self {
         case .card:
-            return CardDemoViewController.self
+            return CardDemoViewController(baseViewModel: baseViewModel)
         case .paypal:
-            return PayPalDemoViewController.self
+            return PayPalDemoViewController(baseViewModel: baseViewModel)
         }
     }
 }

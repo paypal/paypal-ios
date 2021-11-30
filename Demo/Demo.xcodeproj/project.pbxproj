@@ -30,7 +30,8 @@
 		BE31187C273F00B60021C5A2 /* DemoUIFramework.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE31187B273F00B60021C5A2 /* DemoUIFramework.swift */; };
 		BE31187E273F02A80021C5A2 /* SwiftUICardDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE31187D273F02A80021C5A2 /* SwiftUICardDemoView.swift */; };
 		BE9F36D82745490400AFC7DA /* FloatingLabelTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36D72745490400AFC7DA /* FloatingLabelTextField.swift */; };
-		BE9F36DC274578D100AFC7DA /* SwiftUIRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36DB274578D100AFC7DA /* SwiftUIRepresentable.swift */; };
+		BE9F36DC274578D100AFC7DA /* FeatureBaseViewControllerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36DB274578D100AFC7DA /* FeatureBaseViewControllerRepresentable.swift */; };
+		BE9F36E7275548A600AFC7DA /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36E6275548A600AFC7DA /* BaseViewModel.swift */; };
 		BECD84A027036DC2007CCAE4 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD849F27036DC2007CCAE4 /* Environment.swift */; };
 		BECD84A227036DDB007CCAE4 /* Intent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD84A127036DDB007CCAE4 /* Intent.swift */; };
 		BECD84A427036E02007CCAE4 /* DemoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD84A327036E02007CCAE4 /* DemoType.swift */; };
@@ -80,7 +81,8 @@
 		BE31187B273F00B60021C5A2 /* DemoUIFramework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoUIFramework.swift; sourceTree = "<group>"; };
 		BE31187D273F02A80021C5A2 /* SwiftUICardDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUICardDemoView.swift; sourceTree = "<group>"; };
 		BE9F36D72745490400AFC7DA /* FloatingLabelTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingLabelTextField.swift; sourceTree = "<group>"; };
-		BE9F36DB274578D100AFC7DA /* SwiftUIRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIRepresentable.swift; sourceTree = "<group>"; };
+		BE9F36DB274578D100AFC7DA /* FeatureBaseViewControllerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureBaseViewControllerRepresentable.swift; sourceTree = "<group>"; };
+		BE9F36E6275548A600AFC7DA /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		BECD849F27036DC2007CCAE4 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		BECD84A127036DDB007CCAE4 /* Intent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intent.swift; sourceTree = "<group>"; };
 		BECD84A327036E02007CCAE4 /* DemoType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoType.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 				80561B3C26FB5F300023138C /* FeatureViewControllers */,
 				806F1E4626B85369007A60E6 /* Info.plist */,
 				80F33CEB26F8E799006811B1 /* Models */,
+				BE4876A827567D4200802EAF /* ViewModels */,
 				BE1766B526FA562B007EF438 /* Networking */,
 				806F1E3A26B85367007A60E6 /* SceneDelegate.swift */,
 				806F1E3C26B85367007A60E6 /* ViewController.swift */,
@@ -180,6 +183,14 @@
 				BE1766B226F911A2007EF438 /* URLResponseError.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		BE4876A827567D4200802EAF /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				BE9F36E6275548A600AFC7DA /* BaseViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		BECD849E27036D95007CCAE4 /* DemoSettings */ = {
@@ -209,7 +220,7 @@
 				BED041AE270CA0FB00C80954 /* CustomButton.swift */,
 				BED041B0270CB33900C80954 /* CustomTextField.swift */,
 				BE9F36D72745490400AFC7DA /* FloatingLabelTextField.swift */,
-				BE9F36DB274578D100AFC7DA /* SwiftUIRepresentable.swift */,
+				BE9F36DB274578D100AFC7DA /* FeatureBaseViewControllerRepresentable.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -299,7 +310,7 @@
 				BED04233271084DF00C80954 /* CardFormatter.swift in Sources */,
 				80561B3E26FB72D80023138C /* FeatureBaseViewController.swift in Sources */,
 				BE31187C273F00B60021C5A2 /* DemoUIFramework.swift in Sources */,
-				BE9F36DC274578D100AFC7DA /* SwiftUIRepresentable.swift in Sources */,
+				BE9F36DC274578D100AFC7DA /* FeatureBaseViewControllerRepresentable.swift in Sources */,
 				BECD84A027036DC2007CCAE4 /* Environment.swift in Sources */,
 				806F1E3D26B85367007A60E6 /* ViewController.swift in Sources */,
 				80F33CF126F8E7D9006811B1 /* ProcessOrderParams.swift in Sources */,
@@ -312,6 +323,7 @@
 				BED041AF270CA0FB00C80954 /* CustomButton.swift in Sources */,
 				BE1766B326F911A2007EF438 /* URLResponseError.swift in Sources */,
 				BE9F36D82745490400AFC7DA /* FloatingLabelTextField.swift in Sources */,
+				BE9F36E7275548A600AFC7DA /* BaseViewModel.swift in Sources */,
 				806F1E3926B85367007A60E6 /* AppDelegate.swift in Sources */,
 				806F1E3B26B85367007A60E6 /* SceneDelegate.swift in Sources */,
 				BED042312710833F00C80954 /* CardType.swift in Sources */,

@@ -1,10 +1,12 @@
 import SwiftUI
 
 @available(iOS 13, *)
-struct SwiftUIRepresentable: UIViewControllerRepresentable {
+struct FeatureBaseViewControllerRepresentable: UIViewControllerRepresentable {
+
+    var baseViewModel: BaseViewModel
 
     func makeUIViewController(context: Context) -> UIViewController {
-        FeatureBaseViewController()
+        FeatureBaseViewController(baseViewModel: baseViewModel)
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {

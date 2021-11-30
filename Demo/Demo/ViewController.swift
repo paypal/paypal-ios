@@ -32,8 +32,7 @@ class ViewController: UIViewController {
     func displayDemoFeatureViewController() {
         switch DemoSettings.demoUIFramework {
         case .uikit:
-            let demoViewControllerType = DemoSettings.demoType.viewController
-            let demoViewController = demoViewControllerType.init()
+            let demoViewController = DemoSettings.demoType.viewController
             demoViewController.modalPresentationStyle = .fullScreen
 
             navigationItem.title = DemoSettings.demoType.rawValue.uppercased()
@@ -41,7 +40,7 @@ class ViewController: UIViewController {
             addChild(demoViewController)
             view.addSubview(demoViewController.view)
         case .swiftui:
-            let swiftUIController = UIHostingController(rootView: SwiftUICardDemo())
+            let swiftUIController = UIHostingController(rootView: SwiftUICardDemo(baseViewModel: BaseViewModel()))
             swiftUIController.view.translatesAutoresizingMaskIntoConstraints = false
 
             navigationItem.title = "SwiftUI Demo"

@@ -52,7 +52,7 @@ class PayPalDemoViewController: FeatureBaseViewController {
     // MARK: - PayPal Module Integration
 
     @objc func didTapPayPalButton() {
-        checkoutWithPayPal(orderID: orderID ?? "")
+        checkoutWithPayPal(orderID: baseViewModel.orderID ?? "")
     }
 
     func checkoutWithPayPal(orderID: String) {
@@ -63,13 +63,13 @@ class PayPalDemoViewController: FeatureBaseViewController {
             guard let self = self else { return }
             switch state {
             case .success(let result):
-                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
+                self.baseViewModel.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
                 print("✅ Order is successfully approved and ready to be captured/authorized with result: \(result)")
             case .failure(let error):
-                self.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
+                self.baseViewModel.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
                 print("❌ There was an error: \(error)")
             case .cancellation:
-                self.updateTitle("\(DemoSettings.intent) cancelled")
+                self.baseViewModel.updateTitle("\(DemoSettings.intent) cancelled")
                 print("❌ Buyer has cancelled the PayPal flow")
             }
         }

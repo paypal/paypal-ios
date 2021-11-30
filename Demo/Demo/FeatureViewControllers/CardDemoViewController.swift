@@ -109,14 +109,15 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
     // MARK: - Card Module Integration
 
     @objc func didTapPayButton() {
-        updateTitle("Approving order...")
+        baseViewModel.updateTitle("Approving order...")
         payButton.startAnimating()
 
-        guard let card = createCard(),
-            let orderID = orderID else {
-            updateTitle("Failed: missing card / orderID.")
-            return
-        }
+        guard
+            let card = createCard(),
+            let orderID = baseViewModel.orderID else {
+                baseViewModel.updateTitle("Failed: missing card / orderID.")
+                return
+            }
 
         checkoutWithCard(card, orderID: orderID)
     }
@@ -128,12 +129,12 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         cardClient.approveOrder(orderID: orderID, card: card) { result in
             switch result {
             case .success(let result):
-                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
-                self.processOrder(orderID: result.orderID) {
+                self.baseViewModel.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
+                self.baseViewModel.processOrder(orderID: result.orderID) {
                     self.payButton.stopAnimating()
                 }
             case .failure(let error):
-                self.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
+                self.baseViewModel.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
                 self.payButton.stopAnimating()
             }
         }
@@ -227,8 +228,8 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
     }
 
     private func enablePayButton(cardNumber: String, expirationDate: String, cvv: String) {
-        guard orderID != nil else {
-            updateTitle("Create an order to proceed")
+        guard baseViewModel.orderID != nil else {
+            baseViewModel.updateTitle("Create an order to proceed")
             payButton.isEnabled = false
             return
         }
