@@ -17,7 +17,7 @@ class CardFormatter {
         return formattedCardNumber
     }
 
-    func formatExpirationDate( _ expirationDate: String) -> String? {
+    func formatExpirationDate( _ expirationDate: String) -> String {
         /// holder for the current expiration date
         var formattedDate = expirationDate
 

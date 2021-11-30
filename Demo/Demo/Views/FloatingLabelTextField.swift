@@ -2,9 +2,6 @@ import SwiftUI
 
 struct FloatingLabelTextField: View {
 
-    // TODO: Format date and card number fields
-    // TODO: Set max character count on text fields
-
     let placeholder: String
     @Binding var text: String
 
@@ -17,9 +14,6 @@ struct FloatingLabelTextField: View {
                 .foregroundColor(.gray)
             TextField("", text: $text)
                 .keyboardType(.numberPad)
-//                .onChange(of: text) { newValue in
-//                    text = newValue.filter { ("0"..."9").contains($0) }
-//                }
         }
         .padding(.top, text.isEmpty ? 0 : 18)
         .animation(.default, value: 0)

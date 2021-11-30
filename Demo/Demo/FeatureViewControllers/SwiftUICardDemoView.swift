@@ -6,8 +6,8 @@ import Card
 struct SwiftUICardDemo: View {
 
     // TODO: enable button once all fields are filled out
-    // TODO: integrate card module
     // TODO: Update focus to be able to tab from field to field in HStack
+    // TODO: Set max character count on text fields
 
     @State private var cardNumberText: String = ""
     @State private var expirationDateText: String = ""
@@ -16,13 +16,25 @@ struct SwiftUICardDemo: View {
 
     @StateObject var baseViewModel = BaseViewModel()
 
+    let cardFormatter = CardFormatter()
+
     var body: some View {
         ZStack {
             FeatureBaseViewControllerRepresentable(baseViewModel: baseViewModel)
             VStack(spacing: 16) {
                 FloatingLabelTextField(placeholder: "Card Number", text: $cardNumberText)
+                    .onChange(of: cardNumberText) { newValue in
+                        cardNumberText = newValue.replacingOccurrences(of: " ", with: "")
+                        cardNumberText = newValue.filter { ("0"..."9").contains($0) }
+                        cardNumberText = cardFormatter.formatCardNumber(cardNumberText)
+                    }
                 HStack(spacing: 16) {
                     FloatingLabelTextField(placeholder: "Expiration Date", text: $expirationDateText)
+                        .onChange(of: expirationDateText) { newValue in
+                            expirationDateText = newValue.replacingOccurrences(of: "/", with: "").replacingOccurrences(of: " ", with: "")
+                            expirationDateText = newValue.filter { ("0"..."9").contains($0) }
+                            expirationDateText = cardFormatter.formatExpirationDate(expirationDateText)
+                        }
                     FloatingLabelTextField(placeholder: "CVV", text: $cvvText)
                 }
                 Button("Pay") {
@@ -62,13 +74,15 @@ struct SwiftUICardDemo: View {
             }
         }
     }
+    
+    private func createCard() -> Card? {
+        let cleanedCardText = cardNumberText.replacingOccurrences(of: " ", with: "")
 
-    func createCard() -> Card? {
-        let expirationComponents = expirationDateText.components(separatedBy: "/")
+        let expirationComponents = expirationDateText.components(separatedBy: " / ")
         let expirationMonth = expirationComponents[0]
         let expirationYear = "20" + expirationComponents[1]
 
-        return Card(number: cardNumberText, expirationMonth: expirationMonth, expirationYear: expirationYear, securityCode: cvvText)
+        return Card(number: cleanedCardText, expirationMonth: expirationMonth, expirationYear: expirationYear, securityCode: cvvText)
     }
 }
 
