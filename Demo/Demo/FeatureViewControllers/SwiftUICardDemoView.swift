@@ -2,8 +2,16 @@ import SwiftUI
 import PaymentsCore
 import Card
 
+enum Fields {
+    case cardNumber
+    case expirationDate
+    case cvv
+}
+
 @available(iOS 13.0.0, *)
 struct SwiftUICardDemo: View {
+
+    // MARK: Variables
 
     @State private var cardNumberText: String = ""
     @State private var expirationDateText: String = ""
@@ -13,30 +21,25 @@ struct SwiftUICardDemo: View {
 
     let cardFormatter = CardFormatter()
 
+    // MARK: View
+
     var body: some View {
         ZStack {
             FeatureBaseViewControllerRepresentable(baseViewModel: baseViewModel)
             VStack(spacing: 16) {
                 FloatingLabelTextField(placeholder: "Card Number", text: $cardNumberText)
                     .onChange(of: cardNumberText) { newValue in
-                        let cleanedText = newValue.replacingOccurrences(of: " ", with: "")
-                        cardNumberText = String(cleanedText.prefix(CardType.unknown.getCardType(cardNumberText).maxLength))
-                        cardNumberText = cardNumberText.filter { ("0"..."9").contains($0) }
-                        cardNumberText = cardFormatter.formatCardNumber(cardNumberText)
+                        formatFieldWith(newValue, field: .cardNumber)
                     }
                 FloatingLabelTextField(placeholder: "Expiration Date", text: $expirationDateText)
                     .onChange(of: expirationDateText) { newValue in
-                        let cleanedText = newValue.replacingOccurrences(of: " / ", with: "")
-                        expirationDateText = String(cleanedText.prefix(4))
-                        expirationDateText = expirationDateText.filter { ("0"..."9").contains($0) }
-                        expirationDateText = cardFormatter.formatExpirationDate(expirationDateText)
+                        formatFieldWith(newValue, field: .expirationDate)
                     }
                 FloatingLabelTextField(placeholder: "CVV", text: $cvvText)
                     .onChange(of: cvvText) { newValue in
-                        cvvText = String(newValue.prefix(4))
-                        cvvText = cvvText.filter { ("0"..."9").contains($0) }
+                        formatFieldWith(newValue, field: .cvv)
                     }
-                Button("Pay") {
+                Button("\(DemoSettings.intent.rawValue.capitalized) Order") {
                     guard let card = createCard(), let orderID = baseViewModel.orderID else {
                         baseViewModel.updateTitle("Failed: missing card / orderID.")
                         return
@@ -55,18 +58,37 @@ struct SwiftUICardDemo: View {
         }
     }
 
-    func checkoutWithCard(_ card: Card, orderID: String) {
+    // MARK: Functions
+
+    private func formatFieldWith(_ text: String, field: Fields) {
+        switch field {
+        case .cardNumber:
+            let cleanedText = text.replacingOccurrences(of: " ", with: "")
+            cardNumberText = String(cleanedText.prefix(CardType.unknown.getCardType(cardNumberText).maxLength))
+            cardNumberText = cardNumberText.filter { ("0"..."9").contains($0) }
+            cardNumberText = cardFormatter.formatCardNumber(cardNumberText)
+        case .expirationDate:
+            let cleanedText = text.replacingOccurrences(of: " / ", with: "")
+            expirationDateText = String(cleanedText.prefix(4))
+            expirationDateText = expirationDateText.filter { ("0"..."9").contains($0) }
+            expirationDateText = cardFormatter.formatExpirationDate(expirationDateText)
+
+        case .cvv:
+            cvvText = String(text.prefix(4))
+            cvvText = cvvText.filter { ("0"..."9").contains($0) }
+        }
+    }
+
+    private func checkoutWithCard(_ card: Card, orderID: String) {
         let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
         let cardClient = CardClient(config: config)
 
         cardClient.approveOrder(orderID: orderID, card: card) { result in
             switch result {
             case .success(let result):
-                print(result)
                 baseViewModel.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
                 baseViewModel.processOrder(orderID: result.orderID)
             case .failure(let error):
-                print(error)
                 baseViewModel.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
             }
         }

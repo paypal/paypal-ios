@@ -112,12 +112,10 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         baseViewModel.updateTitle("Approving order...")
         payButton.startAnimating()
 
-        guard
-            let card = createCard(),
-            let orderID = baseViewModel.orderID else {
-                baseViewModel.updateTitle("Failed: missing card / orderID.")
-                return
-            }
+        guard let card = createCard(), let orderID = baseViewModel.orderID else {
+            baseViewModel.updateTitle("Failed: missing card / orderID.")
+            return
+        }
 
         checkoutWithCard(card, orderID: orderID)
     }
