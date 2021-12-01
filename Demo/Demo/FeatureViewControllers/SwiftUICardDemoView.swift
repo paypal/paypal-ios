@@ -5,12 +5,9 @@ import Card
 @available(iOS 13.0.0, *)
 struct SwiftUICardDemo: View {
 
-    // TODO: enable button once all fields are filled out
-
     @State private var cardNumberText: String = ""
     @State private var expirationDateText: String = ""
     @State private var cvvText: String = ""
-    @State private var isEnabled = true
 
     @StateObject var baseViewModel = BaseViewModel()
 
@@ -40,7 +37,6 @@ struct SwiftUICardDemo: View {
                         cvvText = cvvText.filter { ("0"..."9").contains($0) }
                     }
                 Button("Pay") {
-                    isEnabled = isEnabled
                     guard let card = createCard(), let orderID = baseViewModel.orderID else {
                         baseViewModel.updateTitle("Failed: missing card / orderID.")
                         return
@@ -51,8 +47,9 @@ struct SwiftUICardDemo: View {
                 .foregroundColor(.white)
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(isEnabled ? .blue : .gray)
+                .background(.blue)
                 .cornerRadius(10)
+                .disabled(!(cvvText.count >= 3 && cardNumberText.count >= 17 && expirationDateText.count == 7))
             }
             .padding(.horizontal, 16)
         }
@@ -67,9 +64,7 @@ struct SwiftUICardDemo: View {
             case .success(let result):
                 print(result)
                 baseViewModel.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
-                baseViewModel.processOrder(orderID: result.orderID) {
-                    // animate button
-                }
+                baseViewModel.processOrder(orderID: result.orderID)
             case .failure(let error):
                 print(error)
                 baseViewModel.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
