@@ -19,9 +19,9 @@ struct SwiftUICardDemo: View {
 
     @StateObject var baseViewModel = BaseViewModel()
 
-    let cardFormatter = CardFormatter()
+    private let cardFormatter = CardFormatter()
 
-    // MARK: View
+    // MARK: Views
 
     var body: some View {
         ZStack {

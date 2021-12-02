@@ -206,7 +206,7 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
     private func formatExpirationDate(textField: UITextField, newString: String) {
         /// clean the text field text to remove slash and spaces
-        let cleanedText = newString.replacingOccurrences(of: "/", with: "").replacingOccurrences(of: " ", with: "")
+        let cleanedText = newString.replacingOccurrences(of: " / ", with: "")
 
         /// limit expiration date to 4 characters max
         guard cleanedText.count <= 4 else { return }
@@ -233,7 +233,7 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         }
 
         let cleanedCardNumber = cardNumber.replacingOccurrences(of: " ", with: "")
-        let cleanedExpirationDate = expirationDate.replacingOccurrences(of: "/", with: "").replacingOccurrences(of: " ", with: "")
+        let cleanedExpirationDate = expirationDate.replacingOccurrences(of: " / ", with: "")
 
         let enabled = cleanedCardNumber.count >= 15 && cleanedCardNumber.count <= 19
         && cleanedExpirationDate.count == 4 && cvv.count >= 3 && cvv.count <= 4

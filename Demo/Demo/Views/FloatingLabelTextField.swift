@@ -25,16 +25,3 @@ struct FloatingLabelTextField: View {
         .cornerRadius(10)
     }
 }
-
-
-struct FloatingLabelTextField_Previews: PreviewProvider {
-
-    static var previews: some View {
-        Group {
-            FloatingLabelTextField(placeholder: "First Name", text: .constant(""))
-            FloatingLabelTextField(placeholder: "First Name", text: .constant("Jax"))
-        }
-        .previewLayout(.sizeThatFits)
-        .padding()
-    }
-}
