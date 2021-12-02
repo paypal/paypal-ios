@@ -4,16 +4,24 @@ import PaymentsCore
 
 class PayPalDemoViewController: FeatureBaseViewController {
 
+    // MARK: - View Spacing
+
+    let buttonSpacing: CGFloat = 50
+
     // MARK: - UI Components
 
-    lazy var payPalButton: CustomButton = {
-        let payPalButton = CustomButton(title: "PayPal")
-        payPalButton.addTarget(self, action: #selector(didTapPayPalButton), for: .touchUpInside)
-        payPalButton.layer.cornerRadius = 8
-        payPalButton.backgroundColor = .systemBlue
-        payPalButton.tintColor = .white
-        payPalButton.isEnabled = false
+    lazy var payPalButton: PayPalButton = {
+        let payPalButton = PayPalButton()
+        payPalButton.addTarget(self, action: #selector(paymentButtonTapped), for: .touchUpInside)
+        payPalButton.layer.cornerRadius = 4.0
         return payPalButton
+    }()
+
+    lazy var payPalCreditButton: PayPalCreditButton = {
+        let payPalCreditButton = PayPalCreditButton()
+        payPalCreditButton.addTarget(self, action: #selector(paymentButtonTapped), for: .touchUpInside)
+        payPalCreditButton.layer.cornerRadius = 4.0
+        return payPalCreditButton
     }()
 
     // MARK: - View Lifecycle & UI Setup
@@ -22,6 +30,7 @@ class PayPalDemoViewController: FeatureBaseViewController {
         super.viewDidLoad()
 
         view.addSubview(payPalButton)
+        view.addSubview(payPalCreditButton)
         view.backgroundColor = .systemBackground
 
         setupConstraints()
@@ -31,8 +40,13 @@ class PayPalDemoViewController: FeatureBaseViewController {
         NSLayoutConstraint.activate([
             payPalButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.layoutSpacing),
             payPalButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.layoutSpacing),
-            payPalButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            payPalButton.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight)
+            payPalButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: buttonSpacing),
+            payPalButton.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
+
+            payPalCreditButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.layoutSpacing),
+            payPalCreditButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.layoutSpacing),
+            payPalCreditButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -buttonSpacing),
+            payPalCreditButton.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight)
         ])
     }
 
@@ -51,8 +65,13 @@ class PayPalDemoViewController: FeatureBaseViewController {
 
     // MARK: - PayPal Module Integration
 
-    @objc func didTapPayPalButton() {
-        checkoutWithPayPal(orderID: orderID ?? "")
+    @objc func paymentButtonTapped() {
+        guard let orderID = orderID else {
+            updateTitle("Failed: missing orderID.")
+            return
+        }
+
+        checkoutWithPayPal(orderID: orderID)
     }
 
     func checkoutWithPayPal(orderID: String) {
