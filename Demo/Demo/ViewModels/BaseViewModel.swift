@@ -1,5 +1,9 @@
 import UIKit
+import Card
+import PaymentsCore
 
+/// This class is used to share the orderID across shared views, update the text of `bottomStatusLabel` in our `FeatureBaseViewController`
+/// as well as share the logic of `processOrder` across our duplicate (SwiftUI and UIKit) card views.
 class BaseViewModel: ObservableObject {
 
     /// Weak reference to associated view
@@ -47,5 +51,36 @@ class BaseViewModel: ObservableObject {
             }
             completion()
         }
+    }
+
+    func createCard(cardNumber: String?, expirationDate: String?, cvv: String?) -> Card? {
+        guard let cardNumber = cardNumber, let expirationDate = expirationDate, let cvv = cvv else {
+            updateTitle("Failed: missing card / orderID.")
+            return nil
+        }
+
+        let cleanedCardText = cardNumber.replacingOccurrences(of: " ", with: "")
+
+        let expirationComponents = expirationDate.components(separatedBy: " / ")
+        let expirationMonth = expirationComponents[0]
+        let expirationYear = "20" + expirationComponents[1]
+
+        return Card(number: cleanedCardText, expirationMonth: expirationMonth, expirationYear: expirationYear, securityCode: cvv)
+    }
+
+    func checkoutWithCard(_ card: Card, orderID: String, completion: @escaping () -> Void = { }) {
+        let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
+        let cardClient = CardClient(config: config)
+
+        cardClient.approveOrder(orderID: orderID, card: card) { result in
+            switch result {
+            case .success(let result):
+                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
+                self.processOrder(orderID: result.orderID)
+            case .failure(let error):
+                self.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
+            }
+        }
+        completion()
     }
 }

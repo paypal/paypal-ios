@@ -1,6 +1,4 @@
 import UIKit
-import PaymentsCore
-import Card
 
 class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
@@ -112,46 +110,20 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         baseViewModel.updateTitle("Approving order...")
         payButton.startAnimating()
 
-        guard let card = createCard(), let orderID = baseViewModel.orderID else {
-            baseViewModel.updateTitle("Failed: missing card / orderID.")
+        guard let card = baseViewModel.createCard(
+            cardNumber: cardNumberTextField.text,
+            expirationDate: expirationTextField.text,
+            cvv: cvvTextField.text
+        ),
+            let orderID = baseViewModel.orderID
+        else {
+            payButton.stopAnimating()
             return
         }
 
-        checkoutWithCard(card, orderID: orderID)
-    }
-
-    func checkoutWithCard(_ card: Card, orderID: String) {
-        let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
-        let cardClient = CardClient(config: config)
-
-        cardClient.approveOrder(orderID: orderID, card: card) { result in
-            switch result {
-            case .success(let result):
-                self.baseViewModel.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
-                self.baseViewModel.processOrder(orderID: result.orderID) {
-                    self.payButton.stopAnimating()
-                }
-            case .failure(let error):
-                self.baseViewModel.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
-                self.payButton.stopAnimating()
-            }
+        baseViewModel.checkoutWithCard(card, orderID: orderID) {
+            self.payButton.stopAnimating()
         }
-    }
-
-    private func createCard() -> Card? {
-        guard let cardNumber = cardNumberTextField.text,
-            let cvv = cvvTextField.text,
-            let expirationDate = expirationTextField.text else {
-            return nil
-        }
-
-        let cleanedCardText = cardNumber.replacingOccurrences(of: " ", with: "")
-
-        let expirationComponents = expirationDate.components(separatedBy: " / ")
-        let expirationMonth = expirationComponents[0]
-        let expirationYear = "20" + expirationComponents[1]
-
-        return Card(number: cleanedCardText, expirationMonth: expirationMonth, expirationYear: expirationYear, securityCode: cvv)
     }
 
     // MARK: - Card Field Formatting
@@ -174,44 +146,22 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
         switch textField {
         case cardNumberTextField:
-            formatCardNumber(textField: textField, newString: new)
+            textField.text = cardFormatter.formatFieldWith(new, field: .cardNumber)
             enablePayButton(cardNumber: textField.text ?? "", expirationDate: expirationDate, cvv: cvv)
             setCursorLocation(textField: textField, range: range)
             return false
         case expirationTextField:
-            formatExpirationDate(textField: textField, newString: new)
+            textField.text = cardFormatter.formatFieldWith(new, field: .expirationDate)
             enablePayButton(cardNumber: cardNumber, expirationDate: textField.text ?? "", cvv: cvv)
             setCursorLocation(textField: textField, range: range)
             return false
         case cvvTextField:
-            /// Limit cvv character count to be 4 characters max
-            guard new.count <= 4 else { return false }
-            textField.text = new
+            textField.text = cardFormatter.formatFieldWith(new, field: .cvv)
             enablePayButton(cardNumber: cardNumber, expirationDate: expirationDate, cvv: textField.text ?? "")
             return false
         default:
             return true
         }
-    }
-
-    private func formatCardNumber(textField: UITextField, newString: String) {
-        /// clean the text field test to remove spaces
-        let cleanedText = newString.replacingOccurrences(of: " ", with: "")
-
-        /// check that the count of the text field is less than or equal to the card types max length
-        guard cleanedText.count <= CardType.unknown.getCardType(cleanedText).maxLength else { return }
-
-        textField.text = cardFormatter.formatCardNumber(cleanedText)
-    }
-
-    private func formatExpirationDate(textField: UITextField, newString: String) {
-        /// clean the text field text to remove slash and spaces
-        let cleanedText = newString.replacingOccurrences(of: " / ", with: "")
-
-        /// limit expiration date to 4 characters max
-        guard cleanedText.count <= 4 else { return }
-
-        textField.text = cardFormatter.formatExpirationDate(cleanedText)
     }
 
     private func setCursorLocation(textField: UITextField, range: NSRange) {

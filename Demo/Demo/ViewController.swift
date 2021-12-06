@@ -30,6 +30,8 @@ class ViewController: UIViewController {
     }
 
     func displayDemoFeatureViewController() {
+        removeChildViews()
+
         switch DemoSettings.demoUIFramework {
         case .uikit:
             let demoViewController = DemoSettings.demoType.viewController

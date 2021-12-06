@@ -1,3 +1,9 @@
+enum Fields {
+    case cardNumber
+    case expirationDate
+    case cvv
+}
+
 class CardFormatter {
 
     func formatCardNumber(_ cardNumber: String) -> String {
@@ -26,5 +32,31 @@ class CardFormatter {
             formattedDate.insert(contentsOf: " / ", at: formattedDate.index(formattedDate.startIndex, offsetBy: 2))
         }
         return formattedDate
+    }
+
+    func formatFieldWith(_ text: String, field: Fields) -> String {
+        switch field {
+        case .cardNumber:
+            var cardNumberText: String
+            let cleanedText = text.replacingOccurrences(of: " ", with: "")
+            cardNumberText = String(cleanedText.prefix(CardType.unknown.getCardType(text).maxLength))
+            cardNumberText = cardNumberText.filter { ("0"..."9").contains($0) }
+            cardNumberText = formatCardNumber(cardNumberText)
+            return cardNumberText
+
+        case .expirationDate:
+            var expirationDateText: String
+            let cleanedText = text.replacingOccurrences(of: " / ", with: "")
+            expirationDateText = String(cleanedText.prefix(4))
+            expirationDateText = expirationDateText.filter { ("0"..."9").contains($0) }
+            expirationDateText = formatExpirationDate(expirationDateText)
+            return expirationDateText
+
+        case .cvv:
+            var cvvText: String
+            cvvText = String(text.prefix(4))
+            cvvText = cvvText.filter { ("0"..."9").contains($0) }
+            return cvvText
+        }
     }
 }
