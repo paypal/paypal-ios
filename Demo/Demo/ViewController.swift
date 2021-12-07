@@ -42,10 +42,10 @@ class ViewController: UIViewController {
             addChild(demoViewController)
             view.addSubview(demoViewController.view)
         case .swiftui:
-            let swiftUIController = UIHostingController(rootView: SwiftUICardDemo(baseViewModel: BaseViewModel()))
+            let swiftUIController = UIHostingController(rootView: DemoSettings.demoType.swiftUIView)
             swiftUIController.view.translatesAutoresizingMaskIntoConstraints = false
 
-            navigationItem.title = "SwiftUI Demo"
+            navigationItem.title = "SwiftUI - \(DemoSettings.demoType.rawValue.uppercased())"
 
             addChild(swiftUIController)
             view.addSubview(swiftUIController.view)

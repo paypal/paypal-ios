@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 
 enum DemoType: String {
     case card
@@ -12,6 +13,15 @@ enum DemoType: String {
             return CardDemoViewController(baseViewModel: baseViewModel)
         case .paypal:
             return PayPalDemoViewController(baseViewModel: baseViewModel)
+        }
+    }
+
+    var swiftUIView: some View {
+        switch self {
+        case .card:
+            return AnyView(SwiftUICardDemo())
+        case .paypal:
+            return AnyView(SwiftUIPayPalDemo())
         }
     }
 }

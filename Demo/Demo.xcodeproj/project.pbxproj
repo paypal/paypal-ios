@@ -28,7 +28,7 @@
 		BE1766D726FA7AC3007EF438 /* InAppSettingsKit in Frameworks */ = {isa = PBXBuildFile; productRef = BE1766D626FA7AC3007EF438 /* InAppSettingsKit */; };
 		BE1766D926FA7BC8007EF438 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BE1766D826FA7BC8007EF438 /* Settings.bundle */; };
 		BE31187C273F00B60021C5A2 /* DemoUIFramework.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE31187B273F00B60021C5A2 /* DemoUIFramework.swift */; };
-		BE31187E273F02A80021C5A2 /* SwiftUICardDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE31187D273F02A80021C5A2 /* SwiftUICardDemoView.swift */; };
+		BE31187E273F02A80021C5A2 /* SwiftUICardDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE31187D273F02A80021C5A2 /* SwiftUICardDemo.swift */; };
 		BE9F36D82745490400AFC7DA /* FloatingLabelTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36D72745490400AFC7DA /* FloatingLabelTextField.swift */; };
 		BE9F36DC274578D100AFC7DA /* FeatureBaseViewControllerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36DB274578D100AFC7DA /* FeatureBaseViewControllerRepresentable.swift */; };
 		BE9F36E7275548A600AFC7DA /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36E6275548A600AFC7DA /* BaseViewModel.swift */; };
@@ -40,6 +40,7 @@
 		BED042312710833F00C80954 /* CardType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED042302710833F00C80954 /* CardType.swift */; };
 		BED04233271084DF00C80954 /* CardFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED04232271084DF00C80954 /* CardFormatter.swift */; };
 		BEDE304A275EA33500D275FD /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDE3049275EA33500D275FD /* UIViewController+Extension.swift */; };
+		BEDE304C275FA4A100D275FD /* SwiftUIPayPalDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDE304B275FA4A100D275FD /* SwiftUIPayPalDemo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -80,7 +81,7 @@
 		BE1766B226F911A2007EF438 /* URLResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLResponseError.swift; sourceTree = "<group>"; };
 		BE1766D826FA7BC8007EF438 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		BE31187B273F00B60021C5A2 /* DemoUIFramework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoUIFramework.swift; sourceTree = "<group>"; };
-		BE31187D273F02A80021C5A2 /* SwiftUICardDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUICardDemoView.swift; sourceTree = "<group>"; };
+		BE31187D273F02A80021C5A2 /* SwiftUICardDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUICardDemo.swift; sourceTree = "<group>"; };
 		BE9F36D72745490400AFC7DA /* FloatingLabelTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingLabelTextField.swift; sourceTree = "<group>"; };
 		BE9F36DB274578D100AFC7DA /* FeatureBaseViewControllerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureBaseViewControllerRepresentable.swift; sourceTree = "<group>"; };
 		BE9F36E6275548A600AFC7DA /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
@@ -92,6 +93,7 @@
 		BED042302710833F00C80954 /* CardType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardType.swift; sourceTree = "<group>"; };
 		BED04232271084DF00C80954 /* CardFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardFormatter.swift; sourceTree = "<group>"; };
 		BEDE3049275EA33500D275FD /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		BEDE304B275FA4A100D275FD /* SwiftUIPayPalDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIPayPalDemo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,9 +222,10 @@
 		BEDE3047275E998700D275FD /* SwiftUIComponents */ = {
 			isa = PBXGroup;
 			children = (
-				BE31187D273F02A80021C5A2 /* SwiftUICardDemoView.swift */,
+				BE31187D273F02A80021C5A2 /* SwiftUICardDemo.swift */,
 				BE9F36D72745490400AFC7DA /* FloatingLabelTextField.swift */,
 				BE9F36DB274578D100AFC7DA /* FeatureBaseViewControllerRepresentable.swift */,
+				BEDE304B275FA4A100D275FD /* SwiftUIPayPalDemo.swift */,
 			);
 			path = SwiftUIComponents;
 			sourceTree = "<group>";
@@ -324,7 +327,7 @@
 			files = (
 				BECD84A427036E02007CCAE4 /* DemoType.swift in Sources */,
 				80F33CED26F8E7A9006811B1 /* Order.swift in Sources */,
-				BE31187E273F02A80021C5A2 /* SwiftUICardDemoView.swift in Sources */,
+				BE31187E273F02A80021C5A2 /* SwiftUICardDemo.swift in Sources */,
 				80561B3A26FB5F1C0023138C /* PayPalDemoViewController.swift in Sources */,
 				BED04233271084DF00C80954 /* CardFormatter.swift in Sources */,
 				80561B3E26FB72D80023138C /* FeatureBaseViewController.swift in Sources */,
@@ -347,6 +350,7 @@
 				806F1E3926B85367007A60E6 /* AppDelegate.swift in Sources */,
 				806F1E3B26B85367007A60E6 /* SceneDelegate.swift in Sources */,
 				BED042312710833F00C80954 /* CardType.swift in Sources */,
+				BEDE304C275FA4A100D275FD /* SwiftUIPayPalDemo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

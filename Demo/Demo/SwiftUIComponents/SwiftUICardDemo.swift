@@ -49,9 +49,13 @@ struct SwiftUICardDemo: View {
                 .foregroundColor(.white)
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(.blue)
+                .background(
+                    baseViewModel.enablePayButton(cardNumber: cardNumberText, expirationDate: expirationDateText, cvv: cvvText)
+                    ? .blue
+                    : .gray
+                )
                 .cornerRadius(10)
-                .disabled(!(cvvText.count >= 3 && cardNumberText.count >= 17 && expirationDateText.count == 7))
+                .disabled(!baseViewModel.enablePayButton(cardNumber: cardNumberText, expirationDate: expirationDateText, cvv: cvvText))
             }
             .padding(.horizontal, 16)
         }

@@ -76,11 +76,26 @@ class BaseViewModel: ObservableObject {
             switch result {
             case .success(let result):
                 self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
-                self.processOrder(orderID: result.orderID)
+                self.processOrder(orderID: result.orderID) {
+                    completion()
+                }
             case .failure(let error):
                 self.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
             }
         }
-        completion()
+    }
+
+    func enablePayButton(cardNumber: String, expirationDate: String, cvv: String) -> Bool {
+        guard orderID != nil else {
+            updateTitle("Create an order to proceed")
+            return false
+        }
+
+        let cleanedCardNumber = cardNumber.replacingOccurrences(of: " ", with: "")
+        let cleanedExpirationDate = expirationDate.replacingOccurrences(of: " / ", with: "")
+
+        let enabled = cleanedCardNumber.count >= 15 && cleanedCardNumber.count <= 19
+        && cleanedExpirationDate.count == 4 && cvv.count >= 3 && cvv.count <= 4
+        return enabled
     }
 }
