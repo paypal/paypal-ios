@@ -1,5 +1,5 @@
 //
-//  CardRequest.swift
+//  CardOrder.swift
 //  Card
 //
 //  Created by Shropshire, Steven on 12/7/21.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct CardRequest {
+public struct CardOrder {
 
     /// The ID of the order to be approved
     public let orderID: String
