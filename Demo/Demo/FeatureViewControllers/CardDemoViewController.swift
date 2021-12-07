@@ -128,9 +128,9 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         let cardOrder = CardOrder(orderID: orderID, card: card)
         cardClient.approve(cardOrder) { result in
             switch result {
-            case .success(let result):
+            case .success(let approval):
                 self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
-                self.processOrder(orderID: result.orderID) {
+                self.processOrder(orderID: approval.orderID) {
                     self.payButton.stopAnimating()
                 }
             case .failure(let error):
