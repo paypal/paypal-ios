@@ -1,6 +1,6 @@
 import Foundation
 
-public struct CardOrder {
+public struct CardRequest {
 
     /// The ID of the order to be approved
     public let orderID: String

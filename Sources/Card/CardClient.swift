@@ -24,27 +24,28 @@ public class CardClient {
     /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
     /// After the order has been successfully approved, you will need to handle capturing/authorizing the order in your server.
     /// - Parameters:
-    ///   - cardOrder: The card order to be approved
+    ///   - orderID: The ID of the order to be approved
+    ///   - card: The card to be charged for this order
     ///   - completion: Completion handler for approveOrder, which contains data of the order if success, or an error if failure
-    public func approve(_ cardOrder: CardOrder, completion: @escaping (Result<CardOrderApproval, PayPalSDKError>) -> Void) {
+    public func approveOrder(request: CardRequest, completion: @escaping (Result<CardResult, PayPalSDKError>) -> Void) {
         do {
             let confirmPaymentRequest = try ConfirmPaymentSourceRequest(
-                card: cardOrder.card,
-                orderID: cardOrder.orderID,
+                card: request.card,
+                orderID: request.orderID,
                 clientID: config.clientID
             )
 
             apiClient.fetch(endpoint: confirmPaymentRequest) { result, _ in
                 switch result {
                 case .success(let response):
-                    let approval = CardOrderApproval(
+                    let cardResult = CardResult(
                         orderID: response.id,
                         lastFourDigits: response.paymentSource.card.lastDigits,
                         brand: response.paymentSource.card.brand,
                         type: response.paymentSource.card.type
                     )
 
-                    completion(.success(approval))
+                    completion(.success(cardResult))
 
                 case .failure(let error):
                     completion(.failure(error))

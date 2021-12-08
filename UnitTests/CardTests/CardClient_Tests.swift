@@ -59,14 +59,14 @@ class CardClient_Tests: XCTestCase {
         mockURLSession.cannedURLResponse = successURLResponse
         mockURLSession.cannedJSONData = jsonResponse
 
-        let cardOrder = CardOrder(orderID: "", card: card)
-        cardClient.approve(cardOrder) { result in
+        let cardRequest = CardRequest(orderID: "", card: card)
+        cardClient.approveOrder(request: cardRequest) { result in
             switch result {
-            case .success(let cardOrderApproval):
-                XCTAssertEqual(cardOrderApproval.orderID, "testOrderID")
-                XCTAssertEqual(cardOrderApproval.brand, "VISA")
-                XCTAssertEqual(cardOrderApproval.lastFourDigits, "7321")
-                XCTAssertEqual(cardOrderApproval.type, "CREDIT")
+            case .success(let cardResult):
+                XCTAssertEqual(cardResult.orderID, "testOrderID")
+                XCTAssertEqual(cardResult.brand, "VISA")
+                XCTAssertEqual(cardResult.lastFourDigits, "7321")
+                XCTAssertEqual(cardResult.type, "CREDIT")
             case .failure:
                 XCTFail()
             }
@@ -89,8 +89,8 @@ class CardClient_Tests: XCTestCase {
         mockURLSession.cannedURLResponse = successURLResponse
         mockURLSession.cannedJSONData = jsonResponse
 
-        let cardOrder = CardOrder(orderID: "", card: card)
-        cardClient.approve(cardOrder) { result in
+        let cardRequest = CardRequest(orderID: "", card: card)
+        cardClient.approveOrder(request: cardRequest) { result in
             switch result {
             case .success:
                 XCTFail()
