@@ -71,8 +71,9 @@ class BaseViewModel: ObservableObject {
     func checkoutWithCard(_ card: Card, orderID: String, completion: @escaping () -> Void = { }) {
         let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
         let cardClient = CardClient(config: config)
+        let cardRequest = CardRequest(orderID: orderID, card: card)
 
-        cardClient.approveOrder(orderID: orderID, card: card) { result in
+        cardClient.approveOrder(request: cardRequest) { result in
             switch result {
             case .success(let result):
                 self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")

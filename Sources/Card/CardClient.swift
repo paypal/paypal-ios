@@ -27,11 +27,11 @@ public class CardClient {
     ///   - orderID: The ID of the order to be approved
     ///   - card: The card to be charged for this order
     ///   - completion: Completion handler for approveOrder, which contains data of the order if success, or an error if failure
-    public func approveOrder(orderID: String, card: Card, completion: @escaping (Result<CardResult, PayPalSDKError>) -> Void) {
+    public func approveOrder(request: CardRequest, completion: @escaping (Result<CardResult, PayPalSDKError>) -> Void) {
         do {
             let confirmPaymentRequest = try ConfirmPaymentSourceRequest(
-                card: card,
-                orderID: orderID,
+                card: request.card,
+                orderID: request.orderID,
                 clientID: config.clientID
             )
 
