@@ -65,7 +65,7 @@ import PaymentsSDK
 // Create a config object using your clientID obtained from PayPal application portal
 let config = CoreConfig(clientID: "<CLIENT_ID>", evironment: .sandbox)
 
-// Create a CardClient object to process a card payment
+// Create a CardClient to approve an order with a card payment method
 let cardClient = CardClient(config: config)
 
 // Create a card object from buyer's inputs
