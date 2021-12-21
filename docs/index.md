@@ -62,7 +62,7 @@ curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/order
 ```swift
 import PaymentsSDK
 
-// Create an config object using your clientID obtained from PayPal application portal
+// Create a config object using your clientID obtained from PayPal application portal
 let config = CoreConfig(clientID: "<CLIENT_ID>", evironment: .sandbox)
 
 // Create a CardClient object to process a card payment
