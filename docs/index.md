@@ -4,7 +4,7 @@ Accept card payments in your app using the PayPal In-App Payments SDK.
 
 ## How it works
 
-The In-App payments SDK allows for merchant apps to integrate easily with PayPal payment services on both the client and server.
+The Payments SDK allows for merchant apps to integrate easily with PayPal payment services on both the client and server.
 
 You will need a server integration to create an order and capture the funds using [PayPal Orders v2 API](https://developer.paypal.com/docs/api/orders/v2). The Payments SDK allows for client-side approval of an order with the user's card information.
 
