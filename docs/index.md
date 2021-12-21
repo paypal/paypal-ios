@@ -81,7 +81,7 @@ let cardRequest = CardRequest(orderID: "<ORDER_ID>", card: card)
 cardClient.approveOrder(request: cardRequest) { result in
     switch result {
         case .success(let result):
-            // Order is successfully approved with card and ready to be capture/authorize.
+            // Order was successfully approved with the card and is ready to be captured/authorized.
         case .failure(let error):
             // Encountered error when approving order.
     }
