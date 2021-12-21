@@ -68,7 +68,7 @@ let config = CoreConfig(clientID: "<CLIENT_ID>", evironment: .sandbox)
 // Create a CardClient to approve an order with a card payment method
 let cardClient = CardClient(config: config)
 
-// Create a card object from buyer's inputs
+// Create a card object
 let card = Card(
     number: "4111111111111111",
     expirationMonth: "01",
