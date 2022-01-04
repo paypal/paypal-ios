@@ -23,7 +23,7 @@ This SDK can be integrated with CocoaPods or Swift Package Manager.
 ### Know before you code
 
 You will need to set up authorization to use the PayPal Payments SDK. 
-Follow the steps in [Get Started](https://developer.paypal.com/api/rest/#link-getstarted) to create a client ID and generate an access token. 
+Follow the steps in [Get Started](https://developer.paypal.com/api/rest/#link-getstarted) to create a client ID. 
 Follow the steps in [Enable the SDK](https://developer.paypal.com/sdk/in-app/android/#link-enablethesdk) to set up your account and application for PayPal payments.
 
 You will need a server integration to create an order and capture the funds using [PayPal Orders v2 API](https://developer.paypal.com/docs/api/orders/v2). 
@@ -92,7 +92,7 @@ When a user enters the payment flow, call `v2/checkout/orders` to create an orde
 ```bash
 curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/orders/' \
 --header 'Content-Type: application/json' \
---header 'Authorization: Bearer <ACCESS_TOKEN>' \
+--header 'Authorization: Basic <ENCODED_CLIENT_ID>' \
 --data-raw '{
     "intent": "CAPTURE",
     "purchase_units": [
@@ -148,7 +148,7 @@ Call `authorize` to place funds on hold:
 ```bash
 curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/orders/<ORDER_ID>/authorize' \
 --header 'Content-Type: application/json' \
---header 'Authorization: Bearer <ACCESS_TOKEN>' \
+--header 'Authorization: Basic <ENCODED_CLIENT_ID>' \
 --data-raw ''
 ```
 
@@ -157,9 +157,11 @@ Call `capture` to capture funds immediately:
 ```bash
 curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/orders/<ORDER_ID>/capture' \
 --header 'Content-Type: application/json' \
---header 'Authorization: Bearer <ACCESS_TOKEN>' \
+--header 'Authorization: Basic <ENCODED_CLIENT_ID>' \
 --data-raw ''
 ```
+
+**Note**: Be sure that the endpoint you are calling aligns with the intent set on the order created in Step 4.
 
 ### Testing your integration
 
