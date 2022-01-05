@@ -34,7 +34,7 @@ class PayPalClient_Tests: XCTestCase {
 
     func testStart_whenNativeSDKOnCancelCalled_returnsCancellationError() {
         let request = PayPalRequest(orderID: "1234")
-        
+
         paypalClient.start(request: request, presentingViewController: nil) { result in
             switch result {
             case .success:
