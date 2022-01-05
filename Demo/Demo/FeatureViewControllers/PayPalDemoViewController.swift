@@ -88,8 +88,8 @@ class PayPalDemoViewController: FeatureBaseViewController {
                 self.baseViewModel.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
                 print("❌ There was an error: \(error)")
             case .cancellation:
-                self.baseViewModel.updateTitle("\(DemoSettings.intent) cancelled")
-                print("❌ Buyer has cancelled the PayPal flow")
+                self.baseViewModel.updateTitle("\(DemoSettings.intent) canceled")
+                print("❌ Buyer has canceled the PayPal flow")
             }
         }
     }

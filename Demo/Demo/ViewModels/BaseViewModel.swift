@@ -26,6 +26,12 @@ class BaseViewModel: ObservableObject {
         }
     }
 
+    func updateOrderID(with orderID: String) {
+        DispatchQueue.main.async {
+            self.orderID = orderID
+        }
+    }
+
     func processOrder(orderID: String, completion: @escaping () -> Void = {}) {
         switch DemoSettings.intent {
         case .authorize:
@@ -86,7 +92,7 @@ class BaseViewModel: ObservableObject {
         }
     }
 
-    func enablePayButton(cardNumber: String, expirationDate: String, cvv: String) -> Bool {
+    func isCardFormValid(cardNumber: String, expirationDate: String, cvv: String) -> Bool {
         guard orderID != nil else {
             updateTitle("Create an order to proceed")
             return false

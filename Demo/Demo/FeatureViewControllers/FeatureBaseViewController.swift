@@ -98,9 +98,7 @@ class FeatureBaseViewController: UIViewController {
             switch result {
             case .success(let order):
                 self.baseViewModel.updateTitle("Order ID: \(order.id)")
-                DispatchQueue.main.async {
-                    self.baseViewModel.orderID = order.id
-                }
+                self.baseViewModel.updateOrderID(with: order.id)
                 print("✅ fetched orderID: \(order.id) with status: \(order.status)")
             case .failure(let error):
                 self.baseViewModel.updateTitle("Your order has failed, please try again")

@@ -40,14 +40,14 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         return textField
     }()
 
-    lazy var payButton: CustomButton = {
-        let payButton = CustomButton(title: "\(DemoSettings.intent.rawValue.capitalized) Order")
-        payButton.addTarget(self, action: #selector(didTapPayButton), for: .touchUpInside)
-        payButton.layer.cornerRadius = 8
-        payButton.backgroundColor = .systemBlue
-        payButton.tintColor = .white
-        payButton.isEnabled = false
-        return payButton
+    lazy var checkoutButton: CustomButton = {
+        let checkoutButton = CustomButton(title: "\(DemoSettings.intent.rawValue.capitalized) Order")
+        checkoutButton.addTarget(self, action: #selector(didTapCheckoutButton), for: .touchUpInside)
+        checkoutButton.layer.cornerRadius = 8
+        checkoutButton.backgroundColor = .systemBlue
+        checkoutButton.tintColor = .white
+        checkoutButton.isEnabled = false
+        return checkoutButton
     }()
 
     private let cardFormatter = CardFormatter()
@@ -72,7 +72,7 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
         cardFormStackView.addArrangedSubview(cardNumberTextField)
         cardFormStackView.addArrangedSubview(expirationCVVStackView)
-        cardFormStackView.addArrangedSubview(payButton)
+        cardFormStackView.addArrangedSubview(checkoutButton)
 
         expirationCVVStackView.addArrangedSubview(expirationTextField)
         expirationCVVStackView.addArrangedSubview(cvvTextField)
@@ -87,7 +87,7 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
             cardNumberTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
             expirationTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
             cvvTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
-            payButton.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight)
+            checkoutButton.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight)
         ])
     }
 
@@ -96,7 +96,7 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
     /// Allows us to only enable the pay button once all fields are filled out and we have an order ID
     @objc override func createOrderTapped() {
         createOrder { _ in
-            self.payButton.isEnabled = self.baseViewModel.enablePayButton(
+            self.checkoutButton.isEnabled = self.baseViewModel.isCardFormValid(
                 cardNumber: self.cardNumberTextField.text ?? "",
                 expirationDate: self.expirationTextField.text ?? "",
                 cvv: self.cvvTextField.text ?? ""
@@ -106,9 +106,9 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
     // MARK: - Card Module Integration
 
-    @objc func didTapPayButton() {
+    @objc func didTapCheckoutButton() {
         baseViewModel.updateTitle("Approving order...")
-        payButton.startAnimating()
+        checkoutButton.startAnimating()
 
         guard let card = baseViewModel.createCard(
             cardNumber: cardNumberTextField.text,
@@ -121,7 +121,7 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         }
 
         baseViewModel.checkoutWithCard(card, orderID: orderID) {
-            self.payButton.stopAnimating()
+            self.checkoutButton.stopAnimating()
         }
     }
 
@@ -146,17 +146,21 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         switch textField {
         case cardNumberTextField:
             textField.text = cardFormatter.formatFieldWith(new, field: .cardNumber)
-            payButton.isEnabled = baseViewModel.enablePayButton(cardNumber: textField.text ?? "", expirationDate: expirationDate, cvv: cvv)
+            checkoutButton.isEnabled = baseViewModel.isCardFormValid(
+                cardNumber: textField.text ?? "",
+                expirationDate: expirationDate,
+                cvv: cvv
+            )
             setCursorLocation(textField: textField, range: range)
             return false
         case expirationTextField:
             textField.text = cardFormatter.formatFieldWith(new, field: .expirationDate)
-            payButton.isEnabled = baseViewModel.enablePayButton(cardNumber: cardNumber, expirationDate: textField.text ?? "", cvv: cvv)
+            checkoutButton.isEnabled = baseViewModel.isCardFormValid(cardNumber: cardNumber, expirationDate: textField.text ?? "", cvv: cvv)
             setCursorLocation(textField: textField, range: range)
             return false
         case cvvTextField:
             textField.text = cardFormatter.formatFieldWith(new, field: .cvv)
-            payButton.isEnabled = baseViewModel.enablePayButton(
+            checkoutButton.isEnabled = baseViewModel.isCardFormValid(
                 cardNumber: cardNumber,
                 expirationDate: expirationDate,
                 cvv: textField.text ?? ""

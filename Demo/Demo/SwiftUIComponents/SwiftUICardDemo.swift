@@ -50,12 +50,12 @@ struct SwiftUICardDemo: View {
                 .padding()
                 .frame(maxWidth: .infinity)
                 .background(
-                    baseViewModel.enablePayButton(cardNumber: cardNumberText, expirationDate: expirationDateText, cvv: cvvText)
+                    baseViewModel.isCardFormValid(cardNumber: cardNumberText, expirationDate: expirationDateText, cvv: cvvText)
                     ? .blue
                     : .gray
                 )
                 .cornerRadius(10)
-                .disabled(!baseViewModel.enablePayButton(cardNumber: cardNumberText, expirationDate: expirationDateText, cvv: cvvText))
+                .disabled(!baseViewModel.isCardFormValid(cardNumber: cardNumberText, expirationDate: expirationDateText, cvv: cvvText))
             }
             .padding(.horizontal, 16)
         }
