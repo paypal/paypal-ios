@@ -14,10 +14,10 @@ class PayPalClient_Tests: XCTestCase {
     )
 
     func testStart_whenNativeSDKOnApproveCalled_returnsPayPalResult() {
-        let orderID = "1234"
-        let approval = MockApproval(intent: "intent", payerID: "payerID", ecToken: orderID)
+        let request = PayPalRequest(orderID: "1234")
+        let approval = MockApproval(intent: "intent", payerID: "payerID", ecToken: request.orderID)
 
-        paypalClient.start(orderID: orderID, presentingViewController: nil) { result in
+        paypalClient.start(request: request, presentingViewController: nil) { result in
             switch result {
             case .success(let approvalResult):
                 XCTAssertEqual(approvalResult.orderID, approval.ecToken)
@@ -33,7 +33,9 @@ class PayPalClient_Tests: XCTestCase {
     }
 
     func testStart_whenNativeSDKOnCancelCalled_returnsCancellationError() {
-        paypalClient.start(orderID: "1234", presentingViewController: nil) { result in
+        let request = PayPalRequest(orderID: "1234")
+        
+        paypalClient.start(request: request, presentingViewController: nil) { result in
             switch result {
             case .success:
                 XCTFail()
@@ -46,9 +48,10 @@ class PayPalClient_Tests: XCTestCase {
     }
 
     func testStart_whenNativeSDKOnErrorCalled_returnsCheckoutError() {
+        let request = PayPalRequest(orderID: "1234")
         let error = MockPayPalError(reason: "error reason", error: NSError())
 
-        paypalClient.start(orderID: "1234", presentingViewController: nil) { result in
+        paypalClient.start(request: request, presentingViewController: nil) { result in
             switch result {
             case .success:
                 XCTFail()
