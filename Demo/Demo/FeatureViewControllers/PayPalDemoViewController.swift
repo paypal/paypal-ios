@@ -77,8 +77,9 @@ class PayPalDemoViewController: FeatureBaseViewController {
     func checkoutWithPayPal(orderID: String) {
         let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
         let payPalClient = PayPalClient(config: config, returnURL: DemoSettings.paypalReturnUrl)
+        let payPalRequest = PayPalRequest(orderID: orderID)
 
-        payPalClient.start(orderID: orderID, presentingViewController: self) { [weak self] state in
+        payPalClient.start(request: payPalRequest, presentingViewController: self) { [weak self] state in
             guard let self = self else { return }
             switch state {
             case .success(let result):
