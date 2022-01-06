@@ -73,7 +73,16 @@ let card = Card(
     number: "4111111111111111",
     expirationMonth: "01",
     expirationYear: "25",
-    securityCode: "123"
+    securityCode: "123",
+    cardholderName: "Jane Smith",
+    billingAddress: Address(
+        addressLine1: "123 Main St.",
+        addressLine2: "Apt. 1A",
+        locality: "city",
+        region: "IL",
+        postalCode: "12345",
+        countryCode: "US"
+    )
 )
 
 // Create a CardRequest and approve the order using buyer's card when buyer submit their card info.
