@@ -40,12 +40,14 @@ Process card payments with PayPal Payments SDK using your own UI.
 #### 1. Create an order
 Call `v2/checkout/orders` to create an order an obtain an order ID
 
+> NOTE: field values enclosed in angle brackets '<>' are placeholders
+
 ```
 curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/orders/' \
 --header 'Content-Type: application/json' \
---header 'Authorization: Bearer <access_token>' \
+--header 'Authorization: Bearer <Access-Token>' \
 --data-raw '{
-    "intent": "CAPTURE",
+    "intent": "<CAPTURE|AUTHORIZE>",
     "purchase_units": [
         {
             "amount": {
@@ -57,13 +59,18 @@ curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/order
 }'
 ```
 
+##### Additional Links
+
+- [PayPal Developer: Get Started – Get an access token](https://developer.paypal.com/api/rest/#link-getanaccesstoken)
+- [PayPal Developer: Orders – Create an order](https://developer.paypal.com/api/orders/v2/#orders_createe)
+
 #### 2. Approve the order using Payments SDK:
 
 ```swift
 import PaymentsSDK
 
 // Create a config object using your clientID obtained from PayPal application portal
-let config = CoreConfig(clientID: "<CLIENT_ID>", evironment: .sandbox)
+let config = CoreConfig(clientID: "<CLIENT_ID>", environment: .sandbox)
 
 // Create a CardClient to approve an order with a card payment method
 let cardClient = CardClient(config: config)
