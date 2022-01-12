@@ -66,31 +66,6 @@ class PayPalDemoViewController: FeatureBaseViewController {
     // MARK: - PayPal Module Integration
 
     @objc func paymentButtonTapped() {
-        guard let orderID = baseViewModel.orderID else {
-            baseViewModel.updateTitle("Failed: missing orderID.")
-            return
-        }
-
-        checkoutWithPayPal(orderID: orderID)
-    }
-
-    func checkoutWithPayPal(orderID: String) {
-        let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
-        let payPalClient = PayPalClient(config: config, returnURL: DemoSettings.paypalReturnUrl)
-
-        payPalClient.start(orderID: orderID, presentingViewController: self) { [weak self] state in
-            guard let self = self else { return }
-            switch state {
-            case .success(let result):
-                self.baseViewModel.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
-                print("✅ Order is successfully approved and ready to be captured/authorized with result: \(result)")
-            case .failure(let error):
-                self.baseViewModel.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
-                print("❌ There was an error: \(error)")
-            case .cancellation:
-                self.baseViewModel.updateTitle("\(DemoSettings.intent) canceled")
-                print("❌ Buyer has canceled the PayPal flow")
-            }
-        }
+        baseViewModel.payPalButtonTapped(presentingViewController: self)
     }
 }
