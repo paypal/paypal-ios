@@ -1,6 +1,4 @@
 import UIKit
-import PaymentsCore
-import Card
 
 class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
@@ -42,14 +40,14 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         return textField
     }()
 
-    lazy var payButton: CustomButton = {
-        let payButton = CustomButton(title: "\(DemoSettings.intent.rawValue.capitalized) Order")
-        payButton.addTarget(self, action: #selector(didTapPayButton), for: .touchUpInside)
-        payButton.layer.cornerRadius = 8
-        payButton.backgroundColor = .systemBlue
-        payButton.tintColor = .white
-        payButton.isEnabled = false
-        return payButton
+    lazy var checkoutButton: CustomButton = {
+        let checkoutButton = CustomButton(title: "\(DemoSettings.intent.rawValue.capitalized) Order")
+        checkoutButton.addTarget(self, action: #selector(didTapCheckoutButton), for: .touchUpInside)
+        checkoutButton.layer.cornerRadius = 8
+        checkoutButton.backgroundColor = .systemBlue
+        checkoutButton.tintColor = .white
+        checkoutButton.isEnabled = false
+        return checkoutButton
     }()
 
     private let cardFormatter = CardFormatter()
@@ -74,7 +72,7 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
         cardFormStackView.addArrangedSubview(cardNumberTextField)
         cardFormStackView.addArrangedSubview(expirationCVVStackView)
-        cardFormStackView.addArrangedSubview(payButton)
+        cardFormStackView.addArrangedSubview(checkoutButton)
 
         expirationCVVStackView.addArrangedSubview(expirationTextField)
         expirationCVVStackView.addArrangedSubview(cvvTextField)
@@ -89,7 +87,7 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
             cardNumberTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
             expirationTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
             cvvTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
-            payButton.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight)
+            checkoutButton.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight)
         ])
     }
 
@@ -97,8 +95,8 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
     /// Allows us to only enable the pay button once all fields are filled out and we have an order ID
     @objc override func createOrderTapped() {
-        createOrder { _ in
-            self.enablePayButton(
+        baseViewModel.createOrder(amount: amountTextField.text) { _ in
+            self.checkoutButton.isEnabled = self.baseViewModel.isCardFormValid(
                 cardNumber: self.cardNumberTextField.text ?? "",
                 expirationDate: self.expirationTextField.text ?? "",
                 cvv: self.cvvTextField.text ?? ""
@@ -108,52 +106,23 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
     // MARK: - Card Module Integration
 
-    @objc func didTapPayButton() {
-        updateTitle("Approving order...")
-        payButton.startAnimating()
+    @objc func didTapCheckoutButton() {
+        baseViewModel.updateTitle("Approving order...")
+        checkoutButton.startAnimating()
 
-        guard let card = createCard(),
-            let orderID = orderID else {
-            updateTitle("Failed: missing card / orderID.")
+        guard let card = baseViewModel.createCard(
+            cardNumber: cardNumberTextField.text,
+            expirationDate: expirationTextField.text,
+            cvv: cvvTextField.text
+        ),
+            let orderID = baseViewModel.orderID
+        else {
             return
         }
 
-        checkoutWithCard(card, orderID: orderID)
-    }
-
-    func checkoutWithCard(_ card: Card, orderID: String) {
-        let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
-        let cardClient = CardClient(config: config)
-
-        let cardRequest = CardRequest(orderID: orderID, card: card)
-        cardClient.approveOrder(request: cardRequest) { result in
-            switch result {
-            case .success(let result):
-                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
-                self.processOrder(orderID: result.orderID) {
-                    self.payButton.stopAnimating()
-                }
-            case .failure(let error):
-                self.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
-                self.payButton.stopAnimating()
-            }
+        baseViewModel.checkoutWithCard(card, orderID: orderID) {
+            self.checkoutButton.stopAnimating()
         }
-    }
-
-    private func createCard() -> Card? {
-        guard let cardNumber = cardNumberTextField.text,
-            let cvv = cvvTextField.text,
-            let expirationDate = expirationTextField.text else {
-            return nil
-        }
-
-        let cleanedCardText = cardNumber.replacingOccurrences(of: " ", with: "")
-
-        let expirationComponents = expirationDate.components(separatedBy: " / ")
-        let expirationMonth = expirationComponents[0]
-        let expirationYear = "20" + expirationComponents[1]
-
-        return Card(number: cleanedCardText, expirationMonth: expirationMonth, expirationYear: expirationYear, securityCode: cvv)
     }
 
     // MARK: - Card Field Formatting
@@ -176,44 +145,30 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
         switch textField {
         case cardNumberTextField:
-            formatCardNumber(textField: textField, newString: new)
-            enablePayButton(cardNumber: textField.text ?? "", expirationDate: expirationDate, cvv: cvv)
+            textField.text = cardFormatter.formatFieldWith(new, field: .cardNumber)
+            checkoutButton.isEnabled = baseViewModel.isCardFormValid(
+                cardNumber: textField.text ?? "",
+                expirationDate: expirationDate,
+                cvv: cvv
+            )
             setCursorLocation(textField: textField, range: range)
             return false
         case expirationTextField:
-            formatExpirationDate(textField: textField, newString: new)
-            enablePayButton(cardNumber: cardNumber, expirationDate: textField.text ?? "", cvv: cvv)
+            textField.text = cardFormatter.formatFieldWith(new, field: .expirationDate)
+            checkoutButton.isEnabled = baseViewModel.isCardFormValid(cardNumber: cardNumber, expirationDate: textField.text ?? "", cvv: cvv)
             setCursorLocation(textField: textField, range: range)
             return false
         case cvvTextField:
-            /// Limit cvv character count to be 4 characters max
-            guard new.count <= 4 else { return false }
-            textField.text = new
-            enablePayButton(cardNumber: cardNumber, expirationDate: expirationDate, cvv: textField.text ?? "")
+            textField.text = cardFormatter.formatFieldWith(new, field: .cvv)
+            checkoutButton.isEnabled = baseViewModel.isCardFormValid(
+                cardNumber: cardNumber,
+                expirationDate: expirationDate,
+                cvv: textField.text ?? ""
+            )
             return false
         default:
             return true
         }
-    }
-
-    private func formatCardNumber(textField: UITextField, newString: String) {
-        /// clean the text field test to remove spaces
-        let cleanedText = newString.replacingOccurrences(of: " ", with: "")
-
-        /// check that the count of the text field is less than or equal to the card types max length
-        guard cleanedText.count <= CardType.unknown.getCardType(cleanedText).maxLength else { return }
-
-        textField.text = cardFormatter.formatCardNumber(cleanedText)
-    }
-
-    private func formatExpirationDate(textField: UITextField, newString: String) {
-        /// clean the text field text to remove slash and spaces
-        let cleanedText = newString.replacingOccurrences(of: "/", with: "").replacingOccurrences(of: " ", with: "")
-
-        /// limit expiration date to 4 characters max
-        guard cleanedText.count <= 4 else { return }
-
-        textField.text = cardFormatter.formatExpirationDate(cleanedText)
     }
 
     private func setCursorLocation(textField: UITextField, range: NSRange) {
@@ -225,20 +180,5 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         if let cursorLocation = cursorLocation {
             textField.selectedTextRange = textField.textRange(from: cursorLocation, to: cursorLocation)
         }
-    }
-
-    private func enablePayButton(cardNumber: String, expirationDate: String, cvv: String) {
-        guard orderID != nil else {
-            updateTitle("Create an order to proceed")
-            payButton.isEnabled = false
-            return
-        }
-
-        let cleanedCardNumber = cardNumber.replacingOccurrences(of: " ", with: "")
-        let cleanedExpirationDate = expirationDate.replacingOccurrences(of: "/", with: "").replacingOccurrences(of: " ", with: "")
-
-        let enabled = cleanedCardNumber.count >= 15 && cleanedCardNumber.count <= 19
-        && cleanedExpirationDate.count == 4 && cvv.count >= 3 && cvv.count <= 4
-        payButton.isEnabled = enabled
     }
 }

@@ -38,12 +38,22 @@ class FeatureBaseViewController: UIViewController {
         return label
     }()
 
-    var orderID: String?
+    let baseViewModel: BaseViewModel
+
+    init(baseViewModel: BaseViewModel) {
+        self.baseViewModel = baseViewModel
+        super.init(nibName: nil, bundle: nil)
+        baseViewModel.view = self
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureBottomView()
-        updateTitle("Tap create order to begin")
+        baseViewModel.updateTitle("Tap create order to begin")
     }
 
     func configureBottomView() {
@@ -72,64 +82,6 @@ class FeatureBaseViewController: UIViewController {
     }
 
     @objc func createOrderTapped() {
-        createOrder()
-    }
-
-    func createOrder(completion: @escaping (String?) -> Void = { _ in }) {
-        updateTitle("Creating order...")
-
-        let amount = Amount(currencyCode: "USD", value: amountTextField.text ?? "")
-        let orderRequestParams = CreateOrderParams(
-            intent: DemoSettings.intent.rawValue.uppercased(),
-            purchaseUnits: [PurchaseUnit(amount: amount)]
-        )
-
-        DemoMerchantAPI.sharedService.createOrder(orderParams: orderRequestParams) { result in
-            switch result {
-            case .success(let order):
-                self.updateTitle("Order ID: \(order.id)")
-                self.orderID = order.id
-                print("✅ fetched orderID: \(order.id) with status: \(order.status)")
-            case .failure(let error):
-                self.updateTitle("Your order has failed, please try again")
-                print("❌ failed to fetch orderID: \(error)")
-            }
-            DispatchQueue.main.async {
-                completion(self.orderID)
-            }
-        }
-    }
-
-    func processOrder(orderID: String, completion: @escaping () -> Void = {}) {
-        switch DemoSettings.intent {
-        case .authorize:
-            updateTitle("Authorizing order...")
-        case .capture:
-            updateTitle("Capturing order...")
-        }
-
-        let processOrderParams = ProcessOrderParams(
-            orderId: orderID,
-            intent: DemoSettings.intent.rawValue,
-            countryCode: "US"
-        )
-
-        DemoMerchantAPI.sharedService.processOrder(processOrderParams: processOrderParams) { result in
-            switch result {
-            case .success(let order):
-                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) success: \(order.status)")
-                print("✅ processed orderID: \(order.id) with status: \(order.status)")
-            case .failure(let error):
-                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) fail: \(error.localizedDescription)")
-                print("❌ failed to process orderID: \(error)")
-            }
-            completion()
-        }
-    }
-
-    func updateTitle(_ message: String) {
-        DispatchQueue.main.async {
-            self.bottomStatusLabel.text = message
-        }
+        baseViewModel.createOrder(amount: amountTextField.text)
     }
 }
