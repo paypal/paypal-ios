@@ -32,6 +32,33 @@ class BaseViewModel: ObservableObject {
         }
     }
 
+    func createOrder(amount: String?, completion: @escaping (String?) -> Void = { _ in }) {
+        updateTitle("Creating order...")
+
+        guard let amount = amount else { return }
+
+        let amountRequest = Amount(currencyCode: "USD", value: amount)
+        let orderRequestParams = CreateOrderParams(
+            intent: DemoSettings.intent.rawValue.uppercased(),
+            purchaseUnits: [PurchaseUnit(amount: amountRequest)]
+        )
+
+        DemoMerchantAPI.sharedService.createOrder(orderParams: orderRequestParams) { result in
+            switch result {
+            case .success(let order):
+                self.updateTitle("Order ID: \(order.id)")
+                self.updateOrderID(with: order.id)
+                print("✅ fetched orderID: \(order.id) with status: \(order.status)")
+            case .failure(let error):
+                self.updateTitle("Your order has failed, please try again")
+                print("❌ failed to fetch orderID: \(error)")
+            }
+            DispatchQueue.main.async {
+                completion(self.orderID)
+            }
+        }
+    }
+
     func processOrder(orderID: String, completion: @escaping () -> Void = {}) {
         switch DemoSettings.intent {
         case .authorize:

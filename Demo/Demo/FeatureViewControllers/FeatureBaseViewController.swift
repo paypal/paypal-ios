@@ -82,31 +82,6 @@ class FeatureBaseViewController: UIViewController {
     }
 
     @objc func createOrderTapped() {
-        createOrder()
-    }
-
-    func createOrder(completion: @escaping (String?) -> Void = { _ in }) {
-        baseViewModel.updateTitle("Creating order...")
-
-        let amount = Amount(currencyCode: "USD", value: amountTextField.text ?? "")
-        let orderRequestParams = CreateOrderParams(
-            intent: DemoSettings.intent.rawValue.uppercased(),
-            purchaseUnits: [PurchaseUnit(amount: amount)]
-        )
-
-        DemoMerchantAPI.sharedService.createOrder(orderParams: orderRequestParams) { result in
-            switch result {
-            case .success(let order):
-                self.baseViewModel.updateTitle("Order ID: \(order.id)")
-                self.baseViewModel.updateOrderID(with: order.id)
-                print("✅ fetched orderID: \(order.id) with status: \(order.status)")
-            case .failure(let error):
-                self.baseViewModel.updateTitle("Your order has failed, please try again")
-                print("❌ failed to fetch orderID: \(error)")
-            }
-            DispatchQueue.main.async {
-                completion(self.baseViewModel.orderID)
-            }
-        }
+        baseViewModel.createOrder(amount: amountTextField.text)
     }
 }

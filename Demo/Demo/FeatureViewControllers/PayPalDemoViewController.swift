@@ -53,8 +53,8 @@ class PayPalDemoViewController: FeatureBaseViewController {
     // MARK: - FeatureBaseViewController Override
 
     /// Enable the PayPal Button once we have created an order
-    override func createOrder(completion: @escaping (String?) -> Void = { _ in }) {
-        super.createOrder { orderID in
+    func createOrder(completion: @escaping (String?) -> Void = { _ in }) {
+        baseViewModel.createOrder(amount: amountTextField.text) { orderID in
             if orderID != nil {
                 self.payPalButton.isEnabled = true
             } else {
