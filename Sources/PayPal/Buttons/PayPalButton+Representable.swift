@@ -1,12 +1,15 @@
 import SwiftUI
 
 @available(iOS 13, *)
+/// SwiftUI representable of the PayPal button
 public extension PayPalButton {
 
     struct Representable: UIViewRepresentable {
 
         let action: () -> Void
-
+        
+        /// Initilizer for the SwiftUI PayPal button
+        /// - Parameter action: action of the button on click
         public init(_ action: @escaping () -> Void) {
             self.action = action
         }
@@ -36,7 +39,6 @@ public extension PayPalButton {
         }
 
         public func updateUIView(_ uiView: UIView, context: Context) {
-            // Not needed currently
             context.coordinator.action = action
         }
     }
