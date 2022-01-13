@@ -7,7 +7,7 @@ public extension PayPalButton {
     struct Representable: UIViewRepresentable {
 
         let action: () -> Void
-        
+
         /// Initilizer for the SwiftUI PayPal button
         /// - Parameter action: action of the button on click
         public init(_ action: @escaping () -> Void) {

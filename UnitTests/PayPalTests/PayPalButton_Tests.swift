@@ -12,4 +12,14 @@ class PayPalButton_Tests: XCTestCase {
         let payPalButton = PayPalButton()
         XCTAssertEqual(payPalButton.backgroundColor, PaymentButtonColor.gold.rawValue)
     }
+
+    func testInit_whenSwiftUIPayPalButtonCreated_canInit() {
+        let action = { }
+        let payPalButton = PayPalButton.Representable { }
+        let coordinator = Coordinator(action: action)
+
+        XCTAssertNotNil(payPalButton)
+        XCTAssertNotNil(payPalButton.makeCoordinator())
+        XCTAssertNotNil(coordinator.onAction(_:))
+    }
 }
