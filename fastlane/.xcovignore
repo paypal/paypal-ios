@@ -1,4 +1,4 @@
 # Exclude PayPal Interfaces
 - Sources/PayPal/PayPalUIInterfaces
 # Exclude SwiftUI Interface until a decision is made on UITesting Frameworks
-- Sources/PayPal/Buttons/*Representable.swift
+- Sources/PayPal/Buttons
