@@ -9,11 +9,11 @@ import PaymentsCore
 /// PayPal Paysheet to handle PayPal transaction
 public class PayPalClient {
 
-    private let config: CoreConfig
-    private let returnURL: String
+    let config: CoreConfig
+    let returnURL: String
 
     // swiftlint:disable identifier_name
-    private let CheckoutFlow: CheckoutProtocol.Type
+    let CheckoutFlow: CheckoutProtocol.Type
     // swiftlint:enable identifier_name
 
     /// Initialize a PayPalClient to process PayPal transaction

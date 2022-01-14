@@ -20,6 +20,6 @@ class PayPalButton_Tests: XCTestCase {
 
         XCTAssertNotNil(payPalButton)
         XCTAssertNotNil(payPalButton.makeCoordinator())
-        XCTAssertNotNil(coordinator.onAction(_:))
+        XCTAssertNotNil(coordinator.onAction(action))
     }
 }
