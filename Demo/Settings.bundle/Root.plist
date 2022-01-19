@@ -52,32 +52,52 @@
 				<string>authorize</string>
 			</array>
 		</dict>
-    <dict>
-      <key>Type</key>
-      <string>PSGroupSpecifier</string>
-      <key>Title</key>
-      <string>Feature</string>
-    </dict>
-    <dict>
-      <key>Type</key>
-      <string>PSMultiValueSpecifier</string>
-      <key>Title</key>
-      <string>Demo Type</string>
-      <key>Key</key>
-      <string>demo_type</string>
-      <key>DefaultValue</key>
-      <string></string>
-      <key>Titles</key>
-      <array>
-        <string>Card</string>
-        <string>PayPal</string>
-      </array>
-      <key>Values</key>
-      <array>
-        <string>card</string>
-        <string>paypal</string>
-      </array>
-    </dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Feature</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Title</key>
+			<string>Demo Type</string>
+			<key>Key</key>
+			<string>demo_type</string>
+			<key>DefaultValue</key>
+			<string></string>
+			<key>Titles</key>
+			<array>
+				<string>Card</string>
+				<string>PayPal</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>card</string>
+				<string>paypal</string>
+			</array>
+		</dict>
+        <dict>
+            <key>Type</key>
+            <string>PSMultiValueSpecifier</string>
+            <key>Title</key>
+            <string>UI Framework</string>
+            <key>Key</key>
+            <string>demo_ui_framework</string>
+            <key>DefaultValue</key>
+            <string>UIKit</string>
+            <key>Titles</key>
+            <array>
+                <string>UIKit</string>
+                <string>SwiftUI</string>
+            </array>
+            <key>Values</key>
+            <array>
+                <string>uikit</string>
+                <string>swiftui</string>
+            </array>
+        </dict>
 	</array>
 </dict>
 </plist>
