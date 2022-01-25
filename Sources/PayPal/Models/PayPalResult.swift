@@ -1,5 +1,3 @@
-@_implementationOnly import PayPalCheckout
-
 import Foundation
 
 /// The result of a PayPal payment flow.

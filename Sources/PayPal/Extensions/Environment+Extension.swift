@@ -1,4 +1,3 @@
-@_implementationOnly import PayPalCheckout
 
 #if canImport(PaymentsCore)
 import PaymentsCore
@@ -12,12 +11,12 @@ private typealias PayPalEnvironment = PaymentsCore.Environment
 
 extension PayPalEnvironment {
 
-    func toNativeCheckoutSDKEnvironment() -> PayPalCheckout.Environment {
-        switch self {
-        case .sandbox:
-            return .sandbox
-        case .production:
-            return .live
-        }
-    }
+//    func toNativeCheckoutSDKEnvironment() -> PayPalCheckout.Environment {
+//        switch self {
+//        case .sandbox:
+//            return .sandbox
+//        case .production:
+//            return .live
+//        }
+//    }
 }

@@ -1,7 +1,5 @@
 import UIKit
 
-@_implementationOnly import PayPalCheckout
-
 #if canImport(PaymentsCore)
 import PaymentsCore
 #endif
@@ -12,10 +10,6 @@ public class PayPalClient {
     private let config: CoreConfig
     private let returnURL: String
 
-    // swiftlint:disable identifier_name
-    private let CheckoutFlow: CheckoutProtocol.Type
-    // swiftlint:enable identifier_name
-
     /// Initialize a PayPalClient to process PayPal transaction
     /// - Parameters:
     ///   - config: The CoreConfig object
@@ -23,13 +17,11 @@ public class PayPalClient {
     public init(config: CoreConfig, returnURL: String) {
         self.config = config
         self.returnURL = returnURL
-        self.CheckoutFlow = Checkout.self
     }
 
     init(config: CoreConfig, returnURL: String, checkoutFlow: CheckoutProtocol.Type) {
         self.config = config
         self.returnURL = returnURL
-        self.CheckoutFlow = checkoutFlow
     }
 
     /// Present PayPal Paysheet and start a PayPal transaction
@@ -42,26 +34,26 @@ public class PayPalClient {
         presentingViewController: UIViewController? = nil,
         completion: @escaping (PayPalCheckoutResult) -> Void
     ) {
-        CheckoutFlow.set(config: config, returnURL: returnURL)
-
-        CheckoutFlow.start(
-            presentingViewController: presentingViewController,
-            createOrder: { order in
-                order.set(orderId: orderID)
-            },
-            onApprove: { approval in
-                let payPalResult = PayPalResult(
-                    orderID: approval.ecToken,
-                    payerID: approval.payerID
-                )
-                completion(.success(result: payPalResult))
-            },
-            onCancel: {
-                completion(.cancellation)
-            },
-            onError: { errorInfo in
-                completion(.failure(error: PayPalError.nativeCheckoutSDKError(errorInfo)))
-            }
-        )
+//        CheckoutFlow.set(config: config, returnURL: returnURL)
+//
+//        CheckoutFlow.start(
+//            presentingViewController: presentingViewController,
+//            createOrder: { order in
+//                order.set(orderId: orderID)
+//            },
+//            onApprove: { approval in
+//                let payPalResult = PayPalResult(
+//                    orderID: approval.ecToken,
+//                    payerID: approval.payerID
+//                )
+//                completion(.success(result: payPalResult))
+//            },
+//            onCancel: {
+//                completion(.cancellation)
+//            },
+//            onError: { errorInfo in
+//                completion(.failure(error: PayPalError.nativeCheckoutSDKError(errorInfo)))
+//            }
+//        )
     }
 }
