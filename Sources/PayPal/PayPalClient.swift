@@ -32,13 +32,22 @@ public class PayPalClient {
         completion: @escaping (PayPalCheckoutResult) -> Void
     ) {
         let baseURL = config.environment.baseURL
-        let payPalCheckoutURL = String(format: "%@/checkoutnow?token=%@", baseURL, request.orderID)
+        let payPalCheckoutURL: String? = nil
+        do {
+            let baseURLString = try String(contentsOf: baseURL)
+            let payPalCheckoutURLString = String(format: "%@/checkoutnow?token=%@", baseURLString, request.orderID)
+            let payPalCheckoutURL = try URL(from: payPalCheckoutURLString as! Decoder)
+            let webAuthenticationSession = WebAuthenticationSession()
+            webAuthenticationSession.start(url: payPalCheckoutURL, callbackURLScheme: returnURL, completionHandler: { url, error in
+                if let error = error {
+                    let result = PayPalCheckoutResult.failure(error: PayPalError.webSessionError(error))
+                
+                }
+            })
+        } catch {
+            
+        }
         
-        let webAuthenticationSession = WebAuthenticationSession()
-        webAuthenticationSession.start(url: payPalCheckoutURL, callbackURLScheme: returnURL, completionHandler: { url, error in
-            if let error = error {
-                let result = PayPalCheckoutResult.failure(error: PayPalSDKError(code:))
-            }
-        })
+        
     }
 }

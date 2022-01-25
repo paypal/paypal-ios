@@ -2,7 +2,7 @@
 import PaymentsCore
 #endif
 
-enum PayPalError {
+public enum PayPalError {
 
     static let domain = "PayPalErrorDomain"
 
