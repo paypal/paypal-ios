@@ -150,8 +150,9 @@ class BaseViewModel: ObservableObject {
     func checkoutWithPayPal(orderID: String, presentingViewController: UIViewController? = nil) {
         let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
         let payPalClient = PayPalClient(config: config, returnURL: DemoSettings.paypalReturnUrl)
+        let payPalRequest = PayPalRequest(orderID: orderID)
 
-        payPalClient.start(orderID: orderID, presentingViewController: presentingViewController) { [weak self] state in
+        payPalClient.start(request: payPalRequest, presentingViewController: presentingViewController) { [weak self] state in
             guard let self = self else { return }
             switch state {
             case .success(let result):
