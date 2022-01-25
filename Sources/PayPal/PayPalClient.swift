@@ -9,6 +9,7 @@ public class PayPalClient {
 
     private let config: CoreConfig
     private let returnURL: String
+    private let apiClient: APIClient
 
     /// Initialize a PayPalClient to process PayPal transaction
     /// - Parameters:
@@ -17,11 +18,7 @@ public class PayPalClient {
     public init(config: CoreConfig, returnURL: String) {
         self.config = config
         self.returnURL = returnURL
-    }
-
-    init(config: CoreConfig, returnURL: String, checkoutFlow: CheckoutProtocol.Type) {
-        self.config = config
-        self.returnURL = returnURL
+        self.apiClient = APIClient(environment: config.environment)
     }
 
     /// Present PayPal Paysheet and start a PayPal transaction
