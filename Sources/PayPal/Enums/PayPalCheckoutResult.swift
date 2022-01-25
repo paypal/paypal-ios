@@ -11,6 +11,6 @@ public enum PayPalCheckoutResult {
     /// An error has occurred during the checkout experience
     case failure(error: PayPalSDKError)
 
-    /// The buyer has cancelled the checkout experience
+    /// The buyer has canceled the checkout experience
     case cancellation
 }

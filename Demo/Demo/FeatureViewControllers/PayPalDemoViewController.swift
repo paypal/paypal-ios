@@ -53,8 +53,8 @@ class PayPalDemoViewController: FeatureBaseViewController {
     // MARK: - FeatureBaseViewController Override
 
     /// Enable the PayPal Button once we have created an order
-    override func createOrder(completion: @escaping (String?) -> Void = { _ in }) {
-        super.createOrder { orderID in
+    func createOrder(completion: @escaping (String?) -> Void = { _ in }) {
+        baseViewModel.createOrder(amount: amountTextField.text) { orderID in
             if orderID != nil {
                 self.payPalButton.isEnabled = true
             } else {
@@ -66,8 +66,8 @@ class PayPalDemoViewController: FeatureBaseViewController {
     // MARK: - PayPal Module Integration
 
     @objc func paymentButtonTapped() {
-        guard let orderID = orderID else {
-            updateTitle("Failed: missing orderID.")
+        guard let orderID = baseViewModel.orderID else {
+            baseViewModel.updateTitle("Failed: missing orderID.")
             return
         }
 
@@ -83,14 +83,14 @@ class PayPalDemoViewController: FeatureBaseViewController {
             guard let self = self else { return }
             switch state {
             case .success(let result):
-                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
+                self.baseViewModel.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
                 print("✅ Order is successfully approved and ready to be captured/authorized with result: \(result)")
             case .failure(let error):
-                self.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
+                self.baseViewModel.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
                 print("❌ There was an error: \(error)")
             case .cancellation:
-                self.updateTitle("\(DemoSettings.intent) cancelled")
-                print("❌ Buyer has cancelled the PayPal flow")
+                self.baseViewModel.updateTitle("\(DemoSettings.intent) canceled")
+                print("❌ Buyer has canceled the PayPal flow")
             }
         }
     }
