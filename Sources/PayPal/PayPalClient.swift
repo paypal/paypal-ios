@@ -23,11 +23,11 @@ public class PayPalClient {
 
     /// Present PayPal Paysheet and start a PayPal transaction
     /// - Parameters:
-    ///   - orderID: the order ID for the transaction
+    ///   - request: the PayPalRequest for the transaction
     ///   - presentingViewController: the ViewController to present PayPalPaysheet on, if not provided, the Paysheet will be presented on your top-most ViewController
     ///   - completion: Completion block to handle buyer's approval, cancellation, and error.
     public func start(
-        orderID: String,
+        request: PayPalRequest,
         presentingViewController: UIViewController? = nil,
         completion: @escaping (PayPalCheckoutResult) -> Void
     ) {
