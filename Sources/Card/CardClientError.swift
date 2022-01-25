@@ -15,7 +15,7 @@ enum CardClientError {
         case encodingError
     }
 
-    static let encodingError = PayPalSDKError(
+    static let encodingError = CoreSDKError(
         code: Code.encodingError.rawValue,
         domain: domain,
         errorDescription: "An error occured encoding HTTP request body data. Contact developer.paypal.com/support."

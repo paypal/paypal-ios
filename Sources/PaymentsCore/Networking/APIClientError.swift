@@ -27,46 +27,46 @@ enum APIClientError {
         case serverResponseError
     }
 
-    static let unknownError = PayPalSDKError(
+    static let unknownError = CoreSDKError(
         code: Code.unknown.rawValue,
         domain: domain,
         errorDescription: "An unknown error occured. Contact developer.paypal.com/support."
     )
 
-    static let urlSessionError: (String) -> PayPalSDKError = { description in
-        PayPalSDKError(
+    static let urlSessionError: (String) -> CoreSDKError = { description in
+        CoreSDKError(
             code: Code.urlSessionError.rawValue,
             domain: domain,
             errorDescription: description
         )
     }
 
-    static let dataParsingError = PayPalSDKError(
+    static let dataParsingError = CoreSDKError(
         code: Code.dataParsingError.rawValue,
         domain: domain,
         errorDescription: "An error occured parsing HTTP response data. Contact developer.paypal.com/support."
     )
 
-    static let invalidURLResponseError = PayPalSDKError(
+    static let invalidURLResponseError = CoreSDKError(
         code: Code.invalidURLResponse.rawValue,
         domain: domain,
         errorDescription: "An error occured due to an invalid HTTP response. Contact developer.paypal.com/support."
     )
 
-    static let noResponseDataError = PayPalSDKError(
+    static let noResponseDataError = CoreSDKError(
         code: Code.noResponseData.rawValue,
         domain: domain,
         errorDescription: "An error occured due to missing HTTP response data. Contact developer.paypal.com/support."
     )
 
-    static let invalidURLRequestError = PayPalSDKError(
+    static let invalidURLRequestError = CoreSDKError(
         code: Code.invalidURLRequest.rawValue,
         domain: domain,
         errorDescription: "An error occured constructing an HTTP request. Contact developer.paypal.com/support."
     )
 
-    static let serverResponseError: (String) -> PayPalSDKError = { description in
-        PayPalSDKError(
+    static let serverResponseError: (String) -> CoreSDKError = { description in
+        CoreSDKError(
             code: Code.serverResponseError.rawValue,
             domain: domain,
             errorDescription: description

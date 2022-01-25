@@ -26,7 +26,7 @@ public final class APIClient {
 
     public func fetch<T: APIRequest>(
         endpoint: T,
-        completion: @escaping (Result<T.ResponseType, PayPalSDKError>, CorrelationID?) -> Void
+        completion: @escaping (Result<T.ResponseType, CoreSDKError>, CorrelationID?) -> Void
     ) {
         guard let request = endpoint.toURLRequest(environment: environment) else {
             completion(.failure(APIClientError.invalidURLRequestError), nil)

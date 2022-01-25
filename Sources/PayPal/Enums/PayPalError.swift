@@ -10,15 +10,15 @@ enum PayPalError {
         /// 0. An unknown error occurred.
         case unknown
 
-        /// 1. Error returned from the PayPal Checkout SDK
-        case nativeCheckoutSDKError
+        /// 1. An error occurred during web authentication session.
+        case webSessionError
     }
-
-    static let nativeCheckoutSDKError: (PayPalCheckoutErrorInfo) -> PayPalSDKError = { errorInfo in
-        PayPalSDKError(
-            code: Code.nativeCheckoutSDKError.rawValue,
+    
+    static let webSessionError: (Error) -> CoreSDKError = { error in
+        CoreSDKError(
+            code: Code.webSessionError.rawValue,
             domain: domain,
-            errorDescription: errorInfo.reason
+            errorDescription: error.localizedDescription
         )
     }
 }

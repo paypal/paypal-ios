@@ -31,26 +31,14 @@ public class PayPalClient {
         presentingViewController: UIViewController? = nil,
         completion: @escaping (PayPalCheckoutResult) -> Void
     ) {
-//        CheckoutFlow.set(config: config, returnURL: returnURL)
-//
-//        CheckoutFlow.start(
-//            presentingViewController: presentingViewController,
-//            createOrder: { order in
-//                order.set(orderId: orderID)
-//            },
-//            onApprove: { approval in
-//                let payPalResult = PayPalResult(
-//                    orderID: approval.ecToken,
-//                    payerID: approval.payerID
-//                )
-//                completion(.success(result: payPalResult))
-//            },
-//            onCancel: {
-//                completion(.cancellation)
-//            },
-//            onError: { errorInfo in
-//                completion(.failure(error: PayPalError.nativeCheckoutSDKError(errorInfo)))
-//            }
-//        )
+        let baseURL = config.environment.baseURL
+        let payPalCheckoutURL = String(format: "%@/checkoutnow?token=%@", baseURL, request.orderID)
+        
+        let webAuthenticationSession = WebAuthenticationSession()
+        webAuthenticationSession.start(url: payPalCheckoutURL, callbackURLScheme: returnURL, completionHandler: { url, error in
+            if let error = error {
+                let result = PayPalCheckoutResult.failure(error: PayPalSDKError(code:))
+            }
+        })
     }
 }

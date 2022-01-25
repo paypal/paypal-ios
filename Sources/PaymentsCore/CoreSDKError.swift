@@ -1,6 +1,6 @@
 import Foundation
 
-public struct PayPalSDKError: Error, LocalizedError {
+public struct CoreSDKError: Error, LocalizedError {
 
     /// The error code.
     public let code: Int?
