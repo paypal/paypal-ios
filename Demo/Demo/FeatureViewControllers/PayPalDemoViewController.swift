@@ -100,9 +100,8 @@ class PayPalDemoViewController: FeatureBaseViewController, ASWebAuthenticationPr
             case .failure(let error):
                 self.baseViewModel.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
                 print("❌ There was an error: \(error)")
-            case .cancellation:
-                self.baseViewModel.updateTitle("\(DemoSettings.intent) canceled")
-                print("❌ Buyer has canceled the PayPal flow")
+                // TODO: Handle cancellation state of SDK - move back to a case on failure instead of it's own state
+                // case .cancellation:
             }
         }
     }
