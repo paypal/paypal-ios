@@ -1,6 +1,7 @@
 import UIKit
 import PayPal
 import PaymentsCore
+import AuthenticationServices
 
 class PayPalDemoViewController: FeatureBaseViewController {
 
@@ -79,7 +80,7 @@ class PayPalDemoViewController: FeatureBaseViewController {
         let payPalClient = PayPalClient(config: config, returnURL: DemoSettings.paypalReturnUrl)
         let payPalRequest = PayPalRequest(orderID: orderID)
 
-        payPalClient.start(request: payPalRequest, presentingViewController: self) { [weak self] state in
+        payPalClient.start(request: payPalRequest) { [weak self] state in
             guard let self = self else { return }
             switch state {
             case .success(let result):

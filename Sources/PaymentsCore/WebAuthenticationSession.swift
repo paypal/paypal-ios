@@ -8,17 +8,12 @@ class WebAuthenticationSession {
     
     func start(url: URL, callbackURLScheme: String, completionHandler: @escaping (URL?, Error?) -> Void) {
         self.authenticationSession = ASWebAuthenticationSession(url: url, callbackURLScheme: callbackURLScheme, completionHandler: completionHandler)
+        authenticationSession?.prefersEphemeralWebBrowserSession = true
+        
+        if #available(iOS 13.0, *) {
+            authenticationSession?.presentationContextProvider = self.presentationContextProvider
+        }
         
         authenticationSession?.start()
     }
-    
-    @available(iOS 13.0, *)
-    func start(url: URL, callbackURLScheme: String, context: ASWebAuthenticationPresentationContextProviding, completionHandler: @escaping (URL?, Error?) -> Void) {
-        self.authenticationSession = ASWebAuthenticationSession(url: url, callbackURLScheme: callbackURLScheme, completionHandler: completionHandler)
-        
-        authenticationSession?.presentationContextProvider = context
-
-        authenticationSession?.start()
-    }
-    
 }

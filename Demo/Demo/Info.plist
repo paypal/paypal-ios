@@ -9,7 +9,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>northstar.paypalpay</string>
+				<string>com.paypal.ios-sdk.Demo</string>
 			</array>
 		</dict>
 	</array>

@@ -2,10 +2,18 @@ import UIKit
 
 #if canImport(PaymentsCore)
 import PaymentsCore
+import AuthenticationServices
 #endif
 
 /// PayPal Paysheet to handle PayPal transaction
-public class PayPalClient {
+public class PayPalClient: NSObject, ASWebAuthenticationPresentationContextProviding {
+    
+    var presentationAnchor: ASPresentationAnchor?
+    
+    public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        return UIApplication.shared.windows.filter {$0.isKeyWindow}.first!
+    }
+    
 
     private let config: CoreConfig
     private let returnURL: String
@@ -35,6 +43,7 @@ public class PayPalClient {
         let payPalCheckoutURLString = String(format: "%@/checkoutnow?token=%@", baseURLString, request.orderID)
         let payPalCheckoutURL = URL(string: payPalCheckoutURLString)
         let webAuthenticationSession = WebAuthenticationSession()
+        webAuthenticationSession.presentationContextProvider = self
         
         let payPalCheckoutURLComponents = payPalCheckoutReturnURL(payPalCheckoutURL: payPalCheckoutURL!)
         webAuthenticationSession.start(
@@ -42,10 +51,16 @@ public class PayPalClient {
             callbackURLScheme: returnURL,
             completionHandler: { url, error in
                 if let error = error {
-                        let result = PayPalCheckoutResult.failure(error: PayPalError.webSessionError(error))
-            
-                    }
-                })
+                    let result = PayPalCheckoutResult.failure(error: PayPalError.webSessionError(error))
+                    completion(result)
+                }
+                if let url = url {
+                    let result = PayPalCheckoutResult.success(result: PayPalResult(orderID:"get order ID from URL", payerID: "get payer ID from URL"))
+                    completion(result)
+                }
+                
+            }
+        )
             
     }
     
