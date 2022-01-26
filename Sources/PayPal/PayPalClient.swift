@@ -9,17 +9,13 @@ import AuthenticationServices
 public class PayPalClient {
 
     private let config: CoreConfig
-    private let returnURL: String
-    private let apiClient: APIClient
 
     /// Initialize a PayPalClient to process PayPal transaction
     /// - Parameters:
     ///   - config: The CoreConfig object
-    ///   - returnURL: The return URL provided to the PayPal Native UI experience. Used as part of the authentication process to identify your application. This value should match the one set in the `Return URLs` section of your application's dashboard on your [PayPal developer account](https://developer.paypal.com)
-    public init(config: CoreConfig, returnURL: String) {
+
+    public init(config: CoreConfig) {
         self.config = config
-        self.returnURL = returnURL
-        self.apiClient = APIClient(environment: config.environment)
     }
 
     /// Present PayPal Paysheet and start a PayPal transaction
@@ -34,26 +30,29 @@ public class PayPalClient {
     ) {
         let webAuthenticationSession = WebAuthenticationSession()
         let baseURLString = config.environment.payPalBaseURL.absoluteString
-        let payPalCheckoutURLString = String(format: "%@/checkoutnow?token=%@", baseURLString, request.orderID)
+        let payPalCheckoutURLString = "\(baseURLString)/checkoutnow?token=\(request.orderID)"
 
-        guard let payPalCheckoutURL = URL(string: payPalCheckoutURLString) else {
-            // TODO: return error
+        guard let payPalCheckoutURL = URL(string: payPalCheckoutURLString),
+        let payPalCheckoutURLComponents = payPalCheckoutReturnURL(payPalCheckoutURL: payPalCheckoutURL)
+        else {
+            let result = PayPalCheckoutResult.failure(error: PayPalError.payPalURLError)
+            completion(result)
             return
         }
 
-        guard let payPalCheckoutURLComponents = payPalCheckoutReturnURL(payPalCheckoutURL: payPalCheckoutURL) else {
-            // TODO: return error
-            return
-        }
-
-        webAuthenticationSession.start(url: payPalCheckoutURLComponents, context: context, callbackURLScheme: returnURL) { url, error in
+        webAuthenticationSession.start(url: payPalCheckoutURLComponents, context: context) { url, error in
             if let error = error {
                 let result = PayPalCheckoutResult.failure(error: PayPalError.webSessionError(error))
                 completion(result)
             }
+
             if let url = url {
-                let orderID = self.getQueryStringParameter(url: url.absoluteString, param: "token")
-                let payerID = self.getQueryStringParameter(url: url.absoluteString, param: "PayerID")
+                guard let orderID = self.getQueryStringParameter(url: url.absoluteString, param: "token"),
+                let payerID = self.getQueryStringParameter(url: url.absoluteString, param: "PayerID") else {
+                    let result = PayPalCheckoutResult.failure(error: PayPalError.malformedResultError)
+                    completion(result)
+                    return
+                }
 
                 let result = PayPalCheckoutResult.success(
                     result: PayPalResult(orderID: orderID, payerID: payerID)
@@ -63,8 +62,9 @@ public class PayPalClient {
         }
     }
 
-    func payPalCheckoutReturnURL(payPalCheckoutURL: URL) -> (URL?) {
-        let redirectURLString = String(format: "%@://x-callback-url/paypal-sdk/paypal-checkout", returnURL)
+    private func payPalCheckoutReturnURL(payPalCheckoutURL: URL) -> (URL?) {
+        guard let bundleID = Bundle.main.bundleIdentifier else { return nil }
+        let redirectURLString = "\(bundleID)://x-callback-url/paypal-sdk/paypal-checkout"
         let redirectQueryItem = URLQueryItem(name: "redirect_uri", value: redirectURLString)
         let nativeXOQueryItem = URLQueryItem(name: "native_xo", value: "1")
 
@@ -75,10 +75,8 @@ public class PayPalClient {
         return checkoutURLComponents?.url
     }
 
-    private func getQueryStringParameter(url: String, param: String) -> String {
-        guard let url = URLComponents(string: url) else {
-            return ""
-        }
-        return url.queryItems?.first { $0.name == param }?.value ?? ""
+    private func getQueryStringParameter(url: String, param: String) -> String? {
+        guard let url = URLComponents(string: url) else { return nil }
+        return url.queryItems?.first { $0.name == param }?.value
     }
 }

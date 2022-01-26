@@ -36,14 +36,4 @@ enum DemoSettings {
             return "TODO"
         }
     }
-
-    static var paypalReturnUrl: String {
-        switch environment {
-        case .sandbox:
-            return "com.paypal.ios-sdk.Demo"
-        case .production:
-            // TODO: Investigate getting a prod testing account that doesn't charge real money
-            return "TODO"
-        }
-    }
 }

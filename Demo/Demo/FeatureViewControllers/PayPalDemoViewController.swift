@@ -88,7 +88,7 @@ class PayPalDemoViewController: FeatureBaseViewController, ASWebAuthenticationPr
 
     func checkoutWithPayPal(orderID: String) {
         let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
-        let payPalClient = PayPalClient(config: config, returnURL: DemoSettings.paypalReturnUrl)
+        let payPalClient = PayPalClient(config: config)
         let payPalRequest = PayPalRequest(orderID: orderID)
 
         payPalClient.start(request: payPalRequest, context: self) { [weak self] state in

@@ -9,12 +9,11 @@ class WebAuthenticationSession: NSObject {
     func start(
         url: URL,
         context: ASWebAuthenticationPresentationContextProviding,
-        callbackURLScheme: String,
         completionHandler: @escaping (URL?, Error?) -> Void
     ) {
         self.authenticationSession = ASWebAuthenticationSession(
             url: url,
-            callbackURLScheme: callbackURLScheme,
+            callbackURLScheme: Bundle.main.bundleIdentifier,
             completionHandler: completionHandler
         )
 
