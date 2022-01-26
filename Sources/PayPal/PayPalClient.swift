@@ -6,14 +6,7 @@ import AuthenticationServices
 #endif
 
 /// PayPal Paysheet to handle PayPal transaction
-public class PayPalClient: NSObject, ASWebAuthenticationPresentationContextProviding {
-    
-    var presentationAnchor: ASPresentationAnchor?
-    
-    public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-        return UIApplication.shared.windows.filter {$0.isKeyWindow}.first!
-    }
-    
+public class PayPalClient {
 
     private let config: CoreConfig
     private let returnURL: String
@@ -32,50 +25,60 @@ public class PayPalClient: NSObject, ASWebAuthenticationPresentationContextProvi
     /// Present PayPal Paysheet and start a PayPal transaction
     /// - Parameters:
     ///   - request: the PayPalRequest for the transaction
-    ///   - presentingViewController: the ViewController to present PayPalPaysheet on, if not provided, the Paysheet will be presented on your top-most ViewController
+    ///   - context: the ASWebAuthenticationPresentationContextProviding conforming ViewController
     ///   - completion: Completion block to handle buyer's approval, cancellation, and error.
     public func start(
         request: PayPalRequest,
-        presentingViewController: UIViewController? = nil,
+        context: ASWebAuthenticationPresentationContextProviding,
         completion: @escaping (PayPalCheckoutResult) -> Void
     ) {
-        let baseURLString = config.environment.baseURL.absoluteString
-        let payPalCheckoutURLString = String(format: "%@/checkoutnow?token=%@", baseURLString, request.orderID)
-        let payPalCheckoutURL = URL(string: payPalCheckoutURLString)
         let webAuthenticationSession = WebAuthenticationSession()
-        webAuthenticationSession.presentationContextProvider = self
-        
-        let payPalCheckoutURLComponents = payPalCheckoutReturnURL(payPalCheckoutURL: payPalCheckoutURL!)
-        webAuthenticationSession.start(
-            url: payPalCheckoutURLComponents!,
-            callbackURLScheme: returnURL,
-            completionHandler: { url, error in
-                if let error = error {
-                    let result = PayPalCheckoutResult.failure(error: PayPalError.webSessionError(error))
-                    completion(result)
-                }
-                if let url = url {
-                    let result = PayPalCheckoutResult.success(result: PayPalResult(orderID:"get order ID from URL", payerID: "get payer ID from URL"))
-                    completion(result)
-                }
-                
+        let baseURLString = config.environment.payPalBaseURL.absoluteString
+        let payPalCheckoutURLString = String(format: "%@/checkoutnow?token=%@", baseURLString, request.orderID)
+
+        guard let payPalCheckoutURL = URL(string: payPalCheckoutURLString) else {
+            // TODO: return error
+            return
+        }
+
+        guard let payPalCheckoutURLComponents = payPalCheckoutReturnURL(payPalCheckoutURL: payPalCheckoutURL) else {
+            // TODO: return error
+            return
+        }
+
+        webAuthenticationSession.start(url: payPalCheckoutURLComponents, context: context, callbackURLScheme: returnURL) { url, error in
+            if let error = error {
+                let result = PayPalCheckoutResult.failure(error: PayPalError.webSessionError(error))
+                completion(result)
             }
-        )
-            
+            if let url = url {
+                let orderID = self.getQueryStringParameter(url: url.absoluteString, param: "token")
+                let payerID = self.getQueryStringParameter(url: url.absoluteString, param: "PayerID")
+
+                let result = PayPalCheckoutResult.success(
+                    result: PayPalResult(orderID: orderID, payerID: payerID)
+                )
+                completion(result)
+            }
+        }
     }
-    
+
     func payPalCheckoutReturnURL(payPalCheckoutURL: URL) -> (URL?) {
         let redirectURLString = String(format: "%@://x-callback-url/paypal-sdk/paypal-checkout", returnURL)
         let redirectQueryItem = URLQueryItem(name: "redirect_uri", value: redirectURLString)
         let nativeXOQueryItem = URLQueryItem(name: "native_xo", value: "1")
-        
+
         var checkoutURLComponents = URLComponents(url: payPalCheckoutURL, resolvingAgainstBaseURL: false)
-        if let currentQueryItems = checkoutURLComponents?.queryItems![0] {
-            let queryItems = [currentQueryItems, redirectQueryItem, nativeXOQueryItem]
-            checkoutURLComponents?.queryItems = queryItems
-            return checkoutURLComponents?.url
-        }
-        return nil
+        checkoutURLComponents?.queryItems?.append(redirectQueryItem)
+        checkoutURLComponents?.queryItems?.append(nativeXOQueryItem)
+
+        return checkoutURLComponents?.url
     }
 
+    private func getQueryStringParameter(url: String, param: String) -> String {
+        guard let url = URLComponents(string: url) else {
+            return ""
+        }
+        return url.queryItems?.first { $0.name == param }?.value ?? ""
+    }
 }

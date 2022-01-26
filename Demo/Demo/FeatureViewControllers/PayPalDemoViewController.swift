@@ -3,7 +3,7 @@ import PayPal
 import PaymentsCore
 import AuthenticationServices
 
-class PayPalDemoViewController: FeatureBaseViewController {
+class PayPalDemoViewController: FeatureBaseViewController, ASWebAuthenticationPresentationContextProviding {
 
     // MARK: - View Spacing
 
@@ -64,6 +64,17 @@ class PayPalDemoViewController: FeatureBaseViewController {
         }
     }
 
+    // MARK: ASWebAuthenticationPresentationContextProviding conformance
+
+    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        UIApplication
+            .shared
+            .connectedScenes
+            .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+            .first { $0.isKeyWindow }
+        ?? ASPresentationAnchor()
+    }
+
     // MARK: - PayPal Module Integration
 
     @objc func paymentButtonTapped() {
@@ -80,7 +91,7 @@ class PayPalDemoViewController: FeatureBaseViewController {
         let payPalClient = PayPalClient(config: config, returnURL: DemoSettings.paypalReturnUrl)
         let payPalRequest = PayPalRequest(orderID: orderID)
 
-        payPalClient.start(request: payPalRequest) { [weak self] state in
+        payPalClient.start(request: payPalRequest, context: self) { [weak self] state in
             guard let self = self else { return }
             switch state {
             case .success(let result):
