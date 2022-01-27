@@ -1,11 +1,11 @@
 import UIKit
+import AuthenticationServices
 
 #if canImport(PaymentsCore)
 import PaymentsCore
-import AuthenticationServices
 #endif
 
-/// PayPal Paysheet to handle PayPal transaction
+/// PayPal Client to handle PayPal flow
 public class PayPalClient {
 
     private let config: CoreConfig
@@ -18,11 +18,11 @@ public class PayPalClient {
         self.config = config
     }
 
-    /// Present PayPal Paysheet and start a PayPal transaction
+    /// Launch the PayPal web flow
     /// - Parameters:
     ///   - request: the PayPalRequest for the transaction
-    ///   - context: the ASWebAuthenticationPresentationContextProviding conforming ViewController
-    ///   - completion: Completion block to handle buyer's approval, b, and error.
+    ///   - context: the ASWebAuthenticationPresentationContextProviding protocol conforming ViewController
+    ///   - completion: Completion handler for start, which contains data of the order if success, or an error if failure
     public func start(
         request: PayPalRequest,
         context: ASWebAuthenticationPresentationContextProviding,
@@ -31,6 +31,7 @@ public class PayPalClient {
         start(request: request, context: context, webAuthenticationSession: WebAuthenticationSession(), completion: completion)
     }
 
+    /// Internal function for testing the start function
     func start(
         request: PayPalRequest,
         context: ASWebAuthenticationPresentationContextProviding,
@@ -43,19 +44,19 @@ public class PayPalClient {
         guard let payPalCheckoutURL = URL(string: payPalCheckoutURLString),
         let payPalCheckoutURLComponents = payPalCheckoutReturnURL(payPalCheckoutURL: payPalCheckoutURL)
         else {
-            completion(.failure(PayPalError.payPalURLError))
+            completion(.failure(PayPalClientError.payPalURLError))
             return
         }
 
         webAuthenticationSession.start(url: payPalCheckoutURLComponents, context: context) { url, error in
             if let error = error {
-                completion(.failure(PayPalError.webSessionError(error)))
+                completion(.failure(PayPalClientError.webSessionError(error)))
             }
 
             if let url = url {
                 guard let orderID = self.getQueryStringParameter(url: url.absoluteString, param: "token"),
                 let payerID = self.getQueryStringParameter(url: url.absoluteString, param: "PayerID") else {
-                    completion(.failure(PayPalError.malformedResultError))
+                    completion(.failure(PayPalClientError.malformedResultError))
                     return
                 }
 

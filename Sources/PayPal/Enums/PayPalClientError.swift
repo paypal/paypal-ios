@@ -1,10 +1,11 @@
+import Foundation
 #if canImport(PaymentsCore)
 import PaymentsCore
 #endif
 
-public enum PayPalError {
+enum PayPalClientError {
 
-    static let domain = "PayPalErrorDomain"
+    static let domain = "PayPalClientErrorDomain"
 
     enum Code: Int {
         /// 0. An unknown error occurred.

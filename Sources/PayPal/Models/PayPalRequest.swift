@@ -1,5 +1,4 @@
 import Foundation
-import UIKit
 
 /// Used to configure options for approving a PayPal order
 public struct PayPalRequest {

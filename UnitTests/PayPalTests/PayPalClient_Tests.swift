@@ -13,14 +13,15 @@ class PayPalClient_Tests: XCTestCase {
     func testStart_whenInvalidBaseURLIsPassed_returnsPayPalURLError() {
         let request = PayPalRequest(orderID: "1234")
         let mockPayPalClient = MockPayPalClient(config: config)
+        mockPayPalClient.cannedURLString = "https://invalid-url"
 
         mockPayPalClient.start(request: request, context: context) { result in
             switch result {
             case .success:
                 XCTFail()
             case .failure(let error):
-                XCTAssertEqual(error.domain, PayPalError.domain)
-                XCTAssertEqual(error.code, PayPalError.Code.payPalURLError.rawValue)
+                XCTAssertEqual(error.domain, PayPalClientError.domain)
+                XCTAssertEqual(error.code, PayPalClientError.Code.payPalURLError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "Error constructing URL for PayPal request.")
             }
         }
@@ -30,8 +31,8 @@ class PayPalClient_Tests: XCTestCase {
         let request = PayPalRequest(orderID: "1234")
         let mockWebAuthenticationSession = MockWebAuthenticationSession()
         mockWebAuthenticationSession.cannedErrorResponse = CoreSDKError(
-            code: PayPalError.Code.webSessionError.rawValue,
-            domain: PayPalError.domain,
+            code: PayPalClientError.Code.webSessionError.rawValue,
+            domain: PayPalClientError.domain,
             errorDescription: "Mock web session error description."
         )
 
@@ -44,8 +45,8 @@ class PayPalClient_Tests: XCTestCase {
             case .success:
                 XCTFail()
             case .failure(let error):
-                XCTAssertEqual(error.domain, PayPalError.domain)
-                XCTAssertEqual(error.code, PayPalError.Code.webSessionError.rawValue)
+                XCTAssertEqual(error.domain, PayPalClientError.domain)
+                XCTAssertEqual(error.code, PayPalClientError.Code.webSessionError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "Mock web session error description.")
             }
         }
@@ -65,8 +66,8 @@ class PayPalClient_Tests: XCTestCase {
             case .success:
                 XCTFail()
             case.failure(let error):
-                XCTAssertEqual(error.domain, PayPalError.domain)
-                XCTAssertEqual(error.code, PayPalError.Code.malformedResultError.rawValue)
+                XCTAssertEqual(error.domain, PayPalClientError.domain)
+                XCTAssertEqual(error.code, PayPalClientError.Code.malformedResultError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "Result did not contain the expected data.")
             }
         }

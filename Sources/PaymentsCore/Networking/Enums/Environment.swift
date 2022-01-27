@@ -5,7 +5,7 @@ public enum Environment {
     case production
 
     // swiftlint:disable force_unwrapping
-    public var baseURL: URL {
+    var baseURL: URL {
         switch self {
         case .sandbox:
             return URL(string: "https://api.sandbox.paypal.com")!
