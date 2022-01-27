@@ -59,6 +59,7 @@
 		BECB282F27A1F15E00820E51 /* Environment+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECB282E27A1F15E00820E51 /* Environment+Extension.swift */; };
 		BECB283227A1FCD200820E51 /* MockWebAuthenticationSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECB283127A1FCD200820E51 /* MockWebAuthenticationSession.swift */; };
 		BECB283427A1FFD500820E51 /* MockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECB283327A1FFD500820E51 /* MockViewController.swift */; };
+		BECB283727A2E4CE00820E51 /* MockPayPalClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECB283627A2E4CE00820E51 /* MockPayPalClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +138,7 @@
 		BECB282E27A1F15E00820E51 /* Environment+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment+Extension.swift"; sourceTree = "<group>"; };
 		BECB283127A1FCD200820E51 /* MockWebAuthenticationSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWebAuthenticationSession.swift; sourceTree = "<group>"; };
 		BECB283327A1FFD500820E51 /* MockViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockViewController.swift; sourceTree = "<group>"; };
+		BECB283627A2E4CE00820E51 /* MockPayPalClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPayPalClient.swift; sourceTree = "<group>"; };
 		OBJ_16 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		"PayPal::PayPalTests::Product" /* PayPalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = PayPalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -400,15 +402,24 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		BECB283527A2E4B300820E51 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				BECB283627A2E4CE00820E51 /* MockPayPalClient.swift */,
+				BECB283327A1FFD500820E51 /* MockViewController.swift */,
+				BECB283127A1FCD200820E51 /* MockWebAuthenticationSession.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
 		OBJ_11 /* PayPalTests */ = {
 			isa = PBXGroup;
 			children = (
-				067C92E427270FDE009E3054 /* PayPalEnvironment_Tests.swift */,
-				065EBD8B272865E4001E81C4 /* PayPalClient_Tests.swift */,
+				BECB283527A2E4B300820E51 /* Mocks */,
 				BE00B7AC27444FE900758C63 /* PayPalButton_Tests.swift */,
+				065EBD8B272865E4001E81C4 /* PayPalClient_Tests.swift */,
 				BE9F36E3275520E700AFC7DA /* PayPalCreditButton_Tests.swift */,
-				BECB283127A1FCD200820E51 /* MockWebAuthenticationSession.swift */,
-				BECB283327A1FFD500820E51 /* MockViewController.swift */,
+				067C92E427270FDE009E3054 /* PayPalEnvironment_Tests.swift */,
 			);
 			name = PayPalTests;
 			path = UnitTests/PayPalTests;
@@ -767,6 +778,7 @@
 				BE9F36E1274859C200AFC7DA /* PaymentButtonImage.swift in Sources */,
 				BE00B7A02742F9F600758C63 /* PayPalButton.swift in Sources */,
 				BE00B7AB2743FD9F00758C63 /* PaymentButton.swift in Sources */,
+				BECB283727A2E4CE00820E51 /* MockPayPalClient.swift in Sources */,
 				BECB282F27A1F15E00820E51 /* Environment+Extension.swift in Sources */,
 				BE00B7A92743F6AF00758C63 /* PayPalCreditButton.swift in Sources */,
 				9C82E0E727A06A21002BC325 /* WebAuthenticationSession.swift in Sources */,

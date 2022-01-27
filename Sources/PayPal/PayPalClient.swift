@@ -65,7 +65,7 @@ public class PayPalClient {
         }
     }
 
-    private func payPalCheckoutReturnURL(payPalCheckoutURL: URL) -> (URL?) {
+    func payPalCheckoutReturnURL(payPalCheckoutURL: URL) -> URL? {
         guard let bundleID = Bundle.main.bundleIdentifier else { return nil }
         let redirectURLString = "\(bundleID)://x-callback-url/paypal-sdk/paypal-checkout"
         let redirectQueryItem = URLQueryItem(name: "redirect_uri", value: redirectURLString)
