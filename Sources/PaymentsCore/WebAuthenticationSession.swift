@@ -1,12 +1,12 @@
 import Foundation
 import AuthenticationServices
 
-class WebAuthenticationSession: NSObject {
+public class WebAuthenticationSession: NSObject {
 
-    var authenticationSession: ASWebAuthenticationSession?
-    var presentationContextProvider: ASWebAuthenticationPresentationContextProviding?
+    public var authenticationSession: ASWebAuthenticationSession?
+    public var presentationContextProvider: ASWebAuthenticationPresentationContextProviding?
 
-    func start(
+    public func start(
         url: URL,
         context: ASWebAuthenticationPresentationContextProviding,
         completion: @escaping (URL?, Error?) -> Void
