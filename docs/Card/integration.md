@@ -130,7 +130,7 @@ cardClient.approveOrder(request: cardRequest) { result in
         case .success(let result):
             // order was successfully approved with the card and is ready to be captured/authorized (see step 6).
         case .failure(let error):
-            // handle the error by accessing `result.error`
+            // handle the error by accessing `result.localizedDescription`
     }
 }
 ```
