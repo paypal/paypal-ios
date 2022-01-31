@@ -112,7 +112,7 @@ let card = Card(
 )
 ```
 
-Attach the card and the order ID (step 3) to a `CardRequest`.
+Attach the card and the order ID from [step 3](#3-create-an-order) to a `CardRequest`.
 
 ```swift
 let cardRequest = CardRequest(orderID: "<ORDER_ID>", card: card)
@@ -128,7 +128,7 @@ Call `CardClient#approveOrder` to approve the order, and then handle results:
 cardClient.approveOrder(request: cardRequest) { result in
     switch result {
         case .success(let result):
-            // order was successfully approved with the card and is ready to be captured/authorized (see step 6)
+            // order was successfully approved and is ready to be captured/authorized (see step 6)
         case .failure(let error):
             // handle the error by accessing `result.localizedDescription`
     }
