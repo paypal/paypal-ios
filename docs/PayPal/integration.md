@@ -101,7 +101,7 @@ curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/order
 --header 'Content-Type: application/json' \
 --header 'Authorization: Basic <ENCODED_CLIENT_ID>' \
 --data-raw '{
-    "intent": "CAPTURE",
+    "intent": "<CAPTURE|AUTHORIZE>",
     "purchase_units": [
         {
             "amount": {
@@ -120,7 +120,7 @@ The `id` field of the response contains the order ID to pass to your client.
 Configure your `PayPalRequest` and include the order ID generated (step 5):
 
 ```swift
-let payPalRequest = PayPalRequest(orderID: orderID)
+let payPalRequest = PayPalRequest(orderID: "<ORDER_ID>")
 ```
 
 ### 7. Approve the order through the Payments SDK
@@ -144,7 +144,7 @@ func checkoutWithPayPal(request: PayPalRequest) {
     payPalClient.start(request: payPalRequest, context: self) { state in
         switch state {
         case .success(let result):
-            // capture/authorize the order using `result.orderID` (see step 8) 
+            // order was successfully approved with the card and is ready to be captured/authorized (see step 8)
         case .failure(let error):
             // handle the error by accessing `error.localizedDescription`
         case .cancellation:
