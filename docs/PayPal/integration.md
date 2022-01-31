@@ -29,7 +29,7 @@ For initial setup, the `curl` commands below can be used in place of a server SD
 
 #### Swift Package Manager
 
-To add the PayPal package to your Xcode project, select _File > Swift Packages > Add Package Dependency_ and enter https://github.com/paypal/iOS-SDK as the repository URL. Tick the checkboxes for the specific PayPal libraries you wish to include.
+In Xcode, add the [package dependency](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app) and enter https://github.com/paypal/iOS-SDK as the repository URL. Tick the checkboxes for the specific PayPal libraries you wish to include.
 
 In your app's source code files, use the following import syntax to include PayPal's libraries:
 
