@@ -117,7 +117,7 @@ The `id` field of the response contains the order ID to pass to your client.
 
 ### 6. Create a request object for launching the PayPal flow
 
-Configure your `PayPalRequest` and include the order ID generated (step 5):
+Configure your `PayPalRequest` and include the order ID generated in [step 5](#5-create-an-order):
 
 ```swift
 let payPalRequest = PayPalRequest(orderID: "<ORDER_ID>")
@@ -144,7 +144,7 @@ func checkoutWithPayPal(request: PayPalRequest) {
     payPalClient.start(request: payPalRequest, context: self) { state in
         switch state {
         case .success(let result):
-            // order was successfully approved with the card and is ready to be captured/authorized (see step 8)
+            // order was successfully approved and is ready to be captured/authorized (see step 8)
         case .failure(let error):
             // handle the error by accessing `error.localizedDescription`
         case .cancellation:
@@ -176,7 +176,7 @@ curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/order
 --data-raw ''
 ```
 
-**Note**: Be sure that the endpoint you are calling aligns with the intent set on the order created in Step 4.
+**Note**: Be sure that the endpoint you are calling aligns with the intent set on the order created in [step 4](#4-initiate-the-payments-sdk).
 
 ## Testing your integration
 
