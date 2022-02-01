@@ -72,10 +72,16 @@ class MyViewController: ASWebAuthenticationPresentationContextProviding {
 
 ### 3. Create a PayPal button 
 
+#### UIKit
 Add a `PayPalButton` to your View:
 
 ```swift
 let payPalButton = PayPalButton()
+```
+
+#### SwiftUI
+```swift
+PayPalButton.Representable { }
 ```
 
 ### 4. Initiate the Payments SDK
