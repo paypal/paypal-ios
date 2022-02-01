@@ -1,8 +1,6 @@
 import SwiftUI
 import PayPal
 
-// TODO: Add PayPal button once buttons are updated as SwiftUI accessible views
-
 @available(iOS 13.0.0, *)
 struct SwiftUIPayPalDemo: View {
 
