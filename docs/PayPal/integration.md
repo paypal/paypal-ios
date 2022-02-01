@@ -133,12 +133,21 @@ let payPalRequest = PayPalRequest(orderID: "<ORDER_ID>")
 
 When a user taps the PayPal button created above, approve the order using your `PayPalClient`.
 
+#### UIKit
 Add a target to your PayPal button to launch the PayPal payment flow:
 
 ```swift
 payPalButton.addTarget(self, action: #selector(paymentButtonTapped), for: .touchUpInside)
 
 @objc func paymentButtonTapped() {
+    checkoutWithPayPal(request: payPalRequest)
+}
+```
+
+#### SwiftUI
+Add an action to the PayPal button to launch the PayPal button flow:
+```swift
+PayPalButton.Representable {
     checkoutWithPayPal(request: payPalRequest)
 }
 ```
