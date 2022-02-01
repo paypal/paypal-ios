@@ -81,7 +81,7 @@ let payPalButton = PayPalButton()
 
 #### SwiftUI
 ```swift
-PayPalButton.Representable { }
+PayPalButton { }
 ```
 
 ### 4. Initiate the Payments SDK
@@ -147,7 +147,7 @@ payPalButton.addTarget(self, action: #selector(paymentButtonTapped), for: .touch
 #### SwiftUI
 Add an action to the PayPal button to launch the PayPal button flow:
 ```swift
-PayPalButton.Representable {
+PayPalButton {
     checkoutWithPayPal(request: payPalRequest)
 }
 ```
