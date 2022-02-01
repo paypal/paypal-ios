@@ -4,7 +4,7 @@ Welcome to PayPal's iOS SDK. This library will help you accept card, PayPal, Ven
 
 ## FAQ
 ### Availability
-The SDK is currently in the development process. This product will being developed fully open source - throughout the development process, we welcome any and all feedback. We recommend using the SDK in the sandbox environment until an official general availability release is out as aspects of the SDK _will likely_ change as we develop the SDK. This README will be updated with an official release date as it becomes available.
+The SDK is currently in the development process. This product is being developed fully open source - throughout the development process, we welcome any and all feedback. Aspects of the SDK _will likely_ change as we develop the SDK. We recommend using the SDK in the sandbox environment until an official release is available. This README will be updated with an official release date once it is generally available.
 
 ### Contribution
 As the SDK is moved to general availability, we will be adding a contribution guide for developers that would like to contribute to the SDK. If you have suggestions for features that you would like to see in future iterations of the SDK, please feel free to open an issue, PR, or discussion with suggestions. If you want to open a PR but are unsure about our testing strategy, we are more than happy to work with you to add tests to any PRs before work is merged.
