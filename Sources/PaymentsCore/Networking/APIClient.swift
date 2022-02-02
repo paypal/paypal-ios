@@ -24,6 +24,39 @@ public final class APIClient {
         self.urlSession = urlSession
     }
 
+    public func fetchAsync<T: APIRequest>(endpoint: T) async throws -> (T.ResponseType, CorrelationID?) {
+        guard let urlSession = urlSession as? URLSession else { throw NSError() }
+        guard let request = endpoint.toURLRequest(environment: environment) else { throw NSError() }
+
+        do {
+            let (data, response) = try await urlSession.data(for: request)
+            let correlationID = (response as? HTTPURLResponse)?.allHeaderFields["Paypal-Debug-Id"] as? String
+
+            guard let response = response as? HTTPURLResponse else {
+                throw APIClientError.invalidURLResponseError
+            }
+
+            switch response.statusCode {
+            case 200..<300:
+                do {
+                    let decodedData = try self.decoder.decode(T.ResponseType.self, from: data)
+                    return (decodedData, correlationID)
+                } catch {
+                    throw APIClientError.dataParsingError
+                }
+            default:
+                do {
+                    let errorData = try self.decoder.decode(ErrorResponse.self, from: data)
+                    throw APIClientError.serverResponseError(errorData.readableDescription)
+                } catch {
+                    throw APIClientError.unknownError
+                }
+            }
+        } catch {
+            throw APIClientError.urlSessionError(error.localizedDescription)
+        }
+    }
+
     public func fetch<T: APIRequest>(
         endpoint: T,
         completion: @escaping (Result<T.ResponseType, PayPalSDKError>, CorrelationID?) -> Void
@@ -80,5 +113,24 @@ extension URLSession: URLSessionProtocol {
     func performRequest(with urlRequest: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
         let task = dataTask(with: urlRequest, completionHandler: completionHandler)
         task.resume()
+    }
+}
+
+extension URLSession {
+
+    @available(iOS, deprecated: 15.0, message: "This extension is no longer necessary. Use API built into SDK")
+    func data(for request: URLRequest) async throws -> (Data, URLResponse) {
+        try await withCheckedThrowingContinuation { continuation in
+            let task = self.dataTask(with: request) { data, response, error in
+                guard let data = data, let response = response else {
+                    let error = error ?? URLError(.badServerResponse)
+                    return continuation.resume(throwing: error)
+                }
+
+                continuation.resume(returning: (data, response))
+            }
+
+            task.resume()
+        }
     }
 }

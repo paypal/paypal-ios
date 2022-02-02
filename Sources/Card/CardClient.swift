@@ -56,4 +56,25 @@ public class CardClient {
             completion(.failure(CardClientError.encodingError))
         }
     }
+
+    public func approveOrderAsync(request: CardRequest) async throws -> CardResult {
+        do {
+            let confirmPaymentRequest = try ConfirmPaymentSourceRequest(
+                card: request.card,
+                orderID: request.orderID,
+                clientID: config.clientID
+            )
+            let (result, _) = try await apiClient.fetchAsync(endpoint: confirmPaymentRequest)
+
+            let cardResult = CardResult(
+                orderID: result.id,
+                lastFourDigits: result.paymentSource.card.lastDigits,
+                brand: result.paymentSource.card.brand,
+                type: result.paymentSource.card.type
+            )
+            return cardResult
+        } catch {
+            throw error
+        }
+    }
 }
