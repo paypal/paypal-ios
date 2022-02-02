@@ -27,15 +27,12 @@ class BaseViewModel: ObservableObject {
     }
 
     func updateOrderID(with orderID: String) {
-        DispatchQueue.main.async {
-            self.orderID = orderID
-        }
+        self.orderID = orderID
     }
 
-    func createOrder(amount: String?, completion: @escaping (String?) -> Void = { _ in }) {
+    func createOrder(amount: String?) async -> String? {
         updateTitle("Creating order...")
-
-        guard let amount = amount else { return }
+        guard let amount = amount else { return nil }
 
         let amountRequest = Amount(currencyCode: "USD", value: amount)
         let orderRequestParams = CreateOrderParams(
@@ -43,23 +40,19 @@ class BaseViewModel: ObservableObject {
             purchaseUnits: [PurchaseUnit(amount: amountRequest)]
         )
 
-        DemoMerchantAPI.sharedService.createOrder(orderParams: orderRequestParams) { result in
-            switch result {
-            case .success(let order):
-                self.updateTitle("Order ID: \(order.id)")
-                self.updateOrderID(with: order.id)
-                print("✅ fetched orderID: \(order.id) with status: \(order.status)")
-            case .failure(let error):
-                self.updateTitle("Your order has failed, please try again")
-                print("❌ failed to fetch orderID: \(error)")
-            }
-            DispatchQueue.main.async {
-                completion(self.orderID)
-            }
+        do {
+            let order = try await DemoMerchantAPI.sharedService.createOrder(orderParams: orderRequestParams)
+            updateTitle("Order ID: \(order.id)")
+            updateOrderID(with: order.id)
+            print("✅ fetched orderID: \(order.id) with status: \(order.status)")
+        } catch {
+            updateTitle("Your order has failed, please try again")
+            print("❌ failed to fetch orderID: \(error)")
         }
+        return orderID
     }
 
-    func processOrder(orderID: String, completion: @escaping () -> Void = {}) {
+    func processOrder(orderID: String) async {
         switch DemoSettings.intent {
         case .authorize:
             updateTitle("Authorizing order...")
@@ -73,16 +66,13 @@ class BaseViewModel: ObservableObject {
             countryCode: "US"
         )
 
-        DemoMerchantAPI.sharedService.processOrder(processOrderParams: processOrderParams) { result in
-            switch result {
-            case .success(let order):
-                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) success: \(order.status)")
-                print("✅ processed orderID: \(order.id) with status: \(order.status)")
-            case .failure(let error):
-                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) fail: \(error.localizedDescription)")
-                print("❌ failed to process orderID: \(error)")
-            }
-            completion()
+        do {
+            let order = try await DemoMerchantAPI.sharedService.processOrder(processOrderParams: processOrderParams)
+            updateTitle("\(DemoSettings.intent.rawValue.capitalized) success: \(order.status)")
+            print("✅ processed orderID: \(order.id) with status: \(order.status)")
+        } catch {
+            updateTitle("\(DemoSettings.intent.rawValue.capitalized) fail: \(error.localizedDescription)")
+            print("❌ failed to process orderID: \(error)")
         }
     }
 
@@ -109,10 +99,7 @@ class BaseViewModel: ObservableObject {
         do {
             let result = try await cardClient.approveOrder(request: cardRequest)
             updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
-            processOrder(orderID: result.orderID) {
-                // completion()
-
-            }
+            await processOrder(orderID: result.orderID)
         } catch {
             updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
         }

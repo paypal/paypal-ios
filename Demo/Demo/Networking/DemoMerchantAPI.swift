@@ -7,14 +7,13 @@ final class DemoMerchantAPI {
 
     private init() {}
 
+
     /// This function replicates a way a merchant may go about creating an order on their server and is not part of the SDK flow.
-    /// - Parameters:
-    ///   - orderParams: the parameters to create the order with
-    ///   - completion: a result object vending either the order or an error
-    func createOrder(orderParams: CreateOrderParams, completion: @escaping ((Result<Order, URLResponseError>) -> Void)) {
+    /// - Parameter orderParams: the parameters to create the order with
+    /// - Returns: a result object vending either the order or an error
+    func createOrder(orderParams: CreateOrderParams) async throws -> Order {
         guard let url = buildBaseURL(with: "/order?countryCode=US") else {
-            completion(.failure(.invalidURL))
-            return
+            throw URLResponseError.invalidURL
         }
 
         var urlRequest = URLRequest(url: url)
@@ -25,35 +24,25 @@ final class DemoMerchantAPI {
         urlRequest.httpBody = try? encoder.encode(orderParams)
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-            guard let data = data, error == nil else {
-                completion(.failure(.networkConnectionError))
-                return
-            }
-
-            if response == nil {
-                completion(.failure(.serverError))
-                return
-            }
-
+        do {
+            let (data, _) = try await URLSession.shared.data(for: urlRequest)
             do {
-                let order = try JSONDecoder().decode(Order.self, from: data)
-                completion(.success(order))
+                return try JSONDecoder().decode(Order.self, from: data)
             } catch {
-                completion(.failure(.dataParsingError))
+                throw URLResponseError.dataParsingError
             }
+        } catch {
+            throw URLResponseError.networkConnectionError
         }
-        .resume()
     }
 
     /// This function replicates a way a merchant may go about authorizing/capturing an order on their server and is not part of the SDK flow.
     /// - Parameters:
     ///   - processOrderParams: the parameters to process the order with
-    ///   - completion: a result object vending either the order or an error
-    func processOrder(processOrderParams: ProcessOrderParams, completion: @escaping ((Result<Order, URLResponseError>) -> Void)) {
+    /// - Returns: a result object vending either the order or an error
+    func processOrder(processOrderParams: ProcessOrderParams) async throws -> Order {
         guard let url = buildBaseURL(with: "/\(processOrderParams.intent)-order") else {
-            completion(.failure(.invalidURL))
-            return
+            throw URLResponseError.invalidURL
         }
 
         var urlRequest = URLRequest(url: url)
@@ -61,25 +50,16 @@ final class DemoMerchantAPI {
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.httpBody = try? JSONEncoder().encode(processOrderParams)
 
-        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-            guard let data = data, error == nil else {
-                completion(.failure(.networkConnectionError))
-                return
-            }
-
-            if response == nil {
-                completion(.failure(.serverError))
-                return
-            }
-
+        do {
+            let (data, _) = try await URLSession.shared.data(for: urlRequest)
             do {
-                let order = try JSONDecoder().decode(Order.self, from: data)
-                completion(.success(order))
+                return try JSONDecoder().decode(Order.self, from: data)
             } catch {
-                completion(.failure(.dataParsingError))
+                throw URLResponseError.dataParsingError
             }
+        } catch {
+            throw URLResponseError.networkConnectionError
         }
-        .resume()
     }
 
     private func buildBaseURL(with endpoint: String) -> URL? {

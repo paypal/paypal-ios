@@ -95,11 +95,12 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
     /// Allows us to only enable the pay button once all fields are filled out and we have an order ID
     @objc override func createOrderTapped() {
-        baseViewModel.createOrder(amount: amountTextField.text) { _ in
-            self.checkoutButton.isEnabled = self.baseViewModel.isCardFormValid(
-                cardNumber: self.cardNumberTextField.text ?? "",
-                expirationDate: self.expirationTextField.text ?? "",
-                cvv: self.cvvTextField.text ?? ""
+        Task {
+            _ = await baseViewModel.createOrder(amount: amountTextField.text)
+            checkoutButton.isEnabled = baseViewModel.isCardFormValid(
+                cardNumber: cardNumberTextField.text ?? "",
+                expirationDate: expirationTextField.text ?? "",
+                cvv: cvvTextField.text ?? ""
             )
         }
     }
