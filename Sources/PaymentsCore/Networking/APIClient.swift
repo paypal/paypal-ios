@@ -24,7 +24,7 @@ public final class APIClient {
         self.urlSession = urlSession
     }
 
-    public func fetchAsync<T: APIRequest>(endpoint: T) async throws -> (T.ResponseType, CorrelationID?) {
+    public func fetch<T: APIRequest>(endpoint: T) async throws -> (T.ResponseType, CorrelationID?) {
         guard let request = endpoint.toURLRequest(environment: environment) else { throw NSError() }
 
         do {
@@ -53,52 +53,6 @@ public final class APIClient {
             }
         } catch {
             throw APIClientError.urlSessionError(error.localizedDescription)
-        }
-    }
-
-    public func fetch<T: APIRequest>(
-        endpoint: T,
-        completion: @escaping (Result<T.ResponseType, PayPalSDKError>, CorrelationID?) -> Void
-    ) {
-        guard let request = endpoint.toURLRequest(environment: environment) else {
-            completion(.failure(APIClientError.invalidURLRequestError), nil)
-            return
-        }
-
-        urlSession.performRequest(with: request) { data, response, error in
-            let correlationID = (response as? HTTPURLResponse)?.allHeaderFields["Paypal-Debug-Id"] as? String
-
-            if let error = error {
-                completion(.failure(APIClientError.urlSessionError(error.localizedDescription)), correlationID)
-                return
-            }
-
-            guard let response = response as? HTTPURLResponse else {
-                completion(.failure(APIClientError.invalidURLResponseError), correlationID)
-                return
-            }
-
-            guard let data = data else {
-                completion(.failure(APIClientError.noResponseDataError), correlationID)
-                return
-            }
-
-            switch response.statusCode {
-            case 200..<300:
-                do {
-                    let decodedData = try self.decoder.decode(T.ResponseType.self, from: data)
-                    completion(.success(decodedData), correlationID)
-                } catch {
-                    completion(.failure(APIClientError.dataParsingError), correlationID)
-                }
-            default:
-                do {
-                    let errorData = try self.decoder.decode(ErrorResponse.self, from: data)
-                    completion(.failure(APIClientError.serverResponseError(errorData.readableDescription)), correlationID)
-                } catch {
-                    completion(.failure(APIClientError.unknownError), correlationID)
-                }
-            }
         }
     }
 }

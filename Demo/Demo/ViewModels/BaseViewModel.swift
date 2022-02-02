@@ -101,21 +101,20 @@ class BaseViewModel: ObservableObject {
         return Card(number: cleanedCardText, expirationMonth: expirationMonth, expirationYear: expirationYear, securityCode: cvv)
     }
 
-    func checkoutWithCard(_ card: Card, orderID: String, completion: @escaping () -> Void = { }) {
+    func checkoutWithCard(_ card: Card, orderID: String) async {
         let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
         let cardClient = CardClient(config: config)
         let cardRequest = CardRequest(orderID: orderID, card: card)
 
-        cardClient.approveOrder(request: cardRequest) { result in
-            switch result {
-            case .success(let result):
-                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
-                self.processOrder(orderID: result.orderID) {
-                    completion()
-                }
-            case .failure(let error):
-                self.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
+        do {
+            let result = try await cardClient.approveOrder(request: cardRequest)
+            updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
+            processOrder(orderID: result.orderID) {
+                // completion()
+
             }
+        } catch {
+            updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
         }
     }
 

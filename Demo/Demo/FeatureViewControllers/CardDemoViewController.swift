@@ -120,7 +120,8 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
             return
         }
 
-        baseViewModel.checkoutWithCard(card, orderID: orderID) {
+        Task {
+            await baseViewModel.checkoutWithCard(card, orderID: orderID)
             self.checkoutButton.stopAnimating()
         }
     }
