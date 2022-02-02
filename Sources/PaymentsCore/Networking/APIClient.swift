@@ -25,11 +25,10 @@ public final class APIClient {
     }
 
     public func fetchAsync<T: APIRequest>(endpoint: T) async throws -> (T.ResponseType, CorrelationID?) {
-        guard let urlSession = urlSession as? URLSession else { throw NSError() }
         guard let request = endpoint.toURLRequest(environment: environment) else { throw NSError() }
 
         do {
-            let (data, response) = try await urlSession.data(for: request)
+            let (data, response) = try await urlSession.performRequest(with: request)
             let correlationID = (response as? HTTPURLResponse)?.allHeaderFields["Paypal-Debug-Id"] as? String
 
             guard let response = response as? HTTPURLResponse else {
@@ -106,6 +105,7 @@ public final class APIClient {
 
 protocol URLSessionProtocol {
     func performRequest(with urlRequest: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)
+    func performRequest(with urlRequest: URLRequest) async throws -> (Data, URLResponse)
 }
 
 extension URLSession: URLSessionProtocol {
@@ -114,9 +114,10 @@ extension URLSession: URLSessionProtocol {
         let task = dataTask(with: urlRequest, completionHandler: completionHandler)
         task.resume()
     }
-}
 
-extension URLSession {
+    func performRequest(with urlRequest: URLRequest) async throws -> (Data, URLResponse) {
+        return try await data(for: urlRequest)
+    }
 
     @available(iOS, deprecated: 15.0, message: "This extension is no longer necessary. Use API built into SDK")
     func data(for request: URLRequest) async throws -> (Data, URLResponse) {
