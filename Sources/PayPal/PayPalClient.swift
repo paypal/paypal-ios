@@ -9,6 +9,8 @@ import PaymentsCore
 /// PayPal Paysheet to handle PayPal transaction
 public class PayPalClient {
 
+    public weak var delegate: PayPalDelegate?
+
     private let config: CoreConfig
     private let returnURL: String
 
@@ -37,11 +39,7 @@ public class PayPalClient {
     ///   - request: the PayPalRequest for the transaction
     ///   - presentingViewController: the ViewController to present PayPalPaysheet on, if not provided, the Paysheet will be presented on your top-most ViewController
     ///   - completion: Completion block to handle buyer's approval, cancellation, and error.
-    public func start(
-        request: PayPalRequest,
-        presentingViewController: UIViewController? = nil,
-        completion: @escaping (PayPalCheckoutResult) -> Void
-    ) {
+    public func start(request: PayPalRequest, presentingViewController: UIViewController? = nil) {
         CheckoutFlow.set(config: config, returnURL: returnURL)
 
         CheckoutFlow.start(
@@ -49,19 +47,29 @@ public class PayPalClient {
             createOrder: { order in
                 order.set(orderId: request.orderID)
             },
-            onApprove: { approval in
-                let payPalResult = PayPalResult(
-                    orderID: approval.ecToken,
-                    payerID: approval.payerID
-                )
-                completion(.success(result: payPalResult))
+            onApprove: { [weak self] approval in
+                self?.notifySuccess(for: approval)
             },
-            onCancel: {
-                completion(.cancellation)
+            onCancel: { [weak self] in
+                self?.notifyCancellation()
             },
-            onError: { errorInfo in
-                completion(.failure(error: PayPalError.nativeCheckoutSDKError(errorInfo)))
+            onError: { [weak self] errorInfo in
+                self?.notifyFailure(with: errorInfo)
             }
         )
+    }
+
+    private func notifySuccess(for approval: PayPalCheckoutApprovalData) {
+        let payPalResult = PayPalResult(orderID: approval.ecToken, payerID: approval.payerID)
+        delegate?.paypal(client: self, didFinishWithResult: payPalResult)
+    }
+
+    private func notifyFailure(with errorInfo: PayPalCheckoutErrorInfo) {
+        let error = PayPalError.nativeCheckoutSDKError(errorInfo)
+        delegate?.paypal(client: self, didFinishWithError: error)
+    }
+
+    private func notifyCancellation() {
+        delegate?.paypalDidCancel(client: self)
     }
 }

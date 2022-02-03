@@ -2,7 +2,13 @@ import UIKit
 import PayPal
 import PaymentsCore
 
-class PayPalDemoViewController: FeatureBaseViewController {
+class PayPalDemoViewController: FeatureBaseViewController, PayPalDelegate {
+
+    lazy var payPalClient: PayPalClient = {
+        let environment = DemoSettings.environment.paypalSDKEnvironment
+        let config = CoreConfig(clientID: DemoSettings.clientID, environment: environment)
+        return PayPalClient(config: config, returnURL: DemoSettings.paypalReturnUrl)
+    }()
 
     // MARK: - View Spacing
 
@@ -74,23 +80,26 @@ class PayPalDemoViewController: FeatureBaseViewController {
     }
 
     func checkoutWithPayPal(orderID: String) {
-        let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
-        let payPalClient = PayPalClient(config: config, returnURL: DemoSettings.paypalReturnUrl)
-        let payPalRequest = PayPalRequest(orderID: orderID)
+        payPalClient.delegate = self
 
-        payPalClient.start(request: payPalRequest, presentingViewController: self) { [weak self] state in
-            guard let self = self else { return }
-            switch state {
-            case .success(let result):
-                self.baseViewModel.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
-                print("✅ Order is successfully approved and ready to be captured/authorized with result: \(result)")
-            case .failure(let error):
-                self.baseViewModel.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
-                print("❌ There was an error: \(error)")
-            case .cancellation:
-                self.baseViewModel.updateTitle("\(DemoSettings.intent) canceled")
-                print("❌ Buyer has canceled the PayPal flow")
-            }
-        }
+        let payPalRequest = PayPalRequest(orderID: orderID)
+        payPalClient.start(request: payPalRequest, presentingViewController: self)
+    }
+
+    // MARK: - PayPal Delegate
+
+    func paypal(client paypalClient: PayPalClient, didFinishWithResult result: PayPalResult) {
+        baseViewModel.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
+        print("✅ Order is successfully approved and ready to be captured/authorized with result: \(result)")
+    }
+
+    func paypal(client paypalClient: PayPalClient, didFinishWithError error: PayPalSDKError) {
+        baseViewModel.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
+        print("❌ There was an error: \(error)")
+    }
+
+    func paypalDidCancel(client paypalClient: PayPalClient) {
+        baseViewModel.updateTitle("\(DemoSettings.intent) canceled")
+        print("❌ Buyer has canceled the PayPal flow")
     }
 }
