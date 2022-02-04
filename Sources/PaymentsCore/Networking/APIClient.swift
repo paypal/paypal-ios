@@ -26,33 +26,38 @@ public final class APIClient {
 
     public func fetch<T: APIRequest>(endpoint: T) async throws -> (T.ResponseType, CorrelationID?) {
         guard let request = endpoint.toURLRequest(environment: environment) else { throw NSError() }
-
+        
+        var data: Data!
+        var response: URLResponse!
+        var correlationID: String?
         do {
-            let (data, response) = try await urlSession.performRequest(with: request)
-            let correlationID = (response as? HTTPURLResponse)?.allHeaderFields["Paypal-Debug-Id"] as? String
-
-            guard let response = response as? HTTPURLResponse else {
-                throw APIClientError.invalidURLResponseError
-            }
-
-            switch response.statusCode {
-            case 200..<300:
-                do {
-                    let decodedData = try self.decoder.decode(T.ResponseType.self, from: data)
-                    return (decodedData, correlationID)
-                } catch {
-                    throw APIClientError.dataParsingError
-                }
-            default:
-                do {
-                    let errorData = try self.decoder.decode(ErrorResponse.self, from: data)
-                    throw APIClientError.serverResponseError(errorData.readableDescription)
-                } catch {
-                    throw APIClientError.unknownError
-                }
-            }
+            (data, response) = try await urlSession.performRequest(with: request)
+            correlationID = (response as? HTTPURLResponse)?.allHeaderFields["Paypal-Debug-Id"] as? String
         } catch {
+            print("url session error thrown")
             throw APIClientError.urlSessionError(error.localizedDescription)
+        }
+        
+        guard let response = response as? HTTPURLResponse else {
+            throw APIClientError.invalidURLResponseError
+        }
+
+        switch response.statusCode {
+        case 200..<300:
+            do {
+                let decodedData = try self.decoder.decode(T.ResponseType.self, from: data)
+                return (decodedData, correlationID)
+            } catch {
+                print("data parsing thrown")
+                throw APIClientError.dataParsingError
+            }
+        default:
+            do {
+                let errorData = try self.decoder.decode(ErrorResponse.self, from: data)
+                throw APIClientError.serverResponseError(errorData.readableDescription)
+            } catch {
+                throw APIClientError.unknownError
+            }
         }
     }
 }
