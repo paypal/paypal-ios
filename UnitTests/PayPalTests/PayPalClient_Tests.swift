@@ -5,6 +5,25 @@ import PayPalCheckout
 
 class PayPalClient_Tests: XCTestCase {
 
+    private class MockPayPalDelegate: PayPalDelegate {
+
+        var capturedResult: PayPalResult?
+        var capturedError: PayPalSDKError?
+        var paypalDidCancel = false
+
+        func paypal(client paypalClient: PayPalClient, didFinishWithResult result: PayPalResult) {
+            capturedResult = result
+        }
+
+        func paypal(client paypalClient: PayPalClient, didFinishWithError error: PayPalSDKError) {
+            capturedError = error
+        }
+
+        func paypalDidCancel(client paypalClient: PayPalClient) {
+            paypalDidCancel = true
+        }
+    }
+
     let config = CoreConfig(clientID: "testClientID", environment: .sandbox)
 
     lazy var paypalClient = PayPalClient(
@@ -13,58 +32,47 @@ class PayPalClient_Tests: XCTestCase {
         checkoutFlow: MockCheckout.self
     )
 
-    func testStart_whenNativeSDKOnApproveCalled_returnsPayPalResult() {
+    func testStart_whenNativeSDKOnApproveCalled_returnsPayPalResult() async {
         let request = PayPalRequest(orderID: "1234")
         let approval = MockApproval(intent: "intent", payerID: "payerID", ecToken: request.orderID)
 
-        paypalClient.start(request: request, presentingViewController: nil) { result in
-            switch result {
-            case .success(let approvalResult):
-                XCTAssertEqual(approvalResult.orderID, approval.ecToken)
-                XCTAssertEqual(approvalResult.payerID, approval.payerID)
-            case .failure:
-                XCTFail()
-            case .cancellation:
-                XCTFail()
-            }
-        }
+        let delegate = MockPayPalDelegate()
+        paypalClient.delegate = delegate
 
+        paypalClient.start(request: request, presentingViewController: nil)
         MockCheckout.triggerApproval(approval: approval)
+
+        let approvalResult = delegate.capturedResult
+        XCTAssertEqual(approvalResult?.orderID, approval.ecToken)
+        XCTAssertEqual(approvalResult?.payerID, approval.payerID)
     }
 
     func testStart_whenNativeSDKOnCancelCalled_returnsCancellationError() {
         let request = PayPalRequest(orderID: "1234")
 
-        paypalClient.start(request: request, presentingViewController: nil) { result in
-            switch result {
-            case .success:
-                XCTFail()
-            case .failure:
-                XCTFail()
-            case .cancellation:
-                MockCheckout.triggerCancel()
-            }
-        }
+        let delegate = MockPayPalDelegate()
+        paypalClient.delegate = delegate
+
+        paypalClient.start(request: request, presentingViewController: nil)
+        MockCheckout.triggerCancel()
+
+        XCTAssertTrue(delegate.paypalDidCancel)
     }
 
     func testStart_whenNativeSDKOnErrorCalled_returnsCheckoutError() {
         let request = PayPalRequest(orderID: "1234")
         let error = MockPayPalError(reason: "error reason", error: NSError())
 
-        paypalClient.start(request: request, presentingViewController: nil) { result in
-            switch result {
-            case .success:
-                XCTFail()
-            case .failure(let sdkError):
-                XCTAssertEqual(sdkError.code, PayPalError.Code.nativeCheckoutSDKError.rawValue)
-                XCTAssertEqual(sdkError.domain, PayPalError.domain)
-                XCTAssertEqual(sdkError.errorDescription, error.reason)
-            case .cancellation:
-                XCTFail()
-            }
-        }
+        let delegate = MockPayPalDelegate()
+        paypalClient.delegate = delegate
 
+        paypalClient.start(request: request, presentingViewController: nil)
         MockCheckout.triggerError(error: error)
+
+        let sdkError = delegate.capturedError
+        XCTAssertEqual(sdkError?.code, PayPalError.Code.nativeCheckoutSDKError.rawValue)
+        XCTAssertEqual(sdkError?.domain, PayPalError.domain)
+        XCTAssertEqual(sdkError?.errorDescription, error.reason)
     }
 
     func testInit_setsConfigPropertiesOnNativeSDKCheckoutConfig() {
