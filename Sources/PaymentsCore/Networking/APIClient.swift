@@ -25,7 +25,9 @@ public final class APIClient {
     }
 
     public func fetch<T: APIRequest>(endpoint: T) async throws -> (T.ResponseType, CorrelationID?) {
-        guard let request = endpoint.toURLRequest(environment: environment) else { throw NSError() }
+        guard let request = endpoint.toURLRequest(environment: environment) else {
+            throw APIClientError.invalidURLRequestError
+        }
         
         var data: Data!
         var response: URLResponse!
@@ -34,7 +36,6 @@ public final class APIClient {
             (data, response) = try await urlSession.performRequest(with: request)
             correlationID = (response as? HTTPURLResponse)?.allHeaderFields["Paypal-Debug-Id"] as? String
         } catch {
-            print("url session error thrown")
             throw APIClientError.urlSessionError(error.localizedDescription)
         }
         
@@ -48,16 +49,16 @@ public final class APIClient {
                 let decodedData = try self.decoder.decode(T.ResponseType.self, from: data)
                 return (decodedData, correlationID)
             } catch {
-                print("data parsing thrown")
                 throw APIClientError.dataParsingError
             }
         default:
+            var errorData: ErrorResponse!
             do {
-                let errorData = try self.decoder.decode(ErrorResponse.self, from: data)
-                throw APIClientError.serverResponseError(errorData.readableDescription)
+                errorData = try self.decoder.decode(ErrorResponse.self, from: data)
             } catch {
                 throw APIClientError.unknownError
             }
+            throw APIClientError.serverResponseError(errorData.readableDescription)
         }
     }
 }

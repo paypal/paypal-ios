@@ -166,7 +166,17 @@ class APIClient_Tests: XCTestCase {
     }
 
     func testFetch_whenPayPalDebugHeader_returnsCorrelationID() async {
-        mockURLSession.cannedJSONData = "{}"
+        let jsonResponse = """
+        {
+            "scope": "fake-scope",
+            "access_token": "fake-token",
+            "token_type": "fake-bearer",
+            "expires_in": 1,
+            "nonce": "fake-nonce"
+        }
+        """
+
+        mockURLSession.cannedJSONData = jsonResponse
         mockURLSession.cannedURLResponse = HTTPURLResponse(
             // swiftlint:disable:next force_unwrapping
             url: URL(string: "www.fake.com")!,
@@ -175,10 +185,12 @@ class APIClient_Tests: XCTestCase {
             headerFields: ["Paypal-Debug-Id": "fake-id"]
         )
 
+        let accessTokenRequest = AccessTokenRequest(clientID: "")
         do {
-            let (_, correlationID) = try await apiClient.fetch(endpoint: fakeRequest)
+            let (_, correlationID) = try await apiClient.fetch(endpoint: accessTokenRequest)
             XCTAssertEqual(correlationID, "fake-id")
         } catch {
+            print(error)
             XCTFail("Unexpected error")
         }
     }
