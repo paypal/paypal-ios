@@ -32,9 +32,7 @@ class APIClient_Tests: XCTestCase {
     // MARK: - fetch() tests
 
     // TODO: This test is specific to AccessToken, move it out of this file.
-    func testFetch_whenAccessTokenSuccessResponse_returnsValidAccessToken() {
-        let expect = expectation(description: "Callback invoked.")
-
+    func testFetch_whenAccessTokenSuccessResponse_returnsValidAccessToken() async {
         let jsonResponse = """
         {
             "scope": "fake-scope",
@@ -49,47 +47,35 @@ class APIClient_Tests: XCTestCase {
         mockURLSession.cannedJSONData = jsonResponse
 
         let accessTokenRequest = AccessTokenRequest(clientID: "")
-
-        apiClient.fetch(endpoint: accessTokenRequest) { result, _ in
-            switch result {
-            case .success(let response):
-                XCTAssertEqual(response.accessToken, "fake-token")
-                XCTAssertEqual(response.nonce, "fake-nonce")
-                XCTAssertEqual(response.scope, "fake-scope")
-                XCTAssertEqual(response.tokenType, "fake-bearer")
-                XCTAssertEqual(response.expiresIn, 1)
-            case .failure:
-                XCTFail("Expect success response")
-            }
-
-            expect.fulfill()
+        do {
+            let (result, _) = try await apiClient.fetch(endpoint: accessTokenRequest)
+            XCTAssertEqual(result.accessToken, "fake-token")
+            XCTAssertEqual(result.nonce, "fake-nonce")
+            XCTAssertEqual(result.scope, "fake-scope")
+            XCTAssertEqual(result.tokenType, "fake-bearer")
+            XCTAssertEqual(result.expiresIn, 1)
+        } catch {
+            XCTFail("Expect success response")
         }
-        waitForExpectations(timeout: 1)
     }
 
-    func testFetch_withNoURLRequest_returnsInvalidURLRequestError() {
-        let expect = expectation(description: "Callback invoked.")
-
+    func testFetch_withNoURLRequest_returnsInvalidURLRequestError() async {
         // Mock request whose API object does not vend a URLRequest
         let noURLRequest = FakeRequestNoURL()
 
-        apiClient.fetch(endpoint: noURLRequest) { result, _ in
-            switch result {
-            case .success:
-                XCTFail()
-            case .failure(let error):
-                XCTAssertEqual(error.domain, APIClientError.domain)
-                XCTAssertEqual(error.code, APIClientError.Code.invalidURLRequest.rawValue)
-                XCTAssertEqual(error.localizedDescription, "An error occured constructing an HTTP request. Contact developer.paypal.com/support.")
-            }
-
-            expect.fulfill()
+        do {
+            _ = try await apiClient.fetch(endpoint: noURLRequest)
+            XCTFail("This should have failed.")
+        } catch let error as PayPalSDKError {
+            XCTAssertEqual(error.domain, APIClientError.domain)
+            XCTAssertEqual(error.code, APIClientError.Code.invalidURLRequest.rawValue)
+            XCTAssertEqual(error.localizedDescription, "An error occured constructing an HTTP request. Contact developer.paypal.com/support.")
+        } catch {
+            XCTFail("Unexpected error type")
         }
-        waitForExpectations(timeout: 1)
     }
 
-    func testFetch_whenServerError_returnsURLSessionError() {
-        let expect = expectation(description: "Callback invoked.")
+    func testFetch_whenServerError_returnsURLSessionError() async {
         let serverError = NSError(
             domain: URLError.errorDomain,
             code: NSURLErrorBadServerResponse,
@@ -98,85 +84,65 @@ class APIClient_Tests: XCTestCase {
 
         mockURLSession.cannedError = serverError
 
-        apiClient.fetch(endpoint: fakeRequest) { result, _ in
-            switch result {
-            case .success:
-                XCTFail()
-            case .failure(let error):
-                XCTAssertEqual(error.domain, APIClientError.domain)
-                XCTAssertEqual(error.code, APIClientError.Code.urlSessionError.rawValue)
-                XCTAssertEqual(error.localizedDescription, "fake-error")
-            }
-
-            expect.fulfill()
+        do {
+            _ = try await apiClient.fetch(endpoint: fakeRequest)
+            XCTFail()
+        } catch let error as PayPalSDKError {
+            XCTAssertEqual(error.domain, APIClientError.domain)
+            XCTAssertEqual(error.code, APIClientError.Code.urlSessionError.rawValue)
+            XCTAssertEqual(error.localizedDescription, "fake-error")
+        } catch {
+            XCTFail("Unexpected error type")
         }
-        waitForExpectations(timeout: 1)
     }
 
-    func testFetch_whenNoURLResponse_returnsInvalidURLResponseError() {
-        let expect = expectation(description: "Callback invoked.")
-
+    func testFetch_whenNoURLResponse_returnsInvalidURLResponseError() async {
         mockURLSession.cannedURLResponse = nil
 
-        apiClient.fetch(endpoint: fakeRequest) { result, _ in
-            switch result {
-            case .success:
-                XCTFail()
-            case .failure(let error):
-                XCTAssertEqual(error.domain, APIClientError.domain)
-                XCTAssertEqual(error.code, APIClientError.Code.invalidURLResponse.rawValue)
-                XCTAssertEqual(error.localizedDescription, "An error occured due to an invalid HTTP response. Contact developer.paypal.com/support.")
-            }
-
-            expect.fulfill()
+        do {
+            _ = try await apiClient.fetch(endpoint: fakeRequest)
+            XCTFail()
+        } catch let error as PayPalSDKError {
+            XCTAssertEqual(error.domain, APIClientError.domain)
+            XCTAssertEqual(error.code, APIClientError.Code.invalidURLResponse.rawValue)
+            XCTAssertEqual(error.localizedDescription, "An error occured due to an invalid HTTP response. Contact developer.paypal.com/support.")
+        } catch {
+            XCTFail("Unexpected error type")
         }
-        waitForExpectations(timeout: 1)
     }
 
-    func testFetch_whenNoResponseData_returnsMissingDataError() {
-        let expect = expectation(description: "Callback invoked.")
-
+    func testFetch_whenNoResponseData_returnsMissingDataError() async {
         mockURLSession.cannedURLResponse = successURLResponse
-
-        apiClient.fetch(endpoint: fakeRequest) { result, _ in
-            switch result {
-            case .success:
-                XCTFail()
-            case .failure(let error):
-                XCTAssertEqual(error.domain, APIClientError.domain)
-                XCTAssertEqual(error.code, APIClientError.Code.noResponseData.rawValue)
-                XCTAssertEqual(error.localizedDescription, "An error occured due to missing HTTP response data. Contact developer.paypal.com/support.")
-            }
-
-            expect.fulfill()
+        
+        do {
+            _ = try await apiClient.fetch(endpoint: fakeRequest)
+            XCTFail()
+        } catch let error as PayPalSDKError {
+            XCTAssertEqual(error.domain, APIClientError.domain)
+            XCTAssertEqual(error.code, APIClientError.Code.noResponseData.rawValue)
+            XCTAssertEqual(error.localizedDescription, "An error occured due to missing HTTP response data. Contact developer.paypal.com/support.")
+        } catch {
+            XCTFail("Unexpected error type")
         }
-        waitForExpectations(timeout: 1)
     }
 
-    func testFetch_whenInvalidData_returnsParseError() {
-        let expect = expectation(description: "Callback invoked.")
-
+    func testFetch_whenInvalidData_returnsParseError() async {
         mockURLSession.cannedURLResponse = successURLResponse
         mockURLSession.cannedJSONData = "{ \"test\" : \"bad-format\" }"
-
-        apiClient.fetch(endpoint: fakeRequest) { result, _ in
-            switch result {
-            case .success:
-                XCTFail()
-            case .failure(let error):
-                XCTAssertEqual(error.domain, APIClientError.domain)
-                XCTAssertEqual(error.code, APIClientError.Code.dataParsingError.rawValue)
-                XCTAssertEqual(error.localizedDescription, "An error occured parsing HTTP response data. Contact developer.paypal.com/support.")
-            }
-
-            expect.fulfill()
+        
+        do {
+            _ = try await apiClient.fetch(endpoint: fakeRequest)
+            XCTFail()
+        } catch let error as PayPalSDKError {
+            XCTAssertEqual(error.domain, APIClientError.domain)
+            XCTAssertEqual(error.code, APIClientError.Code.dataParsingError.rawValue)
+            XCTAssertEqual(error.localizedDescription, "An error occured parsing HTTP response data. Contact developer.paypal.com/support.")
+        } catch {
+            XCTFail("Unexpected error type")
         }
-        waitForExpectations(timeout: 1)
     }
 
-    func testFetch_whenBadStatusCode_withErrorData_returnsReadableErrorMessage() {
-        let expect = expectation(description: "Callback invoked.")
-
+    func testFetch_whenBadStatusCode_withErrorData_returnsReadableErrorMessage() async {
         let jsonResponse = """
         {
             "name": "ERROR_NAME",
@@ -194,24 +160,19 @@ class APIClient_Tests: XCTestCase {
             headerFields: [:]
         )
 
-        apiClient.fetch(endpoint: fakeRequest) { result, _ in
-            switch result {
-            case .success:
-                XCTFail()
-            case .failure(let error):
-                XCTAssertEqual(error.domain, APIClientError.domain)
-                XCTAssertEqual(error.code, APIClientError.Code.serverResponseError.rawValue)
-                XCTAssertEqual(error.localizedDescription, "ERROR_NAME: The requested action could not be performed.")
-            }
-
-            expect.fulfill()
+        do {
+            _ = try await apiClient.fetch(endpoint: fakeRequest)
+            XCTFail()
+        } catch let error as PayPalSDKError {
+            XCTAssertEqual(error.domain, APIClientError.domain)
+            XCTAssertEqual(error.code, APIClientError.Code.serverResponseError.rawValue)
+            XCTAssertEqual(error.localizedDescription, "ERROR_NAME: The requested action could not be performed.")
+        } catch {
+            XCTFail("Unexpected error type")
         }
-        waitForExpectations(timeout: 1)
     }
 
-    func testFetch_whenBadStatusCode_withoutErrorData_returnsUnknownError() {
-        let expect = expectation(description: "Callback invoked.")
-
+    func testFetch_whenBadStatusCode_withoutErrorData_returnsUnknownError() async {
         mockURLSession.cannedJSONData = ""
 
         mockURLSession.cannedURLResponse = HTTPURLResponse(
@@ -221,25 +182,20 @@ class APIClient_Tests: XCTestCase {
             httpVersion: "1",
             headerFields: [:]
         )
-
-        apiClient.fetch(endpoint: fakeRequest) { result, _ in
-            switch result {
-            case .success:
-                XCTFail()
-            case .failure(let error):
-                XCTAssertEqual(error.domain, APIClientError.domain)
-                XCTAssertEqual(error.code, APIClientError.Code.unknown.rawValue)
-                XCTAssertEqual(error.localizedDescription, "An unknown error occured. Contact developer.paypal.com/support.")
-            }
-
-            expect.fulfill()
+        
+        do {
+            _ = try await apiClient.fetch(endpoint: fakeRequest)
+            XCTFail()
+        } catch let error as PayPalSDKError {
+            XCTAssertEqual(error.domain, APIClientError.domain)
+            XCTAssertEqual(error.code, APIClientError.Code.unknown.rawValue)
+            XCTAssertEqual(error.localizedDescription, "An unknown error occured. Contact developer.paypal.com/support.")
+        } catch {
+            XCTFail("Unexpected error type")
         }
-        waitForExpectations(timeout: 1)
     }
 
-    func testFetch_whenPayPalDebugHeader_returnsCorrelationID() {
-        let expect = expectation(description: "Callback invoked.")
-
+    func testFetch_whenPayPalDebugHeader_returnsCorrelationID() async {
         mockURLSession.cannedURLResponse = HTTPURLResponse(
             // swiftlint:disable:next force_unwrapping
             url: URL(string: "www.fake.com")!,
@@ -248,10 +204,11 @@ class APIClient_Tests: XCTestCase {
             headerFields: ["Paypal-Debug-Id": "fake-id"]
         )
 
-        apiClient.fetch(endpoint: fakeRequest) { _, correlationID in
+        do {
+            let (_, correlationID) = try await apiClient.fetch(endpoint: fakeRequest)
             XCTAssertEqual(correlationID, "fake-id")
-            expect.fulfill()
+        } catch {
+            XCTFail("Unexpected error")
         }
-        waitForExpectations(timeout: 1)
     }
 }
