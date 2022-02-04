@@ -113,7 +113,7 @@ class APIClient_Tests: XCTestCase {
 
     func testFetch_whenNoResponseData_returnsMissingDataError() async {
         mockURLSession.cannedURLResponse = successURLResponse
-        
+
         do {
             _ = try await apiClient.fetch(endpoint: fakeRequest)
             XCTFail()
@@ -129,7 +129,7 @@ class APIClient_Tests: XCTestCase {
     func testFetch_whenInvalidData_returnsParseError() async {
         mockURLSession.cannedURLResponse = successURLResponse
         mockURLSession.cannedJSONData = "{ \"test\" : \"bad-format\" }"
-        
+
         do {
             _ = try await apiClient.fetch(endpoint: fakeRequest)
             XCTFail()
@@ -182,7 +182,7 @@ class APIClient_Tests: XCTestCase {
             httpVersion: "1",
             headerFields: [:]
         )
-        
+
         do {
             _ = try await apiClient.fetch(endpoint: fakeRequest)
             XCTFail()
