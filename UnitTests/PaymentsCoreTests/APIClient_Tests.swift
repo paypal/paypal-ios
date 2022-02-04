@@ -96,36 +96,6 @@ class APIClient_Tests: XCTestCase {
         }
     }
 
-    func testFetch_whenNoURLResponse_returnsInvalidURLResponseError() async {
-        mockURLSession.cannedURLResponse = nil
-
-        do {
-            _ = try await apiClient.fetch(endpoint: fakeRequest)
-            XCTFail()
-        } catch let error as PayPalSDKError {
-            XCTAssertEqual(error.domain, APIClientError.domain)
-            XCTAssertEqual(error.code, APIClientError.Code.invalidURLResponse.rawValue)
-            XCTAssertEqual(error.localizedDescription, "An error occured due to an invalid HTTP response. Contact developer.paypal.com/support.")
-        } catch {
-            XCTFail("Unexpected error type")
-        }
-    }
-
-    func testFetch_whenNoResponseData_returnsMissingDataError() async {
-        mockURLSession.cannedURLResponse = successURLResponse
-
-        do {
-            _ = try await apiClient.fetch(endpoint: fakeRequest)
-            XCTFail()
-        } catch let error as PayPalSDKError {
-            XCTAssertEqual(error.domain, APIClientError.domain)
-            XCTAssertEqual(error.code, APIClientError.Code.noResponseData.rawValue)
-            XCTAssertEqual(error.localizedDescription, "An error occured due to missing HTTP response data. Contact developer.paypal.com/support.")
-        } catch {
-            XCTFail("Unexpected error type")
-        }
-    }
-
     func testFetch_whenInvalidData_returnsParseError() async {
         mockURLSession.cannedURLResponse = successURLResponse
         mockURLSession.cannedJSONData = "{ \"test\" : \"bad-format\" }"
