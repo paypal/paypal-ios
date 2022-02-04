@@ -166,6 +166,7 @@ class APIClient_Tests: XCTestCase {
     }
 
     func testFetch_whenPayPalDebugHeader_returnsCorrelationID() async {
+        mockURLSession.cannedJSONData = "{}"
         mockURLSession.cannedURLResponse = HTTPURLResponse(
             // swiftlint:disable:next force_unwrapping
             url: URL(string: "www.fake.com")!,
