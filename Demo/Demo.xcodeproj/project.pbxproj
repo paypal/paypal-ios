@@ -113,8 +113,8 @@
 		80561B3C26FB5F300023138C /* FeatureViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				80561B3D26FB72D80023138C /* FeatureBaseViewController.swift */,
 				80561B3726FB5F0F0023138C /* CardDemoViewController.swift */,
+				80561B3D26FB72D80023138C /* FeatureBaseViewController.swift */,
 				80561B3926FB5F1C0023138C /* PayPalDemoViewController.swift */,
 			);
 			path = FeatureViewControllers;
@@ -222,9 +222,9 @@
 		BEDE3047275E998700D275FD /* SwiftUIComponents */ = {
 			isa = PBXGroup;
 			children = (
-				BE31187D273F02A80021C5A2 /* SwiftUICardDemo.swift */,
-				BE9F36D72745490400AFC7DA /* FloatingLabelTextField.swift */,
 				BE9F36DB274578D100AFC7DA /* FeatureBaseViewControllerRepresentable.swift */,
+				BE9F36D72745490400AFC7DA /* FloatingLabelTextField.swift */,
+				BE31187D273F02A80021C5A2 /* SwiftUICardDemo.swift */,
 				BEDE304B275FA4A100D275FD /* SwiftUIPayPalDemo.swift */,
 			);
 			path = SwiftUIComponents;

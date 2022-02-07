@@ -1,10 +1,11 @@
 import UIKit
 import Card
+import PayPal
 import PaymentsCore
 
 /// This class is used to share the orderID across shared views, update the text of `bottomStatusLabel` in our `FeatureBaseViewController`
 /// as well as share the logic of `processOrder` across our duplicate (SwiftUI and UIKit) card views.
-class BaseViewModel: ObservableObject {
+class BaseViewModel: ObservableObject, PayPalDelegate {
 
     /// Weak reference to associated view
     weak var view: FeatureBaseViewController?
@@ -76,6 +77,8 @@ class BaseViewModel: ObservableObject {
         }
     }
 
+    // MARK: Card Module Integration
+
     func createCard(cardNumber: String?, expirationDate: String?, cvv: String?) -> Card? {
         guard let cardNumber = cardNumber, let expirationDate = expirationDate, let cvv = cvv else {
             updateTitle("Failed: missing card / orderID.")
@@ -117,5 +120,42 @@ class BaseViewModel: ObservableObject {
         let enabled = cleanedCardNumber.count >= 15 && cleanedCardNumber.count <= 19
         && cleanedExpirationDate.count == 4 && cvv.count >= 3 && cvv.count <= 4
         return enabled
+    }
+
+    // MARK: - PayPal Module Integration
+
+    func payPalButtonTapped(presentingViewController: UIViewController? = nil) {
+        guard let orderID = orderID else {
+            self.updateTitle("Failed: missing orderID.")
+            return
+        }
+
+        checkoutWithPayPal(orderID: orderID, presentingViewController: presentingViewController)
+    }
+
+    func checkoutWithPayPal(orderID: String, presentingViewController: UIViewController? = nil) {
+        let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
+        let payPalClient = PayPalClient(config: config, returnURL: DemoSettings.paypalReturnUrl)
+        let payPalRequest = PayPalRequest(orderID: orderID)
+
+        payPalClient.delegate = self
+        payPalClient.start(request: payPalRequest, presentingViewController: presentingViewController)
+    }
+
+    // MARK: - PayPal Delegate
+
+    func paypal(client paypalClient: PayPalClient, didFinishWithResult result: PayPalResult) {
+        self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
+        print("✅ Order is successfully approved and ready to be captured/authorized with result: \(result)")
+    }
+
+    func paypal(client paypalClient: PayPalClient, didFinishWithError error: PayPalSDKError) {
+        self.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
+        print("❌ There was an error: \(error)")
+    }
+
+    func paypalDidCancel(client paypalClient: PayPalClient) {
+        self.updateTitle("\(DemoSettings.intent) cancelled")
+        print("❌ Buyer has cancelled the PayPal flow")
     }
 }
