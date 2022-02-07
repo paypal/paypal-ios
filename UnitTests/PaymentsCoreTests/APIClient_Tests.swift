@@ -87,12 +87,8 @@ class APIClient_Tests: XCTestCase {
         do {
             _ = try await apiClient.fetch(endpoint: fakeRequest)
             XCTFail()
-        } catch let error as PayPalSDKError {
-            XCTAssertEqual(error.domain, APIClientError.domain)
-            XCTAssertEqual(error.code, APIClientError.Code.urlSessionError.rawValue)
-            XCTAssertEqual(error.localizedDescription, "fake-error")
-        } catch {
-            XCTFail("Unexpected error type")
+        } catch let error {
+            XCTAssertTrue(serverError === (error as AnyObject))
         }
     }
 

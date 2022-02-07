@@ -7,11 +7,7 @@ public final class APIClient {
     private var urlSession: URLSessionProtocol
     private var environment: Environment
 
-    private var decoder: JSONDecoder = {
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        return decoder
-    }()
+    private let decoder = APIClientDecoder()
 
     public init(environment: Environment) {
         self.environment = environment
@@ -28,37 +24,46 @@ public final class APIClient {
         guard let request = endpoint.toURLRequest(environment: environment) else {
             throw APIClientError.invalidURLRequestError
         }
-        
-        var data: Data!
-        var response: URLResponse!
-        var correlationID: String?
-        do {
-            (data, response) = try await urlSession.performRequest(with: request)
-            correlationID = (response as? HTTPURLResponse)?.allHeaderFields["Paypal-Debug-Id"] as? String
-        } catch {
-            throw APIClientError.urlSessionError(error.localizedDescription)
-        }
-        
+        // TODO: consider throwing PayPalError from perfomRequest
+        let (data, response) = try await urlSession.performRequest(with: request)
+        let correlationID = (response as? HTTPURLResponse)?.allHeaderFields["Paypal-Debug-Id"] as? String
         guard let response = response as? HTTPURLResponse else {
             throw APIClientError.invalidURLResponseError
         }
 
         switch response.statusCode {
         case 200..<300:
-            do {
-                let decodedData = try self.decoder.decode(T.ResponseType.self, from: data)
-                return (decodedData, correlationID)
-            } catch {
-                throw APIClientError.dataParsingError
-            }
+            let decodedData = try decoder.decode(T.self, from: data)
+            return (decodedData, correlationID)
         default:
-            var errorData: ErrorResponse!
-            do {
-                errorData = try self.decoder.decode(ErrorResponse.self, from: data)
-            } catch {
-                throw APIClientError.unknownError
-            }
+            let errorData = try decoder.decode(from: data)
             throw APIClientError.serverResponseError(errorData.readableDescription)
+        }
+    }
+}
+
+class APIClientDecoder {
+
+    private let decoder: JSONDecoder
+
+    init() {
+        decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+    }
+
+    func decode<T: APIRequest>(_ type: T.Type, from data: Data) throws -> T.ResponseType {
+        do {
+            return try self.decoder.decode(T.ResponseType.self, from: data)
+        } catch {
+            throw APIClientError.dataParsingError
+        }
+    }
+
+    func decode(from data: Data) throws -> ErrorResponse {
+        do {
+            return try self.decoder.decode(ErrorResponse.self, from: data)
+        } catch {
+            throw APIClientError.unknownError
         }
     }
 }
