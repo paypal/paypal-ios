@@ -11,8 +11,8 @@ public class PayPalClient {
 
     public weak var delegate: PayPalDelegate?
 
-    private let config: CoreConfig
-    private let returnURL: String
+    let config: CoreConfig
+    let returnURL: String
 
     // swiftlint:disable identifier_name
     let CheckoutFlow: CheckoutProtocol.Type
