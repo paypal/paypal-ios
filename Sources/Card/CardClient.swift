@@ -24,7 +24,7 @@ public class CardClient {
     /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
     /// After the order has been successfully approved, you will need to handle capturing/authorizing the order in your server.
     /// - Parameter request: The request containing the card and order id for approval
-    /// - Returns: Card result
+    /// - Returns: Card result or throws an error
     public func approveOrder(request: CardRequest) async throws -> CardResult {
         do {
             let confirmPaymentRequest = try ConfirmPaymentSourceRequest(

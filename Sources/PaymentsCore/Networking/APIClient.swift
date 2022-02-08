@@ -81,7 +81,7 @@ extension URLSession: URLSessionProtocol {
     }
 
     func performRequest(with urlRequest: URLRequest) async throws -> (Data, URLResponse) {
-        return try await data(for: urlRequest)
+        try await data(for: urlRequest)
     }
 
     @available(iOS, deprecated: 15.0, message: "This extension is no longer necessary. Use API built into SDK")

@@ -10,7 +10,7 @@ final class DemoMerchantAPI {
 
     /// This function replicates a way a merchant may go about creating an order on their server and is not part of the SDK flow.
     /// - Parameter orderParams: the parameters to create the order with
-    /// - Returns: a result object vending either the order or an error
+    /// - Returns: an order or throws an error
     func createOrder(orderParams: CreateOrderParams) async throws -> Order {
         guard let url = buildBaseURL(with: "/order?countryCode=US") else {
             throw URLResponseError.invalidURL
@@ -50,15 +50,16 @@ final class DemoMerchantAPI {
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.httpBody = try? JSONEncoder().encode(processOrderParams)
 
+        var data: Data
         do {
-            let (data, _) = try await URLSession.shared.data(for: urlRequest)
-            do {
-                return try JSONDecoder().decode(Order.self, from: data)
-            } catch {
-                throw URLResponseError.dataParsingError
-            }
+            (data, _) = try await URLSession.shared.data(for: urlRequest)
         } catch {
             throw URLResponseError.networkConnectionError
+        }
+        do {
+            return try JSONDecoder().decode(Order.self, from: data)
+        } catch {
+            throw URLResponseError.dataParsingError
         }
     }
 

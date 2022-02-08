@@ -186,7 +186,6 @@ class APIClient_Tests: XCTestCase {
             let (_, correlationID) = try await apiClient.fetch(endpoint: accessTokenRequest)
             XCTAssertEqual(correlationID, "fake-id")
         } catch {
-            print(error)
             XCTFail("Unexpected error")
         }
     }
