@@ -69,16 +69,10 @@ class APIClientDecoder {
 }
 
 protocol URLSessionProtocol {
-    func performRequest(with urlRequest: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)
     func performRequest(with urlRequest: URLRequest) async throws -> (Data, URLResponse)
 }
 
 extension URLSession: URLSessionProtocol {
-
-    func performRequest(with urlRequest: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        let task = dataTask(with: urlRequest, completionHandler: completionHandler)
-        task.resume()
-    }
 
     func performRequest(with urlRequest: URLRequest) async throws -> (Data, URLResponse) {
         try await data(for: urlRequest)
