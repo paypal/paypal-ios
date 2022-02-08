@@ -4,3 +4,5 @@
 - Sources/PayPal/Buttons
 # Exclude test utility classes
 - UnitTests/TestShared
+# Exclude UrlSession class
+- Sources/PaymentsCore/Networking/URLSession+URLSessionProtocol.swift
