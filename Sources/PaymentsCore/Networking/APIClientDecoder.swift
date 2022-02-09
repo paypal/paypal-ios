@@ -1,10 +1,3 @@
-//
-//  APIClientDecoder.swift
-//  PaymentsCore
-//
-//  Created by Jose Noriega on 08/02/2022.
-//
-
 import Foundation
 
 class APIClientDecoder {

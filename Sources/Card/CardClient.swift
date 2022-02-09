@@ -26,23 +26,19 @@ public class CardClient {
     /// - Parameter request: The request containing the card and order id for approval
     /// - Returns: Card result or throws an error
     public func approveOrder(request: CardRequest) async throws -> CardResult {
-        do {
-            let confirmPaymentRequest = try ConfirmPaymentSourceRequest(
-                card: request.card,
-                orderID: request.orderID,
-                clientID: config.clientID
-            )
-            let (result, _) = try await apiClient.fetch(endpoint: confirmPaymentRequest)
+        let confirmPaymentRequest = try ConfirmPaymentSourceRequest(
+            card: request.card,
+            orderID: request.orderID,
+            clientID: config.clientID
+        )
+        let (result, _) = try await apiClient.fetch(endpoint: confirmPaymentRequest)
 
-            let cardResult = CardResult(
-                orderID: result.id,
-                lastFourDigits: result.paymentSource.card.lastDigits,
-                brand: result.paymentSource.card.brand,
-                type: result.paymentSource.card.type
-            )
-            return cardResult
-        } catch {
-            throw error
-        }
+        let cardResult = CardResult(
+            orderID: result.id,
+            lastFourDigits: result.paymentSource.card.lastDigits,
+            brand: result.paymentSource.card.brand,
+            type: result.paymentSource.card.type
+        )
+        return cardResult
     }
 }
