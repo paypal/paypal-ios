@@ -1,9 +1,3 @@
-//
-//  URLSession+URLSessionProtocol.swift
-//  PaymentsCore
-//
-//  Created by Steven Shropshire on 2/8/22.
-//
 
 import Foundation
 
