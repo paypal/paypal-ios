@@ -23,7 +23,7 @@ final class DemoMerchantAPI {
         encoder.keyEncodingStrategy = .convertToSnakeCase
         urlRequest.httpBody = try? encoder.encode(orderParams)
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
+
         let data = try await data(for: urlRequest)
         return try parseOrder(from: data)
     }
@@ -41,11 +41,11 @@ final class DemoMerchantAPI {
         urlRequest.httpMethod = "POST"
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.httpBody = try? JSONEncoder().encode(processOrderParams)
-        
+
         let data = try await data(for: urlRequest)
         return try parseOrder(from: data)
     }
-    
+
     private func data(for urlRequest: URLRequest) async throws -> Data {
         do {
             let (data, _) = try await URLSession.shared.data(for: urlRequest)
@@ -54,7 +54,7 @@ final class DemoMerchantAPI {
             throw URLResponseError.networkConnectionError
         }
     }
-    
+
     private func parseOrder(from data: Data) throws -> Order {
         do {
             return try JSONDecoder().decode(Order.self, from: data)
