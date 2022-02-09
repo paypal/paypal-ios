@@ -29,6 +29,10 @@ class APIClient_Tests: XCTestCase {
         apiClient = APIClient(urlSession: mockURLSession, environment: .sandbox)
     }
 
+    func testInit_whenEnvironmentProvided_returnCorrectEnvironment() {
+        let apiClientAux = APIClient(environment: .sandbox)
+        XCTAssertEqual(apiClientAux.environment, .sandbox)
+    }
     // MARK: - fetch() tests
 
     // TODO: This test is specific to AccessToken, move it out of this file.

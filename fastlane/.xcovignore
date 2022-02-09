@@ -2,7 +2,7 @@
 - Sources/PayPal/PayPalUIInterfaces
 # Exclude SwiftUI Interface until a decision is made on UITesting Frameworks
 - Sources/PayPal/Buttons
-# Exclude test utility classes
-- UnitTests/TestShared
+# Exclude MockUrlSession
+- UnitTests/TestShared/MockURLSession.swift
 # Exclude UrlSession class
 - Sources/PaymentsCore/Networking/URLSession+URLSessionProtocol.swift

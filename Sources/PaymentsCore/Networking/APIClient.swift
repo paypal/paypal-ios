@@ -5,7 +5,7 @@ public final class APIClient {
     public typealias CorrelationID = String
 
     private var urlSession: URLSessionProtocol
-    private var environment: Environment
+    var environment: Environment
 
     private let decoder = APIClientDecoder()
 
