@@ -23,17 +23,9 @@ final class DemoMerchantAPI {
         encoder.keyEncodingStrategy = .convertToSnakeCase
         urlRequest.httpBody = try? encoder.encode(orderParams)
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        do {
-            let (data, _) = try await URLSession.shared.data(for: urlRequest)
-            do {
-                return try JSONDecoder().decode(Order.self, from: data)
-            } catch {
-                throw URLResponseError.dataParsingError
-            }
-        } catch {
-            throw URLResponseError.networkConnectionError
-        }
+        
+        let data = try await data(for: urlRequest)
+        return try parseOrder(from: data)
     }
 
     /// This function replicates a way a merchant may go about authorizing/capturing an order on their server and is not part of the SDK flow.
@@ -49,13 +41,21 @@ final class DemoMerchantAPI {
         urlRequest.httpMethod = "POST"
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.httpBody = try? JSONEncoder().encode(processOrderParams)
-
-        var data: Data
+        
+        let data = try await data(for: urlRequest)
+        return try parseOrder(from: data)
+    }
+    
+    private func data(for urlRequest: URLRequest) async throws -> Data {
         do {
-            (data, _) = try await URLSession.shared.data(for: urlRequest)
+            let (data, _) = try await URLSession.shared.data(for: urlRequest)
+            return data
         } catch {
             throw URLResponseError.networkConnectionError
         }
+    }
+    
+    private func parseOrder(from data: Data) throws -> Order {
         do {
             return try JSONDecoder().decode(Order.self, from: data)
         } catch {
