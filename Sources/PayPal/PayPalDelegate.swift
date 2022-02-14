@@ -6,7 +6,7 @@ import PaymentsCore
 /// PayPal delegate to handle events from PayPalClient
 public protocol PayPalDelegate: AnyObject {
 
-    /// Notify that the PayPal flow finished with a successfull result
+    /// Notify that the PayPal flow finished with a successful result
     /// - Parameters:
     ///   - client: the PayPalClient associated with delegate
     ///   - didFinishWithResult: the succesfull result from the flow
