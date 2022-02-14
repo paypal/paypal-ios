@@ -30,7 +30,7 @@ final class DemoMerchantAPI {
     /// This function replicates a way a merchant may go about authorizing/capturing an order on their server and is not part of the SDK flow.
     /// - Parameters:
     ///   - processOrderParams: the parameters to process the order with
-    /// - Returns: a result object vending either the order or an error
+    /// - Returns: an order or throws an error
     func processOrder(processOrderParams: ProcessOrderParams) async throws -> Order {
         guard let url = buildBaseURL(with: "/\(processOrderParams.intent)-order") else {
             throw URLResponseError.invalidURL
