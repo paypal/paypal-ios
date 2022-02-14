@@ -7,7 +7,6 @@ final class DemoMerchantAPI {
 
     private init() {}
 
-
     /// This function replicates a way a merchant may go about creating an order on their server and is not part of the SDK flow.
     /// - Parameter orderParams: the parameters to create the order with
     /// - Returns: an order or throws an error
