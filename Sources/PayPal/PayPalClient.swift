@@ -27,7 +27,7 @@ public class PayPalClient {
         self.returnURL = returnURL
         self.CheckoutFlow = Checkout.self
     }
-
+    
     init(config: CoreConfig, returnURL: String, checkoutFlow: CheckoutProtocol.Type) {
         self.config = config
         self.returnURL = returnURL
@@ -47,14 +47,14 @@ public class PayPalClient {
             createOrder: { order in
                 order.set(orderId: request.orderID)
             },
-            onApprove: { [weak self] approval in
-                self?.notifySuccess(for: approval)
+            onApprove: { approval in
+                self.notifySuccess(for: approval)
             },
-            onCancel: { [weak self] in
-                self?.notifyCancellation()
+            onCancel: {
+                self.notifyCancellation()
             },
-            onError: { [weak self] errorInfo in
-                self?.notifyFailure(with: errorInfo)
+            onError: { errorInfo in
+                self.notifyFailure(with: errorInfo)
             }
         )
     }
