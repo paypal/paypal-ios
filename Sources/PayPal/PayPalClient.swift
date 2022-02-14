@@ -61,15 +61,15 @@ public class PayPalClient {
 
     private func notifySuccess(for approval: PayPalCheckoutApprovalData) {
         let payPalResult = PayPalResult(orderID: approval.ecToken, payerID: approval.payerID)
-        delegate?.paypal(client: self, didFinishWithResult: payPalResult)
+        delegate?.paypal(self, didFinishWithResult: payPalResult)
     }
 
     private func notifyFailure(with errorInfo: PayPalCheckoutErrorInfo) {
         let error = PayPalError.nativeCheckoutSDKError(errorInfo)
-        delegate?.paypal(client: self, didFinishWithError: error)
+        delegate?.paypal(self, didFinishWithError: error)
     }
 
     private func notifyCancellation() {
-        delegate?.paypalDidCancel(client: self)
+        delegate?.paypalDidCancel(self)
     }
 }

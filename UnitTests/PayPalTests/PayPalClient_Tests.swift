@@ -11,15 +11,15 @@ class PayPalClient_Tests: XCTestCase {
         var capturedError: PayPalSDKError?
         var paypalDidCancel = false
 
-        func paypal(client paypalClient: PayPalClient, didFinishWithResult result: PayPalResult) {
+        func paypal(_ paypalClient: PayPalClient, didFinishWithResult result: PayPalResult) {
             capturedResult = result
         }
 
-        func paypal(client paypalClient: PayPalClient, didFinishWithError error: PayPalSDKError) {
+        func paypal(_ paypalClient: PayPalClient, didFinishWithError error: PayPalSDKError) {
             capturedError = error
         }
 
-        func paypalDidCancel(client paypalClient: PayPalClient) {
+        func paypalDidCancel(_ paypalClient: PayPalClient) {
             paypalDidCancel = true
         }
     }
