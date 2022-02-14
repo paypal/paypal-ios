@@ -12,7 +12,7 @@ public protocol PayPalDelegate: AnyObject {
     ///   - didFinishWithResult: the successful result from the flow
     func paypal(client paypalClient: PayPalClient, didFinishWithResult result: PayPalResult)
 
-    /// Notify that an error ocurred in the PayPal flow
+    /// Notify that an error occurred in the PayPal flow
     /// - Parameters:
     ///   - client: the PayPalClient associated with delegate
     ///   - didFinishWithError: the error returned by the paypal flow
