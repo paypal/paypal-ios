@@ -27,7 +27,7 @@ public class PayPalClient {
         self.returnURL = returnURL
         self.CheckoutFlow = Checkout.self
     }
-    
+
     init(config: CoreConfig, returnURL: String, checkoutFlow: CheckoutProtocol.Type) {
         self.config = config
         self.returnURL = returnURL
