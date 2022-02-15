@@ -39,9 +39,7 @@ class CardClient_Tests: XCTestCase {
 
     // MARK: - approveOrder() tests
 
-    func testApproveOrder_withValidJSONRequest_returnsOrderData() {
-        let expect = expectation(description: "Callback invoked.")
-
+    func testApproveOrder_withValidJSONRequest_returnsOrderData() async {
         let jsonResponse = """
         {
             "id": "testOrderID",
@@ -60,26 +58,19 @@ class CardClient_Tests: XCTestCase {
         mockURLSession.cannedJSONData = jsonResponse
 
         let cardRequest = CardRequest(orderID: "", card: card)
-        cardClient.approveOrder(request: cardRequest) { result in
-            switch result {
-            case .success(let cardResult):
-                XCTAssertEqual(cardResult.orderID, "testOrderID")
-                XCTAssertEqual(cardResult.brand, "VISA")
-                XCTAssertEqual(cardResult.lastFourDigits, "7321")
-                XCTAssertEqual(cardResult.type, "CREDIT")
-            case .failure:
-                XCTFail()
-            }
 
-            expect.fulfill()
+        do {
+            let cardResult = try await cardClient.approveOrder(request: cardRequest)
+            XCTAssertEqual(cardResult.orderID, "testOrderID")
+            XCTAssertEqual(cardResult.brand, "VISA")
+            XCTAssertEqual(cardResult.lastFourDigits, "7321")
+            XCTAssertEqual(cardResult.type, "CREDIT")
+        } catch {
+            XCTFail()
         }
-
-        waitForExpectations(timeout: 1)
     }
 
-    func testApproveOrder_withInvalidJSONResponse_returnsParseError() throws {
-        let expect = expectation(description: "Callback invoked.")
-
+    func testApproveOrder_withInvalidJSONResponse_returnsParseError() async {
         let jsonResponse = """
         {
             "some_unexpected_response": "something"
@@ -90,19 +81,15 @@ class CardClient_Tests: XCTestCase {
         mockURLSession.cannedJSONData = jsonResponse
 
         let cardRequest = CardRequest(orderID: "", card: card)
-        cardClient.approveOrder(request: cardRequest) { result in
-            switch result {
-            case .success:
-                XCTFail()
-            case .failure(let error):
-                XCTAssertEqual(error.domain, APIClientError.domain)
-                XCTAssertEqual(error.code, APIClientError.Code.dataParsingError.rawValue)
-                XCTAssertEqual(error.localizedDescription, "An error occured parsing HTTP response data. Contact developer.paypal.com/support.")
-            }
-
-            expect.fulfill()
+        do {
+            _ = try await cardClient.approveOrder(request: cardRequest)
+            XCTFail("This should fail.")
+        } catch let error as PayPalSDKError {
+            XCTAssertEqual(error.domain, APIClientError.domain)
+            XCTAssertEqual(error.code, APIClientError.Code.dataParsingError.rawValue)
+            XCTAssertEqual(error.localizedDescription, "An error occured parsing HTTP response data. Contact developer.paypal.com/support.")
+        } catch {
+            XCTFail("Unexpected failure.")
         }
-
-        waitForExpectations(timeout: 1)
     }
 }

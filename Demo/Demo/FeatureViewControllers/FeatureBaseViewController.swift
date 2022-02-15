@@ -82,6 +82,8 @@ class FeatureBaseViewController: UIViewController {
     }
 
     @objc func createOrderTapped() {
-        baseViewModel.createOrder(amount: amountTextField.text)
+        Task {
+            await baseViewModel.createOrder(amount: amountTextField.text)
+        }
     }
 }
