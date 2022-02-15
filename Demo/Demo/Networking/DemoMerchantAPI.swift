@@ -9,7 +9,8 @@ final class DemoMerchantAPI {
 
     /// This function replicates a way a merchant may go about creating an order on their server and is not part of the SDK flow.
     /// - Parameter orderParams: the parameters to create the order with
-    /// - Returns: an order or throws an error
+    /// - Returns: an order
+    /// - Throws: an error explaining why create order failed
     func createOrder(orderParams: CreateOrderParams) async throws -> Order {
         guard let url = buildBaseURL(with: "/order?countryCode=US") else {
             throw URLResponseError.invalidURL
@@ -30,7 +31,8 @@ final class DemoMerchantAPI {
     /// This function replicates a way a merchant may go about authorizing/capturing an order on their server and is not part of the SDK flow.
     /// - Parameters:
     ///   - processOrderParams: the parameters to process the order with
-    /// - Returns: an order or throws an error
+    /// - Returns: an order
+    /// - Throws: an error explaining why process order failed
     func processOrder(processOrderParams: ProcessOrderParams) async throws -> Order {
         guard let url = buildBaseURL(with: "/\(processOrderParams.intent)-order") else {
             throw URLResponseError.invalidURL
