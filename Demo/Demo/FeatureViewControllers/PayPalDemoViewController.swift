@@ -4,12 +4,6 @@ import PaymentsCore
 
 class PayPalDemoViewController: FeatureBaseViewController {
 
-    lazy var payPalClient: PayPalClient = {
-        let environment = DemoSettings.environment.paypalSDKEnvironment
-        let config = CoreConfig(clientID: DemoSettings.clientID, environment: environment)
-        return PayPalClient(config: config, returnURL: DemoSettings.paypalReturnUrl)
-    }()
-
     // MARK: - View Spacing
 
     let buttonSpacing: CGFloat = 50
