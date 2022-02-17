@@ -46,3 +46,7 @@ jobs:
           body_path: changelog_entries.md
           draft: false
           prerelease: false
+      - name: Publish to CocoaPods
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+        run: pod trunk push Braintree.podspec
