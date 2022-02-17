@@ -26,6 +26,7 @@ jobs:
         run: |
           today=$(date +'%Y-%m-%d')
           sed -i '' 's/## unreleased.*/## '"${{ github.event.inputs.version }}"' ('"$today"')/' CHANGELOG.md
+          sed -i '' 's/\(s\.version *= *\).*/\1"'"${{ github.event.inputs.version }}"'\"/' PayPal.podspec
           # TODO: update plist files for Demo App and Core plist
           # Ref: https://github.com/braintree/braintree_ios/blob/192c05c9621a9d7ea0893a7acc9db73cca90d75a/.github/workflows/release.yml#L35
           git add .
