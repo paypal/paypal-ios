@@ -1,6 +1,5 @@
 import SwiftUI
-
-// TODO: Add PayPal button once buttons are updated as SwiftUI accessible views
+import PayPal
 
 @available(iOS 13.0.0, *)
 struct SwiftUIPayPalDemo: View {
@@ -10,8 +9,20 @@ struct SwiftUIPayPalDemo: View {
     var body: some View {
         ZStack {
             FeatureBaseViewControllerRepresentable(baseViewModel: baseViewModel)
-            Text("WIP - PayPal View")
+            VStack(spacing: 50) {
+                PayPalButton {
+                    baseViewModel.payPalButtonTapped(context: FeatureBaseViewController(baseViewModel: baseViewModel))
+                }
+                .cornerRadius(4)
+                .frame(maxWidth: .infinity, maxHeight: 40)
+                PayPalCreditButton {
+                    baseViewModel.payPalButtonTapped(context: FeatureBaseViewController(baseViewModel: baseViewModel))
+                }
+                .cornerRadius(4)
+                .frame(maxWidth: .infinity, maxHeight: 40)
+            }
         }
+        .padding(.horizontal, 16)
     }
 }
 

@@ -44,7 +44,9 @@ struct SwiftUICardDemo: View {
                         return
                     }
 
-                    baseViewModel.checkoutWithCard(card, orderID: orderID)
+                    Task {
+                        await baseViewModel.checkoutWithCard(card, orderID: orderID)
+                    }
                 }
                 .foregroundColor(.white)
                 .padding()

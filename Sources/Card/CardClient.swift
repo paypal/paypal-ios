@@ -23,37 +23,23 @@ public class CardClient {
 
     /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
     /// After the order has been successfully approved, you will need to handle capturing/authorizing the order in your server.
-    /// - Parameters:
-    ///   - orderID: The ID of the order to be approved
-    ///   - card: The card to be charged for this order
-    ///   - completion: Completion handler for approveOrder, which contains data of the order if success, or an error if failure
-    public func approveOrder(request: CardRequest, completion: @escaping (Result<CardResult, CoreSDKError>) -> Void) {
-        do {
-            let confirmPaymentRequest = try ConfirmPaymentSourceRequest(
-                card: request.card,
-                orderID: request.orderID,
-                clientID: config.clientID
-            )
+    /// - Parameter request: The request containing the card and order id for approval
+    /// - Returns: Card result
+    /// - Throws: PayPalSDK error if approve order could not complete successfully
+    public func approveOrder(request: CardRequest) async throws -> CardResult {
+        let confirmPaymentRequest = try ConfirmPaymentSourceRequest(
+            card: request.card,
+            orderID: request.orderID,
+            clientID: config.clientID
+        )
+        let (result, _) = try await apiClient.fetch(endpoint: confirmPaymentRequest)
 
-            apiClient.fetch(endpoint: confirmPaymentRequest) { result, _ in
-                switch result {
-                case .success(let response):
-                    let cardResult = CardResult(
-                        orderID: response.id,
-                        lastFourDigits: response.paymentSource.card.lastDigits,
-                        brand: response.paymentSource.card.brand,
-                        type: response.paymentSource.card.type
-                    )
-
-                    completion(.success(cardResult))
-
-                case .failure(let error):
-                    completion(.failure(error))
-                }
-            }
-        } catch {
-            // We don't expect this block to ever execute.
-            completion(.failure(CardClientError.encodingError))
-        }
+        let cardResult = CardResult(
+            orderID: result.id,
+            lastFourDigits: result.paymentSource.card.lastDigits,
+            brand: result.paymentSource.card.brand,
+            type: result.paymentSource.card.type
+        )
+        return cardResult
     }
 }

@@ -3,7 +3,7 @@ import PayPal
 import PaymentsCore
 import AuthenticationServices
 
-class PayPalDemoViewController: FeatureBaseViewController, ASWebAuthenticationPresentationContextProviding {
+class PayPalDemoViewController: FeatureBaseViewController {
 
     // MARK: - View Spacing
 
@@ -41,12 +41,12 @@ class PayPalDemoViewController: FeatureBaseViewController, ASWebAuthenticationPr
         NSLayoutConstraint.activate([
             payPalButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.layoutSpacing),
             payPalButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.layoutSpacing),
-            payPalButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: buttonSpacing),
+            payPalButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -buttonSpacing),
             payPalButton.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
 
             payPalCreditButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.layoutSpacing),
             payPalCreditButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.layoutSpacing),
-            payPalCreditButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -buttonSpacing),
+            payPalCreditButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: buttonSpacing),
             payPalCreditButton.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight)
         ])
     }
@@ -54,55 +54,18 @@ class PayPalDemoViewController: FeatureBaseViewController, ASWebAuthenticationPr
     // MARK: - FeatureBaseViewController Override
 
     /// Enable the PayPal Button once we have created an order
-    func createOrder(completion: @escaping (String?) -> Void = { _ in }) {
-        baseViewModel.createOrder(amount: amountTextField.text) { orderID in
-            if orderID != nil {
-                self.payPalButton.isEnabled = true
-            } else {
-                print("There was an error")
-            }
+    func createOrder() async {
+        let orderID = await baseViewModel.createOrder(amount: amountTextField.text)
+        if orderID != nil {
+            self.payPalButton.isEnabled = true
+        } else {
+            print("There was an error")
         }
-    }
-
-    // MARK: ASWebAuthenticationPresentationContextProviding conformance
-
-    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-        UIApplication
-            .shared
-            .connectedScenes
-            .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
-            .first { $0.isKeyWindow }
-        ?? ASPresentationAnchor()
     }
 
     // MARK: - PayPal Module Integration
 
     @objc func paymentButtonTapped() {
-        guard let orderID = baseViewModel.orderID else {
-            baseViewModel.updateTitle("Failed: missing orderID.")
-            return
-        }
-
-        checkoutWithPayPal(orderID: orderID)
-    }
-
-    func checkoutWithPayPal(orderID: String) {
-        let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
-        let payPalClient = PayPalClient(config: config)
-        let payPalRequest = PayPalRequest(orderID: orderID)
-
-        payPalClient.start(request: payPalRequest, context: self) { [weak self] state in
-            guard let self = self else { return }
-            switch state {
-            case .success(let result):
-                self.baseViewModel.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
-                print("✅ Order is successfully approved and ready to be captured/authorized with result: \(result)")
-            case .failure(let error):
-                self.baseViewModel.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
-                print("❌ There was an error: \(error)")
-                // TODO: Handle cancellation state of SDK - move back to a case on failure instead of it's own state
-                // case .cancellation:
-            }
-        }
+        baseViewModel.payPalButtonTapped(context: self)
     }
 }

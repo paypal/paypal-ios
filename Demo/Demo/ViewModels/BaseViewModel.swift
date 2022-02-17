@@ -1,10 +1,12 @@
 import UIKit
 import Card
+import PayPal
 import PaymentsCore
+import AuthenticationServices
 
 /// This class is used to share the orderID across shared views, update the text of `bottomStatusLabel` in our `FeatureBaseViewController`
 /// as well as share the logic of `processOrder` across our duplicate (SwiftUI and UIKit) card views.
-class BaseViewModel: ObservableObject {
+class BaseViewModel: ObservableObject, PayPalDelegate {
 
     /// Weak reference to associated view
     weak var view: FeatureBaseViewController?
@@ -20,6 +22,7 @@ class BaseViewModel: ObservableObject {
 
     // MARK: - Helper Functions
 
+    // TODO: troubleshoot why this func is no longer updating the title
     func updateTitle(_ message: String) {
         DispatchQueue.main.async {
             self.view?.bottomStatusLabel.text = message
@@ -32,10 +35,9 @@ class BaseViewModel: ObservableObject {
         }
     }
 
-    func createOrder(amount: String?, completion: @escaping (String?) -> Void = { _ in }) {
+    func createOrder(amount: String?) async -> String? {
         updateTitle("Creating order...")
-
-        guard let amount = amount else { return }
+        guard let amount = amount else { return nil }
 
         let amountRequest = Amount(currencyCode: "USD", value: amount)
         let orderRequestParams = CreateOrderParams(
@@ -43,23 +45,19 @@ class BaseViewModel: ObservableObject {
             purchaseUnits: [PurchaseUnit(amount: amountRequest)]
         )
 
-        DemoMerchantAPI.sharedService.createOrder(orderParams: orderRequestParams) { result in
-            switch result {
-            case .success(let order):
-                self.updateTitle("Order ID: \(order.id)")
-                self.updateOrderID(with: order.id)
-                print("✅ fetched orderID: \(order.id) with status: \(order.status)")
-            case .failure(let error):
-                self.updateTitle("Your order has failed, please try again")
-                print("❌ failed to fetch orderID: \(error)")
-            }
-            DispatchQueue.main.async {
-                completion(self.orderID)
-            }
+        do {
+            let order = try await DemoMerchantAPI.sharedService.createOrder(orderParams: orderRequestParams)
+            updateTitle("Order ID: \(order.id)")
+            updateOrderID(with: order.id)
+            print("✅ fetched orderID: \(order.id) with status: \(order.status)")
+        } catch {
+            updateTitle("Your order has failed, please try again")
+            print("❌ failed to fetch orderID: \(error)")
         }
+        return orderID
     }
 
-    func processOrder(orderID: String, completion: @escaping () -> Void = {}) {
+    func processOrder(orderID: String) async {
         switch DemoSettings.intent {
         case .authorize:
             updateTitle("Authorizing order...")
@@ -73,18 +71,17 @@ class BaseViewModel: ObservableObject {
             countryCode: "US"
         )
 
-        DemoMerchantAPI.sharedService.processOrder(processOrderParams: processOrderParams) { result in
-            switch result {
-            case .success(let order):
-                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) success: \(order.status)")
-                print("✅ processed orderID: \(order.id) with status: \(order.status)")
-            case .failure(let error):
-                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) fail: \(error.localizedDescription)")
-                print("❌ failed to process orderID: \(error)")
-            }
-            completion()
+        do {
+            let order = try await DemoMerchantAPI.sharedService.processOrder(processOrderParams: processOrderParams)
+            updateTitle("\(DemoSettings.intent.rawValue.capitalized) success: \(order.status)")
+            print("✅ processed orderID: \(order.id) with status: \(order.status)")
+        } catch {
+            updateTitle("\(DemoSettings.intent.rawValue.capitalized) fail: \(error.localizedDescription)")
+            print("❌ failed to process orderID: \(error)")
         }
     }
+
+    // MARK: Card Module Integration
 
     func createCard(cardNumber: String?, expirationDate: String?, cvv: String?) -> Card? {
         guard let cardNumber = cardNumber, let expirationDate = expirationDate, let cvv = cvv else {
@@ -101,21 +98,17 @@ class BaseViewModel: ObservableObject {
         return Card(number: cleanedCardText, expirationMonth: expirationMonth, expirationYear: expirationYear, securityCode: cvv)
     }
 
-    func checkoutWithCard(_ card: Card, orderID: String, completion: @escaping () -> Void = { }) {
+    func checkoutWithCard(_ card: Card, orderID: String) async {
         let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
         let cardClient = CardClient(config: config)
         let cardRequest = CardRequest(orderID: orderID, card: card)
 
-        cardClient.approveOrder(request: cardRequest) { result in
-            switch result {
-            case .success(let result):
-                self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
-                self.processOrder(orderID: result.orderID) {
-                    completion()
-                }
-            case .failure(let error):
-                self.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
-            }
+        do {
+            let result = try await cardClient.approveOrder(request: cardRequest)
+            updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
+            await processOrder(orderID: result.orderID)
+        } catch {
+            updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
         }
     }
 
@@ -131,5 +124,42 @@ class BaseViewModel: ObservableObject {
         let enabled = cleanedCardNumber.count >= 15 && cleanedCardNumber.count <= 19
         && cleanedExpirationDate.count == 4 && cvv.count >= 3 && cvv.count <= 4
         return enabled
+    }
+
+    // MARK: - PayPal Module Integration
+
+    func payPalButtonTapped(context: ASWebAuthenticationPresentationContextProviding) {
+        guard let orderID = orderID else {
+            self.updateTitle("Failed: missing orderID.")
+            return
+        }
+
+        checkoutWithPayPal(orderID: orderID, context: context)
+    }
+
+    func checkoutWithPayPal(orderID: String, context: ASWebAuthenticationPresentationContextProviding) {
+        let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
+        let payPalClient = PayPalClient(config: config)
+        let payPalRequest = PayPalRequest(orderID: orderID)
+
+        payPalClient.delegate = self
+        payPalClient.start(request: payPalRequest, context: context)
+    }
+
+    // MARK: - PayPal Delegate
+
+    func paypal(_ paypalClient: PayPalClient, didFinishWithResult result: PayPalResult) {
+        updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
+        print("✅ Order is successfully approved and ready to be captured/authorized with result: \(result)")
+    }
+
+    func paypal(_ paypalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
+        updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
+        print("❌ There was an error: \(error)")
+    }
+
+    func paypalDidCancel(_ paypalClient: PayPalClient) {
+        updateTitle("\(DemoSettings.intent) cancelled")
+        print("❌ Buyer has cancelled the PayPal flow")
     }
 }

@@ -8,12 +8,12 @@ import PaymentsCore
 /// PayPal Client to handle PayPal flow
 public class PayPalClient {
 
-    private let config: CoreConfig
+    public weak var delegate: PayPalDelegate?
+    let config: CoreConfig
 
     /// Initialize a PayPalClient to process PayPal transaction
     /// - Parameters:
     ///   - config: The CoreConfig object
-
     public init(config: CoreConfig) {
         self.config = config
     }
@@ -25,18 +25,16 @@ public class PayPalClient {
     ///   - completion: Completion handler for start, which contains data of the order if success, or an error if failure
     public func start(
         request: PayPalRequest,
-        context: ASWebAuthenticationPresentationContextProviding,
-        completion: @escaping (Result<PayPalResult, CoreSDKError>) -> Void
+        context: ASWebAuthenticationPresentationContextProviding
     ) {
-        start(request: request, context: context, webAuthenticationSession: WebAuthenticationSession(), completion: completion)
+        start(request: request, context: context, webAuthenticationSession: WebAuthenticationSession())
     }
 
     /// Internal function for testing the start function
     func start(
         request: PayPalRequest,
         context: ASWebAuthenticationPresentationContextProviding,
-        webAuthenticationSession: WebAuthenticationSession,
-        completion: @escaping (Result<PayPalResult, CoreSDKError>) -> Void
+        webAuthenticationSession: WebAuthenticationSession
     ) {
         let baseURLString = config.environment.payPalBaseURL.absoluteString
         let payPalCheckoutURLString = "\(baseURLString)/checkoutnow?token=\(request.orderID)"
@@ -44,24 +42,31 @@ public class PayPalClient {
         guard let payPalCheckoutURL = URL(string: payPalCheckoutURLString),
         let payPalCheckoutURLComponents = payPalCheckoutReturnURL(payPalCheckoutURL: payPalCheckoutURL)
         else {
-            completion(.failure(PayPalClientError.payPalURLError))
+            self.notifyFailure(with: PayPalClientError.payPalURLError)
             return
         }
 
         webAuthenticationSession.start(url: payPalCheckoutURLComponents, context: context) { url, error in
             if let error = error {
-                completion(.failure(PayPalClientError.webSessionError(error)))
+                switch error {
+                case ASWebAuthenticationSessionError.canceledLogin:
+                    self.notifyCancellation()
+                    return
+                default:
+                    self.notifyFailure(with: PayPalClientError.webSessionError(error))
+                    return
+                }
             }
 
             if let url = url {
                 guard let orderID = self.getQueryStringParameter(url: url.absoluteString, param: "token"),
                 let payerID = self.getQueryStringParameter(url: url.absoluteString, param: "PayerID") else {
-                    completion(.failure(PayPalClientError.malformedResultError))
+                    self.notifyFailure(with: PayPalClientError.malformedResultError)
                     return
                 }
 
                 let result = PayPalResult(orderID: orderID, payerID: payerID)
-                completion(.success(result))
+                self.notifySuccess(for: result)
             }
         }
     }
@@ -82,5 +87,19 @@ public class PayPalClient {
     private func getQueryStringParameter(url: String, param: String) -> String? {
         guard let url = URLComponents(string: url) else { return nil }
         return url.queryItems?.first { $0.name == param }?.value
+    }
+
+    private func notifySuccess(for result: PayPalResult) {
+        let payPalResult = PayPalResult(orderID: result.orderID, payerID: result.payerID)
+        delegate?.paypal(self, didFinishWithResult: payPalResult)
+    }
+
+    private func notifyFailure(with error: CoreSDKError) {
+        delegate?.paypal(self, didFinishWithError: error)
+    }
+
+    // TODO: handle cancellation!
+    private func notifyCancellation() {
+        delegate?.paypalDidCancel(self)
     }
 }

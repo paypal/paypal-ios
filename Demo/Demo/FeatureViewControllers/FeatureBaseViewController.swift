@@ -1,13 +1,18 @@
 import UIKit
 import PaymentsCore
+import AuthenticationServices
 
-class FeatureBaseViewController: UIViewController {
+class FeatureBaseViewController: UIViewController, ASWebAuthenticationPresentationContextProviding {
+
+    // MARK: - View Spacing
 
     enum Constants {
         static let stackViewSpacing: CGFloat = 16
         static let layoutSpacing: CGFloat = 16
         static let textFieldHeight: CGFloat = 40
     }
+
+    // MARK: - UI Components
 
     lazy var createOrderStackView: UIStackView = {
         let view = UIStackView()
@@ -40,6 +45,8 @@ class FeatureBaseViewController: UIViewController {
 
     let baseViewModel: BaseViewModel
 
+    // MARK: - Initialization
+
     init(baseViewModel: BaseViewModel) {
         self.baseViewModel = baseViewModel
         super.init(nibName: nil, bundle: nil)
@@ -49,6 +56,8 @@ class FeatureBaseViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - View Lifecycle & UI Setup
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +90,22 @@ class FeatureBaseViewController: UIViewController {
         ])
     }
 
+    // MARK: - ASWebAuthenticationPresentationContextProviding conformance
+
+    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        UIApplication
+            .shared
+            .connectedScenes
+            .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+            .first { $0.isKeyWindow }
+        ?? ASPresentationAnchor()
+    }
+
+    // MARK: - Create Order implementation
+
     @objc func createOrderTapped() {
-        baseViewModel.createOrder(amount: amountTextField.text)
+        Task {
+            await baseViewModel.createOrder(amount: amountTextField.text)
+        }
     }
 }

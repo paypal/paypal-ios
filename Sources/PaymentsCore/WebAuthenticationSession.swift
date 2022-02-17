@@ -17,6 +17,8 @@ public class WebAuthenticationSession: NSObject {
             completionHandler: completion
         )
 
+        authenticationSession?.prefersEphemeralWebBrowserSession = true
+
         if #available(iOS 13.0, *) {
             authenticationSession?.presentationContextProvider = context
         }

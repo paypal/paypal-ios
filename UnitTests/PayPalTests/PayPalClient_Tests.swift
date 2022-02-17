@@ -3,6 +3,8 @@ import AuthenticationServices
 @testable import PaymentsCore
 @testable import PayPal
 
+// TODO: test delegates
+
 class PayPalClient_Tests: XCTestCase {
 
     let config = CoreConfig(clientID: "testClientID", environment: .sandbox)
