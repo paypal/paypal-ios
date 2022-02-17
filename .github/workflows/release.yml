@@ -31,3 +31,18 @@ jobs:
           git add .
           git commit -m 'Bump version to ${{ github.event.inputs.version }}'
           git tag ${{ github.event.inputs.version }} -a -m 'Release ${{ github.event.inputs.version }}'
+      - name: Push commits and tag
+        run: git push origin HEAD ${{ github.event.inputs.version }}
+      - name: Save changelog entries to a file
+        run: sed -e '1,/##/d' -e '/##/,$d' CHANGELOG.md > changelog_entries.md
+      - name: Create GitHub release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          release_name: ${{ github.event.inputs.version }}
+          body_path: changelog_entries.md
+          draft: false
+          prerelease: false
