@@ -14,15 +14,23 @@ class BaseViewModel: ObservableObject, PayPalDelegate {
     /// order ID shared across views
     @Published var orderID: String?
 
+    lazy var payPalClient: PayPalClient = {
+        let clientID = DemoSettings.clientID
+        let environment = DemoSettings.environment.paypalSDKEnvironment
+        let config = CoreConfig(clientID: clientID, environment: environment)
+        let payPalClient = PayPalClient(config: config)
+        return payPalClient
+    }()
+
     // MARK: - Init
 
     init(view: FeatureBaseViewController? = nil) {
         self.view = view
+        payPalClient.delegate = self
     }
 
     // MARK: - Helper Functions
 
-    // TODO: troubleshoot why this func is no longer updating the title
     func updateTitle(_ message: String) {
         DispatchQueue.main.async {
             self.view?.bottomStatusLabel.text = message
@@ -138,11 +146,7 @@ class BaseViewModel: ObservableObject, PayPalDelegate {
     }
 
     func checkoutWithPayPal(orderID: String, context: ASWebAuthenticationPresentationContextProviding) {
-        let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
-        let payPalClient = PayPalClient(config: config)
         let payPalRequest = PayPalRequest(orderID: orderID)
-
-        payPalClient.delegate = self
         payPalClient.start(request: payPalRequest, context: context)
     }
 
