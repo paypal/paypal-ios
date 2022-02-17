@@ -29,7 +29,6 @@ jobs:
           sed -i '' 's/## unreleased.*/## '"${{ github.event.inputs.version }}"' ('"$today"')/' CHANGELOG.md
           sed -i '' 's/\(s\.version *= *\).*/\1"'"${{ github.event.inputs.version }}"'\"/' PayPal.podspec
 
-          plutil -replace CFBundleVersion -string ${{ github.event.inputs.version }} -- 'Demo/Demo/Info.plist'
           plutil -replace CFBundleShortVersionString -string ${{ github.event.inputs.version }} -- 'Demo/Demo/Info.plist'
 
           # TODO: update plist files for Demo App and Core plist
