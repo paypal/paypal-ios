@@ -2,7 +2,6 @@ import XCTest
 @testable import PaymentsCore
 @testable import Card
 @testable import TestShared
-@testable import PayPal
 
 class CardClient_Tests: XCTestCase {
 
