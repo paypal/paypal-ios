@@ -8,7 +8,7 @@ class PayPalEnvironment_Tests: XCTestCase {
         let sandbox = Environment.sandbox
         let production = Environment.production
 
-        XCTAssertEqual(sandbox.payPalBaseURL.absoluteString, "https://sandbox.paypal.com")
-        XCTAssertEqual(production.payPalBaseURL.absoluteString, "https://paypal.com")
+        XCTAssertEqual(sandbox.payPalBaseURL.absoluteString, "https://www.sandbox.paypal.com")
+        XCTAssertEqual(production.payPalBaseURL.absoluteString, "https://www.paypal.com")
     }
 }

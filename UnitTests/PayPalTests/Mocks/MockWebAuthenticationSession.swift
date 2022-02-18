@@ -1,5 +1,6 @@
 import Foundation
 import AuthenticationServices
+@testable import PayPal
 
 class MockWebAuthenticationSession: WebAuthenticationSession {
 

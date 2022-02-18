@@ -98,7 +98,6 @@ public class PayPalClient {
         delegate?.paypal(self, didFinishWithError: error)
     }
 
-    // TODO: handle cancellation!
     private func notifyCancellation() {
         delegate?.paypalDidCancel(self)
     }
