@@ -31,8 +31,6 @@ jobs:
 
           plutil -replace CFBundleShortVersionString -string ${{ github.event.inputs.version }} -- 'Demo/Demo/Info.plist'
 
-          # TODO: update plist files for Demo App and Core plist
-          # Ref: https://github.com/braintree/braintree_ios/blob/192c05c9621a9d7ea0893a7acc9db73cca90d75a/.github/workflows/release.yml#L35
           git add .
           git commit -m 'Bump version to ${{ github.event.inputs.version }}'
           git tag ${{ github.event.inputs.version }} -a -m 'Release ${{ github.event.inputs.version }}'
