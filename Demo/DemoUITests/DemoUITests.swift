@@ -12,14 +12,16 @@ class DemoUITests: XCTestCase {
         for key in keys {
             app.keys[key].tap()
         }
-        print(keys)
     }
 
     func testExample() throws {
         let app = launchApp()
 
         app.staticTexts["Create Order"].tap()
-        _ = app.staticTexts["Order ID:"].waitForExistence(timeout: 10.0)
+
+        // Ref: https://stackoverflow.com/a/47253096
+        let startsWithPredicate = NSPredicate(format: "label CONTAINS[c] %@", "Order ID:")
+        _ = app.staticTexts.containing(startsWithPredicate).element.waitForExistence(timeout: 10.0)
 
         app.textFields["Card Number"].tap()
         typeNumbers(app: app, cardNumber: "4111111111111111")
@@ -29,9 +31,13 @@ class DemoUITests: XCTestCase {
 
         app.textFields["CVV"].tap()
         typeNumbers(app: app, cardNumber: "123")
+        app.textFields["CVV"].typeText("\n")
 
         app.buttons["Capture Order"].tap()
 
-        XCTAssertTrue(true)
+        let approvedPredicate = NSPredicate(format: "label CONTAINS[c] %@", "status: APPROVED")
+        let elementExists = app.staticTexts.containing(approvedPredicate).element.waitForExistence(timeout: 10.0)
+
+        XCTAssertTrue(elementExists)
     }
 }
