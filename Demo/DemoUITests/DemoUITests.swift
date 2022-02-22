@@ -7,7 +7,7 @@ class DemoUITests: XCTestCase {
         continueAfterFailure = false
     }
 
-    func testExample() throws {
+    func testApproveOrder() throws {
         let app = launchApp()
 
         app.button(named: "Create Order").tap()
