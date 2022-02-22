@@ -7,7 +7,7 @@ class CardUITests: XCTestCase {
         continueAfterFailure = false
     }
 
-    func testApproveOrder() throws {
+    func testApproveOrder() throws {
         let app = launchApp()
 
         app.button(named: "Create Order").tap()
