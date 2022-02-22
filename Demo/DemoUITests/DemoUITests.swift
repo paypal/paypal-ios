@@ -35,7 +35,7 @@ class DemoUITests: XCTestCase {
 
         app.buttons["Capture Order"].tap()
 
-        let approvedPredicate = NSPredicate(format: "label CONTAINS[c] %@", "processed orderID:")
+        let approvedPredicate = NSPredicate(format: "label CONTAINS[c] %@", "status: APPROVED")
         let elementExists = app.staticTexts.containing(approvedPredicate).element.waitForExistence(timeout: 20.0)
 
         XCTAssertTrue(elementExists)
