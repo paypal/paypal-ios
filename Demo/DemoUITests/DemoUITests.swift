@@ -27,7 +27,7 @@ class DemoUITests: XCTestCase {
         typeNumbers(app: app, cardNumber: "4111111111111111")
 
         app.textFields["Expiration"].tap()
-        typeNumbers(app: app, cardNumber: "0220")
+        typeNumbers(app: app, cardNumber: "0223")
 
         app.textFields["CVV"].tap()
         typeNumbers(app: app, cardNumber: "123")
@@ -35,8 +35,8 @@ class DemoUITests: XCTestCase {
 
         app.buttons["Capture Order"].tap()
 
-        let approvedPredicate = NSPredicate(format: "label CONTAINS[c] %@", "status: APPROVED")
-        let elementExists = app.staticTexts.containing(approvedPredicate).element.waitForExistence(timeout: 10.0)
+        let approvedPredicate = NSPredicate(format: "label CONTAINS[c] %@", "processed orderID:")
+        let elementExists = app.staticTexts.containing(approvedPredicate).element.waitForExistence(timeout: 20.0)
 
         XCTAssertTrue(elementExists)
     }
