@@ -1,6 +1,6 @@
 import XCTest
 
-class DemoUITests: XCTestCase {
+class CardUITests: XCTestCase {
 
     override func setUpWithError() throws {
         try super.setUpWithError()
