@@ -210,9 +210,9 @@
 		BC9D4D1627C54F3F0089E5B1 /* DemoUITests */ = {
 			isa = PBXGroup;
 			children = (
-				BC9D4D2027C553F30089E5B1 /* Helpers */,
 				BC9D4D1727C54F3F0089E5B1 /* DemoUITests.swift */,
 				BC9D4D1927C54F3F0089E5B1 /* DemoUITestsLaunchTests.swift */,
+				BC9D4D2027C553F30089E5B1 /* Helpers */,
 			);
 			path = DemoUITests;
 			sourceTree = "<group>";
