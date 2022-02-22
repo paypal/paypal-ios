@@ -7,37 +7,25 @@ class DemoUITests: XCTestCase {
         continueAfterFailure = false
     }
 
-    private func typeNumbers(app: XCUIApplication, cardNumber: String) {
-        let keys = Array(cardNumber).map(String.init)
-        for key in keys {
-            app.keys[key].tap()
-        }
-    }
-
     func testExample() throws {
         let app = launchApp()
 
-        app.staticTexts["Create Order"].tap()
+        app.button(named: "Create Order").tap()
 
-        // Ref: https://stackoverflow.com/a/47253096
-        let startsWithPredicate = NSPredicate(format: "label CONTAINS[c] %@", "Order ID:")
-        _ = app.staticTexts.containing(startsWithPredicate).element.waitForExistence(timeout: 10.0)
+        _ = app.staticText(containing: "Order ID:").waitForExistence(timeout: 10.0)
 
-        app.textFields["Card Number"].tap()
-        typeNumbers(app: app, cardNumber: "4111111111111111")
+        app.textField(named: "Card Number").tap()
+        app.typeText("4111111111111111")
 
-        app.textFields["Expiration"].tap()
-        typeNumbers(app: app, cardNumber: "0223")
+        app.textField(named: "Expiration").tap()
+        app.typeText("0223")
 
-        app.textFields["CVV"].tap()
-        typeNumbers(app: app, cardNumber: "123")
-        app.textFields["CVV"].typeText("\n")
+        app.textField(named: "CVV").tap()
+        app.typeText("123\n")
 
-        app.buttons["Capture Order"].tap()
+        app.button(named: "Capture Order").tap()
 
-        let approvedPredicate = NSPredicate(format: "label CONTAINS[c] %@", "status: APPROVED")
-        let elementExists = app.staticTexts.containing(approvedPredicate).element.waitForExistence(timeout: 20.0)
-
+        let elementExists = app.staticText(containing: "status: APPROVED").waitForExistence(timeout: 20.0)
         XCTAssertTrue(elementExists)
     }
 }
