@@ -8,8 +8,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        processLaunchArgs()
+
         window = UIWindow(frame: UIScreen.main.bounds)
         let navigationController = UINavigationController(rootViewController: ViewController())
         window?.rootViewController = navigationController
@@ -43,5 +44,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
+    }
+
+    private func processLaunchArgs() {
+        let launchArgs = ProcessInfo.processInfo.arguments
+
+        if launchArgs.contains("-EnvironmentSandbox") {
+            DemoSettings.environment = .sandbox
+        } else if launchArgs.contains("-EnvironmentProduction") {
+            DemoSettings.environment = .production
+        }
+
+        if launchArgs.contains("-DemoTypeCard") {
+            DemoSettings.demoType = .card
+        } else if launchArgs.contains("-DemoTypePayPal") {
+            DemoSettings.demoType = .paypal
+        }
     }
 }

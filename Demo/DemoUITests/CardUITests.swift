@@ -8,7 +8,7 @@ class CardUITests: XCTestCase {
     }
 
     func testApproveOrder() throws {
-        let app = launchApp()
+        let app = launchApp(withArgs: ["-EnvironmentSandbox", "-DemoTypeCard"])
 
         app.button(named: "Create Order").tap()
 
