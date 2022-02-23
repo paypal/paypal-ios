@@ -27,6 +27,7 @@
 		BC9D4D1827C54F3F0089E5B1 /* CardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D1727C54F3F0089E5B1 /* CardUITests.swift */; };
 		BC9D4D2227C554090089E5B1 /* LaunchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2127C554090089E5B1 /* LaunchApp.swift */; };
 		BC9D4D2427C58B8D0089E5B1 /* XCUIApplication+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */; };
+		BC9D4D2627C6D1720089E5B1 /* XCUIElement+WaitForExistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2527C6D1720089E5B1 /* XCUIElement+WaitForExistence.swift */; };
 		BE1766B326F911A2007EF438 /* URLResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1766B226F911A2007EF438 /* URLResponseError.swift */; };
 		BE1766D726FA7AC3007EF438 /* InAppSettingsKit in Frameworks */ = {isa = PBXBuildFile; productRef = BE1766D626FA7AC3007EF438 /* InAppSettingsKit */; };
 		BE1766D926FA7BC8007EF438 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BE1766D826FA7BC8007EF438 /* Settings.bundle */; };
@@ -95,6 +96,7 @@
 		BC9D4D1727C54F3F0089E5B1 /* CardUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardUITests.swift; sourceTree = "<group>"; };
 		BC9D4D2127C554090089E5B1 /* LaunchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchApp.swift; sourceTree = "<group>"; };
 		BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+Helpers.swift"; sourceTree = "<group>"; };
+		BC9D4D2527C6D1720089E5B1 /* XCUIElement+WaitForExistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+WaitForExistence.swift"; sourceTree = "<group>"; };
 		BE1766B226F911A2007EF438 /* URLResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLResponseError.swift; sourceTree = "<group>"; };
 		BE1766D826FA7BC8007EF438 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		BE31187B273F00B60021C5A2 /* DemoUIFramework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoUIFramework.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 			children = (
 				BC9D4D2127C554090089E5B1 /* LaunchApp.swift */,
 				BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */,
+				BC9D4D2527C6D1720089E5B1 /* XCUIElement+WaitForExistence.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -435,6 +438,7 @@
 				BC9D4D1827C54F3F0089E5B1 /* CardUITests.swift in Sources */,
 				BC9D4D2227C554090089E5B1 /* LaunchApp.swift in Sources */,
 				BC9D4D2427C58B8D0089E5B1 /* XCUIApplication+Helpers.swift in Sources */,
+				BC9D4D2627C6D1720089E5B1 /* XCUIElement+WaitForExistence.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,7 +12,7 @@ class CardUITests: XCTestCase {
 
         app.button(named: "Create Order").tap()
 
-        _ = app.staticText(containing: "Order ID:").waitForExistence(timeout: 10.0)
+        _ = app.staticText(containing: "Order ID:").waitForExistence()
 
         app.textField(named: "Card Number").tap()
         app.typeText("4111111111111111")
@@ -25,7 +25,7 @@ class CardUITests: XCTestCase {
 
         app.button(named: "Capture Order").tap()
 
-        let elementExists = app.staticText(containing: "status: APPROVED").waitForExistence(timeout: 20.0)
+        let elementExists = app.staticText(containing: "status: APPROVED").waitForExistence()
         XCTAssertTrue(elementExists)
     }
 }
