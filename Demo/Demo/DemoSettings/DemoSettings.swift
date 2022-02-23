@@ -8,8 +8,13 @@ enum DemoSettings {
     private static let DemoUIFrameworkKey = "demo_ui_framework"
 
     static var environment: Environment {
-        UserDefaults.standard.string(forKey: EnvironmentDefaultsKey)
-            .flatMap { Environment(rawValue: $0) } ?? .sandbox
+        get {
+            UserDefaults.standard.string(forKey: EnvironmentDefaultsKey)
+                .flatMap { Environment(rawValue: $0) } ?? .sandbox
+        }
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: EnvironmentDefaultsKey)
+        }
     }
 
     static var intent: Intent {
@@ -18,8 +23,13 @@ enum DemoSettings {
     }
 
     static var demoType: DemoType {
-        UserDefaults.standard.string(forKey: DemoTypeDefaultsKey)
-            .flatMap { DemoType(rawValue: $0) } ?? .card
+        get {
+            UserDefaults.standard.string(forKey: DemoTypeDefaultsKey)
+                .flatMap { DemoType(rawValue: $0) } ?? .card
+        }
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: DemoTypeDefaultsKey)
+        }
     }
 
     static var demoUIFramework: DemoUIFramework {
