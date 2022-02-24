@@ -25,7 +25,7 @@ class CardUITests: XCTestCase {
 
         app.button(named: "Capture Order").tap()
 
-        let elementExists = app.staticText(containing: "status: APPROVED").waitForExistence()
+        let elementExists = app.staticText(containing: "status: CONFIRMED").waitForExistence()
         XCTAssertTrue(elementExists)
     }
 }

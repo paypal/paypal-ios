@@ -61,7 +61,7 @@ Create a `CoreConfig` using your client ID from the PayPal Developer Portal:
 let config = CoreConfig(clientID: "<CLIENT_ID>", environment: .sandbox)
 ```
 
-Create a `CardClient` to approve an order with a Card payment method:
+Create a `CardClient` to confirm a payment source with a Card:
 
 ```swift
 let cardClient = CardClient(config: config)
@@ -122,13 +122,13 @@ let cardRequest = CardRequest(orderID: "<ORDER_ID>", card: card)
 
 Approve the order using your `CardClient`.
 
-Call `CardClient#approveOrder` to approve the order, and then handle results:
+Call `CardClient#confirmPaymentSource` to confirm a payment source for the order, and then handle results:
 
 ```swift
-cardClient.approveOrder(request: cardRequest) { result in
+cardClient.confirmPaymentSource(request: cardRequest) { result in
     switch result {
         case .success(let result):
-            // order was successfully approved and is ready to be captured/authorized (see step 6)
+            // payment method was successfully confirmed and the order is ready to be captured/authorized (see step 6)
         case .failure(let error):
             // handle the error by accessing `result.localizedDescription`
     }

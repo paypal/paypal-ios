@@ -101,7 +101,7 @@ class BaseViewModel: ObservableObject, PayPalDelegate {
 
         do {
             _ = try await cardClient.confirmPaymentSource(request: cardRequest)
-            updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
+            updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: CONFIRMED")
         } catch {
             updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
         }
