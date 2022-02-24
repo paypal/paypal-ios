@@ -37,9 +37,9 @@ class CardClient_Tests: XCTestCase {
         cardClient = CardClient(config: config, apiClient: apiClient)
     }
 
-    // MARK: - approveOrder() tests
+    // MARK: - confirmPaymentSource() tests
 
-    func testApproveOrder_withValidJSONRequest_returnsOrderData() async {
+    func testConfirmPaymentSource_withValidJSONRequest_returnsOrderData() async {
         let jsonResponse = """
         {
             "id": "testOrderID",
@@ -60,7 +60,7 @@ class CardClient_Tests: XCTestCase {
         let cardRequest = CardRequest(orderID: "", card: card)
 
         do {
-            let cardResult = try await cardClient.approveOrder(request: cardRequest)
+            let cardResult = try await cardClient.confirmPaymentSource(request: cardRequest)
             XCTAssertEqual(cardResult.orderID, "testOrderID")
             XCTAssertEqual(cardResult.brand, "VISA")
             XCTAssertEqual(cardResult.lastFourDigits, "7321")
@@ -70,7 +70,7 @@ class CardClient_Tests: XCTestCase {
         }
     }
 
-    func testApproveOrder_withInvalidJSONResponse_returnsParseError() async {
+    func testConfirmPaymentSource_withInvalidJSONResponse_returnsParseError() async {
         let jsonResponse = """
         {
             "some_unexpected_response": "something"
@@ -82,7 +82,7 @@ class CardClient_Tests: XCTestCase {
 
         let cardRequest = CardRequest(orderID: "", card: card)
         do {
-            _ = try await cardClient.approveOrder(request: cardRequest)
+            _ = try await cardClient.confirmPaymentSource(request: cardRequest)
             XCTFail("This should fail.")
         } catch let error as PayPalSDKError {
             XCTAssertEqual(error.domain, APIClientError.domain)

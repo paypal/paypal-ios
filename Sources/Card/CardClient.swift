@@ -21,12 +21,12 @@ public class CardClient {
         self.apiClient = apiClient
     }
 
-    /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
-    /// After the order has been successfully approved, you will need to handle capturing/authorizing the order in your server.
-    /// - Parameter request: The request containing the card and order id for approval
+    /// Confirm a payment source with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
+    /// After the order has been successfully confirmed, you will need to handle capturing/authorizing the order on your server.
+    /// - Parameter request: The request containing the card and order id for confirmation
     /// - Returns: Card result
-    /// - Throws: PayPalSDK error if approve order could not complete successfully
-    public func approveOrder(request: CardRequest) async throws -> CardResult {
+    /// - Throws: PayPalSDK error if confirm payment source could not complete successfully
+    public func confirmPaymentSource(request: CardRequest) async throws -> CardResult {
         let confirmPaymentRequest = try ConfirmPaymentSourceRequest(
             card: request.card,
             orderID: request.orderID,
