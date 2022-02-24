@@ -173,6 +173,12 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         }
     }
 
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // dismiss keyboard when the return key is typed into cvv text field
+        // Ref: https://stackoverflow.com/a/38835275
+        view.endEditing(true)
+    }
+
     private func setCursorLocation(textField: UITextField, range: NSRange) {
         guard let text = textField.text else { return }
         /// Holders for the cursor positions

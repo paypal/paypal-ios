@@ -24,6 +24,10 @@
 		80F33CEF26F8E7CC006811B1 /* CreateOrderParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CEE26F8E7CC006811B1 /* CreateOrderParams.swift */; };
 		80F33CF126F8E7D9006811B1 /* ProcessOrderParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CF026F8E7D9006811B1 /* ProcessOrderParams.swift */; };
 		80F33CF326F8EA50006811B1 /* DemoSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CF226F8EA50006811B1 /* DemoSettings.swift */; };
+		BC9D4D1827C54F3F0089E5B1 /* CardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D1727C54F3F0089E5B1 /* CardUITests.swift */; };
+		BC9D4D2227C554090089E5B1 /* LaunchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2127C554090089E5B1 /* LaunchApp.swift */; };
+		BC9D4D2427C58B8D0089E5B1 /* XCUIApplication+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */; };
+		BC9D4D2627C6D1720089E5B1 /* XCUIElement+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2527C6D1720089E5B1 /* XCUIElement+Helpers.swift */; };
 		BE1766B326F911A2007EF438 /* URLResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1766B226F911A2007EF438 /* URLResponseError.swift */; };
 		BE1766D726FA7AC3007EF438 /* InAppSettingsKit in Frameworks */ = {isa = PBXBuildFile; productRef = BE1766D626FA7AC3007EF438 /* InAppSettingsKit */; };
 		BE1766D926FA7BC8007EF438 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BE1766D826FA7BC8007EF438 /* Settings.bundle */; };
@@ -42,6 +46,16 @@
 		BEDE304A275EA33500D275FD /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDE3049275EA33500D275FD /* UIViewController+Extension.swift */; };
 		BEDE304C275FA4A100D275FD /* SwiftUIPayPalDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDE304B275FA4A100D275FD /* SwiftUIPayPalDemo.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BC9D4D1B27C54F3F0089E5B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 806F1E2D26B85367007A60E6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 806F1E3426B85367007A60E6;
+			remoteInfo = Demo;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		805AB85626B87A87003BEE0D /* Embed Frameworks */ = {
@@ -78,6 +92,11 @@
 		80F33CEE26F8E7CC006811B1 /* CreateOrderParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrderParams.swift; sourceTree = "<group>"; };
 		80F33CF026F8E7D9006811B1 /* ProcessOrderParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessOrderParams.swift; sourceTree = "<group>"; };
 		80F33CF226F8EA50006811B1 /* DemoSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSettings.swift; sourceTree = "<group>"; };
+		BC9D4D1527C54F3F0089E5B1 /* DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC9D4D1727C54F3F0089E5B1 /* CardUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardUITests.swift; sourceTree = "<group>"; };
+		BC9D4D2127C554090089E5B1 /* LaunchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchApp.swift; sourceTree = "<group>"; };
+		BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+Helpers.swift"; sourceTree = "<group>"; };
+		BC9D4D2527C6D1720089E5B1 /* XCUIElement+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+Helpers.swift"; sourceTree = "<group>"; };
 		BE1766B226F911A2007EF438 /* URLResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLResponseError.swift; sourceTree = "<group>"; };
 		BE1766D826FA7BC8007EF438 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		BE31187B273F00B60021C5A2 /* DemoUIFramework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoUIFramework.swift; sourceTree = "<group>"; };
@@ -104,6 +123,13 @@
 				805AB85026B87A87003BEE0D /* Card.framework in Frameworks */,
 				BE1766D726FA7AC3007EF438 /* InAppSettingsKit in Frameworks */,
 				80DB6F1D26B89DDA00277E54 /* PayPal.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC9D4D1227C54F3F0089E5B1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				806F1E3726B85367007A60E6 /* Demo */,
+				BC9D4D1627C54F3F0089E5B1 /* DemoUITests */,
 				805AB84C26B87A87003BEE0D /* Frameworks */,
 				806F1E3626B85367007A60E6 /* Products */,
 				BE1766D826FA7BC8007EF438 /* Settings.bundle */,
@@ -145,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				806F1E3526B85367007A60E6 /* Demo.app */,
+				BC9D4D1527C54F3F0089E5B1 /* DemoUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -179,6 +207,25 @@
 				80F33CF026F8E7D9006811B1 /* ProcessOrderParams.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		BC9D4D1627C54F3F0089E5B1 /* DemoUITests */ = {
+			isa = PBXGroup;
+			children = (
+				BC9D4D1727C54F3F0089E5B1 /* CardUITests.swift */,
+				BC9D4D2027C553F30089E5B1 /* Helpers */,
+			);
+			path = DemoUITests;
+			sourceTree = "<group>";
+		};
+		BC9D4D2027C553F30089E5B1 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				BC9D4D2127C554090089E5B1 /* LaunchApp.swift */,
+				BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */,
+				BC9D4D2527C6D1720089E5B1 /* XCUIElement+Helpers.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		BE1766B526FA562B007EF438 /* Networking */ = {
@@ -271,6 +318,24 @@
 			productReference = 806F1E3526B85367007A60E6 /* Demo.app */;
 			productType = "com.apple.product-type.application";
 		};
+		BC9D4D1427C54F3F0089E5B1 /* DemoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BC9D4D1F27C54F3F0089E5B1 /* Build configuration list for PBXNativeTarget "DemoUITests" */;
+			buildPhases = (
+				BC9D4D1127C54F3F0089E5B1 /* Sources */,
+				BC9D4D1227C54F3F0089E5B1 /* Frameworks */,
+				BC9D4D1327C54F3F0089E5B1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BC9D4D1C27C54F3F0089E5B1 /* PBXTargetDependency */,
+			);
+			name = DemoUITests;
+			productName = DemoUITests;
+			productReference = BC9D4D1527C54F3F0089E5B1 /* DemoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -278,11 +343,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1300;
+				LastSwiftUpdateCheck = 1320;
 				LastUpgradeCheck = 1300;
 				TargetAttributes = {
 					806F1E3426B85367007A60E6 = {
 						CreatedOnToolsVersion = 13.0;
+					};
+					BC9D4D1427C54F3F0089E5B1 = {
+						CreatedOnToolsVersion = 13.2.1;
+						TestTargetID = 806F1E3426B85367007A60E6;
 					};
 				};
 			};
@@ -303,6 +372,7 @@
 			projectRoot = "";
 			targets = (
 				806F1E3426B85367007A60E6 /* Demo */,
+				BC9D4D1427C54F3F0089E5B1 /* DemoUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -315,6 +385,13 @@
 				80921C1D2710A0720040D76F /* LaunchScreen.storyboard in Resources */,
 				BE1766D926FA7BC8007EF438 /* Settings.bundle in Resources */,
 				806F1E4226B85369007A60E6 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC9D4D1327C54F3F0089E5B1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,7 +431,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BC9D4D1127C54F3F0089E5B1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC9D4D1827C54F3F0089E5B1 /* CardUITests.swift in Sources */,
+				BC9D4D2227C554090089E5B1 /* LaunchApp.swift in Sources */,
+				BC9D4D2427C58B8D0089E5B1 /* XCUIApplication+Helpers.swift in Sources */,
+				BC9D4D2627C6D1720089E5B1 /* XCUIElement+Helpers.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BC9D4D1C27C54F3F0089E5B1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 806F1E3426B85367007A60E6 /* Demo */;
+			targetProxy = BC9D4D1B27C54F3F0089E5B1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		806F1E4726B85369007A60E6 /* Debug */ = {
@@ -485,8 +581,10 @@
 				INFOPLIST_FILE = Demo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -512,8 +610,10 @@
 				INFOPLIST_FILE = Demo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -524,6 +624,40 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		BC9D4D1D27C54F3F0089E5B1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.DemoUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Demo;
+			};
+			name = Debug;
+		};
+		BC9D4D1E27C54F3F0089E5B1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.DemoUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Demo;
 			};
 			name = Release;
 		};
@@ -544,6 +678,15 @@
 			buildConfigurations = (
 				806F1E4A26B85369007A60E6 /* Debug */,
 				806F1E4B26B85369007A60E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BC9D4D1F27C54F3F0089E5B1 /* Build configuration list for PBXNativeTarget "DemoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC9D4D1D27C54F3F0089E5B1 /* Debug */,
+				BC9D4D1E27C54F3F0089E5B1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
