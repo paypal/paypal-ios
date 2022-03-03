@@ -40,7 +40,7 @@ To accept a certain payment method in your app, you only need to include that pa
 
 ## Sample Code
 
-```
+```swift
 // STEP 0: Fetch an ACCESS_TOKEN and ORDER_ID from your server.
 
 // STEP 1: Create a PaymentConfiguration object
