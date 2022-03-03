@@ -56,6 +56,9 @@
 		BCF735E527D1590600A52E03 /* PPRiskMagnes.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCF735E227D158B400A52E03 /* PPRiskMagnes.xcframework */; };
 		BCF735E727D15AB800A52E03 /* PayPalDataCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF735E627D15AB800A52E03 /* PayPalDataCollector.swift */; };
 		BCF735E927D15D2600A52E03 /* MagnesSDKProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF735E827D15D2600A52E03 /* MagnesSDKProtocol.swift */; };
+		BCF735EB27D160E800A52E03 /* MagnesSetupParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF735EA27D160E800A52E03 /* MagnesSetupParams.swift */; };
+		BCF735ED27D1650800A52E03 /* DeviceInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF735EC27D1650800A52E03 /* DeviceInspector.swift */; };
+		BCF735EF27D1652100A52E03 /* DeviceInspectorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF735EE27D1652100A52E03 /* DeviceInspectorProtocol.swift */; };
 		BE00B79F2742F9F000758C63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE00B79D2742F9F000758C63 /* Assets.xcassets */; };
 		BE00B7A02742F9F600758C63 /* PayPalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE00B79B2742F96200758C63 /* PayPalButton.swift */; };
 		BE00B7A92743F6AF00758C63 /* PayPalCreditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE00B7A82743F6AF00758C63 /* PayPalCreditButton.swift */; };
@@ -154,6 +157,9 @@
 		BCF735E227D158B400A52E03 /* PPRiskMagnes.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = PPRiskMagnes.xcframework; path = Frameworks/XCFrameworks/PPRiskMagnes.xcframework; sourceTree = "<group>"; };
 		BCF735E627D15AB800A52E03 /* PayPalDataCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalDataCollector.swift; sourceTree = "<group>"; };
 		BCF735E827D15D2600A52E03 /* MagnesSDKProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnesSDKProtocol.swift; sourceTree = "<group>"; };
+		BCF735EA27D160E800A52E03 /* MagnesSetupParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnesSetupParams.swift; sourceTree = "<group>"; };
+		BCF735EC27D1650800A52E03 /* DeviceInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInspector.swift; sourceTree = "<group>"; };
+		BCF735EE27D1652100A52E03 /* DeviceInspectorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInspectorProtocol.swift; sourceTree = "<group>"; };
 		BE00B79B2742F96200758C63 /* PayPalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalButton.swift; sourceTree = "<group>"; };
 		BE00B79D2742F9F000758C63 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BE00B7A82743F6AF00758C63 /* PayPalCreditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalCreditButton.swift; sourceTree = "<group>"; };
@@ -407,7 +413,10 @@
 		BCF735C127D157CD00A52E03 /* PayPalDataCollector */ = {
 			isa = PBXGroup;
 			children = (
+				BCF735EC27D1650800A52E03 /* DeviceInspector.swift */,
+				BCF735EE27D1652100A52E03 /* DeviceInspectorProtocol.swift */,
 				BCF735E827D15D2600A52E03 /* MagnesSDKProtocol.swift */,
+				BCF735EA27D160E800A52E03 /* MagnesSetupParams.swift */,
 				BCF735E627D15AB800A52E03 /* PayPalDataCollector.swift */,
 			);
 			name = PayPalDataCollector;
@@ -970,8 +979,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCF735EF27D1652100A52E03 /* DeviceInspectorProtocol.swift in Sources */,
 				BCF735E727D15AB800A52E03 /* PayPalDataCollector.swift in Sources */,
+				BCF735EB27D160E800A52E03 /* MagnesSetupParams.swift in Sources */,
 				BCF735E927D15D2600A52E03 /* MagnesSDKProtocol.swift in Sources */,
+				BCF735ED27D1650800A52E03 /* DeviceInspector.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
