@@ -1,6 +1,5 @@
-
 import Foundation
 
 protocol DeviceInspectorProtocol {
-    func deviceIndentifier() -> String
+    func paypalDeviceIdentifier() -> String
 }
