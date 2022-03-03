@@ -22,6 +22,11 @@ Pod::Spec.new do |s|
     s.dependency "PayPalCheckout", "0.77.0"
   end
 
+  s.subspec "PayPalDataCollector" do |s|
+    s.source_files = "Sources/PayPalDataCollector/*.swift"
+    s.vendored_frameworks = "Frameworks/XCFrameworks/PPRiskMagnes.xcframework"
+  end
+
   s.subspec "PaymentsCore" do |s|
     s.source_files  = "Sources/PaymentsCore/**/*.swift"
   end
