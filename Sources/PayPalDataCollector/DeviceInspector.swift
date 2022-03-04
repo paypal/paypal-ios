@@ -2,28 +2,52 @@ import Foundation
 
 class DeviceInspector: DeviceInspectorProtocol {
 
+    private let accountName = "com.paypal.ios-sdk.PayPalDataCollector.DeviceGUID"
+
     func paypalDeviceIdentifier() -> String {
-        let accountName = "com.paypal.ios-sdk.PayPalDataCollector.DeviceGUID"
-        var query: [String: Any] = [
+        return paypalDeviceIdentifier(newIdentifier: UUID())
+    }
+
+    func paypalDeviceIdentifier(newIdentifier: UUID) -> String {
+        if let deviceID = getDeviceIDFromKeychain() {
+            return deviceID
+        }
+
+        let newDeviceID = newIdentifier.uuidString
+        saveDeviceIDtoKeychain(newDeviceID)
+        return newDeviceID
+    }
+
+    private func getDeviceIDFromKeychain() -> String? {
+        let searchQuery: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: "Service",
             kSecAttrAccount as String: accountName,
-            kSecReturnData as String: true
+            kSecAttrService as String: "Service",
+            kSecReturnData as String: true,
+            kSecMatchLimit as String: kSecMatchLimitOne
         ]
 
         var item: CFTypeRef?
-        let status = SecItemCopyMatching(query as CFDictionary, &item)
+        let status = SecItemCopyMatching(searchQuery as CFDictionary, &item)
         if status == errSecSuccess,
             let existingItem = item as? [String: Any],
             let data = existingItem[kSecValueData as String] as? Data,
             let identifier = String(data: data, encoding: .utf8) {
             return identifier
         }
+        return nil
+    }
 
-        let newIdentifier = UUID().uuidString
-        query[kSecValueData as String] = newIdentifier
-        query[kSecAttrAccessible as String] = kSecAttrAccessibleWhenUnlockedThisDeviceOnly
-        SecItemAdd(query as CFDictionary, nil)
-        return newIdentifier
+    private func saveDeviceIDtoKeychain(_ deviceID: String) {
+        if let deviceIDData = deviceID.data(using: .utf8) {
+            let saveQuery: [String: Any] = [
+                kSecClass as String: kSecClassGenericPassword,
+                kSecAttrAccount as String: accountName,
+                kSecAttrService as String: "Service",
+                kSecValueData as String: deviceIDData,
+                kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
+            ]
+            _ = SecItemAdd(saveQuery as CFDictionary, nil)
+        }
     }
 }

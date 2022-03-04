@@ -19,7 +19,7 @@ public class PayPalDataCollector {
             apnToken: "",
             isRemoteConfigDisabled: false,
             isBeaconDisabled: false,
-            source: .BRAINTREE
+            source: .PAYPAL
         )
         try? magnesSDK.setUpWithParams(params)
 

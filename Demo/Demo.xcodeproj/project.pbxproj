@@ -92,6 +92,7 @@
 		80F33CEE26F8E7CC006811B1 /* CreateOrderParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrderParams.swift; sourceTree = "<group>"; };
 		80F33CF026F8E7D9006811B1 /* ProcessOrderParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessOrderParams.swift; sourceTree = "<group>"; };
 		80F33CF226F8EA50006811B1 /* DemoSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSettings.swift; sourceTree = "<group>"; };
+		BC9C18E127D2B4D30019B541 /* Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Demo.entitlements; sourceTree = "<group>"; };
 		BC9D4D1527C54F3F0089E5B1 /* DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC9D4D1727C54F3F0089E5B1 /* CardUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardUITests.swift; sourceTree = "<group>"; };
 		BC9D4D2127C554090089E5B1 /* LaunchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchApp.swift; sourceTree = "<group>"; };
@@ -180,6 +181,7 @@
 		806F1E3726B85367007A60E6 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				BC9C18E127D2B4D30019B541 /* Demo.entitlements */,
 				806F1E3826B85367007A60E6 /* AppDelegate.swift */,
 				806F1E4126B85369007A60E6 /* Assets.xcassets */,
 				BED0422F2710833100C80954 /* Card */,
@@ -574,6 +576,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Demo/Demo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 43253H4X22;
@@ -603,6 +606,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Demo/Demo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 43253H4X22;

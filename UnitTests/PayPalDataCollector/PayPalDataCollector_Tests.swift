@@ -36,6 +36,13 @@ class PayPalDataCollector_Tests: XCTestCase {
         XCTAssertEqual(false, magnesSDK.capturedSetupParams?.isBeaconDisabled)
     }
 
+    func testCollectDeviceData_setsMagnesSourceToPAYPAL() {
+        let sut = PayPalDataCollector(magnesSDK: magnesSDK, deviceInspector: deviceInspector)
+        _ = sut.collectDeviceData()
+
+        XCTAssertEqual(.PAYPAL, magnesSDK.capturedSetupParams?.source)
+    }
+
     func testCollectDeviceData_forwardsJSONWithMagnesClientMetadataIDAsACorrelationID() {
         let args = CollectDeviceDataArgs(payPalClientMetadataId: "", additionalData: ["sample": "data"])
         let magnesResult = MockMagnesSDKResult(paypalClientMetaDataId: "new_client_metadata_id")
