@@ -27,7 +27,7 @@ public class PayPalDataCollector {
         let clientMetadataId = result?.getPayPalClientMetaDataId() ?? ""
 
         return """
-            { "correlation_id": "\(clientMetadataId)" }
+            {"correlation_id":"\(clientMetadataId)"}
         """.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }

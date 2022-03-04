@@ -1,9 +1,16 @@
-
 import Foundation
 import PPRiskMagnes
 @testable import PayPalDataCollector
 
+struct CollectDeviceDataArgs: Hashable {
+
+    let payPalClientMetadataId: String
+    let additionalData: [String: String]
+}
+
 class MockMagnesSDK: MagnesSDKProtocol {
+
+    var collectDeviceDataStubs: [CollectDeviceDataArgs: MockMagnesSDKResult] = [:]
 
     var capturedSetupParams: MagnesSetupParams?
 
@@ -15,6 +22,11 @@ class MockMagnesSDK: MagnesSDKProtocol {
         withPayPalClientMetadataId cmid: String,
         withAdditionalData additionalData: [String: String]
     ) throws -> MagnesSDKResult {
-        return MockMagnesSDKResult()
+        let args = CollectDeviceDataArgs(payPalClientMetadataId: cmid, additionalData: additionalData)
+        return collectDeviceDataStubs[args] ?? MockMagnesSDKResult()
+    }
+
+    func stubCollectDeviceData(forArgs args: CollectDeviceDataArgs, withValue result: MockMagnesSDKResult) {
+        collectDeviceDataStubs[args] = result
     }
 }

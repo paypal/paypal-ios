@@ -14,12 +14,12 @@ class PayPalDataCollector_Tests: XCTestCase {
     }
 
     func testCollectDeviceData_setsMagnesAppGUIDToTheCurrentDeviceID() {
-        deviceInspector.stubPayPalDeviceIdentifierWithValue("paypal_device_identifier")
+        deviceInspector.stubPayPalDeviceIdentifierWithValue("sample_device_identifier")
 
         let sut = PayPalDataCollector(magnesSDK: magnesSDK, deviceInspector: deviceInspector)
         _ = sut.collectDeviceData()
 
-        XCTAssertEqual("paypal_device_identifier", magnesSDK.capturedSetupParams?.appGuid)
+        XCTAssertEqual("sample_device_identifier", magnesSDK.capturedSetupParams?.appGuid)
     }
 
     func testCollectDeviceData_disablesMagnesRemoteConfiguration() {
@@ -34,5 +34,19 @@ class PayPalDataCollector_Tests: XCTestCase {
         _ = sut.collectDeviceData()
 
         XCTAssertEqual(false, magnesSDK.capturedSetupParams?.isBeaconDisabled)
+    }
+
+    func testCollectDeviceData_forwardsJSONWithMagnesClientMetadataIDAsACorrelationID() {
+        let args = CollectDeviceDataArgs(payPalClientMetadataId: "", additionalData: ["sample": "data"])
+        let magnesResult = MockMagnesSDKResult(paypalClientMetaDataId: "new_client_metadata_id")
+        magnesSDK.stubCollectDeviceData(forArgs: args, withValue: magnesResult)
+
+        let sut = PayPalDataCollector(magnesSDK: magnesSDK, deviceInspector: deviceInspector)
+        let result = sut.collectDeviceData(additionalData: ["sample": "data"])
+
+        let expected = """
+            {"correlation_id":"new_client_metadata_id"}
+        """.trimmingCharacters(in: .whitespacesAndNewlines)
+        XCTAssertEqual(expected, result)
     }
 }
