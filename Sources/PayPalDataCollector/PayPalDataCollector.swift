@@ -1,24 +1,40 @@
 import Foundation
 import PPRiskMagnes
+import PaymentsCore
 
 public class PayPalDataCollector {
 
+    // MARK: - Properties
+    private let config: CoreConfig
     private let magnesSDK: MagnesSDKProtocol
     private let deviceInspector: DeviceInspectorProtocol
 
-    public convenience init() {
-        self.init(magnesSDK: MagnesSDK.shared(), deviceInspector: DeviceInspector())
+    // MARK: - Initializers
+    public convenience init(config: CoreConfig) {
+        self.init(config: config, magnesSDK: MagnesSDK.shared(), deviceInspector: DeviceInspector())
     }
 
-    init(magnesSDK: MagnesSDKProtocol, deviceInspector: DeviceInspectorProtocol) {
+    init(config: CoreConfig, magnesSDK: MagnesSDKProtocol, deviceInspector: DeviceInspectorProtocol) {
+        self.config = config
         self.magnesSDK = magnesSDK
         self.deviceInspector = deviceInspector
     }
 
+    // MARK: - Computed Properties
+    private var magnesEnvironment: MagnesSDK.Environment {
+        switch config.environment {
+        case .sandbox:
+            return .SANDBOX
+        case .production:
+            return .LIVE
+        }
+    }
+
+    // MARK: - PayPalDataCollector
     public func collectDeviceData(additionalData: [String: String] = [:]) -> String {
         let deviceIdentifier = deviceInspector.paypalDeviceIdentifier()
         let params = MagnesSetupParams(
-            env: .LIVE,
+            env: magnesEnvironment,
             appGuid: deviceIdentifier,
             apnToken: "",
             isRemoteConfigDisabled: false,
