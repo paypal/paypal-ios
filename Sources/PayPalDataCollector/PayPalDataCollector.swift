@@ -6,7 +6,11 @@ public class PayPalDataCollector {
     private let magnesSDK: MagnesSDKProtocol
     private let deviceInspector: DeviceInspectorProtocol
 
-    init(magnesSDK: MagnesSDKProtocol = MagnesSDK.shared(), deviceInspector: DeviceInspectorProtocol = DeviceInspector()) {
+    public convenience init() {
+        self.init(magnesSDK: MagnesSDK.shared(), deviceInspector: DeviceInspector())
+    }
+
+    init(magnesSDK: MagnesSDKProtocol, deviceInspector: DeviceInspectorProtocol) {
         self.magnesSDK = magnesSDK
         self.deviceInspector = deviceInspector
     }
