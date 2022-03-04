@@ -1,7 +1,7 @@
 import Foundation
 
 class DeviceInspectorHelper {
-    
+
     func setPayPalDeviceIdentifier() {
         let accountName = "com.paypal.ios-sdk.PayPalDataCollector.DeviceGUID"
         var query: [String: Any] = [

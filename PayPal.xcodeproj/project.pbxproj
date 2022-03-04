@@ -443,8 +443,8 @@
 				BCF735F227D26CE800A52E03 /* DeviceInspectorHelper.swift */,
 				BC9C18D327D2775A0019B541 /* MockDeviceInspector.swift */,
 				BCF735FA27D2719400A52E03 /* MockMagnesSDK.swift */,
-				BCF735F527D270E000A52E03 /* PayPalDataCollector_Tests.swift */,
 				BC9C18D927D27CE40019B541 /* MockMagnesSDKResult.swift */,
+				BCF735F527D270E000A52E03 /* PayPalDataCollector_Tests.swift */,
 			);
 			path = PayPalDataCollector;
 			sourceTree = "<group>";

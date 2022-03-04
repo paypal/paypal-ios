@@ -5,13 +5,12 @@ import PPRiskMagnes
 
 class MockMagnesSDK: MagnesSDKProtocol {
 
+    var capturedSetupParams: MagnesSetupParams?
+
     func setUpWithParams(_ magnesParams: MagnesSetupParams) throws {
+        capturedSetupParams = magnesParams
     }
 
-    func didSetUpWithParams(_ expectedParams: MagnesSetupParams) -> Bool {
-        return false
-    }
-    
     func collectDeviceData(
         withPayPalClientMetadataId cmid: String,
         withAdditionalData additionalData: [String: String]
