@@ -3,7 +3,7 @@ import Foundation
 class DeviceInspector: DeviceInspectorProtocol {
 
     func paypalDeviceIdentifier() -> String {
-        let accountName = "com.paypal.ios-sdk.PayPalDataCollector.PayPal_MPL_DeviceGUID"
+        let accountName = "com.paypal.ios-sdk.PayPalDataCollector.DeviceGUID"
         var query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: "Service",
@@ -16,7 +16,7 @@ class DeviceInspector: DeviceInspectorProtocol {
         if status == errSecSuccess,
             let existingItem = item as? [String: Any],
             let data = existingItem[kSecValueData as String] as? Data,
-            let identifier = String(data: data, encoding: String.Encoding.utf8) {
+            let identifier = String(data: data, encoding: .utf8) {
             return identifier
         }
 

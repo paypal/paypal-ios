@@ -3,10 +3,10 @@ import PPRiskMagnes
 
 protocol MagnesSDKProtocol {
     func setUpWithParams(_ magnesParams: MagnesSetupParams) throws
-    func collectAndSubmit(
+    func collectDeviceData(
         withPayPalClientMetadataId cmid: String,
         withAdditionalData additionalData: [String: String]
-    ) throws -> MagnesResult
+    ) throws -> MagnesSDKResult
 }
 
 extension MagnesSDK: MagnesSDKProtocol {
@@ -21,5 +21,12 @@ extension MagnesSDK: MagnesSDKProtocol {
             disableBeacon: params.isBeaconDisabled,
             magnesSource: params.source
         )
+    }
+
+    func collectDeviceData(
+        withPayPalClientMetadataId cmid: String,
+        withAdditionalData additionalData: [String: String]
+    ) throws -> MagnesSDKResult {
+        return try collectAndSubmit(withPayPalClientMetadataId: cmid, withAdditionalData: additionalData)
     }
 }

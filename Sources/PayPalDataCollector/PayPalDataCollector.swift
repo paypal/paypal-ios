@@ -23,7 +23,7 @@ public class PayPalDataCollector {
         )
         try? magnesSDK.setUpWithParams(params)
 
-        let result = try? magnesSDK.collectAndSubmit(withPayPalClientMetadataId: "", withAdditionalData: additionalData)
+        let result = try? magnesSDK.collectDeviceData(withPayPalClientMetadataId: "", withAdditionalData: additionalData)
         let clientMetadataId = result?.getPayPalClientMetaDataId() ?? ""
 
         return """
