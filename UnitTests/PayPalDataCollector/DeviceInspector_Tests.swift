@@ -8,7 +8,7 @@ class DeviceInspector_Tests: XCTestCase {
 
         let sut = DeviceInspector()
         let newIdentifier = UUID()
-        let result = sut.paypalDeviceIdentifier(newIdentifier: newIdentifier)
+        let result = sut.payPalDeviceIdentifier(newIdentifier: newIdentifier)
 
         XCTAssertEqual(newIdentifier.uuidString, result)
     }

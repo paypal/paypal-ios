@@ -32,7 +32,7 @@ public class PayPalDataCollector {
 
     // MARK: - PayPalDataCollector
     public func collectDeviceData(additionalData: [String: String] = [:]) -> String {
-        let deviceIdentifier = deviceInspector.paypalDeviceIdentifier()
+        let deviceIdentifier = deviceInspector.payPalDeviceIdentifier()
         let params = MagnesSetupParams(
             env: magnesEnvironment,
             appGuid: deviceIdentifier,

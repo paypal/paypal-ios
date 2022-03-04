@@ -3,13 +3,13 @@ import Foundation
 
 class MockDeviceInspector: DeviceInspectorProtocol {
 
-    var paypalDeviceIdentifierValue: String = ""
+    var payPalDeviceIdentifierValue: String = ""
 
-    func paypalDeviceIdentifier() -> String {
-        return paypalDeviceIdentifierValue
+    func payPalDeviceIdentifier() -> String {
+        return payPalDeviceIdentifierValue
     }
 
     func stubPayPalDeviceIdentifierWithValue(_ value: String) {
-        paypalDeviceIdentifierValue = value
+        payPalDeviceIdentifierValue = value
     }
 }
