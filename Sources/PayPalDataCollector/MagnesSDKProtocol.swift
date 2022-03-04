@@ -16,7 +16,6 @@ extension MagnesSDK: MagnesSDKProtocol {
         try setUp(
             setEnviroment: params.env,
             setOptionalAppGuid: params.appGuid,
-            setOptionalAPNToken: params.apnToken,
             disableRemoteConfiguration: params.isRemoteConfigDisabled,
             disableBeacon: params.isBeaconDisabled,
             magnesSource: params.source

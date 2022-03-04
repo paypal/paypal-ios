@@ -36,7 +36,6 @@ public class PayPalDataCollector {
         let params = MagnesSetupParams(
             env: magnesEnvironment,
             appGuid: deviceIdentifier,
-            apnToken: "",
             isRemoteConfigDisabled: false,
             isBeaconDisabled: false,
             source: .PAYPAL
