@@ -1,6 +1,8 @@
 import Foundation
 import PPRiskMagnes
+#if canImport(PaymentsCore)
 import PaymentsCore
+#endif
 
 public class PayPalDataCollector {
 
