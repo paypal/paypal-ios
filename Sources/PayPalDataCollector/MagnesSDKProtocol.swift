@@ -12,7 +12,7 @@ protocol MagnesSDKProtocol {
 extension MagnesSDK: MagnesSDKProtocol {
 
     func setUpWithParams(_ params: MagnesSetupParams) throws {
-        // workaround to avoid lint errors
+        // workaround to avoid max line column width linter error
         try setUp(
             setEnviroment: params.env,
             setOptionalAppGuid: params.appGuid,
