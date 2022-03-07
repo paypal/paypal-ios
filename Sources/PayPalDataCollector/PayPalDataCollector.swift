@@ -21,6 +21,7 @@ public class PayPalDataCollector {
         self.init(config: config, magnesSDK: MagnesSDK.shared(), deviceInspector: DeviceInspector())
     }
 
+    /// internal constructor for testing
     init(config: CoreConfig, magnesSDK: MagnesSDKProtocol, deviceInspector: DeviceInspectorProtocol) {
         self.config = config
         self.magnesSDK = magnesSDK
