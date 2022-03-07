@@ -58,8 +58,6 @@ public class PayPalDataCollector {
         let result = try? magnesSDK.collectDeviceData(withPayPalClientMetadataId: "", withAdditionalData: additionalData)
         let clientMetadataId = result?.getPayPalClientMetaDataId() ?? ""
 
-        return """
-            {"correlation_id":"\(clientMetadataId)"}
-        """.trimmingCharacters(in: .whitespacesAndNewlines)
+        return "{\"correlation_id\":\"\(clientMetadataId)\"}"
     }
 }
