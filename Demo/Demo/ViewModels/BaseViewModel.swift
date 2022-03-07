@@ -101,7 +101,7 @@ class BaseViewModel: ObservableObject, PayPalDelegate {
 
         do {
             _ = try await cardClient.approveOrder(request: cardRequest)
-            updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
+            updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: CONFIRMED")
         } catch {
             updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
         }
@@ -144,7 +144,7 @@ class BaseViewModel: ObservableObject, PayPalDelegate {
     // MARK: - PayPal Delegate
 
     func paypal(_ paypalClient: PayPalClient, didFinishWithResult result: PayPalResult) {
-        self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: APPROVED")
+        self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: CONFIRMED")
         print("✅ Order is successfully approved and ready to be captured/authorized with result: \(result)")
     }
 
