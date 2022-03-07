@@ -5,7 +5,7 @@ class DeviceInspector: DeviceInspectorProtocol {
     private let accountName = "com.paypal.ios-sdk.PayPalDataCollector.DeviceGUID"
 
     func payPalDeviceIdentifier() -> String {
-        return payPalDeviceIdentifier(newIdentifier: UUID())
+        payPalDeviceIdentifier(newIdentifier: UUID())
     }
 
     func payPalDeviceIdentifier(newIdentifier: UUID) -> String {

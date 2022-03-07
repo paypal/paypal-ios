@@ -12,7 +12,6 @@ protocol MagnesSDKProtocol {
 extension MagnesSDK: MagnesSDKProtocol {
 
     func setUpWithParams(_ params: MagnesSetupParams) throws {
-        // workaround to avoid max line column width linter error
         try setUp(
             setEnviroment: params.env,
             setOptionalAppGuid: params.appGuid,
@@ -26,6 +25,6 @@ extension MagnesSDK: MagnesSDKProtocol {
         withPayPalClientMetadataId cmid: String,
         withAdditionalData additionalData: [String: String]
     ) throws -> MagnesSDKResult {
-        return try collectAndSubmit(withPayPalClientMetadataId: cmid, withAdditionalData: additionalData)
+        try collectAndSubmit(withPayPalClientMetadataId: cmid, withAdditionalData: additionalData)
     }
 }
