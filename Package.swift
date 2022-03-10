@@ -10,16 +10,20 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "PaymentsCore",
-            targets: ["PaymentsCore"]),
+            targets: ["PaymentsCore"]
+        ),
         .library(
             name: "PayPal",
-            targets: ["PayPal"]),
+            targets: ["PayPal"]
+        ),
         .library(
             name: "Card",
-            targets: ["Card"]),
+            targets: ["Card"]
+        ),
         .library(
             name: "PayPalDataCollector",
-            targets: ["PayPalDataCollector", "PPRiskMagnes"])
+            targets: ["PayPalDataCollector", "PPRiskMagnes"]
+        )
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -29,18 +33,23 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "PaymentsCore",
-            dependencies: []),
+            dependencies: []
+        ),
         .target(
             name: "Card",
-            dependencies: ["PaymentsCore"]),
+            dependencies: ["PaymentsCore"]
+        ),
         .target(
             name: "PayPal",
-            dependencies: ["PaymentsCore"])
+            dependencies: ["PaymentsCore"]
+        ),
         .target(
             name: "PayPalDataCollector",
-            dependencies: ["PaymentsCore", "PPRiskMagnes"]),
+            dependencies: ["PaymentsCore", "PPRiskMagnes"]
+        ),
         .binaryTarget(
             name: "PPRiskMagnes",
-            path: "Frameworks/XCFrameworks/PPRiskMagnes.xcframework")
+            path: "Frameworks/XCFrameworks/PPRiskMagnes.xcframework"
+        )
     ]
 )
