@@ -16,7 +16,10 @@ let package = Package(
             targets: ["PayPal"]),
         .library(
             name: "Card",
-            targets: ["Card"])
+            targets: ["Card"]),
+        .library(
+            name: "PayPalDataCollector",
+            targets: ["PayPalDataCollector", "PPRiskMagnes"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -33,6 +36,12 @@ let package = Package(
             dependencies: ["PaymentsCore"]),
         .target(
             name: "PayPal",
-            dependencies: ["PaymentsCore", "PayPalCheckout"])
+            dependencies: ["PaymentsCore", "PayPalCheckout"]),
+        .target(
+            name: "PayPalDataCollector",
+            dependencies: ["PaymentsCore", "PPRiskMagnes"]),
+        .binaryTarget(
+            name: "PPRiskMagnes",
+            path: "Frameworks/XCFrameworks/PPRiskMagnes.xcframework")
     ]
 )
