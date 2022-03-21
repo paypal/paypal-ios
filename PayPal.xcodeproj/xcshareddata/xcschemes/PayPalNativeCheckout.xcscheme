@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "80DB6F0D26B89D9600277E54"
-               BuildableName = "PayPal.framework"
-               BlueprintName = "PayPal"
+               BuildableName = "PayPalNativeCheckout.framework"
+               BlueprintName = "PayPalNativeCheckout"
                ReferencedContainer = "container:PayPal.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -52,8 +52,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "80DB6F0D26B89D9600277E54"
-            BuildableName = "PayPal.framework"
-            BlueprintName = "PayPal"
+            BuildableName = "PayPalNativeCheckout.framework"
+            BlueprintName = "PayPalNativeCheckout"
             ReferencedContainer = "container:PayPal.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

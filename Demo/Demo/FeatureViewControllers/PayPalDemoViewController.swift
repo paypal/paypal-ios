@@ -1,5 +1,5 @@
 import UIKit
-import PayPal
+import PayPalNativeCheckout
 import PaymentsCore
 
 class PayPalDemoViewController: FeatureBaseViewController {

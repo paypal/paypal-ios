@@ -1,5 +1,5 @@
 import XCTest
-@testable import PayPal
+@testable import PayPalNativeCheckout
 
 class Coordinator_Tests: XCTestCase {
 

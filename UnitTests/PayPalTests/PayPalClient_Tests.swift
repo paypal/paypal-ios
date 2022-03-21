@@ -1,7 +1,7 @@
 import XCTest
 import PayPalCheckout
 @testable import PaymentsCore
-@testable import PayPal
+@testable import PayPalNativeCheckout
 
 class PayPalClient_Tests: XCTestCase {
 
