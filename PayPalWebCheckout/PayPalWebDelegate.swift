@@ -16,7 +16,7 @@ public protocol PayPalWebDelegate: AnyObject {
     /// - Parameters:
     ///   - client: the PayPalClient associated with delegate
     ///   - didFinishWithError: the error returned by the PayPal flow
-    func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithError error: PayPalSDKError)
+    func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithError error: CoreSDKError)
 
     /// Notify that the PayPal flow has been cancelled
     /// - Parameters:

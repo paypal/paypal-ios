@@ -9,7 +9,7 @@ public enum PayPalCheckoutResult {
     case success(result: PayPalResult)
 
     /// An error has occurred during the checkout experience
-    case failure(error: PayPalSDKError)
+    case failure(error: CoreSDKError)
 
     /// The buyer has canceled the checkout experience
     case cancellation

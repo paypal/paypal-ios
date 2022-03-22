@@ -93,7 +93,7 @@ public class PayPalWebCheckoutClient {
         delegate?.paypal(self, didFinishWithResult: payPalResult)
     }
 
-    private func notifyFailure(with error: PayPalSDKError) {
+    private func notifyFailure(with error: CoreSDKError) {
         delegate?.paypal(self, didFinishWithError: error)
     }
 

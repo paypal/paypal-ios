@@ -84,7 +84,7 @@ class CardClient_Tests: XCTestCase {
         do {
             _ = try await cardClient.approveOrder(request: cardRequest)
             XCTFail("This should fail.")
-        } catch let error as PayPalSDKError {
+        } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, APIClientError.domain)
             XCTAssertEqual(error.code, APIClientError.Code.dataParsingError.rawValue)
             XCTAssertEqual(error.localizedDescription, "An error occured parsing HTTP response data. Contact developer.paypal.com/support.")

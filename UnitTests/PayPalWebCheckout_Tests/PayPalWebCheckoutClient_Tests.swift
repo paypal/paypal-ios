@@ -35,7 +35,7 @@ class PayPalClient_Tests: XCTestCase {
         let delegate = MockPayPalWebDelegate()
 
         paypalClient.delegate = delegate
-        mockWebAuthenticationSession.cannedErrorResponse = PayPalSDKError(
+        mockWebAuthenticationSession.cannedErrorResponse = CoreSDKError(
             code: PayPalWebCheckoutClientError.Code.webSessionError.rawValue,
             domain: PayPalWebCheckoutClientError.domain,
             errorDescription: "Mock web session error description."

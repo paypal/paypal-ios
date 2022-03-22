@@ -8,14 +8,14 @@ class PayPalClient_Tests: XCTestCase {
     private class MockPayPalDelegate: PayPalDelegate {
 
         var capturedResult: PayPalResult?
-        var capturedError: PayPalSDKError?
+        var capturedError: CoreSDKError?
         var paypalDidCancel = false
 
         func paypal(_ paypalClient: PayPalClient, didFinishWithResult result: PayPalResult) {
             capturedResult = result
         }
 
-        func paypal(_ paypalClient: PayPalClient, didFinishWithError error: PayPalSDKError) {
+        func paypal(_ paypalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
             capturedError = error
         }
 

@@ -4,14 +4,14 @@ import PayPalWebCheckout
 class MockPayPalWebDelegate: PayPalWebDelegate {
 
     var capturedResult: PayPalWebResult?
-    var capturedError: PayPalSDKError?
+    var capturedError: CoreSDKError?
     var paypalDidCancel = false
 
     func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithResult result: PayPalWebResult) {
         capturedResult = result
     }
 
-    func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithError error: PayPalSDKError) {
+    func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithError error: CoreSDKError) {
         capturedError = error
     }
 

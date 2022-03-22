@@ -22,21 +22,21 @@ enum PayPalWebCheckoutClientError {
         case malformedResultError
     }
 
-    static let webSessionError: (Error) -> PayPalSDKError = { error in
-        PayPalSDKError(
+    static let webSessionError: (Error) -> CoreSDKError = { error in
+        CoreSDKError(
             code: Code.webSessionError.rawValue,
             domain: domain,
             errorDescription: error.localizedDescription
         )
     }
 
-    static let payPalURLError = PayPalSDKError(
+    static let payPalURLError = CoreSDKError(
         code: Code.payPalURLError.rawValue,
         domain: domain,
         errorDescription: "Error constructing URL for PayPal request."
     )
 
-    static let malformedResultError = PayPalSDKError(
+    static let malformedResultError = CoreSDKError(
         code: Code.malformedResultError.rawValue,
         domain: domain,
         errorDescription: "Result did not contain the expected data."

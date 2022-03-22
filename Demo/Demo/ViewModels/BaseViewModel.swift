@@ -156,7 +156,7 @@ class BaseViewModel: ObservableObject, PayPalWebDelegate {
         print("✅ Order is successfully approved and ready to be captured/authorized with result: \(result)")
     }
 
-    func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithError error: PayPalSDKError) {
+    func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithError error: CoreSDKError) {
         updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
         print("❌ There was an error: \(error)")
     }
