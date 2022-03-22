@@ -1,5 +1,6 @@
 import Foundation
 
+/// Error structure that SDK errors conform to
 public struct CoreSDKError: Error, LocalizedError {
 
     /// The error code.
