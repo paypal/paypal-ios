@@ -1,7 +1,8 @@
 import UIKit
 import PaymentsCore
+import AuthenticationServices
 
-class FeatureBaseViewController: UIViewController {
+class FeatureBaseViewController: UIViewController, ASWebAuthenticationPresentationContextProviding {
 
     enum Constants {
         static let stackViewSpacing: CGFloat = 16
@@ -80,7 +81,16 @@ class FeatureBaseViewController: UIViewController {
             bottomStatusLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.layoutSpacing)
         ])
     }
-
+    
+    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        UIApplication
+            .shared
+            .connectedScenes
+            .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+            .first { $0.isKeyWindow }
+        ?? ASPresentationAnchor()
+    }
+    
     @objc func createOrderTapped() {
         Task {
             await baseViewModel.createOrder(amount: amountTextField.text)

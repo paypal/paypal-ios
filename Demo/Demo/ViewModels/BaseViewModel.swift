@@ -1,18 +1,27 @@
 import UIKit
 import Card
-import PayPal
+import PayPalWebCheckout
 import PaymentsCore
+import AuthenticationServices
 
 /// This class is used to share the orderID across shared views, update the text of `bottomStatusLabel` in our `FeatureBaseViewController`
 /// as well as share the logic of `processOrder` across our duplicate (SwiftUI and UIKit) card views.
-class BaseViewModel: ObservableObject, PayPalDelegate {
+class BaseViewModel: ObservableObject, PayPalWebDelegate {
 
     /// Weak reference to associated view
     weak var view: FeatureBaseViewController?
 
     /// order ID shared across views
     @Published var orderID: String?
-
+    
+    lazy var payPalClient: PayPalWebCheckoutClient = {
+        let clientID = DemoSettings.clientID
+        let environment = DemoSettings.environment.paypalSDKEnvironment
+        let config = CoreConfig(clientID: clientID, environment: environment)
+        let payPalClient = PayPalWebCheckoutClient(config: config)
+        return payPalClient
+    }()
+    
     // MARK: - Init
 
     init(view: FeatureBaseViewController? = nil) {
@@ -123,37 +132,35 @@ class BaseViewModel: ObservableObject, PayPalDelegate {
 
     // MARK: - PayPal Module Integration
 
-    func payPalButtonTapped(presentingViewController: UIViewController? = nil) {
+    func payPalButtonTapped(context: ASWebAuthenticationPresentationContextProviding) {
         guard let orderID = orderID else {
             self.updateTitle("Failed: missing orderID.")
             return
         }
 
-        checkoutWithPayPal(orderID: orderID, presentingViewController: presentingViewController)
+        checkoutWithPayPal(orderID: orderID, context: context)
     }
 
-    func checkoutWithPayPal(orderID: String, presentingViewController: UIViewController? = nil) {
-        let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
-        let payPalClient = PayPalClient(config: config, returnURL: DemoSettings.paypalReturnUrl)
-        let payPalRequest = PayPalRequest(orderID: orderID)
+    func checkoutWithPayPal(orderID: String, context: ASWebAuthenticationPresentationContextProviding) {
+        let payPalRequest = PayPalWebRequest(orderID: orderID)
 
         payPalClient.delegate = self
-        payPalClient.start(request: payPalRequest, presentingViewController: presentingViewController)
+        payPalClient.start(request: payPalRequest, context: context)
     }
 
     // MARK: - PayPal Delegate
 
-    func paypal(_ paypalClient: PayPalClient, didFinishWithResult result: PayPalResult) {
+    func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithResult result: PayPalWebResult) {
         self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: CONFIRMED")
         print("✅ Order is successfully approved and ready to be captured/authorized with result: \(result)")
     }
 
-    func paypal(_ paypalClient: PayPalClient, didFinishWithError error: PayPalSDKError) {
+    func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithError error: PayPalSDKError) {
         self.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
         print("❌ There was an error: \(error)")
     }
 
-    func paypalDidCancel(_ paypalClient: PayPalClient) {
+    func paypalDidCancel(_ paypalClient: PayPalWebCheckoutClient) {
         self.updateTitle("\(DemoSettings.intent) cancelled")
         print("❌ Buyer has cancelled the PayPal flow")
     }

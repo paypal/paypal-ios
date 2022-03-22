@@ -65,6 +65,6 @@ class PayPalDemoViewController: FeatureBaseViewController {
     // MARK: - PayPal Module Integration
 
     @objc func paymentButtonTapped() {
-        baseViewModel.payPalButtonTapped(presentingViewController: self)
+        baseViewModel.payPalButtonTapped(context: self)
     }
 }
