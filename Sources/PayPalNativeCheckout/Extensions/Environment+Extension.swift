@@ -11,7 +11,7 @@ private typealias PayPalEnvironment = PaymentsCore.Environment
 #endif
 
 extension PayPalEnvironment {
-    
+
     func toNativeCheckoutSDKEnvironment() -> PayPalCheckout.Environment {
         switch self {
         case .sandbox:

@@ -13,7 +13,7 @@ class BaseViewModel: ObservableObject, PayPalWebDelegate {
 
     /// order ID shared across views
     @Published var orderID: String?
-    
+
     lazy var payPalClient: PayPalWebCheckoutClient = {
         let clientID = DemoSettings.clientID
         let environment = DemoSettings.environment.paypalSDKEnvironment
@@ -21,7 +21,7 @@ class BaseViewModel: ObservableObject, PayPalWebDelegate {
         let payPalClient = PayPalWebCheckoutClient(config: config)
         return payPalClient
     }()
-    
+
     // MARK: - Init
 
     init(view: FeatureBaseViewController? = nil) {
