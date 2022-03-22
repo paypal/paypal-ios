@@ -26,6 +26,7 @@ class BaseViewModel: ObservableObject, PayPalWebDelegate {
 
     init(view: FeatureBaseViewController? = nil) {
         self.view = view
+        payPalClient.delegate = self
     }
 
     // MARK: - Helper Functions
@@ -37,7 +38,9 @@ class BaseViewModel: ObservableObject, PayPalWebDelegate {
     }
 
     func updateOrderID(with orderID: String) {
-        self.orderID = orderID
+        DispatchQueue.main.async {
+            self.orderID = orderID
+        }
     }
 
     func createOrder(amount: String?) async -> String? {
@@ -143,25 +146,23 @@ class BaseViewModel: ObservableObject, PayPalWebDelegate {
 
     func checkoutWithPayPal(orderID: String, context: ASWebAuthenticationPresentationContextProviding) {
         let payPalRequest = PayPalWebRequest(orderID: orderID)
-
-        payPalClient.delegate = self
         payPalClient.start(request: payPalRequest, context: context)
     }
 
     // MARK: - PayPal Delegate
 
     func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithResult result: PayPalWebResult) {
-        self.updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: CONFIRMED")
+        updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: CONFIRMED")
         print("✅ Order is successfully approved and ready to be captured/authorized with result: \(result)")
     }
 
     func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithError error: PayPalSDKError) {
-        self.updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
+        updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
         print("❌ There was an error: \(error)")
     }
 
     func paypalDidCancel(_ paypalClient: PayPalWebCheckoutClient) {
-        self.updateTitle("\(DemoSettings.intent) cancelled")
+        updateTitle("\(DemoSettings.intent) cancelled")
         print("❌ Buyer has cancelled the PayPal flow")
     }
 }
