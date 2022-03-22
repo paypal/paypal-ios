@@ -1,4 +1,3 @@
-import UIKit
 import AuthenticationServices
 
 #if canImport(PaymentsCore)
