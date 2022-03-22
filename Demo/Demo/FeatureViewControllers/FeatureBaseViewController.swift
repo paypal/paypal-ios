@@ -4,11 +4,15 @@ import AuthenticationServices
 
 class FeatureBaseViewController: UIViewController, ASWebAuthenticationPresentationContextProviding {
 
+    // MARK: - View Spacing
+
     enum Constants {
         static let stackViewSpacing: CGFloat = 16
         static let layoutSpacing: CGFloat = 16
         static let textFieldHeight: CGFloat = 40
     }
+
+    // MARK: - UI Components
 
     lazy var createOrderStackView: UIStackView = {
         let view = UIStackView()
@@ -41,6 +45,8 @@ class FeatureBaseViewController: UIViewController, ASWebAuthenticationPresentati
 
     let baseViewModel: BaseViewModel
 
+    // MARK: - Initialization
+
     init(baseViewModel: BaseViewModel) {
         self.baseViewModel = baseViewModel
         super.init(nibName: nil, bundle: nil)
@@ -50,6 +56,8 @@ class FeatureBaseViewController: UIViewController, ASWebAuthenticationPresentati
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - View Lifecycle & UI Setup
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +89,9 @@ class FeatureBaseViewController: UIViewController, ASWebAuthenticationPresentati
             bottomStatusLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.layoutSpacing)
         ])
     }
-    
+
+    // MARK: - ASWebAuthenticationPresentationContextProviding conformance
+
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         UIApplication
             .shared
@@ -90,7 +100,9 @@ class FeatureBaseViewController: UIViewController, ASWebAuthenticationPresentati
             .first { $0.isKeyWindow }
         ?? ASPresentationAnchor()
     }
-    
+
+    // MARK: - Create Order implementation
+
     @objc func createOrderTapped() {
         Task {
             await baseViewModel.createOrder(amount: amountTextField.text)
