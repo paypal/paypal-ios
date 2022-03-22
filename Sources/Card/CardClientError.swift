@@ -8,10 +8,10 @@ enum CardClientError {
     static let domain = "CardClientErrorDomain"
 
     enum Code: Int {
-        /// 0. An unknown error occured.
+        /// 0. An unknown error occurred.
         case unknown
 
-        /// 1. An error occured encoding an HTTP request body.
+        /// 1. An error occurred encoding an HTTP request body.
         case encodingError
     }
 
