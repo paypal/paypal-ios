@@ -62,6 +62,8 @@
 		BCE8A7F327EA531C00AC301B /* MockPayPalWebDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE8A7F227EA531C00AC301B /* MockPayPalWebDelegate.swift */; };
 		BCE8A7F527EA544000AC301B /* MockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE8A7F427EA544000AC301B /* MockViewController.swift */; };
 		BCE8A7F727EA54A000AC301B /* MockWebAuthenticationSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE8A7F627EA54A000AC301B /* MockWebAuthenticationSession.swift */; };
+		BCE8A7F927EA555800AC301B /* PayPalWebCheckoutClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE8A7F827EA555800AC301B /* PayPalWebCheckoutClient_Tests.swift */; };
+		BCE8A7FB27EA5B1D00AC301B /* Environment+PayPalWebCheckout_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE8A7FA27EA5B1D00AC301B /* Environment+PayPalWebCheckout_Tests.swift */; };
 		BCF59E5D27E91ECC00CDFD47 /* PayPalApproval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25238327344F330099E4EB /* PayPalApproval.swift */; };
 		BCF59E5E27E91ECC00CDFD47 /* PayPalErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25238227344F330099E4EB /* PayPalErrorType.swift */; };
 		BCF59E5F27E91ECC00CDFD47 /* CheckoutProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25238127344F330099E4EB /* CheckoutProtocol.swift */; };
@@ -193,6 +195,8 @@
 		BCE8A7F227EA531C00AC301B /* MockPayPalWebDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPayPalWebDelegate.swift; sourceTree = "<group>"; };
 		BCE8A7F427EA544000AC301B /* MockViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockViewController.swift; sourceTree = "<group>"; };
 		BCE8A7F627EA54A000AC301B /* MockWebAuthenticationSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWebAuthenticationSession.swift; sourceTree = "<group>"; };
+		BCE8A7F827EA555800AC301B /* PayPalWebCheckoutClient_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebCheckoutClient_Tests.swift; sourceTree = "<group>"; };
+		BCE8A7FA27EA5B1D00AC301B /* Environment+PayPalWebCheckout_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment+PayPalWebCheckout_Tests.swift"; sourceTree = "<group>"; };
 		BCF735D227D1583200A52E03 /* PayPalDataCollector.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PayPalDataCollector.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCF735E127D1583400A52E03 /* PayPalDataCollectorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PayPalDataCollectorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCF735E227D158B400A52E03 /* PPRiskMagnes.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = PPRiskMagnes.xcframework; path = Frameworks/XCFrameworks/PPRiskMagnes.xcframework; sourceTree = "<group>"; };
@@ -487,7 +491,9 @@
 		BCE8A7F027EA52BF00AC301B /* PayPalWebCheckout_Tests */ = {
 			isa = PBXGroup;
 			children = (
+				BCE8A7FA27EA5B1D00AC301B /* Environment+PayPalWebCheckout_Tests.swift */,
 				BCE8A7F127EA52EB00AC301B /* Mocks */,
+				BCE8A7F827EA555800AC301B /* PayPalWebCheckoutClient_Tests.swift */,
 			);
 			path = PayPalWebCheckout_Tests;
 			sourceTree = "<group>";
@@ -1163,6 +1169,8 @@
 			files = (
 				BCE8A7F727EA54A000AC301B /* MockWebAuthenticationSession.swift in Sources */,
 				BCE8A7F527EA544000AC301B /* MockViewController.swift in Sources */,
+				BCE8A7FB27EA5B1D00AC301B /* Environment+PayPalWebCheckout_Tests.swift in Sources */,
+				BCE8A7F927EA555800AC301B /* PayPalWebCheckoutClient_Tests.swift in Sources */,
 				BCE8A7F327EA531C00AC301B /* MockPayPalWebDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2303,6 +2311,7 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
+				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2334,6 +2343,7 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
+				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2685,8 +2695,9 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
+				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = PayPal.xcodeproj/PayPalTests_Info.plist;
+				INFOPLIST_FILE = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2713,8 +2724,9 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
+				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = PayPal.xcodeproj/PayPalTests_Info.plist;
+				INFOPLIST_FILE = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
