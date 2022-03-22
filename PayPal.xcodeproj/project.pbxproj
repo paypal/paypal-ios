@@ -61,6 +61,7 @@
 		BCE8A7EC27EA20E100AC301B /* Environment+PayPalWebCheckout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE8A7EB27EA20E100AC301B /* Environment+PayPalWebCheckout.swift */; };
 		BCE8A7F327EA531C00AC301B /* MockPayPalWebDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE8A7F227EA531C00AC301B /* MockPayPalWebDelegate.swift */; };
 		BCE8A7F527EA544000AC301B /* MockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE8A7F427EA544000AC301B /* MockViewController.swift */; };
+		BCE8A7F727EA54A000AC301B /* MockWebAuthenticationSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE8A7F627EA54A000AC301B /* MockWebAuthenticationSession.swift */; };
 		BCF59E5D27E91ECC00CDFD47 /* PayPalApproval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25238327344F330099E4EB /* PayPalApproval.swift */; };
 		BCF59E5E27E91ECC00CDFD47 /* PayPalErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25238227344F330099E4EB /* PayPalErrorType.swift */; };
 		BCF59E5F27E91ECC00CDFD47 /* CheckoutProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25238127344F330099E4EB /* CheckoutProtocol.swift */; };
@@ -191,6 +192,7 @@
 		BCE8A7EB27EA20E100AC301B /* Environment+PayPalWebCheckout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment+PayPalWebCheckout.swift"; sourceTree = "<group>"; };
 		BCE8A7F227EA531C00AC301B /* MockPayPalWebDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPayPalWebDelegate.swift; sourceTree = "<group>"; };
 		BCE8A7F427EA544000AC301B /* MockViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockViewController.swift; sourceTree = "<group>"; };
+		BCE8A7F627EA54A000AC301B /* MockWebAuthenticationSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWebAuthenticationSession.swift; sourceTree = "<group>"; };
 		BCF735D227D1583200A52E03 /* PayPalDataCollector.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PayPalDataCollector.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCF735E127D1583400A52E03 /* PayPalDataCollectorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PayPalDataCollectorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCF735E227D158B400A52E03 /* PPRiskMagnes.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = PPRiskMagnes.xcframework; path = Frameworks/XCFrameworks/PPRiskMagnes.xcframework; sourceTree = "<group>"; };
@@ -495,6 +497,7 @@
 			children = (
 				BCE8A7F227EA531C00AC301B /* MockPayPalWebDelegate.swift */,
 				BCE8A7F427EA544000AC301B /* MockViewController.swift */,
+				BCE8A7F627EA54A000AC301B /* MockWebAuthenticationSession.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -1158,6 +1161,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				BCE8A7F727EA54A000AC301B /* MockWebAuthenticationSession.swift in Sources */,
 				BCE8A7F527EA544000AC301B /* MockViewController.swift in Sources */,
 				BCE8A7F327EA531C00AC301B /* MockPayPalWebDelegate.swift in Sources */,
 			);
