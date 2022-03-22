@@ -3,7 +3,7 @@ import SwiftUI
 @available(iOS 13, *)
 struct FeatureBaseViewControllerRepresentable: UIViewControllerRepresentable {
 
-    var baseViewModel: BaseViewModel
+    let baseViewModel: BaseViewModel
 
     func makeUIViewController(context: Context) -> UIViewController {
         FeatureBaseViewController(baseViewModel: baseViewModel)
