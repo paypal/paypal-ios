@@ -20,8 +20,8 @@ Follow these steps to add PayPal payments.
 You will need to set up authorization to use the PayPal Payments SDK. 
 Follow the steps in [Get Started](https://developer.paypal.com/api/rest/#link-getstarted) to create a client ID. 
 
-You will need a server integration to create an order and capture the funds using [PayPal Orders v2 API](https://developer.paypal.com/docs/api/orders/v2). 
-For initial setup, the `curl` commands below can be used in place of a server SDK.
+You will need a server integration to create an order to capture funds using the [PayPal Orders v2 API](https://developer.paypal.com/docs/api/orders/v2). 
+For initial setup, the `curl` commands below can be used as a reference for making server-side RESTful API calls.
 
 ## Add PayPal Payments
 
@@ -29,9 +29,9 @@ For initial setup, the `curl` commands below can be used in place of a server SD
 
 #### Swift Package Manager
 
-In Xcode, add the [package dependency](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app) and enter https://github.com/paypal/iOS-SDK as the repository URL. Tick the checkboxes for the specific PayPal libraries you wish to include.
+In Xcode, follow the guide to [add package dependencies to your app](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app) and enter https://github.com/paypal/iOS-SDK as the repository URL. Select the checkboxes for each specific PayPal library you wish to include in your project.
 
-In your app's source code files, use the following import syntax to include PayPal's libraries:
+In your app's source files, use the following import syntax to include PayPal's libraries:
 
 ```swift
 import PayPal
@@ -45,7 +45,7 @@ Include the PayPal pod in your `Podfile`.
 pod 'PayPal'
 ```
 
-In your app's source code files, use the following import syntax to include PayPal's libraries:
+In your app's source files, use the following import syntax to include PayPal's libraries:
 
 ```swift
 import PayPal
@@ -53,7 +53,7 @@ import PayPal
 
 ### 2. Configure your application to present an authentication session
 
-The PayPal payment flow utilizes an authentication session. Your `ViewController` must conform to the `ASWebAuthenticationPresentationContextProviding` protocol to enable this.
+The PayPal payment flow uses an [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession). Make sure your `ViewController` conforms to the `ASWebAuthenticationPresentationContextProviding` protocol.
 
 ```swift
 class MyViewController: ASWebAuthenticationPresentationContextProviding {
@@ -70,37 +70,23 @@ class MyViewController: ASWebAuthenticationPresentationContextProviding {
 }
 ```
 
-### 3. Create a PayPal button 
+### 3. Initiate the Payments SDK
 
-#### UIKit
-Add a `PayPalButton` to your View:
-
-```swift
-let payPalButton = PayPalButton()
-```
-
-#### SwiftUI
-```swift
-PayPalButton { }
-```
-
-### 4. Initiate the Payments SDK
-
-Create a `CoreConfig` using your client ID from the PayPal Developer Portal:
+Create a `CoreConfig` using your Client ID from the PayPal Developer Portal:
 
 ```swift
 let config = CoreConfig(clientID: "<CLIENT_ID>", environment: .sandbox)
 ```
 
-Create a `PayPalClient` to approve an order with a PayPal payment method:
+Create a `PayPalWebCheckoutClient` to approve an order with a PayPal payment method:
 
 ```swift
-let payPalClient = PayPalClient(config: config)
+let payPalClient = PayPalWebCheckoutClient(config: config)
 ```
 
-### 5. Create an order
+### 4. Create an order
 
-When a user enters the payment flow, call `v2/checkout/orders` to create an order and obtain an order ID:
+When a user enters the payment flow, call `v2/checkout/orders` to create an order and obtain an Order ID:
 
 ```bash
 curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/orders/' \
@@ -119,47 +105,28 @@ curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/order
 }'
 ```
 
-The `id` field of the response contains the order ID to pass to your client.
+The `id` field of the response contains the Order ID to pass to your client.
 
-### 6. Create a request object for launching the PayPal flow
+### 5. Create a request object for launching the PayPal flow
 
-Configure your `PayPalRequest` and include the order ID generated in [step 5](#5-create-an-order):
-
-```swift
-let payPalRequest = PayPalRequest(orderID: "<ORDER_ID>")
-```
-
-### 7. Approve the order through the Payments SDK
-
-When a user taps the PayPal button created above, approve the order using your `PayPalClient`.
-
-#### UIKit
-Add a target to your PayPal button to launch the PayPal payment flow:
+Configure your `PayPalWebCheckoutRequest` and include the order ID generated in [step 4](#4-create-an-order):
 
 ```swift
-payPalButton.addTarget(self, action: #selector(paymentButtonTapped), for: .touchUpInside)
-
-@objc func paymentButtonTapped() {
-    checkoutWithPayPal(request: payPalRequest)
-}
+let payPalRequest = PayPalWebCheckoutRequest(orderID: "<ORDER_ID>")
 ```
 
-#### SwiftUI
-Add an action to the PayPal button to launch the PayPal button flow:
-```swift
-PayPalButton {
-    checkoutWithPayPal(request: payPalRequest)
-}
-```
+### 6. Approve the order through the Payments SDK
 
-Call `PayPalClient.start` to approve the order, and then handle results:
+When a user initiates the PayPal payment flow through your UI, approve the order using your `PayPalWebCheckoutClient`.
+
+Call `payPalClient.start()` to approve the order, and then handle the result:
 
 ```swift
 func checkoutWithPayPal(request: PayPalRequest) {
     payPalClient.start(request: payPalRequest, context: self) { state in
         switch state {
         case .success(let result):
-            // order was successfully approved and is ready to be captured/authorized (see step 8)
+            // order was successfully approved and is ready to be captured/authorized (see step 7)
         case .failure(let error):
             // handle the error by accessing `error.localizedDescription`
         case .cancellation:
@@ -169,7 +136,7 @@ func checkoutWithPayPal(request: PayPalRequest) {
 }
 ```
 
-### 8. Capture/authorize the order
+### 7. Capture/authorize the order
 
 If you receive a successful result in the client-side flow, you can then capture or authorize the order. 
 
@@ -191,11 +158,11 @@ curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/order
 --data-raw ''
 ```
 
-**Note**: Be sure that the endpoint you are calling aligns with the intent set on the order created in [step 4](#4-initiate-the-payments-sdk).
+**Note**: Be sure that the endpoint you are calling aligns with the intent set on the order created in [step 3](#3-initiate-the-payments-sdk).
 
 ## Testing your integration
 
-Follow the [Create sandbox accounts](https://developer.paypal.com/api/rest/#link-createsandboxaccounts) instructions to create PayPal test accounts.
+Follow the [Create sandbox account](https://developer.paypal.com/api/rest/#link-createsandboxaccounts) instructions to create a PayPal test account.
 When prompted to login with PayPal during the payment flow on your mobile app, you can log in with the test account credentials created above to complete the Sandbox payment flow. 
 
 ## Go live
