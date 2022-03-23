@@ -544,7 +544,8 @@
 				BE4F784727EB629100FF4C0E /* PayPalWebResult.swift */,
 				BE4F784827EB629100FF4C0E /* WebAuthenticationSession.swift */,
 			);
-			path = PayPalWebCheckout;
+			name = PayPalWebCheckout;
+			path = Sources/PayPalWebCheckout;
 			sourceTree = "<group>";
 		};
 		BE7116112723157900165069 /* Models */ = {
