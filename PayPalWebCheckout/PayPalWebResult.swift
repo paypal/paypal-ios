@@ -1,4 +1,3 @@
-
 import Foundation
 
 /// The result of a PayPal payment flow.

@@ -5,7 +5,7 @@ import PaymentsCore
 #endif
 
 extension Environment {
-    
+
     // swiftlint:disable force_unwrapping
     var payPalBaseURL: URL {
         switch self {
