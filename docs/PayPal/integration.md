@@ -172,7 +172,7 @@ curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/order
 ## Testing your integration
 
 Follow the [Create sandbox account](https://developer.paypal.com/api/rest/#link-createsandboxaccounts) instructions to create a PayPal test account.
-When prompted to login with PayPal during the payment flow on your mobile app, you can log in with the test account credentials created above to complete the Sandbox payment flow. 
+When prompted to login with PayPal during the payment flow on your mobile app, you can log in with Sandbox test account credentials to complete the Sandbox payment flow.
 
 ## Go live
 
