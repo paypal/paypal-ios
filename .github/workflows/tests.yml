@@ -3,7 +3,7 @@ on: [pull_request, workflow_dispatch]
 jobs:
   unit_test_job:
     name: Unit
-    runs-on: macOS-11
+    runs-on: macOS-12
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -16,7 +16,7 @@ jobs:
 
   code_coverage:
     name: Unit Test Coverage
-    runs-on: macOS-11
+    runs-on: macOS-12
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
