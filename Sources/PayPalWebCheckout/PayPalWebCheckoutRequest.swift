@@ -1,7 +1,7 @@
 import Foundation
 
 /// Used to configure options for approving a PayPal order
-public struct PayPalWebRequest {
+public struct PayPalWebCheckoutRequest {
 
     /// The order ID associated with the request.
     public let orderID: String

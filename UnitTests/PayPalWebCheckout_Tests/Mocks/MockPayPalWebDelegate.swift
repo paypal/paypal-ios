@@ -1,13 +1,13 @@
 import PaymentsCore
 import PayPalWebCheckout
 
-class MockPayPalWebDelegate: PayPalWebDelegate {
+class MockPayPalWebDelegate: PayPalWebCheckoutDelegate {
 
-    var capturedResult: PayPalWebResult?
+    var capturedResult: PayPalWebCheckoutResult?
     var capturedError: CoreSDKError?
     var paypalDidCancel = false
 
-    func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithResult result: PayPalWebResult) {
+    func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithResult result: PayPalWebCheckoutResult) {
         capturedResult = result
     }
 

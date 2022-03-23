@@ -6,7 +6,7 @@ import AuthenticationServices
 
 /// This class is used to share the orderID across shared views, update the text of `bottomStatusLabel` in our `FeatureBaseViewController`
 /// as well as share the logic of `processOrder` across our duplicate (SwiftUI and UIKit) card views.
-class BaseViewModel: ObservableObject, PayPalWebDelegate {
+class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
     /// Weak reference to associated view
     weak var view: FeatureBaseViewController?
@@ -145,13 +145,13 @@ class BaseViewModel: ObservableObject, PayPalWebDelegate {
     }
 
     func checkoutWithPayPal(orderID: String, context: ASWebAuthenticationPresentationContextProviding) {
-        let payPalRequest = PayPalWebRequest(orderID: orderID)
+        let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID)
         payPalClient.start(request: payPalRequest, context: context)
     }
 
     // MARK: - PayPal Delegate
 
-    func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithResult result: PayPalWebResult) {
+    func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithResult result: PayPalWebCheckoutResult) {
         updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: CONFIRMED")
         print("✅ Order is successfully approved and ready to be captured/authorized with result: \(result)")
     }

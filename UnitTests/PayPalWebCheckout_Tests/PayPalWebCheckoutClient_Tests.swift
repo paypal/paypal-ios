@@ -11,7 +11,7 @@ class PayPalClient_Tests: XCTestCase {
     lazy var paypalClient = PayPalWebCheckoutClient(config: config)
 
     func testStart_whenNativeSDKOnCancelCalled_returnsCancellationError() {
-        let request = PayPalWebRequest(orderID: "1234")
+        let request = PayPalWebCheckoutRequest(orderID: "1234")
         let delegate = MockPayPalWebDelegate()
         let mockWebAuthenticationSession = MockWebAuthenticationSession()
 
@@ -30,7 +30,7 @@ class PayPalClient_Tests: XCTestCase {
     }
 
     func testStart_whenWebAuthenticationSessions_returnsWebSessionError() {
-        let request = PayPalWebRequest(orderID: "1234")
+        let request = PayPalWebCheckoutRequest(orderID: "1234")
         let mockWebAuthenticationSession = MockWebAuthenticationSession()
         let delegate = MockPayPalWebDelegate()
 
@@ -51,7 +51,7 @@ class PayPalClient_Tests: XCTestCase {
     }
 
     func testStart_whenResultURLMissingParameters_returnsMalformedResultError() {
-        let request = PayPalWebRequest(orderID: "1234")
+        let request = PayPalWebCheckoutRequest(orderID: "1234")
         let mockWebAuthenticationSession = MockWebAuthenticationSession()
         let delegate = MockPayPalWebDelegate()
 
@@ -67,7 +67,7 @@ class PayPalClient_Tests: XCTestCase {
     }
 
     func testStart_whenWebResultIsSuccessful_returnsSuccessfulResult() {
-        let request = PayPalWebRequest(orderID: "1234")
+        let request = PayPalWebCheckoutRequest(orderID: "1234")
         let mockWebAuthenticationSession = MockWebAuthenticationSession()
         let delegate = MockPayPalWebDelegate()
 

@@ -6,7 +6,7 @@ import PaymentsCore
 
 public class PayPalWebCheckoutClient {
 
-    public weak var delegate: PayPalWebDelegate?
+    public weak var delegate: PayPalWebCheckoutDelegate?
     let config: CoreConfig
 
     /// Initialize a PayPalClient to process PayPal transaction
@@ -22,7 +22,7 @@ public class PayPalWebCheckoutClient {
     ///   - context: the ASWebAuthenticationPresentationContextProviding protocol conforming ViewController
     ///   - completion: Completion handler for start, which contains data of the order if success, or an error if failure
     public func start(
-        request: PayPalWebRequest,
+        request: PayPalWebCheckoutRequest,
         context: ASWebAuthenticationPresentationContextProviding
     ) {
         start(request: request, context: context, webAuthenticationSession: WebAuthenticationSession())
@@ -30,7 +30,7 @@ public class PayPalWebCheckoutClient {
 
     /// Internal function for testing the start function
     func start(
-        request: PayPalWebRequest,
+        request: PayPalWebCheckoutRequest,
         context: ASWebAuthenticationPresentationContextProviding,
         webAuthenticationSession: WebAuthenticationSession
     ) {
@@ -63,7 +63,7 @@ public class PayPalWebCheckoutClient {
                     return
                 }
 
-                let result = PayPalWebResult(orderID: orderID, payerID: payerID)
+                let result = PayPalWebCheckoutResult(orderID: orderID, payerID: payerID)
                 self.notifySuccess(for: result)
             }
         }
@@ -87,8 +87,8 @@ public class PayPalWebCheckoutClient {
         return url.queryItems?.first { $0.name == param }?.value
     }
 
-    private func notifySuccess(for result: PayPalWebResult) {
-        let payPalResult = PayPalWebResult(orderID: result.orderID, payerID: result.payerID)
+    private func notifySuccess(for result: PayPalWebCheckoutResult) {
+        let payPalResult = PayPalWebCheckoutResult(orderID: result.orderID, payerID: result.payerID)
         delegate?.paypal(self, didFinishWithResult: payPalResult)
     }
 
