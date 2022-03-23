@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "PayPalWebCheckout" do |s|
-    s.source_files  = "Sources/PayPalWebCheckout/**/*.swift"
+    s.source_files  = "Sources/PayPalWebCheckout/*.swift"
     s.dependency "PayPal/PaymentsCore"
   end
 
