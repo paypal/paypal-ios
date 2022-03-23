@@ -1,14 +1,17 @@
 {
-  "pins" : [
-    {
-      "identity" : "ios-sdk",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/paypal/iOS-SDK.git",
-      "state" : {
-        "branch" : "paypal_web_integration",
-        "revision" : "3f275391612ec99ee2c5ebdbb02e41f46e56c8c5"
+  "object": {
+    "pins": [
+      {
+        "package": "PayPal",
+        "repositoryURL": "https://github.com/paypal/iOS-SDK.git",
+        "state": {
+          "branch": "paypal_web_integration",
+          "revision": "3f275391612ec99ee2c5ebdbb02e41f46e56c8c5",
+          "version": null
+        }
       }
-    }
-  ],
-  "version" : 2
+    ]
+  },
+  "version": 1
 }
+
