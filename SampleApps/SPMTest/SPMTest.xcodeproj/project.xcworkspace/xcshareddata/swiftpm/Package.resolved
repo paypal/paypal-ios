@@ -6,16 +6,7 @@
       "location" : "https://github.com/paypal/iOS-SDK.git",
       "state" : {
         "branch" : "paypal_web_integration",
-        "revision" : "250c164b89f0b1e02c11bc75cd09ca4139eda216"
-      }
-    },
-    {
-      "identity" : "paypalcheckout-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/paypal/paypalcheckout-ios",
-      "state" : {
-        "revision" : "0348e8ef5109beaeebb9d1b89eeaa070b77c5c6d",
-        "version" : "0.77.0"
+        "revision" : "3f275391612ec99ee2c5ebdbb02e41f46e56c8c5"
       }
     }
   ],

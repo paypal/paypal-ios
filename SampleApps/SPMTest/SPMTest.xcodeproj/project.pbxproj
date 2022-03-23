@@ -12,7 +12,6 @@
 		80C6FD6B26BD8B0000B73E76 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80C6FD6A26BD8B0000B73E76 /* Assets.xcassets */; };
 		80C6FD6E26BD8B0000B73E76 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80C6FD6D26BD8B0000B73E76 /* Preview Assets.xcassets */; };
 		BC8A981127EB6BC900F6A4F2 /* Card in Frameworks */ = {isa = PBXBuildFile; productRef = BC8A981027EB6BC900F6A4F2 /* Card */; };
-		BC8A981327EB6BC900F6A4F2 /* PayPalNativeCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = BC8A981227EB6BC900F6A4F2 /* PayPalNativeCheckout */; };
 		BC8A981527EB6BC900F6A4F2 /* PayPalWebCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = BC8A981427EB6BC900F6A4F2 /* PayPalWebCheckout */; };
 /* End PBXBuildFile section */
 
@@ -29,7 +28,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC8A981327EB6BC900F6A4F2 /* PayPalNativeCheckout in Frameworks */,
 				BC8A981527EB6BC900F6A4F2 /* PayPalWebCheckout in Frameworks */,
 				BC8A981127EB6BC900F6A4F2 /* Card in Frameworks */,
 			);
@@ -99,7 +97,6 @@
 			name = SPMTest;
 			packageProductDependencies = (
 				BC8A981027EB6BC900F6A4F2 /* Card */,
-				BC8A981227EB6BC900F6A4F2 /* PayPalNativeCheckout */,
 				BC8A981427EB6BC900F6A4F2 /* PayPalWebCheckout */,
 			);
 			productName = SPMTest;
@@ -382,11 +379,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BC8A980427EB6AB700F6A4F2 /* XCRemoteSwiftPackageReference "iOS-SDK" */;
 			productName = Card;
-		};
-		BC8A981227EB6BC900F6A4F2 /* PayPalNativeCheckout */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BC8A980427EB6AB700F6A4F2 /* XCRemoteSwiftPackageReference "iOS-SDK" */;
-			productName = PayPalNativeCheckout;
 		};
 		BC8A981427EB6BC900F6A4F2 /* PayPalWebCheckout */ = {
 			isa = XCSwiftPackageProductDependency;
