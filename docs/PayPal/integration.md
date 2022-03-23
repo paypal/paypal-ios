@@ -58,7 +58,7 @@ The PayPal payment flow uses an [ASWebAuthenticationSession](https://developer.a
 ```swift
 class MyViewController: ASWebAuthenticationPresentationContextProviding {
 
-    // ASWebAuthenticationPresentationContextProviding conformance
+    // MARK: - ASWebAuthenticationPresentationContextProviding
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         UIApplication
             .shared
@@ -119,19 +119,28 @@ let payPalRequest = PayPalWebCheckoutRequest(orderID: "<ORDER_ID>")
 
 When a user initiates the PayPal payment flow through your UI, approve the order using your `PayPalWebCheckoutClient`.
 
-Call `payPalClient.start()` to approve the order, and then handle the result:
+Call `payPalClient.start()` to approve the order. Implement `PayPalWebCheckoutDelegate` in your `ViewController` to receive result notifications:
 
 ```swift
-func checkoutWithPayPal(request: PayPalRequest) {
-    payPalClient.start(request: payPalRequest, context: self) { state in
-        switch state {
-        case .success(let result):
-            // order was successfully approved and is ready to be captured/authorized (see step 7)
-        case .failure(let error):
-            // handle the error by accessing `error.localizedDescription`
-        case .cancellation:
-            // the user canceled
-        }
+class MyViewController: ASWebAuthenticationPresentationContextProviding, PayPalWebCheckoutDelegate {
+    ...
+
+    func checkoutWithPayPal() {
+        payPalClient.delegate = self
+        payPalClient.start(request: payPalRequest, context: self)
+    }
+
+    // MARK: - PayPalWebCheckoutDelegate
+    func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithResult result: PayPalWebCheckoutResult) {
+        // order was successfully approved and is ready to be captured/authorized (see step 7)
+    }
+
+    func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithError error: CoreSDKError) {
+        // handle the error by accessing `error.localizedDescription`
+    }
+
+    func paypalDidCancel(_ paypalClient: PayPalWebCheckoutClient) {
+        // the user canceled
     }
 }
 ```
