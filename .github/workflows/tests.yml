@@ -16,7 +16,7 @@ jobs:
 
   code_coverage:
     name: Unit Test Coverage
-    runs-on: macOS-12
+    runs-on: macOS-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2

@@ -13,7 +13,7 @@ jobs:
         run: pod lib lint
   spm:
     name: Swift Package Manager
-    runs-on: macOS-12
+    runs-on: macOS-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
