@@ -6,4 +6,3 @@
 - UnitTests/TestShared/MockURLSession.swift
 # Exclude UrlSession class
 - Sources/PaymentsCore/Networking/URLSession+URLSessionProtocol.swift
-
