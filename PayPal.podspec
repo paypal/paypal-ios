@@ -23,6 +23,11 @@ Pod::Spec.new do |s|
   #  s.dependency "PayPalCheckout", "0.77.0"
   #end
 
+  s.subspec "PayPalUI" do |s|
+    s.source_files  = "Sources/PayPalUI/*.swift"
+    s.dependency "PayPal/PaymentsCore"
+  end
+
   s.subspec "PayPalWebCheckout" do |s|
     s.source_files  = "Sources/PayPalWebCheckout/*.swift"
     s.dependency "PayPal/PaymentsCore"
