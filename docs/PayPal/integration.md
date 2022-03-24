@@ -131,15 +131,15 @@ class MyViewController: ASWebAuthenticationPresentationContextProviding, PayPalW
     }
 
     // MARK: - PayPalWebCheckoutDelegate
-    func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithResult result: PayPalWebCheckoutResult) {
+    func payPal(_ payPalClient: PayPalWebCheckoutClient, didFinishWithResult result: PayPalWebCheckoutResult) {
         // order was successfully approved and is ready to be captured/authorized (see step 7)
     }
 
-    func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithError error: CoreSDKError) {
+    func payPal(_ payPalClient: PayPalWebCheckoutClient, didFinishWithError error: CoreSDKError) {
         // handle the error by accessing `error.localizedDescription`
     }
 
-    func paypalDidCancel(_ paypalClient: PayPalWebCheckoutClient) {
+    func payPalDidCancel(_ payPalClient: PayPalWebCheckoutClient) {
         // the user canceled
     }
 }
