@@ -558,7 +558,8 @@
 				BE00B79B2742F96200758C63 /* PayPalButton.swift */,
 				BE00B7A82743F6AF00758C63 /* PayPalCreditButton.swift */,
 			);
-			path = PayPalUI;
+			name = PayPalUI;
+			path = Sources/PayPalUI;
 			sourceTree = "<group>";
 		};
 		BCFAC72227ED05D900C3AF00 /* PayPalUI_Tests */ = {
