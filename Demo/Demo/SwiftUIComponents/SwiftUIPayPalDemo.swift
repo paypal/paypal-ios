@@ -1,5 +1,4 @@
 import SwiftUI
-import PayPal
 
 @available(iOS 13.0.0, *)
 struct SwiftUIPayPalDemo: View {
@@ -10,13 +9,13 @@ struct SwiftUIPayPalDemo: View {
         ZStack {
             FeatureBaseViewControllerRepresentable(baseViewModel: baseViewModel)
             VStack(spacing: 50) {
-                PayPalButton {
-                    baseViewModel.payPalButtonTapped()
+                Button("Pay with PayPal") {
+                    baseViewModel.payPalButtonTapped(context: FeatureBaseViewController(baseViewModel: BaseViewModel()))
                 }
                 .cornerRadius(4)
                 .frame(maxWidth: .infinity, maxHeight: 40)
-                PayPalCreditButton {
-                    baseViewModel.payPalButtonTapped()
+                Button("Pay with PayPal Credit") {
+                    baseViewModel.payPalButtonTapped(context: FeatureBaseViewController(baseViewModel: BaseViewModel()))
                 }
                 .cornerRadius(4)
                 .frame(maxWidth: .infinity, maxHeight: 40)

@@ -70,7 +70,7 @@ class APIClient_Tests: XCTestCase {
         do {
             _ = try await apiClient.fetch(endpoint: noURLRequest)
             XCTFail("This should have failed.")
-        } catch let error as PayPalSDKError {
+        } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, APIClientError.domain)
             XCTAssertEqual(error.code, APIClientError.Code.invalidURLRequest.rawValue)
             XCTAssertEqual(error.localizedDescription, "An error occured constructing an HTTP request. Contact developer.paypal.com/support.")
@@ -103,7 +103,7 @@ class APIClient_Tests: XCTestCase {
         do {
             _ = try await apiClient.fetch(endpoint: fakeRequest)
             XCTFail()
-        } catch let error as PayPalSDKError {
+        } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, APIClientError.domain)
             XCTAssertEqual(error.code, APIClientError.Code.dataParsingError.rawValue)
             XCTAssertEqual(error.localizedDescription, "An error occured parsing HTTP response data. Contact developer.paypal.com/support.")
@@ -133,7 +133,7 @@ class APIClient_Tests: XCTestCase {
         do {
             _ = try await apiClient.fetch(endpoint: fakeRequest)
             XCTFail()
-        } catch let error as PayPalSDKError {
+        } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, APIClientError.domain)
             XCTAssertEqual(error.code, APIClientError.Code.serverResponseError.rawValue)
             XCTAssertEqual(error.localizedDescription, "ERROR_NAME: The requested action could not be performed.")
@@ -156,7 +156,7 @@ class APIClient_Tests: XCTestCase {
         do {
             _ = try await apiClient.fetch(endpoint: fakeRequest)
             XCTFail()
-        } catch let error as PayPalSDKError {
+        } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, APIClientError.domain)
             XCTAssertEqual(error.code, APIClientError.Code.unknown.rawValue)
             XCTAssertEqual(error.localizedDescription, "An unknown error occured. Contact developer.paypal.com/support.")

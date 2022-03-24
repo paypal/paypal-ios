@@ -1,6 +1,5 @@
 import UIKit
 import Card
-import PayPal
 import InAppSettingsKit
 import SwiftUI
 

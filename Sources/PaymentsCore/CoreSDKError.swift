@@ -1,6 +1,7 @@
 import Foundation
 
-public struct PayPalSDKError: Error, LocalizedError {
+/// Error structure that SDK errors conform to
+public struct CoreSDKError: Error, LocalizedError {
 
     /// The error code.
     public let code: Int?

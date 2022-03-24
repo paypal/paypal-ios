@@ -3,13 +3,13 @@ import Foundation
 
 class MockMagnesSDKResult: MagnesSDKResult {
 
-    var paypalClientMetaDataId: String
+    var payPalClientMetaDataId: String
 
-    init(paypalClientMetaDataId: String = "") {
-        self.paypalClientMetaDataId = paypalClientMetaDataId
+    init(payPalClientMetaDataId: String = "") {
+        self.payPalClientMetaDataId = payPalClientMetaDataId
     }
 
     func getPayPalClientMetaDataId() -> String {
-        return paypalClientMetaDataId
+        return payPalClientMetaDataId
     }
 }

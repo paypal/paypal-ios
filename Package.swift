@@ -10,16 +10,25 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "PaymentsCore",
-            targets: ["PaymentsCore"]),
+            targets: ["PaymentsCore"]
+        ),
+        // TODO: re-enable when native checkout is ready to be released
+        //.library(
+        //    name: "PayPalNativeCheckout",
+        //    targets: ["PayPalNativeCheckout"]
+        //),
         .library(
-            name: "PayPal",
-            targets: ["PayPal"]),
+            name: "PayPalWebCheckout",
+            targets: ["PayPalWebCheckout"]
+        ),
         .library(
             name: "Card",
-            targets: ["Card"]),
+            targets: ["Card"]
+        ),
         .library(
             name: "PayPalDataCollector",
-            targets: ["PayPalDataCollector", "PPRiskMagnes"])
+            targets: ["PayPalDataCollector", "PPRiskMagnes"]
+        )
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -30,18 +39,28 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "PaymentsCore",
-            dependencies: []),
+            dependencies: []
+        ),
         .target(
             name: "Card",
-            dependencies: ["PaymentsCore"]),
+            dependencies: ["PaymentsCore"]
+        ),
+        // TODO: re-enable when native checkout is ready to be released
+        //.target(
+        //    name: "PayPalNativeCheckout",
+        //    dependencies: ["PaymentsCore", "PayPalCheckout"]
+        //),
         .target(
-            name: "PayPal",
-            dependencies: ["PaymentsCore", "PayPalCheckout"]),
+            name: "PayPalWebCheckout",
+            dependencies: ["PaymentsCore"]
+        ),
         .target(
             name: "PayPalDataCollector",
-            dependencies: ["PaymentsCore", "PPRiskMagnes"]),
+            dependencies: ["PaymentsCore", "PPRiskMagnes"]
+        ),
         .binaryTarget(
             name: "PPRiskMagnes",
-            path: "Frameworks/XCFrameworks/PPRiskMagnes.xcframework")
+            path: "Frameworks/XCFrameworks/PPRiskMagnes.xcframework"
+        )
     ]
 )

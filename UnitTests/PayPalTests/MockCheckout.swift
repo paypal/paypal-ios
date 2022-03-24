@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-@testable import PayPal
+@testable import PayPalNativeCheckout
 @testable import PaymentsCore
 
 class MockCheckout: CheckoutProtocol {
