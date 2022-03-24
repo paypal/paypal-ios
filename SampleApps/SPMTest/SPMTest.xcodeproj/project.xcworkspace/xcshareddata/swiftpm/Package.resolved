@@ -5,8 +5,8 @@
         "package": "PayPal",
         "repositoryURL": "https://github.com/paypal/iOS-SDK.git",
         "state": {
-          "branch": "main",
-          "revision": "5eb90df832ba1dc461aadb97a69fad70902acc8f",
+          "branch": "paypal_web_integration",
+          "revision": "3f275391612ec99ee2c5ebdbb02e41f46e56c8c5",
           "version": null
         }
       }
@@ -14,3 +14,4 @@
   },
   "version": 1
 }
+

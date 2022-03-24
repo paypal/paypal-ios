@@ -3,7 +3,7 @@ import SwiftUI
 
 enum DemoType: String {
     case card
-    case paypal
+    case payPalWebCheckout
 
     var viewController: UIViewController {
         let baseViewModel = BaseViewModel()
@@ -11,8 +11,8 @@ enum DemoType: String {
         switch self {
         case .card:
             return CardDemoViewController(baseViewModel: baseViewModel)
-        case .paypal:
-            return PayPalDemoViewController(baseViewModel: baseViewModel)
+        case .payPalWebCheckout:
+            return PayPalWebCheckoutViewController(baseViewModel: baseViewModel)
         }
     }
 
@@ -20,7 +20,7 @@ enum DemoType: String {
         switch self {
         case .card:
             return AnyView(SwiftUICardDemo())
-        case .paypal:
+        case .payPalWebCheckout:
             return AnyView(SwiftUIPayPalDemo())
         }
     }

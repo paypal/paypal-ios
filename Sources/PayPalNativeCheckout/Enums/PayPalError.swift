@@ -14,8 +14,8 @@ enum PayPalError {
         case nativeCheckoutSDKError
     }
 
-    static let nativeCheckoutSDKError: (PayPalCheckoutErrorInfo) -> PayPalSDKError = { errorInfo in
-        PayPalSDKError(
+    static let nativeCheckoutSDKError: (PayPalCheckoutErrorInfo) -> CoreSDKError = { errorInfo in
+        CoreSDKError(
             code: Code.nativeCheckoutSDKError.rawValue,
             domain: domain,
             errorDescription: errorInfo.reason

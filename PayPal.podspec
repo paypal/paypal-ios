@@ -16,10 +16,16 @@ Pod::Spec.new do |s|
     s.dependency "PayPal/PaymentsCore"
   end
 
-  s.subspec "PayPal" do |s|
-    s.source_files  = "Sources/PayPal/**/*.swift"
+  # TODO: re-enable when native checkout is ready to be released
+  #s.subspec "PayPalNativeCheckout" do |s|
+  #  s.source_files  = "Sources/PayPalNativeCheckout/**/*.swift"
+  #  s.dependency "PayPal/PaymentsCore"
+  #  s.dependency "PayPalCheckout", "0.77.0"
+  #end
+
+  s.subspec "PayPalWebCheckout" do |s|
+    s.source_files  = "Sources/PayPalWebCheckout/*.swift"
     s.dependency "PayPal/PaymentsCore"
-    s.dependency "PayPalCheckout", "0.77.0"
   end
 
   s.subspec "PayPalDataCollector" do |s|

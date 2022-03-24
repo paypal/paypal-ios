@@ -1,8 +1,8 @@
 import UIKit
-import PayPal
+import PayPalWebCheckout
 import PaymentsCore
 
-class PayPalDemoViewController: FeatureBaseViewController {
+class PayPalWebCheckoutViewController: FeatureBaseViewController {
 
     // MARK: - View Spacing
 
@@ -10,15 +10,19 @@ class PayPalDemoViewController: FeatureBaseViewController {
 
     // MARK: - UI Components
 
-    lazy var payPalButton: PayPalButton = {
-        let payPalButton = PayPalButton()
+    lazy var payPalButton: UIButton = {
+        let payPalButton = UIButton(type: .system)
+        payPalButton.translatesAutoresizingMaskIntoConstraints = false
+        payPalButton.setTitle("Pay with PayPal", for: .normal)
         payPalButton.addTarget(self, action: #selector(paymentButtonTapped), for: .touchUpInside)
         payPalButton.layer.cornerRadius = 4.0
         return payPalButton
     }()
 
-    lazy var payPalCreditButton: PayPalCreditButton = {
-        let payPalCreditButton = PayPalCreditButton()
+    lazy var payPalCreditButton: UIButton = {
+        let payPalCreditButton = UIButton(type: .system)
+        payPalCreditButton.translatesAutoresizingMaskIntoConstraints = false
+        payPalCreditButton.setTitle("Pay with PayPal Credit", for: .normal)
         payPalCreditButton.addTarget(self, action: #selector(paymentButtonTapped), for: .touchUpInside)
         payPalCreditButton.layer.cornerRadius = 4.0
         return payPalCreditButton
@@ -65,6 +69,6 @@ class PayPalDemoViewController: FeatureBaseViewController {
     // MARK: - PayPal Module Integration
 
     @objc func paymentButtonTapped() {
-        baseViewModel.payPalButtonTapped(presentingViewController: self)
+        baseViewModel.payPalButtonTapped(context: self)
     }
 }

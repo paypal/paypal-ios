@@ -56,7 +56,7 @@ class PayPalDataCollector_Tests: XCTestCase {
 
     func testCollectDeviceData_forwardsJSONWithMagnesClientMetadataIDAsACorrelationID() {
         let args = CollectDeviceDataArgs(payPalClientMetadataId: "", additionalData: ["sample": "data"])
-        let magnesResult = MockMagnesSDKResult(paypalClientMetaDataId: "new_client_metadata_id")
+        let magnesResult = MockMagnesSDKResult(payPalClientMetaDataId: "new_client_metadata_id")
         magnesSDK.stubCollectDeviceData(forArgs: args, withValue: magnesResult)
 
         let sut = PayPalDataCollector(config: sandboxConfig, magnesSDK: magnesSDK, deviceInspector: deviceInspector)

@@ -1,6 +1,6 @@
 import SwiftUI
 import Card
-import PayPal
+import PayPalWebCheckout
 
 struct ContentView: View {
     var body: some View {
