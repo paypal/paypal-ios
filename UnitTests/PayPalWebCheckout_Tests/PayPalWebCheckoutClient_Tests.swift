@@ -8,14 +8,14 @@ class PayPalClient_Tests: XCTestCase {
     let config = CoreConfig(clientID: "testClientID", environment: .sandbox)
     let context = MockViewController()
 
-    lazy var paypalClient = PayPalWebCheckoutClient(config: config)
+    lazy var payPalClient = PayPalWebCheckoutClient(config: config)
 
     func testStart_whenNativeSDKOnCancelCalled_returnsCancellationError() {
         let request = PayPalWebCheckoutRequest(orderID: "1234")
         let delegate = MockPayPalWebDelegate()
         let mockWebAuthenticationSession = MockWebAuthenticationSession()
 
-        paypalClient.delegate = delegate
+        payPalClient.delegate = delegate
         mockWebAuthenticationSession.cannedErrorResponse = ASWebAuthenticationSessionError(
             _bridgedNSError: NSError(
                 domain: ASWebAuthenticationSessionError.errorDomain,
@@ -24,7 +24,7 @@ class PayPalClient_Tests: XCTestCase {
             )
         )
 
-        paypalClient.start(request: request, context: context, webAuthenticationSession: mockWebAuthenticationSession)
+        payPalClient.start(request: request, context: context, webAuthenticationSession: mockWebAuthenticationSession)
 
         XCTAssertTrue(delegate.paypalDidCancel)
     }
@@ -34,14 +34,14 @@ class PayPalClient_Tests: XCTestCase {
         let mockWebAuthenticationSession = MockWebAuthenticationSession()
         let delegate = MockPayPalWebDelegate()
 
-        paypalClient.delegate = delegate
+        payPalClient.delegate = delegate
         mockWebAuthenticationSession.cannedErrorResponse = CoreSDKError(
             code: PayPalWebCheckoutClientError.Code.webSessionError.rawValue,
             domain: PayPalWebCheckoutClientError.domain,
             errorDescription: "Mock web session error description."
         )
 
-        paypalClient.start(request: request, context: context, webAuthenticationSession: mockWebAuthenticationSession)
+        payPalClient.start(request: request, context: context, webAuthenticationSession: mockWebAuthenticationSession)
 
         let error = delegate.capturedError
 
@@ -55,9 +55,9 @@ class PayPalClient_Tests: XCTestCase {
         let mockWebAuthenticationSession = MockWebAuthenticationSession()
         let delegate = MockPayPalWebDelegate()
 
-        paypalClient.delegate = delegate
+        payPalClient.delegate = delegate
         mockWebAuthenticationSession.cannedResponseURL = URL(string: "https://fakeURL?PayerID=98765")
-        paypalClient.start(request: request, context: context, webAuthenticationSession: mockWebAuthenticationSession)
+        payPalClient.start(request: request, context: context, webAuthenticationSession: mockWebAuthenticationSession)
 
         let error = delegate.capturedError
 
@@ -71,9 +71,9 @@ class PayPalClient_Tests: XCTestCase {
         let mockWebAuthenticationSession = MockWebAuthenticationSession()
         let delegate = MockPayPalWebDelegate()
 
-        paypalClient.delegate = delegate
+        payPalClient.delegate = delegate
         mockWebAuthenticationSession.cannedResponseURL = URL(string: "https://fakeURL?token=1234&PayerID=98765")
-        paypalClient.start(request: request, context: context, webAuthenticationSession: mockWebAuthenticationSession)
+        payPalClient.start(request: request, context: context, webAuthenticationSession: mockWebAuthenticationSession)
 
         let result = delegate.capturedResult
 
@@ -84,7 +84,7 @@ class PayPalClient_Tests: XCTestCase {
     func testpayPalCheckoutReturnURL_returnsCorrectURL() {
         // swiftlint:disable:next force_unwrapping
         let url = URL(string: "https://sandbox.paypal.com/checkoutnow?token=1234")!
-        let checkoutURL = paypalClient.payPalCheckoutReturnURL(payPalCheckoutURL: url)
+        let checkoutURL = payPalClient.payPalCheckoutReturnURL(payPalCheckoutURL: url)
 
         XCTAssertEqual(
             checkoutURL,

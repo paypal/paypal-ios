@@ -151,17 +151,17 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
     // MARK: - PayPal Delegate
 
-    func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithResult result: PayPalWebCheckoutResult) {
+    func payPal(_ payPalClient: PayPalWebCheckoutClient, didFinishWithResult result: PayPalWebCheckoutResult) {
         updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: CONFIRMED")
         print("✅ Order is successfully approved and ready to be captured/authorized with result: \(result)")
     }
 
-    func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithError error: CoreSDKError) {
+    func payPal(_ payPalClient: PayPalWebCheckoutClient, didFinishWithError error: CoreSDKError) {
         updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
         print("❌ There was an error: \(error)")
     }
 
-    func paypalDidCancel(_ paypalClient: PayPalWebCheckoutClient) {
+    func payPalDidCancel(_ payPalClient: PayPalWebCheckoutClient) {
         updateTitle("\(DemoSettings.intent) cancelled")
         print("❌ Buyer has cancelled the PayPal flow")
     }

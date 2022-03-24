@@ -11,22 +11,22 @@ class PayPalClient_Tests: XCTestCase {
         var capturedError: CoreSDKError?
         var paypalDidCancel = false
 
-        func paypal(_ paypalClient: PayPalClient, didFinishWithResult result: PayPalResult) {
+        func paypal(_ payPalClient: PayPalClient, didFinishWithResult result: PayPalResult) {
             capturedResult = result
         }
 
-        func paypal(_ paypalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
+        func paypal(_ payPalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
             capturedError = error
         }
 
-        func paypalDidCancel(_ paypalClient: PayPalClient) {
+        func paypalDidCancel(_ payPalClient: PayPalClient) {
             paypalDidCancel = true
         }
     }
 
     let config = CoreConfig(clientID: "testClientID", environment: .sandbox)
 
-    lazy var paypalClient = PayPalClient(
+    lazy var payPalClient = PayPalClient(
         config: config,
         returnURL: "return://url",
         checkoutFlow: MockCheckout.self
@@ -37,9 +37,9 @@ class PayPalClient_Tests: XCTestCase {
         let approval = MockApproval(intent: "intent", payerID: "payerID", ecToken: request.orderID)
 
         let delegate = MockPayPalDelegate()
-        paypalClient.delegate = delegate
+        payPalClient.delegate = delegate
 
-        paypalClient.start(request: request, presentingViewController: nil)
+        payPalClient.start(request: request, presentingViewController: nil)
         MockCheckout.triggerApproval(approval: approval)
 
         let approvalResult = delegate.capturedResult
@@ -51,9 +51,9 @@ class PayPalClient_Tests: XCTestCase {
         let request = PayPalRequest(orderID: "1234")
 
         let delegate = MockPayPalDelegate()
-        paypalClient.delegate = delegate
+        payPalClient.delegate = delegate
 
-        paypalClient.start(request: request, presentingViewController: nil)
+        payPalClient.start(request: request, presentingViewController: nil)
         MockCheckout.triggerCancel()
 
         XCTAssertTrue(delegate.paypalDidCancel)
@@ -64,9 +64,9 @@ class PayPalClient_Tests: XCTestCase {
         let error = MockPayPalError(reason: "error reason", error: NSError())
 
         let delegate = MockPayPalDelegate()
-        paypalClient.delegate = delegate
+        payPalClient.delegate = delegate
 
-        paypalClient.start(request: request, presentingViewController: nil)
+        payPalClient.start(request: request, presentingViewController: nil)
         MockCheckout.triggerError(error: error)
 
         let sdkError = delegate.capturedError
@@ -78,8 +78,8 @@ class PayPalClient_Tests: XCTestCase {
     func testInit_setsPayPalCheckoutWith_returnsPayPalClient() {
         let payPalClientPublic = PayPalClient(config: config, returnURL: "return://url")
 
-        XCTAssertEqual(payPalClientPublic.config.clientID, paypalClient.config.clientID)
-        XCTAssertEqual(payPalClientPublic.returnURL, paypalClient.returnURL)
+        XCTAssertEqual(payPalClientPublic.config.clientID, payPalClient.config.clientID)
+        XCTAssertEqual(payPalClientPublic.returnURL, payPalClient.returnURL)
     }
 
     func testInit_setsConfigPropertiesOnNativeSDKCheckoutConfig() {

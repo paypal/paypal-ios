@@ -89,14 +89,14 @@ public class PayPalWebCheckoutClient {
 
     private func notifySuccess(for result: PayPalWebCheckoutResult) {
         let payPalResult = PayPalWebCheckoutResult(orderID: result.orderID, payerID: result.payerID)
-        delegate?.paypal(self, didFinishWithResult: payPalResult)
+        delegate?.payPal(self, didFinishWithResult: payPalResult)
     }
 
     private func notifyFailure(with error: CoreSDKError) {
-        delegate?.paypal(self, didFinishWithError: error)
+        delegate?.payPal(self, didFinishWithError: error)
     }
 
     private func notifyCancellation() {
-        delegate?.paypalDidCancel(self)
+        delegate?.payPalDidCancel(self)
     }
 }

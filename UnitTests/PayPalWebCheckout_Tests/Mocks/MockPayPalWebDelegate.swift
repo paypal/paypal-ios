@@ -7,15 +7,15 @@ class MockPayPalWebDelegate: PayPalWebCheckoutDelegate {
     var capturedError: CoreSDKError?
     var paypalDidCancel = false
 
-    func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithResult result: PayPalWebCheckoutResult) {
+    func payPal(_ payPalClient: PayPalWebCheckoutClient, didFinishWithResult result: PayPalWebCheckoutResult) {
         capturedResult = result
     }
 
-    func paypal(_ paypalClient: PayPalWebCheckoutClient, didFinishWithError error: CoreSDKError) {
+    func payPal(_ payPalClient: PayPalWebCheckoutClient, didFinishWithError error: CoreSDKError) {
         capturedError = error
     }
 
-    func paypalDidCancel(_ paypalClient: PayPalWebCheckoutClient) {
+    func payPalDidCancel(_ payPalClient: PayPalWebCheckoutClient) {
         paypalDidCancel = true
     }
 }
