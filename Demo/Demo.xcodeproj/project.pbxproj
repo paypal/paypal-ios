@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		80561B3826FB5F0F0023138C /* CardDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80561B3726FB5F0F0023138C /* CardDemoViewController.swift */; };
-		80561B3A26FB5F1C0023138C /* PayPalDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80561B3926FB5F1C0023138C /* PayPalDemoViewController.swift */; };
+		80561B3A26FB5F1C0023138C /* PayPalWebCheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80561B3926FB5F1C0023138C /* PayPalWebCheckoutViewController.swift */; };
 		80561B3E26FB72D80023138C /* FeatureBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80561B3D26FB72D80023138C /* FeatureBaseViewController.swift */; };
 		805AB85026B87A87003BEE0D /* Card.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 805AB84D26B87A87003BEE0D /* Card.framework */; };
 		805AB85126B87A87003BEE0D /* Card.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 805AB84D26B87A87003BEE0D /* Card.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -74,7 +74,7 @@
 
 /* Begin PBXFileReference section */
 		80561B3726FB5F0F0023138C /* CardDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDemoViewController.swift; sourceTree = "<group>"; };
-		80561B3926FB5F1C0023138C /* PayPalDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalDemoViewController.swift; sourceTree = "<group>"; };
+		80561B3926FB5F1C0023138C /* PayPalWebCheckoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebCheckoutViewController.swift; sourceTree = "<group>"; };
 		80561B3D26FB72D80023138C /* FeatureBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureBaseViewController.swift; sourceTree = "<group>"; };
 		805AB84D26B87A87003BEE0D /* Card.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Card.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		805AB84E26B87A87003BEE0D /* PaymentsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PaymentsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -142,7 +142,7 @@
 			children = (
 				80561B3726FB5F0F0023138C /* CardDemoViewController.swift */,
 				80561B3D26FB72D80023138C /* FeatureBaseViewController.swift */,
-				80561B3926FB5F1C0023138C /* PayPalDemoViewController.swift */,
+				80561B3926FB5F1C0023138C /* PayPalWebCheckoutViewController.swift */,
 			);
 			path = FeatureViewControllers;
 			sourceTree = "<group>";
@@ -407,7 +407,7 @@
 				BECD84A427036E02007CCAE4 /* DemoType.swift in Sources */,
 				80F33CED26F8E7A9006811B1 /* Order.swift in Sources */,
 				BE31187E273F02A80021C5A2 /* SwiftUICardDemo.swift in Sources */,
-				80561B3A26FB5F1C0023138C /* PayPalDemoViewController.swift in Sources */,
+				80561B3A26FB5F1C0023138C /* PayPalWebCheckoutViewController.swift in Sources */,
 				BED04233271084DF00C80954 /* CardFormatter.swift in Sources */,
 				80561B3E26FB72D80023138C /* FeatureBaseViewController.swift in Sources */,
 				BE31187C273F00B60021C5A2 /* DemoUIFramework.swift in Sources */,

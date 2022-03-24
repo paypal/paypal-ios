@@ -2,7 +2,7 @@ import UIKit
 import PayPalWebCheckout
 import PaymentsCore
 
-class PayPalDemoViewController: FeatureBaseViewController {
+class PayPalWebCheckoutViewController: FeatureBaseViewController {
 
     // MARK: - View Spacing
 
