@@ -1,5 +1,5 @@
 import XCTest
-@testable import PayPalNativeCheckout
+@testable import PayPalUI
 
 class PayPalCreditButton_Tests: XCTestCase {
 
