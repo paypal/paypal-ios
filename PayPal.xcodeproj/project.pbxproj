@@ -211,7 +211,7 @@
 		BCF735F527D270E000A52E03 /* PayPalDataCollector_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalDataCollector_Tests.swift; sourceTree = "<group>"; };
 		BCF735FA27D2719400A52E03 /* MockMagnesSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMagnesSDK.swift; sourceTree = "<group>"; };
 		BCFAC70927ED042500C3AF00 /* PayPalUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PayPalUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BCFAC71827ED043200C3AF00 /* PayPalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PayPalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCFAC71827ED043200C3AF00 /* PayPalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PayPalUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE00B79B2742F96200758C63 /* PayPalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalButton.swift; sourceTree = "<group>"; };
 		BE00B79D2742F9F000758C63 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BE00B7A82743F6AF00758C63 /* PayPalCreditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalCreditButton.swift; sourceTree = "<group>"; };
@@ -663,7 +663,7 @@
 				BCD5C48527E9200800B074D5 /* PayPalWebCheckout.framework */,
 				BCD5C49427E9201400B074D5 /* PayPalTests.xctest */,
 				BCFAC70927ED042500C3AF00 /* PayPalUI.framework */,
-				BCFAC71827ED043200C3AF00 /* PayPalTests.xctest */,
+				BCFAC71827ED043200C3AF00 /* PayPalUITests.xctest */,
 			);
 			name = Products;
 			path = ..;
@@ -944,7 +944,7 @@
 			);
 			name = PayPalUITests;
 			productName = PayPalTests;
-			productReference = BCFAC71827ED043200C3AF00 /* PayPalTests.xctest */;
+			productReference = BCFAC71827ED043200C3AF00 /* PayPalUITests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		"PayPal::PayPalTests" /* PayPalNativeCheckoutTests */ = {
@@ -2943,7 +2943,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
 				SWIFT_VERSION = 5.0;
-				TARGET_NAME = PayPalTests;
+				TARGET_NAME = PayPalUITests;
 			};
 			name = Debug;
 		};
@@ -2973,7 +2973,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
 				SWIFT_VERSION = 5.0;
-				TARGET_NAME = PayPalTests;
+				TARGET_NAME = PayPalUITests;
 			};
 			name = Release;
 		};
