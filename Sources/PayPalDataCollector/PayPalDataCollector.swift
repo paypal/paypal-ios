@@ -20,14 +20,7 @@ public class PayPalDataCollector {
 
     /// internal constructor for testing
     init(environment: PayPalDataCollectorEnvironment, magnesSDK: MagnesSDKProtocol, deviceInspector: DeviceInspectorProtocol) {
-        magnesEnvironment = {
-            switch environment {
-            case .sandbox:
-                return .SANDBOX
-            case .production:
-                return .LIVE
-            }
-        }()
+        self.magnesEnvironment = environment.magnesEnvironment
         self.magnesSDK = magnesSDK
         self.deviceInspector = deviceInspector
     }

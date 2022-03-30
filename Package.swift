@@ -64,7 +64,7 @@ let package = Package(
         ),
         .target(
             name: "PayPalDataCollector",
-            dependencies: ["PaymentsCore", "PPRiskMagnes"]
+            dependencies: ["PPRiskMagnes"]
         ),
         .binaryTarget(
             name: "PPRiskMagnes",
