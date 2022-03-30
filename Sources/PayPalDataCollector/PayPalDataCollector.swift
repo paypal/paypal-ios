@@ -13,7 +13,7 @@ public class PayPalDataCollector {
     // MARK: - Initializers
 
     /// Construct an instance to collect device data to send to your server.
-    /// - Parameter config: configuration to use when collecting device data
+    /// - Parameter environment: enviroment for the data collector
     public convenience init(environment: PayPalDataCollectorEnvironment) {
         self.init(environment: environment, magnesSDK: MagnesSDK.shared(), deviceInspector: DeviceInspector())
     }
