@@ -4,7 +4,7 @@ import PPRiskMagnes
 public enum PayPalDataCollectorEnvironment {
     case sandbox
     case production
-    
+
     internal var magnesEnvironment: MagnesSDK.Environment {
         switch self {
         case .sandbox:
