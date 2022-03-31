@@ -5,7 +5,7 @@ public enum PayPalDataCollectorEnvironment {
     case sandbox
     case production
 
-    internal var magnesEnvironment: MagnesSDK.Environment {
+    var magnesEnvironment: MagnesSDK.Environment {
         switch self {
         case .sandbox:
             return .SANDBOX
