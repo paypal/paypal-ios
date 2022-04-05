@@ -135,17 +135,25 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
     // MARK: - PayPal Module Integration
 
+    func payPalCreditButtonTapped(context: ASWebAuthenticationPresentationContextProviding) {
+        paymentButtonTapped(context: context, funding: .credit)
+    }
+    
     func payPalButtonTapped(context: ASWebAuthenticationPresentationContextProviding) {
+        paymentButtonTapped(context: context, funding: .unspecified)
+    }
+    
+    private func paymentButtonTapped(context: ASWebAuthenticationPresentationContextProviding, funding: PayPalWebCheckoutFunding) {
         guard let orderID = orderID else {
             self.updateTitle("Failed: missing orderID.")
             return
         }
 
-        checkoutWithPayPal(orderID: orderID, context: context)
+        checkoutWithPayPal(orderID: orderID, context: context, funding: funding)
     }
 
-    func checkoutWithPayPal(orderID: String, context: ASWebAuthenticationPresentationContextProviding) {
-        let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID)
+    func checkoutWithPayPal(orderID: String, context: ASWebAuthenticationPresentationContextProviding, funding: PayPalWebCheckoutFunding) {
+        let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, funding: funding)
         payPalClient.start(request: payPalRequest, context: context)
     }
 
