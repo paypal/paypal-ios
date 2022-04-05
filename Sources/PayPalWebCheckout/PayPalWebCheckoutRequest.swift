@@ -10,7 +10,7 @@ public struct PayPalWebCheckoutRequest {
 
     /// Creates an instance of a PayPalRequest.
     /// - Parameter orderID: The ID of the order to be approved.
-    public init(orderID: String, funding: PayPalWebCheckoutFundingSource = .unspecified) {
+    public init(orderID: String, funding: PayPalWebCheckoutFundingSource = .paypal) {
         self.orderID = orderID
         self.funding = funding
     }

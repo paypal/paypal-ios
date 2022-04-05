@@ -138,9 +138,9 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate {
     func payPalCreditButtonTapped(context: ASWebAuthenticationPresentationContextProviding) {
         paymentButtonTapped(context: context, funding: .credit)
     }
-    
+
     func payPalButtonTapped(context: ASWebAuthenticationPresentationContextProviding) {
-        paymentButtonTapped(context: context, funding: .unspecified)
+        paymentButtonTapped(context: context, funding: .paypal)
     }
     
     private func paymentButtonTapped(context: ASWebAuthenticationPresentationContextProviding, funding: PayPalWebCheckoutFundingSource) {
@@ -151,7 +151,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
         checkoutWithPayPal(orderID: orderID, context: context, funding: funding)
     }
-
+    
     func checkoutWithPayPal(orderID: String, context: ASWebAuthenticationPresentationContextProviding, funding: PayPalWebCheckoutFundingSource) {
         let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, funding: funding)
         payPalClient.start(request: payPalRequest, context: context)
