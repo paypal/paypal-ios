@@ -143,7 +143,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         paymentButtonTapped(context: context, funding: .unspecified)
     }
     
-    private func paymentButtonTapped(context: ASWebAuthenticationPresentationContextProviding, funding: PayPalWebCheckoutFunding) {
+    private func paymentButtonTapped(context: ASWebAuthenticationPresentationContextProviding, funding: PayPalWebCheckoutFundingSource) {
         guard let orderID = orderID else {
             self.updateTitle("Failed: missing orderID.")
             return
@@ -152,7 +152,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         checkoutWithPayPal(orderID: orderID, context: context, funding: funding)
     }
 
-    func checkoutWithPayPal(orderID: String, context: ASWebAuthenticationPresentationContextProviding, funding: PayPalWebCheckoutFunding) {
+    func checkoutWithPayPal(orderID: String, context: ASWebAuthenticationPresentationContextProviding, funding: PayPalWebCheckoutFundingSource) {
         let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, funding: funding)
         payPalClient.start(request: payPalRequest, context: context)
     }
