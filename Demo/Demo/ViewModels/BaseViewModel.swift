@@ -136,7 +136,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate {
     // MARK: - PayPal Module Integration
 
     func payPalCreditButtonTapped(context: ASWebAuthenticationPresentationContextProviding) {
-        paymentButtonTapped(context: context, funding: .credit)
+        paymentButtonTapped(context: context, funding: .paypalCredit)
     }
 
     func payPalButtonTapped(context: ASWebAuthenticationPresentationContextProviding) {
