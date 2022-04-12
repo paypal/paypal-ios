@@ -23,7 +23,7 @@ class PayPalWebCheckoutViewController: FeatureBaseViewController {
         let payPalCreditButton = UIButton(type: .system)
         payPalCreditButton.translatesAutoresizingMaskIntoConstraints = false
         payPalCreditButton.setTitle("Pay with PayPal Credit", for: .normal)
-        payPalCreditButton.addTarget(self, action: #selector(paymentButtonTapped), for: .touchUpInside)
+        payPalCreditButton.addTarget(self, action: #selector(paymentCreditButtonTapped), for: .touchUpInside)
         payPalCreditButton.layer.cornerRadius = 4.0
         return payPalCreditButton
     }()
@@ -70,5 +70,9 @@ class PayPalWebCheckoutViewController: FeatureBaseViewController {
 
     @objc func paymentButtonTapped() {
         baseViewModel.payPalButtonTapped(context: self)
+    }
+
+    @objc func paymentCreditButtonTapped() {
+        baseViewModel.payPalCreditButtonTapped(context: self)
     }
 }
