@@ -15,7 +15,7 @@ public final class PayPalCreditButton: PaymentButton, UIViewRepresentable {
     /// - Parameter action: action of the button on click
     public init(_ action: @escaping () -> Void) {
         self.action = action
-        super.init(color: .gold, image: .payPal)
+        super.init(color: .darkBlue, image: .payPalCredit)
     }
 
     required init?(coder: NSCoder) {

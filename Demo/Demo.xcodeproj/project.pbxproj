@@ -33,6 +33,8 @@
 		BE1766D926FA7BC8007EF438 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BE1766D826FA7BC8007EF438 /* Settings.bundle */; };
 		BE31187C273F00B60021C5A2 /* DemoUIFramework.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE31187B273F00B60021C5A2 /* DemoUIFramework.swift */; };
 		BE31187E273F02A80021C5A2 /* SwiftUICardDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE31187D273F02A80021C5A2 /* SwiftUICardDemo.swift */; };
+		BE420F3728189A7A00D8D66A /* PayPalUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE420F3628189A7A00D8D66A /* PayPalUI.framework */; };
+		BE420F3828189A7A00D8D66A /* PayPalUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE420F3628189A7A00D8D66A /* PayPalUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BE9F36D82745490400AFC7DA /* FloatingLabelTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36D72745490400AFC7DA /* FloatingLabelTextField.swift */; };
 		BE9F36DC274578D100AFC7DA /* FeatureBaseViewControllerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36DB274578D100AFC7DA /* FeatureBaseViewControllerRepresentable.swift */; };
 		BE9F36E7275548A600AFC7DA /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36E6275548A600AFC7DA /* BaseViewModel.swift */; };
@@ -65,6 +67,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				BCE8A7EF27EA2B1E00AC301B /* PayPalWebCheckout.framework in Embed Frameworks */,
+				BE420F3828189A7A00D8D66A /* PayPalUI.framework in Embed Frameworks */,
 				805AB85126B87A87003BEE0D /* Card.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -102,6 +105,7 @@
 		BE1766D826FA7BC8007EF438 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		BE31187B273F00B60021C5A2 /* DemoUIFramework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoUIFramework.swift; sourceTree = "<group>"; };
 		BE31187D273F02A80021C5A2 /* SwiftUICardDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUICardDemo.swift; sourceTree = "<group>"; };
+		BE420F3628189A7A00D8D66A /* PayPalUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PayPalUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE9F36D72745490400AFC7DA /* FloatingLabelTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingLabelTextField.swift; sourceTree = "<group>"; };
 		BE9F36DB274578D100AFC7DA /* FeatureBaseViewControllerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureBaseViewControllerRepresentable.swift; sourceTree = "<group>"; };
 		BE9F36E6275548A600AFC7DA /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
@@ -124,6 +128,7 @@
 				805AB85026B87A87003BEE0D /* Card.framework in Frameworks */,
 				BE1766D726FA7AC3007EF438 /* InAppSettingsKit in Frameworks */,
 				BCE8A7EE27EA2B1E00AC301B /* PayPalWebCheckout.framework in Frameworks */,
+				BE420F3728189A7A00D8D66A /* PayPalUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,6 +155,7 @@
 		805AB84C26B87A87003BEE0D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BE420F3628189A7A00D8D66A /* PayPalUI.framework */,
 				BCE8A7ED27EA2B1E00AC301B /* PayPalWebCheckout.framework */,
 				80DB6F1C26B89DDA00277E54 /* PayPal.framework */,
 				805AB84D26B87A87003BEE0D /* Card.framework */,
