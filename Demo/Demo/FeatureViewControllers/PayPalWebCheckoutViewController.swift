@@ -20,7 +20,7 @@ class PayPalWebCheckoutViewController: FeatureBaseViewController {
 
     lazy var payPalCreditButton: PayPalCreditButton = {
         let payPalCreditButton = PayPalCreditButton()
-        payPalCreditButton.addTarget(self, action: #selector(paymentButtonTapped), for: .touchUpInside)
+        payPalCreditButton.addTarget(self, action: #selector(paymentCreditButtonTapped), for: .touchUpInside)
         payPalCreditButton.layer.cornerRadius = 4.0
         return payPalCreditButton
     }()
