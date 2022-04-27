@@ -3,8 +3,8 @@ import UIKit
 /// Handles functionality shared across payment buttons
 public class PaymentButton: UIButton {
 
-    // asset identfier path for image and color button assets
-    static var bundle = Bundle(identifier: "com.paypal.ios-sdk.PayPal")
+    // asset identifier path for image and color button assets
+    static var bundle = Bundle(identifier: "com.paypal.ios-sdk.PayPalUI")
 
     // MARK: - Init
 
