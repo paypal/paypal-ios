@@ -16,7 +16,7 @@ struct SwiftUIPayPalDemo: View {
                 .cornerRadius(4)
                 .frame(maxWidth: .infinity, maxHeight: 40)
                 PayPalCreditButton {
-                    baseViewModel.payPalButtonTapped(context: FeatureBaseViewController(baseViewModel: BaseViewModel()))
+                    baseViewModel.payPalCreditButtonTapped(context: FeatureBaseViewController(baseViewModel: BaseViewModel()))
                 }
                 .cornerRadius(4)
                 .frame(maxWidth: .infinity, maxHeight: 40)
