@@ -1,7 +1,7 @@
 import UIKit
 
 enum PaymentButtonImage {
-    case payPal, payPalCredit
+    case payPal, payPalCredit, payPalPayLater
 
     var rawValue: UIImage? {
         switch self {
@@ -9,6 +9,8 @@ enum PaymentButtonImage {
             return UIImage(named: "PayPalLogo", in: PaymentButton.bundle, compatibleWith: nil)
         case .payPalCredit:
             return UIImage(named: "PayPalCreditLogo", in: PaymentButton.bundle, compatibleWith: nil)
+        case .payPalPayLater:
+            return UIImage(named: "PayPalPayLaterLogo", in: PaymentButton.bundle, compatibleWith: nil)
         }
     }
 }

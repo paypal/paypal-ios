@@ -1,16 +1,20 @@
+//
+//  PayPalPayLaterButton.swift
+//  PayPalUI
+//
+//  Created by Jose Noriega on 02/05/2022.
+//
+
 import UIKit
 import SwiftUI
 
-/// Configuration for PayPal button
-public final class PayPalButton: PaymentButton, UIViewRepresentable {
-
-    /// SwiftUI button action
-    var action: () -> Void = { }
+/// Configuration for PayPal PayLater button
+public final class PayPalPayLaterButton: PaymentButton, UIViewRepresentable {
     
     /**
-     Available colors for PayPalButton.
+     Available colors for PayPalPayLaterButton.
      */
-    @objc(PPCPayPalButtonColor)
+    @objc(PPCPayPalPayLaterButtonColor)
     public enum Color: Int, CaseIterable {
       case gold = 0
       case white = 1
@@ -27,89 +31,67 @@ public final class PayPalButton: PaymentButton, UIViewRepresentable {
       }
     }
 
-    /**
-     Available labels for PayPalButton.
-     */
-    @objc(PPCPayPalButtonLabel)
-    public enum Label: Int, CaseIterable {
-      /// Display no label
-      case none = -1
-
-      /// Display "Checkout" on the right side of the button's logo
-      case checkout = 0
-
-      /// Display "Buy now" on the right side of the button's logo
-      case buyNow = 1
-
-      /// Display "Pay with" on the left side of the button's logo
-      case payWith = 2
-
-      var label: PaymentButtonLabel? {
-        PaymentButtonLabel(rawValue: rawValue)
-      }
-    }
-
-    /// Initialize a PayPalButton
+    /// SwiftUI button action
+    var action: () -> Void = { }
+    
+    
+    /// Initialize a PayPalPayLaterButton
     /// - Parameters:
     ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
     ///   - color: Color of the button. Default to gold if not provided.
     ///   - edges: Edges of the button. Default to softEdges if not provided.
     ///   - size: Size of the button. Default to collapsed if not provided.
-    ///   - label: Label displayed next to the button's logo. Default to no label.
     public convenience init(
       insets: NSDirectionalEdgeInsets,
       color: Color = .gold,
       edges: PaymentButtonEdges = .softEdges,
       size: PaymentButtonSize = .collapsed,
-      label: Label = .none,
-    _ action: @escaping () -> Void = { }
+      _ action: @escaping () -> Void = { }
     ) {
       self.init(
-        fundingSource: .payPal,
+        fundingSource: .payLater,
         color: color.color,
         edges: edges,
         size: size,
         insets: insets,
-        label: label.label
+        label: .payLater
       )
       self.action = action
     }
 
-    /// Initialize a PayPalButton. The insets of the button will be set appropriately depending on the button's size.
+    /// Initialize a PayPalPayLaterButton. The insets of the button will be set appropriately depending on the button's size.
     /// - Parameters:
     ///   - color: Color of the button. Default to gold if not provided.
     ///   - edges: Edges of the button. Default to softEdges if not provided.
     ///   - size: Size of the button. Default to collapsed if not provided.
-    ///   - label: Label displayed next to the button's logo. Default to no label.
     public convenience init(
       color: Color = .gold,
       edges: PaymentButtonEdges = .softEdges,
       size: PaymentButtonSize = .collapsed,
-      label: Label = .none,
-      _ action: @escaping () -> Void = { }
+    _ action: @escaping () -> Void = { }
     ) {
       self.init(
-        fundingSource: .payPal,
+        fundingSource: .payLater,
         color: color.color,
         edges: edges,
         size: size,
         insets: nil,
-        label: label.label
+        label: .payLater
       )
       self.action = action
     }
 
     deinit {}
-//
+
 //    public init() {
-//        super.init(color: .gold, image: .payPal)
+//        super.init(color: .darkBlue, image: .payPalCredit)
 //    }
 //
-//    /// Initializer for the SwiftUI PayPal button
+//    /// Initilizer for the SwiftUI PayPal button
 //    /// - Parameter action: action of the button on click
 //    public init(_ action: @escaping () -> Void) {
 //        self.action = action
-//        super.init(color: .gold, image: .payPal)
+//        super.init(color: .darkBlue, image: .payPalCredit)
 //    }
 //
 //    required init?(coder: NSCoder) {
@@ -124,17 +106,17 @@ public final class PayPalButton: PaymentButton, UIViewRepresentable {
 
     public func makeUIView(context: Context) -> UIView {
         let view = UIView()
-        let payPalButton = self
+        let payPalCreditButton = self
 
-        view.addSubview(payPalButton)
+        view.addSubview(payPalCreditButton)
 
-        payPalButton.addTarget(context.coordinator, action: #selector(Coordinator.onAction(_:)), for: .touchUpInside)
+        payPalCreditButton.addTarget(context.coordinator, action: #selector(Coordinator.onAction(_:)), for: .touchUpInside)
 
 //        NSLayoutConstraint.activate([
-//            payPalButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            payPalButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            payPalButton.topAnchor.constraint(equalTo: view.topAnchor),
-//            payPalButton.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+//            payPalCreditButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//            payPalCreditButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//            payPalCreditButton.topAnchor.constraint(equalTo: view.topAnchor),
+//            payPalCreditButton.bottomAnchor.constraint(equalTo: view.bottomAnchor)
 //        ])
 
         return view
