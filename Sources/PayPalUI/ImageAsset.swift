@@ -7,39 +7,35 @@
 
 import UIKit
 
-final class ImageAsset {
+enum ImageAsset {
     static func paymentButtonLogo(for button: PaymentButton) -> UIImage? {
-      var imageAssetString = ""
-      switch button.fundingSource {
-      case .payPal:
-        imageAssetString += "paypal_"
+        var imageAssetString = ""
+        switch button.fundingSource {
+        case .payPal:
+            imageAssetString += "paypal_"
 
-        if button.size == .mini {
-          imageAssetString += "monogram_"
+            if button.size == .mini {
+                imageAssetString += "monogram_"
+            }
+
+        case .payLater:
+            imageAssetString += "paypal_monogram_"
+
+        case .credit:
+            imageAssetString += "credit_"
         }
 
-      case .payLater:
-        imageAssetString += "paypal_monogram_"
+        switch button.color {
+        case .gold, .white, .silver:
+            imageAssetString += "color"
 
-      case .credit:
-        imageAssetString += "credit_"
-      }
+        case .black, .darkBlue:
+            imageAssetString += "monochrome"
 
-      switch button.color {
-      case .gold, .white, .silver:
-        imageAssetString += "color"
+        case .blue:
+            imageAssetString += "blue"
+        }
 
-      case .black, .darkBlue:
-        imageAssetString += "monochrome"
-
-      case .blue:
-        imageAssetString += "blue"
-      }
-
-//      guard let logoImage = ImageAsset(rawValue: imageAssetString) else {
-//        return nil
-//      }
-        
-      return UIImage(named: imageAssetString, in: PaymentButton.bundle, compatibleWith: nil)
+        return UIImage(named: imageAssetString, in: PaymentButton.bundle, compatibleWith: nil)
     }
 }

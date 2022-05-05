@@ -7,8 +7,8 @@
 
 import UIKit
 
-//TODO: check ContentConfig class in NXO
-class PaymentButtonFont {
+// TODO: check ContentConfig class in NXO
+enum PaymentButtonFont {
     /// The primary font to be employed in the UI for non special circumstances
     public static let primaryFont: UIFont = .systemFont(ofSize: UIFont.systemFontSize)
 
