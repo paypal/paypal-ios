@@ -24,7 +24,7 @@ class PayPalWebCheckoutViewController: FeatureBaseViewController {
     }()
 
     lazy var payPalPayLaterButton: PayPalPayLaterButton = {
-        let payPalPayLaterButton = PayPalPayLaterButton(color: .gold, edges: .hardEdges, size: .full)
+        let payPalPayLaterButton = PayPalPayLaterButton(color: .gold, edges: .hardEdges, size: .expanded)
         payPalPayLaterButton.addTarget(self, action: #selector(paymentCreditButtonTapped), for: .touchUpInside)
         return payPalPayLaterButton
     }()

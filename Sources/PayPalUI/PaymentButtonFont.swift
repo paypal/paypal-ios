@@ -16,5 +16,5 @@ enum PaymentButtonFont {
     public static let secondaryFont: UIFont = .systemFont(ofSize: UIFont.smallSystemFontSize)
 
     /// A sub-sub heading in most cases. Smaller than secondary font in size
-    public static let tertiaryFont: UIFont = .systemFont(ofSize: UIFont.smallSystemFontSize - 3)
+    public static let systemFont18: UIFont = .systemFont(ofSize: UIFont.systemFontSize + 4)
 }

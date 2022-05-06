@@ -32,7 +32,7 @@ public enum PaymentButtonSize: Int, CaseIterable, CustomStringConvertible {
             return PaymentButtonFont.primaryFont
 
         case .full:
-            return PaymentButtonFont.tertiaryFont
+            return PaymentButtonFont.systemFont18
         }
     }
 
