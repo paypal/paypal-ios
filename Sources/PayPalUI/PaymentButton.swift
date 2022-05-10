@@ -233,10 +233,7 @@ public class PaymentButton: UIButton {
 
     // MARK: - Utility
 
-    private func sizeToImage(
-        on imageView: UIImageView,
-        with size: PaymentButtonSize
-    ) {
+    private func sizeToImage(on imageView: UIImageView, with size: PaymentButtonSize) {
 
         guard let image = imageView.image else { return }
 
