@@ -10,39 +10,30 @@ public final class PayPalButton: PaymentButton, UIViewRepresentable {
     /**
     Available colors for PayPalButton.
     */
-    @objc(PPCPayPalButtonColor)
-    public enum Color: Int, CaseIterable {
-        case gold = 0
-        case white = 1
-        case black = 2
-        case silver = 3
-        case blue = 4
+    public enum Color: String {
+        case gold
+        case white
+        case black
+        case silver
+        case blue
 
         var color: PaymentButtonColor {
             PaymentButtonColor(rawValue: rawValue) ?? .gold
-        }
-
-        public var description: String {
-            color.description
         }
     }
 
     /**
     Available labels for PayPalButton.
     */
-    @objc(PPCPayPalButtonLabel)
-    public enum Label: Int, CaseIterable {
-        /// Display no label
-        case none = -1
-
+    public enum Label: String {
         /// Display "Checkout" on the right side of the button's logo
-        case checkout = 0
+        case checkout
 
         /// Display "Buy now" on the right side of the button's logo
-        case buyNow = 1
+        case buyNow
 
         /// Display "Pay with" on the left side of the button's logo
-        case payWith = 2
+        case payWith
 
         var label: PaymentButtonLabel? {
             PaymentButtonLabel(rawValue: rawValue)
@@ -57,11 +48,11 @@ public final class PayPalButton: PaymentButton, UIViewRepresentable {
     ///   - size: Size of the button. Default to collapsed if not provided.
     ///   - label: Label displayed next to the button's logo. Default to no label.
     public convenience init(
-        insets: NSDirectionalEdgeInsets,
+        insets: NSDirectionalEdgeInsets? = nil,
         color: Color = .gold,
         edges: PaymentButtonEdges = .softEdges,
         size: PaymentButtonSize = .collapsed,
-        label: Label = .none,
+        label: Label? = nil,
         _ action: @escaping () -> Void = { }
     ) {
         self.init(
@@ -70,31 +61,7 @@ public final class PayPalButton: PaymentButton, UIViewRepresentable {
             edges: edges,
             size: size,
             insets: insets,
-            label: label.label
-        )
-        self.action = action
-    }
-
-    /// Initialize a PayPalButton. The insets of the button will be set appropriately depending on the button's size.
-    /// - Parameters:
-    ///   - color: Color of the button. Default to gold if not provided.
-    ///   - edges: Edges of the button. Default to softEdges if not provided.
-    ///   - size: Size of the button. Default to collapsed if not provided.
-    ///   - label: Label displayed next to the button's logo. Default to no label.
-    public convenience init(
-        color: Color = .gold,
-        edges: PaymentButtonEdges = .softEdges,
-        size: PaymentButtonSize = .collapsed,
-        label: Label = .none,
-        _ action: @escaping () -> Void = { }
-    ) {
-        self.init(
-            fundingSource: .payPal,
-            color: color.color,
-            edges: edges,
-            size: size,
-            insets: nil,
-            label: label.label
+            label: label?.label
         )
         self.action = action
     }

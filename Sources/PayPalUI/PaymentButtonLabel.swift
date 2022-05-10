@@ -1,44 +1,23 @@
-//
-//  PaymentButtonLabel.swift
-//  PayPalUI
-//
-//  Created by Jose Noriega on 02/05/2022.
-//
-
 import Foundation
 
 /// The label displayed next to PaymentButton's logo.
-@objc(PPCPaymentButtonLabel)
-public enum PaymentButtonLabel: Int {
+public enum PaymentButtonLabel: String {
 
     /// Add "Checkout" to the right of button's logo
-    case checkout = 0
+    case checkout = "Checkout"
 
     /// Add "Buy Now" to the right of button's logo
-    case buyNow = 1
+    case buyNow = "Buy Now"
 
     /// Add "Pay with" to the left of button's logo
-    case payWith = 2
+    case payWith = "Pay with"
 
     /// Add "Pay later" to the right of button's logo, only used for PayPalPayLaterButton
-    case payLater = 3
+    case payLater = "Pay Later"
 
     enum Position {
         case prefix
         case suffix
-    }
-
-    var stringValue: String {
-        switch self {
-        case .checkout:
-            return "Checkout"
-        case .buyNow:
-            return "Buy Now"
-        case .payWith:
-            return "Pay with"
-        case .payLater:
-            return "Pay Later"
-        }
     }
 
     var position: Position {

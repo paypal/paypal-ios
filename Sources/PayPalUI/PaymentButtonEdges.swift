@@ -1,15 +1,7 @@
-//
-//  PaymentButtonEdges.swift
-//  PayPalUI
-//
-//  Created by Jose Noriega on 02/05/2022.
-//
-
 import UIKit
 
 /// Edges for the smart payment button, these affect the corner radius.
-@objc(PPCPaymentButtonEdges)
-public enum PaymentButtonEdges: Int, CaseIterable, CustomStringConvertible {
+public enum PaymentButtonEdges: Int {
 
     /// Hard edges on button with 0 corner radius.
     case hardEdges

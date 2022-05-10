@@ -1,14 +1,6 @@
-//
-//  PaymentButtonSize.swift
-//  PayPalUI
-//
-//  Created by Jose Noriega on 02/05/2022.
-//
-
 import UIKit
 
 /// The size category which determines how the button is shown.
-@objc(PPCPaymentButtonSize)
 public enum PaymentButtonSize: Int, CaseIterable, CustomStringConvertible {
 
     /// Circle shaped button similar to a floating action button will show the monogram, if `.venmo` then will show `Venmo` logo.

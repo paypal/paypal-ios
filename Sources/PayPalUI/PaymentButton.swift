@@ -25,14 +25,6 @@ public class PaymentButton: UIButton {
         super.init(frame: .zero)
         configure()
     }
-    //
-    //    init(color: PaymentButtonColor, image: PaymentButtonImage) {
-    //        super.init(frame: .zero)
-    //
-    //        translatesAutoresizingMaskIntoConstraints = false
-    //        backgroundColor = color.rawValue
-    //        setImage(image.rawValue, for: .normal)
-    //    }
 
     // MARK: - Views
 
@@ -186,7 +178,7 @@ public class PaymentButton: UIButton {
     private func configurePrefix() {
         prefixLabel.textColor = color.fontColor
         if let label = label, label.position == .prefix {
-            prefixLabel.text = label.stringValue
+            prefixLabel.text = label.rawValue
         }
         prefixLabel.font = size.font
         prefixLabel.isHidden = !supportsPrefixLabel
@@ -195,7 +187,7 @@ public class PaymentButton: UIButton {
     private func configureSuffix() {
         suffixLabel.textColor = color.fontColor
         if let label = label, label.position == .suffix {
-            suffixLabel.text = label.stringValue
+            suffixLabel.text = label.rawValue
         }
         suffixLabel.font = size.font
         suffixLabel.isHidden = !supportsSuffixLabel

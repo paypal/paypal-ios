@@ -1,10 +1,3 @@
-//
-//  ImageAsset.swift
-//  PayPalUI
-//
-//  Created by Jose Noriega on 04/05/2022.
-//
-
 import UIKit
 
 enum ImageAsset {

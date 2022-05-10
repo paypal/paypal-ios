@@ -1,13 +1,5 @@
-//
-//  PaymentButtonFont.swift
-//  PayPalUI
-//
-//  Created by Jose Noriega on 02/05/2022.
-//
-
 import UIKit
 
-// TODO: check ContentConfig class in NXO
 enum PaymentButtonFont {
     /// The primary font to be employed in the UI for non special circumstances
     public static let primaryFont: UIFont = .systemFont(ofSize: UIFont.systemFontSize)
@@ -15,6 +7,6 @@ enum PaymentButtonFont {
     /// Usually a sub-heading or alternative text font that is used in some scenarios
     public static let secondaryFont: UIFont = .systemFont(ofSize: UIFont.smallSystemFontSize)
 
-    /// A sub-sub heading in most cases. Smaller than secondary font in size
+    /// Large font of size 18
     public static let systemFont18: UIFont = .systemFont(ofSize: UIFont.systemFontSize + 4)
 }

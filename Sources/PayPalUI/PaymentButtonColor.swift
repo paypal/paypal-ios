@@ -1,26 +1,24 @@
 import UIKit
 
-/// The smart payment button type, this will adjust our images, colors, sizes, etc.
-@objc(PPCPaymentButtonColor)
-public enum PaymentButtonColor: Int, CaseIterable, CustomStringConvertible {
+public enum PaymentButtonColor: String {
 
     /// The gold background and blue wordmark, monogram, and black text.
-    case gold = 0
+    case gold
 
     /// The white background and blue wordmark, monogram, and black text.
-    case white = 1
+    case white
 
     /// The black background and monochrome wordmark, monogram, and white text.
-    case black = 2
+    case black
 
     /// The silver background and blue wordmark, monogram, and black text.
-    case silver = 3
+    case silver
 
     /// The blue background and white wordmark, blue monogram, and white text.
-    case blue = 4
+    case blue
 
     /// The dark blue background with PayPal Credit wordmark and monogram.
-    case darkBlue = 5
+    case darkBlue
 
     var color: UIColor {
         switch self {

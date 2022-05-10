@@ -2,7 +2,6 @@ import UIKit
 import SwiftUI
 
 /// Configuration for PayPal Credit button
-@objc(PPCPayPalCreditButton)
 public final class PayPalCreditButton: PaymentButton, UIViewRepresentable {
 
     /// SwiftUI button action
@@ -11,18 +10,13 @@ public final class PayPalCreditButton: PaymentButton, UIViewRepresentable {
     /**
     Available colors for PayPalCreditButton.
     */
-    @objc(PPCPayPalCreditButtonColor)
-    public enum Color: Int, CaseIterable {
-        case white = 1
-        case black = 2
-        case darkBlue = 5
+    public enum Color: String {
+        case white
+        case black
+        case darkBlue
 
         var color: PaymentButtonColor {
             PaymentButtonColor(rawValue: rawValue) ?? .darkBlue
-        }
-
-        public var description: String {
-            color.description
         }
     }
 
@@ -33,7 +27,7 @@ public final class PayPalCreditButton: PaymentButton, UIViewRepresentable {
     ///   - edges: Edges of the button. Default to softEdges if not provided.
     ///   - size: Size of the button. Default to collapsed if not provided.
     public convenience init(
-        insets: NSDirectionalEdgeInsets,
+        insets: NSDirectionalEdgeInsets? = nil,
         color: Color = .darkBlue,
         edges: PaymentButtonEdges = .softEdges,
         size: PaymentButtonSize = .collapsed,
@@ -45,28 +39,6 @@ public final class PayPalCreditButton: PaymentButton, UIViewRepresentable {
             edges: edges,
             size: size,
             insets: insets,
-            label: nil
-        )
-        self.action = action
-    }
-
-    /// Initialize a PayPalCreditButton. The insets of the button will be set appropriately depending on the button's size.
-    /// - Parameters:
-    ///   - color: Color of the button. Default to dark blue if not provided.
-    ///   - edges: Edges of the button. Default to softEdges if not provided.
-    ///   - size: Size of the button. Default to collapsed if not provided.
-    public convenience init(
-        color: Color = .darkBlue,
-        edges: PaymentButtonEdges = .softEdges,
-        size: PaymentButtonSize = .collapsed,
-        _ action: @escaping () -> Void = { }
-    ) {
-        self.init(
-            fundingSource: PaymentButtonFundingSource.credit,
-            color: color.color,
-            edges: edges,
-            size: size,
-            insets: nil,
             label: nil
         )
         self.action = action
