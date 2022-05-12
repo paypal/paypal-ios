@@ -4,9 +4,7 @@ import SwiftUI
 /// Configuration for PayPal PayLater button
 public final class PayPalPayLaterButton: PaymentButton, UIViewRepresentable {
 
-    /**
-    Available colors for PayPalPayLaterButton.
-    */
+    /// Available colors for PayPalPayLaterButton.
     public enum Color: String {
         case gold
         case white

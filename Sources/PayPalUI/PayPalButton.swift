@@ -7,9 +7,7 @@ public final class PayPalButton: PaymentButton, UIViewRepresentable {
     /// SwiftUI button action
     var action: () -> Void = { }
 
-    /**
-    Available colors for PayPalButton.
-    */
+    /// Available colors for PayPalButton.
     public enum Color: String {
         case gold
         case white
@@ -22,9 +20,7 @@ public final class PayPalButton: PaymentButton, UIViewRepresentable {
         }
     }
 
-    /**
-    Available labels for PayPalButton.
-    */
+    /// Available labels for PayPalButton.
     public enum Label: String {
         /// Display "Checkout" on the right side of the button's logo
         case checkout

@@ -77,14 +77,12 @@ public enum PaymentButtonColor: String {
 
 extension UIColor {
 
-    /**
-    Creates an UIColor from HEX String in "#482937" format
-     
-    - Parameters:
-    - hexString: HEX String in "#482937" format
-     
-    - Returns: UIColor from HexString
-    */
+    /// Creates an UIColor from HEX String in "#482937" format
+    ///
+    /// - Parameters:
+    ///  - hexString: HEX String in "#482937" format
+    ///
+    /// - Returns: UIColor from HexString
     convenience init(hexString: String) {
         let hexString: String = (hexString as NSString).trimmingCharacters(in: .whitespacesAndNewlines)
         let scanner = Scanner(string: hexString as String)

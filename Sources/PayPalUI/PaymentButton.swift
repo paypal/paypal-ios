@@ -144,7 +144,6 @@ public class PaymentButton: UIButton {
         }
     }
 
-
     // MARK: - Configuration
 
     private func configure() {
