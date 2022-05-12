@@ -7,22 +7,26 @@ class PayPalWebCheckoutViewController: FeatureBaseViewController {
 
     // MARK: - View Spacing
 
-    let buttonSpacing: CGFloat = 50
+    let buttonSpacing: CGFloat = 60
 
     // MARK: - UI Components
 
     lazy var payPalButton: PayPalButton = {
-        let payPalButton = PayPalButton()
+        let payPalButton = PayPalButton(color: .silver, edges: .rounded, size: .full)
         payPalButton.addTarget(self, action: #selector(paymentButtonTapped), for: .touchUpInside)
-        payPalButton.layer.cornerRadius = 4.0
         return payPalButton
     }()
 
     lazy var payPalCreditButton: PayPalCreditButton = {
-        let payPalCreditButton = PayPalCreditButton()
+        let payPalCreditButton = PayPalCreditButton(color: .darkBlue, edges: .softEdges, size: .mini)
         payPalCreditButton.addTarget(self, action: #selector(paymentCreditButtonTapped), for: .touchUpInside)
-        payPalCreditButton.layer.cornerRadius = 4.0
         return payPalCreditButton
+    }()
+
+    lazy var payPalPayLaterButton: PayPalPayLaterButton = {
+        let payPalPayLaterButton = PayPalPayLaterButton(color: .gold, edges: .hardEdges, size: .expanded)
+        payPalPayLaterButton.addTarget(self, action: #selector(paymentCreditButtonTapped), for: .touchUpInside)
+        return payPalPayLaterButton
     }()
 
     // MARK: - View Lifecycle & UI Setup
@@ -32,6 +36,7 @@ class PayPalWebCheckoutViewController: FeatureBaseViewController {
 
         view.addSubview(payPalButton)
         view.addSubview(payPalCreditButton)
+        view.addSubview(payPalPayLaterButton)
         view.backgroundColor = .systemBackground
 
         setupConstraints()
@@ -39,15 +44,14 @@ class PayPalWebCheckoutViewController: FeatureBaseViewController {
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            payPalButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.layoutSpacing),
-            payPalButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.layoutSpacing),
             payPalButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -buttonSpacing),
-            payPalButton.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
+            payPalButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
-            payPalCreditButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.layoutSpacing),
-            payPalCreditButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.layoutSpacing),
-            payPalCreditButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: buttonSpacing),
-            payPalCreditButton.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight)
+            payPalCreditButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            payPalCreditButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+
+            payPalPayLaterButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: buttonSpacing),
+            payPalPayLaterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
 

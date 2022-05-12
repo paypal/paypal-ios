@@ -7,20 +7,44 @@ public final class PayPalCreditButton: PaymentButton, UIViewRepresentable {
     /// SwiftUI button action
     var action: () -> Void = { }
 
-    public init() {
-        super.init(color: .darkBlue, image: .payPalCredit)
+    /**
+    Available colors for PayPalCreditButton.
+    */
+    public enum Color: String {
+        case white
+        case black
+        case darkBlue
+
+        var color: PaymentButtonColor {
+            PaymentButtonColor(rawValue: rawValue) ?? .darkBlue
+        }
     }
 
-    /// Initilizer for the SwiftUI PayPal button
-    /// - Parameter action: action of the button on click
-    public init(_ action: @escaping () -> Void) {
+    /// Initialize a PayPalCreditButton
+    /// - Parameters:
+    ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
+    ///   - color: Color of the button. Default to dark blue if not provided.
+    ///   - edges: Edges of the button. Default to softEdges if not provided.
+    ///   - size: Size of the button. Default to collapsed if not provided.
+    public convenience init(
+        insets: NSDirectionalEdgeInsets? = nil,
+        color: Color = .darkBlue,
+        edges: PaymentButtonEdges = .softEdges,
+        size: PaymentButtonSize = .collapsed,
+        _ action: @escaping () -> Void = { }
+    ) {
+        self.init(
+            fundingSource: PaymentButtonFundingSource.credit,
+            color: color.color,
+            edges: edges,
+            size: size,
+            insets: insets,
+            label: nil
+        )
         self.action = action
-        super.init(color: .darkBlue, image: .payPalCredit)
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    deinit {}
 
     // MARK: - UIViewRepresentable methods
 
@@ -30,18 +54,10 @@ public final class PayPalCreditButton: PaymentButton, UIViewRepresentable {
 
     public func makeUIView(context: Context) -> UIView {
         let view = UIView()
-        let payPalCreditButton = PayPalCreditButton()
+        let payPalCreditButton = self
 
         view.addSubview(payPalCreditButton)
-
         payPalCreditButton.addTarget(context.coordinator, action: #selector(Coordinator.onAction(_:)), for: .touchUpInside)
-
-        NSLayoutConstraint.activate([
-            payPalCreditButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            payPalCreditButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            payPalCreditButton.topAnchor.constraint(equalTo: view.topAnchor),
-            payPalCreditButton.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
 
         return view
     }
