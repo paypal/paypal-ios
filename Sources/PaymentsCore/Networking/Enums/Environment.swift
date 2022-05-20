@@ -13,5 +13,14 @@ public enum Environment {
             return URL(string: "https://api.paypal.com")!
         }
     }
+    
+    var graphqlURL: URL {
+        switch self {
+        case .sandbox:
+            return URL(string: "https://sandbox.paypal.com/graphql")!
+        case .production:
+            return URL(string: "https://paypal.com/graphql")!
+        }
+    }
     // swiftlint:enable force_unwrapping
 }

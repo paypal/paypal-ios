@@ -110,6 +110,18 @@
 		CB38546327F4B616003CE179 /* PayPalDataCollectorEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB38546227F4B616003CE179 /* PayPalDataCollectorEnvironment.swift */; };
 		CB51FF7227FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB51FF7127FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift */; };
 		CBA92A4327B304140077FF14 /* APIClientDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA92A4227B304140077FF14 /* APIClientDecoder.swift */; };
+		E646231C28369B9B008AC8E1 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = E646231B28369B9B008AC8E1 /* Query.swift */; };
+		E646231F2836A645008AC8E1 /* FundingEligibilityQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E646231E2836A645008AC8E1 /* FundingEligibilityQuery.swift */; };
+		E64623232836A69E008AC8E1 /* GraphQLQueryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64623222836A69E008AC8E1 /* GraphQLQueryResponse.swift */; };
+		E64623252836A703008AC8E1 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64623242836A703008AC8E1 /* Extension.swift */; };
+		E64623272836A81E008AC8E1 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64623262836A81E008AC8E1 /* Error.swift */; };
+		E646232A2836A90E008AC8E1 /* FundingEligibilityIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64623292836A90E008AC8E1 /* FundingEligibilityIntent.swift */; };
+		E646232C2836A9A9008AC8E1 /* SupportedCountryCurrencyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E646232B2836A9A9008AC8E1 /* SupportedCountryCurrencyType.swift */; };
+		E646232E2836A9CF008AC8E1 /* SupportedPaymentMethodsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E646232D2836A9CF008AC8E1 /* SupportedPaymentMethodsType.swift */; };
+		E64623302836AA71008AC8E1 /* FundingEligibilityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E646232F2836AA71008AC8E1 /* FundingEligibilityResponse.swift */; };
+		E64623322836AAE3008AC8E1 /* FundingEligibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64623312836AAE3008AC8E1 /* FundingEligibility.swift */; };
+		E64623342836AC5A008AC8E1 /* SupportedPaymentMethodsTypeEligibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64623332836AC5A008AC8E1 /* SupportedPaymentMethodsTypeEligibility.swift */; };
+		E64623382836AFC1008AC8E1 /* GraphQLClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64623372836AFC1008AC8E1 /* GraphQLClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -257,6 +269,18 @@
 		CB38546227F4B616003CE179 /* PayPalDataCollectorEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalDataCollectorEnvironment.swift; sourceTree = "<group>"; };
 		CB51FF7127FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebCheckoutFundingSource.swift; sourceTree = "<group>"; };
 		CBA92A4227B304140077FF14 /* APIClientDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientDecoder.swift; sourceTree = "<group>"; };
+		E646231B28369B9B008AC8E1 /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
+		E646231E2836A645008AC8E1 /* FundingEligibilityQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundingEligibilityQuery.swift; sourceTree = "<group>"; };
+		E64623222836A69E008AC8E1 /* GraphQLQueryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLQueryResponse.swift; sourceTree = "<group>"; };
+		E64623242836A703008AC8E1 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		E64623262836A81E008AC8E1 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		E64623292836A90E008AC8E1 /* FundingEligibilityIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundingEligibilityIntent.swift; sourceTree = "<group>"; };
+		E646232B2836A9A9008AC8E1 /* SupportedCountryCurrencyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedCountryCurrencyType.swift; sourceTree = "<group>"; };
+		E646232D2836A9CF008AC8E1 /* SupportedPaymentMethodsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedPaymentMethodsType.swift; sourceTree = "<group>"; };
+		E646232F2836AA71008AC8E1 /* FundingEligibilityResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundingEligibilityResponse.swift; sourceTree = "<group>"; };
+		E64623312836AAE3008AC8E1 /* FundingEligibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundingEligibility.swift; sourceTree = "<group>"; };
+		E64623332836AC5A008AC8E1 /* SupportedPaymentMethodsTypeEligibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedPaymentMethodsTypeEligibility.swift; sourceTree = "<group>"; };
+		E64623372836AFC1008AC8E1 /* GraphQLClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLClient.swift; sourceTree = "<group>"; };
 		OBJ_16 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		"PayPal::PayPalTests::Product" /* PayPalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = PayPalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -632,6 +656,7 @@
 		BEA100E526EF9EDA0036A6A5 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				E646231928369B71008AC8E1 /* GraphQL */,
 				BEA100E626EF9EDA0036A6A5 /* APIClient.swift */,
 				CBA92A4227B304140077FF14 /* APIClientDecoder.swift */,
 				BEA100EF26EFA7C20036A6A5 /* APIClientError.swift */,
@@ -660,6 +685,57 @@
 				BEA100E826EFA1EE0036A6A5 /* APIRequest.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		E646231928369B71008AC8E1 /* GraphQL */ = {
+			isa = PBXGroup;
+			children = (
+				E646231D2836A61F008AC8E1 /* FundingEligibility */,
+				E646231A28369B89008AC8E1 /* Common */,
+			);
+			path = GraphQL;
+			sourceTree = "<group>";
+		};
+		E646231A28369B89008AC8E1 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				E64623212836A67D008AC8E1 /* Models */,
+				E646231B28369B9B008AC8E1 /* Query.swift */,
+				E64623372836AFC1008AC8E1 /* GraphQLClient.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		E646231D2836A61F008AC8E1 /* FundingEligibility */ = {
+			isa = PBXGroup;
+			children = (
+				E64623282836A903008AC8E1 /* Models */,
+				E646231E2836A645008AC8E1 /* FundingEligibilityQuery.swift */,
+			);
+			path = FundingEligibility;
+			sourceTree = "<group>";
+		};
+		E64623212836A67D008AC8E1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E64623222836A69E008AC8E1 /* GraphQLQueryResponse.swift */,
+				E64623242836A703008AC8E1 /* Extension.swift */,
+				E64623262836A81E008AC8E1 /* Error.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E64623282836A903008AC8E1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E64623292836A90E008AC8E1 /* FundingEligibilityIntent.swift */,
+				E646232B2836A9A9008AC8E1 /* SupportedCountryCurrencyType.swift */,
+				E646232D2836A9CF008AC8E1 /* SupportedPaymentMethodsType.swift */,
+				E646232F2836AA71008AC8E1 /* FundingEligibilityResponse.swift */,
+				E64623312836AAE3008AC8E1 /* FundingEligibility.swift */,
+				E64623332836AC5A008AC8E1 /* SupportedPaymentMethodsTypeEligibility.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		OBJ_11 /* PayPalTests */ = {
@@ -1231,11 +1307,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				06CE009B26F3D5A40000CC46 /* CardClient.swift in Sources */,
+				E646231C28369B9B008AC8E1 /* Query.swift in Sources */,
+				E64623302836AA71008AC8E1 /* FundingEligibilityResponse.swift in Sources */,
+				E646232E2836A9CF008AC8E1 /* SupportedPaymentMethodsType.swift in Sources */,
+				E64623382836AFC1008AC8E1 /* GraphQLClient.swift in Sources */,
 				8048D28C270B9DE00072214A /* ConfirmPaymentSourceResponse.swift in Sources */,
+				E64623272836A81E008AC8E1 /* Error.swift in Sources */,
+				E64623252836A703008AC8E1 /* Extension.swift in Sources */,
+				E64623342836AC5A008AC8E1 /* SupportedPaymentMethodsTypeEligibility.swift in Sources */,
+				E64623322836AAE3008AC8E1 /* FundingEligibility.swift in Sources */,
 				3D1763A22720722A00652E1C /* CardResult.swift in Sources */,
 				BC0A82A5270B9533006E9A21 /* ConfirmPaymentSourceRequest.swift in Sources */,
 				80E8DAE126B8784600FAFC3F /* Card.swift in Sources */,
+				E64623232836A69E008AC8E1 /* GraphQLQueryResponse.swift in Sources */,
+				E646231F2836A645008AC8E1 /* FundingEligibilityQuery.swift in Sources */,
 				80DCC59E2719DB6F00EC7C5A /* CardClientError.swift in Sources */,
+				E646232C2836A9A9008AC8E1 /* SupportedCountryCurrencyType.swift in Sources */,
+				E646232A2836A90E008AC8E1 /* FundingEligibilityIntent.swift in Sources */,
 				0647E70E2714962800F8E517 /* Address.swift in Sources */,
 				BC7F8123275FC1350011EDC8 /* CardRequest.swift in Sources */,
 			);
