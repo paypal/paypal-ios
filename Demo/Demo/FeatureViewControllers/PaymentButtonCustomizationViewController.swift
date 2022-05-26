@@ -77,11 +77,6 @@ class PaymentButtonCustomizationViewController: UIViewController {
 
     // MARK: - Init
 
-    //    override init(baseViewModel: BaseViewModel) {
-    //        super.init(baseViewModel: baseViewModel)
-    //        configure()
-    //    }
-
     init() {
         super.init(nibName: nil, bundle: nil)
         configure()
@@ -211,23 +206,23 @@ class PaymentButtonCustomizationViewController: UIViewController {
         let edges = PaymentButtonEdges.allCases[spbEdgesPicker.selectedSegmentIndex]
         let size = PaymentButtonSize.allCases[spbSizePicker.selectedSegmentIndex]
 
-        let spb: PaymentButton
+        let paymentButton: PaymentButton
 
         switch fundingSource {
         case .payPal:
             let color = PayPalButton.Color.allCases[spbColorPicker.selectedSegmentIndex]
-            spb = PayPalButton(color: color, edges: edges, size: size)
+            paymentButton = PayPalButton(color: color, edges: edges, size: size)
 
         case .payLater:
             let color = PayPalPayLaterButton.Color.allCases[spbColorPicker.selectedSegmentIndex]
-            spb = PayPalPayLaterButton(color: color, edges: edges, size: size)
+            paymentButton = PayPalPayLaterButton(color: color, edges: edges, size: size)
 
         case .credit:
             let color = PayPalCreditButton.Color.allCases[spbColorPicker.selectedSegmentIndex]
-            spb = PayPalCreditButton(color: color, edges: edges, size: size)
+            paymentButton = PayPalCreditButton(color: color, edges: edges, size: size)
         }
 
-        setShadow(on: spb)
-        return spb
+        setShadow(on: paymentButton)
+        return paymentButton
     }
 }
