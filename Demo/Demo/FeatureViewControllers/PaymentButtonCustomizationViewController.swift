@@ -1,10 +1,3 @@
-//
-//  PaymentButtonCustomizationViewController.swift
-//  Demo
-//
-//  Created by Jose Noriega on 25/05/2022.
-//
-
 import UIKit
 import PayPalUI
 
