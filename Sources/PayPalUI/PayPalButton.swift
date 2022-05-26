@@ -8,7 +8,7 @@ public final class PayPalButton: PaymentButton, UIViewRepresentable {
     var action: () -> Void = { }
 
     /// Available colors for PayPalButton.
-    public enum Color: String, CaseIterable {
+    public enum Color: String {
         case gold
         case white
         case black

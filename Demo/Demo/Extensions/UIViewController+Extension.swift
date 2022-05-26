@@ -1,4 +1,5 @@
 import UIKit
+import PayPalUI
 
 extension UIViewController {
 
@@ -10,7 +11,7 @@ extension UIViewController {
         }
     }
 
-    func label(_ text: String) -> UILabel {
+    func makeLabel(_ text: String) -> UILabel {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 15)
         label.text = text

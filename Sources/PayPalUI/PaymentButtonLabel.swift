@@ -1,7 +1,7 @@
 import Foundation
 
 /// The label displayed next to PaymentButton's logo.
-public enum PaymentButtonLabel: String, CaseIterable {
+public enum PaymentButtonLabel: String {
 
     /// Add "Checkout" to the right of button's logo
     case checkout = "Checkout"

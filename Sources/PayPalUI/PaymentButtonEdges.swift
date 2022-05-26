@@ -1,7 +1,7 @@
 import UIKit
 
 /// Edges for the smart payment button, these affect the corner radius.
-public enum PaymentButtonEdges: Int, CaseIterable {
+public enum PaymentButtonEdges: Int {
 
     /// Hard edges on button with 0 corner radius.
     case hardEdges

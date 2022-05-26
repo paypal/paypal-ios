@@ -1,6 +1,6 @@
 import UIKit
 
-public enum PaymentButtonColor: String, CaseIterable {
+public enum PaymentButtonColor: String {
 
     /// The gold background and blue wordmark, monogram, and black text.
     case gold
