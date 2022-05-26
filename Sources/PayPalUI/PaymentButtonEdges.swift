@@ -1,7 +1,7 @@
 import UIKit
 
 /// Edges for the smart payment button, these affect the corner radius.
-public enum PaymentButtonEdges: Int {
+public enum PaymentButtonEdges: Int, CaseIterable {
 
     /// Hard edges on button with 0 corner radius.
     case hardEdges
@@ -22,6 +22,18 @@ public enum PaymentButtonEdges: Int {
 
         case .rounded:
             return view.frame.size.height / 2
+        }
+    }
+    public var description: String {
+        switch self {
+        case .hardEdges:
+            return "hardEdges"
+
+        case .softEdges:
+            return "softEdges"
+
+        case .rounded:
+            return "rounded"
         }
     }
 }

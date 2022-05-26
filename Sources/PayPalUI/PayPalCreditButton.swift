@@ -10,7 +10,7 @@ public final class PayPalCreditButton: PaymentButton, UIViewRepresentable {
     /**
     Available colors for PayPalCreditButton.
     */
-    public enum Color: String {
+    public enum Color: String, CaseIterable {
         case white
         case black
         case darkBlue

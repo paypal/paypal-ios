@@ -9,4 +9,11 @@ extension UIViewController {
             viewController.removeFromParent()
         }
     }
+
+    func label(_ text: String) -> UILabel {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.text = text
+        return label
+    }
 }
