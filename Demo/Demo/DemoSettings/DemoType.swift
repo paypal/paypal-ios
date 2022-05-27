@@ -23,8 +23,10 @@ enum DemoType: String {
         switch self {
         case .card:
             return AnyView(SwiftUICardDemo())
-        case .payPalWebCheckout, .paymentButtonCustomization: // we do this until swiftUI is implemented
+        case .payPalWebCheckout:
             return AnyView(SwiftUIPayPalDemo())
+        case .paymentButtonCustomization:
+            return AnyView(SwiftUIPaymentButtonDemo())
         }
     }
 }

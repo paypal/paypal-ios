@@ -3,7 +3,7 @@ import PayPalUI
 extension PayPalPayLaterButton.Color {
 
     static func allCases() -> [PayPalPayLaterButton.Color] {
-        return [
+        [
             PayPalPayLaterButton.Color.gold,
             PayPalPayLaterButton.Color.white,
             PayPalPayLaterButton.Color.black,
@@ -13,14 +13,14 @@ extension PayPalPayLaterButton.Color {
     }
 
     static func allCasesAsString() -> [String] {
-        return allCases().map { $0.rawValue }
+        allCases().map { $0.rawValue }
     }
 }
 
 extension PayPalButton.Color {
 
     static func allCases() -> [PayPalButton.Color] {
-        return [
+        [
             PayPalButton.Color.gold,
             PayPalButton.Color.white,
             PayPalButton.Color.black,
@@ -30,14 +30,14 @@ extension PayPalButton.Color {
     }
 
     static func allCasesAsString() -> [String] {
-        return allCases().map { $0.rawValue }
+        allCases().map { $0.rawValue }
     }
 }
 
 extension PayPalCreditButton.Color {
 
     static func allCases() -> [PayPalCreditButton.Color] {
-        return [
+        [
             PayPalCreditButton.Color.white,
             PayPalCreditButton.Color.black,
             PayPalCreditButton.Color.darkBlue
@@ -45,14 +45,14 @@ extension PayPalCreditButton.Color {
     }
 
     static func allCasesAsString() -> [String] {
-        return allCases().map { $0.rawValue }
+        allCases().map { $0.rawValue }
     }
 }
 
 extension PaymentButtonEdges {
 
     static func allCases() -> [PaymentButtonEdges] {
-        return [
+        [
             PaymentButtonEdges.hardEdges,
             PaymentButtonEdges.softEdges,
             PaymentButtonEdges.rounded
@@ -60,14 +60,14 @@ extension PaymentButtonEdges {
     }
 
     static func allCasesAsString() -> [String] {
-        return allCases().map { $0.description }
+        allCases().map { $0.description }
     }
 }
 
 extension PaymentButtonSize {
 
     static func allCases() -> [PaymentButtonSize] {
-        return  [
+        [
             PaymentButtonSize.mini,
             PaymentButtonSize.collapsed,
             PaymentButtonSize.expanded,
@@ -76,14 +76,14 @@ extension PaymentButtonSize {
     }
 
     static func allCasesAsString() -> [String] {
-        return allCases().map { $0.description }
+        allCases().map { $0.description }
     }
 }
 
 extension PaymentButtonFundingSource {
 
     static func allCases() -> [PaymentButtonFundingSource] {
-        return  [
+        [
             PaymentButtonFundingSource.payPal,
             PaymentButtonFundingSource.payLater,
             PaymentButtonFundingSource.credit
@@ -91,6 +91,6 @@ extension PaymentButtonFundingSource {
     }
 
     static func allCasesAsString() -> [String] {
-        return PaymentButtonFundingSource.allCases().map { $0.rawValue }
+        PaymentButtonFundingSource.allCases().map { $0.rawValue }
     }
 }

@@ -3,7 +3,6 @@ import PayPalUI
 
 class PaymentButtonCustomizationViewController: UIViewController {
 
-
     // MARK: - Views
 
     /// Scroll view which will auto size
@@ -173,8 +172,10 @@ class PaymentButtonCustomizationViewController: UIViewController {
 
     private func colorPickerSegments(with funding: PaymentButtonFundingSource) -> [String] {
         switch funding {
+
         case .payPal:
             return PayPalButton.Color.allCasesAsString()
+
         case .payLater:
             return PayPalPayLaterButton.Color.allCasesAsString()
 
@@ -191,9 +192,11 @@ class PaymentButtonCustomizationViewController: UIViewController {
         let paymentButton: PaymentButton
 
         switch fundingSource {
+
         case .payPal:
             let color = PayPalButton.Color.allCases()[colorPicker.selectedSegmentIndex]
             paymentButton = PayPalButton(color: color, edges: edges, size: size)
+
 
         case .payLater:
             let color = PayPalPayLaterButton.Color.allCases()[colorPicker.selectedSegmentIndex]
