@@ -74,15 +74,18 @@ struct SwiftUIPaymentButtonDemo: View {
                     buttonId += 1
                 }
 
-                if selectedFunding == .payPal {
+                switch selectedFunding {
+                case .payPal:
                     PayPalButton(color: PayPalButton.Color.allCases()[colorsIndex], edges: selectedEdge, size: selectedSize).id(buttonId)
-                } else if selectedFunding == .payLater {
+
+                case .payLater:
                     PayPalPayLaterButton(
                         color: PayPalPayLaterButton.Color.allCases()[colorsIndex],
                         edges: selectedEdge,
                         size: selectedSize
                     ).id(buttonId)
-                } else {
+
+                default:
                     PayPalCreditButton(
                         color: PayPalCreditButton.Color.allCases()[colorsIndex],
                         edges: selectedEdge,
@@ -95,7 +98,6 @@ struct SwiftUIPaymentButtonDemo: View {
 
     private func getColorFunding(with funding: PaymentButtonFundingSource) -> [String] {
         switch funding {
-
         case .payPal:
             return PayPalButton.Color.allCasesAsString()
 
