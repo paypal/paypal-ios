@@ -31,7 +31,7 @@ public class CardClient {
     /// - Throws: PayPalSDK error if approve order could not complete successfully
     public func approveOrder(orderId: String, request: CardRequest) async throws -> CardResult {
         let confirmPaymentRequest = try ConfirmPaymentSourceRequest(
-            card: request.card,
+            cardRequest: request,
             orderID: orderId,
             clientID: config.clientID
         )
@@ -39,9 +39,9 @@ public class CardClient {
 
         let cardResult = CardResult(
             orderID: result.id,
-            lastFourDigits: result.paymentSource.card.lastDigits,
-            brand: result.paymentSource.card.brand,
-            type: result.paymentSource.card.type
+            lastFourDigits: result.paymentSource?.card.lastDigits,
+            brand: result.paymentSource?.card.brand,
+            type: result.paymentSource?.card.type
         )
         return cardResult
     }

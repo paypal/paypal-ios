@@ -8,6 +8,7 @@ public struct Card: Encodable {
         case securityCode
         case cardholderName = "name"
         case billingAddress
+        case attributes
     }
 
     /// The primary account number (PAN) for the payment card.
@@ -33,6 +34,8 @@ public struct Card: Encodable {
         "\(expirationYear)-\(expirationMonth)"
     }
 
+    internal var attributes: Attributes?
+
     public init(
         number: String,
         expirationMonth: String,
@@ -56,5 +59,6 @@ public struct Card: Encodable {
         try container.encode(securityCode, forKey: .securityCode)
         try container.encode(cardholderName, forKey: .cardholderName)
         try container.encode(billingAddress, forKey: .billingAddress)
+        try container.encode(attributes, forKey: .attributes)
     }
 }

@@ -31,6 +31,9 @@ public final class APIClient {
             throw APIClientError.invalidURLResponseError
         }
 
+        let sBody = NSString(data: data, encoding: String.Encoding.ascii.rawValue)
+        print(sBody)
+
         switch response.statusCode {
         case 200..<300:
             let decodedData = try decoder.decode(T.self, from: data)

@@ -23,3 +23,13 @@ public struct ThreeDSecureRequest {
         self.cancelUrl = cancelUrl
     }
 }
+
+internal struct Attributes: Codable {
+
+    let verification: Verification
+}
+
+internal struct Verification: Codable {
+
+    let method: String
+}

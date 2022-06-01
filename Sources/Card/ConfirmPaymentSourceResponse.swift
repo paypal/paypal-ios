@@ -5,9 +5,11 @@ import Foundation
 import PaymentsCore
 #endif
 
+/// tool used:  https://app.quicktype.io/#l=swift
 struct ConfirmPaymentSourceResponse: Decodable {
-    let id: String
-    let paymentSource: PaymentSource
+    let id, status: String
+    let paymentSource: PaymentSource?
+    let links: [Link]?
 }
 
 struct PaymentSource: Decodable {
@@ -18,4 +20,9 @@ struct PaymentSource: Decodable {
         let brand: String?
         let type: String?
     }
+}
+
+struct Link: Decodable {
+    let href: String?
+    let rel, method: String?
 }

@@ -32,10 +32,15 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     /// In order to use this initializer, the `paymentSource` parameter has to
     /// contain the entire dictionary as it exists underneath the `payment_source` key.
     init(
-        card: Card,
+        cardRequest: CardRequest,
         orderID: String,
         clientID: String
     ) throws {
+        var card = cardRequest.card
+        if let threeDSecureRequest = cardRequest.threeDSecureRequest {
+            let verification = Verification(method: threeDSecureRequest.sca.rawValue)
+            card.attributes = Attributes(verification: verification)
+        }
         let paymentSource = [ "payment_source": [ "card": card ] ]
 
         self.clientID = clientID

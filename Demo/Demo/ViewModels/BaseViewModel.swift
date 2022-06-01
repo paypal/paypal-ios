@@ -50,7 +50,8 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         let amountRequest = Amount(currencyCode: "USD", value: amount)
         let orderRequestParams = CreateOrderParams(
             intent: DemoSettings.intent.rawValue.uppercased(),
-            purchaseUnits: [PurchaseUnit(amount: amountRequest)]
+            purchaseUnits: [PurchaseUnit(amount: amountRequest)],
+            applicationContext: ApplicationContext()
         )
 
         do {
@@ -109,10 +110,10 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate {
     func checkoutWithCard(_ card: Card, orderID: String) async {
         let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
         let cardClient = CardClient(config: config)
-        let cardRequest = CardRequest(orderID: orderID, card: card)
+        let cardRequest = CardRequest(card: card, threeDSecureRequest: createThreeDSecureRequest())
 
         do {
-            _ = try await cardClient.approveOrder(request: cardRequest)
+            _ = try await cardClient.approveOrder(orderId: orderID, request: cardRequest)
             updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: CONFIRMED")
         } catch {
             updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
@@ -131,6 +132,14 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         let enabled = cleanedCardNumber.count >= 15 && cleanedCardNumber.count <= 19
         && cleanedExpirationDate.count == 4 && cvv.count >= 3 && cvv.count <= 4
         return enabled
+    }
+
+    private func createThreeDSecureRequest() -> ThreeDSecureRequest {
+        return ThreeDSecureRequest(
+            sca: .scaAlways,
+            returnUrl: "com.paypal.android.demo://example.com/returnUrl",
+            cancelUrl: "com.paypal.android.demo://example.com/cancelUrl"
+        )
     }
 
     // MARK: - PayPal Module Integration
