@@ -1,4 +1,5 @@
 import Foundation
+import AuthenticationServices
 #if canImport(PaymentsCore)
 import PaymentsCore
 #endif
@@ -23,13 +24,15 @@ public class CardClient {
 
     /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
     /// After the order has been successfully approved, you will need to handle capturing/authorizing the order in your server.
-    /// - Parameter request: The request containing the card and order id for approval
+    /// - Parameters:
+    ///   - orderId: Order id for approval
+    ///   - request: The request containing the card
     /// - Returns: Card result
     /// - Throws: PayPalSDK error if approve order could not complete successfully
-    public func approveOrder(request: CardRequest) async throws -> CardResult {
+    public func approveOrder(orderId: String, request: CardRequest) async throws -> CardResult {
         let confirmPaymentRequest = try ConfirmPaymentSourceRequest(
             card: request.card,
-            orderID: request.orderID,
+            orderID: orderId,
             clientID: config.clientID
         )
         let (result, _) = try await apiClient.fetch(endpoint: confirmPaymentRequest)
