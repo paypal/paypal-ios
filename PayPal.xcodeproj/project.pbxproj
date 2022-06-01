@@ -90,7 +90,6 @@
 		BE4F785627EB656400FF4C0E /* PayPalWebCheckoutDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4F784927EB629100FF4C0E /* PayPalWebCheckoutDelegate.swift */; };
 		BE4F785727EB656400FF4C0E /* PayPalWebCheckoutRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4F784527EB629100FF4C0E /* PayPalWebCheckoutRequest.swift */; };
 		BE4F785827EB656400FF4C0E /* PayPalWebCheckoutResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4F784727EB629100FF4C0E /* PayPalWebCheckoutResult.swift */; };
-		BE4F785927EB656400FF4C0E /* WebAuthenticationSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4F784827EB629100FF4C0E /* WebAuthenticationSession.swift */; };
 		BE7116142723163B00165069 /* PayPalResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7116122723163300165069 /* PayPalResult.swift */; };
 		BE71161C27234B8A00165069 /* PayPalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71161B27234B8A00165069 /* PayPalError.swift */; };
 		BE711621272358E200165069 /* Environment+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE711620272358E200165069 /* Environment+Extension.swift */; };
@@ -110,6 +109,8 @@
 		CB38546327F4B616003CE179 /* PayPalDataCollectorEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB38546227F4B616003CE179 /* PayPalDataCollectorEnvironment.swift */; };
 		CB4BE27B2847ADF700EA2DD1 /* ThreeDSecureRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4BE27A2847ADF700EA2DD1 /* ThreeDSecureRequest.swift */; };
 		CB4BE27D2847AF6F00EA2DD1 /* SCA.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4BE27C2847AF6F00EA2DD1 /* SCA.swift */; };
+		CB4BE27E2847EA7D00EA2DD1 /* WebAuthenticationSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4F784827EB629100FF4C0E /* WebAuthenticationSession.swift */; };
+		CB4BE2802847F01000EA2DD1 /* CardDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4BE27F2847F01000EA2DD1 /* CardDelegate.swift */; };
 		CB51FF7227FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB51FF7127FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift */; };
 		CBA92A4327B304140077FF14 /* APIClientDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA92A4227B304140077FF14 /* APIClientDecoder.swift */; };
 /* End PBXBuildFile section */
@@ -259,6 +260,7 @@
 		CB38546227F4B616003CE179 /* PayPalDataCollectorEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalDataCollectorEnvironment.swift; sourceTree = "<group>"; };
 		CB4BE27A2847ADF700EA2DD1 /* ThreeDSecureRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDSecureRequest.swift; sourceTree = "<group>"; };
 		CB4BE27C2847AF6F00EA2DD1 /* SCA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCA.swift; sourceTree = "<group>"; };
+		CB4BE27F2847F01000EA2DD1 /* CardDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDelegate.swift; sourceTree = "<group>"; };
 		CB51FF7127FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebCheckoutFundingSource.swift; sourceTree = "<group>"; };
 		CBA92A4227B304140077FF14 /* APIClientDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientDecoder.swift; sourceTree = "<group>"; };
 		OBJ_16 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -469,6 +471,7 @@
 		80B9F85226B8750000D67843 /* PaymentsCore */ = {
 			isa = PBXGroup;
 			children = (
+				BE4F784827EB629100FF4C0E /* WebAuthenticationSession.swift */,
 				06CE009826F3D1660000CC46 /* CoreConfig.swift */,
 				065A4DBB26FCD8080007014A /* CoreSDKError.swift */,
 				BEA100E526EF9EDA0036A6A5 /* Networking */,
@@ -508,6 +511,7 @@
 				06CE00A226F3E32A0000CC46 /* ConfirmPaymentSourceResponse.swift */,
 				06CE009F26F3DF100000CC46 /* ConfirmPaymentSourceRequest.swift */,
 				80DCC59D2719DB6F00EC7C5A /* CardClientError.swift */,
+				CB4BE27F2847F01000EA2DD1 /* CardDelegate.swift */,
 			);
 			name = Card;
 			path = Sources/Card;
@@ -611,7 +615,6 @@
 				BE4F784927EB629100FF4C0E /* PayPalWebCheckoutDelegate.swift */,
 				BE4F784527EB629100FF4C0E /* PayPalWebCheckoutRequest.swift */,
 				BE4F784727EB629100FF4C0E /* PayPalWebCheckoutResult.swift */,
-				BE4F784827EB629100FF4C0E /* WebAuthenticationSession.swift */,
 				CB51FF7127FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift */,
 			);
 			name = PayPalWebCheckout;
@@ -1191,6 +1194,7 @@
 				06CE009926F3D1660000CC46 /* CoreConfig.swift in Sources */,
 				BEA100EC26EFA7790036A6A5 /* HTTPMethod.swift in Sources */,
 				BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */,
+				CB4BE27E2847EA7D00EA2DD1 /* WebAuthenticationSession.swift in Sources */,
 				06E406D726EFE7F9002533B1 /* AccessTokenResponse.swift in Sources */,
 				BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */,
 				BEA100F026EFA7C20036A6A5 /* APIClientError.swift in Sources */,
@@ -1241,6 +1245,7 @@
 				3D1763A22720722A00652E1C /* CardResult.swift in Sources */,
 				BC0A82A5270B9533006E9A21 /* ConfirmPaymentSourceRequest.swift in Sources */,
 				CB4BE27B2847ADF700EA2DD1 /* ThreeDSecureRequest.swift in Sources */,
+				CB4BE2802847F01000EA2DD1 /* CardDelegate.swift in Sources */,
 				80E8DAE126B8784600FAFC3F /* Card.swift in Sources */,
 				80DCC59E2719DB6F00EC7C5A /* CardClientError.swift in Sources */,
 				CB4BE27D2847AF6F00EA2DD1 /* SCA.swift in Sources */,
@@ -1269,7 +1274,6 @@
 				BE4F785627EB656400FF4C0E /* PayPalWebCheckoutDelegate.swift in Sources */,
 				BE4F785727EB656400FF4C0E /* PayPalWebCheckoutRequest.swift in Sources */,
 				BE4F785827EB656400FF4C0E /* PayPalWebCheckoutResult.swift in Sources */,
-				BE4F785927EB656400FF4C0E /* WebAuthenticationSession.swift in Sources */,
 				CB51FF7227FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

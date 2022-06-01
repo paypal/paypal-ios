@@ -45,7 +45,7 @@ struct SwiftUICardDemo: View {
                     }
 
                     Task {
-                        await baseViewModel.checkoutWithCard(card, orderID: orderID)
+                        await baseViewModel.checkoutWithCard(context: FeatureBaseViewController(baseViewModel: BaseViewModel()), card, orderID: orderID)
                     }
                 }
                 .foregroundColor(.white)

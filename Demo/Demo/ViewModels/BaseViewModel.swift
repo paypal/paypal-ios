@@ -6,7 +6,7 @@ import AuthenticationServices
 
 /// This class is used to share the orderID across shared views, update the text of `bottomStatusLabel` in our `FeatureBaseViewController`
 /// as well as share the logic of `processOrder` across our duplicate (SwiftUI and UIKit) card views.
-class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate {
+class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
 
     /// Weak reference to associated view
     weak var view: FeatureBaseViewController?
@@ -107,14 +107,14 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         return Card(number: cleanedCardText, expirationMonth: expirationMonth, expirationYear: expirationYear, securityCode: cvv)
     }
 
-    func checkoutWithCard(_ card: Card, orderID: String) async {
+    func checkoutWithCard(context: ASWebAuthenticationPresentationContextProviding, _ card: Card, orderID: String) async {
         let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
         let cardClient = CardClient(config: config)
+        cardClient.delegate = self
         let cardRequest = CardRequest(card: card, threeDSecureRequest: createThreeDSecureRequest())
 
         do {
-            _ = try await cardClient.approveOrder(orderId: orderID, request: cardRequest)
-            updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: CONFIRMED")
+            try await cardClient.approveOrder(orderId: orderID, request: cardRequest, context: context)
         } catch {
             updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
         }
@@ -186,4 +186,20 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         updateTitle("\(DemoSettings.intent) cancelled")
         print("❌ Buyer has cancelled the PayPal flow")
     }
+
+    // MARK: - Card Delegate
+
+    func card(_ cardClient: CardClient, didFinishWithResult result: CardResult) {
+        updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: CONFIRMED")
+    }
+
+    func card(_ cardClient: CardClient, didFinishWithError error: CoreSDKError) {
+
+    }
+
+    func cardDidCancel(_ cardClient: CardClient) {
+
+    }
+
+
 }
