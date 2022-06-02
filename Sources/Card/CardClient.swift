@@ -36,43 +36,75 @@ public class CardClient {
         orderId: String,
         request: CardRequest,
         context: ASWebAuthenticationPresentationContextProviding
-    ) async throws {
-        let confirmPaymentRequest = try ConfirmPaymentSourceRequest(
-            cardRequest: request,
-            orderID: orderId,
-            clientID: config.clientID
-        )
-        let (result, _) = try await apiClient.fetch(endpoint: confirmPaymentRequest)
-
-        if let url = result.links?.first(where: { $0.rel == "payer-action" })?.href {
-            startThreeDSecureChallenge(url: url, context: context, webAuthenticationSession: WebAuthenticationSession())
-        } else {
-            let cardResult = CardResult(
-                orderID: result.id,
-                lastFourDigits: result.paymentSource?.card.lastDigits,
-                brand: result.paymentSource?.card.brand,
-                type: result.paymentSource?.card.type
+    ) {
+        do {
+            let confirmPaymentRequest = try ConfirmPaymentSourceRequest(
+                cardRequest: request,
+                orderID: orderId,
+                clientID: config.clientID
             )
-            notifySuccess(for: cardResult)
+            Task {
+                let (result, _) = try await apiClient.fetch(endpoint: confirmPaymentRequest)
+                if let url = result.links?.first(where: { $0.rel == "payer-action" })?.href {
+                    delegate?.cardThreeDSecureWillLaunch(self)
+                    startThreeDSecureChallenge(url: url, orderId: result.id, context: context, webAuthenticationSession: WebAuthenticationSession())
+                } else {
+                    let cardResult = CardResult(
+                        orderID: result.id,
+                        status: result.status,
+                        paymentSource: result.paymentSource
+                    )
+                    notifySuccess(for: cardResult)
+                }
+            }
+        } catch let error as CoreSDKError {
+            notifyFailure(with: error)
+        } catch {
         }
     }
 
     private func startThreeDSecureChallenge(
         url: String,
+        orderId: String,
         context: ASWebAuthenticationPresentationContextProviding,
         webAuthenticationSession: WebAuthenticationSession
     ) {
-        let threeDSUrl = URL(string: url)
-                webAuthenticationSession.start(url: threeDSUrl!, context: context) { url, error in
-                    if let error = error {
-                        print(error)
-                    }
-
-                    if let url = url {
-                        print(self)
+        if let threeDSUrl = URL(string: url) {
+            webAuthenticationSession.start(url: threeDSUrl, context: context) { _, error in
+                self.delegate?.cardThreeDSecureDidFinish(self)
+                if let error = error {
+                    switch error {
+                    case ASWebAuthenticationSessionError.canceledLogin:
+                        self.notifyCancellation()
+                        return
+                    default:
+                        self.notifyFailure(with: CardClientError.threeDSecureError(error))
+                        return
                     }
                 }
+                self.getOrderInfo(id: orderId)
+            }
+        }
+    }
 
+    private func getOrderInfo(id orderId: String) {
+        let getOrderInfoRequest = GetOrderInfoRequest(
+            orderID: orderId,
+            clientID: config.clientID
+        )
+        Task {
+            do {
+                let (result, _) = try await apiClient.fetch(endpoint: getOrderInfoRequest)
+                let cardResult = CardResult(
+                    orderID: result.id,
+                    status: result.status,
+                    paymentSource: result.paymentSource
+                )
+                notifySuccess(for: cardResult)
+            } catch let error as CoreSDKError {
+                notifyFailure(with: error)
+            }
+        }
     }
 
     private func notifySuccess(for result: CardResult) {

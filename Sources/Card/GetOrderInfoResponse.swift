@@ -1,13 +1,13 @@
-// swiftlint:disable space_after_main_type
-
 import Foundation
 #if canImport(PaymentsCore)
 import PaymentsCore
 #endif
 
 /// tool used:  https://app.quicktype.io/#l=swift
-struct ConfirmPaymentSourceResponse: Decodable {
-    let id, status: String
+struct GetOrderInfoResponse: Decodable {
+
+    let id, status, intent: String
+    let purchaseUnits: [PurchaseUnit]
     let paymentSource: PaymentSource?
     let links: [Link]?
 }

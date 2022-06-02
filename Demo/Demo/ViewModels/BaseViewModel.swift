@@ -8,6 +8,9 @@ import AuthenticationServices
 /// as well as share the logic of `processOrder` across our duplicate (SwiftUI and UIKit) card views.
 class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
 
+    private static let returnUrl = "\(Bundle.main.bundleIdentifier!)://example.com/returnUrl"
+    private static let cancelUrl = "\(Bundle.main.bundleIdentifier!)://example.com/cancelUrl"
+
     /// Weak reference to associated view
     weak var view: FeatureBaseViewController?
 
@@ -51,7 +54,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         let orderRequestParams = CreateOrderParams(
             intent: DemoSettings.intent.rawValue.uppercased(),
             purchaseUnits: [PurchaseUnit(amount: amountRequest)],
-            applicationContext: ApplicationContext()
+            applicationContext: ApplicationContext(returnUrl: BaseViewModel.returnUrl, cancelUrl: BaseViewModel.cancelUrl)
         )
 
         do {
@@ -112,12 +115,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         let cardClient = CardClient(config: config)
         cardClient.delegate = self
         let cardRequest = CardRequest(card: card, threeDSecureRequest: createThreeDSecureRequest())
-
-        do {
-            try await cardClient.approveOrder(orderId: orderID, request: cardRequest, context: context)
-        } catch {
-            updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
-        }
+        cardClient.approveOrder(orderId: orderID, request: cardRequest, context: context)
     }
 
     func isCardFormValid(cardNumber: String, expirationDate: String, cvv: String) -> Bool {
@@ -137,8 +135,8 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     private func createThreeDSecureRequest() -> ThreeDSecureRequest {
         return ThreeDSecureRequest(
             sca: .scaAlways,
-            returnUrl: "com.paypal.android.demo://example.com/returnUrl",
-            cancelUrl: "com.paypal.android.demo://example.com/cancelUrl"
+            returnUrl: BaseViewModel.returnUrl,
+            cancelUrl: BaseViewModel.cancelUrl
         )
     }
 
@@ -194,12 +192,22 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     }
 
     func card(_ cardClient: CardClient, didFinishWithError error: CoreSDKError) {
-
+        updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
+        print("❌ There was an error: \(error)")
     }
 
     func cardDidCancel(_ cardClient: CardClient) {
-
+        updateTitle("\(DemoSettings.intent) cancelled")
+        print("❌ Buyer has cancelled the Card flow")
     }
 
+    func cardThreeDSecureWillLaunch(_ cardClient: CardClient) {
+        updateTitle("3DS challenge will be launched")
+        print("3DS challenge will be launched")
+    }
 
+    func cardThreeDSecureDidFinish(_ cardClient: CardClient) {
+        updateTitle("3DS challenge has finished")
+        print("3DS challenge has finished")
+    }
 }

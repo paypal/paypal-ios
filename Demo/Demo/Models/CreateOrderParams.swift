@@ -1,4 +1,5 @@
 // swiftlint:disable space_after_main_type
+import Foundation
 
 struct CreateOrderParams: Codable {
     let intent: String
@@ -16,6 +17,6 @@ struct Amount: Codable {
 }
 
 struct ApplicationContext: Codable {
-    let returnUrl = "com.paypal.android.demo://example.com/returnUrl"
-    let cancelUrl = "com.paypal.android.demo://example.com/cancelUrl"
+    let returnUrl: String
+    let cancelUrl: String
 }

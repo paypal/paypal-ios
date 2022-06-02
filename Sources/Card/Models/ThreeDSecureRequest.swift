@@ -33,3 +33,16 @@ internal struct Verification: Codable {
 
     let method: String
 }
+
+// MARK: - AuthenticationResult
+public struct AuthenticationResult: Decodable {
+
+    public let liabilityShift: String?
+    public let threeDSecure: ThreeDSecure?
+}
+
+// MARK: - ThreeDSecure
+public struct ThreeDSecure: Decodable {
+
+    public let enrollmentStatus, authenticationStatus: String?
+}
