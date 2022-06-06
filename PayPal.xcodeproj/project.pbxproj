@@ -21,6 +21,9 @@
 		3D252388273477DA0099E4EB /* PayPalCreateOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D252387273477DA0099E4EB /* PayPalCreateOrder.swift */; };
 		3D25238C273979170099E4EB /* MockCheckout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25238B273979170099E4EB /* MockCheckout.swift */; };
 		3DC42BA927187E8300B71645 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC42BA827187E8300B71645 /* ErrorResponse.swift */; };
+		5324C2CC283EB40F00DBC34F /* EligibilityAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5324C2CB283EB40F00DBC34F /* EligibilityAPI.swift */; };
+		5324C2CF283EB44000DBC34F /* APIResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5324C2CE283EB44000DBC34F /* APIResult.swift */; };
+		5324C2D1283EB45A00DBC34F /* Eligibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5324C2D0283EB45A00DBC34F /* Eligibility.swift */; };
 		8034A9E726B875C90055AF13 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; };
 		8036C1E3270F9BE700C0F091 /* AccessTokenRequest_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036C1DF270F9BE700C0F091 /* AccessTokenRequest_Tests.swift */; };
 		8036C1E4270F9BE700C0F091 /* APIClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036C1E0270F9BE700C0F091 /* APIClient_Tests.swift */; };
@@ -110,7 +113,7 @@
 		CB38546327F4B616003CE179 /* PayPalDataCollectorEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB38546227F4B616003CE179 /* PayPalDataCollectorEnvironment.swift */; };
 		CB51FF7227FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB51FF7127FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift */; };
 		CBA92A4327B304140077FF14 /* APIClientDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA92A4227B304140077FF14 /* APIClientDecoder.swift */; };
-		E646231C28369B9B008AC8E1 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = E646231B28369B9B008AC8E1 /* Query.swift */; };
+		E646231C28369B9B008AC8E1 /* GraphQLQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E646231B28369B9B008AC8E1 /* GraphQLQuery.swift */; };
 		E646231F2836A645008AC8E1 /* FundingEligibilityQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E646231E2836A645008AC8E1 /* FundingEligibilityQuery.swift */; };
 		E64623232836A69E008AC8E1 /* GraphQLQueryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64623222836A69E008AC8E1 /* GraphQLQueryResponse.swift */; };
 		E64623252836A703008AC8E1 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64623242836A703008AC8E1 /* Extension.swift */; };
@@ -190,6 +193,9 @@
 		3D252387273477DA0099E4EB /* PayPalCreateOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalCreateOrder.swift; sourceTree = "<group>"; };
 		3D25238B273979170099E4EB /* MockCheckout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCheckout.swift; sourceTree = "<group>"; };
 		3DC42BA827187E8300B71645 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
+		5324C2CB283EB40F00DBC34F /* EligibilityAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EligibilityAPI.swift; sourceTree = "<group>"; };
+		5324C2CE283EB44000DBC34F /* APIResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResult.swift; sourceTree = "<group>"; };
+		5324C2D0283EB45A00DBC34F /* Eligibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Eligibility.swift; sourceTree = "<group>"; };
 		8034A9E326B875C90055AF13 /* PaymentsCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaymentsCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8036C1DF270F9BE700C0F091 /* AccessTokenRequest_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccessTokenRequest_Tests.swift; path = UnitTests/PaymentsCoreTests/AccessTokenRequest_Tests.swift; sourceTree = SOURCE_ROOT; };
 		8036C1E0270F9BE700C0F091 /* APIClient_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIClient_Tests.swift; path = UnitTests/PaymentsCoreTests/APIClient_Tests.swift; sourceTree = SOURCE_ROOT; };
@@ -269,7 +275,7 @@
 		CB38546227F4B616003CE179 /* PayPalDataCollectorEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalDataCollectorEnvironment.swift; sourceTree = "<group>"; };
 		CB51FF7127FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebCheckoutFundingSource.swift; sourceTree = "<group>"; };
 		CBA92A4227B304140077FF14 /* APIClientDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientDecoder.swift; sourceTree = "<group>"; };
-		E646231B28369B9B008AC8E1 /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
+		E646231B28369B9B008AC8E1 /* GraphQLQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLQuery.swift; sourceTree = "<group>"; };
 		E646231E2836A645008AC8E1 /* FundingEligibilityQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundingEligibilityQuery.swift; sourceTree = "<group>"; };
 		E64623222836A69E008AC8E1 /* GraphQLQueryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLQueryResponse.swift; sourceTree = "<group>"; };
 		E64623242836A703008AC8E1 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
@@ -466,6 +472,24 @@
 			path = PayPalUIInterfaces;
 			sourceTree = "<group>";
 		};
+		5324C2CA283EB36600DBC34F /* api */ = {
+			isa = PBXGroup;
+			children = (
+				5324C2CD283EB42C00DBC34F /* models */,
+				5324C2CB283EB40F00DBC34F /* EligibilityAPI.swift */,
+			);
+			path = api;
+			sourceTree = "<group>";
+		};
+		5324C2CD283EB42C00DBC34F /* models */ = {
+			isa = PBXGroup;
+			children = (
+				5324C2CE283EB44000DBC34F /* APIResult.swift */,
+				5324C2D0283EB45A00DBC34F /* Eligibility.swift */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
 		8036C1DE270F9BCF00C0F091 /* PaymentsCoreTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -487,6 +511,7 @@
 		80B9F85226B8750000D67843 /* PaymentsCore */ = {
 			isa = PBXGroup;
 			children = (
+				5324C2CA283EB36600DBC34F /* api */,
 				06CE009826F3D1660000CC46 /* CoreConfig.swift */,
 				065A4DBB26FCD8080007014A /* CoreSDKError.swift */,
 				BEA100E526EF9EDA0036A6A5 /* Networking */,
@@ -700,7 +725,7 @@
 			isa = PBXGroup;
 			children = (
 				E64623212836A67D008AC8E1 /* Models */,
-				E646231B28369B9B008AC8E1 /* Query.swift */,
+				E646231B28369B9B008AC8E1 /* GraphQLQuery.swift */,
 				E64623372836AFC1008AC8E1 /* GraphQLClient.swift */,
 			);
 			path = Common;
@@ -1307,8 +1332,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				06CE009B26F3D5A40000CC46 /* CardClient.swift in Sources */,
-				E646231C28369B9B008AC8E1 /* Query.swift in Sources */,
+				E646231C28369B9B008AC8E1 /* GraphQLQuery.swift in Sources */,
 				E64623302836AA71008AC8E1 /* FundingEligibilityResponse.swift in Sources */,
+				5324C2CF283EB44000DBC34F /* APIResult.swift in Sources */,
 				E646232E2836A9CF008AC8E1 /* SupportedPaymentMethodsType.swift in Sources */,
 				E64623382836AFC1008AC8E1 /* GraphQLClient.swift in Sources */,
 				8048D28C270B9DE00072214A /* ConfirmPaymentSourceResponse.swift in Sources */,
@@ -1325,6 +1351,8 @@
 				E646232C2836A9A9008AC8E1 /* SupportedCountryCurrencyType.swift in Sources */,
 				E646232A2836A90E008AC8E1 /* FundingEligibilityIntent.swift in Sources */,
 				0647E70E2714962800F8E517 /* Address.swift in Sources */,
+				5324C2D1283EB45A00DBC34F /* Eligibility.swift in Sources */,
+				5324C2CC283EB40F00DBC34F /* EligibilityAPI.swift in Sources */,
 				BC7F8123275FC1350011EDC8 /* CardRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
