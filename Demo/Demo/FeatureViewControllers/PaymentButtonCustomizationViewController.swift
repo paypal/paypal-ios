@@ -112,21 +112,11 @@ class PaymentButtonCustomizationViewController: UIViewController {
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             stackViewHeight,
-            stackView.widthAnchor.constraint(
-                equalTo: scrollView.frameLayoutGuide.widthAnchor
-            ),
-            stackView.leadingAnchor.constraint(
-                equalTo: scrollView.contentLayoutGuide.leadingAnchor
-            ),
-            stackView.trailingAnchor.constraint(
-                equalTo: scrollView.contentLayoutGuide.trailingAnchor
-            ),
-            stackView.topAnchor.constraint(
-                equalTo: scrollView.contentLayoutGuide.topAnchor
-            ),
-            stackView.bottomAnchor.constraint(
-                equalTo: scrollView.contentLayoutGuide.bottomAnchor
-            )
+            stackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            stackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor)
         ]
     }
 
@@ -137,7 +127,6 @@ class PaymentButtonCustomizationViewController: UIViewController {
             reloadColorPicker()
         }
         paymentButton.removeFromSuperview()
-
         paymentButton = setupPaymentButton()
         stackView.addArrangedSubview(paymentButton)
     }
@@ -172,7 +161,6 @@ class PaymentButtonCustomizationViewController: UIViewController {
 
     private func colorPickerSegments(with funding: PaymentButtonFundingSource) -> [String] {
         switch funding {
-
         case .payPal:
             return PayPalButton.Color.allCasesAsString()
 
@@ -192,7 +180,6 @@ class PaymentButtonCustomizationViewController: UIViewController {
         let paymentButton: PaymentButton
 
         switch fundingSource {
-
         case .payPal:
             let color = PayPalButton.Color.allCases()[colorPicker.selectedSegmentIndex]
             paymentButton = PayPalButton(color: color, edges: edges, size: size)
