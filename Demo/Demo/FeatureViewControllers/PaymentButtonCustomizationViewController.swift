@@ -184,7 +184,6 @@ class PaymentButtonCustomizationViewController: UIViewController {
             let color = PayPalButton.Color.allCases()[colorPicker.selectedSegmentIndex]
             paymentButton = PayPalButton(color: color, edges: edges, size: size)
 
-
         case .payLater:
             let color = PayPalPayLaterButton.Color.allCases()[colorPicker.selectedSegmentIndex]
             paymentButton = PayPalPayLaterButton(color: color, edges: edges, size: size)
