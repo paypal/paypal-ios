@@ -8,6 +8,7 @@ struct GetOrderInfoRequest: APIRequest {
     typealias ResponseType = GetOrderInfoResponse
 
     let clientID: String
+    let secret: String
     let pathFormat: String = "v2/checkout/orders/%@"
 
     var path: String
@@ -15,7 +16,7 @@ struct GetOrderInfoRequest: APIRequest {
     var body: Data?
 
     var headers: [HTTPHeader: String] {
-        let encodedClientID = "\(clientID):".data(using: .utf8)?.base64EncodedString() ?? ""
+        let encodedClientID = "\(clientID):\(secret)".data(using: .utf8)?.base64EncodedString() ?? ""
 
         return [
             .contentType: "application/json",
@@ -25,8 +26,9 @@ struct GetOrderInfoRequest: APIRequest {
     }
 
     /// Creates request to get the order information
-    init(orderID: String, clientID: String) {
+    init(orderID: String, clientID: String, secret: String) {
         self.clientID = clientID
+        self.secret = secret
         path = String(format: pathFormat, orderID)
     }
 }

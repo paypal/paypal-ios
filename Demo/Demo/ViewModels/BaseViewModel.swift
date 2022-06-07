@@ -8,8 +8,18 @@ import AuthenticationServices
 /// as well as share the logic of `processOrder` across our duplicate (SwiftUI and UIKit) card views.
 class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
 
-    private static let returnUrl = "\(Bundle.main.bundleIdentifier!)://example.com/returnUrl"
-    private static let cancelUrl = "\(Bundle.main.bundleIdentifier!)://example.com/cancelUrl"
+    private static var returnUrl: String {
+        if let identifier = Bundle.main.bundleIdentifier {
+            return "\(identifier)://example.com/returnUrl"
+        }
+        return ""
+    }
+    private static var cancelUrl: String {
+        if let identifier = Bundle.main.bundleIdentifier {
+            return "\(identifier)://example.com/cancelUrl"
+        }
+        return ""
+    }
 
     /// Weak reference to associated view
     weak var view: FeatureBaseViewController?
@@ -20,7 +30,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     lazy var payPalClient: PayPalWebCheckoutClient = {
         let clientID = DemoSettings.clientID
         let environment = DemoSettings.environment.paypalSDKEnvironment
-        let config = CoreConfig(clientID: clientID, environment: environment)
+        let config = CoreConfig(clientID: clientID, secret: DemoSettings.secret, environment: environment)
         let payPalClient = PayPalWebCheckoutClient(config: config)
         return payPalClient
     }()
@@ -111,7 +121,11 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     }
 
     func checkoutWithCard(context: ASWebAuthenticationPresentationContextProviding, _ card: Card, orderID: String) async {
-        let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
+        let config = CoreConfig(
+            clientID: DemoSettings.clientID,
+            secret: DemoSettings.secret,
+            environment: DemoSettings.environment.paypalSDKEnvironment
+        )
         let cardClient = CardClient(config: config)
         cardClient.delegate = self
         let cardRequest = CardRequest(card: card, threeDSecureRequest: createThreeDSecureRequest())
@@ -188,7 +202,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     // MARK: - Card Delegate
 
     func card(_ cardClient: CardClient, didFinishWithResult result: CardResult) {
-        updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: CONFIRMED")
+        updateTitle("Order Id:\(result.orderID) status: \(result.status)\n \(String(describing: result.paymentSource))")
     }
 
     func card(_ cardClient: CardClient, didFinishWithError error: CoreSDKError) {
