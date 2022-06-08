@@ -47,6 +47,9 @@
 		BED04233271084DF00C80954 /* CardFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED04232271084DF00C80954 /* CardFormatter.swift */; };
 		BEDE304A275EA33500D275FD /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDE3049275EA33500D275FD /* UIViewController+Extension.swift */; };
 		BEDE304C275FA4A100D275FD /* SwiftUIPayPalDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDE304B275FA4A100D275FD /* SwiftUIPayPalDemo.swift */; };
+		CB9ED44A283E59090081F4DE /* PaymentButtonCustomizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9ED449283E59090081F4DE /* PaymentButtonCustomizationViewController.swift */; };
+		CB9ED44C283FDA900081F4DE /* PaymentButtonEnums+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9ED44B283FDA900081F4DE /* PaymentButtonEnums+Extension.swift */; };
+		CB9ED44E28411B120081F4DE /* SwiftUIPaymentButtonDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9ED44D28411B110081F4DE /* SwiftUIPaymentButtonDemo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +121,9 @@
 		BED04232271084DF00C80954 /* CardFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardFormatter.swift; sourceTree = "<group>"; };
 		BEDE3049275EA33500D275FD /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		BEDE304B275FA4A100D275FD /* SwiftUIPayPalDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIPayPalDemo.swift; sourceTree = "<group>"; };
+		CB9ED449283E59090081F4DE /* PaymentButtonCustomizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentButtonCustomizationViewController.swift; sourceTree = "<group>"; };
+		CB9ED44B283FDA900081F4DE /* PaymentButtonEnums+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PaymentButtonEnums+Extension.swift"; sourceTree = "<group>"; };
+		CB9ED44D28411B110081F4DE /* SwiftUIPaymentButtonDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIPaymentButtonDemo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +154,7 @@
 				80561B3726FB5F0F0023138C /* CardDemoViewController.swift */,
 				80561B3D26FB72D80023138C /* FeatureBaseViewController.swift */,
 				80561B3926FB5F1C0023138C /* PayPalWebCheckoutViewController.swift */,
+				CB9ED449283E59090081F4DE /* PaymentButtonCustomizationViewController.swift */,
 			);
 			path = FeatureViewControllers;
 			sourceTree = "<group>";
@@ -281,6 +288,7 @@
 				BE9F36D72745490400AFC7DA /* FloatingLabelTextField.swift */,
 				BE31187D273F02A80021C5A2 /* SwiftUICardDemo.swift */,
 				BEDE304B275FA4A100D275FD /* SwiftUIPayPalDemo.swift */,
+				CB9ED44D28411B110081F4DE /* SwiftUIPaymentButtonDemo.swift */,
 			);
 			path = SwiftUIComponents;
 			sourceTree = "<group>";
@@ -289,6 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				BEDE3049275EA33500D275FD /* UIViewController+Extension.swift */,
+				CB9ED44B283FDA900081F4DE /* PaymentButtonEnums+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -415,12 +424,14 @@
 				BE31187E273F02A80021C5A2 /* SwiftUICardDemo.swift in Sources */,
 				80561B3A26FB5F1C0023138C /* PayPalWebCheckoutViewController.swift in Sources */,
 				BED04233271084DF00C80954 /* CardFormatter.swift in Sources */,
+				CB9ED44E28411B120081F4DE /* SwiftUIPaymentButtonDemo.swift in Sources */,
 				80561B3E26FB72D80023138C /* FeatureBaseViewController.swift in Sources */,
 				BE31187C273F00B60021C5A2 /* DemoUIFramework.swift in Sources */,
 				BE9F36DC274578D100AFC7DA /* FeatureBaseViewControllerRepresentable.swift in Sources */,
 				BECD84A027036DC2007CCAE4 /* Environment.swift in Sources */,
 				806F1E3D26B85367007A60E6 /* ViewController.swift in Sources */,
 				80F33CF126F8E7D9006811B1 /* ProcessOrderParams.swift in Sources */,
+				CB9ED44C283FDA900081F4DE /* PaymentButtonEnums+Extension.swift in Sources */,
 				BED041B1270CB33900C80954 /* CustomTextField.swift in Sources */,
 				80F33CF326F8EA50006811B1 /* DemoSettings.swift in Sources */,
 				BEDE304A275EA33500D275FD /* UIViewController+Extension.swift in Sources */,
@@ -436,6 +447,7 @@
 				806F1E3B26B85367007A60E6 /* SceneDelegate.swift in Sources */,
 				BED042312710833F00C80954 /* CardType.swift in Sources */,
 				BEDE304C275FA4A100D275FD /* SwiftUIPayPalDemo.swift in Sources */,
+				CB9ED44A283E59090081F4DE /* PaymentButtonCustomizationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
