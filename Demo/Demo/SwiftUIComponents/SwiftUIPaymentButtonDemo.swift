@@ -1,8 +1,6 @@
 import SwiftUI
 import PayPalUI
 
-
-@available(iOS 13.0.0, *)
 struct SwiftUIPaymentButtonDemo: View {
 
     @State private var pickerId = 0
@@ -37,7 +35,7 @@ struct SwiftUIPaymentButtonDemo: View {
                     selectedFunding = PaymentButtonFundingSource.allCases()[fundingIndex]
                     colors = getColorFunding(with: selectedFunding)
                     colorsIndex = 0
-                    pickerId += 1 // Hack to change ID of picker. ID is updated to force refresh, https://developer.apple.com/forums/thread/127560
+                    pickerId += 1 // Workaround to change ID of picker. ID is updated to force refresh, https://developer.apple.com/forums/thread/127560
                     buttonId += 1
                 }
 
@@ -85,7 +83,7 @@ struct SwiftUIPaymentButtonDemo: View {
                         size: selectedSize
                     ).id(buttonId)
 
-                default:
+                case .credit:
                     PayPalCreditButton(
                         color: PayPalCreditButton.Color.allCases()[colorsIndex],
                         edges: selectedEdge,
