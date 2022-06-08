@@ -8,7 +8,7 @@ public struct CoreConfig {
     public let environment: Environment
     public let secret: String
 
-    public init(clientID: String, secret: String, environment: Environment) {
+    public init(clientID: String, secret: String = "", environment: Environment) {
         self.clientID = clientID
         self.environment = environment
         self.secret = secret
