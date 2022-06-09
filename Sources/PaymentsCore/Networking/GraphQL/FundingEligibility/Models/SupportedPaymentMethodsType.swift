@@ -1,4 +1,3 @@
-
 enum SupportedPaymentMethodsType: String {
     case VENMO
     case CREDIT

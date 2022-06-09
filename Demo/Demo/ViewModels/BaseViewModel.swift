@@ -177,15 +177,15 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         updateTitle("\(DemoSettings.intent) cancelled")
         print("❌ Buyer has cancelled the PayPal flow")
     }
-    
-    //todo: this is just for test, need to be removed after final integration
+
+    // TODO: this is just for test, need to be removed after final integration
     func testEligibility() async {
         let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
             let eligibilityAPI = EligibilityAPI(coreConfig: config)
-        do{
+        do {
             let eligibility = try await eligibilityAPI.checkEligibility()
             print(eligibility)
-        }catch{
+        } catch {
             print("error in test eligibility")
         }
     }

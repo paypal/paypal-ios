@@ -1,4 +1,3 @@
-
 enum FundingEligibilityIntent: String {
     case SALE
     case CAPTURE

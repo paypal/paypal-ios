@@ -1,41 +1,40 @@
-
 class FundingEligibilityQuery: GraphQLQuery {
-    var query: String{
-        get{
-            return rawQuery
-        }
+
+    var query: String {
+        return rawQuery
     }
-    
-    var variables: [String : Any]{
-        get{
-          return [
+
+    var variables: [String: Any] {
+        return [
             paramClientId: clientId,
             paramIntent: fundingEligibilityIntent.rawValue,
             paramCurrency: currencyCode.rawValue,
             paramEnableFunding: enableFunding.toStringArray()
-          ]
-        }
+        ]
     }
-    
+
     let clientId: String
     let fundingEligibilityIntent: FundingEligibilityIntent
     let currencyCode: SupportedCountryCurrencyType
     var enableFunding: [SupportedPaymentMethodsType]
-    
-    init(clientId: String, fundingEligibilityIntent: FundingEligibilityIntent,
-         currencyCode: SupportedCountryCurrencyType, enableFunding: [SupportedPaymentMethodsType]
+
+    init(
+        clientId: String,
+        fundingEligibilityIntent: FundingEligibilityIntent,
+        currencyCode: SupportedCountryCurrencyType,
+        enableFunding: [SupportedPaymentMethodsType]
     ) {
         self.clientId = clientId
         self.fundingEligibilityIntent = fundingEligibilityIntent
         self.currencyCode = currencyCode
         self.enableFunding = enableFunding
     }
-    
+
     let paramClientId = "clientId"
     let paramIntent = "intent"
     let paramCurrency = "currency"
     let paramEnableFunding = "enableFunding"
-    
+
     private let rawQuery = """
         query getEligibility(
             $clientId: String!,
@@ -72,8 +71,9 @@ class FundingEligibilityQuery: GraphQLQuery {
     """
 }
 
-extension Array where Element == SupportedPaymentMethodsType{
-    func toStringArray() -> [String]{
+extension Array
+where Element == SupportedPaymentMethodsType {
+    func toStringArray() -> [String] {
         var stringArray: [String] = []
         for element in self {
             stringArray += [element.rawValue]

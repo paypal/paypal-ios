@@ -2,10 +2,11 @@ import Foundation
 import PaymentsCore
 
 class GraphQLClient {
+
     private let environment: Environment
     private let urlSession: URLSession
     private let jsonDecoder = JSONDecoder()
-    
+
     public init(environment: Environment) {
         self.environment = environment
         self.urlSession = URLSession.shared
@@ -23,19 +24,19 @@ class GraphQLClient {
         let decoded: GraphQLQueryResponse<T> = try parse(data: data)
         return decoded
     }
-    
+
     func parse<T: Decodable>(data: Data) throws -> T {
         return try jsonDecoder.decode(T.self, from: data)
     }
-    
+
     func createURLRequest(requestBody: Data) throws -> URLRequest {
         var urlRequest = URLRequest(url: environment.graphqlURL)
         urlRequest.httpMethod = HTTPMethod.post.rawValue
         urlRequest.httpBody = requestBody
         return urlRequest
     }
-    
-    func headers() -> [String: String]{
+
+    func headers() -> [String: String] {
         return [
             "Content-type": "application/json",
             "Accept": "application/json",
@@ -46,10 +47,11 @@ class GraphQLClient {
 }
 
 extension GraphQLQuery {
+
     func requestBody() throws -> Data {
         let body: [String: Any] = [
-          "query": query,
-          "variables": variables
+            "query": query,
+            "variables": variables
         ]
         let data = try JSONSerialization.data(withJSONObject: body, options: [])
         return data

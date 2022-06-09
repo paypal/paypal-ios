@@ -50,8 +50,8 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         checkoutButton.isEnabled = false
         return checkoutButton
     }()
-    
-    //ToDo: need to remove after final integration, this is just to verify
+
+    // TODO: need to remove after final integration, this is just to verify
     lazy var eligibilityButton: CustomButton = {
         let eligibilityButton = CustomButton(title: "eligibility")
         eligibilityButton.addTarget(self, action: #selector(didTapEligibilityButton), for: .touchUpInside)
@@ -138,7 +138,7 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
             self.checkoutButton.stopAnimating()
         }
     }
-    
+
     @objc func didTapEligibilityButton() {
         Task {
             await baseViewModel.testEligibility()
