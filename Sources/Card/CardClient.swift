@@ -6,7 +6,7 @@ import PaymentsCore
 
 public class CardClient {
 
-    public weak var delegate: CardDelegate?
+    public var delegate: CardDelegate?
 
     private let apiClient: APIClient
     private let config: CoreConfig
@@ -37,6 +37,16 @@ public class CardClient {
         request: CardRequest,
         context: ASWebAuthenticationPresentationContextProviding
     ) {
+        start(orderId: orderId, request: request, context: context, webAuthenticationSession: WebAuthenticationSession())
+    }
+
+    /// Internal function for testing
+    func start(
+        orderId: String,
+        request: CardRequest,
+        context: ASWebAuthenticationPresentationContextProviding,
+        webAuthenticationSession: WebAuthenticationSession
+    ) {
         do {
             let confirmPaymentRequest = try ConfirmPaymentSourceRequest(
                 cardRequest: request,
@@ -60,6 +70,7 @@ public class CardClient {
         } catch let error as CoreSDKError {
             notifyFailure(with: error)
         } catch {
+            
         }
     }
 
