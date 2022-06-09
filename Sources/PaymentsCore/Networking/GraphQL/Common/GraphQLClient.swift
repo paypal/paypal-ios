@@ -1,14 +1,7 @@
-//
-//  GraphQLClient.swift
-//  Card
-//
-//  Created by Andres Pelaez on 19/05/22.
-//
-
 import Foundation
 import PaymentsCore
 
-internal class GraphQLClient {
+class GraphQLClient {
     private let environment: Environment
     private let urlSession: URLSession
     private let jsonDecoder = JSONDecoder()
@@ -46,8 +39,8 @@ internal class GraphQLClient {
         return [
             "Content-type": "application/json",
             "Accept": "application/json",
-            "x-app-name": "nativecheckout",
-            "Origin": "https://www.sandbox.paypal.com"
+            "x-app-name": "northstar",
+            "Origin": environment.graphqlURL.absoluteString
         ]
     }
 }

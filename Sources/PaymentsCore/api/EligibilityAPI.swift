@@ -9,7 +9,7 @@ public class EligibilityAPI{
         graphQLClient = GraphQLClient(environment: coreConfig.environment)
     }
     
-    public func checkEligibility() async throws -> APIResult<Eligibility>{
+    public func checkEligibility() async throws -> Result<Eligibility, Error>{
         let fundingEligibilityQuery = FundingEligibilityQuery(
             clientId: coreConfig.clientID,
             fundingEligibilityIntent: FundingEligibilityIntent.CAPTURE,
@@ -18,10 +18,10 @@ public class EligibilityAPI{
         )
         let response: GraphQLQueryResponse<FundingEligibilityResponse> = try await graphQLClient.executeQuery(query: fundingEligibilityQuery)
         if(response.data==nil) {
-            return APIResult.failure(GraphQLError(message: "error fetching eligibility", extensions: nil))
+            return Result.failure(GraphQLError(message: "error fetching eligibility", extensions: nil))
         }
         else{
-            return APIResult.success(
+            return Result.success(
                 Eligibility(
                     isVenmoEligible: response.data?.fundingEligibility.venmo.eligible ?? false,
                     isPaypalEligible: response.data?.fundingEligibility.paypal.eligible ?? false,

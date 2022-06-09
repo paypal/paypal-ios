@@ -1,4 +1,4 @@
 
-internal struct Extension: Codable {
+struct Extension: Codable {
     let correlationId: String
 }

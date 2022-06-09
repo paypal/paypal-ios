@@ -1,5 +1,5 @@
 
-public struct GraphQLError: Codable {
+public struct GraphQLError: Codable, Error {
     let message: String
     let extensions: [Extension]?
 }

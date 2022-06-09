@@ -1,4 +1,4 @@
 
-internal struct FundingEligibilityResponse: Codable {
+struct FundingEligibilityResponse: Codable {
     let fundingEligibility: FundingEligibility
 }

@@ -1,5 +1,5 @@
 
-internal enum FundingEligibilityIntent: String {
+enum FundingEligibilityIntent: String {
     case SALE
     case CAPTURE
     case AUTHORIZE

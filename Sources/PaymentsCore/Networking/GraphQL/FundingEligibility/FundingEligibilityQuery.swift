@@ -1,5 +1,5 @@
 
-internal class FundingEligibilityQuery: GraphQLQuery {
+class FundingEligibilityQuery: GraphQLQuery {
     var query: String{
         get{
             return rawQuery
@@ -49,24 +49,24 @@ internal class FundingEligibilityQuery: GraphQLQuery {
                 currency: $currency,
                 enableFunding: $enableFunding){
                 venmo{
-                        eligible
-                        reasons
+                    eligible
+                    reasons
                 }
-       card{
-                  eligible
-            }
-            paypal{
-                  eligible
-                  reasons
-            }
-            paylater{
-                  eligible
-                  reasons
-            }
-            credit{
-                eligible
-                reasons
-            }
+                card{
+                    eligible
+                }
+                paypal{
+                    eligible
+                    reasons
+                }
+                paylater{
+                    eligible
+                    reasons
+                }
+                credit{
+                    eligible
+                    reasons
+                }
             }
         }
     """

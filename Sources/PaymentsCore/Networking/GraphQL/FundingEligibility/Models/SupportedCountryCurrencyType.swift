@@ -1,4 +1,4 @@
 
-internal enum SupportedCountryCurrencyType: String {
+enum SupportedCountryCurrencyType: String {
     case USD
 }

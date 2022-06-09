@@ -1,5 +1,5 @@
 
-internal struct FundingEligibility: Codable {
+struct FundingEligibility: Codable {
     let venmo: SupportedPaymentMethodsTypeEligibility
     let card: SupportedPaymentMethodsTypeEligibility
     let paypal: SupportedPaymentMethodsTypeEligibility
