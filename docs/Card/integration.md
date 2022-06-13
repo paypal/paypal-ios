@@ -126,7 +126,7 @@ Task {
 }
 ```
 
-### 6. Capture/authorize the order
+### 6. Capture/Authorize the order
 
 If you receive a successful result in the client-side flow, you can then capture or authorize the order. 
 
@@ -148,11 +148,11 @@ curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/order
 --data-raw ''
 ```
 
-## Testing and Go Live
+## Test and Go Live
 
 ### 1. Test the Card integratoin
 
-TODO - Do we have test card numbers merchants can test this with?
+- [PayPal Developer: 3D Secure test scenarios](https://developer.paypal.com/docs/checkout/advanced/customize/3d-secure/test/)
 
 ### 2. Go live with your integration
 
