@@ -116,12 +116,12 @@ Approve the order using your `CardClient`.
 Call `CardClient#approveOrder` to approve the order, and then handle results:
 
 ```swift
-cardClient.approveOrder(request: cardRequest) { result in
-    switch result {
-        case .success(let result):
-            // order was successfully approved and is ready to be captured/authorized (see step 6)
-        case .failure(let error):
-            // handle the error by accessing `result.localizedDescription`
+Task {
+    do {
+        let result = cardClient.approveOrder(request: cardRequest)
+        // order was successfully approved and is ready to be captured/authorized (see step 6)
+    } catch {
+        // handle the error by accessing `error.localizedDescription`
     }
 }
 ```
