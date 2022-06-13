@@ -1,9 +1,11 @@
 # Accepting Card Payments
 
-Follow these steps to add Card payments.
+The Card module in the PayPal SDK enables Credit and Debit card payments in your app.
+
+Follow these steps to add Card payments:
 
 1. [Setup a PayPal Developer Account](#setup-a-paypal-developer-account)
-1. [Add Card Payments](#add-card-payments)
+1. [Add Card Module](#add-card-module)
 1. [Test and go live](#test-and-go-live)
 
 ## Setup a PayPal Developer Account
@@ -14,9 +16,7 @@ Follow the steps in [Get Started](https://developer.paypal.com/api/rest/#link-ge
 You will need a server integration to create an order and capture the funds using [PayPal Orders v2 API](https://developer.paypal.com/docs/api/orders/v2). 
 For initial setup, the `curl` commands below can be used in place of a server SDK.
 
-## Add Card Payments
-
-Accept card payments with PayPal Payments SDK using your own UI.
+## Add Card Module
 
 ### 1. Add the Payments SDK  to your app
 
