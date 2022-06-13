@@ -2,11 +2,11 @@
 
 Follow these steps to add Card payments.
 
-1. [Know before you code](#know-before-you-code)
+1. [Setup a PayPal Developer Account](#setup-a-paypal-developer-account)
 1. [Add Card Payments](#add-card-payments)
 1. [Test and go live](#test-and-go-live)
 
-## Know before you code
+## Setup a PayPal Developer Account
 
 You will need to set up authorization to use the PayPal Payments SDK. 
 Follow the steps in [Get Started](https://developer.paypal.com/api/rest/#link-getstarted) to create a client ID and generate an access token. 
