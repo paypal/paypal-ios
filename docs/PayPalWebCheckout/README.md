@@ -46,7 +46,7 @@ import PayPalWebCheckout
 
 ### 2. Configure your application to present an authentication session
 
-The PayPal Web Checkout uses an [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession) to complete the payment flow.
+The PayPal Web Checkout module uses an [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession) to complete the payment flow.
 
 Make sure your `ViewController` conforms to the `ASWebAuthenticationPresentationContextProviding` protocol:
 
