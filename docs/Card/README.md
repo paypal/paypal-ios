@@ -44,6 +44,27 @@ In your app's source files, use the following import syntax to include PayPal's 
 import Card
 ```
 
+### 2. Configure your application to present an authentication session
+
+The Card module uses an [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession) to complete 3D Secure authentication when necessary.
+
+Make sure your `ViewController` conforms to the `ASWebAuthenticationPresentationContextProviding` protocol:
+
+```swift
+extension MyViewController: ASWebAuthenticationPresentationContextProviding {
+
+    // MARK: - ASWebAuthenticationPresentationContextProviding
+    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        UIApplication
+            .shared
+            .connectedScenes
+            .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+            .first { $0.isKeyWindow }
+        ?? ASPresentationAnchor()
+    }
+}
+```
+
 ### 2. Initiate the Payments SDK
 
 Create a `CoreConfig` using your client ID from the PayPal Developer Portal:
@@ -124,17 +145,31 @@ Approve the order using your `CardClient`.
 Call `CardClient#approveOrder` to approve the order, and then handle results:
 
 ```swift
-extension MyViewController {
+extension MyViewController: CardDelegate {
 
     func approveOrder(cardRequest: CardRequest) {
-        Task {
-            do {
-                let result = cardClient.approveOrder(request: cardRequest, context: self)
-                // order was successfully approved and is ready to be captured/authorized (see step 6)
-            } catch {
-                // handle the error by accessing `error.localizedDescription`
-            }
-        }
+        cardClient.delegate = self
+        cardClient.approveOrder(request: cardRequest, context: self)
+    }
+
+    func card(_ cardClient: CardClient, didFinishWithResult result: CardResult) {
+        // order was successfully approved and is ready to be captured/authorized (see step 6)
+    }
+
+    func card(_ cardClient: CardClient, didFinishWithError error: CoreSDKError) {
+        // handle the error by accessing `error.localizedDescription`
+    }
+
+    func cardDidCancel(_ cardClient: CardClient) {
+        // 3D Secure auth was canceled by the user
+    }
+
+    func cardThreeDSecureWillLaunch(_ cardClient: CardClient) {
+        // 3D Secure auth will launch
+    }
+
+    func cardThreeDSecureDidFinish(_ cardClient: CardClient) {
+        // 3D Secure auth did finish successfully
     }
 }
 ```
