@@ -114,15 +114,14 @@ let payPalRequest = PayPalWebCheckoutRequest(orderID: "<ORDER_ID>")
 You can also specify one of the follwing funding sources for your order: `PayPal (default)`, `PayLater` or `PayPalCredit`.
 > Click [here](https://developer.paypal.com/docs/checkout/pay-later/us/) for more information on PayPal Pay Later
 
-### 6. Approve the order through the Payments SDK
+### 6. Approve the order using the Payments SDK
 
-When a user initiates the PayPal payment flow through your UI, approve the order using your `PayPalWebCheckoutClient`.
+To start the PayPal Web Checkout flow, call `payPalWebCheckoutClient.start(payPalWebCheckoutRequest)`.
 
-Call `payPalClient.start()` to approve the order. Implement `PayPalWebCheckoutDelegate` in your `ViewController` to receive result notifications:
+Implement `PaypalWebCheckoutDelegate` in your `ViewController` to listen for result notifications from the SDK:
 
 ```swift
-class MyViewController: ASWebAuthenticationPresentationContextProviding, PayPalWebCheckoutDelegate {
-    ...
+extension MyViewController: PayPalWebCheckoutDelegate {
 
     func checkoutWithPayPal() {
         payPalClient.delegate = self
@@ -144,7 +143,7 @@ class MyViewController: ASWebAuthenticationPresentationContextProviding, PayPalW
 }
 ```
 
-### 7. Capture/authorize the order
+### 7. Capture/Authorize the order
 
 If you receive a successful result in the client-side flow, you can then capture or authorize the order. 
 
