@@ -111,8 +111,8 @@ Configure your `PayPalWebCheckoutRequest` and include the order ID generated in 
 let payPalRequest = PayPalWebCheckoutRequest(orderID: "<ORDER_ID>")
 ```
 
-You can also specify the funding source for your order which are `PayPal` (default), `PayLater` and `PayPalCredit`.
-For more information go to: https://developer.paypal.com/docs/checkout/pay-later/us/
+You can also specify one of the follwing funding sources for your order: `PayPal (default)`, `PayLater` or `PayPalCredit`.
+> Click [here](https://developer.paypal.com/docs/checkout/pay-later/us/) for more information on PayPal Pay Later
 
 ### 6. Approve the order through the Payments SDK
 
