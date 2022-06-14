@@ -23,34 +23,36 @@ For initial setup, the `curl` commands below can be used as a reference for maki
 
 #### Swift Package Manager
 
-In Xcode, follow the guide to [add package dependencies to your app](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app) and enter https://github.com/paypal/iOS-SDK as the repository URL. Select the checkboxes for each specific PayPal library you wish to include in your project.
+In Xcode, add the PayPal SDK as a [package dependency](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app) to your Xcode project. Enter https://github.com/paypal/iOS-SDK as the package URL. Tick the "PayPalWebCheckout" checkbox to add the PayPal Web Checkout package to your app.
 
-In your app's source files, use the following import syntax to include PayPal's libraries:
+In your app's source code files, use the following import syntax to include the PayPal Card module:
 
 ```swift
-import PayPal
+import PayPalWebCheckout
 ```
 
 #### CocoaPods
 
-Include the PayPal pod in your `Podfile`.
+Include the PayPal Web Checkout pod in your `Podfile`.
 
 ```ruby
-pod 'PayPal'
+pod 'PayPalWebCheckout'
 ```
 
 In your app's source files, use the following import syntax to include PayPal's libraries:
 
 ```swift
-import PayPal
+import PayPalWebCheckout
 ```
 
 ### 2. Configure your application to present an authentication session
 
-The PayPal payment flow uses an [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession). Make sure your `ViewController` conforms to the `ASWebAuthenticationPresentationContextProviding` protocol.
+The PayPal Web Checkout uses an [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession) to complete the payment flow.
+
+Make sure your `ViewController` conforms to the `ASWebAuthenticationPresentationContextProviding` protocol:
 
 ```swift
-class MyViewController: ASWebAuthenticationPresentationContextProviding {
+extension MyViewController: ASWebAuthenticationPresentationContextProviding {
 
     // MARK: - ASWebAuthenticationPresentationContextProviding
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
