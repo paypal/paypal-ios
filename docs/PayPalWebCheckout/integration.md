@@ -1,21 +1,15 @@
----
-title: Pay with PayPal Custom Integration
-keywords: 
-contentType: docs
-productStatus: current
-apiVersion: TODO
-sdkVersion: TODO
----
 
-# Pay with PayPal Custom Integration
+# Accepting PayPal Web Checkout Payments
 
-Follow these steps to add PayPal payments.
+The PayPal Web Checkout module in the PayPal SDK enables PayPal payments in your app.
 
-1. [Know before you code](#know-before-you-code)
-1. [Add PayPal Payments](#add-paypal-payments)
+Follow these steps to add PayPal Web Checkout payments:
+
+1. [Setup a PayPal Developer Account](#setup-a-paypal-developer-account)
+1. [Add PayPal Web Checkout Module](#add-paypal-web-checkout-module)
 1. [Test and go live](#test-and-go-live)
 
-## Know before you code
+## Setup a PayPal Developer Account
 
 You will need to set up authorization to use the PayPal Payments SDK. 
 Follow the steps in [Get Started](https://developer.paypal.com/api/rest/#link-getstarted) to create a client ID. 
@@ -23,7 +17,7 @@ Follow the steps in [Get Started](https://developer.paypal.com/api/rest/#link-ge
 You will need a server integration to create an order to capture funds using the [PayPal Orders v2 API](https://developer.paypal.com/docs/api/orders/v2). 
 For initial setup, the `curl` commands below can be used as a reference for making server-side RESTful API calls.
 
-## Add PayPal Payments
+## Add PayPal Web Checkout Module
 
 ### 1. Add the Payments SDK  to your app
 
@@ -172,11 +166,13 @@ curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/order
 
 **Note**: Be sure that the endpoint you are calling aligns with the intent set on the order created in [step 3](#3-initiate-the-payments-sdk).
 
-## Testing your integration
+## Test and go live
+
+### 1. Test the PayPal integration
 
 Follow the [Create sandbox account](https://developer.paypal.com/api/rest/#link-createsandboxaccounts) instructions to create a PayPal test account.
-When prompted to login with PayPal during the payment flow on your mobile app, you can log in with Sandbox test account credentials to complete the Sandbox payment flow.
+When prompted to login with PayPal during the payment flow on your mobile app, you can log in with the test account credentials created above to complete the Sandbox payment flow. 
 
-## Go live
+### 2. Go live with your integration
 
 Follow [these instructions](https://developer.paypal.com/api/rest/production/) to prepare your integration to go live.
