@@ -170,4 +170,3 @@ curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/order
 ### 2. Go live with your integration
 
 Follow [these instructions](https://developer.paypal.com/api/rest/production/) to prepare your integration to go live.
-
