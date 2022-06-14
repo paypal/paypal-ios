@@ -1,4 +1,3 @@
-
 # Accepting PayPal Web Checkout Payments
 
 The PayPal Web Checkout module in the PayPal SDK enables PayPal payments in your app.
@@ -177,3 +176,4 @@ When prompted to login with PayPal during the payment flow on your mobile app, y
 ### 2. Go live with your integration
 
 Follow [these instructions](https://developer.paypal.com/api/rest/production/) to prepare your integration to go live.
+
