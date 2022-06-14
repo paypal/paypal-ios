@@ -109,6 +109,14 @@ Attach the card and the order ID from [step 3](#3-create-an-order) to a `CardReq
 let cardRequest = CardRequest(orderID: "<ORDER_ID>", card: card)
 ```
 
+Optionally, a merchant app can request Strong Consumer Authentication (SCA) for a `CardRequest` that will require users to provide additional authentication information via 3D Secure.
+
+To request SCA, add the following to `CardRequest`:
+
+```swift
+cardRequest.threeDSecureRequest = ThreeDSecureRequest(sca: .always)
+```
+
 ### 5. Approve the order using Payments SDK
 
 Approve the order using your `CardClient`.
@@ -116,12 +124,17 @@ Approve the order using your `CardClient`.
 Call `CardClient#approveOrder` to approve the order, and then handle results:
 
 ```swift
-Task {
-    do {
-        let result = cardClient.approveOrder(request: cardRequest)
-        // order was successfully approved and is ready to be captured/authorized (see step 6)
-    } catch {
-        // handle the error by accessing `error.localizedDescription`
+extension MyViewController {
+
+    func approveOrder(cardRequest: CardRequest) {
+        Task {
+            do {
+                let result = cardClient.approveOrder(request: cardRequest, context: self)
+                // order was successfully approved and is ready to be captured/authorized (see step 6)
+            } catch {
+                // handle the error by accessing `error.localizedDescription`
+            }
+        }
     }
 }
 ```
