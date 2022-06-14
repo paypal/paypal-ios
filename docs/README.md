@@ -1,4 +1,3 @@
 # PayPal SDK Documentation
 
-- [PayPal](PayPal)
-
+- [PayPal Web Checkout](PayPalWebCheckout)
