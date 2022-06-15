@@ -24,4 +24,16 @@ public enum PaymentButtonEdges: Int {
             return view.frame.size.height / 2
         }
     }
+    public var description: String {
+        switch self {
+        case .hardEdges:
+            return "hardEdges"
+
+        case .softEdges:
+            return "softEdges"
+
+        case .rounded:
+            return "rounded"
+        }
+    }
 }
