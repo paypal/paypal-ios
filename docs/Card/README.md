@@ -149,7 +149,7 @@ cardRequest.threeDSecureRequest = ThreeDSecureRequest(sca: .always)
 
 ### 6. Approve the order using Payments SDK
 
-Call `CardClient#approveOrder` to approve the order.
+Call `cardClient.approveOrder()` to approve the order.
 
 Implement `CardDelegate` in your `ViewController` to listen for result notifications from the SDK:
 
