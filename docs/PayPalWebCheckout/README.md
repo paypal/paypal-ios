@@ -81,12 +81,14 @@ let payPalClient = PayPalWebCheckoutClient(config: config)
 
 ### 4. Create an order
 
-When a user enters the payment flow, call `v2/checkout/orders` to create an order and obtain an Order ID:
 
+When a user initiates a payment flow, call `v2/checkout/orders` to create an order and obtain an order ID:
+
+**Request**
 ```bash
 curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/orders/' \
 --header 'Content-Type: application/json' \
---header 'Authorization: Basic <ENCODED_CLIENT_ID>' \
+--header 'Authorization: Bearer <ACCESS_TOKEN>' \
 --data-raw '{
     "intent": "<CAPTURE|AUTHORIZE>",
     "purchase_units": [
@@ -100,7 +102,15 @@ curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/order
 }'
 ```
 
-The `id` field of the response contains the Order ID to pass to your client.
+**Response**
+```json
+{
+   "id":"<ORDER_ID>",
+   "status":"CREATED"
+}
+```
+
+The `id` field of the response contains the order ID to pass to your client.
 
 ### 5. Create a request object for launching the PayPal flow
 
