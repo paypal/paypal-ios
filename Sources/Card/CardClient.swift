@@ -47,13 +47,13 @@ public class CardClient {
         context: ASWebAuthenticationPresentationContextProviding,
         webAuthenticationSession: WebAuthenticationSession
     ) {
-        do {
-            let confirmPaymentRequest = try ConfirmPaymentSourceRequest(
-                cardRequest: request,
-                orderID: orderId,
-                clientID: config.clientID
-            )
-            Task {
+        Task {
+            do {
+                let confirmPaymentRequest = try ConfirmPaymentSourceRequest(
+                    cardRequest: request,
+                    orderID: orderId,
+                    clientID: config.clientID
+                )
                 let (result, _) = try await apiClient.fetch(endpoint: confirmPaymentRequest)
                 if let url = result.links?.first(where: { $0.rel == "payer-action" })?.href {
                     delegate?.cardThreeDSecureWillLaunch(self)
@@ -66,11 +66,11 @@ public class CardClient {
                     )
                     notifySuccess(for: cardResult)
                 }
+
+            } catch let error as CoreSDKError {
+                notifyFailure(with: error)
+            } catch {
             }
-        } catch let error as CoreSDKError {
-            notifyFailure(with: error)
-        } catch {
-            
         }
     }
 

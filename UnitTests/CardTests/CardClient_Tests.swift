@@ -100,7 +100,7 @@ class CardClient_Tests: XCTestCase {
 
             let cardRequest = CardRequest(card: card)
 
-            cardClient.delegate = MockCardDelegate(success: {_, result -> Void in
+            cardClient.delegate = MockCardDelegate(success: {_, _ -> Void in
                 XCTFail("Test Should have thrown an error")
             }, error: { _, error -> Void in
                 XCTAssertEqual(error.domain, APIClientError.domain)
@@ -117,7 +117,6 @@ class CardClient_Tests: XCTestCase {
                 context: MockViewController(),
                 webAuthenticationSession: MockWebAuthenticationSession()
             )
-
             waitForExpectations(timeout: 10)
         } else {
             XCTFail("Data json cannot be null")
