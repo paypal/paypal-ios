@@ -1,4 +1,5 @@
 import XCTest
+import AuthenticationServices
 @testable import PaymentsCore
 @testable import Card
 @testable import TestShared
@@ -35,23 +36,15 @@ class CardClient_Tests: XCTestCase {
         cardClient = CardClient(config: config, apiClient: apiClient)
     }
 
+    override func tearDown() {
+        super.tearDown()
+        mockURLSession.clear()
+    }
+
     // MARK: - approveOrder() tests
 
     func testApproveOrder_withNoThreeDSecure_returnsOrderData() {
-
-        if let jsonResponse = """
-        {
-            "id": "testOrderID",
-            "status": "APPROVED",
-            "payment_source": {
-                "card": {
-                    "last_four_digits": "7321",
-                    "brand": "VISA",
-                    "type": "CREDIT"
-                }
-            }
-        }
-        """.data(using: String.Encoding.utf8) {
+        if let jsonResponse = CardResponses.confirmPaymentSourceJson.rawValue.data(using: String.Encoding.utf8) {
             let mockResponse = MockResponse.success(
                 MockResponse.Success(data: jsonResponse, urlResponse: successURLResponse)
             )
@@ -85,8 +78,7 @@ class CardClient_Tests: XCTestCase {
         }
     }
 
-    func testApproveOrder_withInvalidJSONResponse_returnsParseError() {
-
+    func testApproveOrder_whenApiCallFails_returnsError() {
         if let jsonResponse = """
         {
             "some_unexpected_response": "something"
@@ -123,46 +115,157 @@ class CardClient_Tests: XCTestCase {
         }
     }
 
-    private class MockCardDelegate: CardDelegate {
+    func testApproveOrder_withThreeDSecure_browserSwitchLaunches_getOrderReturnsSuccess() {
+        if let confirmPaymentSourceJsonResponse = CardResponses.confirmPaymentSourceJsonWith3DS.rawValue.data(using: String.Encoding.utf8),
+            let getOrderJsonResponse = CardResponses.successfullGetOrderJson.rawValue.data(using: String.Encoding.utf8) {
+            let mockConfirmResponse = MockResponse.success(
+                MockResponse.Success(data: confirmPaymentSourceJsonResponse, urlResponse: successURLResponse)
+            )
+            let mockOrderResponse = MockResponse.success(
+                MockResponse.Success(data: getOrderJsonResponse, urlResponse: successURLResponse)
+            )
 
-        private var success: ((CardClient, CardResult) -> Void)
-        private var failure: ((CardClient, CoreSDKError) -> Void)?
-        private var cancel: ((CardClient) -> Void)?
-        private var threeDSWillLaunch: ((CardClient) -> Void)?
-        private var threeDSLaunched: ((CardClient) -> Void)?
+            mockURLSession.addResponse(mockConfirmResponse)
+            mockURLSession.addResponse(mockOrderResponse)
 
-        required init(
-            success: @escaping((CardClient, CardResult) -> Void),
-            error: ((CardClient, CoreSDKError) -> Void)? = nil,
-            cancel: ((CardClient) -> Void)? = nil,
-            threeDSWillLaunch: ((CardClient) -> Void)? = nil,
-            threeDSLaunched: ((CardClient) -> Void)? = nil
-        ) {
-            self.success = success
-            self.failure = error
-            self.cancel = cancel
-            self.threeDSWillLaunch = threeDSWillLaunch
-            self.threeDSLaunched = threeDSLaunched
+            let expectation = expectation(description: "testName")
+
+            let threeDSecureRequest = ThreeDSecureRequest(sca: .scaAlways, returnUrl: "", cancelUrl: "")
+            let cardRequest = CardRequest(card: card, threeDSecureRequest: threeDSecureRequest)
+
+            cardClient.delegate = MockCardDelegate(
+                success: {_, result -> Void in
+                    XCTAssertEqual(result.orderID, "testOrderID")
+                    XCTAssertEqual(result.status, "CREATED")
+                    XCTAssertEqual(result.paymentSource?.card.brand, "VISA")
+                    XCTAssertEqual(result.paymentSource?.card.lastFourDigits, "7321")
+                    XCTAssertEqual(result.paymentSource?.card.type, "CREDIT")
+                    XCTAssertEqual(result.paymentSource?.card.authenticationResult?.liabilityShift, "POSSIBLE")
+                    XCTAssertEqual(result.paymentSource?.card.authenticationResult?.threeDSecure?.authenticationStatus, "Y")
+                    XCTAssertEqual(result.paymentSource?.card.authenticationResult?.threeDSecure?.enrollmentStatus, "Y")
+                    expectation.fulfill()
+                },
+                error: { _, error -> Void in
+                    XCTFail(error.localizedDescription)
+                    expectation.fulfill()
+                },
+                cancel: { _ -> Void in XCTFail("Cancel in delegate shouldnt be called") },
+                threeDSWillLaunch: { _ -> Void in XCTAssert(true) },
+                threeDSLaunched: { _ -> Void in XCTAssert(true) })
+
+            cardClient.start(
+                orderId: "testOrderID",
+                request: cardRequest,
+                context: MockViewController(),
+                webAuthenticationSession: MockWebAuthenticationSession()
+            )
+
+            waitForExpectations(timeout: 10)
+        } else {
+            XCTFail("Data json cannot be null")
         }
+    }
 
-        func card(_ cardClient: CardClient, didFinishWithResult result: CardResult) {
-            success(cardClient, result)
+    func testApproveOrder_withThreeDSecure_userCancelsBrowser() {
+        if let confirmPaymentSourceJsonResponse = CardResponses.confirmPaymentSourceJsonWith3DS.rawValue.data(using: String.Encoding.utf8) {
+            let mockConfirmResponse = MockResponse.success(
+                MockResponse.Success(data: confirmPaymentSourceJsonResponse, urlResponse: successURLResponse)
+            )
+
+            mockURLSession.addResponse(mockConfirmResponse)
+
+            let mockWebAuthSession = MockWebAuthenticationSession()
+            mockWebAuthSession.cannedErrorResponse = ASWebAuthenticationSessionError(
+                _bridgedNSError: NSError(
+                    domain: ASWebAuthenticationSessionError.errorDomain,
+                    code: ASWebAuthenticationSessionError.canceledLogin.rawValue,
+                    userInfo: ["Description": "Mock cancellation error description."]
+                )
+            )
+
+            let expectation = expectation(description: "testName")
+
+            let threeDSecureRequest = ThreeDSecureRequest(sca: .scaAlways, returnUrl: "", cancelUrl: "")
+            let cardRequest = CardRequest(card: card, threeDSecureRequest: threeDSecureRequest)
+
+            cardClient.delegate = MockCardDelegate(
+                success: {_, _ -> Void in
+                    XCTFail("Flow should not succed")
+                    expectation.fulfill()
+                },
+                error: { _, error -> Void in
+                    XCTFail(error.localizedDescription)
+                    expectation.fulfill()
+                },
+                cancel: { _ -> Void in
+                    XCTAssert(true)
+                    expectation.fulfill()
+                },
+                threeDSWillLaunch: { _ -> Void in XCTAssert(true) },
+                threeDSLaunched: { _ -> Void in XCTAssert(true) })
+
+            cardClient.start(
+                orderId: "testOrderID",
+                request: cardRequest,
+                context: MockViewController(),
+                webAuthenticationSession: mockWebAuthSession
+            )
+
+            waitForExpectations(timeout: 10)
+        } else {
+            XCTFail("Data json cannot be null")
         }
+    }
 
-        func card(_ cardClient: CardClient, didFinishWithError error: CoreSDKError) {
-            failure?(cardClient, error)
-        }
+    func testApproveOrder_withThreeDSecure_browserReturnsError() {
 
-        func cardDidCancel(_ cardClient: CardClient) {
-            cancel?(cardClient)
-        }
+        if let confirmPaymentSourceJsonResponse = CardResponses.confirmPaymentSourceJsonWith3DS.rawValue.data(using: String.Encoding.utf8) {
+            let mockConfirmResponse = MockResponse.success(
+                MockResponse.Success(data: confirmPaymentSourceJsonResponse, urlResponse: successURLResponse)
+            )
 
-        func cardThreeDSecureWillLaunch(_ cardClient: CardClient) {
-            threeDSWillLaunch?(cardClient)
-        }
+            mockURLSession.addResponse(mockConfirmResponse)
 
-        func cardThreeDSecureDidFinish(_ cardClient: CardClient) {
-            threeDSLaunched?(cardClient)
+            let mockWebAuthSession = MockWebAuthenticationSession()
+            mockWebAuthSession.cannedErrorResponse = CoreSDKError(
+                code: CardClientError.Code.threeDSecureError.rawValue,
+                domain: CardClientError.domain,
+                errorDescription: "Mock web session error description."
+            )
+
+            let expectation = expectation(description: "testName")
+
+            let threeDSecureRequest = ThreeDSecureRequest(sca: .scaAlways, returnUrl: "", cancelUrl: "")
+            let cardRequest = CardRequest(card: card, threeDSecureRequest: threeDSecureRequest)
+
+            cardClient.delegate = MockCardDelegate(
+                success: {_, _ -> Void in
+                    XCTFail("Flow should not succed")
+                    expectation.fulfill()
+                },
+                error: { _, error -> Void in
+                    XCTAssertEqual(error.domain, CardClientError.domain)
+                    XCTAssertEqual(error.code, CardClientError.Code.threeDSecureError.rawValue)
+                    XCTAssertEqual(error.localizedDescription, "Mock web session error description.")
+                    expectation.fulfill()
+                },
+                cancel: { _ -> Void in
+                    XCTFail("Flow should not cancel")
+                    expectation.fulfill()
+                },
+                threeDSWillLaunch: { _ -> Void in XCTAssert(true) },
+                threeDSLaunched: { _ -> Void in XCTAssert(true) })
+
+            cardClient.start(
+                orderId: "testOrderID",
+                request: cardRequest,
+                context: MockViewController(),
+                webAuthenticationSession: mockWebAuthSession
+            )
+
+            waitForExpectations(timeout: 10)
+        } else {
+            XCTFail("Data json cannot be null")
         }
     }
 }
