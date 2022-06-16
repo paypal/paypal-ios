@@ -33,14 +33,12 @@ public class CardClient {
     /// - Returns: Card result
     /// - Throws: PayPalSDK error if approve order could not complete successfully
     public func approveOrder(
-        orderId: String,
         request: CardRequest,
         context: ASWebAuthenticationPresentationContextProviding
     ) {
         do {
             let confirmPaymentRequest = try ConfirmPaymentSourceRequest(
                 cardRequest: request,
-                orderID: orderId,
                 clientID: config.clientID
             )
             Task {
