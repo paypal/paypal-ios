@@ -51,10 +51,10 @@ class CardClient_Tests: XCTestCase {
             mockURLSession.addResponse(mockResponse)
             let expectation = expectation(description: "testName")
 
-            let cardRequest = CardRequest(card: card)
+            let cardRequest = CardRequest(orderId: "testOrderId", card: card)
 
             let mockCardDelegate = MockCardDelegate(success: {_, result -> Void in
-                XCTAssertEqual(result.orderID, "testOrderID")
+                XCTAssertEqual(result.orderID, "testOrderId")
                 XCTAssertEqual(result.paymentSource?.card.brand, "VISA")
                 XCTAssertEqual(result.paymentSource?.card.lastFourDigits, "7321")
                 XCTAssertEqual(result.paymentSource?.card.type, "CREDIT")
@@ -68,7 +68,6 @@ class CardClient_Tests: XCTestCase {
             cardClient.delegate = mockCardDelegate
 
             cardClient.start(
-                orderId: "testOrderID",
                 request: cardRequest,
                 context: MockViewController(),
                 webAuthenticationSession: MockWebAuthenticationSession()
@@ -92,7 +91,7 @@ class CardClient_Tests: XCTestCase {
             mockURLSession.addResponse(mockResponse)
             let expectation = expectation(description: "testName")
 
-            let cardRequest = CardRequest(card: card)
+            let cardRequest = CardRequest(orderId: "testOrderId", card: card)
 
             let mockCardDelegate = MockCardDelegate(success: {_, _ -> Void in
                 XCTFail("Test Should have thrown an error")
@@ -108,7 +107,6 @@ class CardClient_Tests: XCTestCase {
             cardClient.delegate = mockCardDelegate
 
             cardClient.start(
-                orderId: "testOrderID",
                 request: cardRequest,
                 context: MockViewController(),
                 webAuthenticationSession: MockWebAuthenticationSession()
@@ -135,11 +133,11 @@ class CardClient_Tests: XCTestCase {
             let expectation = expectation(description: "testName")
 
             let threeDSecureRequest = ThreeDSecureRequest(sca: .scaAlways, returnUrl: "", cancelUrl: "")
-            let cardRequest = CardRequest(card: card, threeDSecureRequest: threeDSecureRequest)
+            let cardRequest = CardRequest(orderId: "testOrderId", card: card, threeDSecureRequest: threeDSecureRequest)
 
             let mockCardDelegate = MockCardDelegate(
                 success: {_, result -> Void in
-                    XCTAssertEqual(result.orderID, "testOrderID")
+                    XCTAssertEqual(result.orderID, "testOrderId")
                     XCTAssertEqual(result.status, "CREATED")
                     XCTAssertEqual(result.paymentSource?.card.brand, "VISA")
                     XCTAssertEqual(result.paymentSource?.card.lastFourDigits, "7321")
@@ -160,7 +158,6 @@ class CardClient_Tests: XCTestCase {
             cardClient.delegate = mockCardDelegate
 
             cardClient.start(
-                orderId: "testOrderID",
                 request: cardRequest,
                 context: MockViewController(),
                 webAuthenticationSession: MockWebAuthenticationSession()
@@ -192,7 +189,7 @@ class CardClient_Tests: XCTestCase {
             let expectation = expectation(description: "testName")
 
             let threeDSecureRequest = ThreeDSecureRequest(sca: .scaAlways, returnUrl: "", cancelUrl: "")
-            let cardRequest = CardRequest(card: card, threeDSecureRequest: threeDSecureRequest)
+            let cardRequest = CardRequest(orderId: "testOrderId", card: card, threeDSecureRequest: threeDSecureRequest)
 
             let mockCardDelegate = MockCardDelegate(
                 success: {_, _ -> Void in
@@ -213,7 +210,6 @@ class CardClient_Tests: XCTestCase {
             cardClient.delegate = mockCardDelegate
 
             cardClient.start(
-                orderId: "testOrderID",
                 request: cardRequest,
                 context: MockViewController(),
                 webAuthenticationSession: mockWebAuthSession
@@ -244,7 +240,7 @@ class CardClient_Tests: XCTestCase {
             let expectation = expectation(description: "testName")
 
             let threeDSecureRequest = ThreeDSecureRequest(sca: .scaAlways, returnUrl: "", cancelUrl: "")
-            let cardRequest = CardRequest(card: card, threeDSecureRequest: threeDSecureRequest)
+            let cardRequest = CardRequest(orderId: "testOrderId", card: card, threeDSecureRequest: threeDSecureRequest)
 
             let mockCardDelegate = MockCardDelegate(
                 success: {_, _ -> Void in
@@ -267,7 +263,6 @@ class CardClient_Tests: XCTestCase {
             cardClient.delegate = mockCardDelegate
 
             cardClient.start(
-                orderId: "testOrderID",
                 request: cardRequest,
                 context: MockViewController(),
                 webAuthenticationSession: mockWebAuthSession

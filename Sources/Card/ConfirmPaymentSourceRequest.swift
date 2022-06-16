@@ -33,7 +33,6 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     /// contain the entire dictionary as it exists underneath the `payment_source` key.
     init(
         cardRequest: CardRequest,
-        orderID: String,
         clientID: String
     ) throws {
         var card = cardRequest.card
@@ -44,7 +43,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         let paymentSource = [ "payment_source": [ "card": card ] ]
 
         self.clientID = clientID
-        self.orderID = orderID
+        self.orderID = cardRequest.orderId
 
         path = String(format: pathFormat, orderID)
 

@@ -25,20 +25,3 @@ public struct PaymentSource: Decodable {
         public let authenticationResult: AuthenticationResult?
     }
 }
-
-struct Link: Decodable {
-
-    let href: String?
-    let rel, method: String?
-}
-
-struct PurchaseUnit: Codable {
-
-    let amount: Amount
-}
-
-struct Amount: Codable {
-
-    let currencyCode: String
-    let value: String
-}

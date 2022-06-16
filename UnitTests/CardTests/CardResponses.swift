@@ -1,7 +1,7 @@
 enum CardResponses: String {
     case confirmPaymentSourceJson = """
         {
-            "id": "testOrderID",
+            "id": "testOrderId",
             "status": "APPROVED",
             "payment_source": {
                 "card": {
@@ -14,7 +14,7 @@ enum CardResponses: String {
         """
     case confirmPaymentSourceJsonWith3DS = """
         {
-            "id": "testOrderID",
+            "id": "testOrderId",
             "status": "APPROVED",
             "payment_source": {
                 "card": {
@@ -33,7 +33,7 @@ enum CardResponses: String {
         """
     case successfullGetOrderJson = """
         {
-            "id": "testOrderID",
+            "id": "testOrderId",
             "status": "CREATED",
             "intent": "CAPTURE",
             "payment_source": {

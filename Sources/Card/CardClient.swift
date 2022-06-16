@@ -33,16 +33,14 @@ public class CardClient {
     /// - Returns: Card result
     /// - Throws: PayPalSDK error if approve order could not complete successfully
     public func approveOrder(
-        orderId: String,
         request: CardRequest,
         context: ASWebAuthenticationPresentationContextProviding
     ) {
-        start(orderId: orderId, request: request, context: context, webAuthenticationSession: WebAuthenticationSession())
+        start(request: request, context: context, webAuthenticationSession: WebAuthenticationSession())
     }
 
     /// Internal function for testing
     func start(
-        orderId: String,
         request: CardRequest,
         context: ASWebAuthenticationPresentationContextProviding,
         webAuthenticationSession: WebAuthenticationSession
@@ -51,7 +49,6 @@ public class CardClient {
             do {
                 let confirmPaymentRequest = try ConfirmPaymentSourceRequest(
                     cardRequest: request,
-                    orderID: orderId,
                     clientID: config.clientID
                 )
                 let (result, _) = try await apiClient.fetch(endpoint: confirmPaymentRequest)

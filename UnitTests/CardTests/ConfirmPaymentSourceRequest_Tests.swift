@@ -13,10 +13,10 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
             expirationYear: "2024",
             securityCode: "222"
         )
-        let cardRequest = CardRequest(card: card)
+        let cardRequest = CardRequest(orderId: mockOrderId, card: card)
 
         let confirmPaymentSourceRequest = try XCTUnwrap(
-            ConfirmPaymentSourceRequest(cardRequest: cardRequest, orderID: mockOrderId, clientID: "")
+            ConfirmPaymentSourceRequest(cardRequest: cardRequest, clientID: "")
         )
 
         let paymentSourceBody = try XCTUnwrap(confirmPaymentSourceRequest.body)
@@ -40,10 +40,10 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
             expirationYear: "2024",
             securityCode: "222"
         )
-        let cardRequest = CardRequest(card: card)
+        let cardRequest = CardRequest(orderId: mockOrderId, card: card)
 
         let confirmPaymentSourceRequest = try XCTUnwrap(
-            ConfirmPaymentSourceRequest(cardRequest: cardRequest, orderID: mockOrderId, clientID: mockClientId)
+            ConfirmPaymentSourceRequest(cardRequest: cardRequest, clientID: mockClientId)
         )
 
         let expectedPath = "/v2/checkout/orders/\(mockOrderId)/confirm-payment-source"
