@@ -6,7 +6,7 @@ import PaymentsCore
 
 public class CardClient {
 
-    public var delegate: CardDelegate?
+    public weak var delegate: CardDelegate?
 
     private let apiClient: APIClient
     private let config: CoreConfig

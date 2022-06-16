@@ -53,7 +53,7 @@ class CardClient_Tests: XCTestCase {
 
             let cardRequest = CardRequest(card: card)
 
-            cardClient.delegate = MockCardDelegate(success: {_, result -> Void in
+            let mockCardDelegate = MockCardDelegate(success: {_, result -> Void in
                 XCTAssertEqual(result.orderID, "testOrderID")
                 XCTAssertEqual(result.paymentSource?.card.brand, "VISA")
                 XCTAssertEqual(result.paymentSource?.card.lastFourDigits, "7321")
@@ -64,6 +64,8 @@ class CardClient_Tests: XCTestCase {
             }, threeDSWillLaunch: { _ -> Void in
                 XCTFail()
             })
+
+            cardClient.delegate = mockCardDelegate
 
             cardClient.start(
                 orderId: "testOrderID",
@@ -92,7 +94,7 @@ class CardClient_Tests: XCTestCase {
 
             let cardRequest = CardRequest(card: card)
 
-            cardClient.delegate = MockCardDelegate(success: {_, _ -> Void in
+            let mockCardDelegate = MockCardDelegate(success: {_, _ -> Void in
                 XCTFail("Test Should have thrown an error")
             }, error: { _, error -> Void in
                 XCTAssertEqual(error.domain, APIClientError.domain)
@@ -102,6 +104,8 @@ class CardClient_Tests: XCTestCase {
             }, threeDSWillLaunch: { _ -> Void in
                 XCTFail()
             })
+
+            cardClient.delegate = mockCardDelegate
 
             cardClient.start(
                 orderId: "testOrderID",
@@ -133,7 +137,7 @@ class CardClient_Tests: XCTestCase {
             let threeDSecureRequest = ThreeDSecureRequest(sca: .scaAlways, returnUrl: "", cancelUrl: "")
             let cardRequest = CardRequest(card: card, threeDSecureRequest: threeDSecureRequest)
 
-            cardClient.delegate = MockCardDelegate(
+            let mockCardDelegate = MockCardDelegate(
                 success: {_, result -> Void in
                     XCTAssertEqual(result.orderID, "testOrderID")
                     XCTAssertEqual(result.status, "CREATED")
@@ -152,6 +156,8 @@ class CardClient_Tests: XCTestCase {
                 cancel: { _ -> Void in XCTFail("Cancel in delegate shouldnt be called") },
                 threeDSWillLaunch: { _ -> Void in XCTAssert(true) },
                 threeDSLaunched: { _ -> Void in XCTAssert(true) })
+
+            cardClient.delegate = mockCardDelegate
 
             cardClient.start(
                 orderId: "testOrderID",
@@ -188,7 +194,7 @@ class CardClient_Tests: XCTestCase {
             let threeDSecureRequest = ThreeDSecureRequest(sca: .scaAlways, returnUrl: "", cancelUrl: "")
             let cardRequest = CardRequest(card: card, threeDSecureRequest: threeDSecureRequest)
 
-            cardClient.delegate = MockCardDelegate(
+            let mockCardDelegate = MockCardDelegate(
                 success: {_, _ -> Void in
                     XCTFail("Flow should not succed")
                     expectation.fulfill()
@@ -203,6 +209,8 @@ class CardClient_Tests: XCTestCase {
                 },
                 threeDSWillLaunch: { _ -> Void in XCTAssert(true) },
                 threeDSLaunched: { _ -> Void in XCTAssert(true) })
+
+            cardClient.delegate = mockCardDelegate
 
             cardClient.start(
                 orderId: "testOrderID",
@@ -238,7 +246,7 @@ class CardClient_Tests: XCTestCase {
             let threeDSecureRequest = ThreeDSecureRequest(sca: .scaAlways, returnUrl: "", cancelUrl: "")
             let cardRequest = CardRequest(card: card, threeDSecureRequest: threeDSecureRequest)
 
-            cardClient.delegate = MockCardDelegate(
+            let mockCardDelegate = MockCardDelegate(
                 success: {_, _ -> Void in
                     XCTFail("Flow should not succed")
                     expectation.fulfill()
@@ -255,6 +263,8 @@ class CardClient_Tests: XCTestCase {
                 },
                 threeDSWillLaunch: { _ -> Void in XCTAssert(true) },
                 threeDSLaunched: { _ -> Void in XCTAssert(true) })
+
+            cardClient.delegate = mockCardDelegate
 
             cardClient.start(
                 orderId: "testOrderID",
