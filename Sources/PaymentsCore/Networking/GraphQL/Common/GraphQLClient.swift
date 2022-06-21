@@ -1,15 +1,14 @@
 import Foundation
-import PaymentsCore
 
 class GraphQLClient {
 
     private let environment: Environment
-    private let urlSession: URLSession
+    private let urlSession: URLSessionProtocol
     private let jsonDecoder = JSONDecoder()
 
-    public init(environment: Environment) {
+    public init(environment: Environment, urlSession: URLSessionProtocol = URLSession.shared) {
         self.environment = environment
-        self.urlSession = URLSession.shared
+        self.urlSession = urlSession
     }
 
     func executeQuery<T: Decodable>(query: GraphQLQuery) async throws -> GraphQLQueryResponse<T> {
