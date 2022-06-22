@@ -13,7 +13,7 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
             expirationYear: "2024",
             securityCode: "222"
         )
-        let cardRequest = CardRequest(orderId: mockOrderId, card: card)
+        let cardRequest = CardRequest(orderID: mockOrderID, card: card)
 
         let confirmPaymentSourceRequest = try XCTUnwrap(
             ConfirmPaymentSourceRequest(cardRequest: cardRequest, clientID: "")
@@ -40,7 +40,7 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
             expirationYear: "2024",
             securityCode: "222"
         )
-        let cardRequest = CardRequest(orderId: mockOrderId, card: card)
+        let cardRequest = CardRequest(orderID: mockOrderId, card: card)
 
         let confirmPaymentSourceRequest = try XCTUnwrap(
             ConfirmPaymentSourceRequest(cardRequest: cardRequest, clientID: mockClientId)
