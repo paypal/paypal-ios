@@ -89,7 +89,7 @@ public class CardClient {
         let getOrderInfoRequest = GetOrderInfoRequest(
             orderID: orderId,
             clientID: config.clientID,
-            secret: config.secret
+            secret: config.secret ?? ""
         )
         Task {
             do {

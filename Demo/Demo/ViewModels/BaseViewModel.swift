@@ -120,7 +120,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         return Card(number: cleanedCardText, expirationMonth: expirationMonth, expirationYear: expirationYear, securityCode: cvv)
     }
 
-    func checkoutWithCard(context: ASWebAuthenticationPresentationContextProviding, _ card: Card, orderID: String) async {
+    func checkoutWithCard(_ card: Card, orderID: String, context: ASWebAuthenticationPresentationContextProviding) async {
         let config = CoreConfig(
             clientID: DemoSettings.clientID,
             secret: DemoSettings.secret,
@@ -147,7 +147,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     }
 
     private func createThreeDSecureRequest() -> ThreeDSecureRequest {
-        return ThreeDSecureRequest(
+        ThreeDSecureRequest(
             sca: .scaAlways,
             returnUrl: BaseViewModel.returnUrl,
             cancelUrl: BaseViewModel.cancelUrl
