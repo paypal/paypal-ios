@@ -16,8 +16,8 @@ public struct CardRequest {
     ///    - orderId: The order to be approved
     ///    - card: The card to be charged for this order
     ///    - threeDSecureRequest: Request to start 3DS authentication
-    public init(orderId: String, card: Card, threeDSecureRequest: ThreeDSecureRequest? = nil) {
-        self.orderId = orderId
+    public init(orderID: String, card: Card, threeDSecureRequest: ThreeDSecureRequest? = nil) {
+        self.orderID = orderID
         self.card = card
         self.threeDSecureRequest = threeDSecureRequest
     }
