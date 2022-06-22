@@ -222,7 +222,6 @@ class CardClient_Tests: XCTestCase {
     }
 
     func testApproveOrder_withThreeDSecure_browserReturnsError() {
-
         if let confirmPaymentSourceJsonResponse = CardResponses.confirmPaymentSourceJsonWith3DS.rawValue.data(using: String.Encoding.utf8) {
             let mockConfirmResponse = MockResponse.success(
                 MockResponse.Success(data: confirmPaymentSourceJsonResponse, urlResponse: successURLResponse)
