@@ -3,7 +3,7 @@ import Foundation
 public struct CardRequest {
 
     /// The order to approve
-    public let orderId: String
+    public let orderID: String
 
     /// The card to be charged for this order
     public let card: Card
