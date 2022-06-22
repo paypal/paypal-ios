@@ -43,7 +43,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         let paymentSource = [ "payment_source": [ "card": card ] ]
 
         self.clientID = clientID
-        self.orderID = cardRequest.orderId
+        self.orderID = cardRequest.orderID
 
         path = String(format: pathFormat, orderID)
 
