@@ -6,7 +6,7 @@ import XCTest
 class ConfirmPaymentSourceRequest_Tests: XCTestCase {
 
     func testEncodingPaymentSource_withValidCardDictionary_expectsBody() throws {
-        let mockOrderId = "mockOrderId"
+        let mockOrderID = "mockOrderID"
         let card = Card(
             number: "4032036247327321",
             expirationMonth: "11",
