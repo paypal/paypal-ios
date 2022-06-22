@@ -5,16 +5,18 @@ import XCTest
 
 class ConfirmPaymentSourceRequest_Tests: XCTestCase {
 
-    func testEncodingPaymentSource_withValidCardDictionary_expectsValidPaymentSourceBody() throws {
+    func testEncodingPaymentSource_withValidCardDictionary_expectsBody() throws {
+        let mockOrderId = "mockOrderId"
         let card = Card(
             number: "4032036247327321",
             expirationMonth: "11",
             expirationYear: "2024",
             securityCode: "222"
         )
+        let cardRequest = CardRequest(orderId: mockOrderId, card: card)
 
         let confirmPaymentSourceRequest = try XCTUnwrap(
-            ConfirmPaymentSourceRequest(card: card, orderID: "", clientID: "")
+            ConfirmPaymentSourceRequest(cardRequest: cardRequest, clientID: "")
         )
 
         let paymentSourceBody = try XCTUnwrap(confirmPaymentSourceRequest.body)
@@ -22,10 +24,39 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
 
         // swiftlint:disable line_length
         let expectedPaymentSourceBodyString = """
-        {"payment_source":{"card":{"number":"4032036247327321","security_code":"222","billing_address":null,"name":null,"expiry":"2024-11"}}}
+        {"payment_source":{"card":{"number":"4032036247327321","security_code":"222","billing_address":null,"name":null,"attributes":null,"expiry":"2024-11"}}}
         """
         // swiftlint:enable line_length
 
         XCTAssertEqual(paymentSourceBodyString, expectedPaymentSourceBodyString)
+    }
+
+    func testEncodingPaymentSource_withValidCardDictionary_expectsValidHTTPParams() throws {
+        let mockOrderId = "mockOrderId"
+        let mockClientId = "mockClientId"
+        let card = Card(
+            number: "4032036247327321",
+            expirationMonth: "11",
+            expirationYear: "2024",
+            securityCode: "222"
+        )
+        let cardRequest = CardRequest(orderId: mockOrderId, card: card)
+
+        let confirmPaymentSourceRequest = try XCTUnwrap(
+            ConfirmPaymentSourceRequest(cardRequest: cardRequest, clientID: mockClientId)
+        )
+
+        let expectedPath = "/v2/checkout/orders/\(mockOrderId)/confirm-payment-source"
+        let expectedMethod = HTTPMethod.post
+        let encodedCredentials = "\(mockClientId):".data(using: .utf8)?.base64EncodedString() ?? ""
+        let expectedHeaders: [HTTPHeader: String] = [
+            .contentType: "application/json",
+            .acceptLanguage: "en_US",
+            .authorization: "Basic \(encodedCredentials)"
+        ]
+
+        XCTAssertEqual(confirmPaymentSourceRequest.path, expectedPath)
+        XCTAssertEqual(confirmPaymentSourceRequest.method, expectedMethod)
+        XCTAssertEqual(confirmPaymentSourceRequest.headers, expectedHeaders)
     }
 }

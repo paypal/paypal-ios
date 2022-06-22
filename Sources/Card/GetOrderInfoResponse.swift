@@ -7,7 +7,7 @@ import PaymentsCore
 struct GetOrderInfoResponse: Decodable {
 
     let id, status, intent: String
-    let purchaseUnits: [PurchaseUnit]
+    let purchaseUnits: [PurchaseUnit]?
     let paymentSource: PaymentSource?
     let links: [Link]?
 }
