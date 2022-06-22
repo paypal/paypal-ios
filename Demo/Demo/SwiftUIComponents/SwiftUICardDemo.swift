@@ -46,9 +46,9 @@ struct SwiftUICardDemo: View {
 
                     Task {
                         await baseViewModel.checkoutWithCard(
-                            context: FeatureBaseViewController(baseViewModel: BaseViewModel()),
                             card,
-                            orderID: orderID
+                            orderID: orderID,
+                            context: FeatureBaseViewController(baseViewModel: BaseViewModel())
                         )
                     }
                 }
