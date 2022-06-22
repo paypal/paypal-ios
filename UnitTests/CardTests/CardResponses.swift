@@ -31,6 +31,7 @@ enum CardResponses: String {
             ]
         }
         """
+
     case successfullGetOrderJson = """
         {
             "id": "testOrderId",
