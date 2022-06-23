@@ -2,4 +2,4 @@
 
 - [Card](Card)
 - [PayPalUI](PayPalUI)
-- [PayPalWebCheckout](PayPalWebCheckout)
+- [PayPal Web Checkout](PayPalWebCheckout)
