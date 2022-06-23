@@ -32,7 +32,7 @@ import PayPalUI
 
 ### 2. Render PayPal buttons
 The PayPalUI kit allows you to render three buttons that can offer a set of customizations like color, edges, size and labels:
-* `PayPalButton`: generic PayPal button.
+* `PayPalButton`: generic PayPal button
 * `PayPalPayLater`: a PayPal button with a fixed PayLater label
 * `PayPalCredit`: a PayPal button with the PayPalCredit logo
 
