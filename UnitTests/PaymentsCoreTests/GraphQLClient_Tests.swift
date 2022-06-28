@@ -40,12 +40,11 @@ class GraphQLClient_Tests: XCTestCase {
     }
     
     // MARK: - fetch() tests
-    
     func testGraphQLClient_verifyEmptyResponse() async throws {
         mockURLSession.cannedURLResponse = successURLResponse
         mockURLSession.cannedJSONData = graphQLQueryResponseWithoutData
-        
-        
+
+
         mockURLSession.cannedURLResponse = HTTPURLResponse(
             // swiftlint:disable:next force_unwrapping
             url: URL(string: "www.fake.com")!,
@@ -62,12 +61,12 @@ class GraphQLClient_Tests: XCTestCase {
             XCTFail("Expected success response")
         }
     }
-    
+
     func testGraphQLClient_verifyNonEmptyResponse() async throws {
         mockURLSession.cannedURLResponse = successURLResponse
         mockURLSession.cannedJSONData = graphQLQueryResponseWithData
-        
-        
+
+
         mockURLSession.cannedURLResponse = HTTPURLResponse(
             // swiftlint:disable:next force_unwrapping
             url: URL(string: "www.fake.com")!,
@@ -83,19 +82,17 @@ class GraphQLClient_Tests: XCTestCase {
             XCTAssertTrue(error.localizedDescription == "No se pudo leer los datos porque no se encontraron.")
         }
     }
-    
-    let graphQLQueryResponseWithData = """
-            { "data":
-                {
 
-            }
+    let graphQLQueryResponseWithData = """
+        {
+            "data": {}
         }
     """
-    
+
     let graphQLQueryResponseWithoutData = """
         {
-
+   
         }
     """
-    
+
 }
