@@ -1,5 +1,4 @@
 import Foundation
-import PaymentsCore
 
 public class EligibilityAPI {
 

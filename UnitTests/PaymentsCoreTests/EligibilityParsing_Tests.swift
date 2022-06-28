@@ -5,11 +5,13 @@ import XCTest
 class EligibilityParsing_Tests: XCTestCase {
 
     func testFundingEligibility_matchesResponse() throws {
-        let jsonData = validFundingEligibilityResponse.data(using: .utf8)!
-        let fundingEligibilityObject = try! JSONDecoder().decode(FundingEligibilityResponse.self, from: jsonData)
-
-        XCTAssertTrue(fundingEligibilityObject.fundingEligibility.venmo.eligible == true)
-        XCTAssertTrue(fundingEligibilityObject.fundingEligibility.card.eligible == false)
+        if let jsonData = validFundingEligibilityResponse.data(using: .utf8) {
+            let fundingEligibilityObject = try JSONDecoder().decode(FundingEligibilityResponse.self, from: jsonData)
+            XCTAssertTrue(fundingEligibilityObject.fundingEligibility.venmo.eligible == true)
+            XCTAssertTrue(fundingEligibilityObject.fundingEligibility.card.eligible == false)
+        } else {
+            XCTFail()
+        }
     }
 
     let validFundingEligibilityResponse = """
