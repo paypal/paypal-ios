@@ -2,7 +2,7 @@ import Foundation
 
 public class EligibilityAPI {
 
-    private var graphQLClient: GraphQLClient
+    internal var graphQLClient: GraphQLClient
     private var coreConfig: CoreConfig
     public init(coreConfig: CoreConfig) {
         self.coreConfig = coreConfig
