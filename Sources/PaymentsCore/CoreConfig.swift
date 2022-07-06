@@ -6,9 +6,11 @@ public struct CoreConfig {
 
     public let clientID: String
     public let environment: Environment
+    public let secret: String?
 
-    public init(clientID: String, environment: Environment) {
+    public init(clientID: String, environment: Environment, secret: String? = nil) {
         self.clientID = clientID
         self.environment = environment
+        self.secret = secret
     }
 }

@@ -1,8 +1,10 @@
 // swiftlint:disable space_after_main_type
+import Foundation
 
 struct CreateOrderParams: Codable {
     let intent: String
     let purchaseUnits: [PurchaseUnit]
+    let applicationContext: ApplicationContext
 }
 
 struct PurchaseUnit: Codable {
@@ -12,4 +14,9 @@ struct PurchaseUnit: Codable {
 struct Amount: Codable {
     let currencyCode: String
     let value: String
+}
+
+struct ApplicationContext: Codable {
+    let returnUrl: String
+    let cancelUrl: String
 }

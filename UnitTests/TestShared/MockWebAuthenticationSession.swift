@@ -1,6 +1,6 @@
 import Foundation
 import AuthenticationServices
-@testable import PayPalWebCheckout
+@testable import PaymentsCore
 
 class MockWebAuthenticationSession: WebAuthenticationSession {
 
