@@ -4,6 +4,7 @@ import SwiftUI
 enum DemoType: String {
     case card
     case payPalWebCheckout
+    case paymentButtonCustomization
 
     var viewController: UIViewController {
         let baseViewModel = BaseViewModel()
@@ -13,6 +14,8 @@ enum DemoType: String {
             return CardDemoViewController(baseViewModel: baseViewModel)
         case .payPalWebCheckout:
             return PayPalWebCheckoutViewController(baseViewModel: baseViewModel)
+        case .paymentButtonCustomization:
+            return PaymentButtonCustomizationViewController()
         }
     }
 
@@ -22,6 +25,8 @@ enum DemoType: String {
             return AnyView(SwiftUICardDemo())
         case .payPalWebCheckout:
             return AnyView(SwiftUIPayPalDemo())
+        case .paymentButtonCustomization:
+            return AnyView(SwiftUIPaymentButtonDemo())
         }
     }
 }

@@ -1,7 +1,7 @@
 import UIKit
 
 /// The size category which determines how the button is shown.
-public enum PaymentButtonSize: Int, CaseIterable, CustomStringConvertible {
+public enum PaymentButtonSize: Int, CustomStringConvertible {
 
     /// Circle shaped button similar to a floating action button will show the monogram, if `.venmo` then will show `Venmo` logo.
     case mini
