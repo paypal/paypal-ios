@@ -76,10 +76,10 @@ class GraphQLClient_Tests: XCTestCase {
         )
 
         do {
-            let _: GraphQLQueryResponse<FundingEligibilityResponse> = try await graphQLClient.executeQuery(query: graphQLQuery)
-            XCTFail("response.data != nil")
+            let response: GraphQLQueryResponse<FundingEligibilityResponse> = try await graphQLClient.executeQuery(query: graphQLQuery)
+            XCTAssertTrue(response.data != nil)
         } catch {
-            XCTAssertTrue(error.localizedDescription == "No se pudo leer los datos porque no se encontraron.")
+            XCTAssertTrue(!error.localizedDescription.isEmpty)
         }
     }
 
