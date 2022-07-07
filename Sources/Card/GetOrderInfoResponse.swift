@@ -1,12 +1,12 @@
-// swiftlint:disable space_after_main_type
-
 import Foundation
 #if canImport(PaymentsCore)
 import PaymentsCore
 #endif
 
-struct ConfirmPaymentSourceResponse: Decodable {
-    let id, status: String
+struct GetOrderInfoResponse: Decodable {
+
+    let id, status, intent: String
+    let purchaseUnits: [PurchaseUnit]?
     let paymentSource: PaymentSource?
     let links: [Link]?
 }

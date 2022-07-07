@@ -13,6 +13,9 @@ enum CardClientError {
 
         /// 1. An error occurred encoding an HTTP request body.
         case encodingError
+
+        /// 2. An error occurred during 3DS challenge.
+        case threeDSecureError
     }
 
     static let encodingError = CoreSDKError(
@@ -20,4 +23,12 @@ enum CardClientError {
         domain: domain,
         errorDescription: "An error occured encoding HTTP request body data. Contact developer.paypal.com/support."
     )
+
+    static let threeDSecureError: (Error) -> CoreSDKError = { error in
+        CoreSDKError(
+            code: Code.threeDSecureError.rawValue,
+            domain: domain,
+            errorDescription: error.localizedDescription
+        )
+    }
 }

@@ -2,18 +2,23 @@ import Foundation
 
 public struct CardRequest {
 
-    /// The ID of the order to be approved
+    /// The order to approve
     public let orderID: String
 
     /// The card to be charged for this order
     public let card: Card
 
+    /// Request to start 3DS authentication
+    public let threeDSecureRequest: ThreeDSecureRequest?
+
     /// Creates an instance of a card request
     /// - Parameters:
-    ///   - orderID: The ID of the order to be approved
-    ///   - card: The card to be charged for this order
-    public init(orderID: String, card: Card) {
+    ///    - orderId: The order to be approved
+    ///    - card: The card to be charged for this order
+    ///    - threeDSecureRequest: Request to start 3DS authentication
+    public init(orderID: String, card: Card, threeDSecureRequest: ThreeDSecureRequest? = nil) {
         self.orderID = orderID
         self.card = card
+        self.threeDSecureRequest = threeDSecureRequest
     }
 }

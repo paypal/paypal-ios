@@ -20,7 +20,6 @@ public class PayPalWebCheckoutClient {
     /// - Parameters:
     ///   - request: the PayPalRequest for the transaction
     ///   - context: the ASWebAuthenticationPresentationContextProviding protocol conforming ViewController
-    ///   - completion: Completion handler for start, which contains data of the order if success, or an error if failure
     public func start(
         request: PayPalWebCheckoutRequest,
         context: ASWebAuthenticationPresentationContextProviding

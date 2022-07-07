@@ -6,7 +6,20 @@ import AuthenticationServices
 
 /// This class is used to share the orderID across shared views, update the text of `bottomStatusLabel` in our `FeatureBaseViewController`
 /// as well as share the logic of `processOrder` across our duplicate (SwiftUI and UIKit) card views.
-class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate {
+class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
+
+    private static var returnUrl: String {
+        if let identifier = Bundle.main.bundleIdentifier {
+            return "\(identifier)://example.com/returnUrl"
+        }
+        return ""
+    }
+    private static var cancelUrl: String {
+        if let identifier = Bundle.main.bundleIdentifier {
+            return "\(identifier)://example.com/cancelUrl"
+        }
+        return ""
+    }
 
     /// Weak reference to associated view
     weak var view: FeatureBaseViewController?
@@ -17,7 +30,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate {
     lazy var payPalClient: PayPalWebCheckoutClient = {
         let clientID = DemoSettings.clientID
         let environment = DemoSettings.environment.paypalSDKEnvironment
-        let config = CoreConfig(clientID: clientID, environment: environment)
+        let config = CoreConfig(clientID: clientID, environment: environment, secret: DemoSettings.secret)
         let payPalClient = PayPalWebCheckoutClient(config: config)
         return payPalClient
     }()
@@ -50,7 +63,8 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         let amountRequest = Amount(currencyCode: "USD", value: amount)
         let orderRequestParams = CreateOrderParams(
             intent: DemoSettings.intent.rawValue.uppercased(),
-            purchaseUnits: [PurchaseUnit(amount: amountRequest)]
+            purchaseUnits: [PurchaseUnit(amount: amountRequest)],
+            applicationContext: ApplicationContext(returnUrl: BaseViewModel.returnUrl, cancelUrl: BaseViewModel.cancelUrl)
         )
 
         do {
@@ -106,17 +120,16 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         return Card(number: cleanedCardText, expirationMonth: expirationMonth, expirationYear: expirationYear, securityCode: cvv)
     }
 
-    func checkoutWithCard(_ card: Card, orderID: String) async {
-        let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
+    func checkoutWithCard(_ card: Card, orderID: String, context: ASWebAuthenticationPresentationContextProviding) async {
+        let config = CoreConfig(
+            clientID: DemoSettings.clientID,
+            environment: DemoSettings.environment.paypalSDKEnvironment,
+            secret: DemoSettings.secret
+        )
         let cardClient = CardClient(config: config)
-        let cardRequest = CardRequest(orderID: orderID, card: card)
-
-        do {
-            _ = try await cardClient.approveOrder(request: cardRequest)
-            updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: CONFIRMED")
-        } catch {
-            updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
-        }
+        cardClient.delegate = self
+        let cardRequest = CardRequest(orderID: orderID, card: card, threeDSecureRequest: createThreeDSecureRequest())
+        cardClient.approveOrder(request: cardRequest, context: context)
     }
 
     func isCardFormValid(cardNumber: String, expirationDate: String, cvv: String) -> Bool {
@@ -131,6 +144,14 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         let enabled = cleanedCardNumber.count >= 15 && cleanedCardNumber.count <= 19
         && cleanedExpirationDate.count == 4 && cvv.count >= 3 && cvv.count <= 4
         return enabled
+    }
+
+    private func createThreeDSecureRequest() -> ThreeDSecureRequest {
+        ThreeDSecureRequest(
+            sca: .scaAlways,
+            returnUrl: BaseViewModel.returnUrl,
+            cancelUrl: BaseViewModel.cancelUrl
+        )
     }
 
     // MARK: - PayPal Module Integration
@@ -188,5 +209,30 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         } catch {
             print("error in test eligibility")
         }
+    }
+    // MARK: - Card Delegate
+
+    func card(_ cardClient: CardClient, didFinishWithResult result: CardResult) {
+        updateTitle("Order Id:\(result.orderID) status: \(result.status)\n \(String(describing: result.paymentSource))")
+    }
+
+    func card(_ cardClient: CardClient, didFinishWithError error: CoreSDKError) {
+        updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
+        print("❌ There was an error: \(error)")
+    }
+
+    func cardDidCancel(_ cardClient: CardClient) {
+        updateTitle("\(DemoSettings.intent) cancelled")
+        print("❌ Buyer has cancelled the Card flow")
+    }
+
+    func cardThreeDSecureWillLaunch(_ cardClient: CardClient) {
+        updateTitle("3DS challenge will be launched")
+        print("3DS challenge will be launched")
+    }
+
+    func cardThreeDSecureDidFinish(_ cardClient: CardClient) {
+        updateTitle("3DS challenge has finished")
+        print("3DS challenge has finished")
     }
 }
