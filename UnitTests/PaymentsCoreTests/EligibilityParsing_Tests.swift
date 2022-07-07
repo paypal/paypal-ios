@@ -9,8 +9,8 @@ class EligibilityParsing_Tests: XCTestCase {
             let fundingEligibility = try JSONDecoder().decode(FundingEligibilityResponse.self, from: jsonData).fundingEligibility
             XCTAssertTrue(fundingEligibility.venmo.eligible == true)
             XCTAssertTrue(fundingEligibility.card.eligible == false)
-            XCTAssertTrue(fundingEligibility.paypal.eligible == false)
-            XCTAssertTrue(fundingEligibility.paylater.eligible == false)
+            XCTAssertTrue(fundingEligibility.paypal.eligible == true)
+            XCTAssertTrue(fundingEligibility.paylater.eligible == true)
         } else {
             XCTFail()
         }
