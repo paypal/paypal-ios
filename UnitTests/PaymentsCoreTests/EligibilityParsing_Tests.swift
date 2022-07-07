@@ -7,10 +7,10 @@ class EligibilityParsing_Tests: XCTestCase {
     func testFundingEligibility_matchesResponse() throws {
         if let jsonData = validFundingEligibilityResponse.data(using: .utf8) {
             let fundingEligibility = try JSONDecoder().decode(FundingEligibilityResponse.self, from: jsonData).fundingEligibility
-            XCTAssertTrue(fundingEligibility.venmo.eligible == true)
-            XCTAssertTrue(fundingEligibility.card.eligible == false)
-            XCTAssertTrue(fundingEligibility.paypal.eligible == true)
-            XCTAssertTrue(fundingEligibility.paylater.eligible == true)
+            XCTAssertEqual(fundingEligibility.venmo.eligible, true)
+            XCTAssertEqual(fundingEligibility.card.eligible, false)
+            XCTAssertEqual(fundingEligibility.paypal.eligible, true)
+            XCTAssertEqual(fundingEligibility.paylater.eligible, true)
         } else {
             XCTFail()
         }
