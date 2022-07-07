@@ -21,13 +21,14 @@ public class EligibilityAPI {
         if response.data == nil {
             return Result.failure(GraphQLError(message: "error fetching eligibility", extensions: nil))
         } else {
+            let eligibility = response.data?.fundingEligibility
             return Result.success(
                 Eligibility(
-                    isVenmoEligible: response.data?.fundingEligibility.venmo.eligible ?? false,
-                    isPaypalEligible: response.data?.fundingEligibility.paypal.eligible ?? false,
-                    isPaypalCreditEligible: response.data?.fundingEligibility.credit.eligible ?? false,
-                    isPayLaterEligible: response.data?.fundingEligibility.paylater.eligible ?? false,
-                    isCreditCardEligible: response.data?.fundingEligibility.card.eligible ?? false)
+                    isVenmoEligible: eligibility?.venmo.eligible ?? false,
+                    isPaypalEligible: eligibility?.paypal.eligible ?? false,
+                    isPaypalCreditEligible: eligibility?.credit.eligible ?? false,
+                    isPayLaterEligible: eligibility?.paylater.eligible ?? false,
+                    isCreditCardEligible: eligibility?.card.eligible ?? false)
             )
         }
     }
