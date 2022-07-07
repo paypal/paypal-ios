@@ -1,4 +1,5 @@
 import UIKit
+import PaymentsCore
 
 class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
@@ -50,6 +51,16 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         return checkoutButton
     }()
 
+    // TODO: need to remove after final integration, this is just to verify
+    lazy var eligibilityButton: CustomButton = {
+        let eligibilityButton = CustomButton(title: "eligibility")
+        eligibilityButton.addTarget(self, action: #selector(didTapEligibilityButton), for: .touchUpInside)
+        eligibilityButton.layer.cornerRadius = 8
+        eligibilityButton.backgroundColor = .systemBlue
+        eligibilityButton.tintColor = .white
+        return eligibilityButton
+    }()
+
     private let cardFormatter = CardFormatter()
 
     // MARK: - View Lifecycle & UI Setup
@@ -73,6 +84,7 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         cardFormStackView.addArrangedSubview(cardNumberTextField)
         cardFormStackView.addArrangedSubview(expirationCVVStackView)
         cardFormStackView.addArrangedSubview(checkoutButton)
+        cardFormStackView.addArrangedSubview(eligibilityButton)
 
         expirationCVVStackView.addArrangedSubview(expirationTextField)
         expirationCVVStackView.addArrangedSubview(cvvTextField)
@@ -124,6 +136,12 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         Task {
             await baseViewModel.checkoutWithCard(card, orderID: orderID, context: self)
             self.checkoutButton.stopAnimating()
+        }
+    }
+
+    @objc func didTapEligibilityButton() {
+        Task {
+            await baseViewModel.testEligibility()
         }
     }
 

@@ -2,7 +2,7 @@ import Foundation
 
 extension URLSession: URLSessionProtocol {
 
-    func performRequest(with urlRequest: URLRequest) async throws -> (Data, URLResponse) {
+    public func performRequest(with urlRequest: URLRequest) async throws -> (Data, URLResponse) {
         if #available(iOS 15, *) {
             return try await self.data(for: urlRequest)
         } else {
@@ -12,10 +12,8 @@ extension URLSession: URLSessionProtocol {
                         let error = error ?? URLError(.badServerResponse)
                         return continuation.resume(throwing: error)
                     }
-
                     continuation.resume(returning: (data, response))
                 }
-
                 task.resume()
             }
         }
