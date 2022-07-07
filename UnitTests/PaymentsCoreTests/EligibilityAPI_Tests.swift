@@ -9,10 +9,10 @@ class EligibilityAPI_Tests: XCTestCase {
     var graphQLClient: GraphQLClient!
     var eligibilityAPI: EligibilityAPI!
     
+    // MARK: - Test lifecycle
     override func setUpWithError() throws {
         mockURLSession = MockURLSession()
     }
-    
     func testCheckEligibilityWithSuccessResponse() async throws {
         mockURLSession.cannedError = nil
         mockURLSession.cannedURLResponse = HTTPURLResponse(
@@ -23,12 +23,10 @@ class EligibilityAPI_Tests: XCTestCase {
             headerFields: ["Paypal-Debug-Id": "454532"]
         )
         mockURLSession.cannedJSONData = validFundingEligibilityResponse
-        
         eligibilityAPI = EligibilityAPI(coreConfig: coreConfig)
         eligibilityAPI.graphQLClient = GraphQLClient(environment: .sandbox, urlSession: mockURLSession)
-        
         let result = try await eligibilityAPI.checkEligibility()
-        switch(result){
+        switch (result) {
         case .success(let eligibility):
             XCTAssertTrue(eligibility.isVenmoEligible)
             XCTAssertTrue(eligibility.isPaypalEligible)
@@ -37,7 +35,6 @@ class EligibilityAPI_Tests: XCTestCase {
             XCTAssertNil(error)
         }
     }
-    
     func testCheckEligibilityErrorResponse() async throws {
         mockURLSession.cannedURLResponse = HTTPURLResponse(
             // swiftlint:disable:next force_unwrapping
@@ -46,19 +43,22 @@ class EligibilityAPI_Tests: XCTestCase {
             httpVersion: "1",
             headerFields: ["Paypal-Debug-Id": "454532"]
         )
-        mockURLSession.cannedJSONData = validFundingEligibilityResponse
+        mockURLSession.cannedJSONData = notValidFundingEligibilityResponse
         eligibilityAPI = EligibilityAPI(coreConfig: coreConfig)
         eligibilityAPI.graphQLClient = GraphQLClient(environment: .sandbox, urlSession: mockURLSession)
-        
         let result = try await eligibilityAPI.checkEligibility()
-        switch(result){
+        switch (result) {
         case .success(_):
             XCTFail()
         case .failure(let failure):
             XCTAssertNotNil(failure)
         }
     }
-    
+    let notValidFundingEligibilityResponse = """
+        {
+
+        }
+    """
     let validFundingEligibilityResponse = """
         {
             "data": {
@@ -130,5 +130,4 @@ class EligibilityAPI_Tests: XCTestCase {
         }
         }
         """
-
 }
