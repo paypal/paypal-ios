@@ -5,12 +5,13 @@ import XCTest
 class EligibilityAPI_Tests: XCTestCase {
 
     let coreConfig = CoreConfig(clientID: "", environment: .sandbox)
+    // swiftlint:disable implicitly_unwrapped_optional
     var mockURLSession: MockURLSession!
     var graphQLClient: GraphQLClient!
     var eligibilityAPI: EligibilityAPI!
-    
-    // MARK: - Test lifecycle
-    override func setUpWithError() throws {
+    // swiftlint:enable implicitly_unwrapped_optional
+    override func setUp() {
+        super.setUp()
         mockURLSession = MockURLSession()
     }
     func testCheckEligibilityWithSuccessResponse() async throws {
@@ -26,7 +27,7 @@ class EligibilityAPI_Tests: XCTestCase {
         eligibilityAPI = EligibilityAPI(coreConfig: coreConfig)
         eligibilityAPI.graphQLClient = GraphQLClient(environment: .sandbox, urlSession: mockURLSession)
         let result = try await eligibilityAPI.checkEligibility()
-        switch (result) {
+        switch result {
         case .success(let eligibility):
             XCTAssertTrue(eligibility.isVenmoEligible)
             XCTAssertTrue(eligibility.isPaypalEligible)
@@ -47,9 +48,9 @@ class EligibilityAPI_Tests: XCTestCase {
         eligibilityAPI = EligibilityAPI(coreConfig: coreConfig)
         eligibilityAPI.graphQLClient = GraphQLClient(environment: .sandbox, urlSession: mockURLSession)
         let result = try await eligibilityAPI.checkEligibility()
-        switch (result) {
-        case .success(_):
-            XCTFail()
+        switch result {
+        case .success(let eligibility):
+            XCTAssertNil(eligibility)
         case .failure(let failure):
             XCTAssertNotNil(failure)
         }
