@@ -29,7 +29,7 @@ class GraphQLClient {
     }
 
     func createURLRequest(requestBody: Data) throws -> URLRequest {
-        var urlRequest = URLRequest(url: environment.graphqlURL)
+        var urlRequest = URLRequest(url: environment.graphQLURL)
         urlRequest.httpMethod = HTTPMethod.post.rawValue
         urlRequest.httpBody = requestBody
         return urlRequest
@@ -40,7 +40,7 @@ class GraphQLClient {
             "Content-type": "application/json",
             "Accept": "application/json",
             "x-app-name": "northstar",
-            "Origin": environment.graphqlURL.absoluteString
+            "Origin": environment.graphQLURL.absoluteString
         ]
     }
 }
