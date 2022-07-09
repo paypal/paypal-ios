@@ -97,8 +97,7 @@ public class CardClient {
     private func getOrderInfo(id orderId: String) {
         let getOrderInfoRequest = GetOrderInfoRequest(
             orderID: orderId,
-            clientID: config.clientID,
-            secret: config.secret ?? ""
+            clientID: config.clientID
         )
         Task {
             do {

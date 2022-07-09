@@ -6,16 +6,15 @@ class GetOrderInfoRequest_Tests: XCTestCase {
 
     func testEncodingOrder_expectsValidOrderHTTPParams() throws {
         let mockOrderId = "mockOrderId"
-        let mockSecret = "mockSecret"
         let mockClientId = "mockClientId"
 
         let getOrderInfoRequest = try XCTUnwrap(
-            GetOrderInfoRequest(orderID: mockOrderId, clientID: mockClientId, secret: mockSecret)
+            GetOrderInfoRequest(orderID: mockOrderId, clientID: mockClientId)
         )
 
         let expectedPath = "v2/checkout/orders/\(mockOrderId)"
         let expectedMethod = HTTPMethod.get
-        let encodedCredentials = "\(mockClientId):\(mockSecret)".data(using: .utf8)?.base64EncodedString() ?? ""
+        let encodedCredentials = "\(mockClientId)".data(using: .utf8)?.base64EncodedString() ?? ""
         let expectedHeaders: [HTTPHeader: String] = [
             .contentType: "application/json",
             .acceptLanguage: "en_US",

@@ -30,7 +30,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     lazy var payPalClient: PayPalWebCheckoutClient = {
         let clientID = DemoSettings.clientID
         let environment = DemoSettings.environment.paypalSDKEnvironment
-        let config = CoreConfig(clientID: clientID, environment: environment, secret: DemoSettings.secret)
+        let config = CoreConfig(clientID: clientID, environment: environment)
         let payPalClient = PayPalWebCheckoutClient(config: config)
         return payPalClient
     }()
@@ -123,8 +123,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     func checkoutWithCard(_ card: Card, orderID: String, context: ASWebAuthenticationPresentationContextProviding) async {
         let config = CoreConfig(
             clientID: DemoSettings.clientID,
-            environment: DemoSettings.environment.paypalSDKEnvironment,
-            secret: DemoSettings.secret
+            environment: DemoSettings.environment.paypalSDKEnvironment
         )
         let cardClient = CardClient(config: config)
         cardClient.delegate = self

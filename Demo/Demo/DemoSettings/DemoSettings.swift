@@ -7,7 +7,6 @@ enum DemoSettings {
     private static let DemoTypeDefaultsKey = "demo_type"
     private static let DemoUIFrameworkKey = "demo_ui_framework"
     private static let ClientIdKey = "clientId"
-    private static let SecretKey = "secret"
 
     static var environment: Environment {
         get {
@@ -48,14 +47,5 @@ enum DemoSettings {
             return "TODO"
         }
     }
-
-    /// Added secret to get order from api. This shouldnt be needed
-    static var secret: String {
-        var nsDictionary: NSDictionary?
-        if let path = Bundle.main.path(forResource: "Credentials", ofType: "plist") {
-            nsDictionary = NSDictionary(contentsOfFile: path)
-            return String(describing: nsDictionary?.value(forKey: "Secret") ?? "")
-        }
-        return ""
-    }
+    
 }
