@@ -24,7 +24,7 @@ public final class APIClient {
         guard var request = endpoint.toURLRequest(environment: coreConfig.environment) else {
             throw APIClientError.invalidURLRequestError
         }
-        request.setValue(coreConfig.accessToken, forHTTPHeaderField: AUTHORIZATION)
+        request.setValue("Bearer \(coreConfig.accessToken)", forHTTPHeaderField: AUTHORIZATION)
         // TODO: consider throwing PayPalError from perfomRequest
         let (data, response) = try await urlSession.performRequest(with: request)
         let correlationID = (response as? HTTPURLResponse)?.allHeaderFields["Paypal-Debug-Id"] as? String
