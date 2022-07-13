@@ -6,9 +6,11 @@ public struct CoreConfig {
 
     public let clientID: String
     public let environment: Environment
+    public let accessToken: String
 
-    public init(clientID: String, environment: Environment) {
+    public init(clientID: String, accessToken:String, environment: Environment) {
         self.clientID = clientID
         self.environment = environment
+        self.accessToken = accessToken
     }
 }

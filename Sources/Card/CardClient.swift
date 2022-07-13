@@ -15,7 +15,7 @@ public class CardClient {
     /// - Parameter config: The CoreConfig object
     public init(config: CoreConfig) {
         self.config = config
-        self.apiClient = APIClient(environment: config.environment)
+        self.apiClient = APIClient(coreConfig: self.config)
     }
 
     /// For internal use for testing/mocking purpose

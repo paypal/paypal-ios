@@ -141,7 +141,7 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
     @objc func didTapEligibilityButton() {
         Task {
-            await baseViewModel.testEligibility()
+            try await baseViewModel.testEligibility()
         }
     }
 

@@ -1,9 +1,12 @@
 import Foundation
+import PaymentsCore
 
 /// API Client used to create and process orders on sample merchant server
 final class DemoMerchantAPI {
 
     static let sharedService = DemoMerchantAPI()
+    
+    var accessToken: String? = nil
 
     private init() {}
 
@@ -25,7 +28,7 @@ final class DemoMerchantAPI {
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
         let data = try await data(for: urlRequest)
-        return try parseOrder(from: data)
+        return try parse(from: data)
     }
 
     /// This function replicates a way a merchant may go about authorizing/capturing an order on their server and is not part of the SDK flow.
@@ -44,7 +47,7 @@ final class DemoMerchantAPI {
         urlRequest.httpBody = try? JSONEncoder().encode(processOrderParams)
 
         let data = try await data(for: urlRequest)
-        return try parseOrder(from: data)
+        return try parse(from: data)
     }
 
     private func data(for urlRequest: URLRequest) async throws -> Data {
@@ -56,9 +59,9 @@ final class DemoMerchantAPI {
         }
     }
 
-    private func parseOrder(from data: Data) throws -> Order {
+    private func parse<T: Decodable>(from data: Data) throws -> T {
         do {
-            return try JSONDecoder().decode(Order.self, from: data)
+            return try JSONDecoder().decode(T.self, from: data)
         } catch {
             throw URLResponseError.dataParsingError
         }
@@ -67,4 +70,36 @@ final class DemoMerchantAPI {
     private func buildBaseURL(with endpoint: String) -> URL? {
         URL(string: DemoSettings.environment.baseURL + endpoint)
     }
+    
+    public func getAccessToken(clientId: String, environment: PaymentsCore.Environment) async -> String?{
+        guard let token = self.accessToken else{
+            self.accessToken = await fetchAccessToken(clientId: clientId, environment: environment)
+            return self.accessToken
+        }
+        return token
+    }
+    
+    private func fetchAccessToken(clientId: String, environment: PaymentsCore.Environment) async -> String? {
+        do {
+            let accessTokenRequest = AccessTokenRequest(clientID: clientId)
+            guard let request = accessTokenRequest.toURLRequest(environment: environment) else {
+                throw URLResponseError.dataParsingError
+            }
+            let (data, response) = try await URLSession.shared.performRequest(with: request)
+            guard let response = response as? HTTPURLResponse else {
+                throw URLResponseError.networkConnectionError
+            }
+            switch response.statusCode {
+                case 200..<300:
+                    let accessTokenResponse: AccessTokenResponse = try parse(from: data)
+                    return accessTokenResponse.accessToken
+            default: throw URLResponseError.serverError
+            }
+        }
+        catch{
+            print("Error in fetching token")
+            return nil
+        }
+    }
+    
 }

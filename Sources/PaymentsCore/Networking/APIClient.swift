@@ -5,25 +5,26 @@ public final class APIClient {
     public typealias CorrelationID = String
 
     private var urlSession: URLSessionProtocol
-    var environment: Environment
+    private let coreConfig: CoreConfig
 
     private let decoder = APIClientDecoder()
 
-    public init(environment: Environment) {
-        self.environment = environment
+    public init(coreConfig: CoreConfig) {
+        self.coreConfig = coreConfig
         self.urlSession = URLSession.shared
     }
 
     /// For internal use for testing purpose
-    init(urlSession: URLSessionProtocol, environment: Environment) {
-        self.environment = environment
+    init(urlSession: URLSessionProtocol, coreConfig: CoreConfig) {
+        self.coreConfig = coreConfig
         self.urlSession = urlSession
     }
 
     public func fetch<T: APIRequest>(endpoint: T) async throws -> (T.ResponseType, CorrelationID?) {
-        guard let request = endpoint.toURLRequest(environment: environment) else {
+        guard var request = endpoint.toURLRequest(environment: coreConfig.environment) else {
             throw APIClientError.invalidURLRequestError
         }
+        request.setValue(coreConfig.accessToken, forHTTPHeaderField: AUTHORIZATION)
         // TODO: consider throwing PayPalError from perfomRequest
         let (data, response) = try await urlSession.performRequest(with: request)
         let correlationID = (response as? HTTPURLResponse)?.allHeaderFields["Paypal-Debug-Id"] as? String
@@ -40,4 +41,6 @@ public final class APIClient {
             throw APIClientError.serverResponseError(errorData.readableDescription)
         }
     }
+    
+    let AUTHORIZATION = "Authorization"
 }

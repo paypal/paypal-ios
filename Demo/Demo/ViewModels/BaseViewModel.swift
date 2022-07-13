@@ -23,23 +23,23 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
 
     /// Weak reference to associated view
     weak var view: FeatureBaseViewController?
+    var payPalWebCheckoutClient: PayPalWebCheckoutClient? = nil
 
     /// order ID shared across views
     @Published var orderID: String?
 
-    lazy var payPalClient: PayPalWebCheckoutClient = {
-        let clientID = DemoSettings.clientID
-        let environment = DemoSettings.environment.paypalSDKEnvironment
-        let config = CoreConfig(clientID: clientID, environment: environment)
+    func getPayPalClient() async throws -> PayPalWebCheckoutClient {
+        guard let config = await getCoreConfig() else {
+            throw CoreSDKError(code: 0, domain: "Error initializing paypal webcheckout client", errorDescription: nil)
+        }
         let payPalClient = PayPalWebCheckoutClient(config: config)
         return payPalClient
-    }()
+    }
 
     // MARK: - Init
 
     init(view: FeatureBaseViewController? = nil) {
         self.view = view
-        payPalClient.delegate = self
     }
 
     // MARK: - Helper Functions
@@ -120,11 +120,11 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         return Card(number: cleanedCardText, expirationMonth: expirationMonth, expirationYear: expirationYear, securityCode: cvv)
     }
 
-    func checkoutWithCard(_ card: Card, orderID: String, context: ASWebAuthenticationPresentationContextProviding) async {
-        let config = CoreConfig(
-            clientID: DemoSettings.clientID,
-            environment: DemoSettings.environment.paypalSDKEnvironment
-        )
+    func checkoutWithCard(_ card: Card, orderID: String,
+            context: ASWebAuthenticationPresentationContextProviding) async {
+        guard let config = await getCoreConfig() else {
+            return
+        }
         let cardClient = CardClient(config: config)
         cardClient.delegate = self
         let cardRequest = CardRequest(orderID: orderID, card: card, threeDSecureRequest: createThreeDSecureRequest())
@@ -163,12 +163,13 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         paymentButtonTapped(context: context, funding: .paypal)
     }
 
-    private func paymentButtonTapped(context: ASWebAuthenticationPresentationContextProviding, funding: PayPalWebCheckoutFundingSource) {
+    private func paymentButtonTapped(
+        context: ASWebAuthenticationPresentationContextProviding,
+        funding: PayPalWebCheckoutFundingSource) {
         guard let orderID = orderID else {
             self.updateTitle("Failed: missing orderID.")
             return
         }
-
         checkoutWithPayPal(orderID: orderID, context: context, funding: funding)
     }
 
@@ -176,9 +177,20 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         orderID: String,
         context: ASWebAuthenticationPresentationContextProviding,
         funding: PayPalWebCheckoutFundingSource
-    ) {
-        let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding)
-        payPalClient.start(request: payPalRequest, context: context)
+    )  {
+        Task.init{
+            do{
+                payPalWebCheckoutClient = try await getPayPalClient()
+                guard let client = payPalWebCheckoutClient else {
+                    return
+                }
+                let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding)
+                client.start(request: payPalRequest, context: context)
+            }
+        catch{
+            print("Error in starting paypal webcheckout client")
+        }
+    }
     }
 
     // MARK: - PayPal Delegate
@@ -199,9 +211,11 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     }
 
     // TODO: this is just for test, need to be removed after final integration
-    func testEligibility() async {
-        let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
-            let eligibilityAPI = EligibilityAPI(coreConfig: config)
+    func testEligibility() async throws {
+        guard let config = await getCoreConfig() else {
+            return
+        }
+        let eligibilityAPI = EligibilityAPI(coreConfig: config)
         do {
             let eligibility = try await eligibilityAPI.checkEligibility()
             print(eligibility)
@@ -233,5 +247,18 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     func cardThreeDSecureDidFinish(_ cardClient: CardClient) {
         updateTitle("3DS challenge has finished")
         print("3DS challenge has finished")
+    }
+    
+    func getAccessToken() async -> String? {
+        return await DemoMerchantAPI.sharedService.getAccessToken(
+                clientId: DemoSettings.clientID,
+                environment: DemoSettings.environment.paypalSDKEnvironment)
+    }
+    
+    func getCoreConfig() async -> CoreConfig? {
+        guard let token = await getAccessToken() else {
+            return nil
+        }
+        return CoreConfig(clientID: DemoSettings.clientID, accessToken: token, environment: DemoSettings.environment.paypalSDKEnvironment)
     }
 }
