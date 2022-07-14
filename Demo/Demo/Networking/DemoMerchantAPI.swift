@@ -71,7 +71,7 @@ final class DemoMerchantAPI {
         URL(string: DemoSettings.environment.baseURL + endpoint)
     }
     
-    public func getAccessToken(clientId: String, environment: PaymentsCore.Environment) async -> String?{
+    public func getAccessToken(clientId: String, environment: PaymentsCore.Environment) async -> String? {
         guard let token = self.accessToken else{
             self.accessToken = await fetchAccessToken(clientId: clientId, environment: environment)
             return self.accessToken
