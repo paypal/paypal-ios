@@ -3,7 +3,7 @@ import XCTest
 @testable import TestShared
 
 class EligibilityAPI_Tests: XCTestCase {
-    
+
     let mockClientId = "mockClientId"
     let mockAccessToken = "mockAccessToken"
     // swiftlint:disable implicitly_unwrapped_optional

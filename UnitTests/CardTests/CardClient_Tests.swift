@@ -6,6 +6,7 @@ import AuthenticationServices
 @testable import TestShared
 
 class CardClient_Tests: XCTestCase {
+
     let mockClientId = "mockClientId"
     let mockAccessToken = "mockAccessToken"
 

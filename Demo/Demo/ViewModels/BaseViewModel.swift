@@ -23,7 +23,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
 
     /// Weak reference to associated view
     weak var view: FeatureBaseViewController?
-    var payPalWebCheckoutClient: PayPalWebCheckoutClient? = nil
+    var payPalWebCheckoutClient: PayPalWebCheckoutClient?
 
     /// order ID shared across views
     @Published var orderID: String?
@@ -120,8 +120,11 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         return Card(number: cleanedCardText, expirationMonth: expirationMonth, expirationYear: expirationYear, securityCode: cvv)
     }
 
-    func checkoutWithCard(_ card: Card, orderID: String,
-            context: ASWebAuthenticationPresentationContextProviding) async {
+    func checkoutWithCard(
+        card: Card,
+        orderID: String,
+        context: ASWebAuthenticationPresentationContextProviding
+    ) async {
         guard let config = await getCoreConfig() else {
             return
         }
@@ -165,32 +168,31 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
 
     private func paymentButtonTapped(
         context: ASWebAuthenticationPresentationContextProviding,
-        funding: PayPalWebCheckoutFundingSource) {
+        funding: PayPalWebCheckoutFundingSource
+    ) {
         guard let orderID = orderID else {
             self.updateTitle("Failed: missing orderID.")
             return
         }
         checkoutWithPayPal(orderID: orderID, context: context, funding: funding)
     }
-
     func checkoutWithPayPal(
         orderID: String,
         context: ASWebAuthenticationPresentationContextProviding,
         funding: PayPalWebCheckoutFundingSource
-    )  {
-        Task.init{
-            do{
+    ) {
+        Task.init {
+            do {
                 payPalWebCheckoutClient = try await getPayPalClient()
                 guard let client = payPalWebCheckoutClient else {
                     return
                 }
                 let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding)
                 client.start(request: payPalRequest, context: context)
+            } catch {
+                print("Error in starting paypal webcheckout client")
             }
-        catch{
-            print("Error in starting paypal webcheckout client")
         }
-    }
     }
 
     // MARK: - PayPal Delegate
@@ -248,13 +250,13 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         updateTitle("3DS challenge has finished")
         print("3DS challenge has finished")
     }
-    
+
     func getAccessToken() async -> String? {
-        return await DemoMerchantAPI.sharedService.getAccessToken(
-                clientId: DemoSettings.clientID,
-                environment: DemoSettings.environment.paypalSDKEnvironment)
+        await DemoMerchantAPI.sharedService.getAccessToken(
+            clientId: DemoSettings.clientID,
+            environment: DemoSettings.environment.paypalSDKEnvironment)
     }
-    
+
     func getCoreConfig() async -> CoreConfig? {
         guard let token = await getAccessToken() else {
             return nil

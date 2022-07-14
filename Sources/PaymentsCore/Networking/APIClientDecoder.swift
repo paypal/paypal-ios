@@ -24,7 +24,6 @@ class APIClientDecoder {
             throw APIClientError.unknownError
         }
     }
-    
     func decode<T: Decodable>(from data: Data) throws -> T {
         do {
             return try self.decoder.decode(T.self, from: data)
