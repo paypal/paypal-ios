@@ -24,7 +24,7 @@ class PayPalClient_Tests: XCTestCase {
         }
     }
 
-    let config = CoreConfig(clientID: "testClientID", environment: .sandbox)
+    let config = CoreConfig(clientID: "testClientID", accessToken: "testAccessToken", environment: .sandbox)
 
     lazy var payPalClient = PayPalClient(
         config: config,

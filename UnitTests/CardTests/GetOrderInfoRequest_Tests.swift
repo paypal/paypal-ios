@@ -6,19 +6,18 @@ class GetOrderInfoRequest_Tests: XCTestCase {
 
     func testEncodingOrder_expectsValidOrderHTTPParams() throws {
         let mockOrderId = "mockOrderId"
-        let mockClientId = "mockClientId"
+        let mockAccessToken = "mockAccessToken"
 
         let getOrderInfoRequest = try XCTUnwrap(
-            GetOrderInfoRequest(orderID: mockOrderId, clientID: mockClientId)
+            GetOrderInfoRequest(orderID: mockOrderId, token: mockAccessToken)
         )
 
         let expectedPath = "v2/checkout/orders/\(mockOrderId)"
         let expectedMethod = HTTPMethod.get
-        let encodedCredentials = "\(mockClientId)".data(using: .utf8)?.base64EncodedString() ?? ""
         let expectedHeaders: [HTTPHeader: String] = [
             .contentType: "application/json",
             .acceptLanguage: "en_US",
-            .authorization: "Basic \(encodedCredentials)"
+            .authorization: "Bearer \(mockAccessToken)"
         ]
 
         XCTAssertNil(getOrderInfoRequest.body)

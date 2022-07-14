@@ -3,15 +3,18 @@ import XCTest
 @testable import TestShared
 
 class EligibilityAPI_Tests: XCTestCase {
-
-    let coreConfig = CoreConfig(clientID: "", environment: .sandbox)
+    
+    let mockClientId = "mockClientId"
+    let mockAccessToken = "mockAccessToken"
     // swiftlint:disable implicitly_unwrapped_optional
+    var coreConfig: CoreConfig!
     var mockURLSession: MockURLSession!
     var graphQLClient: GraphQLClient!
     var eligibilityAPI: EligibilityAPI!
     // swiftlint:enable implicitly_unwrapped_optional
     override func setUp() {
         super.setUp()
+        coreConfig = CoreConfig(clientID: mockClientId, accessToken: mockAccessToken, environment: .sandbox)
         mockURLSession = MockURLSession()
     }
     func testCheckEligibilityWithSuccessResponse() async throws {

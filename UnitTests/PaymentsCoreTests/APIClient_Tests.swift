@@ -5,13 +5,15 @@ import XCTest
 class APIClient_Tests: XCTestCase {
 
     // MARK: - Helper Properties
+    let mockClientId = "mockClientId"
+    let mockAccessToken = "mockAccessToken"
 
     // swiftlint:disable:next force_unwrapping
     let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])
-    let config = CoreConfig(clientID: "", environment: .sandbox)
     let fakeRequest = FakeRequest()
 
     // swiftlint:disable implicitly_unwrapped_optional
+    var config: CoreConfig!
     var mockURLSession: MockURLSession!
     var apiClient: APIClient!
     // swiftlint:enable implicitly_unwrapped_optional
@@ -20,18 +22,13 @@ class APIClient_Tests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-
+        config = CoreConfig(clientID: mockClientId, accessToken: mockAccessToken, environment: .sandbox)
         mockURLSession = MockURLSession()
         mockURLSession.cannedError = nil
         mockURLSession.cannedURLResponse = nil
         mockURLSession.cannedJSONData = nil
 
-        apiClient = APIClient(urlSession: mockURLSession, environment: .sandbox)
-    }
-
-    func testInit_whenEnvironmentProvided_returnCorrectEnvironment() {
-        let apiClientAux = APIClient(environment: .sandbox)
-        XCTAssertEqual(apiClientAux.environment, .sandbox)
+        apiClient = APIClient(urlSession: mockURLSession, coreConfig: config)
     }
     // MARK: - fetch() tests
 

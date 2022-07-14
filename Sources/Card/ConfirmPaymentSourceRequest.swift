@@ -20,8 +20,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     var headers: [HTTPHeader: String] {
 
         return [
-            .contentType: "application/json",
-            .acceptLanguage: "en_US",
+            .contentType: "application/json", .acceptLanguage: "en_US"
         ]
     }
 
@@ -29,8 +28,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     /// In order to use this initializer, the `paymentSource` parameter has to
     /// contain the entire dictionary as it exists underneath the `payment_source` key.
     init(
-        cardRequest: CardRequest,
-        clientID: String
+        cardRequest: CardRequest
     ) throws {
         var card = cardRequest.card
         if let threeDSecureRequest = cardRequest.threeDSecureRequest {
