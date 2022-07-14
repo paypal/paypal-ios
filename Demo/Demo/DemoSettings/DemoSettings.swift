@@ -47,5 +47,4 @@ enum DemoSettings {
             return "TODO"
         }
     }
-    
 }

@@ -5,11 +5,8 @@ import PaymentsCore
 final class DemoMerchantAPI {
 
     static let sharedService = DemoMerchantAPI()
-    
-    var accessToken: String? = nil
-
+    var accessToken: String?
     private init() {}
-
     /// This function replicates a way a merchant may go about creating an order on their server and is not part of the SDK flow.
     /// - Parameter orderParams: the parameters to create the order with
     /// - Returns: an order
@@ -18,19 +15,15 @@ final class DemoMerchantAPI {
         guard let url = buildBaseURL(with: "/order?countryCode=US") else {
             throw URLResponseError.invalidURL
         }
-
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
-
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
         urlRequest.httpBody = try? encoder.encode(orderParams)
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-
         let data = try await data(for: urlRequest)
         return try parse(from: data)
     }
-
     /// This function replicates a way a merchant may go about authorizing/capturing an order on their server and is not part of the SDK flow.
     /// - Parameters:
     ///   - processOrderParams: the parameters to process the order with
@@ -40,16 +33,13 @@ final class DemoMerchantAPI {
         guard let url = buildBaseURL(with: "/\(processOrderParams.intent)-order") else {
             throw URLResponseError.invalidURL
         }
-
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.httpBody = try? JSONEncoder().encode(processOrderParams)
-
         let data = try await data(for: urlRequest)
         return try parse(from: data)
     }
-
     private func data(for urlRequest: URLRequest) async throws -> Data {
         do {
             let (data, _) = try await URLSession.shared.data(for: urlRequest)
@@ -70,7 +60,7 @@ final class DemoMerchantAPI {
     private func buildBaseURL(with endpoint: String) -> URL? {
         URL(string: DemoSettings.environment.baseURL + endpoint)
     }
-    
+
     public func getAccessToken(clientId: String, environment: PaymentsCore.Environment) async -> String? {
         guard let token = self.accessToken else {
             self.accessToken = await fetchAccessToken(clientId: clientId, environment: environment)
@@ -78,7 +68,7 @@ final class DemoMerchantAPI {
         }
         return token
     }
-    
+
     private func fetchAccessToken(clientId: String, environment: PaymentsCore.Environment) async -> String? {
         do {
             let accessTokenRequest = AccessTokenRequest(clientID: clientId)
@@ -90,16 +80,14 @@ final class DemoMerchantAPI {
                 throw URLResponseError.networkConnectionError
             }
             switch response.statusCode {
-                case 200..<300:
-                    let accessTokenResponse: AccessTokenResponse = try parse(from: data)
-                    return accessTokenResponse.accessToken
+            case 200..<300:
+                let accessTokenResponse: AccessTokenResponse = try parse(from: data)
+                return accessTokenResponse.accessToken
             default: throw URLResponseError.serverError
             }
-        }
-        catch{
+        } catch {
             print("Error in fetching token")
             return nil
         }
     }
-    
 }
