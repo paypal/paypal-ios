@@ -7,11 +7,10 @@ class GraphQLClient_Tests: XCTestCase {
     let mockClientId = "mockClientId"
     let mockAccessToken = "mockAccessToken"
     // MARK: - Helper Properties
-
-    let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com"), statusCode: 200, httpVersion: "https", headerFields: [:])
-    let fakeRequest = FakeRequest()
-
     // swiftlint:disable implicitly_unwrapped_optional
+    // swiftlint:disable:next force_unwrapping
+    let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])
+    let fakeRequest = FakeRequest()
     var config: CoreConfig!
     var mockURLSession: MockURLSession!
     var graphQLClient: GraphQLClient!
