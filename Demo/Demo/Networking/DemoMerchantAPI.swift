@@ -12,7 +12,7 @@ final class DemoMerchantAPI {
     /// - Returns: an order
     /// - Throws: an error explaining why create order failed
     func createOrder(orderParams: CreateOrderParams) async throws -> Order {
-        guard let url = buildBaseURL(with: "/order?countryCode=US") else {
+        guard let url = buildBaseURL(with: "/orders") else {
             throw URLResponseError.invalidURL
         }
         var urlRequest = URLRequest(url: url)
@@ -61,18 +61,19 @@ final class DemoMerchantAPI {
         URL(string: DemoSettings.environment.baseURL + endpoint)
     }
 
-    public func getAccessToken(clientId: String, environment: PaymentsCore.Environment) async -> String? {
+    public func getAccessToken(environment: Demo.Environment) async -> String? {
         guard let token = self.accessToken else {
-            self.accessToken = await fetchAccessToken(clientId: clientId, environment: environment)
+            self.accessToken = await fetchAccessToken(environment: environment)
             return self.accessToken
         }
         return token
     }
 
-    private func fetchAccessToken(clientId: String, environment: PaymentsCore.Environment) async -> String? {
+    private func fetchAccessToken(environment: Demo.Environment) async -> String? {
         do {
-            let accessTokenRequest = AccessTokenRequest(clientID: clientId)
-            guard let request = accessTokenRequest.toURLRequest(environment: environment) else {
+            let accessTokenRequest = AccessTokenRequest()
+            guard let request = createUrlRequest(
+                accessTokenRequest: accessTokenRequest, environment: environment) else {
                 throw URLResponseError.dataParsingError
             }
             let (data, response) = try await URLSession.shared.performRequest(with: request)
@@ -89,5 +90,20 @@ final class DemoMerchantAPI {
             print("Error in fetching token")
             return nil
         }
+    }
+
+    private func createUrlRequest(accessTokenRequest: AccessTokenRequest, environment: Demo.Environment) -> URLRequest? {
+        var completeUrl = environment.baseURL
+        completeUrl.append(contentsOf: accessTokenRequest.path)
+        guard let url = URL(string: completeUrl) else {
+            return nil
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = accessTokenRequest.method.rawValue
+        request.httpBody = accessTokenRequest.body
+        accessTokenRequest.headers.forEach { key, value in
+            request.addValue(value, forHTTPHeaderField: key.rawValue)
+        }
+        return request
     }
 }

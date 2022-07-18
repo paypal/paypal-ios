@@ -30,35 +30,6 @@ class APIClient_Tests: XCTestCase {
 
         apiClient = APIClient(urlSession: mockURLSession, coreConfig: config)
     }
-    // MARK: - fetch() tests
-
-    // TODO: This test is specific to AccessToken, move it out of this file.
-    func testFetch_whenAccessTokenSuccessResponse_returnsValidAccessToken() async {
-        let jsonResponse = """
-        {
-            "scope": "fake-scope",
-            "access_token": "fake-token",
-            "token_type": "fake-bearer",
-            "expires_in": 1,
-            "nonce": "fake-nonce"
-        }
-        """
-
-        mockURLSession.cannedURLResponse = successURLResponse
-        mockURLSession.cannedJSONData = jsonResponse
-
-        let accessTokenRequest = AccessTokenRequest(clientID: "")
-        do {
-            let (result, _) = try await apiClient.fetch(endpoint: accessTokenRequest)
-            XCTAssertEqual(result.accessToken, "fake-token")
-            XCTAssertEqual(result.nonce, "fake-nonce")
-            XCTAssertEqual(result.scope, "fake-scope")
-            XCTAssertEqual(result.tokenType, "fake-bearer")
-            XCTAssertEqual(result.expiresIn, 1)
-        } catch {
-            XCTFail("Expect success response")
-        }
-    }
 
     func testFetch_withNoURLRequest_returnsInvalidURLRequestError() async {
         // Mock request whose API object does not vend a URLRequest
@@ -159,35 +130,6 @@ class APIClient_Tests: XCTestCase {
             XCTAssertEqual(error.localizedDescription, "An unknown error occured. Contact developer.paypal.com/support.")
         } catch {
             XCTFail("Unexpected error type")
-        }
-    }
-
-    func testFetch_whenPayPalDebugHeader_returnsCorrelationID() async {
-        let jsonResponse = """
-        {
-            "scope": "fake-scope",
-            "access_token": "fake-token",
-            "token_type": "fake-bearer",
-            "expires_in": 1,
-            "nonce": "fake-nonce"
-        }
-        """
-
-        mockURLSession.cannedJSONData = jsonResponse
-        mockURLSession.cannedURLResponse = HTTPURLResponse(
-            // swiftlint:disable:next force_unwrapping
-            url: URL(string: "www.fake.com")!,
-            statusCode: 200,
-            httpVersion: "1",
-            headerFields: ["Paypal-Debug-Id": "fake-id"]
-        )
-
-        let accessTokenRequest = AccessTokenRequest(clientID: "")
-        do {
-            let (_, correlationID) = try await apiClient.fetch(endpoint: accessTokenRequest)
-            XCTAssertEqual(correlationID, "fake-id")
-        } catch {
-            XCTFail("Unexpected error")
         }
     }
 }

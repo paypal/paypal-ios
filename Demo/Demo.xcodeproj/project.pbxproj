@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		53DBDAA52885D83100E0ABA1 /* AccessTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DBDAA42885D83100E0ABA1 /* AccessTokenResponse.swift */; };
+		53DBDAA72885D86F00E0ABA1 /* AccessTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DBDAA62885D86F00E0ABA1 /* AccessTokenRequest.swift */; };
 		80561B3826FB5F0F0023138C /* CardDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80561B3726FB5F0F0023138C /* CardDemoViewController.swift */; };
 		80561B3A26FB5F1C0023138C /* PayPalWebCheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80561B3926FB5F1C0023138C /* PayPalWebCheckoutViewController.swift */; };
 		80561B3E26FB72D80023138C /* FeatureBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80561B3D26FB72D80023138C /* FeatureBaseViewController.swift */; };
@@ -79,6 +81,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		53DBDAA42885D83100E0ABA1 /* AccessTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenResponse.swift; sourceTree = "<group>"; };
+		53DBDAA62885D86F00E0ABA1 /* AccessTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRequest.swift; sourceTree = "<group>"; };
 		80561B3726FB5F0F0023138C /* CardDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDemoViewController.swift; sourceTree = "<group>"; };
 		80561B3926FB5F1C0023138C /* PayPalWebCheckoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebCheckoutViewController.swift; sourceTree = "<group>"; };
 		80561B3D26FB72D80023138C /* FeatureBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureBaseViewController.swift; sourceTree = "<group>"; };
@@ -220,6 +224,8 @@
 				80F33CEC26F8E7A9006811B1 /* Order.swift */,
 				80F33CEE26F8E7CC006811B1 /* CreateOrderParams.swift */,
 				80F33CF026F8E7D9006811B1 /* ProcessOrderParams.swift */,
+				53DBDAA42885D83100E0ABA1 /* AccessTokenResponse.swift */,
+				53DBDAA62885D86F00E0ABA1 /* AccessTokenRequest.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -426,11 +432,13 @@
 				BED04233271084DF00C80954 /* CardFormatter.swift in Sources */,
 				CB9ED44E28411B120081F4DE /* SwiftUIPaymentButtonDemo.swift in Sources */,
 				80561B3E26FB72D80023138C /* FeatureBaseViewController.swift in Sources */,
+				53DBDAA72885D86F00E0ABA1 /* AccessTokenRequest.swift in Sources */,
 				BE31187C273F00B60021C5A2 /* DemoUIFramework.swift in Sources */,
 				BE9F36DC274578D100AFC7DA /* FeatureBaseViewControllerRepresentable.swift in Sources */,
 				BECD84A027036DC2007CCAE4 /* Environment.swift in Sources */,
 				806F1E3D26B85367007A60E6 /* ViewController.swift in Sources */,
 				80F33CF126F8E7D9006811B1 /* ProcessOrderParams.swift in Sources */,
+				53DBDAA52885D83100E0ABA1 /* AccessTokenResponse.swift in Sources */,
 				CB9ED44C283FDA900081F4DE /* PaymentButtonEnums+Extension.swift in Sources */,
 				BED041B1270CB33900C80954 /* CustomTextField.swift in Sources */,
 				80F33CF326F8EA50006811B1 /* DemoSettings.swift in Sources */,
