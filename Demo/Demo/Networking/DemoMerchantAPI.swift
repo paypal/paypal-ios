@@ -72,19 +72,16 @@ final class DemoMerchantAPI {
     private func fetchAccessToken(environment: Demo.Environment) async -> String? {
         do {
             let accessTokenRequest = AccessTokenRequest()
-            guard let request = createUrlRequest(
-                accessTokenRequest: accessTokenRequest, environment: environment) else {
-                throw URLResponseError.dataParsingError
-            }
+            let request = try createUrlRequest(accessTokenRequest: accessTokenRequest, environment: environment)
             let (data, response) = try await URLSession.shared.performRequest(with: request)
             guard let response = response as? HTTPURLResponse else {
-                throw URLResponseError.networkConnectionError
+                throw URLResponseError.serverError
             }
             switch response.statusCode {
             case 200..<300:
                 let accessTokenResponse: AccessTokenResponse = try parse(from: data)
                 return accessTokenResponse.accessToken
-            default: throw URLResponseError.serverError
+            default: throw URLResponseError.dataParsingError
             }
         } catch {
             print("Error in fetching token")
@@ -92,11 +89,11 @@ final class DemoMerchantAPI {
         }
     }
 
-    private func createUrlRequest(accessTokenRequest: AccessTokenRequest, environment: Demo.Environment) -> URLRequest? {
+    private func createUrlRequest(accessTokenRequest: AccessTokenRequest, environment: Demo.Environment) throws -> URLRequest {
         var completeUrl = environment.baseURL
         completeUrl.append(contentsOf: accessTokenRequest.path)
         guard let url = URL(string: completeUrl) else {
-            return nil
+            throw URLResponseError.invalidURL
         }
         var request = URLRequest(url: url)
         request.httpMethod = accessTokenRequest.method.rawValue

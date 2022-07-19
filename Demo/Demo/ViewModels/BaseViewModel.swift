@@ -178,6 +178,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
             do {
                 payPalWebCheckoutClient = try await getPayPalClient()
                 guard let client = payPalWebCheckoutClient else {
+                    print("Error in initializing paypal webcheckout client")
                     return
                 }
                 let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding)
@@ -208,6 +209,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     // TODO: this is just for test, need to be removed after final integration
     func testEligibility() async throws {
         guard let config = await getCoreConfig() else {
+            print("error in making config for test eligibility")
             return
         }
         let eligibilityAPI = EligibilityAPI(coreConfig: config)
