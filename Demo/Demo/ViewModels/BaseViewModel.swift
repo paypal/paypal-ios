@@ -28,14 +28,6 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     /// order ID shared across views
     @Published var orderID: String?
 
-    func getPayPalClient() async throws -> PayPalWebCheckoutClient {
-        guard let config = await getCoreConfig() else {
-            throw CoreSDKError(code: 0, domain: "Error initializing paypal webcheckout client", errorDescription: nil)
-        }
-        let payPalClient = PayPalWebCheckoutClient(config: config)
-        return payPalClient
-    }
-
     // MARK: - Init
 
     init(view: FeatureBaseViewController? = nil) {
@@ -120,7 +112,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         return Card(number: cleanedCardText, expirationMonth: expirationMonth, expirationYear: expirationYear, securityCode: cvv)
     }
 
-    func checkoutWithCard(
+    func checkoutWith(
         card: Card,
         orderID: String,
         context: ASWebAuthenticationPresentationContextProviding
@@ -174,6 +166,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
             self.updateTitle("Failed: missing orderID.")
             return
         }
+
         checkoutWithPayPal(orderID: orderID, context: context, funding: funding)
     }
     func checkoutWithPayPal(
@@ -181,7 +174,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         context: ASWebAuthenticationPresentationContextProviding,
         funding: PayPalWebCheckoutFundingSource
     ) {
-        Task.init {
+        Task {
             do {
                 payPalWebCheckoutClient = try await getPayPalClient()
                 guard let client = payPalWebCheckoutClient else {
@@ -260,5 +253,13 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
             return nil
         }
         return CoreConfig(clientID: DemoSettings.clientID, accessToken: token, environment: DemoSettings.environment.paypalSDKEnvironment)
+    }
+
+    func getPayPalClient() async throws -> PayPalWebCheckoutClient {
+        guard let config = await getCoreConfig() else {
+            throw CoreSDKError(code: 0, domain: "Error initializing paypal webcheckout client", errorDescription: nil)
+        }
+        let payPalClient = PayPalWebCheckoutClient(config: config)
+        return payPalClient
     }
 }

@@ -48,8 +48,7 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
         let expectedPath = "/v2/checkout/orders/\(mockOrderId)/confirm-payment-source"
         let expectedMethod = HTTPMethod.post
         let expectedHeaders: [HTTPHeader: String] = [
-            .contentType: "application/json", 
-            .acceptLanguage: "en_US"
+            .contentType: "application/json", .acceptLanguage: "en_US"
         ]
 
         XCTAssertEqual(confirmPaymentSourceRequest.path, expectedPath)
