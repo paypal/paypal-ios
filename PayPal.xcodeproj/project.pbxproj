@@ -23,7 +23,6 @@
 		3DC42BA927187E8300B71645 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC42BA827187E8300B71645 /* ErrorResponse.swift */; };
 		537804FD28760BE2006442BD /* EligibilityAPI_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537804FC28760BE2006442BD /* EligibilityAPI_Tests.swift */; };
 		8034A9E726B875C90055AF13 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; };
-		8036C1E3270F9BE700C0F091 /* AccessTokenRequest_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036C1DF270F9BE700C0F091 /* AccessTokenRequest_Tests.swift */; };
 		8036C1E4270F9BE700C0F091 /* APIClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036C1E0270F9BE700C0F091 /* APIClient_Tests.swift */; };
 		8036C1E5270F9BE700C0F091 /* Environment_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036C1E1270F9BE700C0F091 /* Environment_Tests.swift */; };
 		803C31B1270E41690067D36E /* TestShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E743F8270E40CE00BACECA /* TestShared.framework */; };
@@ -218,7 +217,6 @@
 		5324C2D0283EB45A00DBC34F /* Eligibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Eligibility.swift; sourceTree = "<group>"; };
 		537804FC28760BE2006442BD /* EligibilityAPI_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EligibilityAPI_Tests.swift; sourceTree = "<group>"; };
 		8034A9E326B875C90055AF13 /* PaymentsCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaymentsCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8036C1DF270F9BE700C0F091 /* AccessTokenRequest_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccessTokenRequest_Tests.swift; path = UnitTests/PaymentsCoreTests/AccessTokenRequest_Tests.swift; sourceTree = SOURCE_ROOT; };
 		8036C1E0270F9BE700C0F091 /* APIClient_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIClient_Tests.swift; path = UnitTests/PaymentsCoreTests/APIClient_Tests.swift; sourceTree = SOURCE_ROOT; };
 		8036C1E1270F9BE700C0F091 /* Environment_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Environment_Tests.swift; path = UnitTests/PaymentsCoreTests/Environment_Tests.swift; sourceTree = SOURCE_ROOT; };
 		803C31B6270E49160067D36E /* Card_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card_Tests.swift; sourceTree = "<group>"; };
@@ -537,7 +535,6 @@
 			isa = PBXGroup;
 			children = (
 				537804FC28760BE2006442BD /* EligibilityAPI_Tests.swift */,
-				8036C1DF270F9BE700C0F091 /* AccessTokenRequest_Tests.swift */,
 				8036C1E0270F9BE700C0F091 /* APIClient_Tests.swift */,
 				8036C1E1270F9BE700C0F091 /* Environment_Tests.swift */,
 				E6022E862857C81E008B0E27 /* EligibilityParsing_Tests.swift */,
@@ -765,6 +762,29 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
+		CB16E6DD285BA04C00FD6F52 /* ThreeDSecure */ = {
+			isa = PBXGroup;
+			children = (
+				CB4BE27A2847ADF700EA2DD1 /* ThreeDSecureRequest.swift */,
+				CB16E6DE285BB16800FD6F52 /* Attributes.swift */,
+				CB16E6E0285BB2F100FD6F52 /* Verification.swift */,
+				CB16E6E2285BB32900FD6F52 /* AuthenticationResult.swift */,
+				CB16E6E4285BB34F00FD6F52 /* ThreeDSecure.swift */,
+			);
+			path = ThreeDSecure;
+			sourceTree = "<group>";
+		};
+		CB16E6E6285BB44C00FD6F52 /* OrdersV2 */ = {
+			isa = PBXGroup;
+			children = (
+				CB4BE285284802C200EA2DD1 /* PaymentSource.swift */,
+				CB16E6E7285BBE6B00FD6F52 /* PurchaseUnit.swift */,
+				CB16E6E9285BBE7700FD6F52 /* Amount.swift */,
+				CB16E6EB285BBE8C00FD6F52 /* Link.swift */,
+			);
+			path = OrdersV2;
+			sourceTree = "<group>";
+		};
 		E646231928369B71008AC8E1 /* GraphQL */ = {
 			isa = PBXGroup;
 			children = (
@@ -814,29 +834,6 @@
 				E64623332836AC5A008AC8E1 /* SupportedPaymentMethodsTypeEligibility.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		CB16E6DD285BA04C00FD6F52 /* ThreeDSecure */ = {
-			isa = PBXGroup;
-			children = (
-				CB4BE27A2847ADF700EA2DD1 /* ThreeDSecureRequest.swift */,
-				CB16E6DE285BB16800FD6F52 /* Attributes.swift */,
-				CB16E6E0285BB2F100FD6F52 /* Verification.swift */,
-				CB16E6E2285BB32900FD6F52 /* AuthenticationResult.swift */,
-				CB16E6E4285BB34F00FD6F52 /* ThreeDSecure.swift */,
-			);
-			path = ThreeDSecure;
-			sourceTree = "<group>";
-		};
-		CB16E6E6285BB44C00FD6F52 /* OrdersV2 */ = {
-			isa = PBXGroup;
-			children = (
-				CB4BE285284802C200EA2DD1 /* PaymentSource.swift */,
-				CB16E6E7285BBE6B00FD6F52 /* PurchaseUnit.swift */,
-				CB16E6E9285BBE7700FD6F52 /* Amount.swift */,
-				CB16E6EB285BBE8C00FD6F52 /* Link.swift */,
-			);
-			path = OrdersV2;
 			sourceTree = "<group>";
 		};
 		OBJ_11 /* PayPalTests */ = {
@@ -1352,7 +1349,6 @@
 				537804FD28760BE2006442BD /* EligibilityAPI_Tests.swift in Sources */,
 				E699EC16285A388E0044A753 /* GraphQLClient_Tests.swift in Sources */,
 				8036C1E5270F9BE700C0F091 /* Environment_Tests.swift in Sources */,
-				8036C1E3270F9BE700C0F091 /* AccessTokenRequest_Tests.swift in Sources */,
 				E6022E872857C81E008B0E27 /* EligibilityParsing_Tests.swift in Sources */,
 				8036C1E4270F9BE700C0F091 /* APIClient_Tests.swift in Sources */,
 			);
