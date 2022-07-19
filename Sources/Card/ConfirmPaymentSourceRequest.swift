@@ -20,7 +20,8 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     var headers: [HTTPHeader: String] {
 
         return [
-            .contentType: "application/json", .acceptLanguage: "en_US"
+            .contentType: "application/json", 
+            .acceptLanguage: "en_US"
         ]
     }
 
