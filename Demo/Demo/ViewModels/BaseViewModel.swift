@@ -252,8 +252,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     }
 
     func getAccessToken() async -> String? {
-        await DemoMerchantAPI.sharedService.getAccessToken(
-            environment: DemoSettings.environment)
+        await DemoMerchantAPI.sharedService.getAccessToken(environment: DemoSettings.environment)
     }
 
     func getCoreConfig() async -> CoreConfig? {
