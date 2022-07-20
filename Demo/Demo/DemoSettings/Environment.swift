@@ -7,9 +7,9 @@ enum Environment: String {
     var baseURL: String {
         switch self {
         case .sandbox:
-            return "https://ppcp-sample-merchant-sand.herokuapp.com"
+            return "https://sdk-sample-merchant-server.herokuapp.com"
         case .production:
-            return "https://ppcp-sample-merchant-prod.herokuapp.com"
+            return "https://sdk-sample-merchant-server.herokuapp.com"
         }
     }
 

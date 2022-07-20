@@ -15,7 +15,7 @@ public class CardClient {
     /// - Parameter config: The CoreConfig object
     public init(config: CoreConfig) {
         self.config = config
-        self.apiClient = APIClient(environment: config.environment)
+        self.apiClient = APIClient(coreConfig: config)
     }
 
     /// For internal use for testing/mocking purpose
@@ -47,12 +47,9 @@ public class CardClient {
     ) {
         Task {
             do {
-                let confirmPaymentRequest = try ConfirmPaymentSourceRequest(
-                    cardRequest: request,
-                    clientID: config.clientID
-                )
+                let confirmPaymentRequest = try ConfirmPaymentSourceRequest(cardRequest: request)
                 let (result, _) = try await apiClient.fetch(endpoint: confirmPaymentRequest)
-                if let url = result.links?.first(where: { $0.rel == "payer-action" })?.href {
+                if let url: String = result.links?.first(where: { $0.rel == "payer-action" })?.href {
                     delegate?.cardThreeDSecureWillLaunch(self)
                     startThreeDSecureChallenge(url: url, orderId: result.id, context: context, webAuthenticationSession: webAuthenticationSession)
                 } else {
@@ -97,8 +94,7 @@ public class CardClient {
     private func getOrderInfo(id orderId: String) {
         let getOrderInfoRequest = GetOrderInfoRequest(
             orderID: orderId,
-            clientID: config.clientID,
-            secret: config.secret ?? ""
+            token: config.accessToken
         )
         Task {
             do {

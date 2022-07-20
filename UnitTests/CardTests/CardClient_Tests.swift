@@ -7,6 +7,9 @@ import AuthenticationServices
 
 class CardClient_Tests: XCTestCase {
 
+    let mockClientId = "mockClientId"
+    let mockAccessToken = "mockAccessToken"
+
     // MARK: - Helper Properties
 
     // swiftlint:disable:next force_unwrapping
@@ -17,9 +20,9 @@ class CardClient_Tests: XCTestCase {
         expirationYear: "2021",
         securityCode: "123"
     )
-    let config = CoreConfig(clientID: "", environment: .sandbox)
 
     // swiftlint:disable implicitly_unwrapped_optional
+    var config: CoreConfig!
     var mockURLSession: MockQuededURLSession!
     var apiClient: APIClient!
     var cardClient: CardClient!
@@ -29,10 +32,10 @@ class CardClient_Tests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-
+        config = CoreConfig(clientID: mockClientId, accessToken: mockAccessToken, environment: .sandbox)
         mockURLSession = MockQuededURLSession()
 
-        apiClient = APIClient(urlSession: mockURLSession, environment: .sandbox)
+        apiClient = APIClient(urlSession: mockURLSession, coreConfig: config)
         cardClient = CardClient(config: config, apiClient: apiClient)
     }
 

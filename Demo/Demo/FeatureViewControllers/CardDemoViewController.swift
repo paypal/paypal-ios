@@ -134,14 +134,14 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         }
 
         Task {
-            await baseViewModel.checkoutWithCard(card, orderID: orderID, context: self)
+            await baseViewModel.checkoutWith(card: card, orderID: orderID, context: self)
             self.checkoutButton.stopAnimating()
         }
     }
 
     @objc func didTapEligibilityButton() {
         Task {
-            await baseViewModel.testEligibility()
+            try await baseViewModel.testEligibility()
         }
     }
 

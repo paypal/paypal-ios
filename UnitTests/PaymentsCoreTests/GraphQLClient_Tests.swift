@@ -4,14 +4,14 @@ import XCTest
 
 class GraphQLClient_Tests: XCTestCase {
 
+    let mockClientId = "mockClientId"
+    let mockAccessToken = "mockAccessToken"
     // MARK: - Helper Properties
-
+    // swiftlint:disable implicitly_unwrapped_optional
     // swiftlint:disable:next force_unwrapping
     let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])
-    let config = CoreConfig(clientID: "", environment: .sandbox)
     let fakeRequest = FakeRequest()
-
-    // swiftlint:disable implicitly_unwrapped_optional
+    var config: CoreConfig!
     var mockURLSession: MockURLSession!
     var graphQLClient: GraphQLClient!
     var graphQLQuery: GraphQLQuery!
@@ -21,7 +21,7 @@ class GraphQLClient_Tests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-
+        config = CoreConfig(clientID: mockClientId, accessToken: mockAccessToken, environment: .sandbox)
         mockURLSession = MockURLSession()
         mockURLSession.cannedError = nil
         mockURLSession.cannedURLResponse = nil

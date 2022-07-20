@@ -16,7 +16,7 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
         let cardRequest = CardRequest(orderID: mockOrderID, card: card)
 
         let confirmPaymentSourceRequest = try XCTUnwrap(
-            ConfirmPaymentSourceRequest(cardRequest: cardRequest, clientID: "")
+            ConfirmPaymentSourceRequest(cardRequest: cardRequest)
         )
 
         let paymentSourceBody = try XCTUnwrap(confirmPaymentSourceRequest.body)
@@ -33,7 +33,6 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
 
     func testEncodingPaymentSource_withValidCardDictionary_expectsValidHTTPParams() throws {
         let mockOrderId = "mockOrderId"
-        let mockClientId = "mockClientId"
         let card = Card(
             number: "4032036247327321",
             expirationMonth: "11",
@@ -43,16 +42,13 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
         let cardRequest = CardRequest(orderID: mockOrderId, card: card)
 
         let confirmPaymentSourceRequest = try XCTUnwrap(
-            ConfirmPaymentSourceRequest(cardRequest: cardRequest, clientID: mockClientId)
+            ConfirmPaymentSourceRequest(cardRequest: cardRequest)
         )
 
         let expectedPath = "/v2/checkout/orders/\(mockOrderId)/confirm-payment-source"
         let expectedMethod = HTTPMethod.post
-        let encodedCredentials = "\(mockClientId):".data(using: .utf8)?.base64EncodedString() ?? ""
         let expectedHeaders: [HTTPHeader: String] = [
-            .contentType: "application/json",
-            .acceptLanguage: "en_US",
-            .authorization: "Basic \(encodedCredentials)"
+            .contentType: "application/json", .acceptLanguage: "en_US"
         ]
 
         XCTAssertEqual(confirmPaymentSourceRequest.path, expectedPath)
