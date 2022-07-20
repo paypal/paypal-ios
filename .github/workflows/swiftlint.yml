@@ -1,5 +1,8 @@
 name: Lint
 on: [pull_request, workflow_dispatch]
+concurrency:
+  group: lint-${{ github.event.number }}
+  cancel-in-progress: true
 jobs:
   swiftlint:
     name: SwiftLint
