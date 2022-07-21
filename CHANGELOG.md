@@ -9,4 +9,10 @@
   * Add `CardClient`
   * Add `CardRequest`
   * Add `CardResult`
-  
+
+* PayPalCheckout
+  * Add `PayPalWebCheckout`
+
+* PayPalDataCollector
+  * Add `PayPalDataCollector`
+  * Add `MagnesSDK`
