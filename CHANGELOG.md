@@ -10,3 +10,14 @@
   * Add `CardRequest`
   * Add `CardResult`
   
+* PayPalCheckout
+  * Add `PayPalWebCheckout`
+  
+* PayPalUI
+  * Add `PayPalButton` Button
+  * Add `PayPalPayLater` Button
+  * Add `PayPalCredit` Button
+
+* PayPalDataCollector
+  * Add `PayPalDataCollector`
+  * Add `MagnesSDK`
