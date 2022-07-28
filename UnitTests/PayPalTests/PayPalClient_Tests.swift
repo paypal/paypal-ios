@@ -34,7 +34,9 @@ class PayPalClient_Tests: XCTestCase {
 
     func testStart_whenNativeSDKOnApproveCalled_returnsPayPalResult() async {
         let request = PayPalRequest(orderID: "1234")
-        let approval = MockApproval(intent: "intent", payerID: "payerID", ecToken: request.orderID)
+        // swiftlint: disable force_unwrapping
+        let approval = MockApproval(intent: ApprovalOrderIntent(rawValue: 0)!, payerID: "payerID", ecToken: request.orderID)
+        // swiftlint: enable force_unwrapping
 
         let delegate = MockPayPalDelegate()
         payPalClient.delegate = delegate

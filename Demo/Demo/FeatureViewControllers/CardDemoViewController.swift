@@ -1,5 +1,6 @@
 import UIKit
 import PaymentsCore
+import PayPalNativeCheckout
 
 class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
@@ -61,6 +62,12 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         return eligibilityButton
     }()
 
+    lazy var nativeCheckoutButton: CustomButton = {
+        let nativeCheckoutButton = CustomButton(title: "Native Checkout")
+        nativeCheckoutButton.addTarget(self, action: #selector(didTapNativeCheckoutButton), for: .touchUpInside)
+        return nativeCheckoutButton
+    }()
+
     private let cardFormatter = CardFormatter()
 
     // MARK: - View Lifecycle & UI Setup
@@ -85,6 +92,7 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
         cardFormStackView.addArrangedSubview(expirationCVVStackView)
         cardFormStackView.addArrangedSubview(checkoutButton)
         cardFormStackView.addArrangedSubview(eligibilityButton)
+        cardFormStackView.addArrangedSubview(nativeCheckoutButton)
 
         expirationCVVStackView.addArrangedSubview(expirationTextField)
         expirationCVVStackView.addArrangedSubview(cvvTextField)
@@ -114,6 +122,17 @@ class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
                 expirationDate: expirationTextField.text ?? "",
                 cvv: cvvTextField.text ?? ""
             )
+        }
+    }
+
+    @objc func didTapNativeCheckoutButton() {
+        Task {
+            nativeCheckoutButton.startAnimating()
+            guard let orderId = baseViewModel.orderID else {
+                return
+            }
+            _ = try await baseViewModel.checkoutWithNativeClient(orderId: orderId)
+            nativeCheckoutButton.stopAnimating()
         }
     }
 

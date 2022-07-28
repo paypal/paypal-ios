@@ -40,7 +40,7 @@ public class PayPalClient {
     ///   - presentingViewController: the ViewController to present PayPalPaysheet on, if not provided, the Paysheet will be presented on your top-most ViewController
     ///   - completion: Completion block to handle buyer's approval, cancellation, and error.
     public func start(request: PayPalRequest, presentingViewController: UIViewController? = nil) {
-        CheckoutFlow.set(config: config, returnURL: returnURL)
+        CheckoutFlow.set(config: config)
 
         CheckoutFlow.start(
             presentingViewController: presentingViewController,

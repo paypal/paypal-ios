@@ -3,6 +3,7 @@ import UIKit
 
 @testable import PayPalNativeCheckout
 @testable import PaymentsCore
+import PayPalCheckout
 
 class MockCheckout: CheckoutProtocol {
 
@@ -10,7 +11,7 @@ class MockCheckout: CheckoutProtocol {
     static var onCancel: CancelCallback?
     static var onError: ErrorCallback?
 
-    static func set(config: CoreConfig, returnURL: String) { }
+    static func set(config: CoreConfig) { }
 
     static func start(
         presentingViewController: UIViewController?,
@@ -39,7 +40,7 @@ class MockCheckout: CheckoutProtocol {
 
 // swiftlint:disable space_after_main_type
 struct MockApproval: PayPalCheckoutApprovalData {
-    var intent: String
+    var intent: ApprovalOrderIntent
     var payerID: String
     var ecToken: String
 }
@@ -48,4 +49,4 @@ struct MockPayPalError: PayPalCheckoutErrorInfo {
     var reason: String
     var error: Error
 }
-// swiftlint:enable space_after_main_type
+// swiftlint:disable space_after_main_type

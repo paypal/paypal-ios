@@ -2,14 +2,14 @@ import Foundation
 @_implementationOnly import PayPalCheckout
 
 protocol PayPalCheckoutApprovalData {
-    var intent: String { get }
+    var intent: ApprovalOrderIntent { get }
     var payerID: String { get }
     var ecToken: String { get }
 }
 
 extension Approval: PayPalCheckoutApprovalData {
 
-    var intent: String {
+    var intent: ApprovalOrderIntent {
         data.intent
     }
 
