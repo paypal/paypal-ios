@@ -3,15 +3,19 @@ import Foundation
 public class EligibilityAPI {
 
     internal var graphQLClient: GraphQLClient
+    internal var apiClient: APIClient
+    
     private var coreConfig: CoreConfig
     public init(coreConfig: CoreConfig) {
         self.coreConfig = coreConfig
         graphQLClient = GraphQLClient(environment: coreConfig.environment)
+        apiClient = APIClient(coreConfig: coreConfig)
     }
 
     public func checkEligibility() async throws -> Result<Eligibility, Error> {
+        let clientId = try await apiClient.getClientId()
         let fundingEligibilityQuery = FundingEligibilityQuery(
-            clientId: coreConfig.clientID,
+            clientId: clientId,
             fundingEligibilityIntent: FundingEligibilityIntent.CAPTURE,
             currencyCode: SupportedCountryCurrencyType.USD,
             enableFunding: [SupportedPaymentMethodsType.VENMO]

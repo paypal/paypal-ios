@@ -289,7 +289,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
         guard let token = await getAccessToken() else {
             return nil
         }
-        return CoreConfig(clientID: DemoSettings.clientID, accessToken: token, environment: DemoSettings.environment.paypalSDKEnvironment)
+        return CoreConfig(accessToken: token, environment: DemoSettings.environment.paypalSDKEnvironment)
     }
 
     func getNativeCheckoutClient() async throws -> PayPalClient {
