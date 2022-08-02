@@ -27,7 +27,8 @@ extension Checkout: CheckoutProtocol {
 
     static func set(config: CoreConfig) {
         let nxoConfig = CheckoutConfig(
-            clientID: config.clientID
+            clientID: config.clientID,
+            environment: config.environment.toNativeCheckoutSDKEnvironment()
         )
         set(config: nxoConfig)
     }

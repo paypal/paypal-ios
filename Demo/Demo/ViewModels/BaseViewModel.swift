@@ -7,7 +7,23 @@ import PayPalNativeCheckout
 
 /// This class is used to share the orderID across shared views, update the text of `bottomStatusLabel` in our `FeatureBaseViewController`
 /// as well as share the logic of `processOrder` across our duplicate (SwiftUI and UIKit) card views.
-class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
+class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, PayPalDelegate {
+
+    var nativeCheckoutResult: NativeCheckoutResult?
+    func paypal(_ payPalClient: PayPalClient, didFinishWithResult result: PayPalResult) {
+        nativeCheckoutResult = NativeCheckoutResult.approved(ApprovalResult(
+            orderId: result.orderID, payerId: result.payerID
+        ))
+    }
+
+    func paypal(_ payPalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
+        nativeCheckoutResult = NativeCheckoutResult.error(error)
+    }
+
+    func paypalDidCancel(_ payPalClient: PayPalClient) {
+        nativeCheckoutResult = NativeCheckoutResult.cancel
+    }
+
 
     private static var returnUrl: String {
         if let identifier = Bundle.main.bundleIdentifier {
@@ -134,31 +150,11 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         }
         let nativeCheckoutClient = try await getNativeCheckoutClient()
         let paypalRequest = PayPalRequest(orderID: orderId)
-
-        class PaypalCheckoutDelegate: PayPalDelegate {
-
-            var nativeCheckoutResult: NativeCheckoutResult?
-            func paypal(_ payPalClient: PayPalClient, didFinishWithResult result: PayPalResult) {
-                nativeCheckoutResult = NativeCheckoutResult.approved(ApprovalResult(
-                    orderId: result.orderID, payerId: result.payerID
-                ))
-            }
-
-            func paypal(_ payPalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
-                nativeCheckoutResult = NativeCheckoutResult.error(error)
-            }
-
-            func paypalDidCancel(_ payPalClient: PayPalClient) {
-                nativeCheckoutResult = NativeCheckoutResult.cancel
-            }
-        }
-
-        let callbackDelegate = PaypalCheckoutDelegate()
-        nativeCheckoutClient.delegate = callbackDelegate
+        nativeCheckoutClient.delegate = self
         DispatchQueue.main.async {
             nativeCheckoutClient.start(request: paypalRequest)
         }
-        guard let nativeCheckoutResult = callbackDelegate.nativeCheckoutResult
+        guard let nativeCheckoutResult = nativeCheckoutResult
         else {
             throw CoreSDKError(code: 0, domain: "checkout", errorDescription: "didn't get result from checkout")
         }
