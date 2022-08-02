@@ -31,11 +31,11 @@ class APIClient_Tests: XCTestCase {
         apiClient = APIClient(urlSession: mockURLSession, coreConfig: config)
     }
 
-    func testGetClientId_successfullyReturnsData() async {
+    func testGetClientId_successfullyReturnsData() async throws {
         mockURLSession.cannedJSONData = APIResponses.oauthTokenJson.rawValue
         mockURLSession.cannedURLResponse = successURLResponse
 
-        let response = try! await apiClient.getClientId()
+        let response = try await apiClient.getClientId()
         XCTAssertEqual(response, "sample_id")
     }
 
