@@ -24,7 +24,7 @@ class PayPalClient_Tests: XCTestCase {
         }
     }
 
-    let config = CoreConfig(clientID: "testClientID", accessToken: "testAccessToken", environment: .sandbox)
+    let config = CoreConfig(accessToken: "testAccessToken", environment: .sandbox)
 
     lazy var payPalClient = PayPalClient(config: config, checkoutFlow: MockCheckout.self)
 
@@ -75,7 +75,8 @@ class PayPalClient_Tests: XCTestCase {
     func testInit_setsPayPalCheckoutWith_returnsPayPalClient() {
         let payPalClientPublic = PayPalClient(config: config)
 
-        XCTAssertEqual(payPalClientPublic.config.clientID, payPalClient.config.clientID)
+        //TODO: Mock APIClient.getClientId
+        //XCTAssertEqual(payPalClientPublic.config.clientID, payPalClient.config.clientID)
     }
 
     func testInit_setsConfigPropertiesOnNativeSDKCheckoutConfig() {

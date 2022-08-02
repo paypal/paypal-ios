@@ -22,7 +22,7 @@ class APIClient_Tests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        config = CoreConfig(clientID: mockClientId, accessToken: mockAccessToken, environment: .sandbox)
+        config = CoreConfig(accessToken: mockAccessToken, environment: .sandbox)
         mockURLSession = MockURLSession()
         mockURLSession.cannedError = nil
         mockURLSession.cannedURLResponse = nil
@@ -30,7 +30,43 @@ class APIClient_Tests: XCTestCase {
 
         apiClient = APIClient(urlSession: mockURLSession, coreConfig: config)
     }
-
+    
+//    func testGetClientId_successfullyReturnsData() {
+//        if let jsonResponse = CardResponses.confirmPaymentSourceJson.rawValue.data(using: String.Encoding.utf8) {
+//            let mockResponse = MockResponse.success(
+//                MockResponse.Success(data: jsonResponse, urlResponse: successURLResponse)
+//            )
+//            mockURLSession.addResponse(mockResponse)
+//            let expectation = expectation(description: "testName")
+//
+//            let cardRequest = CardRequest(orderID: "testOrderId", card: card)
+//
+//            let mockCardDelegate = MockCardDelegate(success: {_, result -> Void in
+//                XCTAssertEqual(result.orderID, "testOrderId")
+//                XCTAssertEqual(result.paymentSource?.card.brand, "VISA")
+//                XCTAssertEqual(result.paymentSource?.card.lastFourDigits, "7321")
+//                XCTAssertEqual(result.paymentSource?.card.type, "CREDIT")
+//                expectation.fulfill()
+//            }, error: { _, _ -> Void in
+//                XCTFail()
+//            }, threeDSWillLaunch: { _ -> Void in
+//                XCTFail()
+//            })
+//
+//            cardClient.delegate = mockCardDelegate
+//
+//            cardClient.start(
+//                request: cardRequest,
+//                context: MockViewController(),
+//                webAuthenticationSession: MockWebAuthenticationSession()
+//            )
+//
+//            waitForExpectations(timeout: 10)
+//        } else {
+//            XCTFail("Data json cannot be null")
+//        }
+//    }
+    
     func testFetch_withNoURLRequest_returnsInvalidURLRequestError() async {
         // Mock request whose API object does not vend a URLRequest
         let noURLRequest = FakeRequestNoURL()

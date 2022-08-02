@@ -14,7 +14,7 @@ class EligibilityAPI_Tests: XCTestCase {
     // swiftlint:enable implicitly_unwrapped_optional
     override func setUp() {
         super.setUp()
-        coreConfig = CoreConfig(clientID: mockClientId, accessToken: mockAccessToken, environment: .sandbox)
+        coreConfig = CoreConfig(accessToken: mockAccessToken, environment: .sandbox)
         mockURLSession = MockURLSession()
     }
     func testCheckEligibilityWithSuccessResponse() async throws {

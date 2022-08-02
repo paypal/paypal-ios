@@ -32,7 +32,7 @@ class CardClient_Tests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        config = CoreConfig(clientID: mockClientId, accessToken: mockAccessToken, environment: .sandbox)
+        config = CoreConfig(accessToken: mockAccessToken, environment: .sandbox)
         mockURLSession = MockQuededURLSession()
 
         apiClient = APIClient(urlSession: mockURLSession, coreConfig: config)
