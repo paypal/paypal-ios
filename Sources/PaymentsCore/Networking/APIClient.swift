@@ -43,20 +43,9 @@ public final class APIClient {
     }
     
     public func getClientId() async throws -> String {
-        let request = GetClientIdRequest(token: coreConfig.accessToken).toURLRequest(environment: coreConfig.environment)
-        // TODO: consider throwing PayPalError from perfomRequest
-        let (data, response) = try await urlSession.performRequest(with: request!)
-        guard let response = response as? HTTPURLResponse else {
-            throw APIClientError.invalidURLResponseError
-        }
-
-        switch response.statusCode {
-        case 200..<300:
-            let decodedData = try decoder.decode(GetClientIdRequest.self, from: data)
-            return decodedData.clientId
-        default:
-            let errorData = try decoder.decode(from: data)
-            throw APIClientError.serverResponseError(errorData.readableDescription)
-        }
+        let request = GetClientIdRequest(token: coreConfig.accessToken)
+        let (response, _)  = try await fetch(endpoint: request)
+        return response.clientId
     }
+    
 }
