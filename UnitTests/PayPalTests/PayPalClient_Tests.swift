@@ -2,6 +2,7 @@ import XCTest
 import PayPalCheckout
 @testable import PaymentsCore
 @testable import PayPalNativeCheckout
+@testable import TestShared
 
 class PayPalClient_Tests: XCTestCase {
 
@@ -26,7 +27,11 @@ class PayPalClient_Tests: XCTestCase {
 
     let config = CoreConfig(accessToken: "testAccessToken", environment: .sandbox)
 
-    lazy var payPalClient = PayPalClient(config: config, checkoutFlow: MockCheckout.self)
+    lazy var payPalClient = PayPalClient(
+        config: config,
+        checkoutFlow: MockCheckout.self,
+        apiClient: MockAPIClient(coreConfig: config)
+    )
 
     func testStart_whenNativeSDKOnApproveCalled_returnsPayPalResult() async {
         let request = PayPalRequest(orderID: "1234")
@@ -36,7 +41,7 @@ class PayPalClient_Tests: XCTestCase {
         let delegate = MockPayPalDelegate()
         payPalClient.delegate = delegate
 
-        payPalClient.start(request: request)
+        await payPalClient.start(request: request)
         MockCheckout.triggerApproval(approval: approval)
 
         let approvalResult = delegate.capturedResult
@@ -44,26 +49,26 @@ class PayPalClient_Tests: XCTestCase {
         XCTAssertEqual(approvalResult?.payerID, approval.payerID)
     }
 
-    func testStart_whenNativeSDKOnCancelCalled_returnsCancellationError() {
+    func testStart_whenNativeSDKOnCancelCalled_returnsCancellationError() async {
         let request = PayPalRequest(orderID: "1234")
 
         let delegate = MockPayPalDelegate()
         payPalClient.delegate = delegate
 
-        payPalClient.start(request: request)
+        await payPalClient.start(request: request)
         MockCheckout.triggerCancel()
 
         XCTAssertTrue(delegate.paypalDidCancel)
     }
 
-    func testStart_whenNativeSDKOnErrorCalled_returnsCheckoutError() {
+    func testStart_whenNativeSDKOnErrorCalled_returnsCheckoutError() async {
         let request = PayPalRequest(orderID: "1234")
         let error = MockPayPalError(reason: "error reason", error: NSError())
 
         let delegate = MockPayPalDelegate()
         payPalClient.delegate = delegate
 
-        payPalClient.start(request: request)
+        await payPalClient.start(request: request)
         MockCheckout.triggerError(error: error)
 
         let sdkError = delegate.capturedError

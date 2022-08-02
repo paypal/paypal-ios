@@ -2,14 +2,22 @@ import Foundation
 
 public class EligibilityAPI {
 
-    internal var graphQLClient: GraphQLClient
-    internal var apiClient: APIClient
-    
-    private var coreConfig: CoreConfig
-    public init(coreConfig: CoreConfig) {
+    private let graphQLClient: GraphQLClient
+    private let apiClient: APIClient
+    private let coreConfig: CoreConfig
+
+    public convenience init(coreConfig: CoreConfig) {
+        self.init(
+            coreConfig: coreConfig,
+            apiClient: APIClient(coreConfig: coreConfig),
+            graphQLClient: GraphQLClient(environment: coreConfig.environment)
+        )
+    }
+
+    init(coreConfig: CoreConfig, apiClient: APIClient, graphQLClient: GraphQLClient) {
         self.coreConfig = coreConfig
-        graphQLClient = GraphQLClient(environment: coreConfig.environment)
-        apiClient = APIClient(coreConfig: coreConfig)
+        self.apiClient = apiClient
+        self.graphQLClient = graphQLClient
     }
 
     public func checkEligibility() async throws -> Result<Eligibility, Error> {

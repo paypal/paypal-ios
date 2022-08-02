@@ -1,8 +1,11 @@
-//
-//  MockAPIClient.swift
-//  TestShared
-//
-//  Created by Andres Pelaez on 2/08/22.
-//
-
 import Foundation
+@testable import PaymentsCore
+
+class MockAPIClient: APIClient {
+    
+    var cannedClientID = "cannedClientID"
+    
+    override func getClientId() async throws -> String {
+        return cannedClientID
+    }
+}

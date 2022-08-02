@@ -1,6 +1,6 @@
 import Foundation
 
-public final class APIClient {
+public class APIClient {
 
     public typealias CorrelationID = String
 
