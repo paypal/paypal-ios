@@ -30,15 +30,15 @@ class APIClient_Tests: XCTestCase {
 
         apiClient = APIClient(urlSession: mockURLSession, coreConfig: config)
     }
-    
+
     func testGetClientId_successfullyReturnsData() async {
         mockURLSession.cannedJSONData = APIResponses.oauthTokenJson.rawValue
         mockURLSession.cannedURLResponse = successURLResponse
-        
+
         let response = try! await apiClient.getClientId()
         XCTAssertEqual(response, "sample_id")
     }
-    
+
     func testFetch_withNoURLRequest_returnsInvalidURLRequestError() async {
         // Mock request whose API object does not vend a URLRequest
         let noURLRequest = FakeRequestNoURL()

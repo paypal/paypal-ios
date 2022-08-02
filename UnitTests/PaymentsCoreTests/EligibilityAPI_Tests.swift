@@ -11,12 +11,14 @@ class EligibilityAPI_Tests: XCTestCase {
     var mockURLSession: MockURLSession!
     var graphQLClient: GraphQLClient!
     var eligibilityAPI: EligibilityAPI!
+
     // swiftlint:enable implicitly_unwrapped_optional
     override func setUp() {
         super.setUp()
         coreConfig = CoreConfig(accessToken: mockAccessToken, environment: .sandbox)
         mockURLSession = MockURLSession()
     }
+    
     func testCheckEligibilityWithSuccessResponse() async throws {
         mockURLSession.cannedError = nil
         mockURLSession.cannedURLResponse = HTTPURLResponse(

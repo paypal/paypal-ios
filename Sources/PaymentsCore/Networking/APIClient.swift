@@ -41,11 +41,10 @@ public final class APIClient {
             throw APIClientError.serverResponseError(errorData.readableDescription)
         }
     }
-    
+
     public func getClientId() async throws -> String {
         let request = GetClientIdRequest(token: coreConfig.accessToken)
-        let (response, _)  = try await fetch(endpoint: request)
+        let (response, _) = try await fetch(endpoint: request)
         return response.clientId
     }
-    
 }
