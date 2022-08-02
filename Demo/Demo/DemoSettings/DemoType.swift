@@ -31,7 +31,7 @@ enum DemoType: String {
         case .paymentButtonCustomization:
             return AnyView(SwiftUIPaymentButtonDemo())
         case .payPalNativeCheckout:
-            return AnyView(SiftUINativeCheckoutDemo())
+            return AnyView(SwiftUINativeCheckoutDemo())
         }
     }
 }

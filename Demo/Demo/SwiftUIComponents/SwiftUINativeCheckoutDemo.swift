@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 import PayPalUI
 
-struct SiftUINativeCheckoutDemo: View {
+struct SwiftUINativeCheckoutDemo: View {
 
     @StateObject var baseViewModel = BaseViewModel()
 
@@ -33,6 +33,6 @@ struct SiftUINativeCheckoutDemo: View {
 struct SiftUINativeCheckoutDemo_Preview: PreviewProvider {
 
     static var previews: some View {
-        SiftUINativeCheckoutDemo(baseViewModel: BaseViewModel())
+        SwiftUINativeCheckoutDemo(baseViewModel: BaseViewModel())
     }
 }
