@@ -26,11 +26,7 @@ class PayPalClient_Tests: XCTestCase {
 
     let config = CoreConfig(clientID: "testClientID", accessToken: "testAccessToken", environment: .sandbox)
 
-    lazy var payPalClient = PayPalClient(
-        config: config,
-        returnURL: "return://url",
-        checkoutFlow: MockCheckout.self
-    )
+    lazy var payPalClient = PayPalClient(config: config, checkoutFlow: MockCheckout.self)
 
     func testStart_whenNativeSDKOnApproveCalled_returnsPayPalResult() async {
         let request = PayPalRequest(orderID: "1234")
@@ -41,7 +37,7 @@ class PayPalClient_Tests: XCTestCase {
         let delegate = MockPayPalDelegate()
         payPalClient.delegate = delegate
 
-        payPalClient.start(request: request, presentingViewController: nil)
+        payPalClient.start(request: request)
         MockCheckout.triggerApproval(approval: approval)
 
         let approvalResult = delegate.capturedResult
@@ -55,7 +51,7 @@ class PayPalClient_Tests: XCTestCase {
         let delegate = MockPayPalDelegate()
         payPalClient.delegate = delegate
 
-        payPalClient.start(request: request, presentingViewController: nil)
+        payPalClient.start(request: request)
         MockCheckout.triggerCancel()
 
         XCTAssertTrue(delegate.paypalDidCancel)
@@ -68,7 +64,7 @@ class PayPalClient_Tests: XCTestCase {
         let delegate = MockPayPalDelegate()
         payPalClient.delegate = delegate
 
-        payPalClient.start(request: request, presentingViewController: nil)
+        payPalClient.start(request: request)
         MockCheckout.triggerError(error: error)
 
         let sdkError = delegate.capturedError
@@ -78,10 +74,9 @@ class PayPalClient_Tests: XCTestCase {
     }
 
     func testInit_setsPayPalCheckoutWith_returnsPayPalClient() {
-        let payPalClientPublic = PayPalClient(config: config, returnURL: "return://url")
+        let payPalClientPublic = PayPalClient(config: config)
 
         XCTAssertEqual(payPalClientPublic.config.clientID, payPalClient.config.clientID)
-        XCTAssertEqual(payPalClientPublic.returnURL, payPalClient.returnURL)
     }
 
     func testInit_setsConfigPropertiesOnNativeSDKCheckoutConfig() {

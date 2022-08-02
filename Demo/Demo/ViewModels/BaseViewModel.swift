@@ -296,7 +296,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
         guard let config = await getCoreConfig() else {
             throw CoreSDKError(code: 0, domain: "Error initializing paypal webcheckout client", errorDescription: nil)
         }
-        return PayPalClient(config: config, returnURL: "com.paypal.android://paypalpay")
+        return PayPalClient(config: config)
     }
 
     func getPayPalClient() async throws -> PayPalWebCheckoutClient {
