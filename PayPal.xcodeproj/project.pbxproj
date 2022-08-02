@@ -141,6 +141,7 @@
 		E6022E832857C6BE008B0E27 /* GraphQLQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E646231B28369B9B008AC8E1 /* GraphQLQuery.swift */; };
 		E6022E842857C6BE008B0E27 /* GraphQLClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64623372836AFC1008AC8E1 /* GraphQLClient.swift */; };
 		E6022E872857C81E008B0E27 /* EligibilityParsing_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6022E862857C81E008B0E27 /* EligibilityParsing_Tests.swift */; };
+		E647636D28998CD600074113 /* APIResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = E647636C28998CD600074113 /* APIResponses.swift */; };
 		E65D2D19289866FD00F94DFC /* GetClientIdRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65D2D18289866FD00F94DFC /* GetClientIdRequest.swift */; };
 		E65D2D1B2898674700F94DFC /* GetClientIdResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65D2D1A2898674700F94DFC /* GetClientIdResponse.swift */; };
 		E699EC16285A388E0044A753 /* GraphQLClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E699EC15285A388E0044A753 /* GraphQLClient_Tests.swift */; };
@@ -322,6 +323,7 @@
 		E64623312836AAE3008AC8E1 /* FundingEligibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundingEligibility.swift; sourceTree = "<group>"; };
 		E64623332836AC5A008AC8E1 /* SupportedPaymentMethodsTypeEligibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedPaymentMethodsTypeEligibility.swift; sourceTree = "<group>"; };
 		E64623372836AFC1008AC8E1 /* GraphQLClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLClient.swift; sourceTree = "<group>"; };
+		E647636C28998CD600074113 /* APIResponses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponses.swift; sourceTree = "<group>"; };
 		E65D2D18289866FD00F94DFC /* GetClientIdRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetClientIdRequest.swift; sourceTree = "<group>"; };
 		E65D2D1A2898674700F94DFC /* GetClientIdResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetClientIdResponse.swift; sourceTree = "<group>"; };
 		E699EC15285A388E0044A753 /* GraphQLClient_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLClient_Tests.swift; sourceTree = "<group>"; };
@@ -521,6 +523,7 @@
 				8036C1E1270F9BE700C0F091 /* Environment_Tests.swift */,
 				E6022E862857C81E008B0E27 /* EligibilityParsing_Tests.swift */,
 				E699EC15285A388E0044A753 /* GraphQLClient_Tests.swift */,
+				E647636C28998CD600074113 /* APIResponses.swift */,
 			);
 			path = PaymentsCoreTests;
 			sourceTree = "<group>";
@@ -1335,6 +1338,7 @@
 				8036C1E5270F9BE700C0F091 /* Environment_Tests.swift in Sources */,
 				E6022E872857C81E008B0E27 /* EligibilityParsing_Tests.swift in Sources */,
 				8036C1E4270F9BE700C0F091 /* APIClient_Tests.swift in Sources */,
+				E647636D28998CD600074113 /* APIResponses.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
