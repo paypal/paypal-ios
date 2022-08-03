@@ -12,7 +12,6 @@ public class PayPalClient {
     public weak var delegate: PayPalDelegate?
 
     let config: CoreConfig
-    let returnURL: String
 
     // swiftlint:disable identifier_name
     let CheckoutFlow: CheckoutProtocol.Type
@@ -22,15 +21,13 @@ public class PayPalClient {
     /// - Parameters:
     ///   - config: The CoreConfig object
     ///   - returnURL: The return URL provided to the PayPal Native UI experience. Used as part of the authentication process to identify your application. This value should match the one set in the `Return URLs` section of your application's dashboard on your [PayPal developer account](https://developer.paypal.com)
-    public init(config: CoreConfig, returnURL: String) {
+    public init(config: CoreConfig) {
         self.config = config
-        self.returnURL = returnURL
         self.CheckoutFlow = Checkout.self
     }
 
-    init(config: CoreConfig, returnURL: String, checkoutFlow: CheckoutProtocol.Type) {
+    init(config: CoreConfig, checkoutFlow: CheckoutProtocol.Type) {
         self.config = config
-        self.returnURL = returnURL
         self.CheckoutFlow = checkoutFlow
     }
 
@@ -40,7 +37,7 @@ public class PayPalClient {
     ///   - presentingViewController: the ViewController to present PayPalPaysheet on, if not provided, the Paysheet will be presented on your top-most ViewController
     ///   - completion: Completion block to handle buyer's approval, cancellation, and error.
     public func start(request: PayPalRequest, presentingViewController: UIViewController? = nil) {
-        CheckoutFlow.set(config: config, returnURL: returnURL)
+        CheckoutFlow.set(config: config)
 
         CheckoutFlow.start(
             presentingViewController: presentingViewController,

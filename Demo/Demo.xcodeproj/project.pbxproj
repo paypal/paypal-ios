@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5301468A2891867800184F22 /* NativeCheckoutResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530146892891867800184F22 /* NativeCheckoutResult.swift */; };
+		5301468C28918B4D00184F22 /* ApprovalResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301468B28918B4D00184F22 /* ApprovalResult.swift */; };
+		536A5CA32898A48C005C053D /* PayPalNativeCheckout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 536A5CA22898A48C005C053D /* PayPalNativeCheckout.framework */; };
+		536A5CA42898A48C005C053D /* PayPalNativeCheckout.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 536A5CA22898A48C005C053D /* PayPalNativeCheckout.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		536A5CA62898A730005C053D /* NativeCheckoutDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536A5CA52898A730005C053D /* NativeCheckoutDemoViewController.swift */; };
+		536A5CA82898AA2A005C053D /* SwiftUINativeCheckoutDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536A5CA72898AA2A005C053D /* SwiftUINativeCheckoutDemo.swift */; };
 		53DBDAA52885D83100E0ABA1 /* AccessTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DBDAA42885D83100E0ABA1 /* AccessTokenResponse.swift */; };
 		53DBDAA72885D86F00E0ABA1 /* AccessTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DBDAA62885D86F00E0ABA1 /* AccessTokenRequest.swift */; };
 		80561B3826FB5F0F0023138C /* CardDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80561B3726FB5F0F0023138C /* CardDemoViewController.swift */; };
@@ -73,6 +79,7 @@
 			files = (
 				BCE8A7EF27EA2B1E00AC301B /* PayPalWebCheckout.framework in Embed Frameworks */,
 				BE420F3828189A7A00D8D66A /* PayPalUI.framework in Embed Frameworks */,
+				536A5CA42898A48C005C053D /* PayPalNativeCheckout.framework in Embed Frameworks */,
 				805AB85126B87A87003BEE0D /* Card.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -81,6 +88,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		530146892891867800184F22 /* NativeCheckoutResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeCheckoutResult.swift; sourceTree = "<group>"; };
+		5301468B28918B4D00184F22 /* ApprovalResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApprovalResult.swift; sourceTree = "<group>"; };
+		536A5CA22898A48C005C053D /* PayPalNativeCheckout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PayPalNativeCheckout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		536A5CA52898A730005C053D /* NativeCheckoutDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeCheckoutDemoViewController.swift; sourceTree = "<group>"; };
+		536A5CA72898AA2A005C053D /* SwiftUINativeCheckoutDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUINativeCheckoutDemo.swift; sourceTree = "<group>"; };
 		53DBDAA42885D83100E0ABA1 /* AccessTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenResponse.swift; sourceTree = "<group>"; };
 		53DBDAA62885D86F00E0ABA1 /* AccessTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRequest.swift; sourceTree = "<group>"; };
 		80561B3726FB5F0F0023138C /* CardDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDemoViewController.swift; sourceTree = "<group>"; };
@@ -136,6 +148,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				805AB85026B87A87003BEE0D /* Card.framework in Frameworks */,
+				536A5CA32898A48C005C053D /* PayPalNativeCheckout.framework in Frameworks */,
 				BE1766D726FA7AC3007EF438 /* InAppSettingsKit in Frameworks */,
 				BCE8A7EE27EA2B1E00AC301B /* PayPalWebCheckout.framework in Frameworks */,
 				BE420F3728189A7A00D8D66A /* PayPalUI.framework in Frameworks */,
@@ -159,6 +172,7 @@
 				80561B3D26FB72D80023138C /* FeatureBaseViewController.swift */,
 				80561B3926FB5F1C0023138C /* PayPalWebCheckoutViewController.swift */,
 				CB9ED449283E59090081F4DE /* PaymentButtonCustomizationViewController.swift */,
+				536A5CA52898A730005C053D /* NativeCheckoutDemoViewController.swift */,
 			);
 			path = FeatureViewControllers;
 			sourceTree = "<group>";
@@ -166,6 +180,7 @@
 		805AB84C26B87A87003BEE0D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				536A5CA22898A48C005C053D /* PayPalNativeCheckout.framework */,
 				BE420F3628189A7A00D8D66A /* PayPalUI.framework */,
 				BCE8A7ED27EA2B1E00AC301B /* PayPalWebCheckout.framework */,
 				80DB6F1C26B89DDA00277E54 /* PayPal.framework */,
@@ -226,6 +241,8 @@
 				80F33CF026F8E7D9006811B1 /* ProcessOrderParams.swift */,
 				53DBDAA42885D83100E0ABA1 /* AccessTokenResponse.swift */,
 				53DBDAA62885D86F00E0ABA1 /* AccessTokenRequest.swift */,
+				530146892891867800184F22 /* NativeCheckoutResult.swift */,
+				5301468B28918B4D00184F22 /* ApprovalResult.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -295,6 +312,7 @@
 				BE31187D273F02A80021C5A2 /* SwiftUICardDemo.swift */,
 				BEDE304B275FA4A100D275FD /* SwiftUIPayPalDemo.swift */,
 				CB9ED44D28411B110081F4DE /* SwiftUIPaymentButtonDemo.swift */,
+				536A5CA72898AA2A005C053D /* SwiftUINativeCheckoutDemo.swift */,
 			);
 			path = SwiftUIComponents;
 			sourceTree = "<group>";
@@ -429,6 +447,7 @@
 				80F33CED26F8E7A9006811B1 /* Order.swift in Sources */,
 				BE31187E273F02A80021C5A2 /* SwiftUICardDemo.swift in Sources */,
 				80561B3A26FB5F1C0023138C /* PayPalWebCheckoutViewController.swift in Sources */,
+				5301468A2891867800184F22 /* NativeCheckoutResult.swift in Sources */,
 				BED04233271084DF00C80954 /* CardFormatter.swift in Sources */,
 				CB9ED44E28411B120081F4DE /* SwiftUIPaymentButtonDemo.swift in Sources */,
 				80561B3E26FB72D80023138C /* FeatureBaseViewController.swift in Sources */,
@@ -452,8 +471,11 @@
 				BE9F36D82745490400AFC7DA /* FloatingLabelTextField.swift in Sources */,
 				BE9F36E7275548A600AFC7DA /* BaseViewModel.swift in Sources */,
 				806F1E3926B85367007A60E6 /* AppDelegate.swift in Sources */,
+				536A5CA62898A730005C053D /* NativeCheckoutDemoViewController.swift in Sources */,
+				536A5CA82898AA2A005C053D /* SwiftUINativeCheckoutDemo.swift in Sources */,
 				806F1E3B26B85367007A60E6 /* SceneDelegate.swift in Sources */,
 				BED042312710833F00C80954 /* CardType.swift in Sources */,
+				5301468C28918B4D00184F22 /* ApprovalResult.swift in Sources */,
 				BEDE304C275FA4A100D275FD /* SwiftUIPayPalDemo.swift in Sources */,
 				CB9ED44A283E59090081F4DE /* PaymentButtonCustomizationViewController.swift in Sources */,
 			);

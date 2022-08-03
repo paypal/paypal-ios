@@ -3198,7 +3198,6 @@
 		OBJ_3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -3446,7 +3445,7 @@
 			repositoryURL = "https://github.com/paypal/paypalcheckout-ios";
 			requirement = {
 				kind = exactVersion;
-				version = 0.77.0;
+				version = 0.100.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

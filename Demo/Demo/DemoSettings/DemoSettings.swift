@@ -41,7 +41,7 @@ enum DemoSettings {
     static var clientID: String {
         switch environment {
         case .sandbox:
-            return "ASUApeBhpz9-IhrBRpHbBfVBklK4XOr1lvZdgu1UlSK0OvoJut6R-zPUP7iufxso55Yvyl6IZYV3yr0g"
+            return "AcXwOk3dof7NCNcriyS8RVh5q39ozvdWUF9oHPrWqfyrDS4AwVdKe32Axuk2ADo6rI_31Vv6MGgOyzRt"
         case .production:
             // TODO: Investigate getting a prod testing account that doesn't charge real money
             return "TODO"

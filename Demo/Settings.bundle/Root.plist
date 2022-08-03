@@ -72,12 +72,14 @@
 				<string>Card</string>
 				<string>PayPal Web Checkout</string>
 				<string>Payment Button Customization</string>
+				<string>PayPal Native Checkout</string>
 			</array>
 			<key>Values</key>
 			<array>
 				<string>card</string>
 				<string>payPalWebCheckout</string>
 				<string>paymentButtonCustomization</string>
+				<string>payPalNativeCheckout</string>
 			</array>
 		</dict>
 		<dict>
