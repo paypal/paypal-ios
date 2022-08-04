@@ -9,7 +9,7 @@ struct FloatingLabelTextField: View {
         ZStack(alignment: .leading) {
             Text(placeholder)
                 .offset(y: text.isEmpty ? 0 : -25)
-                .scaleEffect(text.isEmpty ? 1: 0.9, anchor: .leading)
+                .scaleEffect(text.isEmpty ? 1 : 0.9, anchor: .leading)
                 .font(.system(text.isEmpty ? .title3 : .title3, design: .rounded))
                 .foregroundColor(.gray)
             TextField("", text: $text)
