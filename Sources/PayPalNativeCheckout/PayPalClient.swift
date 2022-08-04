@@ -40,30 +40,38 @@ public class PayPalClient {
     ///   - request: the PayPalRequest for the transaction
     ///   - presentingViewController: the ViewController to present PayPalPaysheet on, if not provided, the Paysheet will be presented on your top-most ViewController
     ///   - completion: Completion block to handle buyer's approval, cancellation, and error.
-    public func start(request: PayPalRequest, presentingViewController: UIViewController? = nil) async {
+    public func start(request: PayPalRequest, presentingViewController pvc: UIViewController? = nil) async {
         do {
             let clientID = try await apiClient.getClientID()
-
-            CheckoutFlow.set(config: config, clientID: clientID)
-
-            CheckoutFlow.start(
-                presentingViewController: presentingViewController,
-                createOrder: { order in
-                    order.set(orderId: request.orderID)
-                },
-                onApprove: { approval in
-                    self.notifySuccess(for: approval)
-                },
-                onCancel: {
-                    self.notifyCancellation()
-                },
-                onError: { errorInfo in
-                    self.notifyFailure(with: errorInfo)
-                }
-            )
+            DispatchQueue.main.async { [weak self] in
+                self?.configureAndStartCheckout(withClientID: clientID, request: request, presentingViewController: pvc)
+            }
         } catch {
             delegate?.paypal(self, didFinishWithError: PayPalError.clientIDNotFoundError(error))
         }
+    }
+
+    private func configureAndStartCheckout(
+        withClientID clientID: String,
+        request: PayPalRequest,
+        presentingViewController: UIViewController?
+    ) {
+        CheckoutFlow.set(config: config, clientID: clientID)
+        CheckoutFlow.start(
+            presentingViewController: presentingViewController,
+            createOrder: { order in
+                order.set(orderId: request.orderID)
+            },
+            onApprove: { approval in
+                self.notifySuccess(for: approval)
+            },
+            onCancel: {
+                self.notifyCancellation()
+            },
+            onError: { errorInfo in
+                self.notifyFailure(with: errorInfo)
+            }
+        )
     }
 
     private func notifySuccess(for approval: PayPalCheckoutApprovalData) {

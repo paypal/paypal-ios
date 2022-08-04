@@ -1,4 +1,3 @@
 struct GetClientIDResponse: Decodable {
-
-    let clientID: String
+    let clientId: String
 }
