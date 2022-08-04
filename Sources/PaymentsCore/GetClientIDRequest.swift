@@ -10,7 +10,7 @@ struct GetClientIDRequest: APIRequest {
     var body: Data?
 
     var headers: [HTTPHeader: String] {
-        return [
+        [
             .contentType: "application/json",
             .acceptLanguage: "en_US",
             .authorization: "Bearer \(token)"
