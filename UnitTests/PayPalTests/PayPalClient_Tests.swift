@@ -77,13 +77,6 @@ class PayPalClient_Tests: XCTestCase {
         XCTAssertEqual(sdkError?.errorDescription, error.reason)
     }
 
-    func testInit_setsPayPalCheckoutWith_returnsPayPalClient() {
-        let payPalClientPublic = PayPalClient(config: config)
-
-        //TODO: Mock APIClient.getClientId
-        //XCTAssertEqual(payPalClientPublic.config.clientID, payPalClient.config.clientID)
-    }
-
     func testInit_setsConfigPropertiesOnNativeSDKCheckoutConfig() {
         // Need to assert that `Checkout.config` has been set
         // This is currently not exposed by the NXO SDK, so we cannot tell
