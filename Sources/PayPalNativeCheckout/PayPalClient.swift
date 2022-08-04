@@ -42,9 +42,9 @@ public class PayPalClient {
     ///   - completion: Completion block to handle buyer's approval, cancellation, and error.
     public func start(request: PayPalRequest, presentingViewController: UIViewController? = nil) async {
         do {
-            let clientId = try await apiClient.getClientId()
+            let clientID = try await apiClient.getClientID()
 
-            CheckoutFlow.set(config: config, clientId: clientId)
+            CheckoutFlow.set(config: config, clientID: clientID)
 
             CheckoutFlow.start(
                 presentingViewController: presentingViewController,

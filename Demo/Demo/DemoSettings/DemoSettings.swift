@@ -6,7 +6,7 @@ enum DemoSettings {
     private static let IntentDefaultsKey = "intent"
     private static let DemoTypeDefaultsKey = "demo_type"
     private static let DemoUIFrameworkKey = "demo_ui_framework"
-    private static let ClientIdKey = "clientId"
+    private static let ClientIDKey = "clientID"
 
     static var environment: Environment {
         get {

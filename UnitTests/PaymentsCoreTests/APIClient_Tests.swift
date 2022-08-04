@@ -5,7 +5,7 @@ import XCTest
 class APIClient_Tests: XCTestCase {
 
     // MARK: - Helper Properties
-    let mockClientId = "mockClientId"
+    let mockClientID = "mockClientId"
     let mockAccessToken = "mockAccessToken"
 
     // swiftlint:disable:next force_unwrapping
@@ -31,11 +31,11 @@ class APIClient_Tests: XCTestCase {
         apiClient = APIClient(urlSession: mockURLSession, coreConfig: config)
     }
 
-    func testGetClientId_successfullyReturnsData() async throws {
+    func testGetClientID_successfullyReturnsData() async throws {
         mockURLSession.cannedJSONData = APIResponses.oauthTokenJson.rawValue
         mockURLSession.cannedURLResponse = successURLResponse
 
-        let response = try await apiClient.getClientId()
+        let response = try await apiClient.getClientID()
         XCTAssertEqual(response, "sample_id")
     }
 

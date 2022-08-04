@@ -7,7 +7,7 @@ import AuthenticationServices
 
 class CardClient_Tests: XCTestCase {
 
-    let mockClientId = "mockClientId"
+    let mockClientID = "mockClientId"
     let mockAccessToken = "mockAccessToken"
 
     // MARK: - Helper Properties

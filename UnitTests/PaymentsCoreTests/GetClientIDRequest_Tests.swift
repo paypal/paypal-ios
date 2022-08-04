@@ -1,11 +1,11 @@
 import XCTest
 @testable import PaymentsCore
 
-class GetClientIdRequest_Tests: XCTestCase {
+class GetClientIDRequest_Tests: XCTestCase {
 
     func test_httpParameters() throws {
         let sampleToken = "sample_token"
-        let getClientIdRequest = GetClientIdRequest(token: sampleToken)
+        let request = GetClientIDRequest(token: sampleToken)
 
         let expectedPath = "v1/oauth2/token"
         let expectedMethod = HTTPMethod.get
@@ -15,9 +15,9 @@ class GetClientIdRequest_Tests: XCTestCase {
             .authorization: "Bearer sample_token"
         ]
 
-        XCTAssertNil(getClientIdRequest.body)
-        XCTAssertEqual(getClientIdRequest.path, expectedPath)
-        XCTAssertEqual(getClientIdRequest.method, expectedMethod)
-        XCTAssertEqual(getClientIdRequest.headers, expectedHeaders)
+        XCTAssertNil(request.body)
+        XCTAssertEqual(request.path, expectedPath)
+        XCTAssertEqual(request.method, expectedMethod)
+        XCTAssertEqual(request.headers, expectedHeaders)
     }
 }

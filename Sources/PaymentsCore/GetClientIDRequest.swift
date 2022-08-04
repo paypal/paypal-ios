@@ -1,8 +1,8 @@
 import Foundation
 
-struct GetClientIdRequest: APIRequest {
+struct GetClientIDRequest: APIRequest {
 
-    typealias ResponseType = GetClientIdResponse
+    typealias ResponseType = GetClientIDResponse
 
     let path: String = "v1/oauth2/token"
     let token: String

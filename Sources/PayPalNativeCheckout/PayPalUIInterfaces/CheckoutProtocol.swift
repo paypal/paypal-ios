@@ -12,7 +12,7 @@ protocol CheckoutProtocol {
     typealias CancelCallback = () -> Void
     typealias ErrorCallback = (PayPalCheckoutErrorInfo) -> Void
 
-    static func set(config: CoreConfig, clientId: String)
+    static func set(config: CoreConfig, clientID: String)
 
     static func start(
         presentingViewController: UIViewController?,
@@ -25,9 +25,9 @@ protocol CheckoutProtocol {
 
 extension Checkout: CheckoutProtocol {
 
-    static func set(config: CoreConfig, clientId: String) {
+    static func set(config: CoreConfig, clientID: String) {
         let nxoConfig = CheckoutConfig(
-            clientID: clientId,
+            clientID: clientID,
             environment: config.environment.toNativeCheckoutSDKEnvironment()
         )
         set(config: nxoConfig)

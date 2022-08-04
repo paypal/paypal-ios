@@ -21,9 +21,9 @@ public class EligibilityAPI {
     }
 
     public func checkEligibility() async throws -> Result<Eligibility, Error> {
-        let clientId = try await apiClient.getClientId()
+        let clientID = try await apiClient.getClientID()
         let fundingEligibilityQuery = FundingEligibilityQuery(
-            clientId: clientId,
+            clientID: clientID,
             fundingEligibilityIntent: FundingEligibilityIntent.CAPTURE,
             currencyCode: SupportedCountryCurrencyType.USD,
             enableFunding: [SupportedPaymentMethodsType.VENMO]

@@ -5,7 +5,7 @@ class MockAPIClient: APIClient {
 
     var cannedClientID = "cannedClientID"
 
-    override func getClientId() async throws -> String {
+    override func getClientID() async throws -> String {
         return cannedClientID
     }
 }
