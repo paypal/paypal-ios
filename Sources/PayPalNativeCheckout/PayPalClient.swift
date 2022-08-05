@@ -43,8 +43,8 @@ public class PayPalClient {
     public func start(request: PayPalRequest, presentingViewController: UIViewController? = nil) async {
         do {
             let clientID = try await apiClient.getClientID()
-            DispatchQueue.main.async { [weak self] in
-                self?.configureAndStartCheckout(
+            DispatchQueue.main.async {
+                self.configureAndStartCheckout(
                     withClientID: clientID,
                     request: request,
                     presentingViewController: presentingViewController

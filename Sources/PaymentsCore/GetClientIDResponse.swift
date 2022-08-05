@@ -1,4 +1,8 @@
 struct GetClientIDResponse: Decodable {
 
-    let clientId: String
+    private enum CodingKeys: String, CodingKey {
+        case clientID = "clientId"
+    }
+
+    let clientID: String
 }

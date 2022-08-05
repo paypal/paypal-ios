@@ -45,6 +45,6 @@ public class APIClient {
     public func getClientID() async throws -> String {
         let request = GetClientIDRequest(token: coreConfig.accessToken)
         let (response, _) = try await fetch(endpoint: request)
-        return response.clientId
+        return response.clientID
     }
 }
