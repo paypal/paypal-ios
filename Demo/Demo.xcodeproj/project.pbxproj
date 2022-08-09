@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5301468A2891867800184F22 /* NativeCheckoutResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530146892891867800184F22 /* NativeCheckoutResult.swift */; };
 		5301468C28918B4D00184F22 /* ApprovalResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301468B28918B4D00184F22 /* ApprovalResult.swift */; };
 		536A5CA32898A48C005C053D /* PayPalNativeCheckout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 536A5CA22898A48C005C053D /* PayPalNativeCheckout.framework */; };
 		536A5CA42898A48C005C053D /* PayPalNativeCheckout.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 536A5CA22898A48C005C053D /* PayPalNativeCheckout.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -88,7 +87,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		530146892891867800184F22 /* NativeCheckoutResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeCheckoutResult.swift; sourceTree = "<group>"; };
 		5301468B28918B4D00184F22 /* ApprovalResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApprovalResult.swift; sourceTree = "<group>"; };
 		536A5CA22898A48C005C053D /* PayPalNativeCheckout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PayPalNativeCheckout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		536A5CA52898A730005C053D /* NativeCheckoutDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeCheckoutDemoViewController.swift; sourceTree = "<group>"; };
@@ -241,7 +239,6 @@
 				80F33CF026F8E7D9006811B1 /* ProcessOrderParams.swift */,
 				53DBDAA42885D83100E0ABA1 /* AccessTokenResponse.swift */,
 				53DBDAA62885D86F00E0ABA1 /* AccessTokenRequest.swift */,
-				530146892891867800184F22 /* NativeCheckoutResult.swift */,
 				5301468B28918B4D00184F22 /* ApprovalResult.swift */,
 			);
 			path = Models;
@@ -447,7 +444,6 @@
 				80F33CED26F8E7A9006811B1 /* Order.swift in Sources */,
 				BE31187E273F02A80021C5A2 /* SwiftUICardDemo.swift in Sources */,
 				80561B3A26FB5F1C0023138C /* PayPalWebCheckoutViewController.swift in Sources */,
-				5301468A2891867800184F22 /* NativeCheckoutResult.swift in Sources */,
 				BED04233271084DF00C80954 /* CardFormatter.swift in Sources */,
 				CB9ED44E28411B120081F4DE /* SwiftUIPaymentButtonDemo.swift in Sources */,
 				80561B3E26FB72D80023138C /* FeatureBaseViewController.swift in Sources */,
