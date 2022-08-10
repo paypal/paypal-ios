@@ -6,25 +6,25 @@ class FundingEligibilityQuery: GraphQLQuery {
 
     var variables: [String: Any] {
         return [
-            paramClientId: clientId,
+            paramClientId: clientID,
             paramIntent: fundingEligibilityIntent.rawValue,
             paramCurrency: currencyCode.rawValue,
             paramEnableFunding: enableFunding.toStringArray()
         ]
     }
 
-    let clientId: String
+    let clientID: String
     let fundingEligibilityIntent: FundingEligibilityIntent
     let currencyCode: SupportedCountryCurrencyType
     var enableFunding: [SupportedPaymentMethodsType]
 
     init(
-        clientId: String,
+        clientID: String,
         fundingEligibilityIntent: FundingEligibilityIntent,
         currencyCode: SupportedCountryCurrencyType,
         enableFunding: [SupportedPaymentMethodsType]
     ) {
-        self.clientId = clientId
+        self.clientID = clientID
         self.fundingEligibilityIntent = fundingEligibilityIntent
         self.currencyCode = currencyCode
         self.enableFunding = enableFunding

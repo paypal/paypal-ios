@@ -157,7 +157,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
         }
         let nativeCheckoutClient = try await getNativeCheckoutClient()
         nativeCheckoutClient.delegate = self
-        nativeCheckoutClient.start(orderID: orderId, deleagate: self)
+        nativeCheckoutClient.start(orderID: orderId, delegate: self)
     }
 
     func isCardFormValid(cardNumber: String, expirationDate: String, cvv: String) -> Bool {
@@ -288,7 +288,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
         guard let token = await getAccessToken() else {
             return nil
         }
-        return CoreConfig(clientID: DemoSettings.clientID, accessToken: token, environment: DemoSettings.environment.paypalSDKEnvironment)
+        return CoreConfig(accessToken: token, environment: DemoSettings.environment.paypalSDKEnvironment)
     }
 
     func getNativeCheckoutClient() async throws -> PayPalClient {

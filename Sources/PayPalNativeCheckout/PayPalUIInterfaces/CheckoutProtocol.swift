@@ -18,3 +18,4 @@ protocol CheckoutProtocol {
     )
     // swiftlint:enable function_parameter_count
 }
+

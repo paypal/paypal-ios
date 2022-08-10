@@ -4,19 +4,24 @@ import XCTest
 
 class EligibilityAPI_Tests: XCTestCase {
 
-    let mockClientId = "mockClientId"
+    let mockClientID = "mockClientId"
     let mockAccessToken = "mockAccessToken"
     // swiftlint:disable implicitly_unwrapped_optional
     var coreConfig: CoreConfig!
     var mockURLSession: MockURLSession!
     var graphQLClient: GraphQLClient!
     var eligibilityAPI: EligibilityAPI!
+    var apiClient: MockAPIClient!
+
     // swiftlint:enable implicitly_unwrapped_optional
     override func setUp() {
         super.setUp()
-        coreConfig = CoreConfig(clientID: mockClientId, accessToken: mockAccessToken, environment: .sandbox)
+        coreConfig = CoreConfig(accessToken: mockAccessToken, environment: .sandbox)
         mockURLSession = MockURLSession()
+        apiClient = MockAPIClient(coreConfig: coreConfig)
+        graphQLClient = GraphQLClient(environment: .sandbox, urlSession: mockURLSession)
     }
+
     func testCheckEligibilityWithSuccessResponse() async throws {
         mockURLSession.cannedError = nil
         mockURLSession.cannedURLResponse = HTTPURLResponse(
@@ -27,8 +32,7 @@ class EligibilityAPI_Tests: XCTestCase {
             headerFields: ["Paypal-Debug-Id": "454532"]
         )
         mockURLSession.cannedJSONData = validFundingEligibilityResponse
-        eligibilityAPI = EligibilityAPI(coreConfig: coreConfig)
-        eligibilityAPI.graphQLClient = GraphQLClient(environment: .sandbox, urlSession: mockURLSession)
+        eligibilityAPI = EligibilityAPI(coreConfig: coreConfig, apiClient: apiClient, graphQLClient: graphQLClient)
         let result = try await eligibilityAPI.checkEligibility()
         switch result {
         case .success(let eligibility):
@@ -48,8 +52,7 @@ class EligibilityAPI_Tests: XCTestCase {
             headerFields: ["Paypal-Debug-Id": "454532"]
         )
         mockURLSession.cannedJSONData = notValidFundingEligibilityResponse
-        eligibilityAPI = EligibilityAPI(coreConfig: coreConfig)
-        eligibilityAPI.graphQLClient = GraphQLClient(environment: .sandbox, urlSession: mockURLSession)
+        eligibilityAPI = EligibilityAPI(coreConfig: coreConfig, apiClient: apiClient, graphQLClient: graphQLClient)
         let result = try await eligibilityAPI.checkEligibility()
         switch result {
         case .success(let eligibility):

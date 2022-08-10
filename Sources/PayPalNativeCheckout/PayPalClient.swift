@@ -6,19 +6,14 @@ import PaymentsCore
 public class PayPalClient {
 
     public weak var delegate: PayPalDelegate?
-
-    let config: CoreConfig
-
     let nativeCheckout: CheckoutProtocol
 
     /// Initialize a PayPalClient to process PayPal transaction
     /// - Parameters:
     ///   - config: The CoreConfig object
-    ///   - returnURL: The return URL provided to the PayPal Native UI experience. Used as part of the authentication process to identify your application. This value should match the one set in the `Return URLs` section of your application's dashboard on your [PayPal developer account](https://developer.paypal.com)
     public init(config: CoreConfig) {
-        self.config = config
         let nxoConfig = CheckoutConfig(
-            clientID: config.clientID,
+            clientID: config.accessToken,
             createOrder: nil,
             onApprove: nil,
             onShippingChange: nil,
@@ -30,7 +25,6 @@ public class PayPalClient {
     }
 
     init(config: CoreConfig, checkoutFlow: CheckoutProtocol) {
-        self.config = config
         self.nativeCheckout = checkoutFlow
     }
 
@@ -39,7 +33,7 @@ public class PayPalClient {
     ///   - request: the PayPalRequest for the transaction
     ///   - presentingViewController: the ViewController to present PayPalPaysheet on, if not provided, the Paysheet will be presented on your top-most ViewController
     ///   - completion: Completion block to handle buyer's approval, cancellation, and error.
-    public func start(presentingViewController: UIViewController?, orderID: String, delegate: PayPalDelegate?) {
+    public func start(presentingViewController: UIViewController? = nil, orderID: String, delegate: PayPalDelegate?) {
         self.delegate = delegate
         DispatchQueue.main.async {
             self.nativeCheckout.start(

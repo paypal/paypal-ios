@@ -4,7 +4,7 @@ import XCTest
 
 class GraphQLClient_Tests: XCTestCase {
 
-    let mockClientId = "mockClientId"
+    let mockClientID = "mockClientId"
     let mockAccessToken = "mockAccessToken"
     // MARK: - Helper Properties
     // swiftlint:disable implicitly_unwrapped_optional
@@ -21,7 +21,7 @@ class GraphQLClient_Tests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        config = CoreConfig(clientID: mockClientId, accessToken: mockAccessToken, environment: .sandbox)
+        config = CoreConfig(accessToken: mockAccessToken, environment: .sandbox)
         mockURLSession = MockURLSession()
         mockURLSession.cannedError = nil
         mockURLSession.cannedURLResponse = nil
@@ -30,7 +30,7 @@ class GraphQLClient_Tests: XCTestCase {
         graphQLClient = GraphQLClient(environment: .sandbox, urlSession: mockURLSession)
 
         let fundingEligibilityQuery = FundingEligibilityQuery(
-            clientId: config.clientID,
+            clientID: mockClientID,
             fundingEligibilityIntent: FundingEligibilityIntent.CAPTURE,
             currencyCode: SupportedCountryCurrencyType.USD,
             enableFunding: [SupportedPaymentMethodsType.VENMO]

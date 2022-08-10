@@ -1,6 +1,6 @@
 import Foundation
 
-public final class APIClient {
+public class APIClient {
 
     public typealias CorrelationID = String
 
@@ -40,5 +40,11 @@ public final class APIClient {
             let errorData = try decoder.decode(from: data)
             throw APIClientError.serverResponseError(errorData.readableDescription)
         }
+    }
+
+    public func getClientID() async throws -> String {
+        let request = GetClientIDRequest(token: coreConfig.accessToken)
+        let (response, _) = try await fetch(endpoint: request)
+        return response.clientID
     }
 }
