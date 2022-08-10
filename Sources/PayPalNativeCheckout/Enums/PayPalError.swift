@@ -12,6 +12,9 @@ enum PayPalError {
 
         /// 1. Error returned from the PayPal Checkout SDK
         case nativeCheckoutSDKError
+
+        /// 2. Error returned from the ClientID service
+        case clientIDNotFoundError
     }
 
     static let nativeCheckoutSDKError: (PayPalCheckoutErrorInfo) -> CoreSDKError = { errorInfo in
@@ -19,6 +22,14 @@ enum PayPalError {
             code: Code.nativeCheckoutSDKError.rawValue,
             domain: domain,
             errorDescription: errorInfo.reason
+        )
+    }
+
+    static let clientIDNotFoundError: (Error) -> CoreSDKError = { error in
+        CoreSDKError(
+            code: Code.clientIDNotFoundError.rawValue,
+            domain: domain,
+            errorDescription: error.localizedDescription
         )
     }
 }

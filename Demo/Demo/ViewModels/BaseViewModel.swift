@@ -145,14 +145,13 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
 
     func checkoutWithNativeClient(orderId: String?) async throws -> NativeCheckoutResult {
         guard let orderId = orderId else {
-
             return NativeCheckoutResult.error(CoreSDKError(code: 0, domain: "Order Id is null", errorDescription: "Order Id is null"))
         }
         let nativeCheckoutClient = try await getNativeCheckoutClient()
         let paypalRequest = PayPalRequest(orderID: orderId)
         nativeCheckoutClient.delegate = self
-        DispatchQueue.main.async {
-            nativeCheckoutClient.start(request: paypalRequest)
+        Task {
+            await nativeCheckoutClient.start(request: paypalRequest)
         }
         guard let nativeCheckoutResult = nativeCheckoutResult
         else {
@@ -289,7 +288,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
         guard let token = await getAccessToken() else {
             return nil
         }
-        return CoreConfig(clientID: DemoSettings.clientID, accessToken: token, environment: DemoSettings.environment.paypalSDKEnvironment)
+        return CoreConfig(accessToken: token, environment: DemoSettings.environment.paypalSDKEnvironment)
     }
 
     func getNativeCheckoutClient() async throws -> PayPalClient {
