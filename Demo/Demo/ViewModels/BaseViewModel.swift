@@ -157,7 +157,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
         }
         let nativeCheckoutClient = try await getNativeCheckoutClient()
         nativeCheckoutClient.delegate = self
-        nativeCheckoutClient.start(orderID: orderId, delegate: self)
+        await nativeCheckoutClient.start(orderID: orderId, delegate: self)
     }
 
     func isCardFormValid(cardNumber: String, expirationDate: String, cvv: String) -> Bool {

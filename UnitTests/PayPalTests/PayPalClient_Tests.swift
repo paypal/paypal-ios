@@ -83,27 +83,4 @@ class PayPalClient_Tests: XCTestCase {
         mockCheckout.triggerCancel()
         XCTAssert(mockPaypalDelegate.paypalDidCancel)
     }
-
-    func testStart_propagatesClientIDNotFoundError() async {
-        let request = PayPalRequest(orderID: "1234")
-
-        let delegate = MockPayPalDelegate()
-        payPalClient.delegate = delegate
-
-        let userInfo: [String: Any] = [ NSLocalizedDescriptionKey: "sample description" ]
-        let error = PayPalError.clientIDNotFoundError(NSError(domain: "sample.domain", code: 123, userInfo: userInfo))
-        apiClient.error = error
-
-        let expectation = XCTestExpectation(description: "returnsCancelationError")
-        await payPalClient.start(request: request)
-
-        DispatchQueue.main.async {
-            let sdkError = delegate.capturedError
-            XCTAssertEqual(sdkError?.code, PayPalError.Code.clientIDNotFoundError.rawValue)
-            XCTAssertEqual(sdkError?.domain, PayPalError.domain)
-            XCTAssertEqual(sdkError?.errorDescription, "sample description")
-
-            expectation.fulfill()
-        }
-    }
 }

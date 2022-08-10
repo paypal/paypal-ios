@@ -5,8 +5,6 @@ import PaymentsCore
 
 protocol CheckoutProtocol {
 
-    init(nxoConfig: CheckoutConfig)
-
     // swiftlint:disable function_parameter_count
     func start(
         presentingViewController: UIViewController?,
@@ -14,8 +12,8 @@ protocol CheckoutProtocol {
         onApprove: CheckoutConfig.ApprovalCallback?,
         onShippingChange: CheckoutConfig.ShippingChangeCallback?,
         onCancel: CheckoutConfig.CancelCallback?,
-        onError: CheckoutConfig.ErrorCallback?
+        onError: CheckoutConfig.ErrorCallback?,
+        nxoConfig: CheckoutConfig
     )
     // swiftlint:enable function_parameter_count
 }
-

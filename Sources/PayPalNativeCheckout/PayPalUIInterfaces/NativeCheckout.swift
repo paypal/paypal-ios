@@ -5,18 +5,15 @@ import PaymentsCore
 
 class NativeCheckout: CheckoutProtocol {
 
-    let nxoConfig: CheckoutConfig
-    required internal init(nxoConfig: CheckoutConfig) {
-        self.nxoConfig = nxoConfig
-    }
     // swiftlint:disable function_parameter_count
     func start(
-        presentingViewController: UIViewController?,
+        presentingViewController: UIViewController? = nil,
         createOrder: CheckoutConfig.CreateOrderCallback?,
         onApprove: CheckoutConfig.ApprovalCallback?,
         onShippingChange: CheckoutConfig.ShippingChangeCallback?,
         onCancel: CheckoutConfig.CancelCallback?,
-        onError: CheckoutConfig.ErrorCallback?
+        onError: CheckoutConfig.ErrorCallback?,
+        nxoConfig: CheckoutConfig
     ) {
         Checkout.set(config: nxoConfig)
         DispatchQueue.main.async {
@@ -30,5 +27,5 @@ class NativeCheckout: CheckoutProtocol {
             )
         }
     }
-// swift_lint: enable function_parameter_count
+    // swift_lint: enable function_parameter_count
 }
