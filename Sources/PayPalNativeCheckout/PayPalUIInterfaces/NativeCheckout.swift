@@ -1,7 +1,6 @@
-
 import Foundation
 import UIKit
-@_implementationOnly import PayPalCheckout
+import PayPalCheckout
 import PaymentsCore
 
 class NativeCheckout: CheckoutProtocol {
@@ -10,17 +9,26 @@ class NativeCheckout: CheckoutProtocol {
     required internal init(nxoConfig: CheckoutConfig) {
         self.nxoConfig = nxoConfig
     }
-
-
-    func start(presentingViewController: UIViewController?,
-                    createOrder: CheckoutConfig.CreateOrderCallback?,
-                    onApprove: CheckoutConfig.ApprovalCallback?,
-                    onShippingChange: CheckoutConfig.ShippingChangeCallback?,
-                    onCancel: CheckoutConfig.CancelCallback?,
-                    onError: CheckoutConfig.ErrorCallback?) {
+    // swiftlint:disable function_parameter_count
+    func start(
+        presentingViewController: UIViewController?,
+        createOrder: CheckoutConfig.CreateOrderCallback?,
+        onApprove: CheckoutConfig.ApprovalCallback?,
+        onShippingChange: CheckoutConfig.ShippingChangeCallback?,
+        onCancel: CheckoutConfig.CancelCallback?,
+        onError: CheckoutConfig.ErrorCallback?
+    ) {
         Checkout.set(config: nxoConfig)
-        Checkout.start(presentingViewController: presentingViewController, createOrder: createOrder, onApprove: onApprove, onShippingChange: onShippingChange, onCancel: onCancel, onError: onError)
+        DispatchQueue.main.async {
+            Checkout.start(
+                presentingViewController: presentingViewController,
+                createOrder: createOrder,
+                onApprove: onApprove,
+                onShippingChange: onShippingChange,
+                onCancel: onCancel,
+                onError: onError
+            )
+        }
     }
-
-
+// swift_lint: enable function_parameter_count
 }

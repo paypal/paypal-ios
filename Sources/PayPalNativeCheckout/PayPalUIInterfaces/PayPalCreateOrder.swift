@@ -1,5 +1,5 @@
 import Foundation
-@_implementationOnly import PayPalCheckout
+import PayPalCheckout
 
 protocol PayPalCreateOrder {
     func set(orderId: String)

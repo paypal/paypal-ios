@@ -3,49 +3,33 @@ import UIKit
 
 @testable import PayPalNativeCheckout
 @testable import PaymentsCore
+import PayPalCheckout
+import XCTest
 
 class MockCheckout: CheckoutProtocol {
 
-    static var onApprove: ApprovalCallback?
-    static var onCancel: CancelCallback?
-    static var onError: ErrorCallback?
+    required init(nxoConfig: CheckoutConfig) {
+    }
 
-    static func set(config: CoreConfig) { }
+    var onCancel: CheckoutConfig.CancelCallback?
+    var onError: CheckoutConfig.ErrorCallback?
 
-    static func start(
+    // todo: implemenet cases for other callbacks
+    // swiftlint:disable function_parameter_count
+    func start(
         presentingViewController: UIViewController?,
-        createOrder: CreateOrderCallback?,
-        onApprove: ApprovalCallback?,
-        onCancel: CancelCallback?,
-        onError: ErrorCallback?
+        createOrder: CheckoutConfig.CreateOrderCallback?,
+        onApprove: CheckoutConfig.ApprovalCallback?,
+        onShippingChange: CheckoutConfig.ShippingChangeCallback?,
+        onCancel: CheckoutConfig.CancelCallback?,
+        onError: CheckoutConfig.ErrorCallback?
     ) {
-        self.onApprove = onApprove
         self.onCancel = onCancel
         self.onError = onError
     }
+    // swiftlint:enable function_parameter_count
 
-    static func triggerApproval(approval: MockApproval) {
-        onApprove?(approval)
-    }
-
-    static func triggerCancel() {
+    func triggerCancel() {
         onCancel?()
     }
-
-    static func triggerError(error: PayPalCheckoutErrorInfo) {
-        onError?(error)
-    }
 }
-
-// swiftlint:disable space_after_main_type
-struct MockApproval: PayPalCheckoutApprovalData {
-    var intent: String
-    var payerID: String
-    var ecToken: String
-}
-
-struct MockPayPalError: PayPalCheckoutErrorInfo {
-    var reason: String
-    var error: Error
-}
-// swiftlint:enable space_after_main_type

@@ -18,8 +18,14 @@ public class PayPalClient {
     public init(config: CoreConfig) {
         self.config = config
         let nxoConfig = CheckoutConfig(
-            clientID: config.clientID, createOrder: nil, onApprove: nil,
-                    onShippingChange: nil, onCancel: nil, onError: nil, environment: config.environment.toNativeCheckoutSDKEnvironment())
+            clientID: config.clientID,
+            createOrder: nil,
+            onApprove: nil,
+            onShippingChange: nil,
+            onCancel: nil,
+            onError: nil,
+            environment: config.environment.toNativeCheckoutSDKEnvironment()
+        )
         self.nativeCheckout = NativeCheckout(nxoConfig: nxoConfig)
     }
 
@@ -33,8 +39,8 @@ public class PayPalClient {
     ///   - request: the PayPalRequest for the transaction
     ///   - presentingViewController: the ViewController to present PayPalPaysheet on, if not provided, the Paysheet will be presented on your top-most ViewController
     ///   - completion: Completion block to handle buyer's approval, cancellation, and error.
-    public func start(presentingViewController: UIViewController?, orderID: String, deleagate: PayPalDelegate?){
-        self.delegate = deleagate
+    public func start(presentingViewController: UIViewController?, orderID: String, delegate: PayPalDelegate?) {
+        self.delegate = delegate
         DispatchQueue.main.async {
             self.nativeCheckout.start(
                 presentingViewController: presentingViewController,
@@ -58,18 +64,18 @@ public class PayPalClient {
     }
 
     private func notifySuccess(for approval: PayPalCheckout.Approval) {
-        delegate?.paypal(didFinishWithResult: approval)
+        delegate?.paypal(self, didFinishWithResult: approval)
     }
 
     private func notifyFailure(with errorInfo: PayPalCheckoutErrorInfo) {
         let error = PayPalError.nativeCheckoutSDKError(errorInfo)
-        delegate?.paypal(didFinishWithError: error)
+        delegate?.paypal(self, didFinishWithError: error)
     }
 
     private func notifyCancellation() {
-        delegate?.paypalDidCancel()
+        delegate?.paypalDidCancel(self)
     }
     private func notifyShippingChange(shippingChange: ShippingChange, shippingChangeAction: ShippingChangeAction) {
-        delegate?.paypalDidShippingAddressChange(shippingChange: shippingChange, shippingChangeAction: shippingChangeAction)
+        delegate?.paypalDidShippingAddressChange(self, shippingChange: shippingChange, shippingChangeAction: shippingChangeAction)
     }
 }
