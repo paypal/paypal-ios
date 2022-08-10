@@ -67,10 +67,10 @@ extension MyViewController: ASWebAuthenticationPresentationContextProviding {
 
 ### 3. Initiate the Payments SDK
 
-Create a `CoreConfig` using your client ID from the PayPal Developer Portal:
+Create a `CoreConfig` using an [access token](../../README.md#access-token):
 
 ```swift
-let config = CoreConfig(clientID: "<CLIENT_ID>", environment: .sandbox)
+let config = CoreConfig(accessToken: "<ACCESS_TOKEN>", environment: .sandbox)
 ```
 
 Create a `CardClient` to approve an order with a Card payment method:
