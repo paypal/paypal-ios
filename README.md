@@ -33,7 +33,7 @@ This SDK supports:
 
 The PayPal SDK uses access tokens for authentication.
 
-> The follwing example can be adapted to any server-side language/framework of your choice. We use command-line curl to demonstrate the overall composition of the Access Token HTTP request.
+> The following example can be adapted to any server-side language/framework of your choice. We use command-line curl requests to demonstrate the overall composition of the Access Token HTTP request.
 
 To create an access token:
 
