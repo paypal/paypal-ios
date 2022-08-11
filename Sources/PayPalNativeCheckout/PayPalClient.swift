@@ -15,10 +15,10 @@ public class PayPalClient {
     ///   - config: The CoreConfig object
     public convenience init(config: CoreConfig) {
         self.init(
-                config: config,
-                checkoutFlow: NativeCheckout(),
-                apiClient: APIClient(coreConfig: config)
-            )
+            config: config,
+            checkoutFlow: NativeCheckout(),
+            apiClient: APIClient(coreConfig: config)
+        )
     }
 
     init(config: CoreConfig, checkoutFlow: CheckoutProtocol, apiClient: APIClient) {
