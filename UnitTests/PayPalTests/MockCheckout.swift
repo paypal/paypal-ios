@@ -22,7 +22,8 @@ class MockCheckout: CheckoutProtocol {
         onApprove: CheckoutConfig.ApprovalCallback?,
         onShippingChange: CheckoutConfig.ShippingChangeCallback?,
         onCancel: CheckoutConfig.CancelCallback?,
-        onError: CheckoutConfig.ErrorCallback?
+        onError: CheckoutConfig.ErrorCallback?,
+        nxoConfig: CheckoutConfig
     ) {
         self.onCancel = onCancel
         self.onError = onError
