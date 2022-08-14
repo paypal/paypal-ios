@@ -1,12 +1,15 @@
 import UIKit
 import PayPalCheckout
+#if canImport(PaymentsCore)
 import PaymentsCore
+#endif
 
 /// PayPal Paysheet to handle PayPal transaction
 public class PayPalClient {
 
     public weak var delegate: PayPalDelegate?
-    let nativeCheckout: CheckoutProtocol
+    /// instance to communicate with native checkout
+    private let nativeCheckout: CheckoutProtocol
     private let apiClient: APIClient
     private let config: CoreConfig
 
@@ -29,9 +32,8 @@ public class PayPalClient {
 
     /// Present PayPal Paysheet and start a PayPal transaction
     /// - Parameters:
-    ///   - request: the PayPalRequest for the transaction
     ///   - presentingViewController: the ViewController to present PayPalPaysheet on, if not provided, the Paysheet will be presented on your top-most ViewController
-    ///   - completion: Completion block to handle buyer's approval, cancellation, and error.
+    ///   - delegate: Completion block to handle buyer's approval, cancellation, error, create order callback, shipping change callback
     public func start(presentingViewController: UIViewController? = nil, orderID: String, delegate: PayPalDelegate?) async {
         do {
             let clientID = try await apiClient.getClientID()
@@ -81,6 +83,7 @@ public class PayPalClient {
     private func notifyCancellation() {
         delegate?.paypalDidCancel(self)
     }
+
     private func notifyShippingChange(shippingChange: ShippingChange, shippingChangeAction: ShippingChangeAction) {
         delegate?.paypalDidShippingAddressChange(self, shippingChange: shippingChange, shippingChangeAction: shippingChangeAction)
     }

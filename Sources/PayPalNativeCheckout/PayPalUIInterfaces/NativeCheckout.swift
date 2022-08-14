@@ -1,7 +1,9 @@
 import Foundation
 import UIKit
 import PayPalCheckout
+#if canImport(PaymentsCore)
 import PaymentsCore
+#endif
 
 class NativeCheckout: CheckoutProtocol {
 

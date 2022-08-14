@@ -1,5 +1,7 @@
 import Foundation
+#if canImport(PaymentsCore)
 import PaymentsCore
+#endif
 import PayPalCheckout
 
 /// PayPal delegate to handle events from PayPalClient

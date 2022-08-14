@@ -21,7 +21,11 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
     }
 
     func paypal(_ payPalClient: PayPalClient, didFinishWithResult approvalResult: Approval) {
-        updateTitle("order \(String(describing: orderID)): \(approvalResult.data.intent.stringValue)")
+        guard let orderId = orderID else {
+            updateTitle("native checkout result: \(approvalResult.data.intent.stringValue)")
+            return
+        }
+        updateTitle("order \(orderId): \(approvalResult.data.intent.stringValue)")
     }
 
     func paypal(_ payPalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
