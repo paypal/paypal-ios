@@ -61,7 +61,7 @@ public class PayPalClient {
                 onCancel: {
                     self.notifyCancellation()
                 },
-                onError: {error in
+                onError: { error in
                     self.notifyFailure(with: error)
                 },
                 nxoConfig: nxoConfig
