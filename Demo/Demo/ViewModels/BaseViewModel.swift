@@ -29,7 +29,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
     }
 
     func paypal(_ payPalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
-        updateTitle("an error occurred: \(String(describing: error.errorDescription))")
+        updateTitle("an error occurred: \(error.localizedDescription)")
     }
 
     func paypalDidCancel(_ payPalClient: PayPalClient) {
