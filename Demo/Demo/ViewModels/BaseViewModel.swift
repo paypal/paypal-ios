@@ -33,7 +33,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
     }
 
     func paypalDidCancel(_ payPalClient: PayPalClient) {
-        updateTitle("order is cancelled")
+        updateTitle("order is canceled")
     }
 
     private static var returnUrl: String {
