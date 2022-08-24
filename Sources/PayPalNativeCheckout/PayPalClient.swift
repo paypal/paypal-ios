@@ -5,11 +5,11 @@ import PaymentsCore
 #endif
 
 /// PayPal Paysheet to handle PayPal transaction
+/// encapsulates instance to communicate with nxo
 public class PayPalClient {
 
     public weak var delegate: PayPalDelegate?
-    /// instance to communicate with native checkout
-    private let nativeCheckout: CheckoutProtocol
+    private let nativeCheckoutProvider: NativeCheckoutStartable
     private let apiClient: APIClient
     private let config: CoreConfig
 
@@ -19,14 +19,14 @@ public class PayPalClient {
     public convenience init(config: CoreConfig) {
         self.init(
             config: config,
-            checkoutFlow: NativeCheckout(),
+            nativeCheckoutProvider: NativeCheckoutProvider(),
             apiClient: APIClient(coreConfig: config)
         )
     }
 
-    init(config: CoreConfig, checkoutFlow: CheckoutProtocol, apiClient: APIClient) {
+    init(config: CoreConfig, nativeCheckoutProvider: NativeCheckoutStartable, apiClient: APIClient) {
         self.config = config
-        self.nativeCheckout = checkoutFlow
+        self.nativeCheckoutProvider = nativeCheckoutProvider
         self.apiClient = apiClient
     }
 
@@ -47,7 +47,7 @@ public class PayPalClient {
                 environment: config.environment.toNativeCheckoutSDKEnvironment()
             )
             self.delegate = delegate
-            self.nativeCheckout.start(
+            self.nativeCheckoutProvider.start(
                 presentingViewController: presentingViewController,
                 createOrder: { order in
                     order.set(orderId: orderID)

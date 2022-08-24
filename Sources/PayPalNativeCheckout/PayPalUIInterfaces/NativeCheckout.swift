@@ -5,7 +5,7 @@ import PayPalCheckout
 import PaymentsCore
 #endif
 
-class NativeCheckout: CheckoutProtocol {
+class NativeCheckoutProvider: NativeCheckoutStartable {
 
     // swiftlint:disable function_parameter_count
     func start(
