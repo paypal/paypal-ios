@@ -4,7 +4,7 @@ import PayPalUI
 
 struct SwiftUINativeCheckoutDemo: View {
 
-    @StateObject var baseViewModel = BaseViewModel()
+    @StateObject var viewModel = PayPalViewModel()
 
     @State var isCheckoutViewActive = false
 
@@ -12,10 +12,23 @@ struct SwiftUINativeCheckoutDemo: View {
 
     @State var checkoutTypeSelection = 0
 
-    var checkoutView: some View {
+
+    var body: some View {
+        switch viewModel.state {
+        case .initial:
+            getAccessTokenView
+        case .loading(let content):
+            loadingView(content)
+        case let .payPalReady(title, content):
+            checkoutView(title, content)
+        case .error(let message):
+            errorView(message)
+        }
+    }
+
+    func checkoutView(_ title: String, _ content: String) -> some View {
         NavigationView {
             ZStack {
-                FeatureBaseViewControllerRepresentable(baseViewModel: baseViewModel)
                 VStack(spacing: 16) {
                     //Form {
                         Picker("Select type of Checkout: ", selection: $checkoutTypeSelection) {
@@ -42,41 +55,35 @@ struct SwiftUINativeCheckoutDemo: View {
     var getAccessTokenView: some View {
         NavigationView {
             VStack(spacing: 16) {
-                NavigationLink(destination: checkoutView, isActive: $isCheckoutViewActive) {
-                    Button("Get Access Token") {
-                        getAccessToken()
-                        isCheckoutViewActive = true
-                    }
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(.blue)
-                    .cornerRadius(10)
-                    .padding(.horizontal, 16)
+                Button("Get Access Token") {
+                    viewModel.getAccessToken()
                 }
+                .foregroundColor(.white)
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(.blue)
+                .cornerRadius(10)
+                .padding(.horizontal, 16)
             }
         }
     }
 
-
-    var body: some View {
-        getAccessTokenView
+    func loadingView(_ content: String) -> some View {
+        VStack(spacing: 16) {
+            ProgressView(content)
+                .progressViewStyle(CircularProgressViewStyle())
+        }
     }
 
-
-    func getAccessToken() {
-        Task {
-            guard let token = await baseViewModel.getAccessToken() else {
-                baseViewModel.updateTitle("error in getting access token")
-                return
-            }
-            accessToken = token
+    func errorView(_ message: String) -> some View {
+        VStack(spacing: 16) {
+            Text(message)
         }
     }
 
     func startNativeCheckoutWithOrderID() {
         Task {
-            try await baseViewModel.checkoutWithNativeClient()
+            //try await baseViewModel.checkoutWithNativeClient()
         }
     }
 }
@@ -85,6 +92,6 @@ struct SwiftUINativeCheckoutDemo: View {
 struct SiftUINativeCheckoutDemo_Preview: PreviewProvider {
 
     static var previews: some View {
-        SwiftUINativeCheckoutDemo(baseViewModel: BaseViewModel())
+        SwiftUINativeCheckoutDemo()
     }
 }
