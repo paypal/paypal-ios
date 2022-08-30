@@ -33,4 +33,20 @@ class PayPalViewModel: ObservableObject {
             state = .payPalReady(title: "Access Token", content: accessToken)
         }
     }
+
+    func checkoutWithOrder() {
+
+    }
+
+    func checkoutWithOrderId() {
+
+    }
+
+    func checkoutWithBillingAgreement() {
+
+    }
+
+    func checkoutWithVault() {
+        
+    }
 }

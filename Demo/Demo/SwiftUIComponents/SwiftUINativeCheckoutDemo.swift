@@ -4,13 +4,22 @@ import PayPalUI
 
 struct SwiftUINativeCheckoutDemo: View {
 
+    enum CheckoutType: String, CaseIterable, Identifiable  {
+        case order = "Order"
+        case orderId = "Order ID"
+        case billingAgreement = "Billing Agreement"
+        case vault = "Vault"
+
+        var id: CheckoutType { self }
+    }
+
     @StateObject var viewModel = PayPalViewModel()
 
     @State var isCheckoutViewActive = false
 
     @State var accessToken = ""
 
-    @State var checkoutTypeSelection = 0
+    @State var checkoutTypeSelection = CheckoutType.order
 
 
     var body: some View {
@@ -30,16 +39,15 @@ struct SwiftUINativeCheckoutDemo: View {
         NavigationView {
             ZStack {
                 VStack(spacing: 16) {
-                    //Form {
-                        Picker("Select type of Checkout: ", selection: $checkoutTypeSelection) {
-                            Text("Order Id Checkout").tag(0)
-                            Text("Order Checkout").tag(1)
-                            Text("Billing Agreement Checkout").tag(2)
-                            Text("Vault Checkout").tag(3)
-                        }
-                    //}
+                    Picker("Checkout ", selection: $checkoutTypeSelection) {
+                        ForEach(CheckoutType.allCases, content: { type in
+                            Text(type.rawValue)
+                        })
+                    }
+                    Text(title)
+                    Text(content)
                     Button("Start Checkout") {
-                        startNativeCheckoutWithOrderID()
+                        startNativeCheckout()
                     }
                     .foregroundColor(.white)
                     .padding()
@@ -49,7 +57,7 @@ struct SwiftUINativeCheckoutDemo: View {
                     .padding(.horizontal, 16)
                 }
             }
-        }.navigationTitle("Native Checkout")
+        }
     }
 
     var getAccessTokenView: some View {
@@ -81,9 +89,16 @@ struct SwiftUINativeCheckoutDemo: View {
         }
     }
 
-    func startNativeCheckoutWithOrderID() {
-        Task {
-            //try await baseViewModel.checkoutWithNativeClient()
+    private func startNativeCheckout() {
+        switch checkoutTypeSelection {
+        case .order:
+            viewModel.checkoutWithOrder()
+        case .orderId:
+            viewModel.checkoutWithOrderId()
+        case .billingAgreement:
+            viewModel.checkoutWithBillingAgreement()
+        case .vault:
+            viewModel.checkoutWithVault()
         }
     }
 }
