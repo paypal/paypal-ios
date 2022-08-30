@@ -18,7 +18,7 @@ enum DemoType: String {
         case .paymentButtonCustomization:
             return PaymentButtonCustomizationViewController()
         case .payPalNativeCheckout:
-            return NativeCheckoutDemoViewController(baseViewModel: baseViewModel)
+            return NativeCheckoutDemoViewController()
         }
     }
 

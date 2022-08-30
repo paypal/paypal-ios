@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5301468C28918B4D00184F22 /* ApprovalResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301468B28918B4D00184F22 /* ApprovalResult.swift */; };
+		532EBEE928BEAF3B00643165 /* CreateOrderUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532EBEE828BEAF3B00643165 /* CreateOrderUseCase.swift */; };
 		536A5CA32898A48C005C053D /* PayPalNativeCheckout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 536A5CA22898A48C005C053D /* PayPalNativeCheckout.framework */; };
 		536A5CA42898A48C005C053D /* PayPalNativeCheckout.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 536A5CA22898A48C005C053D /* PayPalNativeCheckout.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		536A5CA62898A730005C053D /* NativeCheckoutDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536A5CA52898A730005C053D /* NativeCheckoutDemoViewController.swift */; };
@@ -90,6 +91,7 @@
 
 /* Begin PBXFileReference section */
 		5301468B28918B4D00184F22 /* ApprovalResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApprovalResult.swift; sourceTree = "<group>"; };
+		532EBEE828BEAF3B00643165 /* CreateOrderUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrderUseCase.swift; sourceTree = "<group>"; };
 		536A5CA22898A48C005C053D /* PayPalNativeCheckout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PayPalNativeCheckout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		536A5CA52898A730005C053D /* NativeCheckoutDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeCheckoutDemoViewController.swift; sourceTree = "<group>"; };
 		536A5CA72898AA2A005C053D /* SwiftUINativeCheckoutDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUINativeCheckoutDemo.swift; sourceTree = "<group>"; };
@@ -342,6 +344,7 @@
 			isa = PBXGroup;
 			children = (
 				CB34B32528BE3F73001325B9 /* GetAccessToken.swift */,
+				532EBEE828BEAF3B00643165 /* CreateOrderUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -482,6 +485,7 @@
 				BE1766B326F911A2007EF438 /* URLResponseError.swift in Sources */,
 				BE9F36D82745490400AFC7DA /* FloatingLabelTextField.swift in Sources */,
 				BE9F36E7275548A600AFC7DA /* BaseViewModel.swift in Sources */,
+				532EBEE928BEAF3B00643165 /* CreateOrderUseCase.swift in Sources */,
 				806F1E3926B85367007A60E6 /* AppDelegate.swift in Sources */,
 				536A5CA62898A730005C053D /* NativeCheckoutDemoViewController.swift in Sources */,
 				536A5CA82898AA2A005C053D /* SwiftUINativeCheckoutDemo.swift in Sources */,

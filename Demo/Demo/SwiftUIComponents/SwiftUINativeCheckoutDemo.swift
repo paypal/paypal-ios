@@ -32,6 +32,8 @@ struct SwiftUINativeCheckoutDemo: View {
             checkoutView(title, content)
         case .error(let message):
             errorView(message)
+        case .checkoutWithOrderId(let title):
+            createOrderView(title: title)
         }
     }
 
@@ -65,6 +67,23 @@ struct SwiftUINativeCheckoutDemo: View {
             VStack(spacing: 16) {
                 Button("Get Access Token") {
                     viewModel.getAccessToken()
+                }
+                .foregroundColor(.white)
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(.blue)
+                .cornerRadius(10)
+                .padding(.horizontal, 16)
+            }
+        }
+    }
+
+    func createOrderView(title: String) -> some View {
+        ZStack {
+            FeatureBaseViewControllerRepresentable(baseViewModel: viewModel)
+            VStack(spacing: 16) {
+                Button("Start Native Checkout") {
+                    viewModel.startNativeCheckoutWithOrderId()
                 }
                 .foregroundColor(.white)
                 .padding()
