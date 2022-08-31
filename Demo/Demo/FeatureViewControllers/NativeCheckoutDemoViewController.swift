@@ -40,10 +40,7 @@ class NativeCheckoutDemoViewController: FeatureBaseViewController {
     @objc func didTapNativeCheckoutButton() {
         Task {
             nativeCheckoutButton.startAnimating()
-            guard let orderId = baseViewModel.orderID else {
-                return
-            }
-            _ = try await baseViewModel.checkoutWithNativeClient(orderId: orderId)
+            try await baseViewModel.checkoutWithNativeClient()
             nativeCheckoutButton.stopAnimating()
         }
     }

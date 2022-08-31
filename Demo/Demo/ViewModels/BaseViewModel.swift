@@ -4,26 +4,37 @@ import PayPalWebCheckout
 import PaymentsCore
 import AuthenticationServices
 import PayPalNativeCheckout
+import PayPalCheckout
 
 /// This class is used to share the orderID across shared views, update the text of `bottomStatusLabel` in our `FeatureBaseViewController`
 /// as well as share the logic of `processOrder` across our duplicate (SwiftUI and UIKit) card views.
 class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, PayPalDelegate {
 
-    var nativeCheckoutResult: NativeCheckoutResult?
-    func paypal(_ payPalClient: PayPalClient, didFinishWithResult result: PayPalResult) {
-        nativeCheckoutResult = NativeCheckoutResult.approved(ApprovalResult(
-            orderId: result.orderID, payerId: result.payerID
-        ))
+    // MARK: - PayPalDelegate conformance
+
+    func paypalDidShippingAddressChange(
+        _ payPalClient: PayPalClient,
+        shippingChange: ShippingChange,
+        shippingChangeAction: ShippingChangeAction
+    ) {
+        updateTitle("shipping address changed")
+    }
+
+    func paypal(_ payPalClient: PayPalClient, didFinishWithResult approvalResult: Approval) {
+        guard let orderID = orderID else {
+            updateTitle("native checkout result: \(approvalResult.data.intent.stringValue)")
+            return
+        }
+        updateTitle("order \(orderID): \(approvalResult.data.intent.stringValue)")
     }
 
     func paypal(_ payPalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
-        nativeCheckoutResult = NativeCheckoutResult.error(error)
+        updateTitle("an error occurred: \(error.localizedDescription)")
     }
 
     func paypalDidCancel(_ payPalClient: PayPalClient) {
-        nativeCheckoutResult = NativeCheckoutResult.cancel
+        updateTitle("order is canceled")
     }
-
 
     private static var returnUrl: String {
         if let identifier = Bundle.main.bundleIdentifier {
@@ -143,21 +154,14 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
         cardClient.approveOrder(request: cardRequest, context: context)
     }
 
-    func checkoutWithNativeClient(orderId: String?) async throws -> NativeCheckoutResult {
-        guard let orderId = orderId else {
-            return NativeCheckoutResult.error(CoreSDKError(code: 0, domain: "Order Id is null", errorDescription: "Order Id is null"))
+    func checkoutWithNativeClient() async throws {
+        guard let orderID = self.orderID else {
+            updateTitle("create order first!!")
+            return
         }
         let nativeCheckoutClient = try await getNativeCheckoutClient()
-        let paypalRequest = PayPalRequest(orderID: orderId)
         nativeCheckoutClient.delegate = self
-        Task {
-            await nativeCheckoutClient.start(request: paypalRequest)
-        }
-        guard let nativeCheckoutResult = nativeCheckoutResult
-        else {
-            throw CoreSDKError(code: 0, domain: "checkout", errorDescription: "didn't get result from checkout")
-        }
-        return nativeCheckoutResult
+        await nativeCheckoutClient.start(orderID: orderID, delegate: self)
     }
 
     func isCardFormValid(cardNumber: String, expirationDate: String, cvv: String) -> Bool {

@@ -12,10 +12,7 @@ struct SwiftUINativeCheckoutDemo: View {
             VStack(spacing: 16) {
                 Button("native chekcout") {
                     Task {
-                        guard let orderId = baseViewModel.orderID else {
-                            return
-                        }
-                        _ = try await baseViewModel.checkoutWithNativeClient(orderId: orderId)
+                        try await baseViewModel.checkoutWithNativeClient()
                     }
                 }
                 .foregroundColor(.white)

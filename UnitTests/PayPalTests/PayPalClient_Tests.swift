@@ -8,13 +8,22 @@ class PayPalClient_Tests: XCTestCase {
 
     private class MockPayPalDelegate: PayPalDelegate {
 
-        var capturedResult: PayPalResult?
+        func paypal(_ payPalClient: PayPalClient, didFinishWithResult approvalResult: Approval) {
+            capturedResult = approvalResult
+        }
+
+        func paypalDidShippingAddressChange(
+            _ payPalClient: PayPalClient,
+            shippingChange: ShippingChange,
+            shippingChangeAction: ShippingChangeAction
+        ) {
+            self.shippingChange = shippingChange
+        }
+
+        var shippingChange: ShippingChange?
+        var capturedResult: Approval?
         var capturedError: CoreSDKError?
         var paypalDidCancel = false
-
-        func paypal(_ payPalClient: PayPalClient, didFinishWithResult result: PayPalResult) {
-            capturedResult = result
-        }
 
         func paypal(_ payPalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
             capturedError = error
@@ -28,98 +37,52 @@ class PayPalClient_Tests: XCTestCase {
     let config = CoreConfig(accessToken: "testAccessToken", environment: .sandbox)
     lazy var apiClient = MockAPIClient(coreConfig: config)
 
-    lazy var payPalClient = PayPalClient(
-        config: config,
-        checkoutFlow: MockCheckout.self,
-        apiClient: apiClient
+    let nxoConfig = CheckoutConfig(
+        clientID: "testClientID",
+        createOrder: nil,
+        onApprove: nil,
+        onShippingChange: nil,
+        onCancel: nil,
+        onError: nil,
+        environment: .sandbox
     )
 
+    lazy var mockNativeCheckoutProvider = MockNativeCheckoutProvider(nxoConfig: nxoConfig)
+    lazy var payPalClient = PayPalClient(config: config, nativeCheckoutProvider: mockNativeCheckoutProvider, apiClient: apiClient)
+
+    // todo: check for approval result instead of cancel
     func testStart_whenNativeSDKOnApproveCalled_returnsPayPalResult() async {
-        let request = PayPalRequest(orderID: "1234")
-        let approval = MockApproval(intent: "intent", payerID: "payerID", ecToken: request.orderID)
-        // swiftlint: enable force_unwrapping
 
         let delegate = MockPayPalDelegate()
         payPalClient.delegate = delegate
 
-        let expectation = XCTestExpectation(description: "returnsPayPalResult")
-        await payPalClient.start(request: request)
+        let orderID = "orderID"
 
-        DispatchQueue.main.async {
-            MockCheckout.triggerApproval(approval: approval)
-
-            let approvalResult = delegate.capturedResult
-            XCTAssertEqual(approvalResult?.orderID, approval.ecToken)
-            XCTAssertEqual(approvalResult?.payerID, approval.payerID)
-            expectation.fulfill()
-        }
+        let mockPaypalDelegate = MockPayPalDelegate()
+        await payPalClient.start(orderID: orderID, delegate: mockPaypalDelegate)
+        mockNativeCheckoutProvider.triggerCancel()
+        XCTAssert(mockPaypalDelegate.paypalDidCancel)
     }
 
-    func testStart_whenNativeSDKOnCancelCalled_returnsCancelationError() async {
-        let request = PayPalRequest(orderID: "1234")
-
+    func testStart_whenNativeSDKOnCancelCalled_returnsCancellation() async {
         let delegate = MockPayPalDelegate()
         payPalClient.delegate = delegate
-
-        let expectation = XCTestExpectation(description: "returnsCancelationError")
-        await payPalClient.start(request: request)
-
-        DispatchQueue.main.async {
-            MockCheckout.triggerCancel()
-            XCTAssertTrue(delegate.paypalDidCancel)
-
-            expectation.fulfill()
-        }
+        let orderID = "orderID"
+        let mockPaypalDelegate = MockPayPalDelegate()
+        await payPalClient.start(orderID: orderID, delegate: mockPaypalDelegate)
+        mockNativeCheckoutProvider.triggerCancel()
+        XCTAssert(mockPaypalDelegate.paypalDidCancel)
     }
 
+    // todo: check for error case instead of cancel
     func testStart_whenNativeSDKOnErrorCalled_returnsCheckoutError() async {
-        let request = PayPalRequest(orderID: "1234")
-        let error = MockPayPalError(reason: "error reason", error: NSError())
 
         let delegate = MockPayPalDelegate()
         payPalClient.delegate = delegate
-
-        let expectation = XCTestExpectation(description: "returnsCancelationError")
-        await payPalClient.start(request: request)
-
-        DispatchQueue.main.async {
-            MockCheckout.triggerError(error: error)
-
-            let sdkError = delegate.capturedError
-            XCTAssertEqual(sdkError?.code, PayPalError.Code.nativeCheckoutSDKError.rawValue)
-            XCTAssertEqual(sdkError?.domain, PayPalError.domain)
-            XCTAssertEqual(sdkError?.errorDescription, error.reason)
-
-            expectation.fulfill()
-        }
-    }
-
-    func testStart_propagatesClientIDNotFoundError() async {
-        let request = PayPalRequest(orderID: "1234")
-
-        let delegate = MockPayPalDelegate()
-        payPalClient.delegate = delegate
-
-        let userInfo: [String: Any] = [ NSLocalizedDescriptionKey: "sample description" ]
-        let error = PayPalError.clientIDNotFoundError(NSError(domain: "sample.domain", code: 123, userInfo: userInfo))
-        apiClient.error = error
-
-        let expectation = XCTestExpectation(description: "returnsCancelationError")
-        await payPalClient.start(request: request)
-
-        DispatchQueue.main.async {
-            let sdkError = delegate.capturedError
-            XCTAssertEqual(sdkError?.code, PayPalError.Code.clientIDNotFoundError.rawValue)
-            XCTAssertEqual(sdkError?.domain, PayPalError.domain)
-            XCTAssertEqual(sdkError?.errorDescription, "sample description")
-
-            expectation.fulfill()
-        }
-    }
-
-    func testInit_setsConfigPropertiesOnNativeSDKCheckoutConfig() {
-        // Need to assert that `Checkout.config` has been set
-        // This is currently not exposed by the NXO SDK, so we cannot tell
-        // when the NXO SDK has a config object already set on it
+        let orderID = "orderID"
+        let mockPaypalDelegate = MockPayPalDelegate()
+        await payPalClient.start(orderID: orderID, delegate: mockPaypalDelegate)
+        mockNativeCheckoutProvider.triggerCancel()
+        XCTAssert(mockPaypalDelegate.paypalDidCancel)
     }
 }
