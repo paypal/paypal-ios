@@ -47,8 +47,8 @@ class PayPalClient_Tests: XCTestCase {
         environment: .sandbox
     )
 
-    lazy var mockCheckout = MockCheckout(nxoConfig: nxoConfig)
-    lazy var payPalClient = PayPalClient(config: config, checkoutFlow: mockCheckout, apiClient: apiClient)
+    lazy var mockNativeCheckoutProvider = MockNativeCheckoutProvider(nxoConfig: nxoConfig)
+    lazy var payPalClient = PayPalClient(config: config, nativeCheckoutProvider: mockNativeCheckoutProvider, apiClient: apiClient)
 
     // todo: check for approval result instead of cancel
     func testStart_whenNativeSDKOnApproveCalled_returnsPayPalResult() async {
@@ -60,7 +60,7 @@ class PayPalClient_Tests: XCTestCase {
 
         let mockPaypalDelegate = MockPayPalDelegate()
         await payPalClient.start(orderID: orderID, delegate: mockPaypalDelegate)
-        mockCheckout.triggerCancel()
+        mockNativeCheckoutProvider.triggerCancel()
         XCTAssert(mockPaypalDelegate.paypalDidCancel)
     }
 
@@ -70,7 +70,7 @@ class PayPalClient_Tests: XCTestCase {
         let orderID = "orderID"
         let mockPaypalDelegate = MockPayPalDelegate()
         await payPalClient.start(orderID: orderID, delegate: mockPaypalDelegate)
-        mockCheckout.triggerCancel()
+        mockNativeCheckoutProvider.triggerCancel()
         XCTAssert(mockPaypalDelegate.paypalDidCancel)
     }
 
@@ -82,7 +82,7 @@ class PayPalClient_Tests: XCTestCase {
         let orderID = "orderID"
         let mockPaypalDelegate = MockPayPalDelegate()
         await payPalClient.start(orderID: orderID, delegate: mockPaypalDelegate)
-        mockCheckout.triggerCancel()
+        mockNativeCheckoutProvider.triggerCancel()
         XCTAssert(mockPaypalDelegate.paypalDidCancel)
     }
 }

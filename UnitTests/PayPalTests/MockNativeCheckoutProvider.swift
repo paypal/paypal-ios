@@ -6,7 +6,7 @@ import UIKit
 import PayPalCheckout
 import XCTest
 
-class MockCheckout: CheckoutProtocol {
+class MockNativeCheckoutProvider: NativeCheckoutStartable {
 
     required init(nxoConfig: CheckoutConfig) {
     }
