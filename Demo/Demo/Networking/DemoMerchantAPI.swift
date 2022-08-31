@@ -40,6 +40,20 @@ final class DemoMerchantAPI {
         let data = try await data(for: urlRequest)
         return try parse(from: data)
     }
+
+    func createApprovalSessionId(accessToken: String, approvalSessionRequest: String) async throws -> VaultSessionId {
+        guard let url = buildPayPalURL(with: "/v2/vault/payment-tokens") else {
+            throw URLResponseError.invalidURL
+        }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        urlRequest.httpBody = Data(approvalSessionRequest.utf8)
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        let data = try await data(for: urlRequest)
+        return try parse(from: data)
+    }
+
     /// This function replicates a way a merchant may go about authorizing/capturing an order on their server and is not part of the SDK flow.
     /// - Parameters:
     ///   - processOrderParams: the parameters to process the order with
@@ -56,6 +70,7 @@ final class DemoMerchantAPI {
         let data = try await data(for: urlRequest)
         return try parse(from: data)
     }
+
     private func data(for urlRequest: URLRequest) async throws -> Data {
         do {
             let (data, _) = try await URLSession.shared.data(for: urlRequest)
@@ -75,6 +90,10 @@ final class DemoMerchantAPI {
 
     private func buildBaseURL(with endpoint: String) -> URL? {
         URL(string: DemoSettings.environment.baseURL + endpoint)
+    }
+
+    private func buildPayPalURL(with endpoint: String) -> URL? {
+        URL(string: "https://api.sandbox.paypal.com" + endpoint)
     }
 
     public func getAccessToken(environment: Demo.Environment) async -> String? {
