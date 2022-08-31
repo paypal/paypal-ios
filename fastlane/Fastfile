@@ -37,7 +37,6 @@ platform :ios do
       configuration: "Debug",
       json_report: true,
       ignore_file_path: "fastlane/.xcovignore",
-      exclude_targets: "PayPalNativeCheckout"
     )
 
     # Interpret JSON report and output relevant coverage data
