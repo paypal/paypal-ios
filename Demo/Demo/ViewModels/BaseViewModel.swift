@@ -21,7 +21,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
     }
 
     func paypal(_ payPalClient: PayPalClient, didFinishWithResult approvalResult: Approval) {
-        guard let orderId = orderID else {
+        guard let orderID = orderID else {
             updateTitle("native checkout result: \(approvalResult.data.intent.stringValue)")
             return
         }
