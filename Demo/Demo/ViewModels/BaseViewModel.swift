@@ -25,7 +25,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
             updateTitle("native checkout result: \(approvalResult.data.intent.stringValue)")
             return
         }
-        updateTitle("order \(orderId): \(approvalResult.data.intent.stringValue)")
+        updateTitle("order \(orderID): \(approvalResult.data.intent.stringValue)")
     }
 
     func paypal(_ payPalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
