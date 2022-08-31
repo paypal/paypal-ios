@@ -24,6 +24,7 @@ class PayPalViewModel: ObservableObject {
 
     private var getAccessTokenUseCase = GetAccessToken()
     private var getOrderIdUseCase = GetOrderIdUseCase()
+    private var getBillingAgreementToken = GetBillingAgreementToken()
     private var payPalClient: PayPalClient?
 
     func getAccessToken() {
@@ -40,7 +41,6 @@ class PayPalViewModel: ObservableObject {
     }
 
     func checkoutWithOrder() {
-
     }
 
     func checkoutWithOrderId() {
@@ -55,7 +55,13 @@ class PayPalViewModel: ObservableObject {
     }
 
     func checkoutWithBillingAgreement() {
-
+        Task {
+            do {
+                let order = try await getBillingAgreementToken.execute()
+            } catch let error {
+                state = .error(error.localizedDescription)
+            }
+        }
     }
 
     func checkoutWithVault() {

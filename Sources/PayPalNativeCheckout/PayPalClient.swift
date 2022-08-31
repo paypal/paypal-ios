@@ -49,8 +49,8 @@ public class PayPalClient {
             self.delegate = delegate
             self.nativeCheckoutProvider.start(
                 presentingViewController: presentingViewController,
-                createOrder: { order in
-                    order.set(orderId: orderID)
+                createOrder: { createOrderAction in
+                    createOrderAction.set(orderId: orderID)
                 },
                 onApprove: { approval in
                     self.notifySuccess(for: approval)
