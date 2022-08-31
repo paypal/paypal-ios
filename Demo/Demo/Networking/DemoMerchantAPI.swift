@@ -24,6 +24,22 @@ final class DemoMerchantAPI {
         let data = try await data(for: urlRequest)
         return try parse(from: data)
     }
+
+    /// This function replicates a way a merchant may go about creating an order on their server and is not part of the SDK flow.
+    /// - Parameter order: order in json format
+    /// - Returns: an order
+    /// - Throws: an error explaining why create order failed
+    func createOrder(order: String) async throws -> Order {
+        guard let url = buildBaseURL(with: "/orders") else {
+            throw URLResponseError.invalidURL
+        }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        urlRequest.httpBody = Data(order.utf8)
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let data = try await data(for: urlRequest)
+        return try parse(from: data)
+    }
     /// This function replicates a way a merchant may go about authorizing/capturing an order on their server and is not part of the SDK flow.
     /// - Parameters:
     ///   - processOrderParams: the parameters to process the order with

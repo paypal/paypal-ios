@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import PayPalNativeCheckout
+import PaymentsCore
 
 class PayPalViewModel: ObservableObject {
 
@@ -21,6 +23,8 @@ class PayPalViewModel: ObservableObject {
     private var accessToken = ""
 
     private var getAccessTokenUseCase = GetAccessToken()
+    private var getOrderIdUseCase = GetOrderIdUseCase()
+    private var payPalClient: PayPalClient?
 
     func getAccessToken() {
         Task {
@@ -30,6 +34,7 @@ class PayPalViewModel: ObservableObject {
                 return
             }
             accessToken = token
+            payPalClient = PayPalClient(config: CoreConfig(accessToken: token, environment: PaymentsCore.Environment.sandbox))
             state = .payPalReady(title: "Access Token", content: accessToken)
         }
     }
@@ -39,7 +44,14 @@ class PayPalViewModel: ObservableObject {
     }
 
     func checkoutWithOrderId() {
-
+        Task {
+            do {
+                let orderId = try await getOrderIdUseCase.execute()
+                await payPalClient?.start(orderID: orderId, delegate: nil)
+            } catch let error {
+                state = .error(error.localizedDescription)
+            }
+        }
     }
 
     func checkoutWithBillingAgreement() {
