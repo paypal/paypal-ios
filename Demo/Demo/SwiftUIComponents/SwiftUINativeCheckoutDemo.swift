@@ -34,9 +34,9 @@ struct SwiftUINativeCheckoutDemo: View {
             ZStack {
                 VStack(spacing: 16) {
                     Picker("Checkout ", selection: $checkoutTypeSelection) {
-                        ForEach(CheckoutType.allCases, content: { type in
+                        ForEach(CheckoutType.allCases) {type in
                             Text(type.rawValue)
-                        })
+                        }
                     }
                     Text(title)
                     Text(content)
@@ -88,15 +88,17 @@ struct SwiftUINativeCheckoutDemo: View {
     }
 
     func startNativeCheckout() {
-        switch checkoutTypeSelection {
-        case .order:
-            viewModel.checkoutWithOrder()
-        case .orderId:
-            viewModel.checkoutWithOrderId()
-        case .billingAgreement:
-            viewModel.checkoutWithBillingAgreement()
-        case .vault:
-            viewModel.checkoutWithVault()
+        Task {
+            switch checkoutTypeSelection {
+            case .order:
+                await viewModel.checkoutWithOrder()
+            case .orderId:
+                await viewModel.checkoutWithOrderId()
+            case .billingAgreement:
+                await viewModel.checkoutWithBillingAgreement()
+            case .vault:
+                await viewModel.checkoutWithVault()
+            }
         }
     }
 }

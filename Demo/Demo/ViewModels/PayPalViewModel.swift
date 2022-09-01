@@ -42,38 +42,60 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
         state = .initial
     }
 
-    func checkoutWithOrder() {
+    func checkoutWithOrder() async {
+        await payPalClient?.start(createOrder: { createOrderAction in
+            Task {
+                do {
+                    let orderId = try await self.getOrderIdUseCase.execute()
+                    createOrderAction.set(orderId: orderId)
+                } catch let error {
+                    self.state = .mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true)
+                }
+            }
+        }, delegate: self)
     }
 
-    func checkoutWithOrderId() {
-        Task {
-            do {
-                let orderId = try await getOrderIdUseCase.execute()
-                await payPalClient?.start(orderID: orderId)
-            } catch let error {
-                state = .mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true)
-            }
+    func checkoutWithOrderId() async {
+        do {
+            let orderId = try await getOrderIdUseCase.execute()
+            await payPalClient?.start(orderID: orderId)
+        } catch let error {
+            state = .mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true)
         }
     }
 
-    func checkoutWithBillingAgreement() {
-        Task {
-            do {
-                let order = try await getBillingAgreementToken.execute()
-            } catch let error {
-                state = .mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true)
+    func checkoutWithBillingAgreement() async {
+        await payPalClient?.start(createOrder: { createOrderAction in
+            Task {
+                do {
+                    let order = try await self.getBillingAgreementToken.execute()
+                    createOrderAction.set(orderId: order.id)
+                } catch let error {
+                    self.state = .mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true)
+                }
             }
-        }
+        }, delegate: self)
     }
 
-    func checkoutWithVault() {
-        Task {
-            do {
-                let vaultSessionId = try await getApprovalSessionTokenUseCase.execute(accessToken: accessToken)
-            } catch let error {
-                state = .mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true)
+    func checkoutWithVault() async {
+        await payPalClient?.start(createOrder: { createOrderAction in
+            Task {
+                do {
+                    guard let vaultSessionId = try await self.getApprovalSessionTokenUseCase.execute(accessToken: self.accessToken) else {
+                        self.state = .mainContent(
+                            title: "Error",
+                            content: "Error in creating vault session!!",
+                            flowComplete: true
+                        )
+
+                        return
+                    }
+                    createOrderAction.set(vaultApprovalSessionID: vaultSessionId)
+                } catch let error {
+                    self.state = .mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true)
+                }
             }
-        }
+        }, delegate: self)
     }
 
     // MARK: - PayPalDelegate conformance

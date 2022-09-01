@@ -3,16 +3,16 @@ import UIKit
 
 class NativeCheckoutDemoViewController: FeatureBaseViewController {
 
-    let viewModel: PayPalViewModel = PayPalViewModel()
+    let viewModel = PayPalViewModel()
 
-    init(){
+    init() {
         super.init(baseViewModel: BaseViewModel())
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     let stackView: UIStackView = {
         let view = UIStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -22,8 +22,17 @@ class NativeCheckoutDemoViewController: FeatureBaseViewController {
     }()
 
     lazy var nativeCheckoutButton: CustomButton = {
-        let nativeCheckoutButton = CustomButton(title: "Native Checkout")
+        let nativeCheckoutButton = CustomButton(title: "Native Checkout With OrderID")
         nativeCheckoutButton.addTarget(self, action: #selector(didTapNativeCheckoutButton), for: .touchUpInside)
+        nativeCheckoutButton.layer.cornerRadius = 8
+        nativeCheckoutButton.backgroundColor = .systemBlue
+        nativeCheckoutButton.tintColor = .white
+        return nativeCheckoutButton
+    }()
+
+    lazy var nativeCheckoutWithOrderButton: CustomButton = {
+        let nativeCheckoutButton = CustomButton(title: "Native Checkout with Order")
+        nativeCheckoutButton.addTarget(self, action: #selector(didTapNativeCheckoutWithOrderButton), for: .touchUpInside)
         nativeCheckoutButton.layer.cornerRadius = 8
         nativeCheckoutButton.backgroundColor = .systemBlue
         nativeCheckoutButton.tintColor = .white
@@ -36,6 +45,7 @@ class NativeCheckoutDemoViewController: FeatureBaseViewController {
         view.backgroundColor = .systemBackground
 
         stackView.addArrangedSubview(nativeCheckoutButton)
+        stackView.addArrangedSubview(nativeCheckoutWithOrderButton)
         view.addSubview(stackView)
 
         NSLayoutConstraint.activate(
@@ -50,7 +60,16 @@ class NativeCheckoutDemoViewController: FeatureBaseViewController {
     @objc func didTapNativeCheckoutButton() {
         Task {
             nativeCheckoutButton.startAnimating()
+            await viewModel.checkoutWithOrderId()
             nativeCheckoutButton.stopAnimating()
+        }
+    }
+
+    @objc func didTapNativeCheckoutWithOrderButton() {
+        Task {
+            nativeCheckoutWithOrderButton.startAnimating()
+            await viewModel.checkoutWithOrder()
+            nativeCheckoutWithOrderButton.stopAnimating()
         }
     }
 }

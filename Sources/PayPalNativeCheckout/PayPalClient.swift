@@ -70,6 +70,42 @@ public class PayPalClient {
         }
     }
 
+    public func start(
+        presentingViewController: UIViewController? = nil,
+        createOrder: @escaping PayPalCheckout.CheckoutConfig.CreateOrderCallback,
+        delegate: PayPalDelegate?
+    ) async {
+        do {
+            let clientID = try await apiClient.getClientID()
+            let nxoConfig = CheckoutConfig(
+                clientID: clientID,
+                createOrder: nil,
+                onApprove: nil,
+                onShippingChange: nil,
+                onCancel: nil,
+                onError: nil,
+                environment: config.environment.toNativeCheckoutSDKEnvironment()
+            )
+            self.delegate = delegate
+            self.nativeCheckoutProvider.start(
+                presentingViewController: presentingViewController,
+                createOrder: createOrder,
+                onApprove: { approval in self.notifySuccess(for: approval) },
+            onShippingChange: { shippingChange, shippingChangeAction in
+                self.notifyShippingChange(shippingChange: shippingChange, shippingChangeAction: shippingChangeAction)
+            },
+            onCancel: {
+                self.notifyCancellation()
+            },
+            onError: { error in
+                self.notifyFailure(with: error)
+            },
+            nxoConfig: nxoConfig)
+        } catch {
+            delegate?.paypal(self, didFinishWithError: PayPalError.clientIDNotFoundError(error))
+        }
+    }
+
     private func notifySuccess(for approval: PayPalCheckout.Approval) {
         delegate?.paypal(self, didFinishWithResult: approval)
     }
