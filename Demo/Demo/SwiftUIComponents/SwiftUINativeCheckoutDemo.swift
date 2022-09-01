@@ -24,14 +24,12 @@ struct SwiftUINativeCheckoutDemo: View {
             getAccessTokenView()
         case .loading(let content):
             loadingView(content)
-        case let .payPalReady(title, content):
-            checkoutView(title, content)
-        case .error(let message):
-            errorView(message)
+        case let .mainContent(title, content, isFlowComplete):
+            checkoutView(title, content, isFlowComplete)
         }
     }
 
-    func checkoutView(_ title: String, _ content: String) -> some View {
+    func checkoutView(_ title: String, _ content: String, _ isFlowComplete: Bool) -> some View {
         NavigationView {
             ZStack {
                 VStack(spacing: 16) {
@@ -42,8 +40,12 @@ struct SwiftUINativeCheckoutDemo: View {
                     }
                     Text(title)
                     Text(content)
-                    Button("Start Checkout") {
-                        startNativeCheckout()
+                    Button(isFlowComplete ? "Try Again" : "Start Checkout" ) {
+                        if isFlowComplete {
+                            viewModel.retry()
+                        } else {
+                            startNativeCheckout()
+                        }
                     }
                     .foregroundColor(.white)
                     .padding()

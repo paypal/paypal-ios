@@ -33,8 +33,8 @@ public class PayPalClient {
     /// Present PayPal Paysheet and start a PayPal transaction
     /// - Parameters:
     ///   - presentingViewController: the ViewController to present PayPalPaysheet on, if not provided, the Paysheet will be presented on your top-most ViewController
-    ///   - delegate: Completion block to handle buyer's approval, cancellation, error, create order callback, shipping change callback
-    public func start(presentingViewController: UIViewController? = nil, orderID: String, delegate: PayPalDelegate?) async {
+    ///   - orderID: order id to approve
+    public func start(presentingViewController: UIViewController? = nil, orderID: String) async {
         do {
             let clientID = try await apiClient.getClientID()
             let nxoConfig = CheckoutConfig(
@@ -46,7 +46,6 @@ public class PayPalClient {
                 onError: nil,
                 environment: config.environment.toNativeCheckoutSDKEnvironment()
             )
-            self.delegate = delegate
             self.nativeCheckoutProvider.start(
                 presentingViewController: presentingViewController,
                 createOrder: { createOrderAction in
