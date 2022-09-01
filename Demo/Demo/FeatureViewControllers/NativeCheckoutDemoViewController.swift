@@ -3,16 +3,16 @@ import UIKit
 
 class NativeCheckoutDemoViewController: FeatureBaseViewController {
 
-    let viewModel: PayPalViewModel = PayPalViewModel()
+    let viewModel = PayPalViewModel()
 
-    init(){
+    init() {
         super.init(baseViewModel: BaseViewModel())
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     let stackView: UIStackView = {
         let view = UIStackView()
         view.translatesAutoresizingMaskIntoConstraints = false

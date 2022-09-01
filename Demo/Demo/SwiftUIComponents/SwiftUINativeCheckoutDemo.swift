@@ -34,9 +34,9 @@ struct SwiftUINativeCheckoutDemo: View {
             ZStack {
                 VStack(spacing: 16) {
                     Picker("Checkout ", selection: $checkoutTypeSelection) {
-                        ForEach(CheckoutType.allCases, content: { type in
+                        ForEach(CheckoutType.allCases) { type in
                             Text(type.rawValue)
-                        })
+                        }
                     }
                     Text(title)
                     Text(content)

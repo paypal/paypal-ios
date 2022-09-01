@@ -54,17 +54,19 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
 
     func checkoutWithBillingAgreement() {
         startCheckout {
-            let order = try await self.getBillingAgreementToken.execute()
+            _ = try await self.getBillingAgreementToken.execute()
+            //call paypal client once feature for billing agreement is added
         }
     }
 
     func checkoutWithVault() {
         startCheckout {
-            let vaultSessionId = try await self.getApprovalSessionTokenUseCase.execute(accessToken: self.accessToken)
+            _ = try await self.getApprovalSessionTokenUseCase.execute(accessToken: self.accessToken)
+            //call paypal client once feature for vault is added
         }
     }
 
-    private func startCheckout(with checkoutAction: @escaping () async throws -> ()) {
+    private func startCheckout(with checkoutAction: @escaping () async throws -> Void) {
         state = .loading(content: "Configuring paypal checkout")
         Task {
             do {

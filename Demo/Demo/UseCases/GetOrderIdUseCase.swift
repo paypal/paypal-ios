@@ -28,23 +28,23 @@ final class GetOrderIdUseCase {
             "intent": "AUTHORIZE",
             "purchase_units": [{
                 "amount": {
-                        "breakdown": {
-                            "discount": {
-                                "currency_code": "USD",
-                                "value": "00.00"
-                            },
-                            "handling": {
-                                "currency_code": "USD",
-                                "value": "00.00"
-                            },
-                            "item_total": {
-                                "currency_code": "USD",
-                                "value": "00.00"
-                            },
-                            "shipping": {
-                                "currency_code": "USD",
-                                "value": "0.00"
-                            },
+                    "breakdown": {
+                        "discount": {
+                            "currency_code": "USD",
+                            "value": "00.00"
+                        },
+                        "handling": {
+                            "currency_code": "USD",
+                            "value": "00.00"
+                        },
+                        "item_total": {
+                            "currency_code": "USD",
+                            "value": "00.00"
+                        },
+                        "shipping": {
+                            "currency_code": "USD",
+                            "value": "0.00"
+                        },
                             "shipping_discount": {
                                 "currency_code": "USD",
                                 "value": "00.00"
@@ -60,7 +60,7 @@ final class GetOrderIdUseCase {
                     "custom_id": "CUST-HighFashions",
                     "description": "Sporting Goods",
                     "items": [{
-                            "category": "PHYSICAL_GOODS",
+                        "category": "PHYSICAL_GOODS",
                             "description": "Green XL",
                             "name": "T-Shirt",
                             "quantity": "1",
