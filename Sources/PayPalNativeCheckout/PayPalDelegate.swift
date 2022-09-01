@@ -22,6 +22,16 @@ public protocol PayPalDelegate: AnyObject {
     ///   - client: the PayPalClient associated with delegate
     func paypalDidCancel(_ payPalClient: PayPalClient)
 
+    /// Notify that the PayPal flow is about to start
+    /// - Parameters:
+    ///   - client: the PayPalClient associated with delegate
+    func paypalDidStart(_ payPalClient: PayPalClient)
+
+    /// Notify when a shpping method and/or address has been change
+    /// - Parameters:
+    ///   - client: the PayPalClient associated with delegate
+    ///   - shippingChange: what change was produced in shipping
+    ///   - shippingChangeAction: actions to perform for the change in shipping
     func paypalDidShippingAddressChange(
         _ payPalClient: PayPalClient,
         shippingChange: ShippingChange,

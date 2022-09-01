@@ -87,7 +87,7 @@ struct SwiftUINativeCheckoutDemo: View {
         }
     }
 
-    func startNativeCheckout() {
+    private func startNativeCheckout() {
         switch checkoutTypeSelection {
         case .order:
             viewModel.checkoutWithOrder()

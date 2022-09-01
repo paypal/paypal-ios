@@ -46,30 +46,29 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
     }
 
     func checkoutWithOrderId() {
-        Task {
-            do {
-                let orderId = try await getOrderIdUseCase.execute()
-                await payPalClient?.start(orderID: orderId)
-            } catch let error {
-                state = .mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true)
-            }
+        startCheckout {
+            let orderId = try await self.getOrderIdUseCase.execute()
+            await self.payPalClient?.start(orderID: orderId)
         }
     }
 
     func checkoutWithBillingAgreement() {
-        Task {
-            do {
-                let order = try await getBillingAgreementToken.execute()
-            } catch let error {
-                state = .mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true)
-            }
+        startCheckout {
+            let order = try await self.getBillingAgreementToken.execute()
         }
     }
 
     func checkoutWithVault() {
+        startCheckout {
+            let vaultSessionId = try await self.getApprovalSessionTokenUseCase.execute(accessToken: self.accessToken)
+        }
+    }
+
+    private func startCheckout(with checkoutAction: @escaping () async throws -> ()) {
+        state = .loading(content: "Configuring paypal checkout")
         Task {
             do {
-                let vaultSessionId = try await getApprovalSessionTokenUseCase.execute(accessToken: accessToken)
+                try await checkoutAction()
             } catch let error {
                 state = .mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true)
             }
@@ -95,5 +94,9 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
 
     func paypalDidCancel(_ payPalClient: PayPalClient) {
         state = .mainContent(title: "Cancelled", content: "User Cancelled", flowComplete: true)
+    }
+
+    func paypalDidStart(_ payPalClient: PayPalClient) {
+        state = .mainContent(title: "Starting", content: "PayPal is about to start", flowComplete: true)
     }
 }
