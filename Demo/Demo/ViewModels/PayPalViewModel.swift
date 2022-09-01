@@ -19,6 +19,7 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
     private var getOrderIdUseCase = GetOrderIdUseCase()
     private var getBillingAgreementToken = GetBillingAgreementToken()
     private var getApprovalSessionTokenUseCase = GetApprovalSessionId()
+    private var getOrderRequestUseCase = GetOrderRequestUseCase()
     private var payPalClient: PayPalClient?
 
     func getAccessToken() {
@@ -43,6 +44,10 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
     }
 
     func checkoutWithOrder() {
+        startCheckout {
+            _ = self.getOrderRequestUseCase.execute()
+            // call paypal client once feature for order request is added
+        }
     }
 
     func checkoutWithOrderId() {
@@ -55,14 +60,14 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
     func checkoutWithBillingAgreement() {
         startCheckout {
             _ = try await self.getBillingAgreementToken.execute()
-            //call paypal client once feature for billing agreement is added
+            // call paypal client once feature for billing agreement is added
         }
     }
 
     func checkoutWithVault() {
         startCheckout {
             _ = try await self.getApprovalSessionTokenUseCase.execute(accessToken: self.accessToken)
-            //call paypal client once feature for vault is added
+            // call paypal client once feature for vault is added
         }
     }
 
