@@ -10,19 +10,14 @@ import UIKit
 final class GetApprovalSessionId {
 
     func execute(accessToken: String) async throws -> String? {
-
         let vaultSessionId = try await DemoMerchantAPI.sharedService.createApprovalSessionId(
             accessToken: accessToken,
             approvalSessionRequest: GetApprovalSessionId.approvalSessionIDRequest
-            )
+        )
 
-        let approvalSessionIdLink = vaultSessionId.links.first {
-            $0.rel == "approve"
-        }
+        let approvalSessionIdLink = vaultSessionId.links.first { $0.rel == "approve" }
         if let hrefLink = approvalSessionIdLink?.href {
-            return URLComponents(string: hrefLink)?.queryItems?.first {
-                $0.name == "approval_session_id"
-            }?.value
+            return URLComponents(string: hrefLink)?.queryItems?.first { $0.name == "approval_session_id" }?.value
         }
         return nil
     }

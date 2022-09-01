@@ -56,6 +56,7 @@
 		BEDE304C275FA4A100D275FD /* SwiftUIPayPalDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDE304B275FA4A100D275FD /* SwiftUIPayPalDemo.swift */; };
 		CB34B32328BE3A9A001325B9 /* PayPalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB34B32228BE3A9A001325B9 /* PayPalViewModel.swift */; };
 		CB34B32628BE3F73001325B9 /* GetAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB34B32528BE3F73001325B9 /* GetAccessToken.swift */; };
+		CB4EFB2728C10292009FD2A8 /* GetOrderRequestUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4EFB2628C10292009FD2A8 /* GetOrderRequestUseCase.swift */; };
 		CB5C854428BF8E4000FFEF34 /* GetOrderIdUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5C854328BF8E4000FFEF34 /* GetOrderIdUseCase.swift */; };
 		CB5C854628BFA7E900FFEF34 /* GetBillingAgreementToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5C854528BFA7E900FFEF34 /* GetBillingAgreementToken.swift */; };
 		CB5C854828BFAA7A00FFEF34 /* GetApprovalSessionId.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5C854728BFAA7A00FFEF34 /* GetApprovalSessionId.swift */; };
@@ -144,6 +145,7 @@
 		BEDE304B275FA4A100D275FD /* SwiftUIPayPalDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIPayPalDemo.swift; sourceTree = "<group>"; };
 		CB34B32228BE3A9A001325B9 /* PayPalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalViewModel.swift; sourceTree = "<group>"; };
 		CB34B32528BE3F73001325B9 /* GetAccessToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAccessToken.swift; sourceTree = "<group>"; };
+		CB4EFB2628C10292009FD2A8 /* GetOrderRequestUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetOrderRequestUseCase.swift; sourceTree = "<group>"; };
 		CB5C854328BF8E4000FFEF34 /* GetOrderIdUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetOrderIdUseCase.swift; sourceTree = "<group>"; };
 		CB5C854528BFA7E900FFEF34 /* GetBillingAgreementToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetBillingAgreementToken.swift; sourceTree = "<group>"; };
 		CB5C854728BFAA7A00FFEF34 /* GetApprovalSessionId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetApprovalSessionId.swift; sourceTree = "<group>"; };
@@ -357,6 +359,7 @@
 				CB5C854328BF8E4000FFEF34 /* GetOrderIdUseCase.swift */,
 				CB5C854528BFA7E900FFEF34 /* GetBillingAgreementToken.swift */,
 				CB5C854728BFAA7A00FFEF34 /* GetApprovalSessionId.swift */,
+				CB4EFB2628C10292009FD2A8 /* GetOrderRequestUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -506,6 +509,7 @@
 				536A5CA62898A730005C053D /* NativeCheckoutDemoViewController.swift in Sources */,
 				536A5CA82898AA2A005C053D /* SwiftUINativeCheckoutDemo.swift in Sources */,
 				806F1E3B26B85367007A60E6 /* SceneDelegate.swift in Sources */,
+				CB4EFB2728C10292009FD2A8 /* GetOrderRequestUseCase.swift in Sources */,
 				BED042312710833F00C80954 /* CardType.swift in Sources */,
 				5301468C28918B4D00184F22 /* ApprovalResult.swift in Sources */,
 				BEDE304C275FA4A100D275FD /* SwiftUIPayPalDemo.swift in Sources */,

@@ -19,6 +19,7 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
     private var getOrderIdUseCase = GetOrderIdUseCase()
     private var getBillingAgreementToken = GetBillingAgreementToken()
     private var getApprovalSessionTokenUseCase = GetApprovalSessionId()
+    private var getOrderRequestUseCase = GetOrderRequestUseCase()
     private var payPalClient: PayPalClient?
 
     func getAccessToken() {
@@ -117,5 +118,9 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
 
     func paypalDidCancel(_ payPalClient: PayPalClient) {
         state = .mainContent(title: "Cancelled", content: "User Cancelled", flowComplete: true)
+    }
+
+    func paypalDidStart(_ payPalClient: PayPalClient) {
+        state = .mainContent(title: "Starting", content: "PayPal is about to start", flowComplete: true)
     }
 }

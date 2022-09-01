@@ -46,6 +46,7 @@ public class PayPalClient {
                 onError: nil,
                 environment: config.environment.toNativeCheckoutSDKEnvironment()
             )
+            delegate?.paypalDidStart(self)
             self.nativeCheckoutProvider.start(
                 presentingViewController: presentingViewController,
                 createOrder: { createOrderAction in
