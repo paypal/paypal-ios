@@ -8,33 +8,7 @@ import PayPalCheckout
 
 /// This class is used to share the orderID across shared views, update the text of `bottomStatusLabel` in our `FeatureBaseViewController`
 /// as well as share the logic of `processOrder` across our duplicate (SwiftUI and UIKit) card views.
-class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, PayPalDelegate {
-
-    // MARK: - PayPalDelegate conformance
-
-    func paypalDidShippingAddressChange(
-        _ payPalClient: PayPalClient,
-        shippingChange: ShippingChange,
-        shippingChangeAction: ShippingChangeAction
-    ) {
-        updateTitle("shipping address changed")
-    }
-
-    func paypal(_ payPalClient: PayPalClient, didFinishWithResult approvalResult: Approval) {
-        guard let orderId = orderID else {
-            updateTitle("native checkout result: \(approvalResult.data.intent.stringValue)")
-            return
-        }
-        updateTitle("order \(orderId): \(approvalResult.data.intent.stringValue)")
-    }
-
-    func paypal(_ payPalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
-        updateTitle("an error occurred: \(error.localizedDescription)")
-    }
-
-    func paypalDidCancel(_ payPalClient: PayPalClient) {
-        updateTitle("order is canceled")
-    }
+class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
 
     private static var returnUrl: String {
         if let identifier = Bundle.main.bundleIdentifier {
@@ -152,16 +126,6 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
         cardClient.delegate = self
         let cardRequest = CardRequest(orderID: orderID, card: card, threeDSecureRequest: createThreeDSecureRequest())
         cardClient.approveOrder(request: cardRequest, context: context)
-    }
-
-    func checkoutWithNativeClient() async throws {
-        guard let orderID = self.orderID else {
-            updateTitle("create order first!!")
-            return
-        }
-        let nativeCheckoutClient = try await getNativeCheckoutClient()
-        nativeCheckoutClient.delegate = self
-        await nativeCheckoutClient.start(orderID: orderID, delegate: self)
     }
 
     func isCardFormValid(cardNumber: String, expirationDate: String, cvv: String) -> Bool {

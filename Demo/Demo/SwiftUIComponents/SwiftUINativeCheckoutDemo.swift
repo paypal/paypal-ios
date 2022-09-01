@@ -32,7 +32,6 @@ struct SwiftUINativeCheckoutDemo: View {
             checkoutView(title, content)
         case .error(let message):
             errorView(message)
-        }
     }
 
     func checkoutView(_ title: String, _ content: String) -> some View {

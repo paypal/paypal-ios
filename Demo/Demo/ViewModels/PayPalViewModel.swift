@@ -7,14 +7,34 @@
 
 import UIKit
 import PayPalNativeCheckout
+import PayPalCheckout
 import PaymentsCore
 
-class PayPalViewModel: ObservableObject {
+class PayPalViewModel: ObservableObject, PayPalDelegate {
+
+    // MARK: - PayPalDelegate conformance
+
+    func paypalDidShippingAddressChange(
+        _ payPalClient: PayPalClient,
+        shippingChange: ShippingChange,
+        shippingChangeAction: ShippingChangeAction
+    ) {
+    }
+
+    func paypal(_ payPalClient: PayPalClient, didFinishWithResult approvalResult: Approval) {
+    }
+
+    func paypal(_ payPalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
+    }
+
+    func paypalDidCancel(_ payPalClient: PayPalClient) {
+    }
 
     enum State {
         case initial
         case loading(content: String)
         case payPalReady(title: String, content: String)
+        case checkoutWithOrderId(title: String)
         case error(String)
     }
 
@@ -53,6 +73,7 @@ class PayPalViewModel: ObservableObject {
                 state = .error(error.localizedDescription)
             }
         }
+        state = .checkoutWithOrderId(title: "Check out With OrderID")
     }
 
     func checkoutWithBillingAgreement() {
