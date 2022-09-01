@@ -6,7 +6,7 @@ class NativeCheckoutDemoViewController: FeatureBaseViewController {
     let viewModel: PayPalViewModel = PayPalViewModel()
 
     init(){
-        super.init(baseViewModel: viewModel)
+        super.init(baseViewModel: BaseViewModel())
     }
     
     required init?(coder: NSCoder) {

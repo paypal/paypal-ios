@@ -4,7 +4,7 @@ import PayPalUI
 
 struct SwiftUINativeCheckoutDemo: View {
 
-    enum CheckoutType: String, CaseIterable, Identifiable  {
+    enum CheckoutType: String, CaseIterable, Identifiable {
         case order = "Order"
         case orderId = "Order ID"
         case billingAgreement = "Billing Agreement"
@@ -15,23 +15,20 @@ struct SwiftUINativeCheckoutDemo: View {
 
     @StateObject var viewModel = PayPalViewModel()
 
-    @State var isCheckoutViewActive = false
-
-    @State var accessToken = ""
-
     @State var checkoutTypeSelection = CheckoutType.order
 
 
     var body: some View {
         switch viewModel.state {
         case .initial:
-            getAccessTokenView
+            getAccessTokenView()
         case .loading(let content):
             loadingView(content)
         case let .payPalReady(title, content):
             checkoutView(title, content)
         case .error(let message):
             errorView(message)
+        }
     }
 
     func checkoutView(_ title: String, _ content: String) -> some View {
@@ -59,7 +56,7 @@ struct SwiftUINativeCheckoutDemo: View {
         }
     }
 
-    var getAccessTokenView: some View {
+    func getAccessTokenView() -> some View {
         NavigationView {
             VStack(spacing: 16) {
                 Button("Get Access Token") {
@@ -88,7 +85,7 @@ struct SwiftUINativeCheckoutDemo: View {
         }
     }
 
-    private func startNativeCheckout() {
+    func startNativeCheckout() {
         switch checkoutTypeSelection {
         case .order:
             viewModel.checkoutWithOrder()

@@ -1,10 +1,3 @@
-//
-//  GetAccessToken.swift
-//  Demo
-//
-//  Created by Jose Noriega on 30/08/2022.
-//
-
 import UIKit
 
 final class GetAccessToken {
