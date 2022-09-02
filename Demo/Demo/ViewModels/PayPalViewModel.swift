@@ -55,7 +55,9 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
     func checkoutWithOrderId() {
         startNativeCheckout {
             let orderId = try await self.getOrderIdUseCase.execute()
-            await self.payPalClient?.start(orderID: orderId)
+            await self.payPalClient?.start { createOrderAction in
+                createOrderAction.set(orderId: orderId)
+            }
         }
     }
 
