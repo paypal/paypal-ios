@@ -26,7 +26,7 @@ final class DemoMerchantAPI {
     }
 
     /// This function replicates a way a merchant may go about creating an order on their server and is not part of the SDK flow.
-    /// - Parameter order: order in json format
+    /// - Parameter order: order JSON in String format
     /// - Returns: an order
     /// - Throws: an error explaining why create order failed
     func createOrder(order: String) async throws -> Order {
