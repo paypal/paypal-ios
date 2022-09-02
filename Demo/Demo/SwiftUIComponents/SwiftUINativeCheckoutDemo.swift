@@ -88,17 +88,15 @@ struct SwiftUINativeCheckoutDemo: View {
     }
 
     func startNativeCheckout() {
-        Task {
-            switch checkoutTypeSelection {
-            case .order:
-                await viewModel.checkoutWithOrder()
-            case .orderId:
-                await viewModel.checkoutWithOrderId()
-            case .billingAgreement:
-                await viewModel.checkoutWithBillingAgreement()
-            case .vault:
-                await viewModel.checkoutWithVault()
-            }
+        switch checkoutTypeSelection {
+        case .order:
+            viewModel.checkoutWithOrder()
+        case .orderId:
+            viewModel.checkoutWithOrderId()
+        case .billingAgreement:
+            viewModel.checkoutWithBillingAgreement()
+        case .vault:
+            viewModel.checkoutWithVault()
         }
     }
 }

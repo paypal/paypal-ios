@@ -43,7 +43,7 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
         state = .initial
     }
 
-    func checkoutWithOrder() async {
+    func checkoutWithOrder() {
         startNativeCheckout {
             let orderRequest = self.getOrderRequestUseCase.execute()
             await self.payPalClient?.start { createOrderAction in
@@ -59,7 +59,7 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
         }
     }
 
-    func checkoutWithBillingAgreement() async {
+    func checkoutWithBillingAgreement() {
         startNativeCheckout {
             let order = try await self.getBillingAgreementToken.execute()
             await self.payPalClient?.start { createOrderAction in
@@ -68,7 +68,7 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
         }
     }
 
-    func checkoutWithVault() async {
+    func checkoutWithVault() {
         startNativeCheckout {
             guard let vaultSessionId = try await self.getApprovalSessionTokenUseCase.execute(accessToken: self.accessToken) else {
                 self.state = .mainContent(
