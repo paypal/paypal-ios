@@ -17,6 +17,10 @@ struct SwiftUINativeCheckoutDemo: View {
 
     @State var checkoutTypeSelection = CheckoutType.order
 
+    init() {
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
+        UITableView.appearance().tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
+    }
 
     var body: some View {
         switch viewModel.state {
@@ -33,29 +37,45 @@ struct SwiftUINativeCheckoutDemo: View {
         NavigationView {
             ZStack {
                 VStack(spacing: 16) {
-                    Picker("Checkout ", selection: $checkoutTypeSelection) {
-                        ForEach(CheckoutType.allCases) {type in
-                            Text(type.rawValue)
-                        }
+                    VStack {
+                        Form {
+                            Picker("Checkout ", selection: $checkoutTypeSelection) {
+                                ForEach(CheckoutType.allCases) {type in
+                                    Text(type.rawValue)
+                                }
+                            }
+                        }.navigationBarTitle("", displayMode: .inline)
+                    }.frame(height: 75)
+                    VStack {
+                        Text(title)
+                            .font(.system(size: 24))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding([.leading, .bottom], 16)
+                        Text(content)
+                            .font(.system(size: 16))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding([.leading, .bottom], 16)
                     }
-                    Text(title)
-                    Text(content)
-                    Button(isFlowComplete ? "Try Again" : "Start Checkout" ) {
-                        if isFlowComplete {
-                            viewModel.retry()
-                        } else {
-                            startNativeCheckout()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                    VStack {
+                        Button(isFlowComplete ? "Try Again" : "Start Checkout" ) {
+                            if isFlowComplete {
+                                viewModel.retry()
+                            } else {
+                                startNativeCheckout()
+                            }
                         }
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(.blue)
+                        .cornerRadius(10)
+                        .padding(.horizontal, 16)
                     }
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(.blue)
-                    .cornerRadius(10)
-                    .padding(.horizontal, 16)
-                }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                }.frame(maxHeight: .infinity)
             }
-        }
+        }.navigationBarHidden(true)
     }
 
     func getAccessTokenView() -> some View {

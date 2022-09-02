@@ -12,7 +12,6 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
     }
 
     @Published private(set) var state = State.initial
-
     private var accessToken = ""
 
     private var getAccessTokenUseCase = GetAccessToken()
@@ -108,7 +107,11 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
     }
 
     func paypal(_ payPalClient: PayPalClient, didFinishWithResult approvalResult: Approval) {
-        state = .mainContent(title: "Complete", content: "OrderId: \(approvalResult.data.ecToken)", flowComplete: true)
+        state = .mainContent(
+            title: "Approved",
+            content: "OrderId: \(approvalResult.data.ecToken)\nPayerId: \(approvalResult.data.payerID)",
+            flowComplete: true
+        )
     }
 
     func paypal(_ payPalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
