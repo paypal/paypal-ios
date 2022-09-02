@@ -1,11 +1,11 @@
 import UIKit
 
-final class GetBATokenWithoutPurchase {
+final class GetBillingAgreementTokenWithoutPurchase {
 
     func execute(accessToken: String) async throws -> String {
-        let baToken = try await DemoMerchantAPI.sharedService.createBAToken(
+        let baToken = try await DemoMerchantAPI.sharedService.createBillingAgreementToken(
             accessToken: accessToken,
-            baTokenRequest: GetBATokenWithoutPurchase.baTokenRequest
+            billingAgremeentTokenRequest: GetBillingAgreementTokenWithoutPurchase.baTokenRequest
         )
         return baToken.tokenID
     }

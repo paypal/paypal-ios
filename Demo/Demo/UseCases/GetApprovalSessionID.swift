@@ -1,22 +1,15 @@
-//
-//  GetApprovalSessionId.swift
-//  Demo
-//
-//  Created by Jose Noriega on 31/08/2022.
-//
-
 import UIKit
 
-final class GetApprovalSessionId {
+final class GetApprovalSessionID {
 
     func execute(accessToken: String) async throws -> String? {
-        let vaultSessionId = try await DemoMerchantAPI.sharedService.createApprovalSessionId(
+        let vaultSessionID = try await DemoMerchantAPI.sharedService.createApprovalSessionID(
             accessToken: accessToken,
-            approvalSessionRequest: GetApprovalSessionId.approvalSessionIDRequest
+            approvalSessionRequest: GetApprovalSessionID.approvalSessionIDRequest
         )
 
-        let approvalSessionIdLink = vaultSessionId.links.first { $0.rel == "approve" }
-        if let hrefLink = approvalSessionIdLink?.href {
+        let approvalSessionIDLink = vaultSessionID.links.first { $0.rel == "approve" }
+        if let hrefLink = approvalSessionIDLink?.href {
             return URLComponents(string: hrefLink)?.queryItems?.first { $0.name == "approval_session_id" }?.value
         }
         return nil

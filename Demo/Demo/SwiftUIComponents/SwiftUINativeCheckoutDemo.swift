@@ -6,7 +6,7 @@ struct SwiftUINativeCheckoutDemo: View {
 
     enum CheckoutType: String, CaseIterable, Identifiable {
         case order = "Order"
-        case orderId = "Order ID"
+        case orderID = "Order ID"
         case billingAgreement = "Billing Agreement"
         case baWithoutPurchase = "Billing Agreement without purchase"
         case vault = "Vault"
@@ -92,8 +92,8 @@ struct SwiftUINativeCheckoutDemo: View {
         switch checkoutTypeSelection {
         case .order:
             viewModel.checkoutWithOrder()
-        case .orderId:
-            viewModel.checkoutWithOrderId()
+        case .orderID:
+            viewModel.checkoutWithOrderID()
         case .billingAgreement:
             viewModel.checkoutWithBillingAgreement()
         case .baWithoutPurchase:

@@ -1,9 +1,9 @@
 import UIKit
 
-final class GetOrderIdUseCase {
+final class GetOrderIDUseCase {
 
     func execute() async throws -> String {
-        let order = try await DemoMerchantAPI.sharedService.createOrder(order: GetOrderIdUseCase.orderWithFixedShipping)
+        let order = try await DemoMerchantAPI.sharedService.createOrder(order: GetOrderIDUseCase.orderWithFixedShipping)
         return order.id
     }
 

@@ -15,6 +15,7 @@ final class DemoMerchantAPI {
         guard let url = buildBaseURL(with: "/orders") else {
             throw URLResponseError.invalidURL
         }
+
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         let encoder = JSONEncoder()
@@ -33,6 +34,7 @@ final class DemoMerchantAPI {
         guard let url = buildBaseURL(with: "/orders") else {
             throw URLResponseError.invalidURL
         }
+
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         urlRequest.httpBody = Data(order.utf8)
@@ -45,6 +47,7 @@ final class DemoMerchantAPI {
         guard let url = buildPayPalURL(with: "/v2/vault/payment-tokens") else {
             throw URLResponseError.invalidURL
         }
+
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         urlRequest.httpBody = Data(approvalSessionRequest.utf8)
@@ -54,13 +57,14 @@ final class DemoMerchantAPI {
         return try parse(from: data)
     }
 
-    func createBAToken(accessToken: String, baTokenRequest: String) async throws -> BAToken {
+    func createBillingAgreementToken(accessToken: String, billingAgremeentTokenRequest: String) async throws -> BillingAgreementToken {
         guard let url = buildPayPalURL(with: "/v1/billing-agreements/agreement-tokens") else {
             throw URLResponseError.invalidURL
         }
+
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
-        urlRequest.httpBody = Data(baTokenRequest.utf8)
+        urlRequest.httpBody = Data(billingAgremeentTokenRequest.utf8)
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         let data = try await data(for: urlRequest)
@@ -76,6 +80,7 @@ final class DemoMerchantAPI {
         guard let url = buildBaseURL(with: "/\(processOrderParams.intent)-order") else {
             throw URLResponseError.invalidURL
         }
+
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
