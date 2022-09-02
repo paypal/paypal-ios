@@ -8,6 +8,7 @@ struct SwiftUINativeCheckoutDemo: View {
         case order = "Order"
         case orderId = "Order ID"
         case billingAgreement = "Billing Agreement"
+        case baWithoutPurchase = "Billing Agreement without purchase"
         case vault = "Vault"
 
         var id: CheckoutType { self }
@@ -95,6 +96,8 @@ struct SwiftUINativeCheckoutDemo: View {
             viewModel.checkoutWithOrderId()
         case .billingAgreement:
             viewModel.checkoutWithBillingAgreement()
+        case .baWithoutPurchase:
+            viewModel.checkoutBAWithoutPurchase()
         case .vault:
             viewModel.checkoutWithVault()
         }
