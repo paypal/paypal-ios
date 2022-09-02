@@ -17,6 +17,7 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
     private var getAccessTokenUseCase = GetAccessToken()
     private var getOrderIdUseCase = GetOrderIdUseCase()
     private var getBillingAgreementToken = GetBillingAgreementToken()
+    private var getBATokenWithoutPurchaseUseCase = GetBATokenWithoutPurchase()
     private var getApprovalSessionTokenUseCase = GetApprovalSessionId()
     private var getOrderRequestUseCase = GetOrderRequestUseCase()
     private var payPalClient: PayPalClient?
@@ -65,6 +66,15 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
             let order = try await self.getBillingAgreementToken.execute()
             await self.payPalClient?.start { createOrderAction in
                 createOrderAction.set(billingAgreementToken: order.id)
+            }
+        }
+    }
+
+    func checkoutBAWithoutPurchase() {
+        startNativeCheckout {
+            let baToken = try await self.getBATokenWithoutPurchaseUseCase.execute(accessToken: self.accessToken)
+            await self.payPalClient?.start { createOrderAction in
+                createOrderAction.set(billingAgreementToken: baToken)
             }
         }
     }

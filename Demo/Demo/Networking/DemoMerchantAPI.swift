@@ -54,6 +54,19 @@ final class DemoMerchantAPI {
         return try parse(from: data)
     }
 
+    func createBAToken(accessToken: String, baTokenRequest: String) async throws -> BAToken {
+        guard let url = buildPayPalURL(with: "/v1/billing-agreements/agreement-tokens") else {
+            throw URLResponseError.invalidURL
+        }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        urlRequest.httpBody = Data(baTokenRequest.utf8)
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        let data = try await data(for: urlRequest)
+        return try parse(from: data)
+    }
+
     /// This function replicates a way a merchant may go about authorizing/capturing an order on their server and is not part of the SDK flow.
     /// - Parameters:
     ///   - processOrderParams: the parameters to process the order with
