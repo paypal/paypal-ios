@@ -1,6 +1,6 @@
 import UIKit
 
-struct VaultSessionId: Codable {
+struct VaultSessionID: Codable {
 
     let status: String?
     let links: [LinkResponse]
