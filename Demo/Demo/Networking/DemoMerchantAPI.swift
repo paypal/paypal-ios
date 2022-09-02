@@ -41,7 +41,7 @@ final class DemoMerchantAPI {
         return try parse(from: data)
     }
 
-    func createApprovalSessionId(accessToken: String, approvalSessionRequest: String) async throws -> VaultSessionId {
+    func createApprovalSessionID(accessToken: String, approvalSessionRequest: String) async throws -> VaultSessionID {
         guard let url = buildPayPalURL(with: "/v2/vault/payment-tokens") else {
             throw URLResponseError.invalidURL
         }
