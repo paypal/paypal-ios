@@ -85,7 +85,7 @@ final class GetOrderRequestUseCase {
         let pick1 = ShippingMethod(
             id: "PickTest1",
             label: "please pick it up from store",
-            selected: true,
+            selected: false,
             type: .pickup,
             amount: UnitAmount(currencyCode: currency, value: "0")
         )
@@ -103,6 +103,6 @@ final class GetOrderRequestUseCase {
             type: .pickup,
             amount: UnitAmount(currencyCode: currency, value: "0")
         )
-        return [ship2, ship3, ship1, pick1, pick2, pick3]
+        return [ship1, ship2, ship3, pick1, pick2, pick3]
     }
 }
