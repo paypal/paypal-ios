@@ -33,16 +33,6 @@ public class PayPalClient {
     /// Present PayPal Paysheet and start a PayPal transaction
     /// - Parameters:
     ///   - presentingViewController: the ViewController to present PayPalPaysheet on, if not provided, the Paysheet will be presented on your top-most ViewController
-    ///   - orderID: order id to approve
-    public func start(presentingViewController: UIViewController? = nil, orderID: String) async {
-        await start(presentingViewController: presentingViewController) { createOrderAction in
-            createOrderAction.set(orderId: orderID)
-        }
-    }
-
-    /// Present PayPal Paysheet and start a PayPal transaction
-    /// - Parameters:
-    ///   - presentingViewController: the ViewController to present PayPalPaysheet on, if not provided, the Paysheet will be presented on your top-most ViewController
     ///   - createOrder: action to perform when an order has been created
     public func start(
         presentingViewController: UIViewController? = nil,

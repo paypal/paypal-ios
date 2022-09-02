@@ -59,11 +59,9 @@ class PayPalClient_Tests: XCTestCase {
         let delegate = MockPayPalDelegate()
         payPalClient.delegate = delegate
 
-        let orderID = "orderID"
-
         let mockPaypalDelegate = MockPayPalDelegate()
         payPalClient.delegate = mockPaypalDelegate
-        await payPalClient.start(orderID: orderID)
+        await payPalClient.start { _ in }
         mockNativeCheckoutProvider.triggerCancel()
         XCTAssert(mockPaypalDelegate.paypalDidCancel)
     }
@@ -71,10 +69,9 @@ class PayPalClient_Tests: XCTestCase {
     func testStart_whenNativeSDKOnCancelCalled_returnsCancellation() async {
         let delegate = MockPayPalDelegate()
         payPalClient.delegate = delegate
-        let orderID = "orderID"
         let mockPaypalDelegate = MockPayPalDelegate()
         payPalClient.delegate = mockPaypalDelegate
-        await payPalClient.start(orderID: orderID)
+        await payPalClient.start { _ in }
         mockNativeCheckoutProvider.triggerCancel()
         XCTAssert(mockPaypalDelegate.paypalDidCancel)
     }
@@ -84,10 +81,9 @@ class PayPalClient_Tests: XCTestCase {
 
         let delegate = MockPayPalDelegate()
         payPalClient.delegate = delegate
-        let orderID = "orderID"
         let mockPaypalDelegate = MockPayPalDelegate()
         payPalClient.delegate = mockPaypalDelegate
-        await payPalClient.start(orderID: orderID)
+        await payPalClient.start { _ in }
         mockNativeCheckoutProvider.triggerCancel()
         XCTAssert(mockPaypalDelegate.paypalDidCancel)
     }
