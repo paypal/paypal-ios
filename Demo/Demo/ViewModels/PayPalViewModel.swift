@@ -147,6 +147,7 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
         shippingChange: ShippingChange,
         shippingChangeAction: ShippingChangeAction
     ) {
+        //TODO: add required functionality while doing patch or updating order
     }
 
     func paypal(_ payPalClient: PayPalClient, didFinishWithResult approvalResult: Approval) {
