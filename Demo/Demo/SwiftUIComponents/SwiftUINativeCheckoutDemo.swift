@@ -18,11 +18,6 @@ struct SwiftUINativeCheckoutDemo: View {
 
     @State var checkoutTypeSelection = CheckoutType.order
 
-    init() {
-        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
-        UITableView.appearance().tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
-    }
-
     var body: some View {
         switch viewModel.state {
         case .initial:
@@ -35,48 +30,50 @@ struct SwiftUINativeCheckoutDemo: View {
     }
 
     func checkoutView(_ title: String, _ content: String, _ isFlowComplete: Bool) -> some View {
-        NavigationView {
-            ZStack {
-                VStack(spacing: 16) {
-                    VStack {
-                        Form {
-                            Picker("Checkout ", selection: $checkoutTypeSelection) {
-                                ForEach(CheckoutType.allCases) {type in
-                                    Text(type.rawValue)
-                                }
-                            }
-                        }.navigationBarTitle("", displayMode: .inline)
-                    }.frame(height: 75)
-                    VStack {
-                        Text(title)
-                            .font(.system(size: 24))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding([.leading, .bottom], 16)
-                        Text(content)
-                            .font(.system(size: 16))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding([.leading, .bottom], 16)
+        VStack(spacing: 16) {
+            HStack {
+                Text("Checkout:")
+                    .font(.system(size: 18))
+                    .frame(alignment: .leading)
+                    .padding([.leading], 16)
+                    .padding([.trailing], 32)
+                Picker("", selection: $checkoutTypeSelection) {
+                    ForEach(CheckoutType.allCases) { type in
+                        Text(type.rawValue)
                     }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-                    VStack {
-                        Button(isFlowComplete ? "Try Again" : "Start Checkout" ) {
-                            if isFlowComplete {
-                                viewModel.retry()
-                            } else {
-                                startNativeCheckout()
-                            }
-                        }
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(.blue)
-                        .cornerRadius(10)
-                        .padding(.horizontal, 16)
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-                }.frame(maxHeight: .infinity)
+                }.frame(maxWidth: .infinity, alignment: .leading)
             }
-        }.navigationBarHidden(true)
+            Divider()
+            VStack {
+                Text(title)
+                    .font(.system(size: 24))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding([.leading, .bottom], 16)
+                Text(content)
+                    .font(.system(size: 16))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding([.leading, .trailing, .bottom], 16)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            VStack {
+                Button(isFlowComplete ? "Try Again" : "Start Checkout" ) {
+                    if isFlowComplete {
+                        viewModel.retry()
+                    } else {
+                        startNativeCheckout()
+                    }
+                }
+                .foregroundColor(.white)
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(.blue)
+                .cornerRadius(10)
+                .padding(.horizontal, 16)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+        }
+        .frame(maxHeight: .infinity)
+        .padding([.top], 32)
     }
 
     func getAccessTokenView() -> some View {
