@@ -63,7 +63,6 @@
 		CB5C854628BFA7E900FFEF34 /* GetBillingAgreementToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5C854528BFA7E900FFEF34 /* GetBillingAgreementToken.swift */; };
 		CB5C854828BFAA7A00FFEF34 /* GetApprovalSessionID.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5C854728BFAA7A00FFEF34 /* GetApprovalSessionID.swift */; };
 		CB5C854A28BFB78A00FFEF34 /* VaultSessionID.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5C854928BFB78A00FFEF34 /* VaultSessionID.swift */; };
-		CB5C854C28BFB7C600FFEF34 /* LinkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5C854B28BFB7C600FFEF34 /* LinkResponse.swift */; };
 		CB9ED44A283E59090081F4DE /* PaymentButtonCustomizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9ED449283E59090081F4DE /* PaymentButtonCustomizationViewController.swift */; };
 		CB9ED44C283FDA900081F4DE /* PaymentButtonEnums+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9ED44B283FDA900081F4DE /* PaymentButtonEnums+Extension.swift */; };
 		CB9ED44E28411B120081F4DE /* SwiftUIPaymentButtonDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9ED44D28411B110081F4DE /* SwiftUIPaymentButtonDemo.swift */; };
@@ -157,7 +156,6 @@
 		CB5C854528BFA7E900FFEF34 /* GetBillingAgreementToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetBillingAgreementToken.swift; sourceTree = "<group>"; };
 		CB5C854728BFAA7A00FFEF34 /* GetApprovalSessionID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetApprovalSessionID.swift; sourceTree = "<group>"; };
 		CB5C854928BFB78A00FFEF34 /* VaultSessionID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultSessionID.swift; sourceTree = "<group>"; };
-		CB5C854B28BFB7C600FFEF34 /* LinkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkResponse.swift; sourceTree = "<group>"; };
 		CB9ED449283E59090081F4DE /* PaymentButtonCustomizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentButtonCustomizationViewController.swift; sourceTree = "<group>"; };
 		CB9ED44B283FDA900081F4DE /* PaymentButtonEnums+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PaymentButtonEnums+Extension.swift"; sourceTree = "<group>"; };
 		CB9ED44D28411B110081F4DE /* SwiftUIPaymentButtonDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIPaymentButtonDemo.swift; sourceTree = "<group>"; };
@@ -268,7 +266,6 @@
 				53DBDAA62885D86F00E0ABA1 /* AccessTokenRequest.swift */,
 				5301468B28918B4D00184F22 /* ApprovalResult.swift */,
 				CB5C854928BFB78A00FFEF34 /* VaultSessionID.swift */,
-				CB5C854B28BFB7C600FFEF34 /* LinkResponse.swift */,
 				CB4EFB3028C252C9009FD2A8 /* BillingAgreementToken.swift */,
 				CBD6004028C8C78700C3EFF6 /* BillingAgreementWithoutPurchaseRequest.swift */,
 				CBD6004228C8D16700C3EFF6 /* ApplicationContext.swift */,
@@ -519,7 +516,6 @@
 				CB34B32628BE3F73001325B9 /* GetAccessToken.swift in Sources */,
 				BECD84A227036DDB007CCAE4 /* Intent.swift in Sources */,
 				BED041AF270CA0FB00C80954 /* CustomButton.swift in Sources */,
-				CB5C854C28BFB7C600FFEF34 /* LinkResponse.swift in Sources */,
 				BE1766B326F911A2007EF438 /* URLResponseError.swift in Sources */,
 				BE9F36D82745490400AFC7DA /* FloatingLabelTextField.swift in Sources */,
 				BE9F36E7275548A600AFC7DA /* BaseViewModel.swift in Sources */,
