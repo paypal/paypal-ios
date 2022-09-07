@@ -15,8 +15,3 @@ struct Amount: Codable {
     let currencyCode: String
     let value: String
 }
-
-struct ApplicationContext: Codable {
-    let returnUrl: String
-    let cancelUrl: String
-}

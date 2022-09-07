@@ -43,28 +43,35 @@ final class DemoMerchantAPI {
         return try parse(from: data)
     }
 
-    func createApprovalSessionID(accessToken: String, approvalSessionRequest: String) async throws -> VaultSessionID {
+    func createApprovalSessionID(accessToken: String, approvalSessionRequest: ApprovalSessionRequest) async throws -> VaultSessionID {
         guard let url = buildPayPalURL(with: "/v2/vault/payment-tokens") else {
             throw URLResponseError.invalidURL
         }
 
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
-        urlRequest.httpBody = Data(approvalSessionRequest.utf8)
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+        urlRequest.httpBody = try? encoder.encode(approvalSessionRequest)
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         let data = try await data(for: urlRequest)
         return try parse(from: data)
     }
 
-    func createBillingAgreementToken(accessToken: String, billingAgremeentTokenRequest: String) async throws -> BillingAgreementToken {
+    func createBillingAgreementToken(
+        accessToken: String,
+        billingAgremeentTokenRequest: BillingAgreementWithoutPurchaseRequest
+    ) async throws -> BillingAgreementToken {
         guard let url = buildPayPalURL(with: "/v1/billing-agreements/agreement-tokens") else {
             throw URLResponseError.invalidURL
         }
 
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
-        urlRequest.httpBody = Data(billingAgremeentTokenRequest.utf8)
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+        urlRequest.httpBody = try? encoder.encode(billingAgremeentTokenRequest)
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         let data = try await data(for: urlRequest)

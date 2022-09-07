@@ -5,7 +5,7 @@ final class GetApprovalSessionID {
     func execute(accessToken: String) async throws -> String? {
         let vaultSessionID = try await DemoMerchantAPI.sharedService.createApprovalSessionID(
             accessToken: accessToken,
-            approvalSessionRequest: GetApprovalSessionID.approvalSessionIDRequest
+            approvalSessionRequest: request
         )
 
         let approvalSessionIDLink = vaultSessionID.links.first { $0.rel == "approve" }
@@ -15,24 +15,22 @@ final class GetApprovalSessionID {
         return nil
     }
 
-    private static let approvalSessionIDRequest = """
-        {
-            "customer_id": "abcd1234",
-            "source": {
-                "paypal": {
-                    "usage_type": "MERCHANT",
-                    "customer_type": "CONSUMER"
-                }
-            },
-            "application_context": {
-                "locale": "en-US",
-                "return_url": "https://example.com",
-                "cancel_url": "https://example.com",
-                "payment_method_preference": {
-                    "payee_preferred": "IMMEDIATE_PAYMENT_REQUIRED",
-                    "payer_selected": "PAYPAL"
-                }
-            }
-        }
-        """
+    private let request = ApprovalSessionRequest(
+        customerId: "abcd1234",
+        source: Source(
+            paypal: PayPalSource(
+                usageType: "MERCHANT",
+                customerType: "CONSUMER"
+            )
+        ),
+        applicationContext: ApplicationContext(
+            returnUrl: "https://example.com",
+            cancelUrl: "https://example.com",
+            locale: "en-US",
+            paymentMethodPreference: PaymentMethodPreference(
+                payePreferred: "IMMEDIATE_PAYMENT_REQUIRED",
+                payerSelected: "PAYPAL"
+            )
+        )
+    )
 }
