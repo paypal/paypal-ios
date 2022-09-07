@@ -5,6 +5,9 @@ struct ApplicationContext: Codable {
     var locale: String?
     var paymentMethodPreference: PaymentMethodPreference?
     var shippingPreference: String?
+    var userAction: String?
+    var landingPage: String?
+    var brandName: String?
 }
 
 struct PaymentMethodPreference: Codable {
