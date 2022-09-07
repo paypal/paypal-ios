@@ -15,6 +15,7 @@ final class DemoMerchantAPI {
         guard let url = buildBaseURL(with: "/orders") else {
             throw URLResponseError.invalidURL
         }
+
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         let encoder = JSONEncoder()
@@ -26,13 +27,14 @@ final class DemoMerchantAPI {
     }
 
     /// This function replicates a way a merchant may go about creating an order on their server and is not part of the SDK flow.
-    /// - Parameter order: order in json format
+    /// - Parameter order: order JSON in String format
     /// - Returns: an order
     /// - Throws: an error explaining why create order failed
     func createOrder(order: String) async throws -> Order {
         guard let url = buildBaseURL(with: "/orders") else {
             throw URLResponseError.invalidURL
         }
+
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         urlRequest.httpBody = Data(order.utf8)
@@ -41,26 +43,36 @@ final class DemoMerchantAPI {
         return try parse(from: data)
     }
 
-    func createApprovalSessionId(accessToken: String, approvalSessionRequest: String) async throws -> VaultSessionId {
+    
+    func createApprovalSessionID(accessToken: String, approvalSessionRequest: ApprovalSessionRequest) async throws -> VaultSessionID {
         guard let url = buildPayPalURL(with: "/v2/vault/payment-tokens") else {
             throw URLResponseError.invalidURL
         }
+
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
-        urlRequest.httpBody = Data(approvalSessionRequest.utf8)
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+        urlRequest.httpBody = try? encoder.encode(approvalSessionRequest)
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         let data = try await data(for: urlRequest)
         return try parse(from: data)
     }
 
-    func createBAToken(accessToken: String, baTokenRequest: String) async throws -> BAToken {
+    func createBillingAgreementToken(
+        accessToken: String,
+        billingAgremeentTokenRequest: BillingAgreementWithoutPurchaseRequest
+    ) async throws -> BillingAgreementToken {
         guard let url = buildPayPalURL(with: "/v1/billing-agreements/agreement-tokens") else {
             throw URLResponseError.invalidURL
         }
+
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
-        urlRequest.httpBody = Data(baTokenRequest.utf8)
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+        urlRequest.httpBody = try? encoder.encode(billingAgremeentTokenRequest)
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         let data = try await data(for: urlRequest)
@@ -76,6 +88,7 @@ final class DemoMerchantAPI {
         guard let url = buildBaseURL(with: "/\(processOrderParams.intent)-order") else {
             throw URLResponseError.invalidURL
         }
+
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")

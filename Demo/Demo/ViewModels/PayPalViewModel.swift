@@ -15,10 +15,10 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
     private var accessToken = ""
 
     private var getAccessTokenUseCase = GetAccessToken()
-    private var getOrderIdUseCase = GetOrderIdUseCase()
+    private var getOrderIdUseCase = GetOrderIDUseCase()
     private var getBillingAgreementToken = GetBillingAgreementToken()
-    private var getBATokenWithoutPurchaseUseCase = GetBATokenWithoutPurchase()
-    private var getApprovalSessionTokenUseCase = GetApprovalSessionId()
+    private var getBATokenWithoutPurchaseUseCase = GetBillingAgreementTokenWithoutPurchase()
+    private var getApprovalSessionTokenUseCase = GetApprovalSessionID()
     private var getOrderRequestUseCase = GetOrderRequestUseCase()
     private var payPalClient: PayPalClient?
 
@@ -52,11 +52,11 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
         }
     }
 
-    func checkoutWithOrderId() {
+    func checkoutWithOrderID() {
         startNativeCheckout {
-            let orderId = try await self.getOrderIdUseCase.execute()
+            let orderID = try await self.getOrderIdUseCase.execute()
             await self.payPalClient?.start { createOrderAction in
-                createOrderAction.set(orderId: orderId)
+                createOrderAction.set(orderId: orderID)
             }
         }
     }
@@ -72,16 +72,16 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
 
     func checkoutBAWithoutPurchase() {
         startNativeCheckout {
-            let baToken = try await self.getBATokenWithoutPurchaseUseCase.execute(accessToken: self.accessToken)
+            let billingAgreementToken = try await self.getBATokenWithoutPurchaseUseCase.execute(accessToken: self.accessToken)
             await self.payPalClient?.start { createOrderAction in
-                createOrderAction.set(billingAgreementToken: baToken)
+                createOrderAction.set(billingAgreementToken: billingAgreementToken)
             }
         }
     }
 
     func checkoutWithVault() {
         startNativeCheckout {
-            guard let vaultSessionId = try await self.getApprovalSessionTokenUseCase.execute(accessToken: self.accessToken) else {
+            guard let vaultSessionID = try await self.getApprovalSessionTokenUseCase.execute(accessToken: self.accessToken) else {
                 self.state = .mainContent(
                     title: "Error",
                     content: "Error in creating vault session!!",
@@ -91,7 +91,7 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
                 return
             }
             await self.payPalClient?.start { createOrderAction in
-                createOrderAction.set(vaultApprovalSessionID: vaultSessionId)
+                createOrderAction.set(vaultApprovalSessionID: vaultSessionID)
             }
         }
     }

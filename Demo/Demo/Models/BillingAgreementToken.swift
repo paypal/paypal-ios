@@ -1,6 +1,6 @@
 import UIKit
 
-struct BAToken: Codable {
+struct BillingAgreementToken: Codable {
 
     enum CodingKeys: String, CodingKey {
         case tokenID = "token_id"
