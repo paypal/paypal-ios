@@ -11,7 +11,7 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
         case mainContent(title: String, content: String, flowComplete: Bool)
     }
 
-    @Published private(set) var state = State.initial
+    @Published private(set) var state = State.mainContent(title: "test", content: "test", flowComplete: true)
     private var accessToken = ""
 
     private var getAccessTokenUseCase = GetAccessToken()
@@ -119,7 +119,7 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
     func paypal(_ payPalClient: PayPalClient, didFinishWithResult approvalResult: Approval) {
         state = .mainContent(
             title: "Approved",
-            content: "OrderId: \(approvalResult.data.ecToken)\nPayerId: \(approvalResult.data.payerID)",
+            content: "OrderID: \(approvalResult.data.ecToken)\nPayerID: \(approvalResult.data.payerID)",
             flowComplete: true
         )
     }

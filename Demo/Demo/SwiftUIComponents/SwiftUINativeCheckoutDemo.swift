@@ -32,17 +32,15 @@ struct SwiftUINativeCheckoutDemo: View {
     func checkoutView(_ title: String, _ content: String, _ isFlowComplete: Bool) -> some View {
         VStack(spacing: 16) {
             HStack {
-                Text("Checkout:")
-                    .font(.system(size: 18))
-                    .frame(alignment: .leading)
-                    .padding([.leading], 16)
-                    .padding([.trailing], 32)
+                Text("Checkout type selection:")
+                Spacer()
                 Picker("", selection: $checkoutTypeSelection) {
                     ForEach(CheckoutType.allCases) { type in
                         Text(type.rawValue)
                     }
-                }.frame(maxWidth: .infinity, alignment: .leading)
+                }
             }
+            .padding(16)
             Divider()
             VStack {
                 Text(title)
@@ -57,11 +55,7 @@ struct SwiftUINativeCheckoutDemo: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             VStack {
                 Button(isFlowComplete ? "Try Again" : "Start Checkout" ) {
-                    if isFlowComplete {
-                        viewModel.retry()
-                    } else {
-                        startNativeCheckout()
-                    }
+                    isFlowComplete ? viewModel.retry() : startNativeCheckout()
                 }
                 .foregroundColor(.white)
                 .padding()
@@ -73,7 +67,7 @@ struct SwiftUINativeCheckoutDemo: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
         }
         .frame(maxHeight: .infinity)
-        .padding([.top], 32)
+        .padding(.top, 32)
     }
 
     func getAccessTokenView() -> some View {
