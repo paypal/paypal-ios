@@ -24,6 +24,7 @@ class PayPalClient_Tests: XCTestCase {
         var capturedResult: Approval?
         var capturedError: CoreSDKError?
         var paypalDidCancel = false
+        var paypalDidStarted = false
 
         func paypal(_ payPalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
             capturedError = error
@@ -34,6 +35,7 @@ class PayPalClient_Tests: XCTestCase {
         }
 
         func paypalDidStart(_ payPalClient: PayPalClient) {
+            paypalDidStarted = true
         }
     }
 
@@ -74,6 +76,15 @@ class PayPalClient_Tests: XCTestCase {
         await payPalClient.start { _ in }
         mockNativeCheckoutProvider.triggerCancel()
         XCTAssert(mockPaypalDelegate.paypalDidCancel)
+    }
+
+    func testStart_whenNativeSDKOnStart_callbackIsTriggered() async {
+        let delegate = MockPayPalDelegate()
+        payPalClient.delegate = delegate
+        let mockPaypalDelegate = MockPayPalDelegate()
+        payPalClient.delegate = mockPaypalDelegate
+        await payPalClient.start { _ in }
+        XCTAssert(mockPaypalDelegate.paypalDidStarted)
     }
 
     // todo: check for error case instead of cancel
