@@ -16,29 +16,11 @@ final class DemoMerchantAPI {
             throw URLResponseError.invalidURL
         }
 
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "POST"
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        urlRequest.httpBody = try? encoder.encode(orderParams)
-        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        let data = try await data(for: urlRequest)
-        return try parse(from: data)
-    }
-
-    /// This function replicates a way a merchant may go about creating an order on their server and is not part of the SDK flow.
-    /// - Parameter order: order JSON in String format
-    /// - Returns: an order
-    /// - Throws: an error explaining why create order failed
-    func createOrder(order: String) async throws -> Order {
-        guard let url = buildBaseURL(with: "/orders") else {
-            throw URLResponseError.invalidURL
-        }
-
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "POST"
-        urlRequest.httpBody = Data(order.utf8)
-        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let urlRequest = buildURLRequest(
+            method: "POST",
+            url: url,
+            body: orderParams
+        )
         let data = try await data(for: urlRequest)
         return try parse(from: data)
     }
@@ -48,13 +30,12 @@ final class DemoMerchantAPI {
             throw URLResponseError.invalidURL
         }
 
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "POST"
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        urlRequest.httpBody = try? encoder.encode(approvalSessionRequest)
-        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        urlRequest.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        let urlRequest = buildURLRequest(
+            method: "POST",
+            url: url,
+            body: approvalSessionRequest,
+            accesToken: accessToken
+        )
         let data = try await data(for: urlRequest)
         return try parse(from: data)
     }
@@ -67,13 +48,12 @@ final class DemoMerchantAPI {
             throw URLResponseError.invalidURL
         }
 
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "POST"
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        urlRequest.httpBody = try? encoder.encode(billingAgremeentTokenRequest)
-        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        urlRequest.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        let urlRequest = buildURLRequest(
+            method: "POST",
+            url: url,
+            body: billingAgremeentTokenRequest,
+            accesToken: accessToken
+        )
         let data = try await data(for: urlRequest)
         return try parse(from: data)
     }
@@ -88,12 +68,26 @@ final class DemoMerchantAPI {
             throw URLResponseError.invalidURL
         }
 
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "POST"
-        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        urlRequest.httpBody = try? JSONEncoder().encode(processOrderParams)
+        let urlRequest = buildURLRequest(
+            method: "POST",
+            url: url,
+            body: processOrderParams
+        )
         let data = try await data(for: urlRequest)
         return try parse(from: data)
+    }
+
+    private func buildURLRequest<T>(method: String, url: URL, body: T, accesToken: String? = nil) -> URLRequest where T: Encodable {
+        var urlRequest = URLRequest(url: url)
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+        urlRequest.httpMethod = method
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        if let token = accesToken {
+            urlRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+        urlRequest.httpBody = try? encoder.encode(body)
+        return urlRequest
     }
 
     private func data(for urlRequest: URLRequest) async throws -> Data {
