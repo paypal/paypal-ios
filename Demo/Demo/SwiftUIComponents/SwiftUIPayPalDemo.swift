@@ -1,7 +1,6 @@
 import SwiftUI
 import PayPalUI
 
-@available(iOS 13.0.0, *)
 struct SwiftUIPayPalDemo: View {
 
     @StateObject var baseViewModel = BaseViewModel()
