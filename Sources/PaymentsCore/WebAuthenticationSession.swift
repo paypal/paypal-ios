@@ -2,7 +2,7 @@ import Foundation
 import AuthenticationServices
 
 public class WebAuthenticationSession: NSObject {
-    
+
     public func start(
         url: URL,
         context: ASWebAuthenticationPresentationContextProviding,
@@ -16,7 +16,7 @@ public class WebAuthenticationSession: NSObject {
 
         authenticationSession.prefersEphemeralWebBrowserSession = true
         authenticationSession.presentationContextProvider = context
-        
+
         authenticationSession.start()
     }
 }
