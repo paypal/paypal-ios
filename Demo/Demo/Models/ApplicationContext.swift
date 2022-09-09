@@ -12,6 +12,6 @@ struct ApplicationContext: Codable {
 
 struct PaymentMethodPreference: Codable {
 
-    let payePreferred: String
+    let payeePreferred: String
     let payerSelected: String
 }
