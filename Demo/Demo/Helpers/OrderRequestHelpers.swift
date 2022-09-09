@@ -276,7 +276,7 @@ enum OrderRequestHelpers {
             cancelUrl: "https://example.com",
             locale: "en-US",
             paymentMethodPreference: PaymentMethodPreference(
-                payePreferred: "IMMEDIATE_PAYMENT_REQUIRED",
+                payeePreferred: "IMMEDIATE_PAYMENT_REQUIRED",
                 payerSelected: "PAYPAL"
             )
         )
