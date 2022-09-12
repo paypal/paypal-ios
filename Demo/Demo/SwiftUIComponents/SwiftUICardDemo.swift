@@ -2,7 +2,6 @@ import SwiftUI
 
 /// This view contains the exact same behavior as our `CardDemoViewController` but uses SwiftUI best practices to create the card fields and buttons.
 /// Under the hood they both do the same thing but this represents how a merchant would use the card module with a Swift UI integration.
-@available(iOS 13.0.0, *)
 struct SwiftUICardDemo: View {
 
     // MARK: Variables
@@ -68,7 +67,6 @@ struct SwiftUICardDemo: View {
     }
 }
 
-@available(iOS 13.0.0, *)
 struct ContentView_Previews: PreviewProvider {
 
     static var previews: some View {
