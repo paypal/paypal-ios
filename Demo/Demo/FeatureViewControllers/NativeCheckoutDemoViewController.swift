@@ -68,7 +68,7 @@ class NativeCheckoutDemoViewController: FeatureBaseViewController {
     @objc func didTapNativeCheckoutWithOrderButton() {
         Task {
             nativeCheckoutWithOrderButton.startAnimating()
-            viewModel.checkoutWithOrder()
+            viewModel.checkoutWithOrderID()
             nativeCheckoutWithOrderButton.stopAnimating()
         }
     }

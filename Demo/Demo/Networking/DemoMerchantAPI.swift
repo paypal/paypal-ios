@@ -25,39 +25,6 @@ final class DemoMerchantAPI {
         return try parse(from: data)
     }
 
-    func createApprovalSessionID(accessToken: String, approvalSessionRequest: ApprovalSessionRequest) async throws -> VaultSessionID {
-        guard let url = buildPayPalURL(with: "/v2/vault/payment-tokens") else {
-            throw URLResponseError.invalidURL
-        }
-
-        let urlRequest = buildURLRequest(
-            method: "POST",
-            url: url,
-            body: approvalSessionRequest,
-            accesToken: accessToken
-        )
-        let data = try await data(for: urlRequest)
-        return try parse(from: data)
-    }
-
-    func createBillingAgreementToken(
-        accessToken: String,
-        billingAgremeentTokenRequest: BillingAgreementWithoutPurchaseRequest
-    ) async throws -> BillingAgreementToken {
-        guard let url = buildPayPalURL(with: "/v1/billing-agreements/agreement-tokens") else {
-            throw URLResponseError.invalidURL
-        }
-
-        let urlRequest = buildURLRequest(
-            method: "POST",
-            url: url,
-            body: billingAgremeentTokenRequest,
-            accesToken: accessToken
-        )
-        let data = try await data(for: urlRequest)
-        return try parse(from: data)
-    }
-
     /// This function replicates a way a merchant may go about authorizing/capturing an order on their server and is not part of the SDK flow.
     /// - Parameters:
     ///   - processOrderParams: the parameters to process the order with

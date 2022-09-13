@@ -4,20 +4,7 @@ import PayPalUI
 
 struct SwiftUINativeCheckoutDemo: View {
 
-    enum CheckoutType: String, CaseIterable, Identifiable {
-        case order = "Order"
-        case orderID = "Order ID"
-        case billingAgreement = "Billing Agreement"
-        case baWithoutPurchase = "Billing Agreement without purchase"
-        case vault = "Vault"
-
-        var id: CheckoutType { self }
-    }
-
     @StateObject var viewModel = PayPalViewModel()
-
-    @State var checkoutTypeSelection = CheckoutType.order
-
 
     var body: some View {
         switch viewModel.state {
@@ -34,11 +21,6 @@ struct SwiftUINativeCheckoutDemo: View {
         NavigationView {
             ZStack {
                 VStack(spacing: 16) {
-                    Picker("Checkout ", selection: $checkoutTypeSelection) {
-                        ForEach(CheckoutType.allCases) {type in
-                            Text(type.rawValue)
-                        }
-                    }
                     Text(title)
                     Text(content)
                     Button(isFlowComplete ? "Try Again" : "Start Checkout" ) {
@@ -89,18 +71,7 @@ struct SwiftUINativeCheckoutDemo: View {
     }
 
     func startNativeCheckout() {
-        switch checkoutTypeSelection {
-        case .order:
-            viewModel.checkoutWithOrder()
-        case .orderID:
-            viewModel.checkoutWithOrderID()
-        case .billingAgreement:
-            viewModel.checkoutWithBillingAgreement()
-        case .baWithoutPurchase:
-            viewModel.checkoutBAWithoutPurchase()
-        case .vault:
-            viewModel.checkoutWithVault()
-        }
+        viewModel.checkoutWithOrderID()
     }
 }
 

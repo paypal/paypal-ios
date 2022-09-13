@@ -38,14 +38,6 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
         state = .initial
     }
 
-    func checkoutWithOrder() {
-        startNativeCheckout {
-            await self.payPalClient?.start { createOrderAction in
-                createOrderAction.create(order: OrderRequestHelpers.createOrderRequest())
-            }
-        }
-    }
-
     func checkoutWithOrderID() {
         startNativeCheckout {
             let orderID = try await self.getOrderIDWithFixedShipping()
@@ -55,40 +47,11 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
         }
     }
 
-    func checkoutWithBillingAgreement() {
-        startNativeCheckout {
-            let order = try await self.getBillingAgreementToken()
-            await self.payPalClient?.start { createOrderAction in
-                createOrderAction.set(billingAgreementToken: order.id)
-            }
-        }
-    }
-
-    func checkoutBAWithoutPurchase() {
-        startNativeCheckout {
-            let billingAgreementToken = try await self.getBillingAgreementTokenWithoutPurchase(
-                accessToken: self.accessToken)
-            await self.payPalClient?.start { createOrderAction in
-                createOrderAction.set(billingAgreementToken: billingAgreementToken)
-            }
-        }
-    }
-
-    func checkoutWithVault() {
-        startNativeCheckout {
-            guard let vaultSessionID = try await self.getApprovalSessionID() else {
-                self.state = .mainContent(
-                    title: "Error",
-                    content: "Error in creating vault session!!",
-                    flowComplete: true
-                )
-
-                return
-            }
-            await self.payPalClient?.start { createOrderAction in
-                createOrderAction.set(vaultApprovalSessionID: vaultSessionID)
-            }
-        }
+    private func getOrderIDWithFixedShipping() async throws -> String {
+        let order = try await DemoMerchantAPI.sharedService.createOrder(
+            orderParams: OrderRequestHelpers.requestWithFixedShipping
+        )
+        return order.id
     }
 
     private func startNativeCheckout(withAction action: @escaping () async throws -> Void) {
@@ -104,40 +67,6 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
 
     func getAccessToken() async -> String? {
         await DemoMerchantAPI.sharedService.getAccessToken(environment: DemoSettings.environment)
-    }
-
-    func getOrderIDWithFixedShipping() async throws -> String {
-        let order = try await DemoMerchantAPI.sharedService.createOrder(
-            orderParams: OrderRequestHelpers.requestWithFixedShipping
-        )
-        return order.id
-    }
-
-    func getBillingAgreementToken() async throws -> Order {
-        return try await DemoMerchantAPI.sharedService.createOrder(
-            orderParams: OrderRequestHelpers.billingAgreementTokenRequest
-        )
-    }
-
-    func getBillingAgreementTokenWithoutPurchase(accessToken: String) async throws -> String {
-        let baToken = try await DemoMerchantAPI.sharedService.createBillingAgreementToken(
-            accessToken: accessToken,
-            billingAgremeentTokenRequest: OrderRequestHelpers.billingAgreementWithoutPaymentRequest
-        )
-        return baToken.tokenID
-    }
-
-    func getApprovalSessionID() async throws -> String? {
-        let vaultSessionID = try await DemoMerchantAPI.sharedService.createApprovalSessionID(
-            accessToken: self.accessToken,
-            approvalSessionRequest: OrderRequestHelpers.approvalSessionRequest
-        )
-
-        let approvalSessionIDLink = vaultSessionID.links.first { $0.rel == "approve" }
-        if let hrefLink = approvalSessionIDLink?.href {
-            return URLComponents(string: hrefLink)?.queryItems?.first { $0.name == "approval_session_id" }?.value
-        }
-        return nil
     }
 
     // MARK: - PayPalDelegate conformance
