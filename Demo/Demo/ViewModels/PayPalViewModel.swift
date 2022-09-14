@@ -69,7 +69,43 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
         shippingChange: ShippingChange,
         shippingChangeAction: ShippingChangeAction
     ) {
-        // TODO: add required functionality while doing patch or updating order
+        switch shippingChange.type {
+        case .shippingAddress:
+            // If user selected new address, we generate new shipping methods
+            let availableShippingMethods = OrderRequestHelpers.getShippingMethods(baseValue: Int.random(in: 0..<6))
+
+            // If shipping methods are available, then patch order with the new shipping methods and new amount
+            patchAmountAndShippingOptions(
+                shippingMethods: availableShippingMethods,
+                action: shippingChangeAction
+            )
+
+        case .shippingMethod:
+            // If user selected new method, we patch the selected shipping method + amount
+            patchAmountAndShippingOptions(
+                shippingMethods: shippingChange.shippingMethods,
+                action: shippingChangeAction
+            )
+
+        @unknown default:
+            break
+        }
+    }
+
+    private func patchAmountAndShippingOptions(
+        shippingMethods: [ShippingMethod],
+        action: ShippingChangeAction
+    ) {
+        let selectedMethod = shippingMethods.first { $0.selected }
+        let selectedMethodPrice = Double(selectedMethod?.amount?.value ?? "0") ?? 0
+        let newTotal = String(OrderRequestHelpers.orderAmount + selectedMethodPrice)
+
+        let patchRequest = PatchRequest()
+
+        patchRequest.replace(amount: PayPalCheckout.PurchaseUnit.Amount(currencyCode: .usd, value: newTotal))
+        patchRequest.replace(shippingOptions: shippingMethods)
+
+        action.patch(request: patchRequest) { _, _ in }
     }
 
     func paypal(_ payPalClient: PayPalClient, didFinishWithResult approvalResult: Approval) {

@@ -3,7 +3,8 @@ import PayPalCheckout
 
 enum OrderRequestHelpers {
 
-    static var shippingMethods = getShippingMethods()
+    static var orderAmount = 100.0
+
 
     static func getOrderParams(shippingChangeEnabled: Bool) -> OrderRequest {
         return OrderRequest(
@@ -12,9 +13,8 @@ enum OrderRequestHelpers {
                 PayPalCheckout.PurchaseUnit(
                     amount: PayPalCheckout.PurchaseUnit.Amount(
                         currencyCode: .usd,
-                        value: "100.0"
+                        value: String(orderAmount)
                     ),
-                    referenceId: "PUHF",
                     shipping: PayPalCheckout.PurchaseUnit.Shipping(
                         shippingName: PayPalCheckout.PurchaseUnit.ShippingName(fullName: "Cookie Monster"),
                         address: OrderAddress(
@@ -25,7 +25,7 @@ enum OrderRequestHelpers {
                             adminArea2: "New York City",
                             postalCode: "32422"
                         ),
-                        options: shippingChangeEnabled ? shippingMethods : nil
+                        options: shippingChangeEnabled ? getShippingMethods(baseValue: 0) : nil
                     )
                 )
             ],
@@ -38,28 +38,28 @@ enum OrderRequestHelpers {
         )
     }
 
-    private static func getShippingMethods() -> [PayPalCheckout.ShippingMethod] {
+    static func getShippingMethods(baseValue: Int) -> [PayPalCheckout.ShippingMethod] {
         let currency = CurrencyCode.usd
         let ship1 = PayPalCheckout.ShippingMethod(
             id: "ShipTest1",
             label: "standard shipping",
             selected: true,
             type: .shipping,
-            amount: UnitAmount(currencyCode: currency, value: "3.99")
+            amount: UnitAmount(currencyCode: currency, value: String(3.99 + Double(baseValue)))
         )
         let ship2 = PayPalCheckout.ShippingMethod(
             id: "ShipTest2",
             label: "cheap shipping",
             selected: false,
             type: .shipping,
-            amount: UnitAmount(currencyCode: currency, value: "0.99")
+            amount: UnitAmount(currencyCode: currency, value: String(0.99 + Double(baseValue)))
         )
         let ship3 = PayPalCheckout.ShippingMethod(
             id: "ShipTest3",
             label: "express shipping",
             selected: false,
             type: .shipping,
-            amount: UnitAmount(currencyCode: currency, value: "7.99")
+            amount: UnitAmount(currencyCode: currency, value: String(7.99 + Double(baseValue)))
         )
         let pick1 = PayPalCheckout.ShippingMethod(
             id: "PickTest1",
