@@ -1,5 +1,6 @@
 import Foundation
 import PaymentsCore
+import PayPalCheckout
 
 /// API Client used to create and process orders on sample merchant server
 final class DemoMerchantAPI {
@@ -25,6 +26,20 @@ final class DemoMerchantAPI {
         return try parse(from: data)
     }
 
+    func createOrder(orderRequest: PayPalCheckout.OrderRequest) async throws -> Order {
+        guard let url = buildBaseURL(with: "/orders") else {
+            throw URLResponseError.invalidURL
+        }
+
+        let urlRequest = buildURLRequest(
+            method: "POST",
+            url: url,
+            body: orderRequest
+        )
+        let data = try await data(for: urlRequest)
+        return try parse(from: data)
+    }
+
     /// This function replicates a way a merchant may go about authorizing/capturing an order on their server and is not part of the SDK flow.
     /// - Parameters:
     ///   - processOrderParams: the parameters to process the order with
@@ -45,18 +60,22 @@ final class DemoMerchantAPI {
     }
 
     private func buildURLRequest<T>(method: String, url: URL, body: T, accesToken: String? = nil) -> URLRequest where T: Encodable {
-        var urlRequest = URLRequest(url: url)
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
+
+        var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
         if let token = accesToken {
             urlRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
+
         if let json = try? encoder.encode(body) {
             print(String(data: json, encoding: .utf8) ?? "")
             urlRequest.httpBody = json
         }
+
         return urlRequest
     }
 
