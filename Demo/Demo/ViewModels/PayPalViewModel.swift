@@ -49,7 +49,7 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
 
     private func getOrderIDWithFixedShipping() async throws -> String {
         let order = try await DemoMerchantAPI.sharedService.createOrder(
-            orderParams: OrderRequestHelpers.requestWithFixedShipping
+            orderParams: OrderRequestHelpers.getOrderParams(shippingChangeEnabled: true)
         )
         return order.id
     }
