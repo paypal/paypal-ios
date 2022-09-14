@@ -53,7 +53,7 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
 
     private func getOrderID() async throws -> String {
         let order = try await DemoMerchantAPI.sharedService.createOrder(
-            orderRequest: OrderRequestHelpers.getOrderParams(shippingChangeEnabled: true)
+            orderRequest: OrderRequestHelpers.getOrderRequest()
         )
         return order.id
     }

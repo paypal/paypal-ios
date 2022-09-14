@@ -6,7 +6,7 @@ enum OrderRequestHelpers {
     static var orderAmount = 100.0
 
 
-    static func getOrderParams(shippingChangeEnabled: Bool) -> OrderRequest {
+    static func getOrderRequest() -> OrderRequest {
         return OrderRequest(
             intent: .authorize,
             purchaseUnits: [
@@ -25,12 +25,12 @@ enum OrderRequestHelpers {
                             adminArea2: "New York City",
                             postalCode: "32422"
                         ),
-                        options: shippingChangeEnabled ? getShippingMethods(baseValue: 0) : nil
+                        options: getShippingMethods(baseValue: 0)
                     )
                 )
             ],
             applicationContext: OrderApplicationContext(
-                shippingPreference: shippingChangeEnabled ? .getFromFile : .setProvidedAddress,
+                shippingPreference: .getFromFile,
                 userAction: .payNow,
                 returnUrl: "https://example.com/return",
                 cancelUrl: "https://example.com/cancel"
