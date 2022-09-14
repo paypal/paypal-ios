@@ -39,30 +39,24 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
     }
 
     func checkoutWithOrderID() {
-        startNativeCheckout {
-            let orderID = try await self.getOrderIDWithFixedShipping()
-            await self.payPalClient?.start { createOrderAction in
-                createOrderAction.set(orderId: orderID)
-            }
-        }
-    }
-
-    private func getOrderIDWithFixedShipping() async throws -> String {
-        let order = try await DemoMerchantAPI.sharedService.createOrder(
-            orderParams: OrderRequestHelpers.getOrderParams(shippingChangeEnabled: true)
-        )
-        return order.id
-    }
-
-    private func startNativeCheckout(withAction action: @escaping () async throws -> Void) {
         state = .loading(content: "Initializing checkout")
         Task {
             do {
-                try await action()
+                let orderID = try await self.getOrderID()
+                await self.payPalClient?.start { createOrderAction in
+                    createOrderAction.set(orderId: orderID)
+                }
             } catch let error {
                 self.state = .mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true)
             }
         }
+    }
+
+    private func getOrderID() async throws -> String {
+        let order = try await DemoMerchantAPI.sharedService.createOrder(
+            orderParams: OrderRequestHelpers.getOrderParams(shippingChangeEnabled: true)
+        )
+        return order.id
     }
 
     func getAccessToken() async -> String? {
