@@ -18,17 +18,16 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
     private var payPalClient: PayPalClient?
 
     func getAccessToken() {
+        state = .loading(content: "Getting access token")
         Task {
-            state = .loading(content: "Getting access token")
             guard let token = await getAccessToken() else {
-                state = .mainContent(title: "Error", content: "Failed to fetch access token", flowComplete: true)
-
+                publishStateToMainThread(.mainContent(title: "Access Token", content: accessToken, flowComplete: false))
                 return
             }
             accessToken = token
             payPalClient = PayPalClient(config: CoreConfig(accessToken: token, environment: PaymentsCore.Environment.sandbox))
             payPalClient?.delegate = self
-            state = .mainContent(title: "Access Token", content: accessToken, flowComplete: false)
+            publishStateToMainThread(.mainContent(title: "Access Token", content: accessToken, flowComplete: false))
         }
     }
 
@@ -47,7 +46,7 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
                     createOrderAction.set(orderId: orderID)
                 }
             } catch let error {
-                self.state = .mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true)
+                publishStateToMainThread(.mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true))
             }
         }
     }
@@ -74,18 +73,24 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
     }
 
     func paypal(_ payPalClient: PayPalClient, didFinishWithResult approvalResult: Approval) {
-        state = .mainContent(title: "Complete", content: "OrderId: \(approvalResult.data.ecToken)", flowComplete: true)
+        publishStateToMainThread(.mainContent(title: "Complete", content: "OrderId: \(approvalResult.data.ecToken)", flowComplete: true))
     }
 
     func paypal(_ payPalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
-        state = .mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true)
+        publishStateToMainThread(.mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true))
     }
 
     func paypalDidCancel(_ payPalClient: PayPalClient) {
-        state = .mainContent(title: "Cancelled", content: "User Cancelled", flowComplete: true)
+        publishStateToMainThread(.mainContent(title: "Cancelled", content: "User Cancelled", flowComplete: true))
     }
 
     func paypalDidStart(_ payPalClient: PayPalClient) {
-        state = .mainContent(title: "Starting", content: "PayPal is about to start", flowComplete: true)
+        publishStateToMainThread(.mainContent(title: "Starting", content: "PayPal is about to start", flowComplete: true))
+    }
+
+    private func publishStateToMainThread(_ state: State) {
+        DispatchQueue.main.async {
+            self.state = state
+        }
     }
 }
