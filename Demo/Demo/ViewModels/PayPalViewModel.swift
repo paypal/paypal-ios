@@ -87,7 +87,7 @@ class PayPalViewModel: ObservableObject {
 }
 
 extension PayPalViewModel: PayPalDelegate {
-    
+
     func paypal(_ payPalClient: PayPalClient, didFinishWithResult approvalResult: Approval) {
         publishStateToMainThread(.mainContent(title: "Complete", content: "OrderId: \(approvalResult.data.ecToken)", flowComplete: true))
     }

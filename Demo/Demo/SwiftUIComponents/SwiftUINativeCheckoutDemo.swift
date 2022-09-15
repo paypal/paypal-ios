@@ -75,7 +75,6 @@ struct SwiftUINativeCheckoutDemo: View {
     }
 }
 
-@available(iOS 13.0.0, *)
 struct SwiftUINativeCheckoutDemo_Preview: PreviewProvider {
 
     static var previews: some View {
