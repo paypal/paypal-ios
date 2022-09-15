@@ -30,7 +30,7 @@ class MockPayPalDelegate: PayPalDelegate {
         paypalDidCancel = true
     }
 
-    func paypalDidStart(_ payPalClient: PayPalClient) {
+    func paypalWillStart(_ payPalClient: PayPalClient) {
         paypalDidStart = true
     }
 }

@@ -4,7 +4,7 @@ import PayPalCheckout
 import PaymentsCore
 import Card
 
-class PayPalViewModel: ObservableObject, PayPalDelegate {
+class PayPalViewModel: ObservableObject {
 
     enum State {
         case initial
@@ -62,7 +62,47 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
         await DemoMerchantAPI.sharedService.getAccessToken(environment: DemoSettings.environment)
     }
 
-    // MARK: - PayPalDelegate conformance
+
+    private func patchAmountAndShippingOptions(
+        shippingMethods: [ShippingMethod],
+        action: ShippingChangeAction
+    ) {
+        let selectedMethod = shippingMethods.first { $0.selected }
+        let selectedMethodPrice = Double(selectedMethod?.amount?.value ?? "0") ?? 0
+        let newTotal = String(OrderRequestHelpers.orderAmount + selectedMethodPrice)
+
+        let patchRequest = PatchRequest()
+
+        patchRequest.replace(amount: PayPalCheckout.PurchaseUnit.Amount(currencyCode: .usd, value: newTotal))
+        patchRequest.replace(shippingOptions: shippingMethods)
+
+        action.patch(request: patchRequest) { _, _ in }
+    }
+
+    private func publishStateToMainThread(_ state: State) {
+        DispatchQueue.main.async {
+            self.state = state
+        }
+    }
+}
+
+extension PayPalViewModel: PayPalDelegate {
+    
+    func paypal(_ payPalClient: PayPalClient, didFinishWithResult approvalResult: Approval) {
+        publishStateToMainThread(.mainContent(title: "Complete", content: "OrderId: \(approvalResult.data.ecToken)", flowComplete: true))
+    }
+
+    func paypal(_ payPalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
+        publishStateToMainThread(.mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true))
+    }
+
+    func paypalDidCancel(_ payPalClient: PayPalClient) {
+        publishStateToMainThread(.mainContent(title: "Cancelled", content: "User Cancelled", flowComplete: true))
+    }
+
+    func paypalWillStart(_ payPalClient: PayPalClient) {
+        publishStateToMainThread(.mainContent(title: "Starting", content: "PayPal is about to start", flowComplete: true))
+    }
 
     func paypalDidShippingAddressChange(
         _ payPalClient: PayPalClient,
@@ -89,44 +129,6 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
 
         @unknown default:
             break
-        }
-    }
-
-    private func patchAmountAndShippingOptions(
-        shippingMethods: [ShippingMethod],
-        action: ShippingChangeAction
-    ) {
-        let selectedMethod = shippingMethods.first { $0.selected }
-        let selectedMethodPrice = Double(selectedMethod?.amount?.value ?? "0") ?? 0
-        let newTotal = String(OrderRequestHelpers.orderAmount + selectedMethodPrice)
-
-        let patchRequest = PatchRequest()
-
-        patchRequest.replace(amount: PayPalCheckout.PurchaseUnit.Amount(currencyCode: .usd, value: newTotal))
-        patchRequest.replace(shippingOptions: shippingMethods)
-
-        action.patch(request: patchRequest) { _, _ in }
-    }
-
-    func paypal(_ payPalClient: PayPalClient, didFinishWithResult approvalResult: Approval) {
-        publishStateToMainThread(.mainContent(title: "Complete", content: "OrderId: \(approvalResult.data.ecToken)", flowComplete: true))
-    }
-
-    func paypal(_ payPalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
-        publishStateToMainThread(.mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true))
-    }
-
-    func paypalDidCancel(_ payPalClient: PayPalClient) {
-        publishStateToMainThread(.mainContent(title: "Cancelled", content: "User Cancelled", flowComplete: true))
-    }
-
-    func paypalDidStart(_ payPalClient: PayPalClient) {
-        publishStateToMainThread(.mainContent(title: "Starting", content: "PayPal is about to start", flowComplete: true))
-    }
-
-    private func publishStateToMainThread(_ state: State) {
-        DispatchQueue.main.async {
-            self.state = state
         }
     }
 }

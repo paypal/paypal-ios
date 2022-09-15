@@ -5,7 +5,6 @@ enum OrderRequestHelpers {
 
     static var orderAmount = 100.0
 
-
     static func getOrderRequest() -> OrderRequest {
         return OrderRequest(
             intent: .authorize,
