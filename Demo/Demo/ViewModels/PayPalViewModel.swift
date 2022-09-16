@@ -4,7 +4,7 @@ import PayPalCheckout
 import PaymentsCore
 import Card
 
-class PayPalViewModel: ObservableObject, PayPalDelegate {
+class PayPalViewModel: ObservableObject {
 
     enum State {
         case initial
@@ -17,17 +17,16 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
     private var payPalClient: PayPalClient?
 
     func getAccessToken() {
+        state = .loading(content: "Getting access token")
         Task {
-            state = .loading(content: "Getting access token")
             guard let token = await getAccessToken() else {
-                state = .mainContent(title: "Error", content: "Failed to fetch access token", flowComplete: true)
-
+                publishStateToMainThread(.mainContent(title: "Access Token", content: accessToken, flowComplete: false))
                 return
             }
             accessToken = token
             payPalClient = PayPalClient(config: CoreConfig(accessToken: token, environment: PaymentsCore.Environment.sandbox))
             payPalClient?.delegate = self
-            state = .mainContent(title: "Access Token", content: accessToken, flowComplete: false)
+            publishStateToMainThread(.mainContent(title: "Access Token", content: accessToken, flowComplete: false))
         }
     }
 
@@ -37,135 +36,98 @@ class PayPalViewModel: ObservableObject, PayPalDelegate {
         state = .initial
     }
 
-    func checkoutWithOrder() {
-        startNativeCheckout {
-            await self.payPalClient?.start { createOrderAction in
-                createOrderAction.create(order: OrderRequestHelpers.createOrderRequest())
-            }
-        }
-    }
-
     func checkoutWithOrderID() {
-        startNativeCheckout {
-            let orderID = try await self.getOrderIDWithFixedShipping()
-            await self.payPalClient?.start { createOrderAction in
-                createOrderAction.set(orderId: orderID)
-            }
-        }
-    }
-
-    func checkoutWithBillingAgreement() {
-        startNativeCheckout {
-            let order = try await self.getBillingAgreementToken()
-            await self.payPalClient?.start { createOrderAction in
-                createOrderAction.set(billingAgreementToken: order.id)
-            }
-        }
-    }
-
-    func checkoutBAWithoutPurchase() {
-        startNativeCheckout {
-            let billingAgreementToken = try await self.getBillingAgreementTokenWithoutPurchase(
-                accessToken: self.accessToken)
-            await self.payPalClient?.start { createOrderAction in
-                createOrderAction.set(billingAgreementToken: billingAgreementToken)
-            }
-        }
-    }
-
-    func checkoutWithVault() {
-        startNativeCheckout {
-            guard let vaultSessionID = try await self.getApprovalSessionID() else {
-                self.state = .mainContent(
-                    title: "Error",
-                    content: "Error in creating vault session!!",
-                    flowComplete: true
-                )
-
-                return
-            }
-            await self.payPalClient?.start { createOrderAction in
-                createOrderAction.set(vaultApprovalSessionID: vaultSessionID)
-            }
-        }
-    }
-
-    private func startNativeCheckout(withAction action: @escaping () async throws -> Void) {
         state = .loading(content: "Initializing checkout")
         Task {
             do {
-                try await action()
+                let orderID = try await self.getOrderID()
+                await self.payPalClient?.start { createOrderAction in
+                    createOrderAction.set(orderId: orderID)
+                }
             } catch let error {
-                self.state = .mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true)
+                publishStateToMainThread(.mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true))
             }
         }
+    }
+
+    private func getOrderID() async throws -> String {
+        let order = try await DemoMerchantAPI.sharedService.createOrder(
+            orderRequest: OrderRequestHelpers.getOrderRequest()
+        )
+        return order.id
     }
 
     func getAccessToken() async -> String? {
         await DemoMerchantAPI.sharedService.getAccessToken(environment: DemoSettings.environment)
     }
 
-    func getOrderIDWithFixedShipping() async throws -> String {
-        let order = try await DemoMerchantAPI.sharedService.createOrder(
-            orderParams: OrderRequestHelpers.requestWithFixedShipping
-        )
-        return order.id
+
+    private func patchAmountAndShippingOptions(
+        shippingMethods: [ShippingMethod],
+        action: ShippingChangeAction
+    ) {
+        let selectedMethod = shippingMethods.first { $0.selected }
+        let selectedMethodPrice = Double(selectedMethod?.amount?.value ?? "0") ?? 0
+        let newTotal = String(OrderRequestHelpers.orderAmount + selectedMethodPrice)
+
+        let patchRequest = PatchRequest()
+
+        patchRequest.replace(amount: PayPalCheckout.PurchaseUnit.Amount(currencyCode: .usd, value: newTotal))
+        patchRequest.replace(shippingOptions: shippingMethods)
+
+        action.patch(request: patchRequest) { _, _ in }
     }
 
-    func getBillingAgreementToken() async throws -> Order {
-        return try await DemoMerchantAPI.sharedService.createOrder(
-            orderParams: OrderRequestHelpers.billingAgreementTokenRequest
-        )
-    }
-
-    func getBillingAgreementTokenWithoutPurchase(accessToken: String) async throws -> String {
-        let baToken = try await DemoMerchantAPI.sharedService.createBillingAgreementToken(
-            accessToken: accessToken,
-            billingAgremeentTokenRequest: OrderRequestHelpers.billingAgreementWithoutPaymentRequest
-        )
-        return baToken.tokenID
-    }
-
-    func getApprovalSessionID() async throws -> String? {
-        let vaultSessionID = try await DemoMerchantAPI.sharedService.createApprovalSessionID(
-            accessToken: self.accessToken,
-            approvalSessionRequest: OrderRequestHelpers.approvalSessionRequest
-        )
-
-        let approvalSessionIDLink = vaultSessionID.links.first { $0.rel == "approve" }
-        if let hrefLink = approvalSessionIDLink?.href {
-            return URLComponents(string: hrefLink)?.queryItems?.first { $0.name == "approval_session_id" }?.value
+    private func publishStateToMainThread(_ state: State) {
+        DispatchQueue.main.async {
+            self.state = state
         }
-        return nil
+    }
+}
+
+extension PayPalViewModel: PayPalDelegate {
+
+    func paypal(_ payPalClient: PayPalClient, didFinishWithResult approvalResult: Approval) {
+        publishStateToMainThread(.mainContent(title: "Complete", content: "OrderId: \(approvalResult.data.ecToken)", flowComplete: true))
     }
 
-    // MARK: - PayPalDelegate conformance
+    func paypal(_ payPalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
+        publishStateToMainThread(.mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true))
+    }
+
+    func paypalDidCancel(_ payPalClient: PayPalClient) {
+        publishStateToMainThread(.mainContent(title: "Cancelled", content: "User Cancelled", flowComplete: true))
+    }
+
+    func paypalWillStart(_ payPalClient: PayPalClient) {
+        publishStateToMainThread(.mainContent(title: "Starting", content: "PayPal is about to start", flowComplete: true))
+    }
 
     func paypalDidShippingAddressChange(
         _ payPalClient: PayPalClient,
         shippingChange: ShippingChange,
         shippingChangeAction: ShippingChangeAction
     ) {
-        // TODO: add required functionality while doing patch or updating order
-    }
+        switch shippingChange.type {
+        case .shippingAddress:
+            // If user selected new address, we generate new shipping methods
+            let availableShippingMethods = OrderRequestHelpers.getShippingMethods(baseValue: Int.random(in: 0..<6))
 
-    func paypal(_ payPalClient: PayPalClient, didFinishWithResult approvalResult: Approval) {
-        state = .mainContent(
-            title: "Approved",
-            content: "OrderID: \(approvalResult.data.ecToken)\nPayerID: \(approvalResult.data.payerID)",
-            flowComplete: true
-        )
-    }
+            // If shipping methods are available, then patch order with the new shipping methods and new amount
+            patchAmountAndShippingOptions(
+                shippingMethods: availableShippingMethods,
+                action: shippingChangeAction
+            )
 
-    func paypal(_ payPalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
-        state = .mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true)
-    }
+        case .shippingMethod:
+            // If user selected new method, we patch the selected shipping method + amount
+            patchAmountAndShippingOptions(
+                shippingMethods: shippingChange.shippingMethods,
+                action: shippingChangeAction
+            )
 
-    func paypalDidCancel(_ payPalClient: PayPalClient) {
-        state = .mainContent(title: "Cancelled", content: "User Cancelled", flowComplete: true)
-    }
-
-    func paypalDidStart(_ payPalClient: PayPalClient) {
-        state = .mainContent(title: "Starting", content: "PayPal is about to start", flowComplete: true)
+        @unknown default:
+            break
+        }
     }
 }

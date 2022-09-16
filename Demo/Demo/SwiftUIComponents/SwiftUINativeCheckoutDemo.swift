@@ -4,19 +4,9 @@ import PayPalUI
 
 struct SwiftUINativeCheckoutDemo: View {
 
-    enum CheckoutType: String, CaseIterable, Identifiable {
-        case order = "Order"
-        case orderID = "Order ID"
-        case billingAgreement = "Billing Agreement"
-        case baWithoutPurchase = "Billing Agreement without purchase"
-        case vault = "Vault"
-
-        var id: CheckoutType { self }
-    }
-
     @StateObject var viewModel = PayPalViewModel()
 
-    @State var checkoutTypeSelection = CheckoutType.order
+    //@State var checkoutTypeSelection = CheckoutType.order
 
     var body: some View {
         switch viewModel.state {
@@ -34,11 +24,11 @@ struct SwiftUINativeCheckoutDemo: View {
             HStack {
                 Text("Checkout type selection:")
                 Spacer()
-                Picker("", selection: $checkoutTypeSelection) {
-                    ForEach(CheckoutType.allCases) { type in
-                        Text(type.rawValue)
-                    }
-                }
+//                Picker("", selection: $checkoutTypeSelection) {
+//                    ForEach(CheckoutType.allCases) { type in
+//                        Text(type.rawValue)
+//                    }
+//                }
             }
             .padding(16)
             Divider()
@@ -100,23 +90,11 @@ struct SwiftUINativeCheckoutDemo: View {
     }
 
     func startNativeCheckout() {
-        switch checkoutTypeSelection {
-        case .order:
-            viewModel.checkoutWithOrder()
-        case .orderID:
-            viewModel.checkoutWithOrderID()
-        case .billingAgreement:
-            viewModel.checkoutWithBillingAgreement()
-        case .baWithoutPurchase:
-            viewModel.checkoutBAWithoutPurchase()
-        case .vault:
-            viewModel.checkoutWithVault()
-        }
+        viewModel.checkoutWithOrderID()
     }
 }
 
-@available(iOS 13.0.0, *)
-struct SiftUINativeCheckoutDemo_Preview: PreviewProvider {
+struct SwiftUINativeCheckoutDemo_Preview: PreviewProvider {
 
     static var previews: some View {
         SwiftUINativeCheckoutDemo()

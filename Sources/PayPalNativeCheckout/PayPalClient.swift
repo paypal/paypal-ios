@@ -44,12 +44,14 @@ public class PayPalClient {
                 clientID: clientID,
                 createOrder: nil,
                 onApprove: nil,
-                onShippingChange: nil,
+                onShippingChange: { shippingChange, shippingChangeAction in
+                    self.notifyShippingChange(shippingChange: shippingChange, shippingChangeAction: shippingChangeAction)
+                }, // need to set here, otherwise it doesnt work. Possible NXO bug?
                 onCancel: nil,
                 onError: nil,
                 environment: config.environment.toNativeCheckoutSDKEnvironment()
             )
-            delegate?.paypalDidStart(self)
+            delegate?.paypalWillStart(self)
             self.nativeCheckoutProvider.start(
                 presentingViewController: presentingViewController,
                 createOrder: createOrder,
@@ -63,7 +65,8 @@ public class PayPalClient {
             onError: { error in
                 self.notifyFailure(with: error)
             },
-            nxoConfig: nxoConfig)
+            nxoConfig: nxoConfig
+            )
         } catch {
             delegate?.paypal(self, didFinishWithError: PayPalError.clientIDNotFoundError(error))
         }

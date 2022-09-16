@@ -1,5 +1,6 @@
 import Foundation
 import PaymentsCore
+import PayPalCheckout
 
 /// API Client used to create and process orders on sample merchant server
 final class DemoMerchantAPI {
@@ -25,34 +26,15 @@ final class DemoMerchantAPI {
         return try parse(from: data)
     }
 
-    func createApprovalSessionID(accessToken: String, approvalSessionRequest: ApprovalSessionRequest) async throws -> VaultSessionID {
-        guard let url = buildPayPalURL(with: "/v2/vault/payment-tokens") else {
+    func createOrder(orderRequest: PayPalCheckout.OrderRequest) async throws -> Order {
+        guard let url = buildBaseURL(with: "/orders") else {
             throw URLResponseError.invalidURL
         }
 
         let urlRequest = buildURLRequest(
             method: "POST",
             url: url,
-            body: approvalSessionRequest,
-            accesToken: accessToken
-        )
-        let data = try await data(for: urlRequest)
-        return try parse(from: data)
-    }
-
-    func createBillingAgreementToken(
-        accessToken: String,
-        billingAgremeentTokenRequest: BillingAgreementWithoutPurchaseRequest
-    ) async throws -> BillingAgreementToken {
-        guard let url = buildPayPalURL(with: "/v1/billing-agreements/agreement-tokens") else {
-            throw URLResponseError.invalidURL
-        }
-
-        let urlRequest = buildURLRequest(
-            method: "POST",
-            url: url,
-            body: billingAgremeentTokenRequest,
-            accesToken: accessToken
+            body: orderRequest
         )
         let data = try await data(for: urlRequest)
         return try parse(from: data)
@@ -78,15 +60,22 @@ final class DemoMerchantAPI {
     }
 
     private func buildURLRequest<T>(method: String, url: URL, body: T, accesToken: String? = nil) -> URLRequest where T: Encodable {
-        var urlRequest = URLRequest(url: url)
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
+
+        var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
         if let token = accesToken {
             urlRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
-        urlRequest.httpBody = try? encoder.encode(body)
+
+        if let json = try? encoder.encode(body) {
+            print(String(data: json, encoding: .utf8) ?? "")
+            urlRequest.httpBody = json
+        }
+
         return urlRequest
     }
 

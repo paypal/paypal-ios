@@ -30,22 +30,12 @@ class NativeCheckoutDemoViewController: FeatureBaseViewController {
         return nativeCheckoutButton
     }()
 
-    lazy var nativeCheckoutWithOrderButton: CustomButton = {
-        let nativeCheckoutButton = CustomButton(title: "Native Checkout with Order")
-        nativeCheckoutButton.addTarget(self, action: #selector(didTapNativeCheckoutWithOrderButton), for: .touchUpInside)
-        nativeCheckoutButton.layer.cornerRadius = 8
-        nativeCheckoutButton.backgroundColor = .systemBlue
-        nativeCheckoutButton.tintColor = .white
-        return nativeCheckoutButton
-    }()
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .systemBackground
 
         stackView.addArrangedSubview(nativeCheckoutButton)
-        stackView.addArrangedSubview(nativeCheckoutWithOrderButton)
         view.addSubview(stackView)
 
         NSLayoutConstraint.activate(
@@ -62,14 +52,6 @@ class NativeCheckoutDemoViewController: FeatureBaseViewController {
             nativeCheckoutButton.startAnimating()
             viewModel.checkoutWithOrderID()
             nativeCheckoutButton.stopAnimating()
-        }
-    }
-
-    @objc func didTapNativeCheckoutWithOrderButton() {
-        Task {
-            nativeCheckoutWithOrderButton.startAnimating()
-            viewModel.checkoutWithOrder()
-            nativeCheckoutWithOrderButton.stopAnimating()
         }
     }
 }
