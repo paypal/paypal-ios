@@ -6,7 +6,15 @@ struct SwiftUINativeCheckoutDemo: View {
 
     @StateObject var viewModel = PayPalViewModel()
 
-    //@State var checkoutTypeSelection = CheckoutType.order
+    @State var shippingTypeSelection = ShippingType.noShipping
+
+    enum ShippingType: String, CaseIterable, Identifiable {
+        case noShipping = "No shipping"
+        case providedAddress = "Set provided address"
+        case getFromFile = "Get from file"
+
+        var id: ShippingType { self }
+    }
 
     var body: some View {
         switch viewModel.state {
@@ -22,13 +30,13 @@ struct SwiftUINativeCheckoutDemo: View {
     func checkoutView(_ title: String, _ content: String, _ isFlowComplete: Bool) -> some View {
         VStack(spacing: 16) {
             HStack {
-                Text("Checkout type selection:")
+                Text("Shipping type selection:")
                 Spacer()
-//                Picker("", selection: $checkoutTypeSelection) {
-//                    ForEach(CheckoutType.allCases) { type in
-//                        Text(type.rawValue)
-//                    }
-//                }
+                Picker("", selection: $shippingTypeSelection) {
+                    ForEach(ShippingType.allCases) { type in
+                        Text(type.rawValue)
+                    }
+                }
             }
             .padding(16)
             Divider()
@@ -90,7 +98,14 @@ struct SwiftUINativeCheckoutDemo: View {
     }
 
     func startNativeCheckout() {
-        viewModel.checkoutWithOrderID()
+        switch shippingTypeSelection {
+        case .noShipping:
+            viewModel.checkoutWithNoShipping()
+        case .providedAddress:
+            viewModel.checkoutWithProvidedAddress()
+        case .getFromFile:
+            viewModel.checkoutWithGetFromFile()
+        }
     }
 }
 

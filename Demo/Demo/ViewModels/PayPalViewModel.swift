@@ -12,9 +12,10 @@ class PayPalViewModel: ObservableObject {
         case mainContent(title: String, content: String, flowComplete: Bool)
     }
 
-    @Published private(set) var state = State.mainContent(title: "test", content: "test", flowComplete: true)
+    @Published private(set) var state = State.initial
     private var accessToken = ""
     private var payPalClient: PayPalClient?
+    private var shippingPreference: OrderApplicationContext.ShippingPreference = .noShipping
 
     func getAccessToken() {
         state = .loading(content: "Getting access token")
@@ -34,14 +35,28 @@ class PayPalViewModel: ObservableObject {
         payPalClient = nil
         accessToken = ""
         state = .initial
+        shippingPreference = .noShipping
     }
 
-    func checkoutWithOrderID() {
+    func checkoutWithNoShipping() {
+        checkout(.noShipping)
+    }
+
+    func checkoutWithProvidedAddress() {
+        checkout(.setProvidedAddress)
+    }
+
+    func checkoutWithGetFromFile() {
+        checkout(.getFromFile)
+    }
+
+    private func checkout(_ shippingPreference: OrderApplicationContext.ShippingPreference) {
         state = .loading(content: "Initializing checkout")
         Task {
             do {
-                let orderID = try await self.getOrderID()
+                let orderID = try await self.getOrderID(shippingPreference)
                 await self.payPalClient?.start { createOrderAction in
+                    self.shippingPreference = shippingPreference
                     createOrderAction.set(orderId: orderID)
                 }
             } catch let error {
@@ -50,9 +65,9 @@ class PayPalViewModel: ObservableObject {
         }
     }
 
-    private func getOrderID() async throws -> String {
+    private func getOrderID(_ shippingPreference: OrderApplicationContext.ShippingPreference) async throws -> String {
         let order = try await DemoMerchantAPI.sharedService.createOrder(
-            orderRequest: OrderRequestHelpers.getOrderRequest()
+            orderRequest: OrderRequestHelpers.getOrderRequest(shippingPreference)
         )
         return order.id
     }
@@ -108,26 +123,31 @@ extension PayPalViewModel: PayPalDelegate {
         shippingChange: ShippingChange,
         shippingChangeAction: ShippingChangeAction
     ) {
-        switch shippingChange.type {
-        case .shippingAddress:
-            // If user selected new address, we generate new shipping methods
-            let availableShippingMethods = OrderRequestHelpers.getShippingMethods(baseValue: Int.random(in: 0..<6))
+        // A bug in NXO calls callback everytime. We have to store shipping preference for cases with no shipping
+        if shippingPreference == .getFromFile {
+            switch shippingChange.type {
+            case .shippingAddress:
+                // If user selected new address, we generate new shipping methods
+                let availableShippingMethods = OrderRequestHelpers.getShippingMethods(baseValue: Int.random(in: 0..<6))
 
-            // If shipping methods are available, then patch order with the new shipping methods and new amount
-            patchAmountAndShippingOptions(
-                shippingMethods: availableShippingMethods,
-                action: shippingChangeAction
-            )
+                // If shipping methods are available, then patch order with the new shipping methods and new amount
+                patchAmountAndShippingOptions(
+                    shippingMethods: availableShippingMethods,
+                    action: shippingChangeAction
+                )
 
-        case .shippingMethod:
-            // If user selected new method, we patch the selected shipping method + amount
-            patchAmountAndShippingOptions(
-                shippingMethods: shippingChange.shippingMethods,
-                action: shippingChangeAction
-            )
+            case .shippingMethod:
+                // If user selected new method, we patch the selected shipping method + amount
+                patchAmountAndShippingOptions(
+                    shippingMethods: shippingChange.shippingMethods,
+                    action: shippingChangeAction
+                )
 
-        @unknown default:
-            break
+            @unknown default:
+                break
+            }
+        } else {
+            shippingChangeAction.approve()
         }
     }
 }
