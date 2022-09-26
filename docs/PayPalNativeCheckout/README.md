@@ -133,7 +133,7 @@ extension MyViewModel: PayPalDelegate {
 }
 ```
 
-For a working example please refer to [PayPalViewModel] (../../Demo/ViewModels/PayPalViewModel) in out Demo application
+For a working example please refer to [PayPalViewModel](../../Demo/ViewModels/PayPalViewModel) in out Demo application
 
 ### 5. Capture/Authorize the order
 
