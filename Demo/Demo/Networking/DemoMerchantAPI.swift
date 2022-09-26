@@ -17,11 +17,7 @@ final class DemoMerchantAPI {
             throw URLResponseError.invalidURL
         }
 
-        let urlRequest = buildURLRequest(
-            method: "POST",
-            url: url,
-            body: orderParams
-        )
+        let urlRequest = buildURLRequest(method: "POST", url: url, body: orderParams)
         let data = try await data(for: urlRequest)
         return try parse(from: data)
     }
@@ -31,11 +27,7 @@ final class DemoMerchantAPI {
             throw URLResponseError.invalidURL
         }
 
-        let urlRequest = buildURLRequest(
-            method: "POST",
-            url: url,
-            body: orderRequest
-        )
+        let urlRequest = buildURLRequest(method: "POST", url: url, body: orderRequest)
         let data = try await data(for: urlRequest)
         return try parse(from: data)
     }
@@ -50,11 +42,7 @@ final class DemoMerchantAPI {
             throw URLResponseError.invalidURL
         }
 
-        let urlRequest = buildURLRequest(
-            method: "POST",
-            url: url,
-            body: processOrderParams
-        )
+        let urlRequest = buildURLRequest(method: "POST", url: url, body: processOrderParams)
         let data = try await data(for: urlRequest)
         return try parse(from: data)
     }

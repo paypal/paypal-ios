@@ -115,17 +115,11 @@ extension PayPalViewModel: PayPalDelegate {
             let availableShippingMethods = OrderRequestHelpers.getShippingMethods(baseValue: Int.random(in: 0..<6))
 
             // If shipping methods are available, then patch order with the new shipping methods and new amount
-            patchAmountAndShippingOptions(
-                shippingMethods: availableShippingMethods,
-                action: shippingChangeAction
-            )
+            patchAmountAndShippingOptions(shippingMethods: availableShippingMethods, action: shippingChangeAction)
 
         case .shippingMethod:
             // If user selected new method, we patch the selected shipping method + amount
-            patchAmountAndShippingOptions(
-                shippingMethods: shippingChange.shippingMethods,
-                action: shippingChangeAction
-            )
+            patchAmountAndShippingOptions(shippingMethods: shippingChange.shippingMethods, action: shippingChangeAction)
 
         @unknown default:
             break
