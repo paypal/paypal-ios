@@ -1,6 +1,6 @@
 # Accepting PayPal Native Checkout Payments
 
-The PayPal Native Checkout module in the PayPal SDK enables PayPal payments via a webview in your app.
+The PayPal Native Checkout module in the PayPal SDK enables PayPal payments via a native UI experience in your app.
 
 Follow these steps to add PayPal Native Checkout payments:
 
