@@ -52,10 +52,10 @@ Create a `CoreConfig` using an [access token](../../README.md#access-token):
 let config = CoreConfig(accessToken: "<ACCESS_TOKEN>", environment: .sandbox)
 ```
 
-Create a `PayPalClient` to approve an order with a PayPal payment method:
+Create a `PayPalNativeCheckoutClient` to approve an order with a PayPal payment method:
 
 ```swift
-let payPalClient = PayPalClient(config: config)
+let payPalClient = PayPalNativeCheckoutClient(config: config)
 ```
 
 ### 3. Create an order
@@ -92,7 +92,7 @@ The `id` field of the response contains the order ID to pass to your client.
 
 ### 4. Approve the order using the Payments SDK
 
-To start the PayPal Native checkout flow, call the `start` function in `PayPalClient`, with the `CreateOrderCallback` and set the order ID from [step 3](#3-create-an-order) in `createOrderActions`: 
+To start the PayPal Native checkout flow, call the `start` function in `PayPalNativeCheckoutClient`, with the `CreateOrderCallback` and set the order ID from [step 3](#3-create-an-order) in `createOrderActions`: 
 
 ```swift
 payPalClient.start { createOrderAction in
@@ -100,29 +100,29 @@ payPalClient.start { createOrderAction in
 }
 ```
 
-Implement `PayPalDelegate` to listen for result notifications from the SDK. In this example, we implement it in a view model:
+Implement `PayPalNativeCheckoutDelegate` to listen for result notifications from the SDK. In this example, we implement it in a view model:
 
 ```swift
-extension MyViewModel: PayPalDelegate {
+extension MyViewModel: PayPalNativeCheckoutDelegate {
 
-    func paypal(_ payPalClient: PayPalClient, didFinishWithResult approvalResult: Approval) {
+    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithResult approvalResult: Approval) {
         // order was successfully approved and is ready to be captured/authorized (see step 5)
     }
 
-    func paypal(_ payPalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
+    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithError error: CoreSDKError) {
         // handle the error by accessing `error.localizedDescription`
     }
 
-    func paypalDidCancel(_ payPalClient: PayPalClient) {
+    func paypalDidCancel(_ payPalClient: PayPalNativeCheckoutClient) {
         // the user cancelled
     }
 
-    func paypalWillStart(_ payPalClient: PayPalClient) {
+    func paypalWillStart(_ payPalClient: PayPalNativeCheckoutClient) {
         // the paypal pay sheet is about to appear. Handle loading views, spinners, etc.
     }
 
     func paypalDidShippingAddressChange(
-        _ payPalClient: PayPalClient,
+        _ payPalClient: PayPalNativeCheckoutClient,
         shippingChange: ShippingChange,
         shippingChangeAction: ShippingChangeAction
     ) {
