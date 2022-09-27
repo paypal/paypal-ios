@@ -33,7 +33,7 @@ struct SwiftUINativeCheckoutDemo: View {
                 Text("Shipping type selection:")
                 Spacer()
                 Picker("", selection: $shippingTypeSelection) {
-                    ForEach(ShippingType.allCases) { type in
+                    ForEach(ShippingType.allCases, id: \.self) { type in
                         Text(type.rawValue)
                     }
                 }
