@@ -2,7 +2,6 @@ import UIKit
 import PayPalNativeCheckout
 import PayPalCheckout
 import PaymentsCore
-import Card
 
 class PayPalViewModel: ObservableObject {
 
