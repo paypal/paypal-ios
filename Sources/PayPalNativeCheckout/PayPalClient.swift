@@ -46,7 +46,7 @@ public class PayPalClient {
                 onApprove: nil,
                 onShippingChange: { shippingChange, shippingChangeAction in
                     self.notifyShippingChange(shippingChange: shippingChange, shippingChangeAction: shippingChangeAction)
-                }, // need to set here, because of NXO bug. When fixed, it can be set on start function
+                }, // TODO: set on start function, once https://engineering.paypalcorp.com/jira/browse/DTNATIVEXO-1268 is released
                 onCancel: nil,
                 onError: nil,
                 environment: config.environment.toNativeCheckoutSDKEnvironment()
