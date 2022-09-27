@@ -5,9 +5,15 @@ import PayPalCheckout
 /// API Client used to create and process orders on sample merchant server
 final class DemoMerchantAPI {
 
+    // MARK: Public properties
+
     static let sharedService = DemoMerchantAPI()
     var accessToken: String?
+
     private init() {}
+
+    // MARK: Public Methods
+
     /// This function replicates a way a merchant may go about creating an order on their server and is not part of the SDK flow.
     /// - Parameter orderParams: the parameters to create the order with
     /// - Returns: an order
@@ -22,6 +28,10 @@ final class DemoMerchantAPI {
         return try parse(from: data)
     }
 
+    /// This function replicates a way a merchant may go about creating an order on their server using PayPalNative order request object
+    /// - Parameter orderRequest: the order request to create an order
+    /// - Returns: an order
+    /// - Throws: an error explaining why create order failed
     func createOrder(orderRequest: PayPalCheckout.OrderRequest) async throws -> Order {
         guard let url = buildBaseURL(with: "/orders") else {
             throw URLResponseError.invalidURL
@@ -47,7 +57,22 @@ final class DemoMerchantAPI {
         return try parse(from: data)
     }
 
-    private func buildURLRequest<T>(method: String, url: URL, body: T, accesToken: String? = nil) -> URLRequest where T: Encodable {
+    /// This function fetches an access token to initialize any module of the SDK
+    /// - Parameters:
+    ///   - environment: the current environment
+    /// - Returns: a String representing an access token
+    /// - Throws: an error explaining why process order failed
+    public func getAccessToken(environment: Demo.Environment) async -> String? {
+        guard let token = self.accessToken else {
+            self.accessToken = await fetchAccessToken(environment: environment)
+            return self.accessToken
+        }
+        return token
+    }
+
+    // MARK: Private methods
+
+    private func buildURLRequest<T>(method: String, url: URL, body: T, accessToken: String? = nil) -> URLRequest where T: Encodable {
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
 
@@ -55,7 +80,7 @@ final class DemoMerchantAPI {
         urlRequest.httpMethod = method
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        if let token = accesToken {
+        if let token = accessToken {
             urlRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
 
@@ -90,14 +115,6 @@ final class DemoMerchantAPI {
 
     private func buildPayPalURL(with endpoint: String) -> URL? {
         URL(string: "https://api.sandbox.paypal.com" + endpoint)
-    }
-
-    public func getAccessToken(environment: Demo.Environment) async -> String? {
-        guard let token = self.accessToken else {
-            self.accessToken = await fetchAccessToken(environment: environment)
-            return self.accessToken
-        }
-        return token
     }
 
     private func fetchAccessToken(environment: Demo.Environment) async -> String? {
