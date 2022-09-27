@@ -60,7 +60,6 @@ let payPalClient = PayPalClient(config: config)
 
 ### 3. Create an order
 
-
 When a user initiates a payment flow, call `v2/checkout/orders` to create an order and obtain an order ID:
 
 **Request**
