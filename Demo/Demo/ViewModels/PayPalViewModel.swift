@@ -99,7 +99,7 @@ class PayPalViewModel: ObservableObject {
     }
 }
 
-extension PayPalViewModel: PayPalDelegate {
+extension PayPalViewModel: PayPalNativeCheckoutDelegate {
 
     func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithResult approvalResult: Approval) {
         publishStateToMainThread(.mainContent(title: "Complete", content: "OrderId: \(approvalResult.data.ecToken)", flowComplete: true))

@@ -8,7 +8,7 @@ import PaymentsCore
 /// encapsulates instance to communicate with nxo
 public class PayPalNativeCheckoutClient {
 
-    public weak var delegate: PayPalDelegate?
+    public weak var delegate: PayPalNativeCheckoutDelegate?
     private let nativeCheckoutProvider: NativeCheckoutStartable
     private let apiClient: APIClient
     private let config: CoreConfig

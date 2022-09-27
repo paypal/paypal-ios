@@ -5,7 +5,7 @@ import PaymentsCore
 import PayPalCheckout
 
 /// PayPal delegate to handle events from PayPalClient
-public protocol PayPalDelegate: AnyObject {
+public protocol PayPalNativeCheckoutDelegate: AnyObject {
 
     /// Notify that the PayPal flow finished with a successful result
     /// - Parameters:

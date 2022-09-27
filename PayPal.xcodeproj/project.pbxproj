@@ -42,7 +42,7 @@
 		BC0A82A6270B9954006E9A21 /* ConfirmPaymentSourceRequest_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DC226FCE1D20007014A /* ConfirmPaymentSourceRequest_Tests.swift */; };
 		BC43406F27E91C2700F70193 /* PayPalCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = BC43406E27E91C2700F70193 /* PayPalCheckout */; };
 		BC7F8123275FC1350011EDC8 /* CardRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7F8122275FC1350011EDC8 /* CardRequest.swift */; };
-		BC900B7D27AC307A00D48DBA /* PayPalDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC900B7C27AC307A00D48DBA /* PayPalDelegate.swift */; };
+		BC900B7D27AC307A00D48DBA /* PayPalNativeCheckoutDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC900B7C27AC307A00D48DBA /* PayPalNativeCheckoutDelegate.swift */; };
 		BC9C18D427D2775A0019B541 /* MockDeviceInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C18D327D2775A0019B541 /* MockDeviceInspector.swift */; };
 		BC9C18D827D279C70019B541 /* MagnesSDKResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C18D727D279C70019B541 /* MagnesSDKResult.swift */; };
 		BC9C18DA27D27CE40019B541 /* MockMagnesSDKResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C18D927D27CE40019B541 /* MockMagnesSDKResult.swift */; };
@@ -233,7 +233,7 @@
 		BC04836E27B2FB3600FA7B46 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		BC04837327B2FC7300FA7B46 /* URLSession+URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+URLSessionProtocol.swift"; sourceTree = "<group>"; };
 		BC7F8122275FC1350011EDC8 /* CardRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRequest.swift; sourceTree = "<group>"; };
-		BC900B7C27AC307A00D48DBA /* PayPalDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalDelegate.swift; sourceTree = "<group>"; };
+		BC900B7C27AC307A00D48DBA /* PayPalNativeCheckoutDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalNativeCheckoutDelegate.swift; sourceTree = "<group>"; };
 		BC9C18D327D2775A0019B541 /* MockDeviceInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDeviceInspector.swift; sourceTree = "<group>"; };
 		BC9C18D727D279C70019B541 /* MagnesSDKResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnesSDKResult.swift; sourceTree = "<group>"; };
 		BC9C18D927D27CE40019B541 /* MockMagnesSDKResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMagnesSDKResult.swift; sourceTree = "<group>"; };
@@ -561,7 +561,7 @@
 				0649326E272703A500FA83A6 /* Enums */,
 				BE71161D2723586200165069 /* Extensions */,
 				BE7116152723227200165069 /* PayPalNativeCheckoutClient.swift */,
-				BC900B7C27AC307A00D48DBA /* PayPalDelegate.swift */,
+				BC900B7C27AC307A00D48DBA /* PayPalNativeCheckoutDelegate.swift */,
 				3D25238027344F1E0099E4EB /* PayPalUIInterfaces */,
 			);
 			name = PayPalNativeCheckout;
@@ -1383,7 +1383,7 @@
 				BCF59E5D27E91ECC00CDFD47 /* PayPalApproval.swift in Sources */,
 				BCF59E5E27E91ECC00CDFD47 /* PayPalErrorType.swift in Sources */,
 				BCF59E5F27E91ECC00CDFD47 /* NativeCheckoutStartable.swift in Sources */,
-				BC900B7D27AC307A00D48DBA /* PayPalDelegate.swift in Sources */,
+				BC900B7D27AC307A00D48DBA /* PayPalNativeCheckoutDelegate.swift in Sources */,
 				53A2A4E228A182AC0093441C /* NativeCheckout.swift in Sources */,
 				3D252388273477DA0099E4EB /* PayPalCreateOrder.swift in Sources */,
 				80D0C1382731CC9B00548A3D /* PayPalNativeCheckoutClient.swift in Sources */,

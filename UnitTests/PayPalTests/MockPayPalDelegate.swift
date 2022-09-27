@@ -2,7 +2,7 @@ import PayPalCheckout
 @testable import PaymentsCore
 @testable import PayPalNativeCheckout
 
-class MockPayPalDelegate: PayPalDelegate {
+class MockPayPalDelegate: PayPalNativeCheckoutDelegate {
 
     var shippingChange: ShippingChange?
     var capturedResult: Approval?
