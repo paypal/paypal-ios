@@ -90,7 +90,6 @@ curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/order
 
 The `id` field of the response contains the order ID to pass to your client.
 
-
 ### 4. Approve the order using the Payments SDK
 
 To start the PayPal Native checkout flow, call the `start` function in `PayPalClient`, with the `CreateOrderCallback` and set the order ID from [step 3](#3-create-an-order) in `createOrderActions`: 
