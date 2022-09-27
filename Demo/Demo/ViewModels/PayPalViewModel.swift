@@ -13,7 +13,7 @@ class PayPalViewModel: ObservableObject {
 
     @Published private(set) var state = State.initial
     private var accessToken = ""
-    private var payPalClient: PayPalClient?
+    private var payPalClient: PayPalNativeCheckoutClient?
     private var shippingPreference: OrderApplicationContext.ShippingPreference = .noShipping
 
     func getAccessToken() {
@@ -24,7 +24,7 @@ class PayPalViewModel: ObservableObject {
                 return
             }
             accessToken = token
-            payPalClient = PayPalClient(config: CoreConfig(accessToken: token, environment: PaymentsCore.Environment.sandbox))
+            payPalClient = PayPalNativeCheckoutClient(config: CoreConfig(accessToken: token, environment: PaymentsCore.Environment.sandbox))
             payPalClient?.delegate = self
             publishStateToMainThread(.mainContent(title: "Access Token", content: accessToken, flowComplete: false))
         }
@@ -101,24 +101,24 @@ class PayPalViewModel: ObservableObject {
 
 extension PayPalViewModel: PayPalDelegate {
 
-    func paypal(_ payPalClient: PayPalClient, didFinishWithResult approvalResult: Approval) {
+    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithResult approvalResult: Approval) {
         publishStateToMainThread(.mainContent(title: "Complete", content: "OrderId: \(approvalResult.data.ecToken)", flowComplete: true))
     }
 
-    func paypal(_ payPalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
+    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithError error: CoreSDKError) {
         publishStateToMainThread(.mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true))
     }
 
-    func paypalDidCancel(_ payPalClient: PayPalClient) {
+    func paypalDidCancel(_ payPalClient: PayPalNativeCheckoutClient) {
         publishStateToMainThread(.mainContent(title: "Cancelled", content: "User Cancelled", flowComplete: true))
     }
 
-    func paypalWillStart(_ payPalClient: PayPalClient) {
+    func paypalWillStart(_ payPalClient: PayPalNativeCheckoutClient) {
         publishStateToMainThread(.mainContent(title: "Starting", content: "PayPal is about to start", flowComplete: true))
     }
 
     func paypalDidShippingAddressChange(
-        _ payPalClient: PayPalClient,
+        _ payPalClient: PayPalNativeCheckoutClient,
         shippingChange: ShippingChange,
         shippingChangeAction: ShippingChangeAction
     ) {

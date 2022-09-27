@@ -10,27 +10,27 @@ class MockPayPalDelegate: PayPalDelegate {
     var paypalDidCancel = false
     var paypalDidStart = false
 
-    func paypal(_ payPalClient: PayPalClient, didFinishWithResult approvalResult: Approval) {
+    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithResult approvalResult: Approval) {
         capturedResult = approvalResult
     }
 
     func paypalDidShippingAddressChange(
-        _ payPalClient: PayPalClient,
+        _ payPalClient: PayPalNativeCheckoutClient,
         shippingChange: ShippingChange,
         shippingChangeAction: ShippingChangeAction
     ) {
         self.shippingChange = shippingChange
     }
 
-    func paypal(_ payPalClient: PayPalClient, didFinishWithError error: CoreSDKError) {
+    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithError error: CoreSDKError) {
         capturedError = error
     }
 
-    func paypalDidCancel(_ payPalClient: PayPalClient) {
+    func paypalDidCancel(_ payPalClient: PayPalNativeCheckoutClient) {
         paypalDidCancel = true
     }
 
-    func paypalWillStart(_ payPalClient: PayPalClient) {
+    func paypalWillStart(_ payPalClient: PayPalNativeCheckoutClient) {
         paypalDidStart = true
     }
 }

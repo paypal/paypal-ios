@@ -20,7 +20,11 @@ class PayPalClient_Tests: XCTestCase {
     )
 
     lazy var mockNativeCheckoutProvider = MockNativeCheckoutProvider(nxoConfig: nxoConfig)
-    lazy var payPalClient = PayPalClient(config: config, nativeCheckoutProvider: mockNativeCheckoutProvider, apiClient: apiClient)
+    lazy var payPalClient = PayPalNativeCheckoutClient(
+        config: config,
+        nativeCheckoutProvider: mockNativeCheckoutProvider,
+        apiClient: apiClient
+    )
 
     // todo: check for approval result instead of cancel
     func testStart_whenNativeSDKOnApproveCalled_returnsPayPalResult() async {

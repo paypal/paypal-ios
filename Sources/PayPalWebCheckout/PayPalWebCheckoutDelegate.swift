@@ -3,7 +3,7 @@ import Foundation
 import PaymentsCore
 #endif
 
-/// PayPal delegate to handle events from PayPalClient
+/// PayPal delegate to handle events from PayPalNativeCheckoutClient
 public protocol PayPalWebCheckoutDelegate: AnyObject {
 
     /// Notify that the PayPal flow finished with a successful result
