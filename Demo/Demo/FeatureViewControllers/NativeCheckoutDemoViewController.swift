@@ -3,6 +3,16 @@ import UIKit
 
 class NativeCheckoutDemoViewController: FeatureBaseViewController {
 
+    let viewModel = PayPalViewModel()
+
+    init() {
+        super.init(baseViewModel: BaseViewModel())
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     let stackView: UIStackView = {
         let view = UIStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -12,7 +22,7 @@ class NativeCheckoutDemoViewController: FeatureBaseViewController {
     }()
 
     lazy var nativeCheckoutButton: CustomButton = {
-        let nativeCheckoutButton = CustomButton(title: "Native Checkout")
+        let nativeCheckoutButton = CustomButton(title: "Native Checkout With OrderID")
         nativeCheckoutButton.addTarget(self, action: #selector(didTapNativeCheckoutButton), for: .touchUpInside)
         nativeCheckoutButton.layer.cornerRadius = 8
         nativeCheckoutButton.backgroundColor = .systemBlue
@@ -40,7 +50,7 @@ class NativeCheckoutDemoViewController: FeatureBaseViewController {
     @objc func didTapNativeCheckoutButton() {
         Task {
             nativeCheckoutButton.startAnimating()
-            try await baseViewModel.checkoutWithNativeClient()
+            viewModel.checkoutWithOrderID()
             nativeCheckoutButton.stopAnimating()
         }
     }

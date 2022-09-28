@@ -33,38 +33,39 @@ public class PayPalClient {
     /// Present PayPal Paysheet and start a PayPal transaction
     /// - Parameters:
     ///   - presentingViewController: the ViewController to present PayPalPaysheet on, if not provided, the Paysheet will be presented on your top-most ViewController
-    ///   - delegate: Completion block to handle buyer's approval, cancellation, error, create order callback, shipping change callback
-    public func start(presentingViewController: UIViewController? = nil, orderID: String, delegate: PayPalDelegate?) async {
+    ///   - createOrder: action to perform when an order has been created
+    public func start(
+        presentingViewController: UIViewController? = nil,
+        createOrder: @escaping PayPalCheckout.CheckoutConfig.CreateOrderCallback
+    ) async {
         do {
             let clientID = try await apiClient.getClientID()
             let nxoConfig = CheckoutConfig(
                 clientID: clientID,
                 createOrder: nil,
                 onApprove: nil,
-                onShippingChange: nil,
+                onShippingChange: { shippingChange, shippingChangeAction in
+                    self.notifyShippingChange(shippingChange: shippingChange, shippingChangeAction: shippingChangeAction)
+                }, // TODO: set on start function, once https://engineering.paypalcorp.com/jira/browse/DTNATIVEXO-1268 is released
                 onCancel: nil,
                 onError: nil,
                 environment: config.environment.toNativeCheckoutSDKEnvironment()
             )
-            self.delegate = delegate
+            delegate?.paypalWillStart(self)
             self.nativeCheckoutProvider.start(
                 presentingViewController: presentingViewController,
-                createOrder: { order in
-                    order.set(orderId: orderID)
-                },
-                onApprove: { approval in
-                    self.notifySuccess(for: approval)
-                },
-                onShippingChange: { shippingChange, shippingChangeAction in
-                    self.notifyShippingChange(shippingChange: shippingChange, shippingChangeAction: shippingChangeAction)
-                },
-                onCancel: {
-                    self.notifyCancellation()
-                },
-                onError: { error in
-                    self.notifyFailure(with: error)
-                },
-                nxoConfig: nxoConfig
+                createOrder: createOrder,
+                onApprove: { approval in self.notifySuccess(for: approval) },
+            onShippingChange: { shippingChange, shippingChangeAction in
+                self.notifyShippingChange(shippingChange: shippingChange, shippingChangeAction: shippingChangeAction)
+            },
+            onCancel: {
+                self.notifyCancellation()
+            },
+            onError: { error in
+                self.notifyFailure(with: error)
+            },
+            nxoConfig: nxoConfig
             )
         } catch {
             delegate?.paypal(self, didFinishWithError: PayPalError.clientIDNotFoundError(error))
