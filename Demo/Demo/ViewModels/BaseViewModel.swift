@@ -259,11 +259,11 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         return CoreConfig(accessToken: token, environment: DemoSettings.environment.paypalSDKEnvironment)
     }
 
-    func getNativeCheckoutClient() async throws -> PayPalClient {
+    func getNativeCheckoutClient() async throws -> PayPalNativeCheckoutClient {
         guard let config = await getCoreConfig() else {
             throw CoreSDKError(code: 0, domain: "Error initializing paypal webcheckout client", errorDescription: nil)
         }
-        return PayPalClient(config: config)
+        return PayPalNativeCheckoutClient(config: config)
     }
 
     func getPayPalClient() async throws -> PayPalWebCheckoutClient {

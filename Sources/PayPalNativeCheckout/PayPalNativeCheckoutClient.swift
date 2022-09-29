@@ -6,14 +6,14 @@ import PaymentsCore
 
 /// PayPal Paysheet to handle PayPal transaction
 /// encapsulates instance to communicate with nxo
-public class PayPalClient {
+public class PayPalNativeCheckoutClient {
 
-    public weak var delegate: PayPalDelegate?
+    public weak var delegate: PayPalNativeCheckoutDelegate?
     private let nativeCheckoutProvider: NativeCheckoutStartable
     private let apiClient: APIClient
     private let config: CoreConfig
 
-    /// Initialize a PayPalClient to process PayPal transaction
+    /// Initialize a PayPalNativeCheckoutClient to process PayPal transaction
     /// - Parameters:
     ///   - config: The CoreConfig object
     public convenience init(config: CoreConfig) {

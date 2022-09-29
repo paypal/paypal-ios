@@ -78,6 +78,7 @@ Each feature module has its own onboarding guide:
 
 - [Card](docs/Card)
 - [PayPalUI](docs/PayPalUI)
+- [PayPal Native Checkout](docs/PayPalNativeCheckout)
 - [PayPal Web Checkout](docs/PayPalWebCheckout)
 
 To accept a certain payment method in your app, you only need to include that payment-specific submodule.

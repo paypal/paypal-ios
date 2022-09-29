@@ -6,6 +6,16 @@ struct SwiftUINativeCheckoutDemo: View {
 
     @StateObject var viewModel = PayPalViewModel()
 
+    @State var shippingTypeSelection = ShippingType.noShipping
+
+    enum ShippingType: String, CaseIterable, Identifiable {
+        case noShipping = "No shipping"
+        case providedAddress = "Set provided address"
+        case getFromFile = "Get from file"
+
+        var id: ShippingType { self }
+    }
+
     var body: some View {
         switch viewModel.state {
         case .initial:
@@ -18,27 +28,44 @@ struct SwiftUINativeCheckoutDemo: View {
     }
 
     func checkoutView(_ title: String, _ content: String, _ isFlowComplete: Bool) -> some View {
-        NavigationView {
-            ZStack {
-                VStack(spacing: 16) {
-                    Text(title)
-                    Text(content)
-                    Button(isFlowComplete ? "Try Again" : "Start Checkout" ) {
-                        if isFlowComplete {
-                            viewModel.retry()
-                        } else {
-                            startNativeCheckout()
-                        }
+        VStack(spacing: 16) {
+            HStack {
+                Text("Shipping type selection:")
+                Spacer()
+                Picker("", selection: $shippingTypeSelection) {
+                    ForEach(ShippingType.allCases, id: \.self) { type in
+                        Text(type.rawValue)
                     }
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(.blue)
-                    .cornerRadius(10)
-                    .padding(.horizontal, 16)
                 }
             }
+            .padding(16)
+            Divider()
+            VStack {
+                Text(title)
+                    .font(.system(size: 24))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding([.leading, .bottom], 16)
+                Text(content)
+                    .font(.system(size: 16))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding([.leading, .trailing, .bottom], 16)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            VStack {
+                Button(isFlowComplete ? "Try Again" : "Start Checkout" ) {
+                    isFlowComplete ? viewModel.retry() : startNativeCheckout()
+                }
+                .foregroundColor(.white)
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(.blue)
+                .cornerRadius(10)
+                .padding(.horizontal, 16)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
         }
+        .frame(maxHeight: .infinity)
+        .padding(.top, 32)
     }
 
     func getAccessTokenView() -> some View {
@@ -71,7 +98,14 @@ struct SwiftUINativeCheckoutDemo: View {
     }
 
     func startNativeCheckout() {
-        viewModel.checkoutWithOrderID()
+        switch shippingTypeSelection {
+        case .noShipping:
+            viewModel.checkoutWithNoShipping()
+        case .providedAddress:
+            viewModel.checkoutWithProvidedAddress()
+        case .getFromFile:
+            viewModel.checkoutWithGetFromFile()
+        }
     }
 }
 
