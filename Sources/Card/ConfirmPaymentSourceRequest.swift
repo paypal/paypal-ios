@@ -32,6 +32,9 @@ struct ConfirmPaymentSourceRequest: APIRequest {
 
         jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
         body = try jsonEncoder.encode(paymentSource)
+        
+        // TODO - The complexity in this `init` signals to reconsider our use/design of the `APIRequest` protocol.
+        // Existing pattern doesn't provide clear, testable interface for encoding JSON POST bodies.
     }
 
     // MARK: - APIRequest

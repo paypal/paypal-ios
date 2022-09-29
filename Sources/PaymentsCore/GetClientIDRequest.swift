@@ -1,10 +1,9 @@
 import Foundation
 
 struct GetClientIDRequest: APIRequest {
-    
+
     private let accessToken: String
-    
-    /// Creates request to get the order information
+
     init(accessToken: String) {
         self.accessToken = accessToken
     }
