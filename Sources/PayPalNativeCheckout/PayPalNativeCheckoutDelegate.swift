@@ -5,27 +5,27 @@ import PaymentsCore
 import PayPalCheckout
 
 /// PayPal delegate to handle events from PayPalClient
-public protocol PayPalDelegate: AnyObject {
+public protocol PayPalNativeCheckoutDelegate: AnyObject {
 
     /// Notify that the PayPal flow finished with a successful result
     /// - Parameters:
     ///   - didFinishWithResult: the successful result from the flow
-    func paypal(_ payPalClient: PayPalClient, didFinishWithResult approvalResult: PayPalCheckout.Approval)
+    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithResult approvalResult: PayPalCheckout.Approval)
 
     /// Notify that an error occurred in the PayPal flow
     /// - Parameters:
     ///   - didFinishWithError: the error returned by the PayPal flow
-    func paypal(_ payPalClient: PayPalClient, didFinishWithError error: CoreSDKError)
+    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithError error: CoreSDKError)
 
     /// Notify that the PayPal flow has been cancelled
     /// - Parameters:
     ///   - client: the PayPalClient associated with delegate
-    func paypalDidCancel(_ payPalClient: PayPalClient)
+    func paypalDidCancel(_ payPalClient: PayPalNativeCheckoutClient)
 
     /// Notify that the PayPal paysheet is about to appear
     /// - Parameters:
     ///   - client: the PayPalClient associated with delegate
-    func paypalWillStart(_ payPalClient: PayPalClient)
+    func paypalWillStart(_ payPalClient: PayPalNativeCheckoutClient)
 
     /// Notify when a shipping method and/or address has changed
     /// - Parameters:
@@ -33,7 +33,7 @@ public protocol PayPalDelegate: AnyObject {
     ///   - shippingChange: what change was produced in shipping
     ///   - shippingChangeAction: actions to perform for the change in shipping
     func paypalDidShippingAddressChange(
-        _ payPalClient: PayPalClient,
+        _ payPalClient: PayPalNativeCheckoutClient,
         shippingChange: ShippingChange,
         shippingChangeAction: ShippingChangeAction
     )
