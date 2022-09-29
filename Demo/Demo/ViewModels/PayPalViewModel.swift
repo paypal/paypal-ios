@@ -123,6 +123,7 @@ extension PayPalViewModel: PayPalNativeCheckoutDelegate {
         shippingChangeAction: ShippingChangeAction
     ) {
         // A bug in NXO calls callback everytime. We have to store shipping preference for cases with no shipping
+        // https://engineering.paypalcorp.com/jira/browse/DTNATIVEXO-1281
         if shippingPreference == .getFromFile {
             switch shippingChange.type {
             case .shippingAddress:
