@@ -26,12 +26,11 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         let paymentSource = [ "payment_source": [ "card": card ] ]
 
         self.orderID = cardRequest.orderID
-
         self.accessToken = accessToken
 
         path = String(format: pathFormat, orderID)
 
-        JSONEncoder().keyEncodingStrategy = .convertToSnakeCase
+        jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
         body = try jsonEncoder.encode(paymentSource)
     }
 
