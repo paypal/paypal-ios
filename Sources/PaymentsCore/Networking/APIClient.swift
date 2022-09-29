@@ -24,7 +24,6 @@ public class APIClient {
         guard var request = endpoint.toURLRequest(environment: coreConfig.environment) else {
             throw APIClientError.invalidURLRequestError
         }
-        request.setValue("Bearer \(coreConfig.accessToken)", forHTTPHeaderField: "Authorization")
         // TODO: consider throwing PayPalError from perfomRequest
         let (data, response) = try await urlSession.performRequest(with: request)
         let correlationID = (response as? HTTPURLResponse)?.allHeaderFields["Paypal-Debug-Id"] as? String
@@ -43,7 +42,7 @@ public class APIClient {
     }
 
     public func getClientID() async throws -> String {
-        let request = GetClientIDRequest(token: coreConfig.accessToken)
+        let request = GetClientIDRequest(accessToken: coreConfig.accessToken)
         let (response, _) = try await fetch(endpoint: request)
         return response.clientID
     }

@@ -12,7 +12,6 @@ class FakeRequest: APIRequest {
 
     public var path = "/fake-path"
     public var method = HTTPMethod.post
-    public var body: Data?
     public var headers = [HTTPHeader.accept: "test-header"]
 
     func toURLRequest(environment: Environment) -> URLRequest? {

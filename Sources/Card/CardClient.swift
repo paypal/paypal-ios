@@ -47,7 +47,7 @@ public class CardClient {
     ) {
         Task {
             do {
-                let confirmPaymentRequest = try ConfirmPaymentSourceRequest(cardRequest: request)
+                let confirmPaymentRequest = try ConfirmPaymentSourceRequest(accessToken: config.accessToken, cardRequest: request)
                 let (result, _) = try await apiClient.fetch(endpoint: confirmPaymentRequest)
                 if let url: String = result.links?.first(where: { $0.rel == "payer-action" })?.href {
                     delegate?.cardThreeDSecureWillLaunch(self)
@@ -94,7 +94,7 @@ public class CardClient {
     private func getOrderInfo(id orderId: String) {
         let getOrderInfoRequest = GetOrderInfoRequest(
             orderID: orderId,
-            token: config.accessToken
+            accessToken: config.accessToken
         )
         Task {
             do {

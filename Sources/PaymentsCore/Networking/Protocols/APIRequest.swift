@@ -1,5 +1,8 @@
 import Foundation
 
+// TODO - Revisit this design pattern.
+// Not easy to construct and format JSON post bodies (see `ConfirmPaymentSourceRequest` init).
+// Prevents us fr
 public protocol APIRequest {
     associatedtype ResponseType: Decodable
 
@@ -14,7 +17,11 @@ public protocol APIRequest {
 
 public extension APIRequest {
 
+    // Default
     var queryParameters: [String: String] { [:] }
+
+    // Default implementation
+    var body: Data? { nil }
 
     // Default implementation vends response from helper function
     func toURLRequest(environment: Environment) -> URLRequest? {

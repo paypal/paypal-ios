@@ -16,7 +16,7 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
         let cardRequest = CardRequest(orderID: mockOrderID, card: card)
 
         let confirmPaymentSourceRequest = try XCTUnwrap(
-            ConfirmPaymentSourceRequest(cardRequest: cardRequest)
+            ConfirmPaymentSourceRequest(accessToken: "fake-token", cardRequest: cardRequest)
         )
 
         let paymentSourceBody = try XCTUnwrap(confirmPaymentSourceRequest.body)
@@ -42,13 +42,14 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
         let cardRequest = CardRequest(orderID: mockOrderId, card: card)
 
         let confirmPaymentSourceRequest = try XCTUnwrap(
-            ConfirmPaymentSourceRequest(cardRequest: cardRequest)
+            ConfirmPaymentSourceRequest(accessToken: "fake-token", cardRequest: cardRequest)
         )
 
         let expectedPath = "/v2/checkout/orders/\(mockOrderId)/confirm-payment-source"
         let expectedMethod = HTTPMethod.post
         let expectedHeaders: [HTTPHeader: String] = [
-            .contentType: "application/json", .acceptLanguage: "en_US"
+            .contentType: "application/json", .acceptLanguage: "en_US",
+            .authorization: "Bearer fake-token"
         ]
 
         XCTAssertEqual(confirmPaymentSourceRequest.path, expectedPath)

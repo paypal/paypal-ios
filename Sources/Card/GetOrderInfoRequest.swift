@@ -5,25 +5,27 @@ import PaymentsCore
 
 struct GetOrderInfoRequest: APIRequest {
 
+    private let pathFormat: String = "v2/checkout/orders/%@"
+    private let accessToken: String
+    
+    /// Creates request to get the order information
+    init(orderID: String, accessToken: String) {
+        self.accessToken = accessToken
+        path = String(format: pathFormat, orderID)
+    }
+    
+    // MARK: - APIRequest
+    
     typealias ResponseType = GetOrderInfoResponse
-
-    let pathFormat: String = "v2/checkout/orders/%@"
-    let token: String
+    
     var path: String
     var method: HTTPMethod = .get
-    var body: Data?
 
     var headers: [HTTPHeader: String] {
         return [
             .contentType: "application/json",
             .acceptLanguage: "en_US",
-            .authorization: "Bearer \(token)"
+            .authorization: "Bearer \(accessToken)"
         ]
-    }
-
-    /// Creates request to get the order information
-    init(orderID: String, token: String) {
-        self.token = token
-        path = String(format: pathFormat, orderID)
     }
 }
