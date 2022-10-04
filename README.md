@@ -73,7 +73,7 @@ curl -X POST https://api.sandbox.paypal.com/v1/oauth2/token \
 Use the value for `access_token` in the response to create an instance of `CoreConfig` to use with any of the SDK's feature clients.
 
 ## Eligibility
-Before using each payment method provided by the SDK, you can check if you are eligible for each payment method, using the `EligibilityAPI` which is part of `PaymentsCore`, included every payment method module.
+Before using each payment method provided by the SDK, you can check if you are eligible for each payment method, using the `EligibilityAPI` which is part of `PaymentsCore`, included in every payment method module.
  
 Import `PaymentsCore`:
 ```swift
