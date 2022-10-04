@@ -1,5 +1,6 @@
 import Foundation
 
+/// Class that represents merchant's eligiblity for a set of payment methods
 public struct Eligibility {
 
     var isVenmoEligible: Bool
