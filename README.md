@@ -87,7 +87,7 @@ do {
     let eligibility = try await eligibilityAPI.checkEligibility()
     // check eligiblity for a payment method
 } catch {
-    // handle api error
+    // handle EligibilityAPI error
 }
 ```
 
