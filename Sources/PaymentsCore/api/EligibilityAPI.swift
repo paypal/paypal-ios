@@ -1,11 +1,14 @@
 import Foundation
 
-public class EligibilityAPI {
+/// API that return merchant's eligibility for different payment methods: Venmo, PayPal, PayPal Credit, Pay Later & credit card
+class EligibilityAPI {
 
     private let graphQLClient: GraphQLClient
     private let apiClient: APIClient
     private let coreConfig: CoreConfig
 
+    /// Initialize the eligibility API to check for payment methods eligibility
+    /// - Parameter coreConfig: configuration object
     public convenience init(coreConfig: CoreConfig) {
         self.init(
             coreConfig: coreConfig,
@@ -20,6 +23,8 @@ public class EligibilityAPI {
         self.graphQLClient = graphQLClient
     }
 
+    /// Checks merchants eligibility for different payment methods.
+    /// - Returns: a result object with either eligibility or an error
     public func checkEligibility() async throws -> Result<Eligibility, Error> {
         let clientID = try await apiClient.getClientID()
         let fundingEligibilityQuery = FundingEligibilityQuery(
