@@ -208,20 +208,6 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         print("❌ Buyer has cancelled the PayPal flow")
     }
 
-    // TODO: this is just for test, need to be removed after final integration
-    func testEligibility() async throws {
-        guard let config = await getCoreConfig() else {
-            print("error in making config for test eligibility")
-            return
-        }
-        let eligibilityAPI = EligibilityAPI(coreConfig: config)
-        do {
-            let eligibility = try await eligibilityAPI.checkEligibility()
-            print(eligibility)
-        } catch {
-            print("error in test eligibility")
-        }
-    }
     // MARK: - Card Delegate
 
     func card(_ cardClient: CardClient, didFinishWithResult result: CardResult) {
