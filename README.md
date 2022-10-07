@@ -21,7 +21,7 @@ This SDK supports:
 
 ### Languages
 
-This SDK supports Swift 5.5+. This SDK is written in Swift.
+This SDK supports Swift 5.7+. This SDK is written in Swift.
 
 ### UI Frameworks
 This SDK supports:
