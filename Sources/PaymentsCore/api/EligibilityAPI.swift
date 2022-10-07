@@ -1,6 +1,6 @@
 import Foundation
 
-/// API that return merchant's eligibility for different payment methods: Venmo, PayPal, PayPalCredit, PayLater & credit card
+/// API that return merchant's eligibility for different payment methods: Venmo, PayPal, PayPal Credit, Pay Later & credit card
 class EligibilityAPI {
 
     private let graphQLClient: GraphQLClient
