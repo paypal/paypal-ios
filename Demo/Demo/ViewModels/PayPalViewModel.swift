@@ -122,32 +122,25 @@ extension PayPalViewModel: PayPalNativeCheckoutDelegate {
         shippingChange: ShippingChange,
         shippingChangeAction: ShippingChangeAction
     ) {
-        // A bug in NXO calls callback everytime. We have to store shipping preference for cases with no shipping
-        // https://engineering.paypalcorp.com/jira/browse/DTNATIVEXO-1281
-        if shippingPreference == .getFromFile {
-            switch shippingChange.type {
-            case .shippingAddress:
-                // If user selected new address, we generate new shipping methods
-                let availableShippingMethods = OrderRequestHelpers.getShippingMethods(baseValue: Int.random(in: 0..<6))
+        switch shippingChange.type {
+        case .shippingAddress:
+            // If user selected new address, we generate new shipping methods
+            let availableShippingMethods = OrderRequestHelpers.getShippingMethods(baseValue: Int.random(in: 0..<6))
+            // If shipping methods are available, then patch order with the new shipping methods and new amount
+            patchAmountAndShippingOptions(
+                shippingMethods: availableShippingMethods,
+                action: shippingChangeAction
+            )
 
-                // If shipping methods are available, then patch order with the new shipping methods and new amount
-                patchAmountAndShippingOptions(
-                    shippingMethods: availableShippingMethods,
-                    action: shippingChangeAction
-                )
+        case .shippingMethod:
+            // If user selected new method, we patch the selected shipping method + amount
+            patchAmountAndShippingOptions(
+                shippingMethods: shippingChange.shippingMethods,
+                action: shippingChangeAction
+            )
 
-            case .shippingMethod:
-                // If user selected new method, we patch the selected shipping method + amount
-                patchAmountAndShippingOptions(
-                    shippingMethods: shippingChange.shippingMethods,
-                    action: shippingChangeAction
-                )
-
-            @unknown default:
-                break
-            }
-        } else {
-            shippingChangeAction.approve()
+        @unknown default:
+            break
         }
     }
 }
