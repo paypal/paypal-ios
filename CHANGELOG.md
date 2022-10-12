@@ -1,7 +1,7 @@
 
 # PayPal iOS SDK Release Notes
 
-## Unreleased Version
+## unreleased
 * PayPalNativeCheckout
     * Update to version 0.109.0 that fixes shipping callback bug
 * Bump minimum supported deployment target to iOS 14+
