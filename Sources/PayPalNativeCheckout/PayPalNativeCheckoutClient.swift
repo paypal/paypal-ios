@@ -44,9 +44,7 @@ public class PayPalNativeCheckoutClient {
                 clientID: clientID,
                 createOrder: nil,
                 onApprove: nil,
-                onShippingChange: { shippingChange, shippingChangeAction in
-                    self.notifyShippingChange(shippingChange: shippingChange, shippingChangeAction: shippingChangeAction)
-                }, // TODO: set on start function, once https://engineering.paypalcorp.com/jira/browse/DTNATIVEXO-1268 is released
+                onShippingChange: nil,
                 onCancel: nil,
                 onError: nil,
                 environment: config.environment.toNativeCheckoutSDKEnvironment()
