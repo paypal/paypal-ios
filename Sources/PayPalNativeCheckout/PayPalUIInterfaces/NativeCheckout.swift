@@ -17,6 +17,7 @@ class NativeCheckoutProvider: NativeCheckoutStartable {
         onError: CheckoutConfig.ErrorCallback?,
         nxoConfig: CheckoutConfig
     ) {
+        Checkout.showsExitAlert = false
         Checkout.set(config: nxoConfig)
         DispatchQueue.main.async {
             Checkout.start(
