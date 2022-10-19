@@ -9,7 +9,7 @@ class EligibilityAPI {
 
     /// Initialize the eligibility API to check for payment methods eligibility
     /// - Parameter coreConfig: configuration object
-    public convenience init(coreConfig: CoreConfig) {
+    convenience init(coreConfig: CoreConfig) {
         self.init(
             coreConfig: coreConfig,
             apiClient: APIClient(coreConfig: coreConfig),
@@ -25,7 +25,7 @@ class EligibilityAPI {
 
     /// Checks merchants eligibility for different payment methods.
     /// - Returns: a result object with either eligibility or an error
-    public func checkEligibility() async throws -> Result<Eligibility, Error> {
+    func checkEligibility() async throws -> Result<Eligibility, Error> {
         let clientID = try await apiClient.getClientID()
         let fundingEligibilityQuery = FundingEligibilityQuery(
             clientID: clientID,
