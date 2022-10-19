@@ -10,7 +10,7 @@ class PayPalButton_Tests: XCTestCase {
 
     func testInit_whenPayPalButtonCreated_hasUIColorFromAssets() {
         let payPalButton = PayPalButton()
-        XCTAssertEqual(payPalButton.backgroundColor, PaymentButtonColor.gold.rawValue)
+        XCTAssertEqual(payPalButton.backgroundColor, PaymentButtonColor.gold.color)
     }
 
     func testInit_whenSwiftUIPayPalButtonCreated_canInit() {
