@@ -43,7 +43,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "PayPal::PayPalTests"
-               BuildableName = "PayPalTests.xctest"
+               BuildableName = "PayPalNativeCheckoutTests.xctest"
                BlueprintName = "PayPalNativeCheckoutTests"
                ReferencedContainer = "container:PayPal.xcodeproj">
             </BuildableReference>
@@ -71,7 +71,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BCD5C48627E9201400B074D5"
-               BuildableName = "PayPalTests.xctest"
+               BuildableName = "PayPalWebCheckoutTests.xctest"
                BlueprintName = "PayPalWebCheckoutTests"
                ReferencedContainer = "container:PayPal.xcodeproj">
             </BuildableReference>
@@ -104,7 +104,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "PayPal::PayPalTests"
-               BuildableName = "PayPalTests.xctest"
+               BuildableName = "PayPalNativeCheckoutTests.xctest"
                BlueprintName = "PayPalNativeCheckoutTests"
                ReferencedContainer = "container:PayPal.xcodeproj">
             </BuildableReference>
