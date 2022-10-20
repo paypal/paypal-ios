@@ -11,7 +11,7 @@ struct SwiftUIPaymentButtonDemo: View {
     @State private var selectedFunding = PaymentButtonFundingSource.allCases()[0]
 
     @State private var colorsIndex = 0
-    @State private var colors = PayPalButton.Color.allCasesAsString()
+    @State private var colors = UIPayPalButton.Color.allCasesAsString()
 
     @State private var edgesIndex = 0
     private var edges = PaymentButtonEdges.allCasesAsString()
@@ -26,7 +26,7 @@ struct SwiftUIPaymentButtonDemo: View {
         ZStack {
             VStack {
                 Picker("Funding Source", selection: $fundingIndex) {
-                    ForEach(fundingSources.indices) { index in
+                    ForEach(fundingSources.indices, id: \.self) { index in
                         Text(fundingSources[index])
                     }
                 }
@@ -40,7 +40,7 @@ struct SwiftUIPaymentButtonDemo: View {
                 }
 
                 Picker("Colors", selection: $colorsIndex) {
-                    ForEach(colors.indices) { index in
+                    ForEach(colors.indices, id: \.self) { index in
                         Text(colors[index])
                     }
                 }
@@ -51,7 +51,7 @@ struct SwiftUIPaymentButtonDemo: View {
                 .id(pickerId)
 
                 Picker("Edges", selection: $edgesIndex) {
-                    ForEach(edges.indices) { index in
+                    ForEach(edges.indices, id: \.self) { index in
                         Text(edges[index])
                     }
                 }
@@ -62,7 +62,7 @@ struct SwiftUIPaymentButtonDemo: View {
                 }
 
                 Picker("sizes", selection: $sizesIndex) {
-                    ForEach(sizes.indices) { index in
+                    ForEach(sizes.indices, id: \.self) { index in
                         Text(sizes[index])
                     }
                 }
@@ -74,18 +74,18 @@ struct SwiftUIPaymentButtonDemo: View {
 
                 switch selectedFunding {
                 case .payPal:
-                    PayPalButtonSwiftUI(color: PayPalButton.Color.allCases()[colorsIndex], edges: selectedEdge, size: selectedSize).id(buttonId)
+                    PayPalButton(color: UIPayPalButton.Color.allCases()[colorsIndex], edges: selectedEdge, size: selectedSize).id(buttonId)
 
                 case .payLater:
                     PayPalPayLaterButton(
-                        color: PayPalPayLaterButton.Color.allCases()[colorsIndex],
+                        color: UIPayPalPayLaterButton.Color.allCases()[colorsIndex],
                         edges: selectedEdge,
                         size: selectedSize
                     ).id(buttonId)
 
                 case .credit:
                     PayPalCreditButton(
-                        color: PayPalCreditButton.Color.allCases()[colorsIndex],
+                        color: UIPayPalCreditButton.Color.allCases()[colorsIndex],
                         edges: selectedEdge,
                         size: selectedSize
                     ).id(buttonId)
@@ -97,13 +97,13 @@ struct SwiftUIPaymentButtonDemo: View {
     private func getColorFunding(with funding: PaymentButtonFundingSource) -> [String] {
         switch funding {
         case .payPal:
-            return PayPalButton.Color.allCasesAsString()
+            return UIPayPalButton.Color.allCasesAsString()
 
         case .payLater:
-            return PayPalPayLaterButton.Color.allCasesAsString()
+            return UIPayPalPayLaterButton.Color.allCasesAsString()
 
         case .credit:
-            return PayPalCreditButton.Color.allCasesAsString()
+            return UIPayPalCreditButton.Color.allCasesAsString()
         }
     }
 }

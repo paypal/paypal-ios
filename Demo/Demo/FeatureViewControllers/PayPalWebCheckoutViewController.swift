@@ -11,20 +11,20 @@ class PayPalWebCheckoutViewController: FeatureBaseViewController {
 
     // MARK: - UI Components
 
-    lazy var payPalButton: PayPalButton = {
-        let payPalButton = PayPalButton(color: .silver, edges: .rounded, size: .full)
+    lazy var payPalButton: UIPayPalButton = {
+        let payPalButton = UIPayPalButton(color: .silver, edges: .rounded, size: .full)
         payPalButton.addTarget(self, action: #selector(paymentButtonTapped), for: .touchUpInside)
         return payPalButton
     }()
 
-    lazy var payPalCreditButton: PayPalCreditButton = {
-        let payPalCreditButton = PayPalCreditButton(color: .darkBlue, edges: .softEdges, size: .mini)
+    lazy var payPalCreditButton: UIPayPalCreditButton = {
+        let payPalCreditButton = UIPayPalCreditButton(color: .darkBlue, edges: .softEdges, size: .mini)
         payPalCreditButton.addTarget(self, action: #selector(paymentCreditButtonTapped), for: .touchUpInside)
         return payPalCreditButton
     }()
 
-    lazy var payPalPayLaterButton: PayPalPayLaterButton = {
-        let payPalPayLaterButton = PayPalPayLaterButton(color: .gold, edges: .hardEdges, size: .expanded)
+    lazy var payPalPayLaterButton: UIPayPalPayLaterButton = {
+        let payPalPayLaterButton = UIPayPalPayLaterButton(color: .gold, edges: .hardEdges, size: .expanded)
         payPalPayLaterButton.addTarget(self, action: #selector(paymentCreditButtonTapped), for: .touchUpInside)
         return payPalPayLaterButton
     }()

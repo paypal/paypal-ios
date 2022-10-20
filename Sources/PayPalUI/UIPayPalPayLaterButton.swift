@@ -1,10 +1,21 @@
 import UIKit
 import SwiftUI
 
-public struct PayPalPayLaterButton: UIViewRepresentable {
+/// Configuration for PayPal PayLater button
+public final class UIPayPalPayLaterButton: PaymentButton {
 
-    private let button: UIPayPalPayLaterButton
-    private var action: () -> Void = { }
+    /// Available colors for UIPayPalPayLaterButton.
+    public enum Color: String {
+        case gold
+        case white
+        case black
+        case silver
+        case blue
+
+        var color: PaymentButtonColor {
+            PaymentButtonColor(rawValue: rawValue) ?? .gold
+        }
+    }
 
     /// Initialize a UIPayPalPayLaterButton
     /// - Parameters:
@@ -12,14 +23,14 @@ public struct PayPalPayLaterButton: UIViewRepresentable {
     ///   - color: Color of the button. Default to gold if not provided.
     ///   - edges: Edges of the button. Default to softEdges if not provided.
     ///   - size: Size of the button. Default to collapsed if not provided.
-    public init(
+    public convenience init(
         insets: NSDirectionalEdgeInsets? = nil,
-        color: UIPayPalPayLaterButton.Color = .gold,
+        color: Color = .gold,
         edges: PaymentButtonEdges = .softEdges,
         size: PaymentButtonSize = .collapsed,
         _ action: @escaping () -> Void = { }
     ) {
-        self.button = UIPayPalPayLaterButton(
+        self.init(
             fundingSource: .payLater,
             color: color.color,
             edges: edges,
@@ -27,25 +38,5 @@ public struct PayPalPayLaterButton: UIViewRepresentable {
             insets: insets,
             label: .payLater
         )
-        self.action = action
-    }
-
-    // MARK: - UIViewRepresentable methods
-
-    public func makeCoordinator() -> Coordinator {
-        Coordinator(action: action)
-    }
-
-    public func makeUIView(context: Context) -> UIView {
-        let view = UIView()
-        view.addSubview(button)
-        
-        button.addTarget(context.coordinator, action: #selector(Coordinator.onAction(_:)), for: .touchUpInside)
-
-        return view
-    }
-
-    public func updateUIView(_ uiView: UIView, context: Context) {
-        context.coordinator.action = action
     }
 }
