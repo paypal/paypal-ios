@@ -28,7 +28,7 @@ public class PaymentButton: UIButton {
 
     // MARK: - Views
 
-    private let containerView: UIView = {
+    let containerView: UIView = {
         let view = UIView(frame: .zero)
         view.layer.masksToBounds = true
         view.isUserInteractionEnabled = false
