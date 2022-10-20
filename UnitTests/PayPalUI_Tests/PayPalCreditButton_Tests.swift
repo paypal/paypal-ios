@@ -5,12 +5,12 @@ class PayPalCreditButton_Tests: XCTestCase {
 
     func testInit_whenPayPalCreditButtonCreated_hasUIImageFromAssets() {
         let payPalCreditButton = PayPalCreditButton()
-        XCTAssertEqual(payPalCreditButton.imageView?.image, PaymentButtonImage.payPalCredit.rawValue)
+        XCTAssertEqual(payPalCreditButton.imageView?.image, UIImage(named: "PayPalCreditLogo"))
     }
 
     func testInit_whenPayPalCreditButtonCreated_hasUIColorFromAssets() {
         let payPalCreditButton = PayPalCreditButton()
-        XCTAssertEqual(payPalCreditButton.backgroundColor, PaymentButtonColor.darkBlue.rawValue)
+        XCTAssertEqual(payPalCreditButton.containerView.backgroundColor, PaymentButtonColor.darkBlue.color)
     }
 
     func testInit_whenSwiftUIPayPalCreditButtonCreated_canInit() {
