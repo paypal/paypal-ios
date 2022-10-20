@@ -7,7 +7,7 @@ public struct PayPalButton: UIViewRepresentable {
     
     private let button: UIPayPalButton
     
-    /// Initialize a UIPayPalButton
+    /// Initialize a PayPalButton
     /// - Parameters:
     ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
     ///   - color: Color of the button. Default to gold if not provided.

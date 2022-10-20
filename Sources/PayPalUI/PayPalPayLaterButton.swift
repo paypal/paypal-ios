@@ -6,7 +6,7 @@ public struct PayPalPayLaterButton: UIViewRepresentable {
     private let button: UIPayPalPayLaterButton
     private var action: () -> Void = { }
 
-    /// Initialize a UIPayPalPayLaterButton
+    /// Initialize a PayPalPayLaterButton
     /// - Parameters:
     ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
     ///   - color: Color of the button. Default to gold if not provided.
