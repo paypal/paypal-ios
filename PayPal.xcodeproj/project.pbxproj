@@ -122,6 +122,7 @@
 		CB4BE28B2851423900EA2DD1 /* MockWebAuthenticationSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE8A7F627EA54A000AC301B /* MockWebAuthenticationSession.swift */; };
 		CB4BE28C2851427600EA2DD1 /* MockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE8A7F427EA544000AC301B /* MockViewController.swift */; };
 		CB51FF7227FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB51FF7127FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift */; };
+		CB6DCC48290078D100F8A5B9 /* PayPalButtonSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6DCC47290078D100F8A5B9 /* PayPalButtonSwiftUI.swift */; };
 		CBA92A4327B304140077FF14 /* APIClientDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA92A4227B304140077FF14 /* APIClientDecoder.swift */; };
 		CBD6004728D0C24A00C3EFF6 /* MockPayPalDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD6004628D0C24900C3EFF6 /* MockPayPalDelegate.swift */; };
 		CBD6004828D0C24A00C3EFF6 /* MockPayPalDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD6004628D0C24900C3EFF6 /* MockPayPalDelegate.swift */; };
@@ -309,6 +310,7 @@
 		CB4BE285284802C200EA2DD1 /* PaymentSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSource.swift; sourceTree = "<group>"; };
 		CB4BE28928512A9800EA2DD1 /* MockQuededURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockQuededURLSession.swift; sourceTree = "<group>"; };
 		CB51FF7127FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebCheckoutFundingSource.swift; sourceTree = "<group>"; };
+		CB6DCC47290078D100F8A5B9 /* PayPalButtonSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalButtonSwiftUI.swift; sourceTree = "<group>"; };
 		CBA92A4227B304140077FF14 /* APIClientDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientDecoder.swift; sourceTree = "<group>"; };
 		CBD6004628D0C24900C3EFF6 /* MockPayPalDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPayPalDelegate.swift; sourceTree = "<group>"; };
 		E6022E862857C81E008B0E27 /* EligibilityParsing_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EligibilityParsing_Tests.swift; sourceTree = "<group>"; };
@@ -672,6 +674,7 @@
 				CB1A47F92820BF6B00BD8184 /* PaymentButtonFont.swift */,
 				CB1A47FD2820C10700BD8184 /* PaymentButtonFundingSource.swift */,
 				CB1A48042822BCED00BD8184 /* ImageAsset.swift */,
+				CB6DCC47290078D100F8A5B9 /* PayPalButtonSwiftUI.swift */,
 			);
 			name = PayPalUI;
 			path = Sources/PayPalUI;
@@ -1512,6 +1515,7 @@
 				CB1A47F22820AFED00BD8184 /* PayPalPayLaterButton.swift in Sources */,
 				CB1A47F42820BA5D00BD8184 /* PaymentButtonEdges.swift in Sources */,
 				BCFAC71B27ED04AF00C3AF00 /* PaymentButtonImage.swift in Sources */,
+				CB6DCC48290078D100F8A5B9 /* PayPalButtonSwiftUI.swift in Sources */,
 				BCFAC71A27ED04AC00C3AF00 /* PaymentButtonColor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

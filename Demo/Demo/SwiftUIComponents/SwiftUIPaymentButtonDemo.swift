@@ -74,7 +74,7 @@ struct SwiftUIPaymentButtonDemo: View {
 
                 switch selectedFunding {
                 case .payPal:
-                    PayPalButton(color: PayPalButton.Color.allCases()[colorsIndex], edges: selectedEdge, size: selectedSize).id(buttonId)
+                    PayPalButtonSwiftUI(color: PayPalButton.Color.allCases()[colorsIndex], edges: selectedEdge, size: selectedSize).id(buttonId)
 
                 case .payLater:
                     PayPalPayLaterButton(

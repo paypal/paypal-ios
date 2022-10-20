@@ -2,7 +2,7 @@ import UIKit
 import SwiftUI
 
 /// Configuration for PayPal button
-public final class PayPalButton: PaymentButton, UIViewRepresentable {
+public final class PayPalButton: PaymentButton {
 
     /// SwiftUI button action
     var action: () -> Void = { }
@@ -65,23 +65,23 @@ public final class PayPalButton: PaymentButton, UIViewRepresentable {
     deinit {}
 
     // MARK: - UIViewRepresentable methods
-
-    public func makeCoordinator() -> Coordinator {
-        Coordinator(action: action)
-    }
-
-    public func makeUIView(context: Context) -> UIView {
-        let view = UIView()
-        let payPalButton = self
-
-        view.addSubview(payPalButton)
-
-        payPalButton.addTarget(context.coordinator, action: #selector(Coordinator.onAction(_:)), for: .touchUpInside)
-
-        return view
-    }
-
-    public func updateUIView(_ uiView: UIView, context: Context) {
-        context.coordinator.action = action
-    }
+//
+//    public func makeCoordinator() -> Coordinator {
+//        Coordinator(action: action)
+//    }
+//
+//    public func makeUIView(context: Context) -> UIView {
+//        let view = UIView()
+//        let payPalButton = self
+//
+//        view.addSubview(payPalButton)
+//
+//        payPalButton.addTarget(context.coordinator, action: #selector(Coordinator.onAction(_:)), for: .touchUpInside)
+//
+//        return view
+//    }
+//
+//    public func updateUIView(_ uiView: UIView, context: Context) {
+//        context.coordinator.action = action
+//    }
 }
