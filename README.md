@@ -1,5 +1,9 @@
 # PayPal iOS SDK
 
+[![CocoaPods compatible](https://img.shields.io/cocoapods/v/PayPal.svg?style=flat)](https://cocoapods.org/pods/PayPal)
+[![Swift Package Manager compatible](https://img.shields.io/badge/SwiftPM-compatible-brightgreen.svg)](https://swift.org/package-manager/)
+![GitHub Actions Tests](https://github.com/paypal/iOS-SDK/workflows/Tests/badge.svg)
+
 Welcome to PayPal's iOS SDK. This library will help you accept card, PayPal, Venmo, and alternative payment methods in your iOS app.
 
 ## FAQ
