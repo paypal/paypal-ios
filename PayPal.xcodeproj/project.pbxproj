@@ -21,6 +21,7 @@
 		537804FD28760BE2006442BD /* EligibilityAPI_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537804FC28760BE2006442BD /* EligibilityAPI_Tests.swift */; };
 		53A2A4E228A182AC0093441C /* NativeCheckout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A2A4E128A182AC0093441C /* NativeCheckout.swift */; };
 		80132D7229008C000088D30D /* TestShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E743F8270E40CE00BACECA /* TestShared.framework */; };
+		80132D762900F4360088D30D /* PayPalNativeCheckout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80DB6F0E26B89D9600277E54 /* PayPalNativeCheckout.framework */; platformFilters = (driverkit, ios, macos, tvos, watchos, ); };
 		8034A9E726B875C90055AF13 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; };
 		8036C1E4270F9BE700C0F091 /* APIClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036C1E0270F9BE700C0F091 /* APIClient_Tests.swift */; };
 		8036C1E5270F9BE700C0F091 /* Environment_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036C1E1270F9BE700C0F091 /* Environment_Tests.swift */; };
@@ -439,6 +440,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
+				80132D762900F4360088D30D /* PayPalNativeCheckout.framework in Frameworks */,
 				80132D7229008C000088D30D /* TestShared.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
