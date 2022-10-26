@@ -6,7 +6,7 @@ concurrency:
 jobs:
   unit_test_job:
     name: Unit
-    runs-on: macOS-latest
+    runs-on: macOS-12
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -19,7 +19,7 @@ jobs:
 
   code_coverage:
     name: Unit Test Coverage
-    runs-on: macOS-latest
+    runs-on: macOS-12
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
