@@ -13,7 +13,7 @@ platform :ios do
       -sdk 'iphonesimulator' \
       -configuration 'Debug' \
       -scheme 'UnitTests' \
-      -destination 'name=iPhone 12,platform=iOS Simulator' \
+      -destination 'name=iPhone 14,platform=iOS Simulator' \
       test | xcpretty
       ")
   end
