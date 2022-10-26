@@ -21,7 +21,7 @@ public class APIClient {
     }
 
     public func fetch<T: APIRequest>(endpoint: T) async throws -> (T.ResponseType, CorrelationID?) {
-        guard var request = endpoint.toURLRequest(environment: coreConfig.environment) else {
+        guard let request = endpoint.toURLRequest(environment: coreConfig.environment) else {
             throw APIClientError.invalidURLRequestError
         }
         // TODO: consider throwing PayPalError from perfomRequest
