@@ -208,20 +208,6 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         print("❌ Buyer has cancelled the PayPal flow")
     }
 
-    // TODO: this is just for test, need to be removed after final integration
-    func testEligibility() async throws {
-        guard let config = await getCoreConfig() else {
-            print("error in making config for test eligibility")
-            return
-        }
-        let eligibilityAPI = EligibilityAPI(coreConfig: config)
-        do {
-            let eligibility = try await eligibilityAPI.checkEligibility()
-            print(eligibility)
-        } catch {
-            print("error in test eligibility")
-        }
-    }
     // MARK: - Card Delegate
 
     func card(_ cardClient: CardClient, didFinishWithResult result: CardResult) {
@@ -259,11 +245,11 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         return CoreConfig(accessToken: token, environment: DemoSettings.environment.paypalSDKEnvironment)
     }
 
-    func getNativeCheckoutClient() async throws -> PayPalClient {
+    func getNativeCheckoutClient() async throws -> PayPalNativeCheckoutClient {
         guard let config = await getCoreConfig() else {
             throw CoreSDKError(code: 0, domain: "Error initializing paypal webcheckout client", errorDescription: nil)
         }
-        return PayPalClient(config: config)
+        return PayPalNativeCheckoutClient(config: config)
     }
 
     func getPayPalClient() async throws -> PayPalWebCheckoutClient {

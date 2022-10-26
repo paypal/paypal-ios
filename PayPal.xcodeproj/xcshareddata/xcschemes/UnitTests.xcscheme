@@ -43,8 +43,50 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "PayPal::PayPalTests"
-               BuildableName = "PayPalTests.xctest"
+               BuildableName = "PayPalNativeCheckoutTests.xctest"
                BlueprintName = "PayPalNativeCheckoutTests"
+               ReferencedContainer = "container:PayPal.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BCF735D327D1583400A52E03"
+               BuildableName = "PayPalDataCollectorTests.xctest"
+               BlueprintName = "PayPalDataCollectorTests"
+               ReferencedContainer = "container:PayPal.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BCD5C48627E9201400B074D5"
+               BuildableName = "PayPalWebCheckoutTests.xctest"
+               BlueprintName = "PayPalWebCheckoutTests"
+               ReferencedContainer = "container:PayPal.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BCFAC70A27ED043100C3AF00"
+               BuildableName = "PayPalUITests.xctest"
+               BlueprintName = "PayPalUITests"
                ReferencedContainer = "container:PayPal.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -62,7 +104,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "PayPal::PayPalTests"
-               BuildableName = "PayPalTests.xctest"
+               BuildableName = "PayPalNativeCheckoutTests.xctest"
                BlueprintName = "PayPalNativeCheckoutTests"
                ReferencedContainer = "container:PayPal.xcodeproj">
             </BuildableReference>
@@ -84,6 +126,36 @@
                BlueprintIdentifier = "8034A9E226B875C90055AF13"
                BuildableName = "PaymentsCoreTests.xctest"
                BlueprintName = "PaymentsCoreTests"
+               ReferencedContainer = "container:PayPal.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BCD5C48627E9201400B074D5"
+               BuildableName = "PayPalWebCheckoutTests.xctest"
+               BlueprintName = "PayPalWebCheckoutTests"
+               ReferencedContainer = "container:PayPal.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BCF735D327D1583400A52E03"
+               BuildableName = "PayPalDataCollectorTests.xctest"
+               BlueprintName = "PayPalDataCollectorTests"
+               ReferencedContainer = "container:PayPal.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BCFAC70A27ED043100C3AF00"
+               BuildableName = "PayPalUITests.xctest"
+               BlueprintName = "PayPalUITests"
                ReferencedContainer = "container:PayPal.xcodeproj">
             </BuildableReference>
          </TestableReference>

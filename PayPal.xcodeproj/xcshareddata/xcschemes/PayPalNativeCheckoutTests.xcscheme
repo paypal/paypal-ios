@@ -17,7 +17,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "PayPal::PayPalTests"
-               BuildableName = "PayPalTests.xctest"
+               BuildableName = "PayPalNativeCheckoutTests.xctest"
                BlueprintName = "PayPalNativeCheckoutTests"
                ReferencedContainer = "container:PayPal.xcodeproj">
             </BuildableReference>

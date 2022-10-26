@@ -11,7 +11,7 @@ As the SDK is moved to general availability, we will be adding a contribution gu
 
 ## Support
 
-The PayPal iOS SDK supports a minimum deployment target of iOS 13+ and requires Xcode 13.2+ and macOS Big Sur 11.3+. See our [Client Deprecation policy](https://developer.paypal.com/braintree/docs/guides/client-sdk/deprecation-policy/ios/v5) to plan for updates.
+The PayPal iOS SDK supports a minimum deployment target of iOS 14+ and requires Xcode 14.0+ and macOS Monterey 12. See our [Client Deprecation policy](https://developer.paypal.com/braintree/docs/guides/client-sdk/deprecation-policy/ios/v5) to plan for updates.
 
 ### Package Managers
 This SDK supports:
@@ -21,7 +21,7 @@ This SDK supports:
 
 ### Languages
 
-This SDK supports Swift 5.1+. This SDK is written in Swift.
+This SDK supports Swift 5.7+. This SDK is written in Swift.
 
 ### UI Frameworks
 This SDK supports:
@@ -78,6 +78,7 @@ Each feature module has its own onboarding guide:
 
 - [Card](docs/Card)
 - [PayPalUI](docs/PayPalUI)
+- [PayPal Native Checkout](docs/PayPalNativeCheckout)
 - [PayPal Web Checkout](docs/PayPalWebCheckout)
 
 To accept a certain payment method in your app, you only need to include that payment-specific submodule.

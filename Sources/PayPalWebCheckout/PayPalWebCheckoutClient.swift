@@ -9,7 +9,7 @@ public class PayPalWebCheckoutClient {
     public weak var delegate: PayPalWebCheckoutDelegate?
     let config: CoreConfig
 
-    /// Initialize a PayPalClient to process PayPal transaction
+    /// Initialize a PayPalNativeCheckoutClient to process PayPal transaction
     /// - Parameters:
     ///   - config: The CoreConfig object
     public init(config: CoreConfig) {

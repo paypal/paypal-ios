@@ -5,7 +5,7 @@ enum OrderRequestHelpers {
 
     static var orderAmount = 100.0
 
-    static func getOrderRequest() -> OrderRequest {
+    static func getOrderRequest(_ shippingPreference: OrderApplicationContext.ShippingPreference) -> OrderRequest {
         return OrderRequest(
             intent: .authorize,
             purchaseUnits: [
@@ -14,6 +14,7 @@ enum OrderRequestHelpers {
                         currencyCode: .usd,
                         value: String(orderAmount)
                     ),
+                    payee: PayPalCheckout.PurchaseUnit.Payee(emailAddress: "merchant@email.com", merchantId: "X5XAHHCG636FA"),
                     shipping: PayPalCheckout.PurchaseUnit.Shipping(
                         shippingName: PayPalCheckout.PurchaseUnit.ShippingName(fullName: "Cookie Monster"),
                         address: OrderAddress(
@@ -24,12 +25,12 @@ enum OrderRequestHelpers {
                             adminArea2: "New York City",
                             postalCode: "32422"
                         ),
-                        options: getShippingMethods(baseValue: 0)
+                        options: shippingPreference == .getFromFile ? getShippingMethods(baseValue: 0) : nil
                     )
                 )
             ],
             applicationContext: OrderApplicationContext(
-                shippingPreference: .getFromFile,
+                shippingPreference: shippingPreference,
                 userAction: .payNow,
                 returnUrl: "https://example.com/return",
                 cancelUrl: "https://example.com/cancel"

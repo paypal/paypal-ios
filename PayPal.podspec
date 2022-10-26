@@ -6,9 +6,9 @@ Pod::Spec.new do |s|
   s.license          = "MIT"
   s.author           = { "PayPal" => "sdks@paypal.com" }
   s.source           = { :git => "https://github.com/paypal/iOS-SDK.git", :tag => s.version.to_s }
-  s.swift_version    = "5.5"
+  s.swift_version    = "5.7"
 
-  s.platform         = :ios, "13.0"
+  s.platform         = :ios, "14.0"
   s.compiler_flags = "-Wall -Werror -Wextra"
 
   s.subspec "Card" do |s|
@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   s.subspec "PayPalNativeCheckout" do |s|
    s.source_files  = "Sources/PayPalNativeCheckout/**/*.swift"
    s.dependency "PayPal/PaymentsCore"
-   s.dependency "PayPalCheckout", "0.100.0"
+   s.dependency "PayPalCheckout", "0.109.0"
   end
 
   s.subspec "PayPalUI" do |s|

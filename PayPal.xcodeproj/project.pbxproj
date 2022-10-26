@@ -20,6 +20,7 @@
 		3DC42BA927187E8300B71645 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC42BA827187E8300B71645 /* ErrorResponse.swift */; };
 		537804FD28760BE2006442BD /* EligibilityAPI_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537804FC28760BE2006442BD /* EligibilityAPI_Tests.swift */; };
 		53A2A4E228A182AC0093441C /* NativeCheckout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A2A4E128A182AC0093441C /* NativeCheckout.swift */; };
+		80132D7229008C000088D30D /* TestShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E743F8270E40CE00BACECA /* TestShared.framework */; };
 		8034A9E726B875C90055AF13 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; };
 		8036C1E4270F9BE700C0F091 /* APIClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036C1E0270F9BE700C0F091 /* APIClient_Tests.swift */; };
 		8036C1E5270F9BE700C0F091 /* Environment_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036C1E1270F9BE700C0F091 /* Environment_Tests.swift */; };
@@ -30,7 +31,7 @@
 		803C31B9270E4C560067D36E /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803C31B8270E4C560067D36E /* MockURLSession.swift */; };
 		8048D28C270B9DE00072214A /* ConfirmPaymentSourceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE00A226F3E32A0000CC46 /* ConfirmPaymentSourceResponse.swift */; };
 		805AB85926B88882003BEE0D /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; platformFilter = ios; };
-		80D0C1382731CC9B00548A3D /* PayPalClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7116152723227200165069 /* PayPalClient.swift */; };
+		80D0C1382731CC9B00548A3D /* PayPalNativeCheckoutClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7116152723227200165069 /* PayPalNativeCheckoutClient.swift */; };
 		80DB6F1726B89DC700277E54 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; platformFilter = ios; };
 		80DCC59E2719DB6F00EC7C5A /* CardClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DCC59D2719DB6F00EC7C5A /* CardClientError.swift */; };
 		80E74400270E40F300BACECA /* FakeRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E743FF270E40F300BACECA /* FakeRequests.swift */; };
@@ -42,7 +43,7 @@
 		BC0A82A6270B9954006E9A21 /* ConfirmPaymentSourceRequest_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DC226FCE1D20007014A /* ConfirmPaymentSourceRequest_Tests.swift */; };
 		BC43406F27E91C2700F70193 /* PayPalCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = BC43406E27E91C2700F70193 /* PayPalCheckout */; };
 		BC7F8123275FC1350011EDC8 /* CardRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7F8122275FC1350011EDC8 /* CardRequest.swift */; };
-		BC900B7D27AC307A00D48DBA /* PayPalDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC900B7C27AC307A00D48DBA /* PayPalDelegate.swift */; };
+		BC900B7D27AC307A00D48DBA /* PayPalNativeCheckoutDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC900B7C27AC307A00D48DBA /* PayPalNativeCheckoutDelegate.swift */; };
 		BC9C18D427D2775A0019B541 /* MockDeviceInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C18D327D2775A0019B541 /* MockDeviceInspector.swift */; };
 		BC9C18D827D279C70019B541 /* MagnesSDKResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C18D727D279C70019B541 /* MagnesSDKResult.swift */; };
 		BC9C18DA27D27CE40019B541 /* MockMagnesSDKResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C18D927D27CE40019B541 /* MockMagnesSDKResult.swift */; };
@@ -233,13 +234,13 @@
 		BC04836E27B2FB3600FA7B46 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		BC04837327B2FC7300FA7B46 /* URLSession+URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+URLSessionProtocol.swift"; sourceTree = "<group>"; };
 		BC7F8122275FC1350011EDC8 /* CardRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRequest.swift; sourceTree = "<group>"; };
-		BC900B7C27AC307A00D48DBA /* PayPalDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalDelegate.swift; sourceTree = "<group>"; };
+		BC900B7C27AC307A00D48DBA /* PayPalNativeCheckoutDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalNativeCheckoutDelegate.swift; sourceTree = "<group>"; };
 		BC9C18D327D2775A0019B541 /* MockDeviceInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDeviceInspector.swift; sourceTree = "<group>"; };
 		BC9C18D727D279C70019B541 /* MagnesSDKResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnesSDKResult.swift; sourceTree = "<group>"; };
 		BC9C18D927D27CE40019B541 /* MockMagnesSDKResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMagnesSDKResult.swift; sourceTree = "<group>"; };
 		BC9C18DD27D2A1610019B541 /* DeviceInspector_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInspector_Tests.swift; sourceTree = "<group>"; };
 		BCD5C48527E9200800B074D5 /* PayPalWebCheckout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PayPalWebCheckout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BCD5C49427E9201400B074D5 /* PayPalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PayPalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCD5C49427E9201400B074D5 /* PayPalWebCheckoutTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PayPalWebCheckoutTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCE8A7F227EA531C00AC301B /* MockPayPalWebDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPayPalWebDelegate.swift; sourceTree = "<group>"; };
 		BCE8A7F427EA544000AC301B /* MockViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockViewController.swift; sourceTree = "<group>"; };
 		BCE8A7F627EA54A000AC301B /* MockWebAuthenticationSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWebAuthenticationSession.swift; sourceTree = "<group>"; };
@@ -269,7 +270,7 @@
 		BE4F784727EB629100FF4C0E /* PayPalWebCheckoutResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayPalWebCheckoutResult.swift; sourceTree = "<group>"; };
 		BE4F784827EB629100FF4C0E /* WebAuthenticationSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAuthenticationSession.swift; sourceTree = "<group>"; };
 		BE4F784927EB629100FF4C0E /* PayPalWebCheckoutDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayPalWebCheckoutDelegate.swift; sourceTree = "<group>"; };
-		BE7116152723227200165069 /* PayPalClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalClient.swift; sourceTree = "<group>"; };
+		BE7116152723227200165069 /* PayPalNativeCheckoutClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalNativeCheckoutClient.swift; sourceTree = "<group>"; };
 		BE71161B27234B8A00165069 /* PayPalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalError.swift; sourceTree = "<group>"; };
 		BE711620272358E200165069 /* Environment+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment+Extension.swift"; sourceTree = "<group>"; };
 		BE9F36DE274859A000AFC7DA /* PaymentButtonColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentButtonColor.swift; sourceTree = "<group>"; };
@@ -332,7 +333,7 @@
 		E699EC15285A388E0044A753 /* GraphQLClient_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLClient_Tests.swift; sourceTree = "<group>"; };
 		OBJ_16 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		"PayPal::PayPalTests::Product" /* PayPalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = PayPalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"PayPal::PayPalTests::Product" /* PayPalNativeCheckoutTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = PayPalNativeCheckoutTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -438,6 +439,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
+				80132D7229008C000088D30D /* TestShared.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,7 +452,7 @@
 				80E8DAE726B8785D00FAFC3F /* CardTests */,
 				8036C1DE270F9BCF00C0F091 /* PaymentsCoreTests */,
 				BCF735F427D2708E00A52E03 /* PayPalDataCollector */,
-				OBJ_11 /* PayPalTests */,
+				OBJ_11 /* PayPalNativeCheckoutTests */,
 				BCFAC72227ED05D900C3AF00 /* PayPalUI_Tests */,
 				BCE8A7F027EA52BF00AC301B /* PayPalWebCheckoutTests */,
 				80E743F9270E40CE00BACECA /* TestShared */,
@@ -560,8 +562,8 @@
 			children = (
 				0649326E272703A500FA83A6 /* Enums */,
 				BE71161D2723586200165069 /* Extensions */,
-				BE7116152723227200165069 /* PayPalClient.swift */,
-				BC900B7C27AC307A00D48DBA /* PayPalDelegate.swift */,
+				BE7116152723227200165069 /* PayPalNativeCheckoutClient.swift */,
+				BC900B7C27AC307A00D48DBA /* PayPalNativeCheckoutDelegate.swift */,
 				3D25238027344F1E0099E4EB /* PayPalUIInterfaces */,
 			);
 			name = PayPalNativeCheckout;
@@ -818,22 +820,22 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		OBJ_11 /* PayPalTests */ = {
+		OBJ_11 /* PayPalNativeCheckoutTests */ = {
 			isa = PBXGroup;
 			children = (
 				3D25238B273979170099E4EB /* MockNativeCheckoutProvider.swift */,
-				067C92E427270FDE009E3054 /* PayPalEnvironment_Tests.swift */,
-				065EBD8B272865E4001E81C4 /* PayPalClient_Tests.swift */,
 				CBD6004628D0C24900C3EFF6 /* MockPayPalDelegate.swift */,
+				065EBD8B272865E4001E81C4 /* PayPalClient_Tests.swift */,
+				067C92E427270FDE009E3054 /* PayPalEnvironment_Tests.swift */,
 			);
-			name = PayPalTests;
-			path = UnitTests/PayPalTests;
+			name = PayPalNativeCheckoutTests;
+			path = UnitTests/PayPalNativeCheckoutTests;
 			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_13 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				"PayPal::PayPalTests::Product" /* PayPalTests.xctest */,
+				"PayPal::PayPalTests::Product" /* PayPalNativeCheckoutTests.xctest */,
 				80B9F85126B8750000D67843 /* PaymentsCore.framework */,
 				8034A9E326B875C90055AF13 /* PaymentsCoreTests.xctest */,
 				80E8DAD926B8783800FAFC3F /* Card.framework */,
@@ -843,7 +845,7 @@
 				BCF735D227D1583200A52E03 /* PayPalDataCollector.framework */,
 				BCF735E127D1583400A52E03 /* PayPalDataCollectorTests.xctest */,
 				BCD5C48527E9200800B074D5 /* PayPalWebCheckout.framework */,
-				BCD5C49427E9201400B074D5 /* PayPalTests.xctest */,
+				BCD5C49427E9201400B074D5 /* PayPalWebCheckoutTests.xctest */,
 				BCFAC70927ED042500C3AF00 /* PayPalUI.framework */,
 				BCFAC71827ED043200C3AF00 /* PayPalUITests.xctest */,
 			);
@@ -1054,7 +1056,7 @@
 			);
 			name = PayPalWebCheckoutTests;
 			productName = PayPalTests;
-			productReference = BCD5C49427E9201400B074D5 /* PayPalTests.xctest */;
+			productReference = BCD5C49427E9201400B074D5 /* PayPalWebCheckoutTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		BCF735C227D1583200A52E03 /* PayPalDataCollector */ = {
@@ -1143,7 +1145,7 @@
 			);
 			name = PayPalNativeCheckoutTests;
 			productName = PayPalTests;
-			productReference = "PayPal::PayPalTests::Product" /* PayPalTests.xctest */;
+			productReference = "PayPal::PayPalTests::Product" /* PayPalNativeCheckoutTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -1383,10 +1385,10 @@
 				BCF59E5D27E91ECC00CDFD47 /* PayPalApproval.swift in Sources */,
 				BCF59E5E27E91ECC00CDFD47 /* PayPalErrorType.swift in Sources */,
 				BCF59E5F27E91ECC00CDFD47 /* NativeCheckoutStartable.swift in Sources */,
-				BC900B7D27AC307A00D48DBA /* PayPalDelegate.swift in Sources */,
+				BC900B7D27AC307A00D48DBA /* PayPalNativeCheckoutDelegate.swift in Sources */,
 				53A2A4E228A182AC0093441C /* NativeCheckout.swift in Sources */,
 				3D252388273477DA0099E4EB /* PayPalCreateOrder.swift in Sources */,
-				80D0C1382731CC9B00548A3D /* PayPalClient.swift in Sources */,
+				80D0C1382731CC9B00548A3D /* PayPalNativeCheckoutClient.swift in Sources */,
 				BE711621272358E200165069 /* Environment+Extension.swift in Sources */,
 				BE71161C27234B8A00165069 /* PayPalError.swift in Sources */,
 			);
@@ -1628,7 +1630,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1694,7 +1696,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1770,7 +1772,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1847,7 +1849,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1927,7 +1929,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2004,7 +2006,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2084,7 +2086,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2160,7 +2162,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2239,7 +2241,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2316,7 +2318,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2390,7 +2392,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2456,7 +2458,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2532,7 +2534,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2609,7 +2611,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2647,7 +2649,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@loader_path/../Frameworks",
@@ -2656,11 +2658,10 @@
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGET_NAME = PayPalTests;
+				TARGET_NAME = PayPalWebCheckoutTests;
 			};
 			name = Debug;
 		};
@@ -2679,7 +2680,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@loader_path/../Frameworks",
@@ -2688,10 +2689,9 @@
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
 				SWIFT_VERSION = 5.0;
-				TARGET_NAME = PayPalTests;
+				TARGET_NAME = PayPalWebCheckoutTests;
 			};
 			name = Release;
 		};
@@ -2752,7 +2752,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2829,7 +2829,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2903,7 +2903,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2969,7 +2969,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3045,7 +3045,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3122,7 +3122,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3159,7 +3159,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@loader_path/../Frameworks",
@@ -3189,7 +3189,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@loader_path/../Frameworks",
@@ -3219,7 +3219,7 @@
 					"SWIFT_PACKAGE=1",
 					"DEBUG=1",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "$(inherited) -DXcode";
@@ -3247,7 +3247,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@loader_path/../Frameworks",
@@ -3258,7 +3258,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
 				SWIFT_VERSION = 5.0;
-				TARGET_NAME = PayPalTests;
+				TARGET_NAME = PayPalNativeCheckoutTests;
 			};
 			name = Debug;
 		};
@@ -3276,7 +3276,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@loader_path/../Frameworks",
@@ -3287,7 +3287,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
 				SWIFT_VERSION = 5.0;
-				TARGET_NAME = PayPalTests;
+				TARGET_NAME = PayPalNativeCheckoutTests;
 			};
 			name = Release;
 		};
@@ -3304,7 +3304,7 @@
 					"$(inherited)",
 					"SWIFT_PACKAGE=1",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_SWIFT_FLAGS = "$(inherited) -DXcode";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3455,7 +3455,7 @@
 			repositoryURL = "https://github.com/paypal/paypalcheckout-ios";
 			requirement = {
 				kind = exactVersion;
-				version = 0.100.0;
+				version = 0.109.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

@@ -6,7 +6,7 @@ import AuthenticationServices
 
 class PayPalClient_Tests: XCTestCase {
 
-    let config = CoreConfig(clientID: "testClientID", accessToken: "testAccessToken", environment: .sandbox)
+    let config = CoreConfig(accessToken: "testAccessToken", environment: .sandbox)
     let context = MockViewController()
 
     lazy var payPalClient = PayPalWebCheckoutClient(config: config)
