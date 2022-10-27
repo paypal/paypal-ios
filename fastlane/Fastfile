@@ -20,15 +20,7 @@ platform :ios do
     sh("rm -rf coverage")
 
     # Fetch NXO dep
-    sh("
-      set -o pipefail && xcodebuild \
-      -resolvePackageDependencies \
-      -workspace ../PayPal.xcworkspace \
-      -configuration 'Debug' \
-      -scheme UnitTests \
-      -destination 'name=iPhone 14,platform=iOS Simulator' \
-      test
-      ")
+    sh("swift package resolve")
 
     # Fails unit_tests job if coverage below minimum_coverage_percentage
     xcov(

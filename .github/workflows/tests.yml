@@ -16,16 +16,3 @@ jobs:
         run: bundle install
       - name: Run Unit Tests
         run: bundle exec fastlane unit_tests
-
-  code_coverage:
-    name: Unit Test Coverage
-    runs-on: macOS-12
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Use Xcode 13
-        run: sudo xcode-select -switch /Applications/Xcode_14.0.1.app
-      - name: Install Dependencies
-        run: bundle install
-      - name: Calculate Unit Test Code Coverage
-        run: bundle exec fastlane coverage
