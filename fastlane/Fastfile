@@ -27,6 +27,17 @@ platform :ios do
     # Ensure the code coverage directory is empty before creating new coverage
     sh("rm -rf coverage")
 
+    # Fetch NXO dep
+    sh("
+      set -o pipefail && xcodebuild \
+      -resolvePackageDependencies \
+      -workspace ../PayPal.xcworkspace \
+      -configuration 'Debug' \
+      -scheme UnitTests \
+      -destination 'name=iPhone 14,platform=iOS Simulator' \
+      test
+      ")
+
     # Use xcov to get the coverage percentages
     xcov(
       scheme: "Demo",
