@@ -560,6 +560,7 @@
 				E65D2D1A2898674700F94DFC /* GetClientIDResponse.swift */,
 				807C5E642910244100ECECD8 /* AnalyticsAPI.swift */,
 				807C5E66291027D400ECECD8 /* AnalyticsEventRequest.swift */,
+				807C5E6829102D9800ECECD8 /* AnalyticsEventParams.swift */,
 			);
 			name = PaymentsCore;
 			path = Sources/PaymentsCore;
@@ -882,7 +883,6 @@
 				80DB6F0F26B89D9600277E54 /* PayPalNativeCheckout */,
 				BCFAC71927ED044300C3AF00 /* PayPalUI */,
 				BE4F784227EB627100FF4C0E /* PayPalWebCheckout */,
-				807C5E6829102D9800ECECD8 /* AnalyticsEventParams.swift */,
 			);
 			name = Sources;
 			sourceTree = SOURCE_ROOT;
