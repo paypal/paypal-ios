@@ -77,8 +77,8 @@
 		BCFAC71A27ED04AC00C3AF00 /* PaymentButtonColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36DE274859A000AFC7DA /* PaymentButtonColor.swift */; };
 		BCFAC71B27ED04AF00C3AF00 /* PaymentButtonImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36E0274859C200AFC7DA /* PaymentButtonImage.swift */; };
 		BCFAC71C27ED04C000C3AF00 /* PaymentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE00B7AA2743FD9F00758C63 /* PaymentButton.swift */; };
-		BCFAC71D27ED04C300C3AF00 /* UIPayPalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE00B79B2742F96200758C63 /* UIPayPalButton.swift */; };
-		BCFAC71E27ED04C500C3AF00 /* UIPayPalCreditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE00B7A82743F6AF00758C63 /* UIPayPalCreditButton.swift */; };
+		BCFAC71D27ED04C300C3AF00 /* PayPalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE00B79B2742F96200758C63 /* PayPalButton.swift */; };
+		BCFAC71E27ED04C500C3AF00 /* PayPalCreditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE00B7A82743F6AF00758C63 /* PayPalCreditButton.swift */; };
 		BCFAC71F27ED04C800C3AF00 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDB7FE32788AB8E00CEA554 /* Coordinator.swift */; };
 		BE4F785327EB656400FF4C0E /* Environment+PayPalWebCheckout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4F784327EB629100FF4C0E /* Environment+PayPalWebCheckout.swift */; };
 		BE4F785427EB656400FF4C0E /* PayPalWebCheckoutClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4F784627EB629100FF4C0E /* PayPalWebCheckoutClient.swift */; };
@@ -104,7 +104,7 @@
 		CB16E6E8285BBE6B00FD6F52 /* PurchaseUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB16E6E7285BBE6B00FD6F52 /* PurchaseUnit.swift */; };
 		CB16E6EA285BBE7700FD6F52 /* Amount.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB16E6E9285BBE7700FD6F52 /* Amount.swift */; };
 		CB16E6EC285BBE8C00FD6F52 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB16E6EB285BBE8C00FD6F52 /* Link.swift */; };
-		CB1A47F22820AFED00BD8184 /* UIPayPalPayLaterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1A47F12820AFED00BD8184 /* UIPayPalPayLaterButton.swift */; };
+		CB1A47F22820AFED00BD8184 /* PayPalPayLaterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1A47F12820AFED00BD8184 /* PayPalPayLaterButton.swift */; };
 		CB1A47F42820BA5D00BD8184 /* PaymentButtonEdges.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1A47F32820BA5D00BD8184 /* PaymentButtonEdges.swift */; };
 		CB1A47F62820BAA600BD8184 /* PaymentButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1A47F52820BAA600BD8184 /* PaymentButtonLabel.swift */; };
 		CB1A47F82820BCE200BD8184 /* PaymentButtonSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1A47F72820BCE200BD8184 /* PaymentButtonSize.swift */; };
@@ -123,9 +123,6 @@
 		CB4BE28B2851423900EA2DD1 /* MockWebAuthenticationSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE8A7F627EA54A000AC301B /* MockWebAuthenticationSession.swift */; };
 		CB4BE28C2851427600EA2DD1 /* MockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE8A7F427EA544000AC301B /* MockViewController.swift */; };
 		CB51FF7227FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB51FF7127FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift */; };
-		CB6DCC48290078D100F8A5B9 /* PayPalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6DCC47290078D100F8A5B9 /* PayPalButton.swift */; };
-		CB6DCC4A290191BA00F8A5B9 /* PayPalCreditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6DCC49290191BA00F8A5B9 /* PayPalCreditButton.swift */; };
-		CB6DCC4C290192FD00F8A5B9 /* PayPalPayLaterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6DCC4B290192FD00F8A5B9 /* PayPalPayLaterButton.swift */; };
 		CBA92A4327B304140077FF14 /* APIClientDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA92A4227B304140077FF14 /* APIClientDecoder.swift */; };
 		CBD6004728D0C24A00C3EFF6 /* MockPayPalDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD6004628D0C24900C3EFF6 /* MockPayPalDelegate.swift */; };
 		CBD6004828D0C24A00C3EFF6 /* MockPayPalDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD6004628D0C24900C3EFF6 /* MockPayPalDelegate.swift */; };
@@ -261,9 +258,9 @@
 		BCF735FA27D2719400A52E03 /* MockMagnesSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMagnesSDK.swift; sourceTree = "<group>"; };
 		BCFAC70927ED042500C3AF00 /* PayPalUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PayPalUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCFAC71827ED043200C3AF00 /* PayPalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PayPalUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		BE00B79B2742F96200758C63 /* UIPayPalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPayPalButton.swift; sourceTree = "<group>"; };
+		BE00B79B2742F96200758C63 /* PayPalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalButton.swift; sourceTree = "<group>"; };
 		BE00B79D2742F9F000758C63 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		BE00B7A82743F6AF00758C63 /* UIPayPalCreditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPayPalCreditButton.swift; sourceTree = "<group>"; };
+		BE00B7A82743F6AF00758C63 /* PayPalCreditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalCreditButton.swift; sourceTree = "<group>"; };
 		BE00B7AA2743FD9F00758C63 /* PaymentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentButton.swift; sourceTree = "<group>"; };
 		BE00B7AC27444FE900758C63 /* PayPalButton_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalButton_Tests.swift; sourceTree = "<group>"; };
 		BE4F784327EB629100FF4C0E /* Environment+PayPalWebCheckout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Environment+PayPalWebCheckout.swift"; sourceTree = "<group>"; };
@@ -297,7 +294,7 @@
 		CB16E6E7285BBE6B00FD6F52 /* PurchaseUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseUnit.swift; sourceTree = "<group>"; };
 		CB16E6E9285BBE7700FD6F52 /* Amount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Amount.swift; sourceTree = "<group>"; };
 		CB16E6EB285BBE8C00FD6F52 /* Link.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
-		CB1A47F12820AFED00BD8184 /* UIPayPalPayLaterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPayPalPayLaterButton.swift; sourceTree = "<group>"; };
+		CB1A47F12820AFED00BD8184 /* PayPalPayLaterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalPayLaterButton.swift; sourceTree = "<group>"; };
 		CB1A47F32820BA5D00BD8184 /* PaymentButtonEdges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentButtonEdges.swift; sourceTree = "<group>"; };
 		CB1A47F52820BAA600BD8184 /* PaymentButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentButtonLabel.swift; sourceTree = "<group>"; };
 		CB1A47F72820BCE200BD8184 /* PaymentButtonSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentButtonSize.swift; sourceTree = "<group>"; };
@@ -313,9 +310,6 @@
 		CB4BE285284802C200EA2DD1 /* PaymentSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSource.swift; sourceTree = "<group>"; };
 		CB4BE28928512A9800EA2DD1 /* MockQuededURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockQuededURLSession.swift; sourceTree = "<group>"; };
 		CB51FF7127FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebCheckoutFundingSource.swift; sourceTree = "<group>"; };
-		CB6DCC47290078D100F8A5B9 /* PayPalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalButton.swift; sourceTree = "<group>"; };
-		CB6DCC49290191BA00F8A5B9 /* PayPalCreditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalCreditButton.swift; sourceTree = "<group>"; };
-		CB6DCC4B290192FD00F8A5B9 /* PayPalPayLaterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalPayLaterButton.swift; sourceTree = "<group>"; };
 		CBA92A4227B304140077FF14 /* APIClientDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientDecoder.swift; sourceTree = "<group>"; };
 		CBD6004628D0C24900C3EFF6 /* MockPayPalDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPayPalDelegate.swift; sourceTree = "<group>"; };
 		E6022E862857C81E008B0E27 /* EligibilityParsing_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EligibilityParsing_Tests.swift; sourceTree = "<group>"; };
@@ -671,18 +665,15 @@
 				BE00B7AA2743FD9F00758C63 /* PaymentButton.swift */,
 				BE9F36DE274859A000AFC7DA /* PaymentButtonColor.swift */,
 				BE9F36E0274859C200AFC7DA /* PaymentButtonImage.swift */,
-				BE00B79B2742F96200758C63 /* UIPayPalButton.swift */,
-				BE00B7A82743F6AF00758C63 /* UIPayPalCreditButton.swift */,
-				CB1A47F12820AFED00BD8184 /* UIPayPalPayLaterButton.swift */,
+				BE00B79B2742F96200758C63 /* PayPalButton.swift */,
+				BE00B7A82743F6AF00758C63 /* PayPalCreditButton.swift */,
+				CB1A47F12820AFED00BD8184 /* PayPalPayLaterButton.swift */,
 				CB1A47F32820BA5D00BD8184 /* PaymentButtonEdges.swift */,
 				CB1A47F52820BAA600BD8184 /* PaymentButtonLabel.swift */,
 				CB1A47F72820BCE200BD8184 /* PaymentButtonSize.swift */,
 				CB1A47F92820BF6B00BD8184 /* PaymentButtonFont.swift */,
 				CB1A47FD2820C10700BD8184 /* PaymentButtonFundingSource.swift */,
 				CB1A48042822BCED00BD8184 /* ImageAsset.swift */,
-				CB6DCC47290078D100F8A5B9 /* PayPalButton.swift */,
-				CB6DCC49290191BA00F8A5B9 /* PayPalCreditButton.swift */,
-				CB6DCC4B290192FD00F8A5B9 /* PayPalPayLaterButton.swift */,
 			);
 			name = PayPalUI;
 			path = Sources/PayPalUI;
@@ -1512,20 +1503,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB1A47F62820BAA600BD8184 /* PaymentButtonLabel.swift in Sources */,
-				BCFAC71E27ED04C500C3AF00 /* UIPayPalCreditButton.swift in Sources */,
+				BCFAC71E27ED04C500C3AF00 /* PayPalCreditButton.swift in Sources */,
 				CB1A47FE2820C10700BD8184 /* PaymentButtonFundingSource.swift in Sources */,
 				CB1A47FA2820BF6B00BD8184 /* PaymentButtonFont.swift in Sources */,
 				CB1A48052822BCED00BD8184 /* ImageAsset.swift in Sources */,
-				CB6DCC4A290191BA00F8A5B9 /* PayPalCreditButton.swift in Sources */,
-				BCFAC71D27ED04C300C3AF00 /* UIPayPalButton.swift in Sources */,
+				BCFAC71D27ED04C300C3AF00 /* PayPalButton.swift in Sources */,
 				CB1A47F82820BCE200BD8184 /* PaymentButtonSize.swift in Sources */,
 				BCFAC71F27ED04C800C3AF00 /* Coordinator.swift in Sources */,
 				BCFAC71C27ED04C000C3AF00 /* PaymentButton.swift in Sources */,
-				CB6DCC4C290192FD00F8A5B9 /* PayPalPayLaterButton.swift in Sources */,
-				CB1A47F22820AFED00BD8184 /* UIPayPalPayLaterButton.swift in Sources */,
+				CB1A47F22820AFED00BD8184 /* PayPalPayLaterButton.swift in Sources */,
 				CB1A47F42820BA5D00BD8184 /* PaymentButtonEdges.swift in Sources */,
 				BCFAC71B27ED04AF00C3AF00 /* PaymentButtonImage.swift in Sources */,
-				CB6DCC48290078D100F8A5B9 /* PayPalButton.swift in Sources */,
 				BCFAC71A27ED04AC00C3AF00 /* PaymentButtonColor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

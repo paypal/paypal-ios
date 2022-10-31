@@ -1,14 +1,14 @@
 import PayPalUI
 
-extension UIPayPalPayLaterButton.Color {
+extension PayPalPayLaterButton.Color {
 
-    static func allCases() -> [UIPayPalPayLaterButton.Color] {
+    static func allCases() -> [PayPalPayLaterButton.Color] {
         [
-            UIPayPalPayLaterButton.Color.gold,
-            UIPayPalPayLaterButton.Color.white,
-            UIPayPalPayLaterButton.Color.black,
-            UIPayPalPayLaterButton.Color.silver,
-            UIPayPalPayLaterButton.Color.blue
+            PayPalPayLaterButton.Color.gold,
+            PayPalPayLaterButton.Color.white,
+            PayPalPayLaterButton.Color.black,
+            PayPalPayLaterButton.Color.silver,
+            PayPalPayLaterButton.Color.blue
         ]
     }
 
@@ -17,15 +17,15 @@ extension UIPayPalPayLaterButton.Color {
     }
 }
 
-extension UIPayPalButton.Color {
+extension PayPalButton.Color {
 
-    static func allCases() -> [UIPayPalButton.Color] {
+    static func allCases() -> [PayPalButton.Color] {
         [
-            UIPayPalButton.Color.gold,
-            UIPayPalButton.Color.white,
-            UIPayPalButton.Color.black,
-            UIPayPalButton.Color.silver,
-            UIPayPalButton.Color.blue
+            PayPalButton.Color.gold,
+            PayPalButton.Color.white,
+            PayPalButton.Color.black,
+            PayPalButton.Color.silver,
+            PayPalButton.Color.blue
         ]
     }
 
@@ -34,13 +34,13 @@ extension UIPayPalButton.Color {
     }
 }
 
-extension UIPayPalCreditButton.Color {
+extension PayPalCreditButton.Color {
 
-    static func allCases() -> [UIPayPalCreditButton.Color] {
+    static func allCases() -> [PayPalCreditButton.Color] {
         [
-            UIPayPalCreditButton.Color.white,
-            UIPayPalCreditButton.Color.black,
-            UIPayPalCreditButton.Color.darkBlue
+            PayPalCreditButton.Color.white,
+            PayPalCreditButton.Color.black,
+            PayPalCreditButton.Color.darkBlue
         ]
     }
 

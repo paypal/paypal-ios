@@ -4,12 +4,12 @@ import XCTest
 class PayPalButton_Tests: XCTestCase {
 
     func testInit_whenPayPalButtonCreated_hasUIImageFromAssets() {
-        let payPalButton = UIPayPalButton()
+        let payPalButton = PayPalButton()
         XCTAssertEqual(payPalButton.imageView?.image, UIImage(named: "PayPalLogo"))
     }
 
     func testInit_whenPayPalButtonCreated_hasUIColorFromAssets() {
-        let payPalButton = UIPayPalButton()
+        let payPalButton = PayPalButton()
         XCTAssertEqual(payPalButton.containerView.backgroundColor, PaymentButtonColor.gold.color)
     }
 

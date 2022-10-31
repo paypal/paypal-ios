@@ -11,7 +11,7 @@ struct SwiftUIPaymentButtonDemo: View {
     @State private var selectedFunding = PaymentButtonFundingSource.allCases()[0]
 
     @State private var colorsIndex = 0
-    @State private var colors = UIPayPalButton.Color.allCasesAsString()
+    @State private var colors = PayPalButton.Color.allCasesAsString()
 
     @State private var edgesIndex = 0
     private var edges = PaymentButtonEdges.allCasesAsString()
@@ -74,21 +74,28 @@ struct SwiftUIPaymentButtonDemo: View {
 
                 switch selectedFunding {
                 case .payPal:
-                    PayPalButton(color: UIPayPalButton.Color.allCases()[colorsIndex], edges: selectedEdge, size: selectedSize).id(buttonId)
+                    PayPalButton.Representable(
+                        color: PayPalButton.Color.allCases()[colorsIndex],
+                        edges: selectedEdge,
+                        size: selectedSize
+                    )
+                    .id(buttonId)
 
                 case .payLater:
-                    PayPalPayLaterButton(
-                        color: UIPayPalPayLaterButton.Color.allCases()[colorsIndex],
+                    PayPalPayLaterButton.Representable(
+                        color: PayPalPayLaterButton.Color.allCases()[colorsIndex],
                         edges: selectedEdge,
                         size: selectedSize
-                    ).id(buttonId)
+                    )
+                    .id(buttonId)
 
                 case .credit:
-                    PayPalCreditButton(
-                        color: UIPayPalCreditButton.Color.allCases()[colorsIndex],
+                    PayPalCreditButton.Representable(
+                        color: PayPalCreditButton.Color.allCases()[colorsIndex],
                         edges: selectedEdge,
                         size: selectedSize
-                    ).id(buttonId)
+                    )
+                    .id(buttonId)
                 }
             }.padding()
         }
@@ -97,13 +104,13 @@ struct SwiftUIPaymentButtonDemo: View {
     private func getColorFunding(with funding: PaymentButtonFundingSource) -> [String] {
         switch funding {
         case .payPal:
-            return UIPayPalButton.Color.allCasesAsString()
+            return PayPalButton.Color.allCasesAsString()
 
         case .payLater:
-            return UIPayPalPayLaterButton.Color.allCasesAsString()
+            return PayPalPayLaterButton.Color.allCasesAsString()
 
         case .credit:
-            return UIPayPalCreditButton.Color.allCasesAsString()
+            return PayPalCreditButton.Color.allCasesAsString()
         }
     }
 }

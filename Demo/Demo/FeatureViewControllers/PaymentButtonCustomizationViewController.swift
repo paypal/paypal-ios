@@ -161,13 +161,13 @@ class PaymentButtonCustomizationViewController: UIViewController {
     private func colorPickerSegments(with funding: PaymentButtonFundingSource) -> [String] {
         switch funding {
         case .payPal:
-            return UIPayPalButton.Color.allCasesAsString()
+            return PayPalButton.Color.allCasesAsString()
 
         case .payLater:
-            return UIPayPalPayLaterButton.Color.allCasesAsString()
+            return PayPalPayLaterButton.Color.allCasesAsString()
 
         case .credit:
-            return UIPayPalCreditButton.Color.allCasesAsString()
+            return PayPalCreditButton.Color.allCasesAsString()
         }
     }
 
@@ -180,16 +180,16 @@ class PaymentButtonCustomizationViewController: UIViewController {
 
         switch fundingSource {
         case .payPal:
-            let color = UIPayPalButton.Color.allCases()[colorPicker.selectedSegmentIndex]
-            paymentButton = UIPayPalButton(color: color, edges: edges, size: size)
+            let color = PayPalButton.Color.allCases()[colorPicker.selectedSegmentIndex]
+            paymentButton = PayPalButton(color: color, edges: edges, size: size)
 
         case .payLater:
-            let color = UIPayPalPayLaterButton.Color.allCases()[colorPicker.selectedSegmentIndex]
-            paymentButton = UIPayPalPayLaterButton(color: color, edges: edges, size: size)
+            let color = PayPalPayLaterButton.Color.allCases()[colorPicker.selectedSegmentIndex]
+            paymentButton = PayPalPayLaterButton(color: color, edges: edges, size: size)
 
         case .credit:
-            let color = UIPayPalCreditButton.Color.allCases()[colorPicker.selectedSegmentIndex]
-            paymentButton = UIPayPalCreditButton(color: color, edges: edges, size: size)
+            let color = PayPalCreditButton.Color.allCases()[colorPicker.selectedSegmentIndex]
+            paymentButton = PayPalCreditButton(color: color, edges: edges, size: size)
         }
 
         setShadow(on: paymentButton)

@@ -1,25 +1,35 @@
 import UIKit
 import SwiftUI
 
-public struct PayPalCreditButton: UIViewRepresentable {
+/// Configuration for PayPal Credit button
+public final class PayPalCreditButton: PaymentButton {
 
-    private let button: UIPayPalCreditButton
-    private var action: () -> Void = { }
-        
+    /**
+    Available colors for PayPalCreditButton.
+    */
+    public enum Color: String {
+        case white
+        case black
+        case darkBlue
+
+        var color: PaymentButtonColor {
+            PaymentButtonColor(rawValue: rawValue) ?? .darkBlue
+        }
+    }
+
     /// Initialize a PayPalCreditButton
     /// - Parameters:
     ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
     ///   - color: Color of the button. Default to dark blue if not provided.
     ///   - edges: Edges of the button. Default to softEdges if not provided.
     ///   - size: Size of the button. Default to collapsed if not provided.
-    public init(
+    public convenience init(
         insets: NSDirectionalEdgeInsets? = nil,
-        color: UIPayPalCreditButton.Color = .darkBlue,
+        color: Color = .darkBlue,
         edges: PaymentButtonEdges = .softEdges,
-        size: PaymentButtonSize = .collapsed,
-        _ action: @escaping () -> Void = { }
+        size: PaymentButtonSize = .collapsed
     ) {
-        self.button = UIPayPalCreditButton(
+        self.init(
             fundingSource: PaymentButtonFundingSource.credit,
             color: color.color,
             edges: edges,
@@ -27,25 +37,60 @@ public struct PayPalCreditButton: UIViewRepresentable {
             insets: insets,
             label: nil
         )
-        self.action = action
     }
+
+    deinit {}
+}
+
+public extension PayPalCreditButton {
     
-    // MARK: - UIViewRepresentable methods
+    /// PayPalCreditButton for SwiftUI
+    struct Representable: UIViewRepresentable {
+        
+        private let button: PayPalCreditButton
+        private var action: () -> Void = { }
+            
+        /// Initialize a PayPalCreditButton
+        /// - Parameters:
+        ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
+        ///   - color: Color of the button. Default to dark blue if not provided.
+        ///   - edges: Edges of the button. Default to softEdges if not provided.
+        ///   - size: Size of the button. Default to collapsed if not provided.
+        public init(
+            insets: NSDirectionalEdgeInsets? = nil,
+            color: PayPalCreditButton.Color = .darkBlue,
+            edges: PaymentButtonEdges = .softEdges,
+            size: PaymentButtonSize = .collapsed,
+            _ action: @escaping () -> Void = { }
+        ) {
+            self.button = PayPalCreditButton(
+                fundingSource: PaymentButtonFundingSource.credit,
+                color: color.color,
+                edges: edges,
+                size: size,
+                insets: insets,
+                label: nil
+            )
+            self.action = action
+        }
+        
+        // MARK: - UIViewRepresentable methods
 
-    public func makeCoordinator() -> Coordinator {
-        Coordinator(action: action)
-    }
+        public func makeCoordinator() -> Coordinator {
+            Coordinator(action: action)
+        }
 
-    public func makeUIView(context: Context) -> UIView {
-        let view = UIView()
+        public func makeUIView(context: Context) -> UIView {
+            let view = UIView()
 
-        view.addSubview(button)
-        button.addTarget(context.coordinator, action: #selector(Coordinator.onAction(_:)), for: .touchUpInside)
+            view.addSubview(button)
+            button.addTarget(context.coordinator, action: #selector(Coordinator.onAction(_:)), for: .touchUpInside)
 
-        return view
-    }
+            return view
+        }
 
-    public func updateUIView(_ uiView: UIView, context: Context) {
-        context.coordinator.action = action
+        public func updateUIView(_ uiView: UIView, context: Context) {
+            context.coordinator.action = action
+        }
     }
 }
