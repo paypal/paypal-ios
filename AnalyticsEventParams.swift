@@ -1,5 +1,6 @@
 struct AnalyticsEventParams: Codable {
     
+    // TODO: Convert to camel case, and then use snake-case encoding
     let app_id: String
     let app_name: String
     let c_sdk_ver: String
