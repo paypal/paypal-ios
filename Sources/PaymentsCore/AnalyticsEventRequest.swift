@@ -7,13 +7,13 @@ struct AnalyticsEventRequest: APIRequest {
     typealias ResponseType = EmptyResponse
     
     var path = "v1/tracking/events"
-    
     var method: HTTPMethod = .post
-    
     var headers: [HTTPHeader: String] = [.contentType: "application/json"]
+    var body: Data
     
-    init(name: String) {
-        
+    init(params: AnalyticsEventParams) throws {
+        let encoder = JSONEncoder()
+        body = try encoder.encode(params)
     }
     
 }

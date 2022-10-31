@@ -11,11 +11,13 @@ public struct AnalyticsAPI {
     }
     
     public func sendAnalyticsEvent(name: String) async {
-        let analyticsEventRequest = AnalyticsEventRequest(name: name)
-        do {
-            let (result, correlationID) = try await apiClient.fetch(endpoint: analyticsEventRequest)
-        } catch {
-            // error handling
-        }
+//        let params = AnalyticsEventParams(eventName: name, clientID: "test", merchantID: "test", sessionID: "test")
+//
+//        let analyticsEventRequest = AnalyticsEventRequest(name: name)
+//        do {
+//            let (result, correlationID) = try await apiClient.fetch(endpoint: analyticsEventRequest)
+//        } catch {
+//            // error handling
+//        }
     }
 }

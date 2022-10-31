@@ -1,52 +1,69 @@
 import UIKit
 
-// swiftlint:disable identifier_name
+struct AnalyticsEventParams: Encodable {
+    
+    enum CodingKeys: String, CodingKey {
+        case appID = "app_id"
+        case appName = "app_name"
+        case clientSDKVersion = "c_sdk_ver"
+        case clientID = "client_id"
+        case clientOS = "client_os"
+        case component = "comp"
+        case deviceManufacturer = "device_manufacturer"
+        case eventName = "event_name"
+        case eventSource = "event_source"
+        case packageManager = "ios_package_manager"
+        case isSimulator = "is_simulator"
+        case merchantAppVersion = "mapv"
+        case merchantID = "merchant_id"
+        case deviceModel = "mobile_device_model"
+        case platform = "platform"
+        case sessionID = "session_id"
+        case timestamp = "t"
+        case tenantName = "tenant_name"
+    }
+    
+    let appID: String = Bundle.main.infoDictionary?[kCFBundleIdentifierKey as String] as? String ?? ""
+    
+    let appName: String = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String ?? ""
 
-struct AnalyticsEventParams: Codable {
-    
-    // TODO: Convert to camel case, and then use snake-case encoding
-    
-    var appId: String = Bundle.main.infoDictionary?[kCFBundleIdentifierKey as String] as? String ?? ""
-    
-    var appName: String = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String ?? ""
-    
-//    let c_sdk_ver: String
-    
-//    let client_id: String
-    
-    var clientOs: String = UIDevice.current.systemName + " " + UIDevice.current.systemVersion
-    
-    var comp = "ppunifiedsdk"
-    
-    var deviceManufacturer = "Apple"
-    
-    var eventName: String
-    
-    var eventSource = "mobile-native"
-    
-    var iOSPackageManager: String {
+    let clientSDKVersion: String = "1.0.0"
+
+    let clientID: String
+
+    let clientOS: String = UIDevice.current.systemName + " " + UIDevice.current.systemVersion
+
+    let component = "ppunifiedsdk"
+
+    let deviceManufacturer = "Apple"
+
+    let eventName: String
+
+    let eventSource = "mobile-native"
+
+    let packageManager: String = {
         #if COCOAPODS
-            return "CocoaPods"
+            "CocoaPods"
         #elseif SWIFT_PACKAGE
-            return "Swift Package Manager"
+            "Swift Package Manager"
         #else
-            return "Carthage or Other"
+            "Carthage or Other"
         #endif
-    }
-    
-    var isSimulator: Bool {
+    }()
+
+    let isSimulator: Bool = {
         #if targetEnvironment(simulator)
-        return true
+            true
         #else
-        return false
+            false
         #endif
-    }
+    }()
     
-    var mapv: String = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as? String ?? ""
-    
-//    let merchant_id: String
-    
-    var mobileDeviceModel: String {
+    let merchantAppVersion: String = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as? String ?? ""
+
+    let merchantID: String
+
+    let deviceModel: String = {
         var systemInfo = utsname()
         uname(&systemInfo)
         let machineMirror = Mirror(reflecting: systemInfo.machine)
@@ -55,17 +72,20 @@ struct AnalyticsEventParams: Codable {
             return identifier + String(UnicodeScalar(UInt8(value)))
         }
         return identifier
-    }
+    }()
+
+    let platform = "iOS"
+
+    let sessionID: String
+
+    let timestamp = String(Date().timeIntervalSince1970 * 1000)
+
+    let tenantName = "PayPal"
     
-    var platform = "iOS"
-    
-//    let session_id: String
-    
-    var t = String(Date().timeIntervalSince1970 * 1000)
-    
-    var tenantName = "PayPal"
-    
-    init(eventName: String) {
+    init(eventName: String, clientID: String, merchantID: String, sessionID: String) {
         self.eventName = eventName
+        self.clientID = clientID
+        self.merchantID = merchantID
+        self.sessionID = sessionID
     }
 }
