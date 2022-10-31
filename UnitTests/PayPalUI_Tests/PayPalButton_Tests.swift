@@ -15,7 +15,7 @@ class PayPalButton_Tests: XCTestCase {
 
     func testInit_whenSwiftPayPalButtonCreated_canInit() {
         let action = { }
-        let payPalButton = PayPalButton { }
+        let payPalButton = PayPalButton.Representable()
         let coordinator = Coordinator(action: action)
 
         XCTAssertNotNil(payPalButton)
