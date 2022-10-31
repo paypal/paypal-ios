@@ -21,7 +21,7 @@ struct GetOrderInfoRequest: APIRequest {
     var method: HTTPMethod = .get
 
     var headers: [HTTPHeader: String] {
-        return [
+        [
             .contentType: "application/json",
             .acceptLanguage: "en_US",
             .authorization: "Bearer \(accessToken)"

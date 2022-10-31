@@ -36,7 +36,7 @@ class GraphQLClient {
     }
 
     func headers() -> [String: String] {
-        return [
+        [
             "Content-type": "application/json",
             "Accept": "application/json",
             "x-app-name": "northstar",
