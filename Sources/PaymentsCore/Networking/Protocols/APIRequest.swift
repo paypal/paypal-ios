@@ -16,6 +16,8 @@ public extension APIRequest {
 
     var queryParameters: [String: String] { [:] }
 
+    var body: Data? { nil }
+
     // Default implementation vends response from helper function
     func toURLRequest(environment: Environment) -> URLRequest? {
         composeURLRequest(environment: environment)

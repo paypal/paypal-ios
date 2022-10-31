@@ -9,7 +9,7 @@ class GetOrderInfoRequest_Tests: XCTestCase {
         let mockAccessToken = "mockAccessToken"
 
         let getOrderInfoRequest = try XCTUnwrap(
-            GetOrderInfoRequest(orderID: mockOrderId, token: mockAccessToken)
+            GetOrderInfoRequest(orderID: mockOrderId, accessToken: mockAccessToken)
         )
 
         let expectedPath = "v2/checkout/orders/\(mockOrderId)"

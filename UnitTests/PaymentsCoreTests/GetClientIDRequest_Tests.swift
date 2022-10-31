@@ -5,7 +5,7 @@ class GetClientIDRequest_Tests: XCTestCase {
 
     func test_httpParameters() throws {
         let sampleToken = "sample_token"
-        let request = GetClientIDRequest(token: sampleToken)
+        let request = GetClientIDRequest(accessToken: sampleToken)
 
         let expectedPath = "v1/oauth2/token"
         let expectedMethod = HTTPMethod.get
