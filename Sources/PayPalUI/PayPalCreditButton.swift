@@ -94,3 +94,17 @@ public extension PayPalCreditButton {
         }
     }
 }
+
+struct PayPalCreditButtonView: View {
+
+    var body: some View {
+        PayPalCreditButton.Representable()
+    }
+}
+
+struct PayPalCreditButtonView_Preview: PreviewProvider {
+
+    static var previews: some View {
+        PayPalCreditButtonView()
+    }
+}

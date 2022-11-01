@@ -77,22 +77,6 @@ public enum PaymentButtonSize: Int, CustomStringConvertible {
         }
     }
 
-    var loadingViewSize: CGSize {
-        switch self {
-        case .mini:
-            return CGSize(width: 12.0, height: 12.0)
-
-        case .collapsed:
-            return CGSize(width: 14.0, height: 14.0)
-
-        case .expanded:
-            return CGSize(width: 18.0, height: 18.0)
-
-        case .full:
-            return CGSize(width: 20.0, height: 20.0)
-        }
-    }
-
     public var description: String {
         switch self {
         case .mini:
