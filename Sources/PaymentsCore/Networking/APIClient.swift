@@ -12,14 +12,15 @@ public class APIClient {
     public init(coreConfig: CoreConfig) {
         self.coreConfig = coreConfig
         self.urlSession = URLSession.shared
+        self.sessionID = UUID().uuidString.replacingOccurrences(of: "-", with: "")
+
     }
 
     /// For internal use for testing purpose
     init(urlSession: URLSessionProtocol, coreConfig: CoreConfig) {
         self.coreConfig = coreConfig
         self.urlSession = urlSession
-        self.sessionID = UUID.init()
-//        [[[NSUUID UUID] UUIDString] stringByReplacingOccurrencesOfString:@"-" withString:@""];
+        self.sessionID = UUID().uuidString.replacingOccurrences(of: "-", with: "")
     }
 
     public func fetch<T: APIRequest>(endpoint: T) async throws -> (T.ResponseType, CorrelationID?) {
