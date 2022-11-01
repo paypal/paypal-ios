@@ -16,6 +16,10 @@ public class CardClient {
     public init(config: CoreConfig) {
         self.config = config
         self.apiClient = APIClient(coreConfig: config)
+        
+        Task {
+            await self.apiClient.sendAnalyticsEvent(name: "test.sample.event")
+        }
     }
 
     /// For internal use for testing/mocking purpose

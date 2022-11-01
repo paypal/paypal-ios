@@ -9,13 +9,13 @@ struct AnalyticsEventRequest: APIRequest {
     var path = "v1/tracking/events"
     var method: HTTPMethod = .post
     var headers: [HTTPHeader: String] = [.contentType: "application/json"]
-    var body: Data
+    var body: Data?
     
-    init(params: AnalyticsEventParams) throws {
+    init(payload: AnalyticsPayload) throws {
         let encoder = JSONEncoder()
-        body = try encoder.encode(params)
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+        body = try encoder.encode(payload)
     }
-    
 }
 
 public struct EmptyResponse: Decodable {

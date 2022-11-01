@@ -46,4 +46,18 @@ public class APIClient {
         let (response, _) = try await fetch(endpoint: request)
         return response.clientID
     }
+    
+    public func sendAnalyticsEvent(name: String) async {    
+        let analyticsEventParams = AnalyticsEventParams(eventName: name, clientID: "test", merchantID: "test", sessionID: "test")
+        let analyticsEvent = AnalyticsEvent(eventParams: analyticsEventParams)
+        let analyticsPayload = AnalyticsPayload(events: analyticsEvent)
+
+        do {
+            let analyticsEventRequest = try AnalyticsEventRequest(payload: analyticsPayload)
+            let (result, _) = try await fetch(endpoint: analyticsEventRequest)
+            print(result)
+        } catch let error {
+            print("error: \(error)")
+        }
+    }
 }

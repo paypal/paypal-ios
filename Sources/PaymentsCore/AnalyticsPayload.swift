@@ -1,5 +1,15 @@
 import UIKit
 
+struct AnalyticsPayload: Encodable {
+    
+    let events: AnalyticsEvent
+}
+
+struct AnalyticsEvent: Encodable {
+    
+    let eventParams: AnalyticsEventParams
+}
+
 struct AnalyticsEventParams: Encodable {
     
     enum CodingKeys: String, CodingKey {
@@ -27,6 +37,7 @@ struct AnalyticsEventParams: Encodable {
     
     let appName: String = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String ?? ""
 
+    // TODO: Move to global constants file
     let clientSDKVersion: String = "1.0.0"
 
     let clientID: String
