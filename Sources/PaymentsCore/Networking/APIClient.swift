@@ -6,7 +6,7 @@ public class APIClient {
 
     private var urlSession: URLSessionProtocol
     private let coreConfig: CoreConfig
-
+    private let sessionID: String
     private let decoder = APIClientDecoder()
 
     public init(coreConfig: CoreConfig) {
@@ -18,6 +18,8 @@ public class APIClient {
     init(urlSession: URLSessionProtocol, coreConfig: CoreConfig) {
         self.coreConfig = coreConfig
         self.urlSession = urlSession
+        self.sessionID = UUID.init()
+//        [[[NSUUID UUID] UUIDString] stringByReplacingOccurrencesOfString:@"-" withString:@""];
     }
 
     public func fetch<T: APIRequest>(endpoint: T) async throws -> (T.ResponseType, CorrelationID?) {
