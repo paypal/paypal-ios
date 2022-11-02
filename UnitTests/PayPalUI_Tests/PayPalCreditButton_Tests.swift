@@ -3,6 +3,8 @@ import XCTest
 
 class PayPalCreditButton_Tests: XCTestCase {
 
+    // MARK: - PayPalPayCreditButton for UIKit
+    
     func testInit_whenPayPalCreditButtonCreated_hasUIImageFromAssets() {
         let sut = PayPalCreditButton()
         XCTAssertEqual(sut.imageView?.image, UIImage(named: "PayPalCreditLogo"))
@@ -17,7 +19,9 @@ class PayPalCreditButton_Tests: XCTestCase {
         XCTAssertNil(sut.label)
     }
 
-    func testMakeCoordinator_whenPayPalCreditButtonRepresentableIsCreated_actionIsSetInCoordinator() {
+    // MARK: - PayPalPayCreditButton.Representable for SwiftUI
+    
+    func testMakeCoordinator_whenOnActionIsCalled_executesActionPassedInInitializer() {
         let expectation = expectation(description: "Action is called")
         let sut = PayPalCreditButton.Representable {
             expectation.fulfill()
@@ -26,6 +30,10 @@ class PayPalCreditButton_Tests: XCTestCase {
 
         coordinator.onAction(self)
         XCTAssertNotNil(sut)
-        waitForExpectations(timeout: 1)
+        waitForExpectations(timeout: 1) { error  in
+            if error != nil {
+                XCTFail("Action passed in PayPalCreditButton.Representable was never called.")
+            }
+        }
     }
 }

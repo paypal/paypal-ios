@@ -96,6 +96,7 @@ public extension PayPalButton {
         }
        
         // MARK: - UIViewRepresentable methods
+        // TODO: Make unit test for UIVRepresentable methods: https://engineering.paypalcorp.com/jira/browse/DTNOR-623
 
         public func makeCoordinator() -> Coordinator {
             Coordinator(action: action)

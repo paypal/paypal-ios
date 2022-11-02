@@ -3,6 +3,8 @@ import XCTest
 
 class PayPalPayLaterButton_Tests: XCTestCase {
     
+    // MARK: - PayPalPayLaterButton for UIKit
+    
     func testInit_whenPayPalPayLaterButtonCreated_hasDefaultUIValues() {
         let sut = PayPalPayLaterButton()
         XCTAssertEqual(sut.edges, PaymentButtonEdges.softEdges)
@@ -12,7 +14,9 @@ class PayPalPayLaterButton_Tests: XCTestCase {
         XCTAssertNil(sut.insets)
     }
 
-    func testMakeCoordinator_whenPayPalPayLaterButtonRepresentableIsCreated_actionIsSetInCoordinator() {
+    // MARK: - PayPalPayLaterButton.Representable for SwiftUI
+    
+    func testMakeCoordinator_whenOnActionIsCalled_executesActionPassedInInitializer() {
         let expectation = expectation(description: "Action is called")
         let sut = PayPalPayLaterButton.Representable {
             expectation.fulfill()
@@ -21,6 +25,10 @@ class PayPalPayLaterButton_Tests: XCTestCase {
 
         coordinator.onAction(self)
         XCTAssertNotNil(sut)
-        waitForExpectations(timeout: 1)
+        waitForExpectations(timeout: 1) { error in
+            if error != nil {
+                XCTFail("Action passed in PayPalPayLaterButton.Representable was never called.")
+            }
+        }
     }
 }
