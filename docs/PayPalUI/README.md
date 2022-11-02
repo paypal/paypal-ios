@@ -36,7 +36,13 @@ The PayPalUI module allows you to render three buttons that can offer a set of c
 * `PayPalPayLater`: a PayPal button with a fixed PayLater label
 * `PayPalCredit`: a PayPal button with the PayPalCredit logo
 
-You can use any button in both `UKit` and `SwiftUI` as follows:
+Each button as a `UKit` and `SwiftUI` implementation as follows:
+
+    | UIKit      | SwiftUI |
+    | ----------- | ----------- |
+    | PayPalButton      | PayPalButton.Representable       |
+    | PayPalCreditButton   | PayPalCreditButton.Representable        |
+    | PayPalPayLaterButton   | PayPalPayLaterButton.Representable        |
 
 #### UKit
 
@@ -67,7 +73,7 @@ struct MyApp: View {
     @ViewBuilder
     var body: some View {
         VStack {
-            PayPalButton() {
+            PayPalButton.Representable() {
                 // Insert your code here
             }
         }
