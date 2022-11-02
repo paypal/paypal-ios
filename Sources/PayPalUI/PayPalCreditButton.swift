@@ -95,6 +95,8 @@ public extension PayPalCreditButton {
     }
 }
 
+// MARK: PayPalCreditButton Preview
+
 struct PayPalCreditButtonView: View {
 
     var body: some View {
