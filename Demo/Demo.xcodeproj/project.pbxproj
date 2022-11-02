@@ -25,6 +25,9 @@
 		806F1E3D26B85367007A60E6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806F1E3C26B85367007A60E6 /* ViewController.swift */; };
 		806F1E4226B85369007A60E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 806F1E4126B85369007A60E6 /* Assets.xcassets */; };
 		80921C1D2710A0720040D76F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80921C1C2710A0720040D76F /* LaunchScreen.storyboard */; };
+		80DACC282911ADC6009214C5 /* PayPalCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = 80DACC272911ADC6009214C5 /* PayPalCheckout */; };
+		80DACC2A2911AE7C009214C5 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 805AB84E26B87A87003BEE0D /* PaymentsCore.framework */; };
+		80DACC2B2911AE7C009214C5 /* PaymentsCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 805AB84E26B87A87003BEE0D /* PaymentsCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		80F33CE826F8DE29006811B1 /* DemoMerchantAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CE726F8DE29006811B1 /* DemoMerchantAPI.swift */; };
 		80F33CED26F8E7A9006811B1 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CEC26F8E7A9006811B1 /* Order.swift */; };
 		80F33CEF26F8E7CC006811B1 /* CreateOrderParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CEE26F8E7CC006811B1 /* CreateOrderParams.swift */; };
@@ -79,6 +82,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				BCE8A7EF27EA2B1E00AC301B /* PayPalWebCheckout.framework in Embed Frameworks */,
+				80DACC2B2911AE7C009214C5 /* PaymentsCore.framework in Embed Frameworks */,
 				BE420F3828189A7A00D8D66A /* PayPalUI.framework in Embed Frameworks */,
 				536A5CA42898A48C005C053D /* PayPalNativeCheckout.framework in Embed Frameworks */,
 				805AB85126B87A87003BEE0D /* Card.framework in Embed Frameworks */,
@@ -153,7 +157,9 @@
 				536A5CA32898A48C005C053D /* PayPalNativeCheckout.framework in Frameworks */,
 				BE1766D726FA7AC3007EF438 /* InAppSettingsKit in Frameworks */,
 				BCE8A7EE27EA2B1E00AC301B /* PayPalWebCheckout.framework in Frameworks */,
+				80DACC2A2911AE7C009214C5 /* PaymentsCore.framework in Frameworks */,
 				BE420F3728189A7A00D8D66A /* PayPalUI.framework in Frameworks */,
+				80DACC282911ADC6009214C5 /* PayPalCheckout in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,6 +371,7 @@
 			name = Demo;
 			packageProductDependencies = (
 				BE1766D626FA7AC3007EF438 /* InAppSettingsKit */,
+				80DACC272911ADC6009214C5 /* PayPalCheckout */,
 			);
 			productName = Demo;
 			productReference = 806F1E3526B85367007A60E6 /* Demo.app */;
@@ -418,6 +425,7 @@
 			mainGroup = 806F1E2C26B85367007A60E6;
 			packageReferences = (
 				BE1766D526FA7AC3007EF438 /* XCRemoteSwiftPackageReference "InAppSettingsKit" */,
+				80DACC262911ADC6009214C5 /* XCRemoteSwiftPackageReference "paypalcheckout-ios" */,
 			);
 			productRefGroup = 806F1E3626B85367007A60E6 /* Products */;
 			projectDirPath = "";
@@ -756,6 +764,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		80DACC262911ADC6009214C5 /* XCRemoteSwiftPackageReference "paypalcheckout-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/paypal/paypalcheckout-ios";
+			requirement = {
+				kind = exactVersion;
+				version = 0.109.0;
+			};
+		};
 		BE1766D526FA7AC3007EF438 /* XCRemoteSwiftPackageReference "InAppSettingsKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/futuretap/InAppSettingsKit";
@@ -767,6 +783,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		80DACC272911ADC6009214C5 /* PayPalCheckout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80DACC262911ADC6009214C5 /* XCRemoteSwiftPackageReference "paypalcheckout-ios" */;
+			productName = PayPalCheckout;
+		};
 		BE1766D626FA7AC3007EF438 /* InAppSettingsKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BE1766D526FA7AC3007EF438 /* XCRemoteSwiftPackageReference "InAppSettingsKit" */;
