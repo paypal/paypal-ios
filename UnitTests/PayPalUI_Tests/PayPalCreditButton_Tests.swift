@@ -4,8 +4,8 @@ import XCTest
 class PayPalCreditButton_Tests: XCTestCase {
 
     func testInit_whenPayPalCreditButtonCreated_hasUIImageFromAssets() {
-        let payPalCreditButton = PayPalCreditButton()
-        XCTAssertEqual(payPalCreditButton.imageView?.image, UIImage(named: "PayPalCreditLogo"))
+        let sut = PayPalCreditButton()
+        XCTAssertEqual(sut.imageView?.image, UIImage(named: "PayPalCreditLogo"))
     }
 
     func testInit_whenPayPalCreditButtonCreated_hasDefaultUIValues() {
@@ -14,6 +14,7 @@ class PayPalCreditButton_Tests: XCTestCase {
         XCTAssertEqual(sut.size, PaymentButtonSize.collapsed)
         XCTAssertEqual(sut.color, PaymentButtonColor.darkBlue)
         XCTAssertNil(sut.insets)
+        XCTAssertNil(sut.label)
     }
 
     func testMakeCoordinator_whenPayPalCreditButtonRepresentableIsCreated_actionIsSetInCoordinator() {
@@ -25,10 +26,6 @@ class PayPalCreditButton_Tests: XCTestCase {
 
         coordinator.onAction(self)
         XCTAssertNotNil(sut)
-        waitForExpectations(timeout: 1) {error in
-            if let error = error {
-                XCTFail("waitForExpectationsWithTimeout errored: \(error)")
-            }
-        }
+        waitForExpectations(timeout: 1)
     }
 }

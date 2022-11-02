@@ -4,22 +4,28 @@ import XCTest
 class PayPalButton_Tests: XCTestCase {
 
     func testInit_whenPayPalButtonCreated_hasUIImageFromAssets() {
-        let payPalButton = PayPalButton()
-        XCTAssertEqual(payPalButton.imageView?.image, UIImage(named: "PayPalLogo"))
+        let sut = PayPalButton()
+        XCTAssertEqual(sut.imageView?.image, UIImage(named: "PayPalLogo"))
     }
 
-    func testInit_whenPayPalButtonCreated_hasUIColorFromAssets() {
-        let payPalButton = PayPalButton()
-        XCTAssertEqual(payPalButton.containerView.backgroundColor, PaymentButtonColor.gold.color)
+    func testInit_whenPayPalButtonCreated_hasDefaultUIValuess() {
+        let sut = PayPalButton()
+        XCTAssertEqual(sut.edges, PaymentButtonEdges.softEdges)
+        XCTAssertEqual(sut.size, PaymentButtonSize.collapsed)
+        XCTAssertEqual(sut.color, PaymentButtonColor.gold)
+        XCTAssertNil(sut.label)
+        XCTAssertNil(sut.insets)
     }
 
-    func testInit_whenSwiftPayPalButtonCreated_canInit() {
-        let action = { }
-        let payPalButton = PayPalButton.Representable()
-        let coordinator = Coordinator(action: action)
+    func testMakeCoordinator_whenPayPalButtonRepresentableIsCreated_actionIsSetInCoordinator() {
+        let expectation = expectation(description: "Action is called")
+        let sut = PayPalButton.Representable {
+            expectation.fulfill()
+        }
+        let coordinator = sut.makeCoordinator()
 
-        XCTAssertNotNil(payPalButton)
-        XCTAssertNotNil(payPalButton.makeCoordinator())
-        XCTAssertNotNil(coordinator.onAction(action))
+        coordinator.onAction(self)
+        XCTAssertNotNil(sut)
+        waitForExpectations(timeout: 1)
     }
 }

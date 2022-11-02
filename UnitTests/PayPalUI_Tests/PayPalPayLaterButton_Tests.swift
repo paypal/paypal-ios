@@ -21,10 +21,6 @@ class PayPalPayLaterButton_Tests: XCTestCase {
 
         coordinator.onAction(self)
         XCTAssertNotNil(sut)
-        waitForExpectations(timeout: 1) {error in
-            if let error = error {
-                XCTFail("waitForExpectationsWithTimeout errored: \(error)")
-            }
-        }
+        waitForExpectations(timeout: 1)
     }
 }
