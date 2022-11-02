@@ -24,7 +24,6 @@ struct AnalyticsEventParams: Encodable {
         case packageManager = "ios_package_manager"
         case isSimulator = "is_simulator"
         case merchantAppVersion = "mapv"
-        case merchantID = "merchant_id"
         case deviceModel = "mobile_device_model"
         case platform = "platform"
         case sessionID = "session_id"
@@ -69,8 +68,6 @@ struct AnalyticsEventParams: Encodable {
     
     let merchantAppVersion: String = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as? String ?? ""
 
-    let merchantID: String
-
     let deviceModel: String = {
         var systemInfo = utsname()
         uname(&systemInfo)
@@ -90,9 +87,8 @@ struct AnalyticsEventParams: Encodable {
 
     let tenantName = "PayPal"
     
-    init(eventName: String, merchantID: String, sessionID: String) {
+    init(eventName: String, sessionID: String) {
         self.eventName = eventName
-        self.merchantID = merchantID
         self.sessionID = sessionID
     }
 }

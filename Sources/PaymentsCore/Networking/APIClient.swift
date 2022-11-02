@@ -50,7 +50,6 @@ public class APIClient {
     public func sendAnalyticsEvent(name: String) async {
         let analyticsEventParams = AnalyticsEventParams(
             eventName: name,
-            merchantID: "test",
             sessionID: sessionID
         )
         let analyticsEvent = AnalyticsEvent(eventParams: analyticsEventParams)
