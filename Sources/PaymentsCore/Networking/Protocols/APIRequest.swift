@@ -37,7 +37,7 @@ public extension APIRequest {
 
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
-        request.httpBody = body!
+        request.httpBody = body
 
         headers.forEach { key, value in
             request.addValue(value, forHTTPHeaderField: key.rawValue)

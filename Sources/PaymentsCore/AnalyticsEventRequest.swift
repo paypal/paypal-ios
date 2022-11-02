@@ -2,6 +2,12 @@ import Foundation
 
 struct AnalyticsEventRequest: APIRequest {
     
+    init(payload: AnalyticsPayload) throws {
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+        body = try encoder.encode(payload)
+    }
+    
     // MARK: - APIRequest
     
     typealias ResponseType = EmptyResponse
@@ -11,13 +17,10 @@ struct AnalyticsEventRequest: APIRequest {
     var headers: [HTTPHeader: String] = [.contentType: "application/json"]
     var body: Data?
     
-    init(payload: AnalyticsPayload) throws {
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        body = try encoder.encode(payload)
+    // api.sandbox.paypal.com does not currently send FPTI events to BigQuery/Looker
+    func toURLRequest(environment: Environment) -> URLRequest? {
+        composeURLRequest(environment: .production)
     }
 }
 
-public struct EmptyResponse: Decodable {
-    
-}
+public struct EmptyResponse: Decodable { }

@@ -50,8 +50,13 @@ public class APIClient {
         return response.clientID
     }
     
-    public func sendAnalyticsEvent(name: String) async {    
-        let analyticsEventParams = AnalyticsEventParams(eventName: name, clientID: "test", merchantID: "test", sessionID: "test")
+    public func sendAnalyticsEvent(name: String) async {
+        let analyticsEventParams = AnalyticsEventParams(
+            eventName: name,
+            clientID: "test",
+            merchantID: "test",
+            sessionID: sessionID
+        )
         let analyticsEvent = AnalyticsEvent(eventParams: analyticsEventParams)
         let analyticsPayload = AnalyticsPayload(events: analyticsEvent)
 
