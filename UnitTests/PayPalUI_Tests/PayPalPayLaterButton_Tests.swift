@@ -24,7 +24,6 @@ class PayPalPayLaterButton_Tests: XCTestCase {
         let coordinator = sut.makeCoordinator()
 
         coordinator.onAction(self)
-        XCTAssertNotNil(sut)
         waitForExpectations(timeout: 1) { error in
             if error != nil {
                 XCTFail("Action passed in PayPalPayLaterButton.Representable was never called.")
