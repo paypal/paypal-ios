@@ -16,7 +16,6 @@ struct AnalyticsEventParams: Encodable {
         case appID = "app_id"
         case appName = "app_name"
         case clientSDKVersion = "c_sdk_ver"
-        case clientID = "client_id"
         case clientOS = "client_os"
         case component = "comp"
         case deviceManufacturer = "device_manufacturer"
@@ -39,8 +38,6 @@ struct AnalyticsEventParams: Encodable {
 
     // TODO: Move to global constants file
     let clientSDKVersion: String = "1.0.0"
-
-    let clientID: String
 
     let clientOS: String = UIDevice.current.systemName + " " + UIDevice.current.systemVersion
 
@@ -93,9 +90,8 @@ struct AnalyticsEventParams: Encodable {
 
     let tenantName = "PayPal"
     
-    init(eventName: String, clientID: String, merchantID: String, sessionID: String) {
+    init(eventName: String, merchantID: String, sessionID: String) {
         self.eventName = eventName
-        self.clientID = clientID
         self.merchantID = merchantID
         self.sessionID = sessionID
     }
