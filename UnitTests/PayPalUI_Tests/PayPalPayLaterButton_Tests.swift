@@ -1,6 +1,4 @@
 import XCTest
-import SwiftUI
-import Foundation
 @testable import PayPalUI
 
 class PayPalPayLaterButton_Tests: XCTestCase {
