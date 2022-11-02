@@ -3,7 +3,7 @@
 
 ## unreleased
 * PayPalUI
-    * Separate buttons into `UIKit` and `SwiftUI` implementations.
+    * Fix fatal crash with iOS 16: `UIViewRepresentables must be value types`. Separate buttons into `UIKit` and `SwiftUI` implementations.
     
     | UIKit      | SwiftUI |
     | ----------- | ----------- |
