@@ -58,10 +58,9 @@ public class APIClient {
 
         do {
             let analyticsEventRequest = try AnalyticsEventRequest(payload: analyticsPayload)
-            let (result, _) = try await fetch(endpoint: analyticsEventRequest)
-            print(result)
+            let (_, _) = try await fetch(endpoint: analyticsEventRequest)
         } catch let error {
-            print("error: \(error)")
+            NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription)
         }
     }
 }
