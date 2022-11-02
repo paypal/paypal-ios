@@ -6,20 +6,18 @@ public class APIClient {
 
     private var urlSession: URLSessionProtocol
     private let coreConfig: CoreConfig
-    private let sessionID: String
+    private let sessionID = UUID().uuidString.replacingOccurrences(of: "-", with: "")
     private let decoder = APIClientDecoder()
 
     public init(coreConfig: CoreConfig) {
         self.coreConfig = coreConfig
         self.urlSession = URLSession.shared
-        self.sessionID = UUID().uuidString.replacingOccurrences(of: "-", with: "")
     }
 
     /// For internal use for testing purpose
     init(urlSession: URLSessionProtocol, coreConfig: CoreConfig) {
         self.coreConfig = coreConfig
         self.urlSession = urlSession
-        self.sessionID = UUID().uuidString.replacingOccurrences(of: "-", with: "")
     }
 
     public func fetch<T: APIRequest>(endpoint: T) async throws -> (T.ResponseType, CorrelationID?) {
