@@ -9,15 +9,15 @@ struct SwiftUIPayPalDemo: View {
         ZStack {
             FeatureBaseViewControllerRepresentable(baseViewModel: baseViewModel)
             VStack(spacing: 40) {
-                PayPalButton(color: .blue, size: .mini) {
+                PayPalButton.Representable(color: .blue, size: .mini) {
                     baseViewModel.payPalButtonTapped(context: FeatureBaseViewController(baseViewModel: BaseViewModel()))
                 }
                 .frame(maxWidth: .infinity, maxHeight: 40)
-                PayPalCreditButton(color: .black, edges: .softEdges, size: .expanded) {
+                PayPalCreditButton.Representable(color: .black, edges: .softEdges, size: .expanded) {
                     baseViewModel.payPalCreditButtonTapped(context: FeatureBaseViewController(baseViewModel: BaseViewModel()))
                 }
                 .frame(maxWidth: .infinity, maxHeight: 40)
-                PayPalPayLaterButton(color: .silver, edges: .rounded, size: .full) {
+                PayPalPayLaterButton.Representable(color: .silver, edges: .rounded, size: .full) {
                     baseViewModel.payPalCreditButtonTapped(context: FeatureBaseViewController(baseViewModel: BaseViewModel()))
                 }
                 .frame(maxWidth: .infinity, maxHeight: 40)

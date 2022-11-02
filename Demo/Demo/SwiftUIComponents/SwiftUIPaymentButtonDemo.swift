@@ -26,7 +26,7 @@ struct SwiftUIPaymentButtonDemo: View {
         ZStack {
             VStack {
                 Picker("Funding Source", selection: $fundingIndex) {
-                    ForEach(fundingSources.indices) { index in
+                    ForEach(fundingSources.indices, id: \.self) { index in
                         Text(fundingSources[index])
                     }
                 }
@@ -40,7 +40,7 @@ struct SwiftUIPaymentButtonDemo: View {
                 }
 
                 Picker("Colors", selection: $colorsIndex) {
-                    ForEach(colors.indices) { index in
+                    ForEach(colors.indices, id: \.self) { index in
                         Text(colors[index])
                     }
                 }
@@ -51,7 +51,7 @@ struct SwiftUIPaymentButtonDemo: View {
                 .id(pickerId)
 
                 Picker("Edges", selection: $edgesIndex) {
-                    ForEach(edges.indices) { index in
+                    ForEach(edges.indices, id: \.self) { index in
                         Text(edges[index])
                     }
                 }
@@ -62,7 +62,7 @@ struct SwiftUIPaymentButtonDemo: View {
                 }
 
                 Picker("sizes", selection: $sizesIndex) {
-                    ForEach(sizes.indices) { index in
+                    ForEach(sizes.indices, id: \.self) { index in
                         Text(sizes[index])
                     }
                 }
@@ -74,21 +74,28 @@ struct SwiftUIPaymentButtonDemo: View {
 
                 switch selectedFunding {
                 case .payPal:
-                    PayPalButton(color: PayPalButton.Color.allCases()[colorsIndex], edges: selectedEdge, size: selectedSize).id(buttonId)
+                    PayPalButton.Representable(
+                        color: PayPalButton.Color.allCases()[colorsIndex],
+                        edges: selectedEdge,
+                        size: selectedSize
+                    )
+                    .id(buttonId)
 
                 case .payLater:
-                    PayPalPayLaterButton(
+                    PayPalPayLaterButton.Representable(
                         color: PayPalPayLaterButton.Color.allCases()[colorsIndex],
                         edges: selectedEdge,
                         size: selectedSize
-                    ).id(buttonId)
+                    )
+                    .id(buttonId)
 
                 case .credit:
-                    PayPalCreditButton(
+                    PayPalCreditButton.Representable(
                         color: PayPalCreditButton.Color.allCases()[colorsIndex],
                         edges: selectedEdge,
                         size: selectedSize
-                    ).id(buttonId)
+                    )
+                    .id(buttonId)
                 }
             }.padding()
         }

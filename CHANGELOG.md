@@ -2,6 +2,15 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
+* PayPalUI
+    * Fix fatal crash with iOS 16: `UIViewRepresentables must be value types`. Separate buttons into `UIKit` and `SwiftUI` implementations.
+    
+    | UIKit      | SwiftUI |
+    | ----------- | ----------- |
+    | PayPalButton      | PayPalButton.Representable       |
+    | PayPalCreditButton   | PayPalCreditButton.Representable        |
+    | PayPalPayLaterButton   | PayPalPayLaterButton.Representable        |
+    
 * PayPalNativeCheckout
     * Update to version 0.109.0 that fixes shipping callback bug
 * Bump minimum supported deployment target to iOS 14+

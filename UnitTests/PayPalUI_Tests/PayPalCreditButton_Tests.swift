@@ -3,23 +3,36 @@ import XCTest
 
 class PayPalCreditButton_Tests: XCTestCase {
 
+    // MARK: - PayPalPayCreditButton for UIKit
+    
     func testInit_whenPayPalCreditButtonCreated_hasUIImageFromAssets() {
-        let payPalCreditButton = PayPalCreditButton()
-        XCTAssertEqual(payPalCreditButton.imageView?.image, UIImage(named: "PayPalCreditLogo"))
+        let sut = PayPalCreditButton()
+        XCTAssertEqual(sut.imageView?.image, UIImage(named: "PayPalCreditLogo"))
     }
 
-    func testInit_whenPayPalCreditButtonCreated_hasUIColorFromAssets() {
-        let payPalCreditButton = PayPalCreditButton()
-        XCTAssertEqual(payPalCreditButton.containerView.backgroundColor, PaymentButtonColor.darkBlue.color)
+    func testInit_whenPayPalCreditButtonCreated_hasDefaultUIValues() {
+        let sut = PayPalCreditButton()
+        XCTAssertEqual(sut.edges, PaymentButtonEdges.softEdges)
+        XCTAssertEqual(sut.size, PaymentButtonSize.collapsed)
+        XCTAssertEqual(sut.color, PaymentButtonColor.darkBlue)
+        XCTAssertNil(sut.insets)
+        XCTAssertNil(sut.label)
     }
 
-    func testInit_whenSwiftUIPayPalCreditButtonCreated_canInit() {
-        let action = { }
-        let payPalCreditButton = PayPalCreditButton { }
-        let coordinator = Coordinator(action: action)
+    // MARK: - PayPalPayCreditButton.Representable for SwiftUI
+    
+    func testMakeCoordinator_whenOnActionIsCalled_executesActionPassedInInitializer() {
+        let expectation = expectation(description: "Action is called")
+        let sut = PayPalCreditButton.Representable {
+            expectation.fulfill()
+        }
+        let coordinator = sut.makeCoordinator()
 
-        XCTAssertNotNil(payPalCreditButton)
-        XCTAssertNotNil(payPalCreditButton.makeCoordinator())
-        XCTAssertNotNil(coordinator.onAction(action))
+        coordinator.onAction(self)
+        waitForExpectations(timeout: 1) { error  in
+            if error != nil {
+                XCTFail("Action passed in PayPalCreditButton.Representable was never called.")
+            }
+        }
     }
 }
