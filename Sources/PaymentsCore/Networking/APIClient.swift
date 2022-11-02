@@ -13,7 +13,6 @@ public class APIClient {
         self.coreConfig = coreConfig
         self.urlSession = URLSession.shared
         self.sessionID = UUID().uuidString.replacingOccurrences(of: "-", with: "")
-
     }
 
     /// For internal use for testing purpose
