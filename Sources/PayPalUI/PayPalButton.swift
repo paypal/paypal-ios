@@ -96,6 +96,7 @@ public extension PayPalButton {
         }
        
         // MARK: - UIViewRepresentable methods
+
         public func makeCoordinator() -> Coordinator {
             Coordinator(action: action)
         }
