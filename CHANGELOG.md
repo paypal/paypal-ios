@@ -3,7 +3,7 @@
 
 ## unreleased
 * PayPalNativeCheckout
-    * Expose PayPalNative checkout through Swift Package Manager
+    * Expose PayPalNativeCheckout through Swift Package Manager
 
 ## 0.0.2 (2022-11-03)
 * PayPalUI
