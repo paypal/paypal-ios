@@ -1,6 +1,10 @@
 
 # PayPal iOS SDK Release Notes
 
+## Unreleased
+* PayPalNativeCheckout
+    * Expose PayPalNative checkout through Swift Package Manager
+
 ## 0.0.2 (2022-11-03)
 * PayPalUI
     * Fix fatal crash with iOS 16: `UIViewRepresentables must be value types`. Separate buttons into `UIKit` and `SwiftUI` implementations.
