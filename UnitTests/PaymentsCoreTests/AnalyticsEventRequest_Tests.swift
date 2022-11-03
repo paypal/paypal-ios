@@ -2,20 +2,31 @@ import XCTest
 @testable import PaymentsCore
 
 // swiftlint:disable force_cast
+// swiftlint:disable implicitly_unwrapped_optional
+// swiftlint:disable force_try
+// swiftlint:disable force_unwrapping
 class AnalyticsEventRequest_Tests: XCTestCase {
+    
+    var fakeEventParams: AnalyticsEventParams!
+    var fakeAnalyticsEvent: AnalyticsEvent!
+    var fakeAnalyticsPayload: AnalyticsPayload!
+    var sut: AnalyticsEventRequest!
+    
+    let currentTime = String(Date().timeIntervalSince1970 * 1000)
+    let oneSecondLater = String((Date().timeIntervalSince1970 * 1000) + 999)
+    
+    override func setUp() {
+        super.setUp()
+        fakeEventParams = AnalyticsEventParams(eventName: "fake-name", sessionID: "fake-session")
+        fakeAnalyticsEvent = AnalyticsEvent(eventParams: fakeEventParams)
+        fakeAnalyticsPayload = AnalyticsPayload(events: fakeAnalyticsEvent)
+        
+        sut = try! AnalyticsEventRequest(payload: fakeAnalyticsPayload)
+    }
 
     func test_httpParameters() throws {
-        let currentTime = String(Date().timeIntervalSince1970 * 1000)
-        let oneSecondLater = String((Date().timeIntervalSince1970 * 1000) + 999)
-        
-        let fakeEventParams = AnalyticsEventParams(eventName: "fake-name", sessionID: "fake-session")
-        let fakeAnalyticsEvent = AnalyticsEvent(eventParams: fakeEventParams)
-        let fakePayload = AnalyticsPayload(events: fakeAnalyticsEvent)
-        
-        let request = try AnalyticsEventRequest(payload: fakePayload)
-        
-        let bodyData = try XCTUnwrap(request.body, "Found nil POST body.")
-        let jsonBody = try? JSONSerialization.jsonObject(with: bodyData) as? [String: [String: [String: Any]]]
+        let bodyData = sut.body
+        let jsonBody = try? JSONSerialization.jsonObject(with: bodyData!) as? [String: [String: [String: Any]]]
             
         guard let eventParams = jsonBody?["events"]?["event_params"] else {
             XCTFail("JSON body missing `event_params` key.")
@@ -40,9 +51,14 @@ class AnalyticsEventRequest_Tests: XCTestCase {
         XCTAssertLessThanOrEqual(eventParams["t"] as! String, oneSecondLater)
         XCTAssertEqual(eventParams["tenant_name"] as? String, "PayPal")
         
-        XCTAssertEqual(request.path, "v1/tracking/events")
-        XCTAssertEqual(request.method, HTTPMethod.post)
-        XCTAssertEqual(request.headers, [.contentType: "application/json"])
+        XCTAssertEqual(sut.path, "v1/tracking/events")
+        XCTAssertEqual(sut.method, HTTPMethod.post)
+        XCTAssertEqual(sut.headers, [.contentType: "application/json"])
+    }
+    
+    func testToURLRequest_overridesSandboxBaseURL() throws {
+        let urlRequest = sut.toURLRequest(environment: .sandbox)
+        XCTAssertEqual(urlRequest?.url?.absoluteString, "https://api.paypal.com/v1/tracking/events")
     }
 }
 
