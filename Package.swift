@@ -12,11 +12,10 @@ let package = Package(
             name: "PaymentsCore",
             targets: ["PaymentsCore"]
         ),
-        // TODO: re-enable when native checkout is ready to be released
-        //.library(
-        //    name: "PayPalNativeCheckout",
-        //    targets: ["PayPalNativeCheckout"]
-        //),
+        .library(
+           name: "PayPalNativeCheckout",
+           targets: ["PayPalNativeCheckout"]
+        ),
         .library(
             name: "PayPalUI",
             targets: ["PayPalUI"]
@@ -49,11 +48,10 @@ let package = Package(
             name: "Card",
             dependencies: ["PaymentsCore"]
         ),
-        // TODO: re-enable when native checkout is ready to be released
-        //.target(
-        //    name: "PayPalNativeCheckout",
-        //    dependencies: ["PaymentsCore", "PayPalCheckout"]
-        //),
+        .target(
+           name: "PayPalNativeCheckout",
+           dependencies: ["PaymentsCore", "PayPalCheckout"]
+        ),
         .target(
             name: "PayPalUI",
             dependencies: ["PaymentsCore"]
