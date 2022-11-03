@@ -2,15 +2,23 @@ import UIKit
 
 struct AnalyticsPayload: Encodable {
     
-    let events: AnalyticsEvent
+    private let events: AnalyticsEvent
+    
+    init(eventName: String, sessionID: String) {
+        events = AnalyticsEvent(eventName: eventName, sessionID: sessionID)
+    }
 }
 
-struct AnalyticsEvent: Encodable {
+private struct AnalyticsEvent: Encodable {
     
     let eventParams: AnalyticsEventParams
+    
+    init(eventName: String, sessionID: String) {
+        eventParams = AnalyticsEventParams(eventName: eventName, sessionID: sessionID)
+    }
 }
 
-struct AnalyticsEventParams: Encodable {
+private struct AnalyticsEventParams: Encodable {
     
     enum CodingKeys: String, CodingKey {
         case appID = "app_id"

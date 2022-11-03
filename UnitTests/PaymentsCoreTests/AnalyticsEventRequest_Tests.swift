@@ -7,8 +7,6 @@ import XCTest
 // swiftlint:disable force_unwrapping
 class AnalyticsEventRequest_Tests: XCTestCase {
     
-    var fakeEventParams: AnalyticsEventParams!
-    var fakeAnalyticsEvent: AnalyticsEvent!
     var fakeAnalyticsPayload: AnalyticsPayload!
     var sut: AnalyticsEventRequest!
     
@@ -17,9 +15,7 @@ class AnalyticsEventRequest_Tests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        fakeEventParams = AnalyticsEventParams(eventName: "fake-name", sessionID: "fake-session")
-        fakeAnalyticsEvent = AnalyticsEvent(eventParams: fakeEventParams)
-        fakeAnalyticsPayload = AnalyticsPayload(events: fakeAnalyticsEvent)
+        fakeAnalyticsPayload = AnalyticsPayload(eventName: "fake-name", sessionID: "fake-session")
         
         sut = try! AnalyticsEventRequest(payload: fakeAnalyticsPayload)
     }
