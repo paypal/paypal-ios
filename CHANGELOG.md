@@ -1,7 +1,7 @@
 
 # PayPal iOS SDK Release Notes
 
-## Unreleased
+## unreleased
 * PayPalNativeCheckout
     * Expose PayPalNative checkout through Swift Package Manager
 
