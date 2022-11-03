@@ -32,7 +32,7 @@ class AnalyticsEventRequest_Tests: XCTestCase {
         XCTAssertEqual(eventParams["event_source"] as? String, "mobile-native")
         XCTAssertTrue((eventParams["ios_package_manager"] as! String).matches("Carthage or Other|CocoaPods|Swift Package Manager"))
         XCTAssertEqual(eventParams["is_simulator"] as? Bool, true)
-        XCTAssertEqual(eventParams["mapv"] as? String, "7.11.0")
+        XCTAssertNotNil(eventParams["mapv"] as? String) // Unable to specify bundle version number within test targets
         XCTAssertTrue((eventParams["mobile_device_model"] as! String).matches("iPhone\\d,\\d|x86_64|arm64"))
         XCTAssertEqual(eventParams["platform"] as? String, "iOS")
         XCTAssertEqual(eventParams["session_id"] as? String, "fake-session")

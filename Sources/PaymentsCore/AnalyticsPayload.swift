@@ -35,8 +35,7 @@ struct AnalyticsEventParams: Encodable {
     
     let appName: String = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String ?? ""
 
-    // TODO: Move to global constants file
-    let clientSDKVersion: String = "1.0.0"
+    let clientSDKVersion = PayPalCoreConstants.paypalSDKVersion
 
     let clientOS: String = UIDevice.current.systemName + " " + UIDevice.current.systemVersion
 
