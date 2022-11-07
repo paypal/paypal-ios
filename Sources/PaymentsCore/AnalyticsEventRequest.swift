@@ -2,10 +2,10 @@ import Foundation
 
 struct AnalyticsEventRequest: APIRequest {
     
-    init(payload: AnalyticsEventData) throws {
+    init(eventData: AnalyticsEventData) throws {
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
-        body = try encoder.encode(payload)
+        body = try encoder.encode(eventData)
     }
     
     // MARK: - APIRequest conformance

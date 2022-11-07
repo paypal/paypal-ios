@@ -14,7 +14,7 @@ class AnalyticsEventRequest_Tests: XCTestCase {
         super.setUp()
         fakeAnalyticsEventData = AnalyticsEventData(eventName: "fake-name", sessionID: "fake-session")
         
-        sut = try! AnalyticsEventRequest(payload: fakeAnalyticsEventData)
+        sut = try! AnalyticsEventRequest(eventData: fakeAnalyticsEventData)
     }
 
     func test_httpParameters() throws {
