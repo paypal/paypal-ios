@@ -1,26 +1,16 @@
 import UIKit
 
-struct AnalyticsPayload: Encodable {
+struct AnalyticsEventData: Encodable {
     
-    private let events: AnalyticsEvent
-    
-    init(eventName: String, sessionID: String) {
-        events = AnalyticsEvent(eventName: eventName, sessionID: sessionID)
+    enum TopLevelKeys: String, CodingKey {
+        case events
     }
-}
-
-private struct AnalyticsEvent: Encodable {
     
-    let eventParams: AnalyticsEventParams
-    
-    init(eventName: String, sessionID: String) {
-        eventParams = AnalyticsEventParams(eventName: eventName, sessionID: sessionID)
+    enum EventKeys: String, CodingKey {
+        case eventParameters = "event_params"
     }
-}
-
-private struct AnalyticsEventParams: Encodable {
     
-    enum CodingKeys: String, CodingKey {
+    enum EventParameterKeys: String, CodingKey, CaseIterable {
         case appID = "app_id"
         case appName = "app_name"
         case clientSDKVersion = "c_sdk_ver"
@@ -97,5 +87,28 @@ private struct AnalyticsEventParams: Encodable {
     init(eventName: String, sessionID: String) {
         self.eventName = eventName
         self.sessionID = sessionID
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var topLevel = encoder.container(keyedBy: TopLevelKeys.self)
+        var events = topLevel.nestedContainer(keyedBy: EventKeys.self, forKey: .events)
+        var eventParameters = events.nestedContainer(keyedBy: EventParameterKeys.self, forKey: .eventParameters)
+        
+        try eventParameters.encode(appID, forKey: .appID)
+        try eventParameters.encode(appName, forKey: .appName)
+        try eventParameters.encode(clientSDKVersion, forKey: .clientSDKVersion)
+        try eventParameters.encode(clientOS, forKey: .clientOS)
+        try eventParameters.encode(component, forKey: .component)
+        try eventParameters.encode(deviceManufacturer, forKey: .deviceManufacturer)
+        try eventParameters.encode(eventName, forKey: .eventName)
+        try eventParameters.encode(eventSource, forKey: .eventSource)
+        try eventParameters.encode(packageManager, forKey: .packageManager)
+        try eventParameters.encode(isSimulator, forKey: .isSimulator)
+        try eventParameters.encode(merchantAppVersion, forKey: .merchantAppVersion)
+        try eventParameters.encode(deviceModel, forKey: .deviceModel)
+        try eventParameters.encode(platform, forKey: .platform)
+        try eventParameters.encode(sessionID, forKey: .sessionID)
+        try eventParameters.encode(timestamp, forKey: .timestamp)
+        try eventParameters.encode(tenantName, forKey: .tenantName)
     }
 }

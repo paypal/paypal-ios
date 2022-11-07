@@ -50,7 +50,7 @@ public class APIClient {
     /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
     /// - Parameter name: Event name string used to identify this unique event in FPTI.
     public func sendAnalyticsEvent(_ name: String) async {
-        let analyticsPayload = AnalyticsPayload(eventName: name, sessionID: sessionID)
+        let analyticsPayload = AnalyticsEventData(eventName: name, sessionID: sessionID)
 
         do {
             let analyticsEventRequest = try AnalyticsEventRequest(payload: analyticsPayload)

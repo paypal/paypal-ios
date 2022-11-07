@@ -2,7 +2,7 @@ import Foundation
 
 struct AnalyticsEventRequest: APIRequest {
     
-    init(payload: AnalyticsPayload) throws {
+    init(payload: AnalyticsEventData) throws {
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
         body = try encoder.encode(payload)
