@@ -4,7 +4,7 @@ import XCTest
 // swiftlint:disable force_unwrapping implicitly_unwrapped_optional force_try force_cast
 class AnalyticsEventRequest_Tests: XCTestCase {
     
-    var fakeAnalyticsPayload: AnalyticsPayload!
+    var fakeAnalyticsEventData: AnalyticsEventData!
     var sut: AnalyticsEventRequest!
     
     let currentTime = String(Date().timeIntervalSince1970 * 1000)
@@ -12,9 +12,9 @@ class AnalyticsEventRequest_Tests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        fakeAnalyticsPayload = AnalyticsPayload(eventName: "fake-name", sessionID: "fake-session")
+        fakeAnalyticsEventData = AnalyticsEventData(eventName: "fake-name", sessionID: "fake-session")
         
-        sut = try! AnalyticsEventRequest(payload: fakeAnalyticsPayload)
+        sut = try! AnalyticsEventRequest(payload: fakeAnalyticsEventData)
     }
 
     func test_httpParameters() throws {
