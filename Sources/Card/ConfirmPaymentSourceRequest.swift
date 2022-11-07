@@ -18,7 +18,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         accessToken: String,
         cardRequest: CardRequest
     ) throws {
-        var confirmPaymentSourceBody = ConfirmPaymentSourceBody()
+        var confirmPaymentSource = ConfirmPaymentSource()
         var card = cardRequest.card
         if let threeDSecureRequest = cardRequest.threeDSecureRequest {
             let verification = Verification(method: threeDSecureRequest.sca.rawValue)
@@ -28,10 +28,10 @@ struct ConfirmPaymentSourceRequest: APIRequest {
                 returnUrl: threeDSecureRequest.returnUrl,
                 cancelUrl: threeDSecureRequest.cancelUrl
             )
-            confirmPaymentSourceBody.applicationContext = applicationContext
+            confirmPaymentSource.applicationContext = applicationContext
         }
         
-        confirmPaymentSourceBody.paymentSource = PaymentSource(card: card)
+        confirmPaymentSource.paymentSource = PaymentSource(card: card)
         
         self.orderID = cardRequest.orderID
         self.accessToken = accessToken
@@ -39,7 +39,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         path = String(format: pathFormat, orderID)
         
         jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
-        body = try jsonEncoder.encode(confirmPaymentSourceBody)
+        body = try jsonEncoder.encode(confirmPaymentSource)
         
         // TODO - The complexity in this `init` signals to reconsider our use/design of the `APIRequest` protocol.
         // Existing pattern doesn't provide clear, testable interface for encoding JSON POST bodies.
@@ -60,7 +60,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         ]
     }
     
-    private struct ConfirmPaymentSourceBody: Encodable {
+    private struct ConfirmPaymentSource: Encodable {
         
         var paymentSource: PaymentSource?
         var applicationContext: ApplicationContext?
