@@ -1,10 +1,7 @@
 import XCTest
 @testable import PaymentsCore
 
-// swiftlint:disable force_cast
-// swiftlint:disable implicitly_unwrapped_optional
-// swiftlint:disable force_try
-// swiftlint:disable force_unwrapping
+// swiftlint:disable force_unwrapping implicitly_unwrapped_optional force_try force_cast
 class AnalyticsEventRequest_Tests: XCTestCase {
     
     var fakeAnalyticsPayload: AnalyticsPayload!
@@ -61,6 +58,6 @@ class AnalyticsEventRequest_Tests: XCTestCase {
 extension String {
     
     func matches(_ regex: String) -> Bool {
-        return self.range(of: regex, options: .regularExpression) != nil
+        self.range(of: regex, options: .regularExpression) != nil
     }
 }
