@@ -8,7 +8,7 @@ struct AnalyticsEventRequest: APIRequest {
         body = try encoder.encode(payload)
     }
     
-    // MARK: - APIRequest
+    // MARK: - APIRequest conformance
     
     typealias ResponseType = EmptyResponse
     
@@ -23,4 +23,4 @@ struct AnalyticsEventRequest: APIRequest {
     }
 }
 
-public struct EmptyResponse: Decodable { }
+struct EmptyResponse: Decodable { }
