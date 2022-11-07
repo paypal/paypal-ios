@@ -43,7 +43,7 @@ private struct AnalyticsEventParams: Encodable {
     
     let appName: String = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String ?? ""
 
-    let clientSDKVersion = PayPalCoreConstants.paypalSDKVersion
+    let clientSDKVersion = PayPalCoreConstants.payPalSDKVersion
 
     let clientOS: String = UIDevice.current.systemName + " " + UIDevice.current.systemVersion
 
