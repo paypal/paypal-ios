@@ -155,6 +155,62 @@ curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/order
 --data-raw ''
 ```
 
+### Billing Agreement
+
+## 1. Create Order
+
+```bash
+curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/orders/' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer <ACCESS_TOKEN>' \
+--data-raw '{
+  "description": "Billing Agreement",
+  "shipping_address":
+  {
+    "line1": "1350 North First Street",
+    "city": "San Jose",
+    "state": "CA",
+    "postal_code": "95112",
+    "country_code": "US",
+    "recipient_name": "John Doe"
+  },
+  "payer":
+  {
+    "payment_method": "PAYPAL"
+  },
+  "plan":
+  {
+    "type": "MERCHANT_INITIATED_BILLING",
+    "merchant_preferences":
+    {
+      "return_url": "https://example.com/return",
+      "cancel_url": "https://example.com/cancel",
+      "notify_url": "https://example.com/notify",
+      "accepted_pymt_type": "INSTANT",
+      "skip_shipping_address": false,
+      "immutable_shipping_address": true
+    }
+  }
+}'
+```
+
+**Response**
+
+```json
+{
+   "token_id": "<TOKEN>"
+}
+```
+## 2. Set BillingAgreement token
+
+```swift
+payPalClient.start { createOrderAction in
+    createOrderAction.set(billingAgreementToken: "<billingAgreementToken>")
+}
+```
+## 3. Approve the order
+Follow steps here to [Approve the order using the Payments SDK](#4-approve-the-order-using-the-payments-sdk)
+
 **Note**: Be sure that the endpoint you are calling aligns with the intent set on the order created in [step 3](#3-initiate-the-payments-sdk).
 
 ## Test and go live
