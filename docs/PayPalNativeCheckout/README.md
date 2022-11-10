@@ -155,9 +155,9 @@ curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/order
 --data-raw ''
 ```
 
-### Billing Agreement
+## Billing Agreement
 
-## 1. Create Order
+### 1. Create Order
 
 ```bash
 curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/orders/' \
@@ -201,14 +201,14 @@ curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/order
    "token_id": "<TOKEN>"
 }
 ```
-## 2. Set BillingAgreement token
+### 2. Set BillingAgreement token
 
 ```swift
 payPalClient.start { createOrderAction in
     createOrderAction.set(billingAgreementToken: "<billingAgreementToken>")
 }
 ```
-## 3. Approve the order
+### 3. Approve the order
 Follow steps here to [Approve the order using the Payments SDK](#4-approve-the-order-using-the-payments-sdk)
 
 **Note**: Be sure that the endpoint you are calling aligns with the intent set on the order created in [step 3](#3-initiate-the-payments-sdk).
