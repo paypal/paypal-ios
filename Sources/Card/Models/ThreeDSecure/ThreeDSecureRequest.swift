@@ -17,7 +17,7 @@ public struct ThreeDSecureRequest {
     ///   - sca: Specificy to always launch 3DS or only when required
     ///   - returnUrl: Url to return after flow has completed
     ///   - cancelUrl: Url to return when flow is cancelled
-    public init(sca: SCA, returnUrl: String, cancelUrl: String) {
+    public init(sca: SCA = .scaWhenRequired, returnUrl: String, cancelUrl: String) {
         self.sca = sca
         self.returnUrl = returnUrl
         self.cancelUrl = cancelUrl

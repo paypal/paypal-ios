@@ -13,22 +13,24 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
             expirationYear: "2024",
             securityCode: "222"
         )
-        let cardRequest = CardRequest(orderID: mockOrderID, card: card)
+        
+        let threeDSecureRequest = ThreeDSecureRequest(returnUrl: "sample_url", cancelUrl: "sample_url")
+        let cardRequest = CardRequest(orderID: mockOrderID, card: card, threeDSecureRequest: threeDSecureRequest)
 
         let confirmPaymentSourceRequest = try XCTUnwrap(
             ConfirmPaymentSourceRequest(accessToken: "fake-token", cardRequest: cardRequest)
         )
 
         let paymentSourceBody = try XCTUnwrap(confirmPaymentSourceRequest.body)
-        let paymentSourceBodyString = String(data: paymentSourceBody, encoding: .utf8)
+        if let paymentSourceBodyString = String(data: paymentSourceBody, encoding: .utf8) {
+            // swiftlint:disable line_length
+            let expectedPaymentSourceBodyString = """
+            {"application_context":{"return_url":"sample_url","cancel_url":"sample_url"},"payment_source":{"card":{"number":"4032036247327321","security_code":"222","billing_address":null,"name":null,"attributes":{"verification":{"method":"SCA_WHEN_REQUIRED"}},"expiry":"2024-11"}}}
+            """
+            // swiftlint:enable line_length
 
-        // swiftlint:disable line_length
-        let expectedPaymentSourceBodyString = """
-        {"payment_source":{"card":{"number":"4032036247327321","security_code":"222","billing_address":null,"name":null,"attributes":null,"expiry":"2024-11"}}}
-        """
-        // swiftlint:enable line_length
-
-        XCTAssertEqual(paymentSourceBodyString, expectedPaymentSourceBodyString)
+            XCTAssertEqual(paymentSourceBodyString, expectedPaymentSourceBodyString)
+        }
     }
 
     func testEncodingPaymentSource_withValidCardDictionary_expectsValidHTTPParams() throws {
@@ -39,7 +41,8 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
             expirationYear: "2024",
             securityCode: "222"
         )
-        let cardRequest = CardRequest(orderID: mockOrderId, card: card)
+        let threeDSecureRequest = ThreeDSecureRequest(returnUrl: "sample_url", cancelUrl: "sample_url")
+        let cardRequest = CardRequest(orderID: mockOrderId, card: card, threeDSecureRequest: threeDSecureRequest)
 
         let confirmPaymentSourceRequest = try XCTUnwrap(
             ConfirmPaymentSourceRequest(accessToken: "fake-token", cardRequest: cardRequest)

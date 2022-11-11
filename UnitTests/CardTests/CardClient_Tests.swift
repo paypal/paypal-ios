@@ -20,6 +20,7 @@ class CardClient_Tests: XCTestCase {
         expirationYear: "2021",
         securityCode: "123"
     )
+    let threeDSecureRequest = ThreeDSecureRequest(returnUrl: "sample_url", cancelUrl: "sample_url")
 
     // swiftlint:disable implicitly_unwrapped_optional
     var config: CoreConfig!
@@ -54,7 +55,7 @@ class CardClient_Tests: XCTestCase {
             mockURLSession.addResponse(mockResponse)
             let expectation = expectation(description: "testName")
 
-            let cardRequest = CardRequest(orderID: "testOrderId", card: card)
+            let cardRequest = CardRequest(orderID: "testOrderId", card: card, threeDSecureRequest: threeDSecureRequest)
 
             let mockCardDelegate = MockCardDelegate(success: {_, result -> Void in
                 XCTAssertEqual(result.orderID, "testOrderId")
@@ -94,7 +95,7 @@ class CardClient_Tests: XCTestCase {
             mockURLSession.addResponse(mockResponse)
             let expectation = expectation(description: "testName")
 
-            let cardRequest = CardRequest(orderID: "testOrderId", card: card)
+            let cardRequest = CardRequest(orderID: "testOrderId", card: card, threeDSecureRequest: threeDSecureRequest)
 
             let mockCardDelegate = MockCardDelegate(success: {_, _ -> Void in
                 XCTFail("Test Should have thrown an error")
@@ -135,7 +136,6 @@ class CardClient_Tests: XCTestCase {
 
             let expectation = expectation(description: "testName")
 
-            let threeDSecureRequest = ThreeDSecureRequest(sca: .scaAlways, returnUrl: "", cancelUrl: "")
             let cardRequest = CardRequest(orderID: "testOrderId", card: card, threeDSecureRequest: threeDSecureRequest)
 
             let mockCardDelegate = MockCardDelegate(
@@ -191,7 +191,6 @@ class CardClient_Tests: XCTestCase {
 
             let expectation = expectation(description: "testName")
 
-            let threeDSecureRequest = ThreeDSecureRequest(sca: .scaAlways, returnUrl: "", cancelUrl: "")
             let cardRequest = CardRequest(orderID: "testOrderId", card: card, threeDSecureRequest: threeDSecureRequest)
 
             let mockCardDelegate = MockCardDelegate(
@@ -241,7 +240,6 @@ class CardClient_Tests: XCTestCase {
 
             let expectation = expectation(description: "testName")
 
-            let threeDSecureRequest = ThreeDSecureRequest(sca: .scaAlways, returnUrl: "", cancelUrl: "")
             let cardRequest = CardRequest(orderID: "testOrderId", card: card, threeDSecureRequest: threeDSecureRequest)
 
             let mockCardDelegate = MockCardDelegate(

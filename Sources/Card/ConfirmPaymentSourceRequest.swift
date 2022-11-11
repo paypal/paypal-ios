@@ -20,16 +20,15 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     ) throws {
         var confirmPaymentSource = ConfirmPaymentSource()
         var card = cardRequest.card
-        if let threeDSecureRequest = cardRequest.threeDSecureRequest {
-            let verification = Verification(method: threeDSecureRequest.sca.rawValue)
-            card.attributes = Attributes(verification: verification)
+        var threeDSecureRequest = cardRequest.threeDSecureRequest
+        let verification = Verification(method: threeDSecureRequest.sca.rawValue)
+        card.attributes = Attributes(verification: verification)
             
-            let applicationContext = ApplicationContext(
-                returnUrl: threeDSecureRequest.returnUrl,
-                cancelUrl: threeDSecureRequest.cancelUrl
-            )
-            confirmPaymentSource.applicationContext = applicationContext
-        }
+        let applicationContext = ApplicationContext(
+            returnUrl: threeDSecureRequest.returnUrl,
+            cancelUrl: threeDSecureRequest.cancelUrl
+        )
+        confirmPaymentSource.applicationContext = applicationContext
         
         confirmPaymentSource.paymentSource = PaymentSource(card: card)
         
