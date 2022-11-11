@@ -14,7 +14,7 @@ class CardUITests: XCTestCase {
 
         _ = app.staticText(containing: "Order ID:").waitForExistence()
 
-        app.textField(named: "Card Number").tap()
+        app.textField(named: "Card Number").tap() // this fails in SwiftUI, forcing test to run in UIKit
         app.typeText("5288775404117508")
 
         app.textField(named: "Expiration").tap()

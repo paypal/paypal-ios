@@ -1,6 +1,10 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+* `Card`:
+  * Update `CardRequest` to require `ThreeDSecure`
+
 ## 0.0.3 (2022-11-03)
 * PayPalNativeCheckout
     * Expose PayPalNativeCheckout through Swift Package Manager
