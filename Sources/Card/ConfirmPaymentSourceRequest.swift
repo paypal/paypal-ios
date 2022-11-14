@@ -20,7 +20,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     ) throws {
         var confirmPaymentSource = ConfirmPaymentSource()
         var card = cardRequest.card
-        var threeDSecureRequest = cardRequest.threeDSecureRequest
+        let threeDSecureRequest = cardRequest.threeDSecureRequest
         let verification = Verification(method: threeDSecureRequest.sca.rawValue)
         card.attributes = Attributes(verification: verification)
             
