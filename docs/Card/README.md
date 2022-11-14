@@ -139,7 +139,7 @@ Attach the card and the order ID from [step 4](#4-create-an-order) to a `CardReq
 let cardRequest = CardRequest(orderID: "<ORDER_ID>", card: card)
 ```
 
-Strong Consumer Authentication (SCA) is enabled by default. You need to pass a `ThreeDSecureRequest` when creating a `CardRequest`. This will require users to provide additional authentication information via 3D Secure. You can optionally set `sca` to `SCA_ALWAYS` if you want to require 3D Secure for every transaction.
+Strong Consumer Authentication (SCA) is enabled by default. You need to pass a `ThreeDSecureRequest` when creating a `CardRequest`. This will require users to provide additional authentication information via 3D Secure. You can optionally set `sca` to `.always` if you want to require 3D Secure for every transaction.
 
 To request SCA, add the following to `CardRequest`:
 
