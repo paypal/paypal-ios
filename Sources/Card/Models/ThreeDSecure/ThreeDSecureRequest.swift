@@ -14,7 +14,7 @@ public struct ThreeDSecureRequest {
 
     /// Creates an instance of a card request
     /// - Parameters:
-    ///   - sca: Specificy to always launch 3DS or only when required
+    ///   - sca: Specificy to always launch 3DS or only when required. Defaults to `scaWhenRequired`.
     ///   - returnUrl: Url to return after flow has completed
     ///   - cancelUrl: Url to return when flow is cancelled
     public init(sca: SCA = .scaWhenRequired, returnUrl: String, cancelUrl: String) {
