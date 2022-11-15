@@ -57,8 +57,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         let amountRequest = Amount(currencyCode: "USD", value: amount)
         let orderRequestParams = CreateOrderParams(
             intent: DemoSettings.intent.rawValue.uppercased(),
-            purchaseUnits: [PurchaseUnit(amount: amountRequest)],
-            applicationContext: ApplicationContext(returnUrl: BaseViewModel.returnUrl, cancelUrl: BaseViewModel.cancelUrl)
+            purchaseUnits: [PurchaseUnit(amount: amountRequest)]
         )
 
         do {

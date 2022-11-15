@@ -144,8 +144,14 @@ Optionally, a merchant app can request Strong Consumer Authentication (SCA) for 
 To request SCA, add the following to `CardRequest`:
 
 ```swift
-cardRequest.threeDSecureRequest = ThreeDSecureRequest(sca: .always)
+cardRequest.threeDSecureRequest = ThreeDSecureRequest(
+    sca: .always,
+    returnUrl: "\(Bundle.main.bundleIdentifier)://return_url",
+    cancelUrl: "\(Bundle.main.bundleIdentifier)://cancel_url"
+)
 ```
+
+Where `return_url` and `cancel_url` are the urls configured in your [paypal developer dashboard](https://developer.paypal.com/)
 
 ### 6. Approve the order using Payments SDK
 
