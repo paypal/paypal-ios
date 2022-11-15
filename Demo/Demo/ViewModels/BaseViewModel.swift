@@ -123,7 +123,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         }
         let cardClient = CardClient(config: config)
         cardClient.delegate = self
-        let cardRequest = CardRequest(orderID: orderID, card: card, threeDSecureRequest: createThreeDSecureRequest())
+        let cardRequest = CardRequest(orderID: orderID, card: card, sca: .scaAlways)
         cardClient.approveOrder(request: cardRequest, context: context)
     }
 
@@ -139,14 +139,6 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         let enabled = cleanedCardNumber.count >= 15 && cleanedCardNumber.count <= 19
         && cleanedExpirationDate.count == 4 && cvv.count >= 3 && cvv.count <= 4
         return enabled
-    }
-
-    private func createThreeDSecureRequest() -> ThreeDSecureRequest {
-        ThreeDSecureRequest(
-            sca: .scaAlways,
-            returnUrl: BaseViewModel.returnUrl,
-            cancelUrl: BaseViewModel.cancelUrl
-        )
     }
 
     // MARK: - PayPal Module Integration
