@@ -143,8 +143,6 @@ let cardRequest = CardRequest(
 )
 ```
 
-Where `return_url` and `cancel_url` are the urls configured in your [paypal developer dashboard](https://developer.paypal.com/)
-
 ### 6. Approve the order using Payments SDK
 
 Call `cardClient.approveOrder()` to approve the order.
