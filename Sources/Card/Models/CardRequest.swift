@@ -16,7 +16,7 @@ public struct CardRequest {
     
     /// Creates an instance of a card request
     /// - Parameters:
-    ///    - orderId: The order to be approved
+    ///    - orderID: The order to be approved
     ///    - card: The card to be charged for this order
     ///    - sca: Specificy to always launch 3DS or only when required. Defaults to `scaWhenRequired`.
     public init(orderID: String, card: Card, sca: SCA = .scaWhenRequired) {
