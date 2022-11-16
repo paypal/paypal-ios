@@ -3,7 +3,7 @@
 
 ## unreleased
 * `Card`:
-  * Update `CardRequest` to require `ThreeDSecure`
+  * Update `CardRequest` to require `ThreeDSecureRequest`
 
 ## 0.0.3 (2022-11-03)
 * PayPalNativeCheckout
