@@ -22,12 +22,29 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
 
         let paymentSourceBody = try XCTUnwrap(confirmPaymentSourceRequest.body)
         if let paymentSourceBodyString = String(data: paymentSourceBody, encoding: .utf8) {
-            // swiftlint:disable line_length
             let expectedPaymentSourceBodyString = """
-            {"application_context":{"return_url":"\(bundleID):\\/\\/card\\/success","cancel_url":"\(bundleID):\\/\\/card\\/cancel"},"payment_source":{"card":{"number":"4032036247327321","security_code":"222","billing_address":null,"name":null,"attributes":{"verification":{"method":"SCA_WHEN_REQUIRED"}},"expiry":"2024-11"}}}
-            """
-            // swiftlint:enable line_length
-
+                {
+                    "application_context": {
+                        "return_url": "\(bundleID):\\/\\/card\\/success",
+                        "cancel_url": "\(bundleID):\\/\\/card\\/cancel"
+                    },
+                    "payment_source": {
+                        "card": {
+                            "number": "4032036247327321",
+                            "security_code": "222",
+                            "billing_address": null,
+                            "name": null,
+                            "attributes": {
+                                "verification": {
+                                    "method": "SCA_WHEN_REQUIRED"
+                                }
+                            },
+                            "expiry": "2024-11"
+                        }
+                    }
+                }
+                """.replacingOccurrences(of: " ", with: "").replacingOccurrences(of: "\n", with: "")
+            
             XCTAssertEqual(paymentSourceBodyString, expectedPaymentSourceBodyString)
         }
     }
