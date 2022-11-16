@@ -3,7 +3,8 @@
 
 ## unreleased
 * `Card`:
-  * Remove `ThreeDSecureRequest` and create urls internally. Update `CardRequest` to require `sca`
+  * Remove `ThreeDSecureRequest` from `CardRequest` and create URLs internally 
+  * Update `CardRequest` to optionally pass `sca`
 
 ## 0.0.3 (2022-11-03)
 * PayPalNativeCheckout
