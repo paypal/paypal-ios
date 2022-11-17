@@ -13,9 +13,8 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
             expirationYear: "2024",
             securityCode: "222"
         )
-        
-        let threeDSecureRequest = ThreeDSecureRequest(returnUrl: "sample_url", cancelUrl: "sample_url")
-        let cardRequest = CardRequest(orderID: mockOrderID, card: card, threeDSecureRequest: threeDSecureRequest)
+        let bundleID = Bundle.main.bundleIdentifier ?? ""
+        let cardRequest = CardRequest(orderID: mockOrderID, card: card)
 
         let confirmPaymentSourceRequest = try XCTUnwrap(
             ConfirmPaymentSourceRequest(accessToken: "fake-token", cardRequest: cardRequest)
@@ -26,8 +25,8 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
             let expectedPaymentSourceBodyString = """
                 {
                     "application_context": {
-                        "return_url": "sample_url",
-                        "cancel_url": "sample_url"
+                        "return_url": "\(bundleID):\\/\\/card\\/success",
+                        "cancel_url": "\(bundleID):\\/\\/card\\/cancel"
                     },
                     "payment_source": {
                         "card": {
@@ -58,8 +57,7 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
             expirationYear: "2024",
             securityCode: "222"
         )
-        let threeDSecureRequest = ThreeDSecureRequest(returnUrl: "sample_url", cancelUrl: "sample_url")
-        let cardRequest = CardRequest(orderID: mockOrderId, card: card, threeDSecureRequest: threeDSecureRequest)
+        let cardRequest = CardRequest(orderID: mockOrderId, card: card)
 
         let confirmPaymentSourceRequest = try XCTUnwrap(
             ConfirmPaymentSourceRequest(accessToken: "fake-token", cardRequest: cardRequest)
