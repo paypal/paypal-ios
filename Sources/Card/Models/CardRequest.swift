@@ -8,17 +8,25 @@ public struct CardRequest {
     /// The card to be charged for this order
     public let card: Card
 
-    /// Request to start 3DS authentication
-    public let threeDSecureRequest: ThreeDSecureRequest?
-
+    /// 3DS authentication launch option
+    public let sca: SCA
+    
+    let returnUrl: String
+    let cancelUrl: String
+    
     /// Creates an instance of a card request
     /// - Parameters:
-    ///    - orderId: The order to be approved
+    ///    - orderID: The order to be approved
     ///    - card: The card to be charged for this order
-    ///    - threeDSecureRequest: Request to start 3DS authentication
-    public init(orderID: String, card: Card, threeDSecureRequest: ThreeDSecureRequest? = nil) {
+    ///    - sca: Specificy to always launch 3DS or only when required. Defaults to `scaWhenRequired`.
+    public init(orderID: String, card: Card, sca: SCA = .scaWhenRequired) {
         self.orderID = orderID
         self.card = card
-        self.threeDSecureRequest = threeDSecureRequest
+        self.sca = sca
+        
+        let bundleID = Bundle.main.bundleIdentifier ?? ""
+        
+        self.returnUrl = "\(bundleID)://card/success"
+        self.cancelUrl = "\(bundleID)://card/cancel"
     }
 }

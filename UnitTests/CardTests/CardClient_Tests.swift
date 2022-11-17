@@ -135,8 +135,7 @@ class CardClient_Tests: XCTestCase {
 
             let expectation = expectation(description: "testName")
 
-            let threeDSecureRequest = ThreeDSecureRequest(sca: .scaAlways, returnUrl: "", cancelUrl: "")
-            let cardRequest = CardRequest(orderID: "testOrderId", card: card, threeDSecureRequest: threeDSecureRequest)
+            let cardRequest = CardRequest(orderID: "testOrderId", card: card)
 
             let mockCardDelegate = MockCardDelegate(
                 success: {_, result -> Void in
@@ -191,8 +190,7 @@ class CardClient_Tests: XCTestCase {
 
             let expectation = expectation(description: "testName")
 
-            let threeDSecureRequest = ThreeDSecureRequest(sca: .scaAlways, returnUrl: "", cancelUrl: "")
-            let cardRequest = CardRequest(orderID: "testOrderId", card: card, threeDSecureRequest: threeDSecureRequest)
+            let cardRequest = CardRequest(orderID: "testOrderId", card: card)
 
             let mockCardDelegate = MockCardDelegate(
                 success: {_, _ -> Void in
@@ -241,8 +239,7 @@ class CardClient_Tests: XCTestCase {
 
             let expectation = expectation(description: "testName")
 
-            let threeDSecureRequest = ThreeDSecureRequest(sca: .scaAlways, returnUrl: "", cancelUrl: "")
-            let cardRequest = CardRequest(orderID: "testOrderId", card: card, threeDSecureRequest: threeDSecureRequest)
+            let cardRequest = CardRequest(orderID: "testOrderId", card: card)
 
             let mockCardDelegate = MockCardDelegate(
                 success: {_, _ -> Void in

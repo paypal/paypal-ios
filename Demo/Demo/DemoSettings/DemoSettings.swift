@@ -34,8 +34,13 @@ enum DemoSettings {
     }
 
     static var demoUIFramework: DemoUIFramework {
-        UserDefaults.standard.string(forKey: DemoUIFrameworkKey)
-            .flatMap { DemoUIFramework(rawValue: $0) } ?? .uikit
+        get {
+            UserDefaults.standard.string(forKey: DemoUIFrameworkKey)
+                .flatMap { DemoUIFramework(rawValue: $0) } ?? .uikit
+        }
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: DemoUIFrameworkKey)
+        }
     }
 
     static var clientID: String {

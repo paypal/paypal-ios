@@ -133,25 +133,15 @@ let card = Card(
 )
 ```
 
-Attach the card and the order ID from [step 4](#4-create-an-order) to a `CardRequest`.
+Attach the card and the order ID from [step 4](#4-create-an-order) to a `CardRequest`. Strong Consumer Authentication (SCA) is enabled by default. You can optionally set `sca` to `.always` if you want to require 3D Secure for every transaction.
 
 ```swift
-let cardRequest = CardRequest(orderID: "<ORDER_ID>", card: card)
-```
-
-Optionally, a merchant app can request Strong Consumer Authentication (SCA) for a `CardRequest` that will require users to provide additional authentication information via 3D Secure.
-
-To request SCA, add the following to `CardRequest`:
-
-```swift
-cardRequest.threeDSecureRequest = ThreeDSecureRequest(
-    sca: .always,
-    returnUrl: "\(Bundle.main.bundleIdentifier)://return_url",
-    cancelUrl: "\(Bundle.main.bundleIdentifier)://cancel_url"
+let cardRequest = CardRequest(
+    orderID: "<ORDER_ID>",
+    card: card,
+    sca: .always // default value is .whenRequired
 )
 ```
-
-Where `return_url` and `cancel_url` are the urls configured in your [paypal developer dashboard](https://developer.paypal.com/)
 
 ### 6. Approve the order using Payments SDK
 

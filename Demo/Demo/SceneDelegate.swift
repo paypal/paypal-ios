@@ -62,5 +62,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         } else if launchArgs.contains("-DemoTypePaymentButtonCustomization") {
             DemoSettings.demoType = .paymentButtonCustomization
         }
+        
+        if launchArgs.contains("-UIFrameworkUIKit") {
+            DemoSettings.demoUIFramework = .uikit
+        } else if launchArgs.contains("-UIFrameworkSwiftUI") {
+            DemoSettings.demoUIFramework = .swiftui
+        }
     }
 }
