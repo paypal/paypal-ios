@@ -2,8 +2,6 @@ import Foundation
 
 public class APIClient {
 
-    public typealias CorrelationID = String
-
     private var urlSession: URLSessionProtocol
     private let coreConfig: CoreConfig
     private let sessionID = UUID().uuidString.replacingOccurrences(of: "-", with: "")
@@ -20,13 +18,12 @@ public class APIClient {
         self.urlSession = urlSession
     }
 
-    public func fetch<T: APIRequest>(endpoint: T) async throws -> (T.ResponseType, CorrelationID?) {
+    public func fetch<T: APIRequest>(endpoint: T) async throws -> (T.ResponseType) {
         guard let request = endpoint.toURLRequest(environment: coreConfig.environment) else {
             throw APIClientError.invalidURLRequestError
         }
         // TODO: consider throwing PayPalError from perfomRequest
         let (data, response) = try await urlSession.performRequest(with: request)
-        let correlationID = (response as? HTTPURLResponse)?.allHeaderFields["Paypal-Debug-Id"] as? String
         guard let response = response as? HTTPURLResponse else {
             throw APIClientError.invalidURLResponseError
         }
@@ -34,7 +31,7 @@ public class APIClient {
         switch response.statusCode {
         case 200..<300:
             let decodedData = try decoder.decode(T.self, from: data)
-            return (decodedData, correlationID)
+            return (decodedData)
         default:
             let errorData = try decoder.decode(from: data)
             throw APIClientError.serverResponseError(errorData.readableDescription)
@@ -43,7 +40,7 @@ public class APIClient {
 
     public func getClientID() async throws -> String {
         let request = GetClientIDRequest(accessToken: coreConfig.accessToken)
-        let (response, _) = try await fetch(endpoint: request)
+        let (response) = try await fetch(endpoint: request)
         return response.clientID
     }
     
@@ -54,7 +51,7 @@ public class APIClient {
 
         do {
             let analyticsEventRequest = try AnalyticsEventRequest(eventData: eventData)
-            let (_, _) = try await fetch(endpoint: analyticsEventRequest)
+            let (_) = try await fetch(endpoint: analyticsEventRequest)
         } catch let error {
             NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription)
         }
