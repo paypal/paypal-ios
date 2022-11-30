@@ -29,9 +29,9 @@ struct AnalyticsEventData: Encodable {
         case tenantName = "tenant_name"
     }
     
-    let appID: String = Bundle.main.infoDictionary?[kCFBundleIdentifierKey as String] as? String ?? ""
+    let appID: String = Bundle.main.infoDictionary?[kCFBundleIdentifierKey as String] as? String ?? "N/A"
     
-    let appName: String = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String ?? ""
+    let appName: String = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String ?? "N/A"
 
     let clientSDKVersion = PayPalCoreConstants.payPalSDKVersion
 
@@ -63,7 +63,7 @@ struct AnalyticsEventData: Encodable {
         #endif
     }()
     
-    let merchantAppVersion: String = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as? String ?? ""
+    let merchantAppVersion: String = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as? String ?? "N/A"
 
     let deviceModel: String = {
         var systemInfo = utsname()
