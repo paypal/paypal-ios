@@ -11,8 +11,8 @@ public class APIClient {
     private let sessionID = UUID().uuidString.replacingOccurrences(of: "-", with: "")
     private let coreConfig: CoreConfig
     
-    /// The `AnalyticsService` instance is static/shared so that only sessionID is used.
-    /// The "singleton" has to be managed here because it has a dependency on `HTTP`.
+    /// The `AnalyticsService` instance is static/shared so that only one sessionID is used.
+    /// The "singleton" has to be managed here because `AnalyticsService` has a dependency on `HTTP`.
     ///
     /// Exposed for testing.
     weak var analyticsService: AnalyticsService? {
