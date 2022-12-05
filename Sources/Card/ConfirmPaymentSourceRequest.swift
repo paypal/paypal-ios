@@ -23,11 +23,10 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         let verification = Verification(method: cardRequest.sca.rawValue)
         card.attributes = Attributes(verification: verification)
             
-        let applicationContext = ApplicationContext(
-            returnUrl: cardRequest.returnUrl,
-            cancelUrl: cardRequest.cancelUrl
+        confirmPaymentSource.applicationContext = ApplicationContext(
+            returnUrl: PayPalCoreConstants.callbackURLScheme + "://card/success",
+            cancelUrl: PayPalCoreConstants.callbackURLScheme + "://card/cancel"
         )
-        confirmPaymentSource.applicationContext = applicationContext
         
         confirmPaymentSource.paymentSource = PaymentSource(card: card)
         

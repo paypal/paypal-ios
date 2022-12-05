@@ -10,19 +10,6 @@ import PayPalCheckout
 /// as well as share the logic of `processOrder` across our duplicate (SwiftUI and UIKit) card views.
 class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
 
-    private static var returnUrl: String {
-        if let identifier = Bundle.main.bundleIdentifier {
-            return "\(identifier)://example.com/returnUrl"
-        }
-        return ""
-    }
-    private static var cancelUrl: String {
-        if let identifier = Bundle.main.bundleIdentifier {
-            return "\(identifier)://example.com/cancelUrl"
-        }
-        return ""
-    }
-
     /// Weak reference to associated view
     weak var view: FeatureBaseViewController?
     var payPalWebCheckoutClient: PayPalWebCheckoutClient?
