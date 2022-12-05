@@ -7,13 +7,7 @@ class HTTP {
     private var urlSession: URLSessionProtocol
     private let decoder = APIClientDecoder()
 
-    init(coreConfig: CoreConfig) {
-        self.urlSession = URLSession.shared
-        self.coreConfig = coreConfig
-    }
-
-    /// For internal use for testing purpose
-    init(urlSession: URLSessionProtocol, coreConfig: CoreConfig) {
+    init(urlSession: URLSessionProtocol = URLSession.shared, coreConfig: CoreConfig) {
         self.urlSession = urlSession
         self.coreConfig = coreConfig
     }
@@ -22,6 +16,7 @@ class HTTP {
         guard let request = endpoint.toURLRequest(environment: coreConfig.environment) else {
             throw APIClientError.invalidURLRequestError
         }
+        
         let (data, response) = try await urlSession.performRequest(with: request)
         guard let response = response as? HTTPURLResponse else {
             throw APIClientError.invalidURLResponseError
