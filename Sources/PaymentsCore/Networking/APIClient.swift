@@ -1,46 +1,34 @@
 import Foundation
 
+/// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
+///
+/// `APIClient` is the entry point for each payment method feature to perform API requests. It also offers convenience methods for API requests used across multiple payment methods / modules.
 public class APIClient {
 
-    private var urlSession: URLSessionProtocol
-    private let coreConfig: CoreConfig
+    private var http: HTTP
     private let sessionID = UUID().uuidString.replacingOccurrences(of: "-", with: "")
-    private let decoder = APIClientDecoder()
+    private let coreConfig: CoreConfig
 
     public init(coreConfig: CoreConfig) {
+        self.http = HTTP(coreConfig: coreConfig)
         self.coreConfig = coreConfig
-        self.urlSession = URLSession.shared
     }
 
     /// For internal use for testing purpose
     init(urlSession: URLSessionProtocol, coreConfig: CoreConfig) {
+        self.http = HTTP(urlSession: urlSession, coreConfig: coreConfig)
         self.coreConfig = coreConfig
-        self.urlSession = urlSession
     }
-
+    
+    /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
     public func fetch<T: APIRequest>(endpoint: T) async throws -> (T.ResponseType) {
-        guard let request = endpoint.toURLRequest(environment: coreConfig.environment) else {
-            throw APIClientError.invalidURLRequestError
-        }
-        // TODO: consider throwing PayPalError from perfomRequest
-        let (data, response) = try await urlSession.performRequest(with: request)
-        guard let response = response as? HTTPURLResponse else {
-            throw APIClientError.invalidURLResponseError
-        }
-
-        switch response.statusCode {
-        case 200..<300:
-            let decodedData = try decoder.decode(T.self, from: data)
-            return (decodedData)
-        default:
-            let errorData = try decoder.decode(from: data)
-            throw APIClientError.serverResponseError(errorData.readableDescription)
-        }
+        return try await http.performRequest(endpoint: endpoint)
     }
 
+    /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
     public func getClientID() async throws -> String {
         let request = GetClientIDRequest(accessToken: coreConfig.accessToken)
-        let (response) = try await fetch(endpoint: request)
+        let (response) = try await http.performRequest(endpoint: request)
         return response.clientID
     }
     
@@ -51,7 +39,7 @@ public class APIClient {
 
         do {
             let analyticsEventRequest = try AnalyticsEventRequest(eventData: eventData)
-            let (_) = try await fetch(endpoint: analyticsEventRequest)
+            let (_) = try await http.performRequest(endpoint: analyticsEventRequest)
         } catch let error {
             NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription)
         }

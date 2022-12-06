@@ -31,6 +31,7 @@
 		803C31B7270E49160067D36E /* Card_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803C31B6270E49160067D36E /* Card_Tests.swift */; };
 		803C31B9270E4C560067D36E /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803C31B8270E4C560067D36E /* MockURLSession.swift */; };
 		8048D28C270B9DE00072214A /* ConfirmPaymentSourceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE00A226F3E32A0000CC46 /* ConfirmPaymentSourceResponse.swift */; };
+		804E62822937EBCE004B9FEF /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804E62812937EBCE004B9FEF /* HTTP.swift */; };
 		805AB85926B88882003BEE0D /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; platformFilter = ios; };
 		807C5E67291027D400ECECD8 /* AnalyticsEventRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807C5E66291027D400ECECD8 /* AnalyticsEventRequest.swift */; };
 		807C5E6929102D9800ECECD8 /* AnalyticsEventData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807C5E6829102D9800ECECD8 /* AnalyticsEventData.swift */; };
@@ -228,6 +229,7 @@
 		8036C1E1270F9BE700C0F091 /* Environment_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Environment_Tests.swift; path = UnitTests/PaymentsCoreTests/Environment_Tests.swift; sourceTree = SOURCE_ROOT; };
 		803C31B6270E49160067D36E /* Card_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card_Tests.swift; sourceTree = "<group>"; };
 		803C31B8270E4C560067D36E /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
+		804E62812937EBCE004B9FEF /* HTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTP.swift; sourceTree = "<group>"; };
 		807C5E66291027D400ECECD8 /* AnalyticsEventRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventRequest.swift; sourceTree = "<group>"; };
 		807C5E6829102D9800ECECD8 /* AnalyticsEventData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventData.swift; sourceTree = "<group>"; };
 		808EEA80291321FE001B6765 /* AnalyticsEventRequest_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventRequest_Tests.swift; sourceTree = "<group>"; };
@@ -730,6 +732,7 @@
 			children = (
 				E646231928369B71008AC8E1 /* GraphQL */,
 				BEA100E626EF9EDA0036A6A5 /* APIClient.swift */,
+				804E62812937EBCE004B9FEF /* HTTP.swift */,
 				CBA92A4227B304140077FF14 /* APIClientDecoder.swift */,
 				BEA100EF26EFA7C20036A6A5 /* APIClientError.swift */,
 				BC04836E27B2FB3600FA7B46 /* URLSessionProtocol.swift */,
@@ -1387,6 +1390,7 @@
 				BC04837427B2FC7300FA7B46 /* URLSession+URLSessionProtocol.swift in Sources */,
 				CBA92A4327B304140077FF14 /* APIClientDecoder.swift in Sources */,
 				3DC42BA927187E8300B71645 /* ErrorResponse.swift in Sources */,
+				804E62822937EBCE004B9FEF /* HTTP.swift in Sources */,
 				BC04836F27B2FB3600FA7B46 /* URLSessionProtocol.swift in Sources */,
 				065A4DBC26FCD8090007014A /* CoreSDKError.swift in Sources */,
 				E65D2D19289866FD00F94DFC /* GetClientIDRequest.swift in Sources */,
