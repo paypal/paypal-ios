@@ -11,9 +11,6 @@ public struct CardRequest {
     /// 3DS authentication launch option
     public let sca: SCA
     
-    let returnUrl: String
-    let cancelUrl: String
-    
     /// Creates an instance of a card request
     /// - Parameters:
     ///    - orderID: The order to be approved
@@ -23,10 +20,5 @@ public struct CardRequest {
         self.orderID = orderID
         self.card = card
         self.sca = sca
-        
-        let bundleID = Bundle.main.bundleIdentifier ?? ""
-        
-        self.returnUrl = "\(bundleID)://card/success"
-        self.cancelUrl = "\(bundleID)://card/cancel"
     }
 }

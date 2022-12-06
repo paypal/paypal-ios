@@ -13,7 +13,6 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
             expirationYear: "2024",
             securityCode: "222"
         )
-        let bundleID = Bundle.main.bundleIdentifier ?? ""
         let cardRequest = CardRequest(orderID: mockOrderID, card: card)
 
         let confirmPaymentSourceRequest = try XCTUnwrap(
@@ -25,8 +24,8 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
             let expectedPaymentSourceBodyString = """
                 {
                     "application_context": {
-                        "return_url": "\(bundleID):\\/\\/card\\/success",
-                        "cancel_url": "\(bundleID):\\/\\/card\\/cancel"
+                        "return_url": "sdk.ios.paypal:\\/\\/card\\/success",
+                        "cancel_url": "sdk.ios.paypal:\\/\\/card\\/cancel"
                     },
                     "payment_source": {
                         "card": {

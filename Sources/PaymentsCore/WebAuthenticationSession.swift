@@ -10,7 +10,7 @@ public class WebAuthenticationSession: NSObject {
     ) {
         let authenticationSession = ASWebAuthenticationSession(
             url: url,
-            callbackURLScheme: Bundle.main.bundleIdentifier,
+            callbackURLScheme: PayPalCoreConstants.callbackURLScheme,
             completionHandler: completion
         )
 
