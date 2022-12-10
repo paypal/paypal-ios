@@ -5,7 +5,7 @@ class AnalyticsService {
     // MARK: - Internal Properties
 
     private let http: HTTP
-    let sessionID = UUID().uuidString.replacingOccurrences(of: "-", with: "")
+    static let sessionID = UUID().uuidString.replacingOccurrences(of: "-", with: "")
 
     // MARK: - Initializer
 
@@ -16,7 +16,7 @@ class AnalyticsService {
     // MARK: - Internal Methods
 
     func sendEvent(_ name: String) async {
-        let eventData = AnalyticsEventData(eventName: name, sessionID: sessionID)
+        let eventData = AnalyticsEventData(eventName: name, sessionID: AnalyticsService.sessionID)
 
         do {
             let analyticsEventRequest = try AnalyticsEventRequest(eventData: eventData)
