@@ -2,17 +2,22 @@ import XCTest
 @testable import PaymentsCore
 @testable import TestShared
 
-// swiftlint:disable force_unwrapping force_cast
+// swiftlint:disable force_unwrapping force_cast implicitly_unwrapped_optional
 class AnalyticsService_Tests: XCTestCase {
     
     // MARK: - Helper properties
     
-    var mockURLSession = MockURLSession()
+    var mockURLSession: MockURLSession!
 
     // MARK: - Test lifecycle
 
     override func setUp() {
         super.setUp()
+        
+        mockURLSession = MockURLSession()
+        mockURLSession.cannedError = nil
+        mockURLSession.cannedURLResponse = HTTPURLResponse(url: URL(string: "www.fake-url.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])
+        mockURLSession.cannedJSONData = ""
     }
     
     // MARK: - sendEvent()

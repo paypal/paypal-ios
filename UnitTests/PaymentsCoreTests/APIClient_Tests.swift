@@ -24,7 +24,10 @@ class APIClient_Tests: XCTestCase {
         super.setUp()
         config = CoreConfig(accessToken: mockAccessToken, environment: .sandbox)
         mockURLSession = MockURLSession()
-
+        mockURLSession.cannedError = nil
+        mockURLSession.cannedURLResponse = nil
+        mockURLSession.cannedJSONData = nil
+        
         apiClient = APIClient(urlSession: mockURLSession, coreConfig: config)
     }
     
