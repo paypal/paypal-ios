@@ -21,14 +21,14 @@ public class APIClient {
     }
     
     /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
-    public func fetch<T: APIRequest>(endpoint: T) async throws -> (T.ResponseType) {
-        return try await http.performRequest(endpoint: endpoint)
+    public func fetch<T: APIRequest>(request: T) async throws -> (T.ResponseType) {
+        return try await http.performRequest(request)
     }
 
     /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
     public func getClientID() async throws -> String {
         let request = GetClientIDRequest(accessToken: coreConfig.accessToken)
-        let (response) = try await http.performRequest(endpoint: request)
+        let (response) = try await http.performRequest(request)
         return response.clientID
     }
     
@@ -39,7 +39,7 @@ public class APIClient {
 
         do {
             let analyticsEventRequest = try AnalyticsEventRequest(eventData: eventData)
-            let (_) = try await http.performRequest(endpoint: analyticsEventRequest)
+            let (_) = try await http.performRequest(analyticsEventRequest)
         } catch let error {
             NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription)
         }
