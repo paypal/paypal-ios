@@ -33,23 +33,23 @@ class AnalyticsService_Tests: XCTestCase {
     }
     
     func testSendEvent_onMultipleClassInstances_postsSameSessionID() async {
-        let firstFakeConfig = CoreConfig(accessToken: "fake-token-1", environment: .sandbox)
-        let firstFakeHTTP = MockHTTP(urlSession: mockURLSession, coreConfig: firstFakeConfig)
+        let config1 = CoreConfig(accessToken: "fake-token-1", environment: .sandbox)
+        let mockHTTP1 = MockHTTP(urlSession: mockURLSession, coreConfig: config1)
         
-        let secondFakeConfig = CoreConfig(accessToken: "fake-token-1", environment: .sandbox)
-        let secondFakeHTTP = MockHTTP(urlSession: mockURLSession, coreConfig: secondFakeConfig)
+        let config2 = CoreConfig(accessToken: "fake-token-2", environment: .sandbox)
+        let mockHTTP2 = MockHTTP(urlSession: mockURLSession, coreConfig: config2)
 
-        let firstAnalyticsService = AnalyticsService(http: firstFakeHTTP)
-        let secondAnalyticsService = AnalyticsService(http: secondFakeHTTP)
+        let analyticsService1 = AnalyticsService(http: mockHTTP1)
+        let analyticsService2 = AnalyticsService(http: mockHTTP2)
         
-        await firstAnalyticsService.sendEvent("fake-event-1")
-        let firstSessionParams = firstFakeHTTP.lastPOSTParameters as! [String: [String: [String: Any]]]
-        let firstSessionID = firstSessionParams["events"]!["event_params"]!["session_id"]! as! String
+        await analyticsService1.sendEvent("fake-event-1")
+        let postParams1 = mockHTTP1.lastPOSTParameters as! [String: [String: [String: Any]]]
+        let sessionID1 = postParams1["events"]!["event_params"]!["session_id"]! as! String
         
-        await secondAnalyticsService.sendEvent("fake-event-2")
-        let secondSessionParams = secondFakeHTTP.lastPOSTParameters as! [String: [String: [String: Any]]]
-        let secondSessionID = secondSessionParams["events"]!["event_params"]!["session_id"]! as! String
+        await analyticsService2.sendEvent("fake-event-2")
+        let postParam2 = mockHTTP2.lastPOSTParameters as! [String: [String: [String: Any]]]
+        let sessionID2 = postParam2["events"]!["event_params"]!["session_id"]! as! String
         
-        XCTAssertEqual(firstSessionID, secondSessionID)
+        XCTAssertEqual(sessionID1, sessionID2)
     }
 }
