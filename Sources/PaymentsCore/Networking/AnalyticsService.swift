@@ -5,7 +5,7 @@ class AnalyticsService {
     // MARK: - Internal Properties
 
     private let http: HTTP
-    static let sessionID = UUID().uuidString.replacingOccurrences(of: "-", with: "")
+    private static let sessionID = UUID().uuidString.replacingOccurrences(of: "-", with: "")
 
     // MARK: - Initializer
 
