@@ -48,7 +48,7 @@ public class CardClient {
         Task {
             do {
                 let confirmPaymentRequest = try ConfirmPaymentSourceRequest(accessToken: config.accessToken, cardRequest: request)
-                let (result) = try await apiClient.fetch(endpoint: confirmPaymentRequest)
+                let (result) = try await apiClient.fetch(request: confirmPaymentRequest)
                 if let url: String = result.links?.first(where: { $0.rel == "payer-action" })?.href {
                     delegate?.cardThreeDSecureWillLaunch(self)
                     startThreeDSecureChallenge(url: url, orderId: result.id, context: context, webAuthenticationSession: webAuthenticationSession)
@@ -98,7 +98,7 @@ public class CardClient {
         )
         Task {
             do {
-                let (result) = try await apiClient.fetch(endpoint: getOrderInfoRequest)
+                let (result) = try await apiClient.fetch(request: getOrderInfoRequest)
                 let cardResult = CardResult(
                     orderID: result.id,
                     status: result.status,

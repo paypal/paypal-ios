@@ -7,9 +7,9 @@ class MockHTTP: HTTP {
     var lastPOSTParameters: [String: Any]?
     var lastAPIRequest: (any APIRequest)?
     
-    override func performRequest<T>(endpoint: T) async throws -> (T.ResponseType) where T: APIRequest {
-        lastAPIRequest = endpoint
-        lastPOSTParameters = try JSONSerialization.jsonObject(with: endpoint.body!, options: []) as? [String: Any]
-        return try await super.performRequest(endpoint: endpoint)
+    override func performRequest<T: APIRequest>(_ request: T) async throws -> (T.ResponseType) {
+        lastAPIRequest = request
+        lastPOSTParameters = try JSONSerialization.jsonObject(with: request.body!, options: []) as? [String: Any]
+        return try await super.performRequest(request)
     }
 }

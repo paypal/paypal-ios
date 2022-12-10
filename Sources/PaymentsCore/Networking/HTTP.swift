@@ -12,12 +12,12 @@ class HTTP {
         self.coreConfig = coreConfig
     }
     
-    func performRequest<T: APIRequest>(endpoint: T) async throws -> (T.ResponseType) {
-        guard let request = endpoint.toURLRequest(environment: coreConfig.environment) else {
+    func performRequest<T: APIRequest>(_ request: T) async throws -> (T.ResponseType) {
+        guard let urlRequest = request.toURLRequest(environment: coreConfig.environment) else {
             throw APIClientError.invalidURLRequestError
         }
         
-        let (data, response) = try await urlSession.performRequest(with: request)
+        let (data, response) = try await urlSession.performRequest(with: urlRequest)
         guard let response = response as? HTTPURLResponse else {
             throw APIClientError.invalidURLResponseError
         }

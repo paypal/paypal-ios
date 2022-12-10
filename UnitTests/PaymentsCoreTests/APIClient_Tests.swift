@@ -48,7 +48,7 @@ class APIClient_Tests: XCTestCase {
         let noURLRequest = FakeRequestNoURL()
 
         do {
-            _ = try await apiClient.fetch(endpoint: noURLRequest)
+            _ = try await apiClient.fetch(request: noURLRequest)
             XCTFail("This should have failed.")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, APIClientError.domain)
@@ -69,7 +69,7 @@ class APIClient_Tests: XCTestCase {
         mockURLSession.cannedError = serverError
 
         do {
-            _ = try await apiClient.fetch(endpoint: fakeRequest)
+            _ = try await apiClient.fetch(request: fakeRequest)
             XCTFail()
         } catch let error {
             XCTAssertTrue(serverError === (error as AnyObject))
@@ -81,7 +81,7 @@ class APIClient_Tests: XCTestCase {
         mockURLSession.cannedJSONData = "{ \"test\" : \"bad-format\" }"
 
         do {
-            _ = try await apiClient.fetch(endpoint: fakeRequest)
+            _ = try await apiClient.fetch(request: fakeRequest)
             XCTFail()
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, APIClientError.domain)
@@ -111,7 +111,7 @@ class APIClient_Tests: XCTestCase {
         )
 
         do {
-            _ = try await apiClient.fetch(endpoint: fakeRequest)
+            _ = try await apiClient.fetch(request: fakeRequest)
             XCTFail()
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, APIClientError.domain)
@@ -134,7 +134,7 @@ class APIClient_Tests: XCTestCase {
         )
 
         do {
-            _ = try await apiClient.fetch(endpoint: fakeRequest)
+            _ = try await apiClient.fetch(request: fakeRequest)
             XCTFail()
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, APIClientError.domain)
