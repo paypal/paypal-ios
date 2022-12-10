@@ -22,6 +22,16 @@ class AnalyticsService_Tests: XCTestCase {
     
     // MARK: - sendEvent()
     
+    func testSendEvent_postsAnalyticsEventRequestType() async {
+        let fakeConfig = CoreConfig(accessToken: "fake-token-1", environment: .sandbox)
+        let mockHTTP = MockHTTP(urlSession: mockURLSession, coreConfig: fakeConfig)
+        
+        let analyticsService = AnalyticsService(http: mockHTTP)
+        await analyticsService.sendEvent("fake-event")
+        
+        XCTAssert(mockHTTP.lastAPIRequest is AnalyticsEventRequest)
+    }
+    
     func testSendEvent_onMultipleClassInstances_postsSameSessionID() async {
         let firstFakeConfig = CoreConfig(accessToken: "fake-token-1", environment: .sandbox)
         let firstFakeHTTP = MockHTTP(urlSession: mockURLSession, coreConfig: firstFakeConfig)
