@@ -3,7 +3,7 @@ import Foundation
 /// `HTTP` interfaces directly with `URLSession` to execute network requests.
 class HTTP {
     
-    private let coreConfig: CoreConfig
+    let coreConfig: CoreConfig
     private var urlSession: URLSessionProtocol
     private let decoder = APIClientDecoder()
 

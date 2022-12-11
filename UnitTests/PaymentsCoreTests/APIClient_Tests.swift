@@ -144,17 +144,4 @@ class APIClient_Tests: XCTestCase {
             XCTFail("Unexpected error type")
         }
     }
-    
-    // MARK: - Analytics
-    
-    func testAPIClient_hasSingletonAnalyticsService() {
-        let firstFakeConfig = CoreConfig(accessToken: "fake-token-1", environment: .sandbox)
-        let firstAPIClient = APIClient(coreConfig: firstFakeConfig)
-        
-        let secondFakeConfig = CoreConfig(accessToken: "fake-token-2", environment: .sandbox)
-        let secondAPIClient = APIClient(coreConfig: secondFakeConfig)
-        
-        XCTAssertTrue(firstAPIClient.analyticsService === secondAPIClient.analyticsService)
-        XCTAssertEqual(firstAPIClient.analyticsService?.sessionID, secondAPIClient.analyticsService?.sessionID)
-    }
 }
