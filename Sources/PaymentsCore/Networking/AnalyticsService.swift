@@ -7,7 +7,7 @@ class AnalyticsService {
 
     private static let instance = AnalyticsService()
     
-    var sessionID = ""
+    private var sessionID = UUID().uuidString.replacingOccurrences(of: "-", with: "")
     
     private var http: HTTP? {
         // This property observer generates a new `sessionID` if the `accessToken`

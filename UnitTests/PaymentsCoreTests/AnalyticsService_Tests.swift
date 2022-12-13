@@ -2,7 +2,7 @@ import XCTest
 @testable import PaymentsCore
 @testable import TestShared
 
-// swiftlint:disable force_unwrapping implicitly_unwrapped_optional
+// swiftlint:disable force_unwrapping implicitly_unwrapped_optional force_cast
 class AnalyticsService_Tests: XCTestCase {
 
     // MARK: - Helper properties
@@ -40,16 +40,24 @@ class AnalyticsService_Tests: XCTestCase {
         let mockHTTP1 = MockHTTP(urlSession: mockURLSession, coreConfig: config1)
         var analyticsService = AnalyticsService.sharedInstance(http: mockHTTP1)
         
+        // Send 1st event
+        await analyticsService.sendEvent("fake-event-1")
+        
         // Capture sessionID
-        let sessionID1 = analyticsService.sessionID
+        let postParams1 = mockHTTP1.lastPOSTParameters as! [String: [String: [String: Any]]]
+        let sessionID1 = postParams1["events"]!["event_params"]!["session_id"]! as! String
         
         // Construct 2nd CoreConfig
         let config2 = CoreConfig(accessToken: "fake-token-2", environment: .sandbox)
         let mockHTTP2 = MockHTTP(urlSession: mockURLSession, coreConfig: config2)
         analyticsService = AnalyticsService.sharedInstance(http: mockHTTP2)
         
+        // Send 2nd event
+        await analyticsService.sendEvent("fake-event-2")
+        
         // Capture sessionID
-        let sessionID2 = analyticsService.sessionID
+        let postParams2 = mockHTTP2.lastPOSTParameters as! [String: [String: [String: Any]]]
+        let sessionID2 = postParams2["events"]!["event_params"]!["session_id"]! as! String
 
         XCTAssertNotEqual(sessionID1, sessionID2)
     }
@@ -60,16 +68,24 @@ class AnalyticsService_Tests: XCTestCase {
         let mockHTTP1 = MockHTTP(urlSession: mockURLSession, coreConfig: config1)
         var analyticsService = AnalyticsService.sharedInstance(http: mockHTTP1)
         
+        // Send 1st event
+        await analyticsService.sendEvent("fake-event-1")
+        
         // Capture sessionID
-        let sessionID1 = analyticsService.sessionID
+        let postParams1 = mockHTTP1.lastPOSTParameters as! [String: [String: [String: Any]]]
+        let sessionID1 = postParams1["events"]!["event_params"]!["session_id"]! as! String
         
         // Construct 2nd CoreConfig
         let config2 = CoreConfig(accessToken: "fake-token-1", environment: .sandbox)
         let mockHTTP2 = MockHTTP(urlSession: mockURLSession, coreConfig: config2)
         analyticsService = AnalyticsService.sharedInstance(http: mockHTTP2)
         
+        // Send 2nd event
+        await analyticsService.sendEvent("fake-event-2")
+        
         // Capture sessionID
-        let sessionID2 = analyticsService.sessionID
+        let postParams2 = mockHTTP2.lastPOSTParameters as! [String: [String: [String: Any]]]
+        let sessionID2 = postParams2["events"]!["event_params"]!["session_id"]! as! String
 
         XCTAssertEqual(sessionID1, sessionID2)
     }
