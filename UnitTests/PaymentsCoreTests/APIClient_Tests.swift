@@ -30,6 +30,8 @@ class APIClient_Tests: XCTestCase {
 
         apiClient = APIClient(urlSession: mockURLSession, coreConfig: config)
     }
+    
+    // MARK: - getClientID()
 
     func testGetClientID_successfullyReturnsData() async throws {
         mockURLSession.cannedJSONData = APIResponses.oauthTokenJson.rawValue
@@ -38,6 +40,8 @@ class APIClient_Tests: XCTestCase {
         let response = try await apiClient.getClientID()
         XCTAssertEqual(response, "sample_id")
     }
+    
+    // MARK: - fetch()
 
     func testFetch_withNoURLRequest_returnsInvalidURLRequestError() async {
         // Mock request whose API object does not vend a URLRequest
