@@ -55,12 +55,9 @@ extension MyViewController: ASWebAuthenticationPresentationContextProviding {
 
     // MARK: - ASWebAuthenticationPresentationContextProviding
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-        UIApplication
-            .shared
-            .connectedScenes
-            .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
-            .first { $0.isKeyWindow }
-        ?? ASPresentationAnchor()
+        let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        let window = firstScene?.windows.first { $0.isKeyWindow }
+        return window ?? ASPresentationAnchor()
     }
 }
 ```
