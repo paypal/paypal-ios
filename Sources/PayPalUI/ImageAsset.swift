@@ -29,6 +29,6 @@ enum ImageAsset {
             imageAssetString += "blue"
         }
 
-        return UIImage(named: imageAssetString, in: PaymentButton.bundle, compatibleWith: nil)
+        return UIImage(named: imageAssetString, in: Bundle.module, compatibleWith: nil)
     }
 }
