@@ -54,8 +54,7 @@ let package = Package(
         ),
         .target(
             name: "PayPalUI",
-            dependencies: ["PaymentsCore"],
-            resources: [ .copy("Resources") ]
+            dependencies: ["PaymentsCore"]
         ),
         .target(
             name: "PayPalWebCheckout",
