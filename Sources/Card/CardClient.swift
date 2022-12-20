@@ -4,20 +4,7 @@ import AuthenticationServices
 import PaymentsCore
 #endif
 
-public class CardClient: NSObject, ASWebAuthenticationPresentationContextProviding {
-    
-    // MARK: - ASWebAuthenticationPresentationContextProviding conformance
-
-    public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-        if #available(iOS 15, *) {
-            let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-            let window = firstScene?.windows.first { $0.isKeyWindow }
-            return window ?? ASPresentationAnchor()
-        } else {
-            let window = UIApplication.shared.windows.first { $0.isKeyWindow }
-            return window ?? ASPresentationAnchor()
-        }
-    }
+public class CardClient: NSObject {
 
     public weak var delegate: CardDelegate?
 
@@ -129,5 +116,21 @@ public class CardClient: NSObject, ASWebAuthenticationPresentationContextProvidi
 
     private func notifyCancellation() {
         delegate?.cardDidCancel(self)
+    }
+}
+
+// MARK: - ASWebAuthenticationPresentationContextProviding conformance
+
+extension CardClient: ASWebAuthenticationPresentationContextProviding {
+
+    public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        if #available(iOS 15, *) {
+            let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+            let window = firstScene?.windows.first { $0.isKeyWindow }
+            return window ?? ASPresentationAnchor()
+        } else {
+            let window = UIApplication.shared.windows.first { $0.isKeyWindow }
+            return window ?? ASPresentationAnchor()
+        }
     }
 }

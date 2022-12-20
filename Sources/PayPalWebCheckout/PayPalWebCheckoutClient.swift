@@ -4,20 +4,7 @@ import AuthenticationServices
 import PaymentsCore
 #endif
 
-public class PayPalWebCheckoutClient: NSObject, ASWebAuthenticationPresentationContextProviding {
-    
-    // MARK: - ASWebAuthenticationPresentationContextProviding conformance
-
-    public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-        if #available(iOS 15, *) {
-            let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-            let window = firstScene?.windows.first { $0.isKeyWindow }
-            return window ?? ASPresentationAnchor()
-        } else {
-            let window = UIApplication.shared.windows.first { $0.isKeyWindow }
-            return window ?? ASPresentationAnchor()
-        }
-    }
+public class PayPalWebCheckoutClient: NSObject {
 
     public weak var delegate: PayPalWebCheckoutDelegate?
     let config: CoreConfig
@@ -112,5 +99,21 @@ public class PayPalWebCheckoutClient: NSObject, ASWebAuthenticationPresentationC
 
     private func notifyCancellation() {
         delegate?.payPalDidCancel(self)
+    }
+}
+
+// MARK: - ASWebAuthenticationPresentationContextProviding conformance
+
+extension PayPalWebCheckoutClient: ASWebAuthenticationPresentationContextProviding {
+    
+    public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        if #available(iOS 15, *) {
+            let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+            let window = firstScene?.windows.first { $0.isKeyWindow }
+            return window ?? ASPresentationAnchor()
+        } else {
+            let window = UIApplication.shared.windows.first { $0.isKeyWindow }
+            return window ?? ASPresentationAnchor()
+        }
     }
 }
