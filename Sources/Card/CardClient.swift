@@ -35,13 +35,6 @@ public class CardClient: NSObject {
     /// - Returns: Card result
     /// - Throws: PayPalSDK error if approve order could not complete successfully
     public func approveOrder(request: CardRequest) {
-        start(request: request)
-    }
-
-    /// Internal function for testing
-    func start(
-        request: CardRequest
-    ) {
         Task {
             do {
                 let confirmPaymentRequest = try ConfirmPaymentSourceRequest(accessToken: config.accessToken, cardRequest: request)

@@ -76,7 +76,7 @@ class CardClient_Tests: XCTestCase {
 
             cardClient.delegate = mockCardDelegate
 
-            cardClient.start(request: cardRequest)
+            cardClient.approveOrder(request: cardRequest)
 
             waitForExpectations(timeout: 10)
         } else {
@@ -111,7 +111,7 @@ class CardClient_Tests: XCTestCase {
 
             cardClient.delegate = mockCardDelegate
 
-            cardClient.start(request: cardRequest)
+            cardClient.approveOrder(request: cardRequest)
             
             waitForExpectations(timeout: 10)
         } else {
@@ -158,7 +158,7 @@ class CardClient_Tests: XCTestCase {
 
             cardClient.delegate = mockCardDelegate
 
-            cardClient.start(request: cardRequest)
+            cardClient.approveOrder(request: cardRequest)
 
             waitForExpectations(timeout: 10)
         } else {
@@ -204,7 +204,7 @@ class CardClient_Tests: XCTestCase {
 
             cardClient.delegate = mockCardDelegate
 
-            cardClient.start(request: cardRequest)
+            cardClient.approveOrder(request: cardRequest)
 
             waitForExpectations(timeout: 10)
         } else {
@@ -250,7 +250,7 @@ class CardClient_Tests: XCTestCase {
 
             cardClient.delegate = mockCardDelegate
 
-            cardClient.start(request: cardRequest)
+            cardClient.approveOrder(request: cardRequest)
 
             waitForExpectations(timeout: 10)
         } else {
