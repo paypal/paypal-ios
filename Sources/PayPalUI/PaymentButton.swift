@@ -4,7 +4,7 @@ import UIKit
 public class PaymentButton: UIButton {
 
     // asset identifier path for image and color button assets
-    static var bundle = Bundle(identifier: "com.paypal.ios-sdk.PayPalUI")
+    static var bundle = Bundle.module
 
     // MARK: - Init
 
