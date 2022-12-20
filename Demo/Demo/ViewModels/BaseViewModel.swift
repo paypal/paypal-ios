@@ -162,7 +162,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
                     return
                 }
                 let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding)
-                client.start(request: payPalRequest, context: context)
+                client.start(request: payPalRequest)
             } catch {
                 print("Error in starting paypal webcheckout client")
             }
