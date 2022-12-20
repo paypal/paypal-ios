@@ -4,7 +4,20 @@ import AuthenticationServices
 import PaymentsCore
 #endif
 
-public class PayPalWebCheckoutClient {
+public class PayPalWebCheckoutClient: NSObject, ASWebAuthenticationPresentationContextProviding {
+    
+    // MARK: - ASWebAuthenticationPresentationContextProviding conformance
+
+    public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        if #available(iOS 15, *) {
+            let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+            let window = firstScene?.windows.first { $0.isKeyWindow }
+            return window ?? ASPresentationAnchor()
+        } else {
+            let window = UIApplication.shared.windows.first { $0.isKeyWindow }
+            return window ?? ASPresentationAnchor()
+        }
+    }
 
     public weak var delegate: PayPalWebCheckoutDelegate?
     let config: CoreConfig
@@ -24,7 +37,7 @@ public class PayPalWebCheckoutClient {
         request: PayPalWebCheckoutRequest,
         context: ASWebAuthenticationPresentationContextProviding
     ) {
-        start(request: request, context: context, webAuthenticationSession: WebAuthenticationSession())
+        start(request: request, context: self, webAuthenticationSession: WebAuthenticationSession())
     }
 
     /// Internal function for testing the start function

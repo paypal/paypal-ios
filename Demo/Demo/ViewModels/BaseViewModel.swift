@@ -111,7 +111,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         let cardClient = CardClient(config: config)
         cardClient.delegate = self
         let cardRequest = CardRequest(orderID: orderID, card: card, sca: .scaAlways)
-        cardClient.approveOrder(request: cardRequest, context: context)
+        cardClient.approveOrder(request: cardRequest)
     }
 
     func isCardFormValid(cardNumber: String, expirationDate: String, cvv: String) -> Bool {

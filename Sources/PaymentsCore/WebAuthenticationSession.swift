@@ -17,6 +17,8 @@ public class WebAuthenticationSession: NSObject {
         authenticationSession.prefersEphemeralWebBrowserSession = true
         authenticationSession.presentationContextProvider = context
 
-        authenticationSession.start()
+        DispatchQueue.main.async {
+            authenticationSession.start()
+        }
     }
 }

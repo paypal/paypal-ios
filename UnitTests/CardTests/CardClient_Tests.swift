@@ -24,6 +24,7 @@ class CardClient_Tests: XCTestCase {
     // swiftlint:disable implicitly_unwrapped_optional
     var config: CoreConfig!
     var mockURLSession: MockQuededURLSession!
+    var mockWebAuthSession: MockWebAuthenticationSession!
     var apiClient: APIClient!
     var cardClient: CardClient!
     // swiftlint:enable implicitly_unwrapped_optional
@@ -34,9 +35,14 @@ class CardClient_Tests: XCTestCase {
         super.setUp()
         config = CoreConfig(accessToken: mockAccessToken, environment: .sandbox)
         mockURLSession = MockQuededURLSession()
+        mockWebAuthSession = MockWebAuthenticationSession()
 
         apiClient = APIClient(urlSession: mockURLSession, coreConfig: config)
-        cardClient = CardClient(config: config, apiClient: apiClient)
+        cardClient = CardClient(
+            config: config,
+            apiClient: apiClient,
+            webAuthenticationSession: mockWebAuthSession
+        )
     }
 
     override func tearDown() {
@@ -70,11 +76,7 @@ class CardClient_Tests: XCTestCase {
 
             cardClient.delegate = mockCardDelegate
 
-            cardClient.start(
-                request: cardRequest,
-                context: MockViewController(),
-                webAuthenticationSession: MockWebAuthenticationSession()
-            )
+            cardClient.start(request: cardRequest)
 
             waitForExpectations(timeout: 10)
         } else {
@@ -109,11 +111,8 @@ class CardClient_Tests: XCTestCase {
 
             cardClient.delegate = mockCardDelegate
 
-            cardClient.start(
-                request: cardRequest,
-                context: MockViewController(),
-                webAuthenticationSession: MockWebAuthenticationSession()
-            )
+            cardClient.start(request: cardRequest)
+            
             waitForExpectations(timeout: 10)
         } else {
             XCTFail("Data json cannot be null")
@@ -159,11 +158,7 @@ class CardClient_Tests: XCTestCase {
 
             cardClient.delegate = mockCardDelegate
 
-            cardClient.start(
-                request: cardRequest,
-                context: MockViewController(),
-                webAuthenticationSession: MockWebAuthenticationSession()
-            )
+            cardClient.start(request: cardRequest)
 
             waitForExpectations(timeout: 10)
         } else {
@@ -179,7 +174,6 @@ class CardClient_Tests: XCTestCase {
 
             mockURLSession.addResponse(mockConfirmResponse)
 
-            let mockWebAuthSession = MockWebAuthenticationSession()
             mockWebAuthSession.cannedErrorResponse = ASWebAuthenticationSessionError(
                 _bridgedNSError: NSError(
                     domain: ASWebAuthenticationSessionError.errorDomain,
@@ -210,11 +204,7 @@ class CardClient_Tests: XCTestCase {
 
             cardClient.delegate = mockCardDelegate
 
-            cardClient.start(
-                request: cardRequest,
-                context: MockViewController(),
-                webAuthenticationSession: mockWebAuthSession
-            )
+            cardClient.start(request: cardRequest)
 
             waitForExpectations(timeout: 10)
         } else {
@@ -230,7 +220,6 @@ class CardClient_Tests: XCTestCase {
 
             mockURLSession.addResponse(mockConfirmResponse)
 
-            let mockWebAuthSession = MockWebAuthenticationSession()
             mockWebAuthSession.cannedErrorResponse = CoreSDKError(
                 code: CardClientError.Code.threeDSecureError.rawValue,
                 domain: CardClientError.domain,
@@ -261,11 +250,7 @@ class CardClient_Tests: XCTestCase {
 
             cardClient.delegate = mockCardDelegate
 
-            cardClient.start(
-                request: cardRequest,
-                context: MockViewController(),
-                webAuthenticationSession: mockWebAuthSession
-            )
+            cardClient.start(request: cardRequest)
 
             waitForExpectations(timeout: 10)
         } else {
