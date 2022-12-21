@@ -27,7 +27,6 @@ public class PayPalWebCheckoutClient: NSObject {
     /// Launch the PayPal web flow
     /// - Parameters:
     ///   - request: the PayPalRequest for the transaction
-    ///   - context: the ASWebAuthenticationPresentationContextProviding protocol conforming ViewController
     public func start(request: PayPalWebCheckoutRequest) {
         let baseURLString = config.environment.payPalBaseURL.absoluteString
         let payPalCheckoutURLString =
@@ -102,6 +101,8 @@ public class PayPalWebCheckoutClient: NSObject {
 
 extension PayPalWebCheckoutClient: ASWebAuthenticationPresentationContextProviding {
     
+    // TODO: - Allow merchant to optionally set active UIWindow for multi-tasking.
+    // DTNOR-749
     public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         if #available(iOS 15, *) {
             let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
