@@ -2,7 +2,7 @@ import UIKit
 import PaymentsCore
 import AuthenticationServices
 
-class FeatureBaseViewController: UIViewController, ASWebAuthenticationPresentationContextProviding {
+class FeatureBaseViewController: UIViewController {
 
     // MARK: - View Spacing
 
@@ -88,17 +88,6 @@ class FeatureBaseViewController: UIViewController, ASWebAuthenticationPresentati
             bottomStatusLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             bottomStatusLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.layoutSpacing)
         ])
-    }
-
-    // MARK: - ASWebAuthenticationPresentationContextProviding conformance
-
-    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-        UIApplication
-            .shared
-            .connectedScenes
-            .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
-            .first { $0.isKeyWindow }
-        ?? ASPresentationAnchor()
     }
 
     // MARK: - Create Order implementation
