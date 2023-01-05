@@ -101,8 +101,6 @@ public class PayPalWebCheckoutClient: NSObject {
 
 extension PayPalWebCheckoutClient: ASWebAuthenticationPresentationContextProviding {
     
-    // TODO: - Allow merchant to optionally set active UIWindow for multi-tasking.
-    // DTNOR-749
     public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         if #available(iOS 15, *) {
             let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
