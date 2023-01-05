@@ -2,9 +2,12 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
-* `Card`:
+* Card:
   * Remove `ThreeDSecureRequest` from `CardRequest` and create URLs internally 
   * Update `CardRequest` to optionally pass `sca`
+  * Remove step requiring `ASWebAuthenticationPresentationContextProviding` conformance
+* PayPalWebCheckout
+  * Remove step requiring `ASWebAuthenticationPresentationContextProviding` conformance
 
 ## 0.0.3 (2022-11-03)
 * PayPalNativeCheckout
