@@ -4,7 +4,6 @@ import UIKit
 public class PaymentButton: UIButton {
 
     // asset identifier path for image and color button assets
-    
     #if SWIFT_PACKAGE
     static var bundle = Bundle.module
     #else
