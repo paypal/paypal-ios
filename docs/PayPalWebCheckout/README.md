@@ -44,28 +44,7 @@ In your app's source files, use the following import syntax to include PayPal's 
 import PayPalWebCheckout
 ```
 
-### 2. Configure your application to present an authentication session
-
-The PayPal Web Checkout module uses an [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession) to complete the payment flow.
-
-Make sure your `ViewController` conforms to the `ASWebAuthenticationPresentationContextProviding` protocol:
-
-```swift
-extension MyViewController: ASWebAuthenticationPresentationContextProviding {
-
-    // MARK: - ASWebAuthenticationPresentationContextProviding
-    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-        UIApplication
-            .shared
-            .connectedScenes
-            .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
-            .first { $0.isKeyWindow }
-        ?? ASPresentationAnchor()
-    }
-}
-```
-
-### 3. Initiate the Payments SDK
+### 2. Initiate the Payments SDK
 
 Create a `CoreConfig` using an [access token](../../README.md#access-token):
 
@@ -79,7 +58,7 @@ Create a `PayPalWebCheckoutClient` to approve an order with a PayPal payment met
 let payPalClient = PayPalWebCheckoutClient(config: config)
 ```
 
-### 4. Create an order
+### 3. Create an order
 
 
 When a user initiates a payment flow, call `v2/checkout/orders` to create an order and obtain an order ID:
@@ -112,7 +91,7 @@ curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/order
 
 The `id` field of the response contains the order ID to pass to your client.
 
-### 5. Create a request object for launching the PayPal flow
+### 4. Create a request object for launching the PayPal flow
 
 Configure your `PayPalWebCheckoutRequest` and include the order ID generated in [step 4](#4-create-an-order):
 
@@ -123,7 +102,7 @@ let payPalRequest = PayPalWebCheckoutRequest(orderID: "<ORDER_ID>")
 You can also specify one of the following funding sources for your order: `PayPal` (default), `PayLater` or `PayPalCredit`.
 > Click [here](https://developer.paypal.com/docs/checkout/pay-later/us/) for more information on PayPal Pay Later
 
-### 6. Approve the order using the Payments SDK
+### 5. Approve the order using the Payments SDK
 
 To start the PayPal Web Checkout flow, call `payPalWebCheckoutClient.start(payPalWebCheckoutRequest)`.
 
@@ -134,7 +113,7 @@ extension MyViewController: PayPalWebCheckoutDelegate {
 
     func checkoutWithPayPal() {
         payPalClient.delegate = self
-        payPalClient.start(request: payPalRequest, context: self)
+        payPalClient.start(request: payPalRequest)
     }
 
     // MARK: - PayPalWebCheckoutDelegate
@@ -152,7 +131,7 @@ extension MyViewController: PayPalWebCheckoutDelegate {
 }
 ```
 
-### 7. Capture/Authorize the order
+### 6. Capture/Authorize the order
 
 If you receive a successful result in the client-side flow, you can then capture or authorize the order. 
 

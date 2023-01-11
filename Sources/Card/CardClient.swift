@@ -4,24 +4,27 @@ import AuthenticationServices
 import PaymentsCore
 #endif
 
-public class CardClient {
+public class CardClient: NSObject {
 
     public weak var delegate: CardDelegate?
 
     private let apiClient: APIClient
     private let config: CoreConfig
+    private let webAuthenticationSession: WebAuthenticationSession
 
     /// Initialize a CardClient to process card payment
     /// - Parameter config: The CoreConfig object
     public init(config: CoreConfig) {
         self.config = config
         self.apiClient = APIClient(coreConfig: config)
+        self.webAuthenticationSession = WebAuthenticationSession()
     }
 
     /// For internal use for testing/mocking purpose
-    init(config: CoreConfig, apiClient: APIClient) {
+    init(config: CoreConfig, apiClient: APIClient, webAuthenticationSession: WebAuthenticationSession) {
         self.config = config
         self.apiClient = apiClient
+        self.webAuthenticationSession = webAuthenticationSession
     }
 
     /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
@@ -29,29 +32,16 @@ public class CardClient {
     /// - Parameters:
     ///   - orderId: Order id for approval
     ///   - request: The request containing the card
-    ///   - context: The ASWebAuthenticationPresentationContextProviding protocol conforming ViewController
     /// - Returns: Card result
     /// - Throws: PayPalSDK error if approve order could not complete successfully
-    public func approveOrder(
-        request: CardRequest,
-        context: ASWebAuthenticationPresentationContextProviding
-    ) {
-        start(request: request, context: context, webAuthenticationSession: WebAuthenticationSession())
-    }
-
-    /// Internal function for testing
-    func start(
-        request: CardRequest,
-        context: ASWebAuthenticationPresentationContextProviding,
-        webAuthenticationSession: WebAuthenticationSession
-    ) {
+    public func approveOrder(request: CardRequest) {
         Task {
             do {
                 let confirmPaymentRequest = try ConfirmPaymentSourceRequest(accessToken: config.accessToken, cardRequest: request)
                 let (result) = try await apiClient.fetch(request: confirmPaymentRequest)
                 if let url: String = result.links?.first(where: { $0.rel == "payer-action" })?.href {
                     delegate?.cardThreeDSecureWillLaunch(self)
-                    startThreeDSecureChallenge(url: url, orderId: result.id, context: context, webAuthenticationSession: webAuthenticationSession)
+                    startThreeDSecureChallenge(url: url, orderId: result.id)
                 } else {
                     let cardResult = CardResult(
                         orderID: result.id,
@@ -69,12 +59,10 @@ public class CardClient {
 
     private func startThreeDSecureChallenge(
         url: String,
-        orderId: String,
-        context: ASWebAuthenticationPresentationContextProviding,
-        webAuthenticationSession: WebAuthenticationSession
+        orderId: String
     ) {
         if let threeDSUrl = URL(string: url) {
-            webAuthenticationSession.start(url: threeDSUrl, context: context) { _, error in
+            webAuthenticationSession.start(url: threeDSUrl, context: self) { _, error in
                 self.delegate?.cardThreeDSecureDidFinish(self)
                 if let error = error {
                     switch error {
@@ -121,5 +109,21 @@ public class CardClient {
 
     private func notifyCancellation() {
         delegate?.cardDidCancel(self)
+    }
+}
+
+// MARK: - ASWebAuthenticationPresentationContextProviding conformance
+
+extension CardClient: ASWebAuthenticationPresentationContextProviding {
+
+    public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        if #available(iOS 15, *) {
+            let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+            let window = firstScene?.windows.first { $0.isKeyWindow }
+            return window ?? ASPresentationAnchor()
+        } else {
+            let window = UIApplication.shared.windows.first { $0.isKeyWindow }
+            return window ?? ASPresentationAnchor()
+        }
     }
 }

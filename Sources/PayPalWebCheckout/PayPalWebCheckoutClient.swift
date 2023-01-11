@@ -4,35 +4,30 @@ import AuthenticationServices
 import PaymentsCore
 #endif
 
-public class PayPalWebCheckoutClient {
+public class PayPalWebCheckoutClient: NSObject {
 
     public weak var delegate: PayPalWebCheckoutDelegate?
     let config: CoreConfig
+    private let webAuthenticationSession: WebAuthenticationSession
 
     /// Initialize a PayPalNativeCheckoutClient to process PayPal transaction
     /// - Parameters:
     ///   - config: The CoreConfig object
     public init(config: CoreConfig) {
         self.config = config
+        self.webAuthenticationSession = WebAuthenticationSession()
+    }
+    
+    /// For internal use for testing/mocking purpose
+    init(config: CoreConfig, webAuthenticationSession: WebAuthenticationSession) {
+        self.config = config
+        self.webAuthenticationSession = webAuthenticationSession
     }
 
     /// Launch the PayPal web flow
     /// - Parameters:
     ///   - request: the PayPalRequest for the transaction
-    ///   - context: the ASWebAuthenticationPresentationContextProviding protocol conforming ViewController
-    public func start(
-        request: PayPalWebCheckoutRequest,
-        context: ASWebAuthenticationPresentationContextProviding
-    ) {
-        start(request: request, context: context, webAuthenticationSession: WebAuthenticationSession())
-    }
-
-    /// Internal function for testing the start function
-    func start(
-        request: PayPalWebCheckoutRequest,
-        context: ASWebAuthenticationPresentationContextProviding,
-        webAuthenticationSession: WebAuthenticationSession
-    ) {
+    public func start(request: PayPalWebCheckoutRequest) {
         let baseURLString = config.environment.payPalBaseURL.absoluteString
         let payPalCheckoutURLString =
             "\(baseURLString)/checkoutnow?token=\(request.orderID)" +
@@ -45,7 +40,7 @@ public class PayPalWebCheckoutClient {
             return
         }
 
-        webAuthenticationSession.start(url: payPalCheckoutURLComponents, context: context) { url, error in
+        webAuthenticationSession.start(url: payPalCheckoutURLComponents, context: self) { url, error in
             if let error = error {
                 switch error {
                 case ASWebAuthenticationSessionError.canceledLogin:
@@ -99,5 +94,21 @@ public class PayPalWebCheckoutClient {
 
     private func notifyCancellation() {
         delegate?.payPalDidCancel(self)
+    }
+}
+
+// MARK: - ASWebAuthenticationPresentationContextProviding conformance
+
+extension PayPalWebCheckoutClient: ASWebAuthenticationPresentationContextProviding {
+    
+    public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        if #available(iOS 15, *) {
+            let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+            let window = firstScene?.windows.first { $0.isKeyWindow }
+            return window ?? ASPresentationAnchor()
+        } else {
+            let window = UIApplication.shared.windows.first { $0.isKeyWindow }
+            return window ?? ASPresentationAnchor()
+        }
     }
 }

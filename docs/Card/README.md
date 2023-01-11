@@ -44,28 +44,7 @@ In your app's source files, use the following import syntax to include PayPal's 
 import Card
 ```
 
-### 2. Configure your application to present an authentication session
-
-The Card module uses an [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession) to complete 3D Secure authentication when necessary.
-
-Make sure your `ViewController` conforms to the `ASWebAuthenticationPresentationContextProviding` protocol:
-
-```swift
-extension MyViewController: ASWebAuthenticationPresentationContextProviding {
-
-    // MARK: - ASWebAuthenticationPresentationContextProviding
-    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-        UIApplication
-            .shared
-            .connectedScenes
-            .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
-            .first { $0.isKeyWindow }
-        ?? ASPresentationAnchor()
-    }
-}
-```
-
-### 3. Initiate the Payments SDK
+### 2. Initiate the Payments SDK
 
 Create a `CoreConfig` using an [access token](../../README.md#access-token):
 
@@ -79,7 +58,7 @@ Create a `CardClient` to approve an order with a Card payment method:
 let cardClient = CardClient(config: config)
 ```
 
-### 4. Create an order
+### 3. Create an order
 
 When a user initiates a payment flow, call `v2/checkout/orders` to create an order and obtain an order ID:
 
@@ -111,7 +90,7 @@ curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/order
 
 The `id` field of the response contains the order ID to pass to your client.
 
-### 5. Create a request containing the card payment details
+### 4. Create a request containing the card payment details
 
 Create a `Card` object containing the user's card details.
 
@@ -143,7 +122,7 @@ let cardRequest = CardRequest(
 )
 ```
 
-### 6. Approve the order using Payments SDK
+### 5. Approve the order using Payments SDK
 
 Call `cardClient.approveOrder()` to approve the order.
 
@@ -154,7 +133,7 @@ extension MyViewController: CardDelegate {
 
     func approveOrder(cardRequest: CardRequest) {
         cardClient.delegate = self
-        cardClient.approveOrder(request: cardRequest, context: self)
+        cardClient.approveOrder(request: cardRequest)
     }
 
     func card(_ cardClient: CardClient, didFinishWithResult result: CardResult) {
@@ -179,7 +158,7 @@ extension MyViewController: CardDelegate {
 }
 ```
 
-### 7. Capture/Authorize the order
+### 6. Capture/Authorize the order
 
 If you receive a successful result in the client-side flow, you can then capture or authorize the order. 
 
