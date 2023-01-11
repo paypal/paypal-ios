@@ -5,6 +5,8 @@
 * `Card`:
   * Remove `ThreeDSecureRequest` from `CardRequest` and create URLs internally 
   * Update `CardRequest` to optionally pass `sca`
+* PayPalUI:
+  * Fix assets not rendering when importing with Swift Package Manager
 
 ## 0.0.3 (2022-11-03)
 * PayPalNativeCheckout
