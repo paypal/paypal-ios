@@ -70,10 +70,10 @@ class PayPalWebCheckoutViewController: FeatureBaseViewController {
     // MARK: - PayPal Module Integration
 
     @objc func paymentButtonTapped() {
-        baseViewModel.payPalButtonTapped(context: self)
+        baseViewModel.paymentButtonTapped(funding: .paypal)
     }
 
     @objc func paymentCreditButtonTapped() {
-        baseViewModel.payPalCreditButtonTapped(context: self)
+        baseViewModel.paymentButtonTapped(funding: .paypalCredit)
     }
 }

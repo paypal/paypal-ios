@@ -102,8 +102,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
 
     func checkoutWith(
         card: Card,
-        orderID: String,
-        context: ASWebAuthenticationPresentationContextProviding
+        orderID: String
     ) async {
         guard let config = await getCoreConfig() else {
             return
@@ -130,28 +129,17 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
 
     // MARK: - PayPal Module Integration
 
-    func payPalCreditButtonTapped(context: ASWebAuthenticationPresentationContextProviding) {
-        paymentButtonTapped(context: context, funding: .paypalCredit)
-    }
-
-    func payPalButtonTapped(context: ASWebAuthenticationPresentationContextProviding) {
-        paymentButtonTapped(context: context, funding: .paypal)
-    }
-
-    private func paymentButtonTapped(
-        context: ASWebAuthenticationPresentationContextProviding,
-        funding: PayPalWebCheckoutFundingSource
-    ) {
+    func paymentButtonTapped(funding: PayPalWebCheckoutFundingSource) {
         guard let orderID = orderID else {
             self.updateTitle("Failed: missing orderID.")
             return
         }
 
-        checkoutWithPayPal(orderID: orderID, context: context, funding: funding)
+        checkoutWithPayPal(orderID: orderID, funding: funding)
     }
+    
     func checkoutWithPayPal(
         orderID: String,
-        context: ASWebAuthenticationPresentationContextProviding,
         funding: PayPalWebCheckoutFundingSource
     ) {
         Task {
