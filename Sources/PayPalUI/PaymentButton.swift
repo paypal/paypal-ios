@@ -10,8 +10,8 @@ public class PaymentButton: UIButton {
     static let bundle: Bundle = {
         let frameworkBundle = Bundle(for: PaymentButton.self)
         let bundleURL = frameworkBundle.resourceURL?.appendingPathComponent("PayPalSDK.bundle")
-        return Bundle(url: bundleURL!)
-    }
+        return Bundle(url: bundleURL!)!
+    }()
     #else
     static let bundle = Bundle(identifier: "com.paypal.ios-sdk.PayPalUI")
     #endif
