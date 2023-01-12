@@ -9,11 +9,13 @@ public class PaymentButton: UIButton {
     #elseif COCOAPODS
     static let bundle: Bundle = {
         let frameworkBundle = Bundle(for: PaymentButton.self)
-        let bundleURL = frameworkBundle.resourceURL?.appendingPathComponent("PayPalSDK.bundle")
-        return Bundle(url: bundleURL!)!
+//        if let bundleURL = frameworkBundle.resourceURL?.appendingPathComponent("PayPalSDK.bundle") {
+//            return Bundle(url: bundleURL)
+//        }
+        return frameworkBundle
     }()
     #else
-    static let bundle = Bundle(identifier: "com.paypal.ios-sdk.PayPalUI")
+    static let bundle = Bundle(for: PaymentButton.self)
     #endif
 
     // MARK: - Init
