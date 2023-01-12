@@ -5,11 +5,15 @@ public class PaymentButton: UIButton {
 
     // asset identifier path for image and color button assets
     #if SWIFT_PACKAGE
-    static var bundle = Bundle.module
+    static let bundle = Bundle.module
     #elseif COCOAPODS
-    static var bundle = Bundle(identifier: "PayPalSDK")
+    static let bundle: Bundle = {
+        let frameworkBundle = Bundle(for: PaymentButton.self)
+        let bundleURL = frameworkBundle.resourceURL?.appendingPathComponent("PayPalSDK.bundle")
+        return Bundle(url: bundleURL!)
+    }
     #else
-    static var bundle = Bundle(identifier: "com.paypal.ios-sdk.PayPalUI")
+    static let bundle = Bundle(identifier: "com.paypal.ios-sdk.PayPalUI")
     #endif
 
     // MARK: - Init
