@@ -9,7 +9,7 @@
 * PayPalWebCheckout
   * Remove step requiring `ASWebAuthenticationPresentationContextProviding` conformance
 * PayPalUI
-  * Fix assets not rendering when importing with Swift Package Manager and Cocoapods
+  * Fix assets not rendering when importing with Swift Package Manager and CocoaPods
 
 ## 0.0.3 (2022-11-03)
 * PayPalNativeCheckout
