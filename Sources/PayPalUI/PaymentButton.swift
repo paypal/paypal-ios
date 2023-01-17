@@ -6,6 +6,8 @@ public class PaymentButton: UIButton {
     // asset identifier path for image and color button assets
     #if SWIFT_PACKAGE
     static var bundle = Bundle.module
+    #elseif COCOAPODS
+    static var bundle = Bundle(forClass: PaymentButton.self)
     #else
     static var bundle = Bundle(identifier: "com.paypal.ios-sdk.PayPalUI")
     #endif
