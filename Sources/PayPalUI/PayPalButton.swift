@@ -20,13 +20,13 @@ public final class PayPalButton: PaymentButton {
     /// Available labels for PayPalButton.
     public enum Label: String {
         /// Display "Checkout" on the right side of the button's logo
-        case checkout
+        case checkout = "Checkout"
 
         /// Display "Buy now" on the right side of the button's logo
-        case buyNow
+        case buyNow = "Buy Now"
 
         /// Display "Pay with" on the left side of the button's logo
-        case payWith
+        case payWith = "Pay With"
 
         var label: PaymentButtonLabel? {
             PaymentButtonLabel(rawValue: rawValue)
