@@ -282,5 +282,11 @@ class CardClient_Tests: XCTestCase {
 
 class MockUIApplication: FirstWindow {
     var connectedScenes: Set<UIScene> = []
-    var windows: [UIWindow] = [UIWindow(frame: .zero)]
+    
+    let window: UIWindow = {
+        let window = UIWindow(frame: .zero)
+        window.isKeyWindow = true
+        return window
+    }()
+    var windows: [UIWindow] = [window]
 }
