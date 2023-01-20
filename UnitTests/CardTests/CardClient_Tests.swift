@@ -283,10 +283,23 @@ class CardClient_Tests: XCTestCase {
 class MockUIApplication: FirstWindow {
     var connectedScenes: Set<UIScene> = []
     
-    let window: UIWindow = {
-        let window = UIWindow(frame: .zero)
-        window.isKeyWindow = true
+    let window: FakeUIWindow = {
+        let window = FakeUIWindow(frame: .zero)
         return window
     }()
-    var windows: [UIWindow] = [window]
+    
+    lazy var windows: [UIWindow] = [window]
 }
+
+class FakeUIWindow: UIWindow {
+    override var isKeyWindow: Bool {
+        get {
+            return true
+        }
+        set {
+            self.isKeyWindow = true
+        }
+    }
+}
+
+// TODO: - Use ObjC to create the scenes
