@@ -11,6 +11,7 @@ public class CardClient: NSObject {
     private let apiClient: APIClient
     private let config: CoreConfig
     private let webAuthenticationSession: WebAuthenticationSession
+    private let application: FirstWindow
 
     /// Initialize a CardClient to process card payment
     /// - Parameter config: The CoreConfig object
@@ -18,13 +19,20 @@ public class CardClient: NSObject {
         self.config = config
         self.apiClient = APIClient(coreConfig: config)
         self.webAuthenticationSession = WebAuthenticationSession()
+        self.application = UIApplication.shared
     }
 
     /// For internal use for testing/mocking purpose
-    init(config: CoreConfig, apiClient: APIClient, webAuthenticationSession: WebAuthenticationSession) {
+    init(
+        config: CoreConfig,
+        apiClient: APIClient,
+        webAuthenticationSession: WebAuthenticationSession,
+        application: FirstWindow
+    ) {
         self.config = config
         self.apiClient = apiClient
         self.webAuthenticationSession = webAuthenticationSession
+        self.application = application
     }
 
     /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
@@ -118,12 +126,19 @@ extension CardClient: ASWebAuthenticationPresentationContextProviding {
 
     public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         if #available(iOS 15, *) {
-            let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+            let firstScene = application.connectedScenes.first as? UIWindowScene
             let window = firstScene?.windows.first { $0.isKeyWindow }
             return window ?? ASPresentationAnchor()
         } else {
-            let window = UIApplication.shared.windows.first { $0.isKeyWindow }
+            let window = application.windows.first { $0.isKeyWindow }
             return window ?? ASPresentationAnchor()
         }
     }
 }
+
+protocol FirstWindow {
+    var connectedScenes: Set<UIScene> { get }
+    var windows: [UIWindow] { get }
+}
+
+extension UIApplication: FirstWindow { }

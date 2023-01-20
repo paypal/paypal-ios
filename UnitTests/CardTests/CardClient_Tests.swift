@@ -25,6 +25,7 @@ class CardClient_Tests: XCTestCase {
     var config: CoreConfig!
     var mockURLSession: MockQuededURLSession!
     var mockWebAuthSession: MockWebAuthenticationSession!
+    var mockUIApplication: MockUIApplication!
     var apiClient: APIClient!
     var cardClient: CardClient!
     // swiftlint:enable implicitly_unwrapped_optional
@@ -36,12 +37,14 @@ class CardClient_Tests: XCTestCase {
         config = CoreConfig(accessToken: mockAccessToken, environment: .sandbox)
         mockURLSession = MockQuededURLSession()
         mockWebAuthSession = MockWebAuthenticationSession()
+        mockUIApplication = MockUIApplication()
 
         apiClient = APIClient(urlSession: mockURLSession, coreConfig: config)
         cardClient = CardClient(
             config: config,
             apiClient: apiClient,
-            webAuthenticationSession: mockWebAuthSession
+            webAuthenticationSession: mockWebAuthSession,
+            application: mockUIApplication
         )
     }
 
@@ -257,4 +260,27 @@ class CardClient_Tests: XCTestCase {
             XCTFail("Data json cannot be null")
         }
     }
+    
+    // MARK: - ASWebAuthenticationPresentationContextProviding conformance
+
+    func testIT() {
+        if #available(iOS 15, *) {
+        } else {
+            let session = ASWebAuthenticationSession(
+                url: URL(string: "www.fake.com")!,
+                callbackURLScheme: "fake.com"
+            ) { _, _ in }
+
+            let actual = cardClient.presentationAnchor(for: session)
+            
+            XCTAssertEqual(actual, mockUIApplication.windows.first)
+            XCTAssert((actual as Any) is ASPresentationAnchor)
+        }
+        
+    }
+}
+
+class MockUIApplication: FirstWindow {
+    var connectedScenes: Set<UIScene> = []
+    var windows: [UIWindow] = [UIWindow(frame: .zero)]
 }
