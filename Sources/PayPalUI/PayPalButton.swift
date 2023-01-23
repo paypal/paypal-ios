@@ -19,6 +19,9 @@ public final class PayPalButton: PaymentButton {
 
     /// Available labels for PayPalButton.
     public enum Label: String {
+        /// Display no label
+        case none
+        
         /// Display "Checkout" on the right side of the button's logo
         case checkout = "Checkout"
 
@@ -26,10 +29,23 @@ public final class PayPalButton: PaymentButton {
         case buyNow = "Buy Now"
 
         /// Display "Pay with" on the left side of the button's logo
-        case payWith = "Pay With"
+        case payWith = "Pay with"
 
         var label: PaymentButtonLabel? {
             PaymentButtonLabel(rawValue: rawValue)
+        }
+        
+        public static func allCases() -> [Label] {
+            [
+                Label.none,
+                Label.checkout,
+                Label.buyNow,
+                Label.payWith
+            ]
+        }
+        
+        public static func allCasesAsString() -> [String] {
+            allCases().map { $0.rawValue }
         }
     }
 

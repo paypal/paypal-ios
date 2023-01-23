@@ -20,6 +20,10 @@ struct SwiftUIPaymentButtonDemo: View {
     @State private var sizesIndex = 1
     private var sizes = PaymentButtonSize.allCasesAsString()
     @State private var selectedSize = PaymentButtonSize.allCases()[1]
+    
+    @State private var labelIndex = 0
+    private var labels = PayPalButton.Label.allCasesAsString()
+    @State private var selectedLabel = PayPalButton.Label.allCases()[0]
 
     @ViewBuilder
     var body: some View {
@@ -74,10 +78,22 @@ struct SwiftUIPaymentButtonDemo: View {
 
                 switch selectedFunding {
                 case .payPal:
+                    Picker("label", selection: $labelIndex) {
+                        ForEach(labels.indices, id: \.self) { index in
+                            Text(labels[index])
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .onChange(of: labelIndex) { _ in
+                        selectedLabel = PayPalButton.Label.allCases()[labelIndex]
+                        buttonId += 1
+                    }
+                    
                     PayPalButton.Representable(
                         color: PayPalButton.Color.allCases()[colorsIndex],
                         edges: selectedEdge,
-                        size: selectedSize
+                        size: selectedSize,
+                        label: selectedLabel
                     )
                     .id(buttonId)
 
