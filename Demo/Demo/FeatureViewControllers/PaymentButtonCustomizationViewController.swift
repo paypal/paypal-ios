@@ -134,11 +134,8 @@ class PaymentButtonCustomizationViewController: UIViewController {
             reloadColorPicker()
         }
         let fundingSource = PaymentButtonFundingSource.allCases()[fundingPicker.selectedSegmentIndex]
-        if fundingSource == .payPal {
-            labelPicker.isHidden = false
-        } else {
-            labelPicker.isHidden = true
-        }
+        labelPicker.isHidden = fundingSource != .payPal
+        
         paymentButton.removeFromSuperview()
         paymentButton = setupPaymentButton()
         stackView.addArrangedSubview(paymentButton)
