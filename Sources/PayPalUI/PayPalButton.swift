@@ -34,19 +34,6 @@ public final class PayPalButton: PaymentButton {
         var label: PaymentButtonLabel? {
             PaymentButtonLabel(rawValue: rawValue)
         }
-        
-        public static func allCases() -> [Label] {
-            [
-                Label.none,
-                Label.checkout,
-                Label.buyNow,
-                Label.payWith
-            ]
-        }
-        
-        public static func allCasesAsString() -> [String] {
-            allCases().map { $0.rawValue }
-        }
     }
 
     /// Initialize a PayPalButton

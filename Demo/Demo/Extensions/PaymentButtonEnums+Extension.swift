@@ -94,3 +94,19 @@ extension PaymentButtonFundingSource {
         PaymentButtonFundingSource.allCases().map { $0.rawValue }
     }
 }
+
+extension PayPalButton.Label {
+    
+    static func allCases() -> [PayPalButton.Label] {
+        [
+            PayPalButton.Label.none,
+            PayPalButton.Label.checkout,
+            PayPalButton.Label.buyNow,
+            PayPalButton.Label.payWith
+        ]
+    }
+    
+    static func allCasesAsString() -> [String] {
+        allCases().map { $0.rawValue }
+    }
+}

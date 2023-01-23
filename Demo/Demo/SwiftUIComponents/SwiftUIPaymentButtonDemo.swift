@@ -130,3 +130,10 @@ struct SwiftUIPaymentButtonDemo: View {
         }
     }
 }
+
+struct SwiftUIPaymentButtonDemo_Preview: PreviewProvider {
+    
+    static var previews: some View {
+        SwiftUIPaymentButtonDemo()
+    }
+}
