@@ -36,6 +36,13 @@ class PaymentButtonCustomizationViewController: UIViewController {
         segment.addTarget(self, action: #selector(reloadSmartPaymentButton), for: .valueChanged)
         return segment
     }()
+    
+    lazy var labelPicker: UISegmentedControl = {
+        let segment = UISegmentedControl(items: PayPalButton.Label.allCasesAsString())
+        segment.selectedSegmentIndex = 0
+        segment.addTarget(self, action: #selector(reloadSmartPaymentButton), for: .valueChanged)
+        return segment
+    }()
 
     lazy var stackView: UIStackView = {
         let stackView = UIStackView(
@@ -44,7 +51,8 @@ class PaymentButtonCustomizationViewController: UIViewController {
                 fundingPicker,
                 colorPicker,
                 edgesPicker,
-                sizePicker
+                sizePicker,
+                labelPicker
             ]
         )
         stackView.axis = .vertical
@@ -125,6 +133,12 @@ class PaymentButtonCustomizationViewController: UIViewController {
         if sender == fundingPicker {
             reloadColorPicker()
         }
+        let fundingSource = PaymentButtonFundingSource.allCases()[fundingPicker.selectedSegmentIndex]
+        if fundingSource == .payPal {
+            labelPicker.isHidden = false
+        } else {
+            labelPicker.isHidden = true
+        }
         paymentButton.removeFromSuperview()
         paymentButton = setupPaymentButton()
         stackView.addArrangedSubview(paymentButton)
@@ -181,7 +195,8 @@ class PaymentButtonCustomizationViewController: UIViewController {
         switch fundingSource {
         case .payPal:
             let color = PayPalButton.Color.allCases()[colorPicker.selectedSegmentIndex]
-            paymentButton = PayPalButton(color: color, edges: edges, size: size)
+            let label = PayPalButton.Label.allCases()[labelPicker.selectedSegmentIndex]
+            paymentButton = PayPalButton(color: color, edges: edges, size: size, label: label)
 
         case .payLater:
             let color = PayPalPayLaterButton.Color.allCases()[colorPicker.selectedSegmentIndex]
