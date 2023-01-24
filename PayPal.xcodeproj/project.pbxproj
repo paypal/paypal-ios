@@ -40,6 +40,8 @@
 		807C5E6929102D9800ECECD8 /* AnalyticsEventData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807C5E6829102D9800ECECD8 /* AnalyticsEventData.swift */; };
 		808EEA81291321FE001B6765 /* AnalyticsEventRequest_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808EEA80291321FE001B6765 /* AnalyticsEventRequest_Tests.swift */; };
 		80D0C1382731CC9B00548A3D /* PayPalNativeCheckoutClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7116152723227200165069 /* PayPalNativeCheckoutClient.swift */; };
+		80DB2F7429802CFB00CFB86A /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DB2F7329802CFB00CFB86A /* CacheManager.swift */; };
+		80DB2F762980795D00CFB86A /* CorePaymentsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DB2F752980795D00CFB86A /* CorePaymentsError.swift */; };
 		80DB6F1726B89DC700277E54 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; platformFilter = ios; };
 		80DCC59E2719DB6F00EC7C5A /* CardClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DCC59D2719DB6F00EC7C5A /* CardClientError.swift */; };
 		80E74400270E40F300BACECA /* FakeRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E743FF270E40F300BACECA /* FakeRequests.swift */; };
@@ -240,6 +242,8 @@
 		807C5E6829102D9800ECECD8 /* AnalyticsEventData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventData.swift; sourceTree = "<group>"; };
 		808EEA80291321FE001B6765 /* AnalyticsEventRequest_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventRequest_Tests.swift; sourceTree = "<group>"; };
 		80B9F85126B8750000D67843 /* PaymentsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PaymentsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		80DB2F7329802CFB00CFB86A /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
+		80DB2F752980795D00CFB86A /* CorePaymentsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorePaymentsError.swift; sourceTree = "<group>"; };
 		80DB6F0E26B89D9600277E54 /* PayPalNativeCheckout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PayPalNativeCheckout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80DCC59D2719DB6F00EC7C5A /* CardClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardClientError.swift; sourceTree = "<group>"; };
 		80E743F8270E40CE00BACECA /* TestShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TestShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -573,6 +577,7 @@
 				807C5E66291027D400ECECD8 /* AnalyticsEventRequest.swift */,
 				807C5E6829102D9800ECECD8 /* AnalyticsEventData.swift */,
 				8021B68F29144E6D000FBC54 /* PayPalCoreConstants.swift */,
+				80DB2F752980795D00CFB86A /* CorePaymentsError.swift */,
 			);
 			name = PaymentsCore;
 			path = Sources/PaymentsCore;
@@ -749,6 +754,7 @@
 				BEA100EA26EFA7670036A6A5 /* Enums */,
 				06E406D126EFE7B3002533B1 /* Models */,
 				BEA100F526EFB4A90036A6A5 /* Protocols */,
+				80DB2F7329802CFB00CFB86A /* CacheManager.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -1377,6 +1383,7 @@
 				E6022E792857C6BE008B0E27 /* FundingEligibilityIntent.swift in Sources */,
 				E6022E7A2857C6BE008B0E27 /* SupportedCountryCurrencyType.swift in Sources */,
 				E6022E7B2857C6BE008B0E27 /* SupportedPaymentMethodsType.swift in Sources */,
+				80DB2F7429802CFB00CFB86A /* CacheManager.swift in Sources */,
 				E6022E7C2857C6BE008B0E27 /* FundingEligibilityResponse.swift in Sources */,
 				E6022E7D2857C6BE008B0E27 /* FundingEligibility.swift in Sources */,
 				E6022E7E2857C6BE008B0E27 /* SupportedPaymentMethodsTypeEligibility.swift in Sources */,
@@ -1390,6 +1397,7 @@
 				E6022E842857C6BE008B0E27 /* GraphQLClient.swift in Sources */,
 				8021B69029144E6D000FBC54 /* PayPalCoreConstants.swift in Sources */,
 				E65D2D1B2898674700F94DFC /* GetClientIDResponse.swift in Sources */,
+				80DB2F762980795D00CFB86A /* CorePaymentsError.swift in Sources */,
 				06CE009926F3D1660000CC46 /* CoreConfig.swift in Sources */,
 				BEA100EC26EFA7790036A6A5 /* HTTPMethod.swift in Sources */,
 				BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */,

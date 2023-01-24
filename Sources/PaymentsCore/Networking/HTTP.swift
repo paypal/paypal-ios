@@ -12,16 +12,28 @@ class HTTP {
         self.coreConfig = coreConfig
     }
     
-    func performRequest<T: APIRequest>(_ request: T) async throws -> (T.ResponseType) {
+    func performRequest<T: APIRequest>(_ request: T, withCaching: Bool = false) async throws -> (T.ResponseType) {
         guard let urlRequest = request.toURLRequest(environment: coreConfig.environment) else {
             throw APIClientError.invalidURLRequestError
         }
+        
+        if withCaching, let response = URLCache.shared.cachedResponse(for: urlRequest) {
+            print("🎉 HIT")
+            let decodedData = try decoder.decode(T.self, from: response.data)
+            return (decodedData)
+        }
+        print("👎MISS")
         
         let (data, response) = try await urlSession.performRequest(with: urlRequest)
         guard let response = response as? HTTPURLResponse else {
             throw APIClientError.invalidURLResponseError
         }
-
+        
+        if withCaching {
+            let cachedURLResponse = CachedURLResponse(response: response, data: data)
+            URLCache.shared.storeCachedResponse(cachedURLResponse, for: urlRequest)
+        }
+        
         switch response.statusCode {
         case 200..<300:
             let decodedData = try decoder.decode(T.self, from: data)

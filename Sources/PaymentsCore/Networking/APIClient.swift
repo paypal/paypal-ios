@@ -9,12 +9,17 @@ public class APIClient {
     
     private var http: HTTP
     private let coreConfig: CoreConfig
+    private let cacheManager = CacheManager()
     
     // MARK: - Public Initializer
 
     public init(coreConfig: CoreConfig) {
         self.http = HTTP(coreConfig: coreConfig)
         self.coreConfig = coreConfig
+        
+        Task {
+            try await getClientID()
+        }
     }
     
     // MARK: - Internal Initializer
@@ -23,6 +28,10 @@ public class APIClient {
     init(urlSession: URLSessionProtocol, coreConfig: CoreConfig) {
         self.http = HTTP(urlSession: urlSession, coreConfig: coreConfig)
         self.coreConfig = coreConfig
+        
+        Task {
+            try await getClientID()
+        }
     }
     
     // MARK: - Public Methods
@@ -35,13 +44,18 @@ public class APIClient {
     /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
     public func getClientID() async throws -> String {
         let request = GetClientIDRequest(accessToken: coreConfig.accessToken)
-        let (response) = try await http.performRequest(request)
+        let (response) = try await http.performRequest(request, withCaching: true)
         return response.clientID
     }
     
     /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
     /// - Parameter name: Event name string used to identify this unique event in FPTI.
     public func sendAnalyticsEvent(_ name: String) async {
-        await AnalyticsService.sharedInstance(http: http).sendEvent(name)
+        do {
+            let clientID = try await getClientID()
+            await AnalyticsService.sharedInstance(http: http).sendEvent(name: name, clientID: clientID)
+        } catch {
+            NSLog("[PayPal SDK] Failed to send analytics due to missing clientID: %@", error.localizedDescription)
+        }
     }
 }
