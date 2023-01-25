@@ -100,6 +100,7 @@ class PaymentButtonCustomizationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         reloadColorPicker()
+        reloadLabelPicker()
     }
 
     // MARK: - Constraints
@@ -133,8 +134,7 @@ class PaymentButtonCustomizationViewController: UIViewController {
         if sender == fundingPicker {
             reloadColorPicker()
         }
-        let fundingSource = PaymentButtonFundingSource.allCases[fundingPicker.selectedSegmentIndex]
-        labelPicker.isHidden = fundingSource != .payPal
+        reloadLabelPicker()
         
         paymentButton.removeFromSuperview()
         paymentButton = setupPaymentButton()
@@ -152,6 +152,12 @@ class PaymentButtonCustomizationViewController: UIViewController {
         button.layer.shadowRadius = radius
         button.layer.shadowOffset = offset
         button.layer.shadowColor = color.cgColor
+    }
+    
+    private func reloadLabelPicker() {
+        let fundingSource = PaymentButtonFundingSource.allCases[fundingPicker.selectedSegmentIndex]
+        let size = PaymentButtonSize.allCases[sizePicker.selectedSegmentIndex]
+        labelPicker.isHidden = fundingSource != .payPal || size == .mini || size == .collapsed
     }
 
     private func reloadColorPicker() {
