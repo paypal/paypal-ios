@@ -2,7 +2,7 @@
 
 The PayPal Native Payments module in the PayPal SDK enables PayPal payments via a native UI experience in your app.
 
-Follow these steps to add PayPal Native Checkout payments:
+Follow these steps to add PayPal Native Payments:
 
 1. [Setup a PayPal Developer Account](#setup-a-paypal-developer-account)
 2. [Add PayPal Native Payments Module](#add-paypal-native-payments-module)
@@ -23,9 +23,9 @@ For initial setup, the `curl` commands below can be used as a reference for maki
 
 #### Swift Package Manager
 
-In Xcode, add the PayPal SDK as a [package dependency](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app) to your Xcode project. Enter https://github.com/paypal/iOS-SDK as the package URL. Tick the "PayPalNativeCheckout" checkbox to add the PayPal Native Checkout package to your app.
+In Xcode, add the PayPal SDK as a [package dependency](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app) to your Xcode project. Enter https://github.com/paypal/iOS-SDK as the package URL. Tick the "PayPalNativePayments" checkbox to add the PayPal Native Payments package to your app.
 
-In your app's source code files, use the following import syntax to include the PayPal Native Checkout module:
+In your app's source code files, use the following import syntax to include the PayPal Native Payments module:
 
 ```swift
 import PayPalNativePayments
