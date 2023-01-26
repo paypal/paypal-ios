@@ -103,9 +103,7 @@
 		80561B3726FB5F0F0023138C /* CardDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDemoViewController.swift; sourceTree = "<group>"; };
 		80561B3926FB5F1C0023138C /* PayPalWebCheckoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebCheckoutViewController.swift; sourceTree = "<group>"; };
 		80561B3D26FB72D80023138C /* FeatureBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureBaseViewController.swift; sourceTree = "<group>"; };
-		805AB84D26B87A87003BEE0D /* Card.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Card.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		805AB84E26B87A87003BEE0D /* PaymentsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PaymentsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		805AB84F26B87A87003BEE0D /* PayPal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PayPal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		806F1E3526B85367007A60E6 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		806F1E3826B85367007A60E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		806F1E3A26B85367007A60E6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -204,9 +202,7 @@
 				BE420F3628189A7A00D8D66A /* PayPalUI.framework */,
 				BCE8A7ED27EA2B1E00AC301B /* PayPalWebCheckout.framework */,
 				80DB6F1C26B89DDA00277E54 /* PayPal.framework */,
-				805AB84D26B87A87003BEE0D /* Card.framework */,
 				805AB84E26B87A87003BEE0D /* PaymentsCore.framework */,
-				805AB84F26B87A87003BEE0D /* PayPal.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
