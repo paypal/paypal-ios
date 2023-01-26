@@ -1,6 +1,6 @@
 import XCTest
 @testable import PaymentsCore
-@testable import Card
+@testable import CardPayments
 
 class GetOrderInfoRequest_Tests: XCTestCase {
 

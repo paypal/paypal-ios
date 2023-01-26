@@ -1,7 +1,7 @@
 import Foundation
 import XCTest
 @testable import PaymentsCore
-@testable import Card
+@testable import CardPayments
 
 class ConfirmPaymentSourceRequest_Tests: XCTestCase {
 

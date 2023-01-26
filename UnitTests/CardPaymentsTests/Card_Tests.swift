@@ -1,5 +1,5 @@
 import XCTest
-@testable import Card
+@testable import CardPayments
 
 class Card_Tests: XCTestCase {
 

@@ -2,7 +2,7 @@ import XCTest
 import SwiftUI
 import AuthenticationServices
 @testable import PaymentsCore
-@testable import Card
+@testable import CardPayments
 @testable import TestShared
 
 class CardClient_Tests: XCTestCase {

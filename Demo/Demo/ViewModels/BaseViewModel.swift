@@ -1,5 +1,5 @@
 import UIKit
-import Card
+import CardPayments
 import PayPalWebCheckout
 import PaymentsCore
 import AuthenticationServices

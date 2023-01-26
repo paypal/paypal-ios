@@ -11,8 +11,8 @@ Pod::Spec.new do |s|
   s.platform         = :ios, "14.0"
   s.compiler_flags = "-Wall -Werror -Wextra"
 
-  s.subspec "Card" do |s|
-    s.source_files  = "Sources/Card/**/*.swift"
+  s.subspec "CardPayments" do |s|
+    s.source_files  = "Sources/CardPayments/**/*.swift"
     s.dependency "PayPal/PaymentsCore"
   end
 
