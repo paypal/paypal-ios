@@ -1,11 +1,11 @@
-# Accepting PayPal Native Checkout Payments
+# Accepting PayPal Native Payments
 
-The PayPal Native Checkout module in the PayPal SDK enables PayPal payments via a native UI experience in your app.
+The PayPal Native Payments module in the PayPal SDK enables PayPal payments via a native UI experience in your app.
 
 Follow these steps to add PayPal Native Checkout payments:
 
 1. [Setup a PayPal Developer Account](#setup-a-paypal-developer-account)
-2. [Add PayPal Native Checkout Module](#add-paypal-native-checkout-module)
+2. [Add PayPal Native Payments Module](#add-paypal-native-payments-module)
 3. [Test and go live](#test-and-go-live)
 4. After initial setup, Follow instructions [here](#billing-agreement) for Billing Agreements
 
@@ -17,9 +17,9 @@ Follow the steps in [Get Started](https://developer.paypal.com/api/rest/#link-ge
 You will need a server integration to create an order to capture funds using the [PayPal Orders v2 API](https://developer.paypal.com/docs/api/orders/v2). 
 For initial setup, the `curl` commands below can be used as a reference for making server-side RESTful API calls.
 
-## Add PayPal Native Checkout Module
+## Add PayPal Native Payment Module
 
-### 1. Add the PayPal Native checkout to your app
+### 1. Add the PayPal Native payments to your app
 
 #### Swift Package Manager
 
@@ -28,21 +28,21 @@ In Xcode, add the PayPal SDK as a [package dependency](https://developer.apple.c
 In your app's source code files, use the following import syntax to include the PayPal Native Checkout module:
 
 ```swift
-import PayPalNativeCheckout
+import PayPalNativePayments
 ```
 
 #### CocoaPods
 
-Include the PayPal Native Checkout pod in your `Podfile`.
+Include the PayPal Native Payment pod in your `Podfile`.
 
 ```ruby
-pod 'PayPalNativeCheckout'
+pod 'PayPalNativePayments'
 ```
 
 In your app's source files, use the following import syntax to include PayPal's libraries:
 
 ```swift
-import PayPalNativeCheckout
+import PayPalNativePayments
 ```
 
 ### 2. Initiate the Payments SDK
