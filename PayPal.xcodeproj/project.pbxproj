@@ -3084,7 +3084,7 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.PayPalUI";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.PaymentButtons";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -3161,7 +3161,7 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.PayPalUI";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.PaymentButtons";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
