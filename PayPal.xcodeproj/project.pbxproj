@@ -258,8 +258,8 @@
 		BCE8A7F627EA54A000AC301B /* MockWebAuthenticationSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWebAuthenticationSession.swift; sourceTree = "<group>"; };
 		BCE8A7F827EA555800AC301B /* PayPalWebCheckoutClient_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebCheckoutClient_Tests.swift; sourceTree = "<group>"; };
 		BCE8A7FA27EA5B1D00AC301B /* Environment+PayPalWebCheckout_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment+PayPalWebCheckout_Tests.swift"; sourceTree = "<group>"; };
-		BCF735D227D1583200A52E03 /* PayPalDataCollector.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PayPalDataCollector.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BCF735E127D1583400A52E03 /* PayPalDataCollectorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PayPalDataCollectorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCF735D227D1583200A52E03 /* FraudProtection.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FraudProtection.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCF735E127D1583400A52E03 /* FraudProtectionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FraudProtectionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCF735E227D158B400A52E03 /* PPRiskMagnes.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = PPRiskMagnes.xcframework; path = Frameworks/XCFrameworks/PPRiskMagnes.xcframework; sourceTree = "<group>"; };
 		BCF735E627D15AB800A52E03 /* PayPalDataCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalDataCollector.swift; sourceTree = "<group>"; };
 		BCF735E827D15D2600A52E03 /* MagnesSDKProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnesSDKProtocol.swift; sourceTree = "<group>"; };
@@ -463,7 +463,7 @@
 			children = (
 				80E8DAE726B8785D00FAFC3F /* CardPaymentsTests */,
 				8036C1DE270F9BCF00C0F091 /* PaymentsCoreTests */,
-				BCF735F427D2708E00A52E03 /* PayPalDataCollector */,
+				BCF735F427D2708E00A52E03 /* FraudProtectionTests */,
 				OBJ_11 /* PayPalNativePaymentsTests */,
 				BCFAC72227ED05D900C3AF00 /* PaymentButtonsTests */,
 				BCE8A7F027EA52BF00AC301B /* PayPalWebPaymentsTests */,
@@ -648,7 +648,7 @@
 			path = Mocks;
 			sourceTree = "<group>";
 		};
-		BCF735C127D157CD00A52E03 /* PayPalDataCollector */ = {
+		BCF735C127D157CD00A52E03 /* FraudProtection */ = {
 			isa = PBXGroup;
 			children = (
 				BCF735EC27D1650800A52E03 /* DeviceInspector.swift */,
@@ -659,11 +659,11 @@
 				BCF735E627D15AB800A52E03 /* PayPalDataCollector.swift */,
 				CB38546227F4B616003CE179 /* PayPalDataCollectorEnvironment.swift */,
 			);
-			name = PayPalDataCollector;
-			path = Sources/PayPalDataCollector;
+			name = FraudProtection;
+			path = Sources/FraudProtection;
 			sourceTree = "<group>";
 		};
-		BCF735F427D2708E00A52E03 /* PayPalDataCollector */ = {
+		BCF735F427D2708E00A52E03 /* FraudProtectionTests */ = {
 			isa = PBXGroup;
 			children = (
 				BC9C18DD27D2A1610019B541 /* DeviceInspector_Tests.swift */,
@@ -672,7 +672,7 @@
 				BC9C18D927D27CE40019B541 /* MockMagnesSDKResult.swift */,
 				BCF735F527D270E000A52E03 /* PayPalDataCollector_Tests.swift */,
 			);
-			path = PayPalDataCollector;
+			path = FraudProtectionTests;
 			sourceTree = "<group>";
 		};
 		BCFAC71927ED044300C3AF00 /* PaymentButtons */ = {
@@ -862,8 +862,8 @@
 				80E8DAE626B8785D00FAFC3F /* CardPaymentsTests.xctest */,
 				80DB6F0E26B89D9600277E54 /* PayPalNativePayments.framework */,
 				80E743F8270E40CE00BACECA /* TestShared.framework */,
-				BCF735D227D1583200A52E03 /* PayPalDataCollector.framework */,
-				BCF735E127D1583400A52E03 /* PayPalDataCollectorTests.xctest */,
+				BCF735D227D1583200A52E03 /* FraudProtection.framework */,
+				BCF735E127D1583400A52E03 /* FraudProtectionTests.xctest */,
 				BCD5C48527E9200800B074D5 /* PayPalWebPayments.framework */,
 				BCD5C49427E9201400B074D5 /* PayPalWebCheckoutTests.xctest */,
 				BCFAC70927ED042500C3AF00 /* PaymentButtons.framework */,
@@ -890,7 +890,7 @@
 			children = (
 				80E8DADA26B8783800FAFC3F /* CardPayments */,
 				80B9F85226B8750000D67843 /* PaymentsCore */,
-				BCF735C127D157CD00A52E03 /* PayPalDataCollector */,
+				BCF735C127D157CD00A52E03 /* FraudProtection */,
 				80DB6F0F26B89D9600277E54 /* PayPalNativePayments */,
 				BCFAC71927ED044300C3AF00 /* PaymentButtons */,
 				BE4F784227EB627100FF4C0E /* PayPalWebPayments */,
@@ -1079,9 +1079,9 @@
 			productReference = BCD5C49427E9201400B074D5 /* PayPalWebCheckoutTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		BCF735C227D1583200A52E03 /* PayPalDataCollector */ = {
+		BCF735C227D1583200A52E03 /* FraudProtection */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BCF735CF27D1583200A52E03 /* Build configuration list for PBXNativeTarget "PayPalDataCollector" */;
+			buildConfigurationList = BCF735CF27D1583200A52E03 /* Build configuration list for PBXNativeTarget "FraudProtection" */;
 			buildPhases = (
 				BCF735C327D1583200A52E03 /* Sources */,
 				BCF735CC27D1583200A52E03 /* Frameworks */,
@@ -1091,14 +1091,14 @@
 			);
 			dependencies = (
 			);
-			name = PayPalDataCollector;
+			name = FraudProtection;
 			productName = Card;
-			productReference = BCF735D227D1583200A52E03 /* PayPalDataCollector.framework */;
+			productReference = BCF735D227D1583200A52E03 /* FraudProtection.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		BCF735D327D1583400A52E03 /* PayPalDataCollectorTests */ = {
+		BCF735D327D1583400A52E03 /* FraudProtectionTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BCF735DE27D1583400A52E03 /* Build configuration list for PBXNativeTarget "PayPalDataCollectorTests" */;
+			buildConfigurationList = BCF735DE27D1583400A52E03 /* Build configuration list for PBXNativeTarget "FraudProtectionTests" */;
 			buildPhases = (
 				BCF735D627D1583400A52E03 /* Sources */,
 				BCF735DA27D1583400A52E03 /* Frameworks */,
@@ -1109,9 +1109,9 @@
 			dependencies = (
 				BC9C18E027D2B1850019B541 /* PBXTargetDependency */,
 			);
-			name = PayPalDataCollectorTests;
+			name = FraudProtectionTests;
 			productName = CardTests;
-			productReference = BCF735E127D1583400A52E03 /* PayPalDataCollectorTests.xctest */;
+			productReference = BCF735E127D1583400A52E03 /* FraudProtectionTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		BCFAC6EB27ED042500C3AF00 /* PaymentButtons */ = {
@@ -1238,8 +1238,8 @@
 				80E8DAE526B8785D00FAFC3F /* CardPaymentsTests */,
 				80B9F85026B8750000D67843 /* PaymentsCore */,
 				8034A9E226B875C90055AF13 /* PaymentsCoreTests */,
-				BCF735C227D1583200A52E03 /* PayPalDataCollector */,
-				BCF735D327D1583400A52E03 /* PayPalDataCollectorTests */,
+				BCF735C227D1583200A52E03 /* FraudProtection */,
+				BCF735D327D1583400A52E03 /* FraudProtectionTests */,
 				80DB6F0D26B89D9600277E54 /* PayPalNativePayments */,
 				"PayPal::PayPalTests" /* PayPalNativePaymentsTests */,
 				BCFAC6EB27ED042500C3AF00 /* PaymentButtons */,
@@ -1587,7 +1587,7 @@
 		};
 		BC9C18E027D2B1850019B541 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = BCF735C227D1583200A52E03 /* PayPalDataCollector */;
+			target = BCF735C227D1583200A52E03 /* FraudProtection */;
 			targetProxy = BC9C18DF27D2B1850019B541 /* PBXContainerItemProxy */;
 		};
 		BCD5C49727E9208000B074D5 /* PBXTargetDependency */ = {
@@ -3417,7 +3417,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BCF735CF27D1583200A52E03 /* Build configuration list for PBXNativeTarget "PayPalDataCollector" */ = {
+		BCF735CF27D1583200A52E03 /* Build configuration list for PBXNativeTarget "FraudProtection" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BCF735D027D1583200A52E03 /* Debug */,
@@ -3426,7 +3426,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BCF735DE27D1583400A52E03 /* Build configuration list for PBXNativeTarget "PayPalDataCollectorTests" */ = {
+		BCF735DE27D1583400A52E03 /* Build configuration list for PBXNativeTarget "FraudProtectionTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BCF735DF27D1583400A52E03 /* Debug */,
