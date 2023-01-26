@@ -2,6 +2,7 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
+* Rename `PayPalUI` to `PaymentButtons`
 * Rename `Card` to `CardPayments`
 
 ## 0.0.4 (2023-01-17)

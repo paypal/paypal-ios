@@ -1,10 +1,10 @@
-# Pay using PayPal UI
+# Pay using PaymentButtons
 
-1. [Add PayPal UI](#add-paypal-ui)
+1. [Add PaymentButtons](#add-payment-buttons)
 
-## Add PayPal UI
+## Add Payment Buttons
 
-### 1. Add the PayPalUI to your app
+### 1. Add the PaymentButtons to your app
 
 #### Swift Package Manager
 
@@ -13,7 +13,7 @@ In Xcode, follow the guide to [add package dependencies to your app](https://dev
 In your app's source files, use the following import syntax to include PayPal's libraries:
 
 ```swift
-import PayPalUI
+import PaymentButtons
 ```
 
 #### CocoaPods
@@ -27,7 +27,7 @@ pod 'PayPal'
 In your app's source files, use the following import syntax to include PayPal's libraries:
 
 ```swift
-import PayPalUI
+import PaymentButtons
 ```
 
 ### 2. Render PayPal buttons
