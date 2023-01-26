@@ -236,7 +236,7 @@
 		807C5E6829102D9800ECECD8 /* AnalyticsEventData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventData.swift; sourceTree = "<group>"; };
 		808EEA80291321FE001B6765 /* AnalyticsEventRequest_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventRequest_Tests.swift; sourceTree = "<group>"; };
 		80B9F85126B8750000D67843 /* PaymentsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PaymentsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		80DB6F0E26B89D9600277E54 /* PayPalNativeCheckout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PayPalNativeCheckout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		80DB6F0E26B89D9600277E54 /* PayPalNativePayments.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PayPalNativePayments.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80DCC59D2719DB6F00EC7C5A /* CardClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardClientError.swift; sourceTree = "<group>"; };
 		80E743F8270E40CE00BACECA /* TestShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TestShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80E743FF270E40F300BACECA /* FakeRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeRequests.swift; sourceTree = "<group>"; };
@@ -464,7 +464,7 @@
 				80E8DAE726B8785D00FAFC3F /* CardPaymentsTests */,
 				8036C1DE270F9BCF00C0F091 /* PaymentsCoreTests */,
 				BCF735F427D2708E00A52E03 /* PayPalDataCollector */,
-				OBJ_11 /* PayPalNativeCheckoutTests */,
+				OBJ_11 /* PayPalNativePayments */,
 				BCFAC72227ED05D900C3AF00 /* PaymentButtonsTests */,
 				BCE8A7F027EA52BF00AC301B /* PayPalWebPaymentsTests */,
 				80E743F9270E40CE00BACECA /* TestShared */,
@@ -574,7 +574,7 @@
 			path = Sources/PaymentsCore;
 			sourceTree = "<group>";
 		};
-		80DB6F0F26B89D9600277E54 /* PayPalNativeCheckout */ = {
+		80DB6F0F26B89D9600277E54 /* PayPalNativePayments */ = {
 			isa = PBXGroup;
 			children = (
 				0649326E272703A500FA83A6 /* Enums */,
@@ -583,8 +583,8 @@
 				BC900B7C27AC307A00D48DBA /* PayPalNativeCheckoutDelegate.swift */,
 				3D25238027344F1E0099E4EB /* PayPalUIInterfaces */,
 			);
-			name = PayPalNativeCheckout;
-			path = Sources/PayPalNativeCheckout;
+			name = PayPalNativePayments;
+			path = Sources/PayPalNativePayments;
 			sourceTree = "<group>";
 		};
 		80E743F9270E40CE00BACECA /* TestShared */ = {
@@ -840,7 +840,7 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		OBJ_11 /* PayPalNativeCheckoutTests */ = {
+		OBJ_11 /* PayPalNativePayments */ = {
 			isa = PBXGroup;
 			children = (
 				3D25238B273979170099E4EB /* MockNativeCheckoutProvider.swift */,
@@ -848,8 +848,8 @@
 				065EBD8B272865E4001E81C4 /* PayPalClient_Tests.swift */,
 				067C92E427270FDE009E3054 /* PayPalEnvironment_Tests.swift */,
 			);
-			name = PayPalNativeCheckoutTests;
-			path = UnitTests/PayPalNativeCheckoutTests;
+			name = PayPalNativePayments;
+			path = UnitTests/PayPalNativePayments;
 			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_13 /* Products */ = {
@@ -860,7 +860,7 @@
 				8034A9E326B875C90055AF13 /* PaymentsCoreTests.xctest */,
 				80E8DAD926B8783800FAFC3F /* CardPayments.framework */,
 				80E8DAE626B8785D00FAFC3F /* CardPaymentsTests.xctest */,
-				80DB6F0E26B89D9600277E54 /* PayPalNativeCheckout.framework */,
+				80DB6F0E26B89D9600277E54 /* PayPalNativePayments.framework */,
 				80E743F8270E40CE00BACECA /* TestShared.framework */,
 				BCF735D227D1583200A52E03 /* PayPalDataCollector.framework */,
 				BCF735E127D1583400A52E03 /* PayPalDataCollectorTests.xctest */,
@@ -891,7 +891,7 @@
 				80E8DADA26B8783800FAFC3F /* CardPayments */,
 				80B9F85226B8750000D67843 /* PaymentsCore */,
 				BCF735C127D157CD00A52E03 /* PayPalDataCollector */,
-				80DB6F0F26B89D9600277E54 /* PayPalNativeCheckout */,
+				80DB6F0F26B89D9600277E54 /* PayPalNativePayments */,
 				BCFAC71927ED044300C3AF00 /* PaymentButtons */,
 				BE4F784227EB627100FF4C0E /* PayPalWebPayments */,
 			);
@@ -968,9 +968,9 @@
 			productReference = 80B9F85126B8750000D67843 /* PaymentsCore.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		80DB6F0D26B89D9600277E54 /* PayPalNativeCheckout */ = {
+		80DB6F0D26B89D9600277E54 /* PayPalNativePayments */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 80DB6F1226B89D9600277E54 /* Build configuration list for PBXNativeTarget "PayPalNativeCheckout" */;
+			buildConfigurationList = 80DB6F1226B89D9600277E54 /* Build configuration list for PBXNativeTarget "PayPalNativePayments" */;
 			buildPhases = (
 				80DB6F0926B89D9600277E54 /* Headers */,
 				80DB6F0A26B89D9600277E54 /* Sources */,
@@ -981,12 +981,12 @@
 			);
 			dependencies = (
 			);
-			name = PayPalNativeCheckout;
+			name = PayPalNativePayments;
 			packageProductDependencies = (
 				BC43406E27E91C2700F70193 /* PayPalCheckout */,
 			);
 			productName = PayPal;
-			productReference = 80DB6F0E26B89D9600277E54 /* PayPalNativeCheckout.framework */;
+			productReference = 80DB6F0E26B89D9600277E54 /* PayPalNativePayments.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		80E743F7270E40CE00BACECA /* TestShared */ = {
@@ -1151,9 +1151,9 @@
 			productReference = BCFAC71827ED043200C3AF00 /* PayPalUITests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		"PayPal::PayPalTests" /* PayPalNativeCheckoutTests */ = {
+		"PayPal::PayPalTests" /* PayPalNativePaymentsTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_36 /* Build configuration list for PBXNativeTarget "PayPalNativeCheckoutTests" */;
+			buildConfigurationList = OBJ_36 /* Build configuration list for PBXNativeTarget "PayPalNativePaymentsTests" */;
 			buildPhases = (
 				OBJ_39 /* Sources */,
 				OBJ_41 /* Frameworks */,
@@ -1163,7 +1163,7 @@
 			dependencies = (
 				80903D4926BADDD7003A381D /* PBXTargetDependency */,
 			);
-			name = PayPalNativeCheckoutTests;
+			name = PayPalNativePaymentsTests;
 			productName = PayPalTests;
 			productReference = "PayPal::PayPalTests::Product" /* PayPalNativeCheckoutTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -1240,8 +1240,8 @@
 				8034A9E226B875C90055AF13 /* PaymentsCoreTests */,
 				BCF735C227D1583200A52E03 /* PayPalDataCollector */,
 				BCF735D327D1583400A52E03 /* PayPalDataCollectorTests */,
-				80DB6F0D26B89D9600277E54 /* PayPalNativeCheckout */,
-				"PayPal::PayPalTests" /* PayPalNativeCheckoutTests */,
+				80DB6F0D26B89D9600277E54 /* PayPalNativePayments */,
+				"PayPal::PayPalTests" /* PayPalNativePaymentsTests */,
 				BCFAC6EB27ED042500C3AF00 /* PaymentButtons */,
 				BCFAC70A27ED043100C3AF00 /* PaymentButtonsTests */,
 				BCD5C46727E9200800B074D5 /* PayPalWebPayments */,
@@ -1577,7 +1577,7 @@
 		};
 		80903D4926BADDD7003A381D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 80DB6F0D26B89D9600277E54 /* PayPalNativeCheckout */;
+			target = 80DB6F0D26B89D9600277E54 /* PayPalNativePayments */;
 			targetProxy = 80903D4826BADDD7003A381D /* PBXContainerItemProxy */;
 		};
 		80E8DAEC26B8785D00FAFC3F /* PBXTargetDependency */ = {
@@ -3363,7 +3363,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		80DB6F1226B89D9600277E54 /* Build configuration list for PBXNativeTarget "PayPalNativeCheckout" */ = {
+		80DB6F1226B89D9600277E54 /* Build configuration list for PBXNativeTarget "PayPalNativePayments" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				80DB6F1326B89D9600277E54 /* Debug */,
@@ -3462,7 +3462,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_36 /* Build configuration list for PBXNativeTarget "PayPalNativeCheckoutTests" */ = {
+		OBJ_36 /* Build configuration list for PBXNativeTarget "PayPalNativePaymentsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				OBJ_37 /* Debug */,
