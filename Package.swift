@@ -25,8 +25,8 @@ let package = Package(
             targets: ["PayPalWebCheckout"]
         ),
         .library(
-            name: "Card",
-            targets: ["Card"]
+            name: "CardPayments",
+            targets: ["CardPayments"]
         ),
         .library(
             name: "PayPalDataCollector",
@@ -45,7 +45,7 @@ let package = Package(
             dependencies: []
         ),
         .target(
-            name: "Card",
+            name: "CardPayments",
             dependencies: ["PaymentsCore"]
         ),
         .target(
