@@ -86,7 +86,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BCFAC70A27ED043100C3AF00"
                BuildableName = "PayPalUITests.xctest"
-               BlueprintName = "PayPalUITests"
+               BlueprintName = "PaymentButtonsTests"
                ReferencedContainer = "container:PayPal.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -155,7 +155,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BCFAC70A27ED043100C3AF00"
                BuildableName = "PayPalUITests.xctest"
-               BlueprintName = "PayPalUITests"
+               BlueprintName = "PaymentButtonsTests"
                ReferencedContainer = "container:PayPal.xcodeproj">
             </BuildableReference>
          </TestableReference>
