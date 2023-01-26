@@ -6,7 +6,7 @@
       "location" : "https://github.com/paypal/iOS-SDK.git",
       "state" : {
         "branch" : "rename-paypalui",
-        "revision" : "c2b44f4f69c3f36edb2beb3088a6ee1e14be3b6f"
+        "revision" : "baf663c302d581ff8afb442008fe1d6d48db057b"
       }
     },
     {
