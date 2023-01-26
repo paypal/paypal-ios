@@ -1,6 +1,6 @@
 import UIKit
 import CardPayments
-import PayPalWebCheckout
+import PayPalWebPayments
 import PaymentsCore
 import AuthenticationServices
 import PayPalNativeCheckout
