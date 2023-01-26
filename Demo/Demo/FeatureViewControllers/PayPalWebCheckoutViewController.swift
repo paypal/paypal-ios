@@ -1,7 +1,7 @@
 import UIKit
 import PayPalWebCheckout
 import PaymentsCore
-import PayPalUI
+import PaymentButtons
 
 class PayPalWebCheckoutViewController: FeatureBaseViewController {
 

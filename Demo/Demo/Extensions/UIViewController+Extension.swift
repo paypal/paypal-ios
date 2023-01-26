@@ -1,5 +1,5 @@
 import UIKit
-import PayPalUI
+import PaymentButtons
 
 extension UIViewController {
 
