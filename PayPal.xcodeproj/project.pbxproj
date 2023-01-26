@@ -77,9 +77,6 @@
 		BCFAC70527ED042500C3AF00 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE00B79D2742F9F000758C63 /* Assets.xcassets */; };
 		BCFAC70E27ED043100C3AF00 /* PayPalButton_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE00B7AC27444FE900758C63 /* PayPalButton_Tests.swift */; };
 		BCFAC70F27ED043100C3AF00 /* Coordinator_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF3FF1627AC5DF3006B4B69 /* Coordinator_Tests.swift */; };
-		BCFAC71027ED043100C3AF00 /* MockNativeCheckoutProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25238B273979170099E4EB /* MockNativeCheckoutProvider.swift */; };
-		BCFAC71127ED043100C3AF00 /* PayPalEnvironment_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067C92E427270FDE009E3054 /* PayPalEnvironment_Tests.swift */; };
-		BCFAC71227ED043100C3AF00 /* PayPalClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065EBD8B272865E4001E81C4 /* PayPalClient_Tests.swift */; };
 		BCFAC71327ED043100C3AF00 /* PayPalCreditButton_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36E3275520E700AFC7DA /* PayPalCreditButton_Tests.swift */; };
 		BCFAC71A27ED04AC00C3AF00 /* PaymentButtonColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36DE274859A000AFC7DA /* PaymentButtonColor.swift */; };
 		BCFAC71B27ED04AF00C3AF00 /* PaymentButtonImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36E0274859C200AFC7DA /* PaymentButtonImage.swift */; };
@@ -118,6 +115,7 @@
 		CB1A47FA2820BF6B00BD8184 /* PaymentButtonFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1A47F92820BF6B00BD8184 /* PaymentButtonFont.swift */; };
 		CB1A47FE2820C10700BD8184 /* PaymentButtonFundingSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1A47FD2820C10700BD8184 /* PaymentButtonFundingSource.swift */; };
 		CB1A48052822BCED00BD8184 /* ImageAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1A48042822BCED00BD8184 /* ImageAsset.swift */; };
+		CB1AC3C22982CDB10081AED6 /* MockNativeCheckoutProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25238B273979170099E4EB /* MockNativeCheckoutProvider.swift */; };
 		CB22C018291049500097E592 /* PayPalPayLaterButton_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB22C017291049500097E592 /* PayPalPayLaterButton_Tests.swift */; };
 		CB38546327F4B616003CE179 /* PayPalDataCollectorEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB38546227F4B616003CE179 /* PayPalDataCollectorEnvironment.swift */; };
 		CB4BE27D2847AF6F00EA2DD1 /* SCA.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4BE27C2847AF6F00EA2DD1 /* SCA.swift */; };
@@ -132,7 +130,6 @@
 		CB51FF7227FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB51FF7127FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift */; };
 		CBA92A4327B304140077FF14 /* APIClientDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA92A4227B304140077FF14 /* APIClientDecoder.swift */; };
 		CBD6004728D0C24A00C3EFF6 /* MockPayPalDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD6004628D0C24900C3EFF6 /* MockPayPalDelegate.swift */; };
-		CBD6004828D0C24A00C3EFF6 /* MockPayPalDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD6004628D0C24900C3EFF6 /* MockPayPalDelegate.swift */; };
 		E6022E762857C6BE008B0E27 /* APIResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5324C2CE283EB44000DBC34F /* APIResult.swift */; };
 		E6022E772857C6BE008B0E27 /* Eligibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5324C2D0283EB45A00DBC34F /* Eligibility.swift */; };
 		E6022E782857C6BE008B0E27 /* EligibilityAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5324C2CB283EB40F00DBC34F /* EligibilityAPI.swift */; };
@@ -1555,10 +1552,6 @@
 				BCFAC70E27ED043100C3AF00 /* PayPalButton_Tests.swift in Sources */,
 				BCFAC70F27ED043100C3AF00 /* Coordinator_Tests.swift in Sources */,
 				CB22C018291049500097E592 /* PayPalPayLaterButton_Tests.swift in Sources */,
-				BCFAC71027ED043100C3AF00 /* MockNativeCheckoutProvider.swift in Sources */,
-				CBD6004828D0C24A00C3EFF6 /* MockPayPalDelegate.swift in Sources */,
-				BCFAC71127ED043100C3AF00 /* PayPalEnvironment_Tests.swift in Sources */,
-				BCFAC71227ED043100C3AF00 /* PayPalClient_Tests.swift in Sources */,
 				BCFAC71327ED043100C3AF00 /* PayPalCreditButton_Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1569,6 +1562,7 @@
 			files = (
 				067C92E527270FDE009E3054 /* PayPalEnvironment_Tests.swift in Sources */,
 				065EBD8C272865E4001E81C4 /* PayPalClient_Tests.swift in Sources */,
+				CB1AC3C22982CDB10081AED6 /* MockNativeCheckoutProvider.swift in Sources */,
 				CBD6004728D0C24A00C3EFF6 /* MockPayPalDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3084,7 +3078,7 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.PayPalUI";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.PaymentButtons";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -3161,7 +3155,7 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.PayPalUI";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.PaymentButtons";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
