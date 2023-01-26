@@ -22,11 +22,11 @@ Pod::Spec.new do |s|
    s.dependency "PayPalCheckout", "0.109.0"
   end
 
-  s.subspec "PayPalUI" do |s|
-    s.source_files  = "Sources/PayPalUI/*.swift"
+  s.subspec "PaymentButtons" do |s|
+    s.source_files  = "Sources/PaymentButtons/*.swift"
     s.dependency "PayPal/PaymentsCore"
     s.resource_bundle = {
-    	'PayPalSDK' => ['Sources/PayPalUI/*.xcassets']
+    	'PayPalSDK' => ['Sources/PaymentButtons/*.xcassets']
     }
   end
 
