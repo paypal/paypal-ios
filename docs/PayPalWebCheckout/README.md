@@ -1,11 +1,11 @@
-# Accepting PayPal Web Checkout Payments
+# Accepting PayPal Web Payments
 
-The PayPal Web Checkout module in the PayPal SDK enables PayPal payments via a webview in your app.
+The PayPal Web Payments module in the PayPal SDK enables PayPal payments via a webview in your app.
 
 Follow these steps to add PayPal Web Checkout payments:
 
 1. [Setup a PayPal Developer Account](#setup-a-paypal-developer-account)
-1. [Add PayPal Web Checkout Module](#add-paypal-web-checkout-module)
+1. [Add PayPal Web Payments Module](#add-paypal-web-payments-module)
 1. [Test and go live](#test-and-go-live)
 
 ## Setup a PayPal Developer Account
@@ -27,7 +27,7 @@ In Xcode, add the PayPal SDK as a [package dependency](https://developer.apple.c
 In your app's source code files, use the following import syntax to include the PayPal Web Checkout module:
 
 ```swift
-import PayPalWebCheckout
+import PayPalWebPayments
 ```
 
 #### CocoaPods
@@ -35,13 +35,13 @@ import PayPalWebCheckout
 Include the PayPal Web Checkout pod in your `Podfile`.
 
 ```ruby
-pod 'PayPalWebCheckout'
+pod 'PayPal'
 ```
 
 In your app's source files, use the following import syntax to include PayPal's libraries:
 
 ```swift
-import PayPalWebCheckout
+import PayPalWebPayments
 ```
 
 ### 2. Initiate the Payments SDK
