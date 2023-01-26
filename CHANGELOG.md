@@ -1,6 +1,9 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+* Rename `Card` to `CardPayments`
+
 ## 0.0.4 (2023-01-17)
 * Card
   * Remove `ThreeDSecureRequest` from `CardRequest` and create URLs internally 
