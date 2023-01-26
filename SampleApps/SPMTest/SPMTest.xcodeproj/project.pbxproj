@@ -368,7 +368,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/paypal/iOS-SDK.git";
 			requirement = {
-				branch = paypal_web_integration;
+				branch = "rename-card";
 				kind = branch;
 			};
 		};
