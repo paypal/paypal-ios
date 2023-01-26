@@ -43,6 +43,7 @@ Each button as a `UKit` and `SwiftUI` implementation as follows:
     | PayPalButton      | PayPalButton.Representable       |
     | PayPalCreditButton   | PayPalCreditButton.Representable        |
     | PayPalPayLaterButton   | PayPalPayLaterButton.Representable        |
+> Note: label customization only applies to `PayPalButton` when its size is `.expanded` or `.full`
 
 #### UKit
 

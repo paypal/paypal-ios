@@ -36,6 +36,13 @@ class PaymentButtonCustomizationViewController: UIViewController {
         segment.addTarget(self, action: #selector(reloadSmartPaymentButton), for: .valueChanged)
         return segment
     }()
+    
+    lazy var labelPicker: UISegmentedControl = {
+        let segment = UISegmentedControl(items: PayPalButton.Label.allCasesAsString())
+        segment.selectedSegmentIndex = 0
+        segment.addTarget(self, action: #selector(reloadSmartPaymentButton), for: .valueChanged)
+        return segment
+    }()
 
     lazy var stackView: UIStackView = {
         let stackView = UIStackView(
@@ -44,7 +51,8 @@ class PaymentButtonCustomizationViewController: UIViewController {
                 fundingPicker,
                 colorPicker,
                 edgesPicker,
-                sizePicker
+                sizePicker,
+                labelPicker
             ]
         )
         stackView.axis = .vertical
@@ -92,6 +100,7 @@ class PaymentButtonCustomizationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         reloadColorPicker()
+        reloadLabelPicker()
     }
 
     // MARK: - Constraints
@@ -125,6 +134,8 @@ class PaymentButtonCustomizationViewController: UIViewController {
         if sender == fundingPicker {
             reloadColorPicker()
         }
+        reloadLabelPicker()
+        
         paymentButton.removeFromSuperview()
         paymentButton = setupPaymentButton()
         stackView.addArrangedSubview(paymentButton)
@@ -142,9 +153,15 @@ class PaymentButtonCustomizationViewController: UIViewController {
         button.layer.shadowOffset = offset
         button.layer.shadowColor = color.cgColor
     }
+    
+    private func reloadLabelPicker() {
+        let fundingSource = PaymentButtonFundingSource.allCases[fundingPicker.selectedSegmentIndex]
+        let size = PaymentButtonSize.allCases[sizePicker.selectedSegmentIndex]
+        labelPicker.isHidden = fundingSource != .payPal || size == .mini || size == .collapsed
+    }
 
     private func reloadColorPicker() {
-        let funding = PaymentButtonFundingSource.allCases()[fundingPicker.selectedSegmentIndex]
+        let funding = PaymentButtonFundingSource.allCases[fundingPicker.selectedSegmentIndex]
         let segments = colorPickerSegments(with: funding)
 
         colorPicker.removeAllSegments()
@@ -172,23 +189,24 @@ class PaymentButtonCustomizationViewController: UIViewController {
     }
 
     private func setupPaymentButton() -> PaymentButton {
-        let fundingSource = PaymentButtonFundingSource.allCases()[fundingPicker.selectedSegmentIndex]
-        let edges = PaymentButtonEdges.allCases()[edgesPicker.selectedSegmentIndex]
-        let size = PaymentButtonSize.allCases()[sizePicker.selectedSegmentIndex]
+        let fundingSource = PaymentButtonFundingSource.allCases[fundingPicker.selectedSegmentIndex]
+        let edges = PaymentButtonEdges.allCases[edgesPicker.selectedSegmentIndex]
+        let size = PaymentButtonSize.allCases[sizePicker.selectedSegmentIndex]
 
         let paymentButton: PaymentButton
 
         switch fundingSource {
         case .payPal:
-            let color = PayPalButton.Color.allCases()[colorPicker.selectedSegmentIndex]
-            paymentButton = PayPalButton(color: color, edges: edges, size: size)
+            let color = PayPalButton.Color.allCases[colorPicker.selectedSegmentIndex]
+            let label = PayPalButton.Label.allCases[labelPicker.selectedSegmentIndex]
+            paymentButton = PayPalButton(color: color, edges: edges, size: size, label: label)
 
         case .payLater:
-            let color = PayPalPayLaterButton.Color.allCases()[colorPicker.selectedSegmentIndex]
+            let color = PayPalPayLaterButton.Color.allCases[colorPicker.selectedSegmentIndex]
             paymentButton = PayPalPayLaterButton(color: color, edges: edges, size: size)
 
         case .credit:
-            let color = PayPalCreditButton.Color.allCases()[colorPicker.selectedSegmentIndex]
+            let color = PayPalCreditButton.Color.allCases[colorPicker.selectedSegmentIndex]
             paymentButton = PayPalCreditButton(color: color, edges: edges, size: size)
         }
 

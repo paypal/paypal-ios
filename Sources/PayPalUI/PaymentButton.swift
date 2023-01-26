@@ -130,10 +130,10 @@ public class PaymentButton: UIButton {
 
     private var supportsPrefixLabel: Bool {
         switch size {
-        case .mini, .collapsed, .expanded:
+        case .mini, .collapsed:
             return false
 
-        case .full:
+        case .expanded, .full:
             if let label = label {
                 return label.position == .prefix
             }
