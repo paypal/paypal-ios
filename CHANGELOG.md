@@ -7,7 +7,6 @@
 * Rename `Card` to `CardPayments`
 * PayPalUI
     * Fix issue where label was not being shown
->>>>>>> main
 
 ## 0.0.4 (2023-01-17)
 * Card
