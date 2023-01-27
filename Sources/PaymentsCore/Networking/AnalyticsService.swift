@@ -32,10 +32,10 @@ class AnalyticsService {
         return instance
     }
         
-    func sendEvent(name: String, clientID: String) async {
+    func sendEvent(_ name: String) async {
         let eventData = AnalyticsEventData(
             eventName: name,
-            clientID: clientID,
+            clientID: "clientID",
             sessionID: sessionID
         )
         

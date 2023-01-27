@@ -53,7 +53,8 @@ public class APIClient {
     public func sendAnalyticsEvent(_ name: String) async {
         do {
             let clientID = try await getClientID()
-            await AnalyticsService.sharedInstance(http: http).sendEvent(name: name, clientID: clientID)
+            // TODO: Send the clientID into the event. Make it required param.
+            await AnalyticsService.sharedInstance(http: http).sendEvent(name)
         } catch {
             NSLog("[PayPal SDK] Failed to send analytics due to missing clientID: %@", error.localizedDescription)
         }

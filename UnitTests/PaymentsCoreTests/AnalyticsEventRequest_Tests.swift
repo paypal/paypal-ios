@@ -12,7 +12,11 @@ class AnalyticsEventRequest_Tests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        fakeAnalyticsEventData = AnalyticsEventData(eventName: "fake-name", sessionID: "fake-session")
+        fakeAnalyticsEventData = AnalyticsEventData(
+            eventName: "fake-name",
+            clientID: "fake-client-id",
+            sessionID: "fake-session"
+        )
         
         sut = try! AnalyticsEventRequest(eventData: fakeAnalyticsEventData)
     }
