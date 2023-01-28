@@ -47,6 +47,8 @@
 		80E74400270E40F300BACECA /* FakeRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E743FF270E40F300BACECA /* FakeRequests.swift */; };
 		80E8DAE126B8784600FAFC3F /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E8DAE026B8784600FAFC3F /* Card.swift */; };
 		80E8DAEA26B8785D00FAFC3F /* Card.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E8DAD926B8783800FAFC3F /* Card.framework */; };
+		80FA147F29848F0D00CCB09C /* URLCacheTestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FA147E29848F0D00CCB09C /* URLCacheTestable.swift */; };
+		80FA148129848FCC00CCB09C /* MockURLCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FA148029848FCC00CCB09C /* MockURLCache.swift */; };
 		80FC261D29847AC7008EC841 /* HTTP_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FC261C29847AC7008EC841 /* HTTP_Tests.swift */; };
 		BC04836F27B2FB3600FA7B46 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC04836E27B2FB3600FA7B46 /* URLSessionProtocol.swift */; };
 		BC04837427B2FC7300FA7B46 /* URLSession+URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC04837327B2FC7300FA7B46 /* URLSession+URLSessionProtocol.swift */; };
@@ -252,6 +254,8 @@
 		80E8DAD926B8783800FAFC3F /* Card.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Card.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80E8DAE026B8784600FAFC3F /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		80E8DAE626B8785D00FAFC3F /* CardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		80FA147E29848F0D00CCB09C /* URLCacheTestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLCacheTestable.swift; sourceTree = "<group>"; };
+		80FA148029848FCC00CCB09C /* MockURLCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLCache.swift; sourceTree = "<group>"; };
 		80FC261C29847AC7008EC841 /* HTTP_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTP_Tests.swift; sourceTree = "<group>"; };
 		BC04836E27B2FB3600FA7B46 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		BC04837327B2FC7300FA7B46 /* URLSession+URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+URLSessionProtocol.swift"; sourceTree = "<group>"; };
@@ -609,6 +613,7 @@
 				CB4BE28928512A9800EA2DD1 /* MockQuededURLSession.swift */,
 				E64763702899B60C00074113 /* MockAPIClient.swift */,
 				802C4A732945670400896A5D /* MockHTTP.swift */,
+				80FA148029848FCC00CCB09C /* MockURLCache.swift */,
 			);
 			path = TestShared;
 			sourceTree = "<group>";
@@ -750,6 +755,7 @@
 				BEA100E626EF9EDA0036A6A5 /* APIClient.swift */,
 				804E628529380B04004B9FEF /* AnalyticsService.swift */,
 				804E62812937EBCE004B9FEF /* HTTP.swift */,
+				80FA147E29848F0D00CCB09C /* URLCacheTestable.swift */,
 				CBA92A4227B304140077FF14 /* APIClientDecoder.swift */,
 				BEA100EF26EFA7C20036A6A5 /* APIClientError.swift */,
 				BC04836E27B2FB3600FA7B46 /* URLSessionProtocol.swift */,
@@ -1397,6 +1403,7 @@
 				807C5E6929102D9800ECECD8 /* AnalyticsEventData.swift in Sources */,
 				E6022E812857C6BE008B0E27 /* Extension.swift in Sources */,
 				E6022E822857C6BE008B0E27 /* Error.swift in Sources */,
+				80FA147F29848F0D00CCB09C /* URLCacheTestable.swift in Sources */,
 				E6022E832857C6BE008B0E27 /* GraphQLQuery.swift in Sources */,
 				E6022E842857C6BE008B0E27 /* GraphQLClient.swift in Sources */,
 				8021B69029144E6D000FBC54 /* PayPalCoreConstants.swift in Sources */,
@@ -1447,6 +1454,7 @@
 				CB4BE28B2851423900EA2DD1 /* MockWebAuthenticationSession.swift in Sources */,
 				CB4BE28A28512A9800EA2DD1 /* MockQuededURLSession.swift in Sources */,
 				80E74400270E40F300BACECA /* FakeRequests.swift in Sources */,
+				80FA148129848FCC00CCB09C /* MockURLCache.swift in Sources */,
 				E64763712899B60C00074113 /* MockAPIClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

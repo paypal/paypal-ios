@@ -17,9 +17,9 @@ public class APIClient {
         self.http = HTTP(coreConfig: coreConfig)
         self.coreConfig = coreConfig
         
-        Task {
-            try await getClientID()
-        }
+//        Task {
+//            try await getClientID()
+//        }
     }
     
     // MARK: - Internal Initializer
@@ -29,9 +29,9 @@ public class APIClient {
         self.http = HTTP(urlSession: urlSession, coreConfig: coreConfig)
         self.coreConfig = coreConfig
         
-        Task {
-            try await getClientID()
-        }
+//        Task {
+//            try await getClientID()
+//        }
     }
     
     // MARK: - Public Methods

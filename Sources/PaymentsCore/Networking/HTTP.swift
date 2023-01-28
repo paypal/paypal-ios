@@ -5,10 +5,16 @@ class HTTP {
     
     let coreConfig: CoreConfig
     private var urlSession: URLSessionProtocol
+    private var urlCache: URLCacheTestable
     private let decoder = APIClientDecoder()
 
-    init(urlSession: URLSessionProtocol = URLSession.shared, coreConfig: CoreConfig) {
+    init(
+        urlSession: URLSessionProtocol = URLSession.shared,
+        urlCache: URLCacheTestable = URLCache.shared,
+        coreConfig: CoreConfig
+    ) {
         self.urlSession = urlSession
+        self.urlCache = urlCache
         self.coreConfig = coreConfig
     }
     
@@ -17,12 +23,10 @@ class HTTP {
             throw APIClientError.invalidURLRequestError
         }
         
-        if withCaching, let response = URLCache.shared.cachedResponse(for: urlRequest) {
-            print("🎉 HIT")
+        if withCaching, let response = urlCache.cachedResponse(for: urlRequest) {
             let decodedData = try decoder.decode(T.self, from: response.data)
             return (decodedData)
         }
-        print("👎MISS")
         
         let (data, response) = try await urlSession.performRequest(with: urlRequest)
         guard let response = response as? HTTPURLResponse else {
@@ -31,7 +35,7 @@ class HTTP {
         
         if withCaching {
             let cachedURLResponse = CachedURLResponse(response: response, data: data)
-            URLCache.shared.storeCachedResponse(cachedURLResponse, for: urlRequest)
+            urlCache.storeCachedResponse(cachedURLResponse, for: urlRequest)
         }
         
         switch response.statusCode {
