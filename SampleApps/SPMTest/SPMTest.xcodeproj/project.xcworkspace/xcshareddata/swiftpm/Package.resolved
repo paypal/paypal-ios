@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/paypal/iOS-SDK.git",
       "state" : {
-        "branch" : "rename-card",
-        "revision" : "3c719818a3e3878abcb07dec6a36796936cbf89c"
+        "branch" : "rename-paypalui",
+        "revision" : "08f8df127eb38dfe81fb30bb281fd8e8c265ffe2"
       }
     },
     {

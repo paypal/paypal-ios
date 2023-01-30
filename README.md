@@ -77,9 +77,9 @@ Use the value for `access_token` in the response to create an instance of `CoreC
 Each feature module has its own onboarding guide:
 
 - [CardPayments](docs/CardPayments)
-- [PayPalUI](docs/PayPalUI)
+- [PaymentButtons](docs/PaymentButtons)
 - [PayPal Native Checkout](docs/PayPalNativeCheckout)
-- [PayPal Web Checkout](docs/PayPalWebCheckout)
+- [PayPal Web Payments](docs/PayPalWebPayments)
 
 To accept a certain payment method in your app, you only need to include that payment-specific submodule.
 

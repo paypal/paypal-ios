@@ -1,6 +1,6 @@
 import Foundation
 import SwiftUI
-import PayPalUI
+import PaymentButtons
 
 struct SwiftUINativeCheckoutDemo: View {
 

@@ -1,5 +1,5 @@
 import UIKit
-import PayPalNativeCheckout
+import PayPalNativePayments
 import PayPalCheckout
 import PaymentsCore
 
