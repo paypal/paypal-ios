@@ -57,8 +57,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BCF735D327D1583400A52E03"
-               BuildableName = "PayPalDataCollectorTests.xctest"
-               BlueprintName = "PayPalDataCollectorTests"
+               BuildableName = "FraudProtectionTests.xctest"
+               BlueprintName = "FraudProtectionTests"
                ReferencedContainer = "container:PayPal.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -144,8 +144,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BCF735D327D1583400A52E03"
-               BuildableName = "PayPalDataCollectorTests.xctest"
-               BlueprintName = "PayPalDataCollectorTests"
+               BuildableName = "FraudProtectionTests.xctest"
+               BlueprintName = "FraudProtectionTests"
                ReferencedContainer = "container:PayPal.xcodeproj">
             </BuildableReference>
          </TestableReference>

@@ -29,8 +29,8 @@ let package = Package(
             targets: ["CardPayments"]
         ),
         .library(
-            name: "PayPalDataCollector",
-            targets: ["PayPalDataCollector", "PPRiskMagnes"]
+            name: "FraudProtection",
+            targets: ["FraudProtection", "PPRiskMagnes"]
         )
     ],
     dependencies: [
@@ -61,7 +61,7 @@ let package = Package(
             dependencies: ["PaymentsCore"]
         ),
         .target(
-            name: "PayPalDataCollector",
+            name: "FraudProtection",
             dependencies: ["PPRiskMagnes"]
         ),
         .binaryTarget(
