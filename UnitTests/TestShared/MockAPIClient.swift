@@ -3,7 +3,7 @@ import Foundation
 
 class MockAPIClient: APIClient {
 
-    var error: CoreSDKError?
+    var cannedClientIDError: CoreSDKError?
     var cannedClientID = "cannedClientID"
     var cannedFetchResponse: Decodable?
     var cannedJSONResponse: String?
@@ -23,8 +23,8 @@ class MockAPIClient: APIClient {
     }
 
     override func getClientID() async throws -> String {
-        if let error = error {
-            throw error
+        if let cannedClientIDError {
+            throw cannedClientIDError
         }
         return cannedClientID
     }
