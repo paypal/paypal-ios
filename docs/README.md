@@ -2,5 +2,5 @@
 
 - [CardPayments](CardPayments)
 - [PaymentButtons](PaymentButtons)
-- [PayPal Native Checkout](PayPalNativeCheckout)
+- [PayPal Native Payments](PayPalNativePayments)
 - [PayPal Web Payments](PayPalWebPayments)

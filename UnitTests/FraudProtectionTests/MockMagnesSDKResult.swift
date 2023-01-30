@@ -1,5 +1,5 @@
 import Foundation
-@testable import PayPalDataCollector
+@testable import FraudProtection
 
 class MockMagnesSDKResult: MagnesSDKResult {
 

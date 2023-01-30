@@ -1,6 +1,6 @@
 import PayPalCheckout
 @testable import PaymentsCore
-@testable import PayPalNativeCheckout
+@testable import PayPalNativePayments
 
 class MockPayPalDelegate: PayPalNativeCheckoutDelegate {
 

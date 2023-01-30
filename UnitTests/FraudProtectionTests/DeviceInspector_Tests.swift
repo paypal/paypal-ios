@@ -1,5 +1,5 @@
 import XCTest
-@testable import PayPalDataCollector
+@testable import FraudProtection
 
 class DeviceInspector_Tests: XCTestCase {
 

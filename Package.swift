@@ -13,8 +13,8 @@ let package = Package(
             targets: ["PaymentsCore"]
         ),
         .library(
-           name: "PayPalNativeCheckout",
-           targets: ["PayPalNativeCheckout"]
+           name: "PayPalNativePayments",
+           targets: ["PayPalNativePayments"]
         ),
         .library(
             name: "PaymentButtons",
@@ -29,8 +29,8 @@ let package = Package(
             targets: ["CardPayments"]
         ),
         .library(
-            name: "PayPalDataCollector",
-            targets: ["PayPalDataCollector", "PPRiskMagnes"]
+            name: "FraudProtection",
+            targets: ["FraudProtection", "PPRiskMagnes"]
         )
     ],
     dependencies: [
@@ -49,7 +49,7 @@ let package = Package(
             dependencies: ["PaymentsCore"]
         ),
         .target(
-           name: "PayPalNativeCheckout",
+           name: "PayPalNativePayments",
            dependencies: ["PaymentsCore", "PayPalCheckout"]
         ),
         .target(
@@ -61,7 +61,7 @@ let package = Package(
             dependencies: ["PaymentsCore"]
         ),
         .target(
-            name: "PayPalDataCollector",
+            name: "FraudProtection",
             dependencies: ["PPRiskMagnes"]
         ),
         .binaryTarget(

@@ -1,6 +1,6 @@
 import Foundation
 import PPRiskMagnes
-@testable import PayPalDataCollector
+@testable import FraudProtection
 
 struct CollectDeviceDataArgs: Hashable {
 

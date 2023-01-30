@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-@testable import PayPalNativeCheckout
+@testable import PayPalNativePayments
 @testable import PaymentsCore
 import PayPalCheckout
 import XCTest
