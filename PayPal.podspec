@@ -11,32 +11,32 @@ Pod::Spec.new do |s|
   s.platform         = :ios, "14.0"
   s.compiler_flags = "-Wall -Werror -Wextra"
 
-  s.subspec "Card" do |s|
-    s.source_files  = "Sources/Card/**/*.swift"
+  s.subspec "CardPayments" do |s|
+    s.source_files  = "Sources/CardPayments/**/*.swift"
     s.dependency "PayPal/PaymentsCore"
   end
 
-  s.subspec "PayPalNativeCheckout" do |s|
-   s.source_files  = "Sources/PayPalNativeCheckout/**/*.swift"
+  s.subspec "PayPalNativePayments" do |s|
+   s.source_files  = "Sources/PayPalNativePayments/**/*.swift"
    s.dependency "PayPal/PaymentsCore"
    s.dependency "PayPalCheckout", "0.109.0"
   end
 
-  s.subspec "PayPalUI" do |s|
-    s.source_files  = "Sources/PayPalUI/*.swift"
+  s.subspec "PaymentButtons" do |s|
+    s.source_files  = "Sources/PaymentButtons/*.swift"
     s.dependency "PayPal/PaymentsCore"
     s.resource_bundle = {
-    	'PayPalSDK' => ['Sources/PayPalUI/*.xcassets']
+    	'PayPalSDK' => ['Sources/PaymentButtons/*.xcassets']
     }
   end
 
-  s.subspec "PayPalWebCheckout" do |s|
-    s.source_files  = "Sources/PayPalWebCheckout/*.swift"
+  s.subspec "PayPalWebPayments" do |s|
+    s.source_files  = "Sources/PayPalWebPayments/*.swift"
     s.dependency "PayPal/PaymentsCore"
   end
 
-  s.subspec "PayPalDataCollector" do |s|
-    s.source_files = "Sources/PayPalDataCollector/*.swift"
+  s.subspec "FraudProtection" do |s|
+    s.source_files = "Sources/FraudProtection/*.swift"
     s.vendored_frameworks = "Frameworks/XCFrameworks/PPRiskMagnes.xcframework"
   end
 

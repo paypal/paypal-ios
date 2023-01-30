@@ -1,7 +1,3 @@
-# Exclude PayPal Interfaces
-- Sources/PayPalNativeCheckout/PayPalUIInterfaces
-# Exclude SwiftUI Interface until a decision is made on UITesting Frameworks
-- Sources/PayPalNativeCheckout/Buttons
 # Exclude classes under test shared
 - UnitTests/TestShared/MockURLSession.swift
 - UnitTests/TestShared/MockViewController.swift
@@ -11,6 +7,8 @@
 - Sources/PaymentsCore/Networking/URLSession+URLSessionProtocol.swift
 # Exclude WebAuthSession for now
 - Sources/PaymentsCore/WebAuthenticationSession.swift
+# Exclude PayPalNativePayments Interfaces
+- Sources/PayPalNativePayments/PayPalUIInterfaces
 # ToDo: Excluding PayPal native checkout until figured out mocking interfaces with oxo
-- Sources/PayPalNativeCheckout/Enums/PayPalError.swift
-- Sources/PayPalNativeCheckout/PayPalNativeCheckoutClient.swift
+- Sources/PayPalNativePayments/Enums/PayPalError.swift
+- Sources/PayPalNativePayments/PayPalNativeCheckoutClient.swift

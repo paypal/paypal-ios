@@ -1,4 +1,4 @@
-import PayPalUI
+import PaymentButtons
 
 extension PayPalPayLaterButton.Color {
 

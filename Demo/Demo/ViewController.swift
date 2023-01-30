@@ -1,5 +1,5 @@
 import UIKit
-import Card
+import CardPayments
 import InAppSettingsKit
 import SwiftUI
 
