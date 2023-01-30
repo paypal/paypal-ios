@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1330"
+   LastUpgradeVersion = "1400"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -16,9 +16,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "PayPal::PayPalTests"
-               BuildableName = "PayPalNativeCheckoutTests.xctest"
-               BlueprintName = "PayPalNativeCheckoutTests"
+               BlueprintIdentifier = "BCD5C48627E9201400B074D5"
+               BuildableName = "PayPalWebCheckoutTests.xctest"
+               BlueprintName = "PayPalWebPaymentsTests"
                ReferencedContainer = "container:PayPal.xcodeproj">
             </BuildableReference>
          </TestableReference>

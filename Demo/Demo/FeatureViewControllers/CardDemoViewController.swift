@@ -1,6 +1,6 @@
 import UIKit
 import PaymentsCore
-import PayPalNativeCheckout
+import PayPalNativePayments
 
 class CardDemoViewController: FeatureBaseViewController, UITextFieldDelegate {
 
