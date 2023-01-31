@@ -9,7 +9,6 @@ public class APIClient {
     
     private var http: HTTP
     private let coreConfig: CoreConfig
-    private let cacheManager = CacheManager()
     
     // MARK: - Public Initializer
 

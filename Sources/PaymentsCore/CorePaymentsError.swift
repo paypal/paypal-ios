@@ -10,11 +10,9 @@ public enum CorePaymentsError {
         case clientIDNotFoundError
     }
 
-
     public static let clientIDNotFoundError = CoreSDKError(
         code: Code.clientIDNotFoundError.rawValue,
         domain: domain,
         errorDescription: "Error fetching clientID. Contact developer.paypal.com/support."
     )
-
 }
