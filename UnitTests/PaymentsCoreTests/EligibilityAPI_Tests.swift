@@ -6,9 +6,9 @@ class EligibilityAPI_Tests: XCTestCase {
 
     let mockClientID = "mockClientId"
     let mockAccessToken = "mockAccessToken"
+    let mockURLSession = MockURLSession()
     // swiftlint:disable implicitly_unwrapped_optional
     var coreConfig: CoreConfig!
-    var mockURLSession: MockURLSession!
     var graphQLClient: GraphQLClient!
     var eligibilityAPI: EligibilityAPI!
     var apiClient: MockAPIClient!
@@ -17,7 +17,6 @@ class EligibilityAPI_Tests: XCTestCase {
     override func setUp() {
         super.setUp()
         coreConfig = CoreConfig(accessToken: mockAccessToken, environment: .sandbox)
-        mockURLSession = MockURLSession()
         apiClient = MockAPIClient(coreConfig: coreConfig)
         graphQLClient = GraphQLClient(environment: .sandbox, urlSession: mockURLSession)
     }
