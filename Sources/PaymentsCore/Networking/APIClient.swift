@@ -20,9 +20,9 @@ public class APIClient {
     // MARK: - Internal Initializer
 
     /// Exposed for testing
-    init(urlSession: URLSessionProtocol, coreConfig: CoreConfig) {
-        self.http = HTTP(urlSession: urlSession, coreConfig: coreConfig)
-        self.coreConfig = coreConfig
+    init(http: HTTP) {
+        self.http = http
+        self.coreConfig = http.coreConfig
     }
     
     // MARK: - Public Methods

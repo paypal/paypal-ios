@@ -2,33 +2,38 @@ import XCTest
 @testable import PaymentsCore
 @testable import TestShared
 
+// swiftlint:disable force_unwrapping implicitly_unwrapped_optional
 class APIClient_Tests: XCTestCase {
 
     // MARK: - Helper Properties
-    let mockClientID = "mockClientId"
-    let mockAccessToken = "mockAccessToken"
 
-    // swiftlint:disable:next force_unwrapping
     let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])
     let fakeRequest = FakeRequest()
 
-    // swiftlint:disable implicitly_unwrapped_optional
-    var config: CoreConfig!
+    let config = CoreConfig(accessToken: "mockAccessToken", environment: .sandbox)
     var mockURLSession: MockURLSession!
-    var apiClient: APIClient!
-    // swiftlint:enable implicitly_unwrapped_optional
+    var sut: APIClient!
+    var mockHTTP: MockHTTP!
 
     // MARK: - Test lifecycle
 
     override func setUp() {
         super.setUp()
-        config = CoreConfig(accessToken: mockAccessToken, environment: .sandbox)
         mockURLSession = MockURLSession()
-        mockURLSession.cannedError = nil
-        mockURLSession.cannedURLResponse = nil
-        mockURLSession.cannedJSONData = nil
-
-        apiClient = APIClient(urlSession: mockURLSession, coreConfig: config)
+        mockHTTP = MockHTTP(urlSession: mockURLSession, coreConfig: config)
+        
+        sut = APIClient(http: mockHTTP)
+    }
+    
+    func testFetch_forwardsAPIRequestToHTTPClass() async throws {
+        let fakeRequest = FakeRequest()
+        mockURLSession.cannedJSONData = #"{ "fake_param": "something" }"#
+        mockURLSession.cannedURLResponse = successURLResponse
+        
+        _ = try await sut.fetch(request: fakeRequest)
+        
+        XCTAssert(mockHTTP.lastAPIRequest is FakeRequest)
+        XCTAssertEqual(mockHTTP.lastAPIRequest?.path, "/fake-path")
     }
     
     // MARK: - getClientID()
@@ -37,7 +42,7 @@ class APIClient_Tests: XCTestCase {
         mockURLSession.cannedJSONData = APIResponses.oauthTokenJson.rawValue
         mockURLSession.cannedURLResponse = successURLResponse
 
-        let response = try await apiClient.getClientID()
+        let response = try await sut.getClientID()
         XCTAssertEqual(response, "sample_id")
     }
 }
