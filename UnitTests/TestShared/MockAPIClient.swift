@@ -10,7 +10,7 @@ class MockAPIClient: APIClient {
     var cannedFetchError: Error?
     
     override convenience init(coreConfig: CoreConfig) {
-        self.init(urlSession: MockURLSession(), coreConfig: coreConfig)
+        self.init(http: HTTP(urlSession: MockURLSession(), coreConfig: coreConfig))
     }
     
     override func fetch<T: APIRequest>(request: T) async throws -> (T.ResponseType) {
