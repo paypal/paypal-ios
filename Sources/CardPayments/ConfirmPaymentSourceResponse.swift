@@ -1,8 +1,8 @@
 // swiftlint:disable space_after_main_type
 
 import Foundation
-#if canImport(PaymentsCore)
-import PaymentsCore
+#if canImport(CorePayments)
+import CorePayments
 #endif
 
 struct ConfirmPaymentSourceResponse: Decodable {

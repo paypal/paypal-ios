@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 @testable import PayPalNativePayments
-@testable import PaymentsCore
+@testable import CorePayments
 import PayPalCheckout
 import XCTest
 

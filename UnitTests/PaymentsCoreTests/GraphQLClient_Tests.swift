@@ -1,5 +1,5 @@
 import XCTest
-@testable import PaymentsCore
+@testable import CorePayments
 @testable import TestShared
 
 class GraphQLClient_Tests: XCTestCase {
