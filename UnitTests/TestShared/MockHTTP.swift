@@ -1,7 +1,6 @@
 @testable import PaymentsCore
 import Foundation
 
-// swiftlint:disable force_unwrapping
 class MockHTTP: HTTP {
 
     var lastPOSTParameters: [String: Any]?
@@ -9,7 +8,9 @@ class MockHTTP: HTTP {
 
     override func performRequest<T: APIRequest>(_ request: T, withCaching: Bool = false) async throws -> (T.ResponseType) {
         lastAPIRequest = request
-        lastPOSTParameters = try JSONSerialization.jsonObject(with: request.body!, options: []) as? [String: Any]
+        if let body = request.body {
+            lastPOSTParameters = try JSONSerialization.jsonObject(with: body, options: []) as? [String: Any]
+        }
         return try await super.performRequest(request)
     }
 }
