@@ -1,7 +1,6 @@
 @testable import PaymentsCore
 import Foundation
 
-// swiftlint:disable force_unwrapping
 class MockHTTP: HTTP {
 
     var lastPOSTParameters: [String: Any]?
