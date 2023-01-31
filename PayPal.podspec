@@ -13,18 +13,18 @@ Pod::Spec.new do |s|
 
   s.subspec "CardPayments" do |s|
     s.source_files  = "Sources/CardPayments/**/*.swift"
-    s.dependency "PayPal/PaymentsCore"
+    s.dependency "PayPal/CorePayments"
   end
 
   s.subspec "PayPalNativePayments" do |s|
    s.source_files  = "Sources/PayPalNativePayments/**/*.swift"
-   s.dependency "PayPal/PaymentsCore"
+   s.dependency "PayPal/CorePayments"
    s.dependency "PayPalCheckout", "0.109.0"
   end
 
   s.subspec "PaymentButtons" do |s|
     s.source_files  = "Sources/PaymentButtons/*.swift"
-    s.dependency "PayPal/PaymentsCore"
+    s.dependency "PayPal/CorePayments"
     s.resource_bundle = {
     	'PayPalSDK' => ['Sources/PaymentButtons/*.xcassets']
     }
@@ -32,7 +32,7 @@ Pod::Spec.new do |s|
 
   s.subspec "PayPalWebPayments" do |s|
     s.source_files  = "Sources/PayPalWebPayments/*.swift"
-    s.dependency "PayPal/PaymentsCore"
+    s.dependency "PayPal/CorePayments"
   end
 
   s.subspec "FraudProtection" do |s|
@@ -40,7 +40,7 @@ Pod::Spec.new do |s|
     s.vendored_frameworks = "Frameworks/XCFrameworks/PPRiskMagnes.xcframework"
   end
 
-  s.subspec "PaymentsCore" do |s|
-    s.source_files  = "Sources/PaymentsCore/**/*.swift"
+  s.subspec "CorePayments" do |s|
+    s.source_files  = "Sources/CorePayments/**/*.swift"
   end
 end
