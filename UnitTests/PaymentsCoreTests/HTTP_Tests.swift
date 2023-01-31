@@ -150,6 +150,7 @@ class HTTP_Tests: XCTestCase {
     
     // MARK: - performRequest(withCaching: true)
     
+    // swiftlint:disable force_unwrapping
     func testPerformRequestWithCaching_hasCachedValue_doesNotSendHTTPRequestAndReturnsCachedValue() async throws {
         let cachedURLResponse = CachedURLResponse(
             response: successURLResponse,
@@ -169,6 +170,7 @@ class HTTP_Tests: XCTestCase {
         XCTAssertEqual(mockURLSession.lastURLRequestPerformed?.url?.absoluteString, "https://api.sandbox.paypal.com/fake-path")
     }
     
+    // swiftlint:disable force_unwrapping
     func testPerformRequestWithCaching_hasEmptyCache_cachesHTTPResponse() async throws {
         mockURLSession.cannedJSONData = #"{ "fake_param": "cached_value2" }"#
 
