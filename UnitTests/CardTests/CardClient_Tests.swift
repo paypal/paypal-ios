@@ -25,6 +25,7 @@ class CardClient_Tests: XCTestCase {
     var config: CoreConfig!
     var mockAPIClient: MockAPIClient!
     var cardClient: CardClient!
+    var cardRequest: CardRequest!
     // swiftlint:enable implicitly_unwrapped_optional
 
     // MARK: - Test lifecycle
@@ -33,7 +34,9 @@ class CardClient_Tests: XCTestCase {
         super.setUp()
         config = CoreConfig(accessToken: mockAccessToken, environment: .sandbox)
         mockAPIClient = MockAPIClient(coreConfig: config)
+        cardRequest = CardRequest(orderID: "testOrderId", card: card)
 
+        
         cardClient = CardClient(
             config: config,
             apiClient: mockAPIClient,
@@ -46,9 +49,7 @@ class CardClient_Tests: XCTestCase {
     func testApproveOrder_withNoThreeDSecure_returnsOrderData() {
         mockAPIClient.cannedJSONResponse = CardResponses.confirmPaymentSourceJson.rawValue
         
-        let expectation = expectation(description: "testName")
-
-        let cardRequest = CardRequest(orderID: "testOrderId", card: card)
+        let expectation = expectation(description: "approveOrder() completed")
 
         let mockCardDelegate = MockCardDelegate(success: {_, result -> Void in
             XCTAssertEqual(result.orderID, "testOrderId")
@@ -56,14 +57,13 @@ class CardClient_Tests: XCTestCase {
             XCTAssertEqual(result.paymentSource?.card.lastFourDigits, "7321")
             XCTAssertEqual(result.paymentSource?.card.type, "CREDIT")
             expectation.fulfill()
-        }, error: { _, _ -> Void in
-            XCTFail()
-        }, threeDSWillLaunch: { _ -> Void in
-            XCTFail()
+        }, error: { _, _ in
+            XCTFail("Invoked error() callback. Should invoke success().")
+        }, threeDSWillLaunch: { _ in
+            XCTFail("Invoked willLaunch() callback. Should invoke success().")
         })
 
         cardClient.delegate = mockCardDelegate
-
         cardClient.approveOrder(request: cardRequest)
 
         waitForExpectations(timeout: 10)
@@ -76,23 +76,20 @@ class CardClient_Tests: XCTestCase {
         }
         """
             
-        let expectation = expectation(description: "testName")
-
-        let cardRequest = CardRequest(orderID: "testOrderId", card: card)
+        let expectation = expectation(description: "approveOrder() completed")
 
         let mockCardDelegate = MockCardDelegate(success: {_, _ -> Void in
-            XCTFail("Test Should have thrown an error")
-        }, error: { _, error -> Void in
+            XCTFail("Invoked success() callback. Should invoke error().")
+        }, error: { _, error in
             XCTAssertEqual(error.domain, APIClientError.domain)
             XCTAssertEqual(error.code, APIClientError.Code.dataParsingError.rawValue)
             XCTAssertEqual(error.localizedDescription, "An error occured parsing HTTP response data. Contact developer.paypal.com/support.")
             expectation.fulfill()
-        }, threeDSWillLaunch: { _ -> Void in
-            XCTFail()
+        }, threeDSWillLaunch: { _ in
+            XCTFail("Invoked willLaunch() callback. Should invoke error().")
         })
 
         cardClient.delegate = mockCardDelegate
-
         cardClient.approveOrder(request: cardRequest)
         
         waitForExpectations(timeout: 10)
@@ -101,12 +98,10 @@ class CardClient_Tests: XCTestCase {
     func testApproveOrder_withThreeDSecure_browserSwitchLaunches_getOrderReturnsSuccess() {
         mockAPIClient.cannedJSONResponse = CardResponses.successfullGetOrderJson.rawValue
         
-        let expectation = expectation(description: "testName")
-        
-        let cardRequest = CardRequest(orderID: "testOrderId", card: card)
-        
+        let expectation = expectation(description: "approveOrder() completed")
+                
         let mockCardDelegate = MockCardDelegate(
-            success: {_, result -> Void in
+            success: {_, result in
                 XCTAssertEqual(result.orderID, "testOrderId")
                 XCTAssertEqual(result.status, "CREATED")
                 XCTAssertEqual(result.paymentSource?.card.brand, "VISA")
@@ -117,16 +112,15 @@ class CardClient_Tests: XCTestCase {
                 XCTAssertEqual(result.paymentSource?.card.authenticationResult?.threeDSecure?.enrollmentStatus, "Y")
                 expectation.fulfill()
             },
-            error: { _, error -> Void in
+            error: { _, error in
                 XCTFail(error.localizedDescription)
                 expectation.fulfill()
             },
-            cancel: { _ -> Void in XCTFail("Cancel in delegate shouldnt be called") },
+            cancel: { _ in XCTFail("Invoked cancel() callback. Should invoke success().") },
             threeDSWillLaunch: { _ -> Void in XCTAssert(true) },
             threeDSLaunched: { _ -> Void in XCTAssert(true) })
         
         cardClient.delegate = mockCardDelegate
-        
         cardClient.approveOrder(request: cardRequest)
         
         waitForExpectations(timeout: 10)
@@ -136,35 +130,29 @@ class CardClient_Tests: XCTestCase {
         mockAPIClient.cannedJSONResponse = CardResponses.confirmPaymentSourceJsonWith3DS.rawValue
 
         mockWebAuthSession.cannedErrorResponse = ASWebAuthenticationSessionError(
-            _bridgedNSError: NSError(
-                domain: ASWebAuthenticationSessionError.errorDomain,
-                code: ASWebAuthenticationSessionError.canceledLogin.rawValue,
-                userInfo: ["Description": "Mock cancellation error description."]
-            )
+            .canceledLogin,
+            userInfo: ["Description": "Mock cancellation error description."]
         )
-
-        let expectation = expectation(description: "testName")
-
-        let cardRequest = CardRequest(orderID: "testOrderId", card: card)
+        
+        let expectation = expectation(description: "approveOrder() completed")
 
         let mockCardDelegate = MockCardDelegate(
-            success: {_, _ -> Void in
-                XCTFail("Flow should not succed")
+            success: {_, _ in
+                XCTFail("Invoked success() callback. Should invoke cancel().")
                 expectation.fulfill()
             },
-            error: { _, error -> Void in
+            error: { _, error in
                 XCTFail(error.localizedDescription)
                 expectation.fulfill()
             },
-            cancel: { _ -> Void in
+            cancel: { _ in
                 XCTAssert(true)
                 expectation.fulfill()
             },
-            threeDSWillLaunch: { _ -> Void in XCTAssert(true) },
-            threeDSLaunched: { _ -> Void in XCTAssert(true) })
+            threeDSWillLaunch: { _ in XCTAssert(true) },
+            threeDSLaunched: { _ in XCTAssert(true) })
 
         cardClient.delegate = mockCardDelegate
-
         cardClient.approveOrder(request: cardRequest)
 
         waitForExpectations(timeout: 10)
@@ -179,30 +167,27 @@ class CardClient_Tests: XCTestCase {
             errorDescription: "Mock web session error description."
         )
 
-        let expectation = expectation(description: "testName")
-
-        let cardRequest = CardRequest(orderID: "testOrderId", card: card)
+        let expectation = expectation(description: "approveOrder() completed")
 
         let mockCardDelegate = MockCardDelegate(
-            success: {_, _ -> Void in
-                XCTFail("Flow should not succed")
+            success: {_, _ in
+                XCTFail("Invoked success() callback. Should invoke error().")
                 expectation.fulfill()
             },
-            error: { _, error -> Void in
+            error: { _, error in
                 XCTAssertEqual(error.domain, CardClientError.domain)
                 XCTAssertEqual(error.code, CardClientError.Code.threeDSecureError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "Mock web session error description.")
                 expectation.fulfill()
             },
-            cancel: { _ -> Void in
-                XCTFail("Flow should not cancel")
+            cancel: { _ in
+                XCTFail("Invoked cancel() callback. Should invoke error().")
                 expectation.fulfill()
             },
-            threeDSWillLaunch: { _ -> Void in XCTAssert(true) },
-            threeDSLaunched: { _ -> Void in XCTAssert(true) })
+            threeDSWillLaunch: { _ in XCTAssert(true) },
+            threeDSLaunched: { _ in XCTAssert(true) })
 
         cardClient.delegate = mockCardDelegate
-
         cardClient.approveOrder(request: cardRequest)
 
         waitForExpectations(timeout: 10)

@@ -27,10 +27,7 @@ class HTTP_Tests: XCTestCase {
         mockURLSession.cannedURLResponse = nil
         mockURLSession.cannedJSONData = nil
         
-        sut = HTTP(
-            urlSession: mockURLSession,
-            coreConfig: config
-        )
+        sut = HTTP(urlSession: mockURLSession, coreConfig: config)
     }
     
     // MARK: - performRequest()
@@ -62,7 +59,7 @@ class HTTP_Tests: XCTestCase {
 
         do {
             _ = try await sut.performRequest(fakeRequest)
-            XCTFail()
+            XCTFail("Request succeeded. Expected error.")
         } catch let error {
             XCTAssertTrue(serverError === (error as AnyObject))
         }
@@ -74,7 +71,7 @@ class HTTP_Tests: XCTestCase {
 
         do {
             _ = try await sut.performRequest(fakeRequest)
-            XCTFail()
+            XCTFail("Request succeeded. Expected error.")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, APIClientError.domain)
             XCTAssertEqual(error.code, APIClientError.Code.dataParsingError.rawValue)
@@ -104,7 +101,7 @@ class HTTP_Tests: XCTestCase {
 
         do {
             _ = try await sut.performRequest(fakeRequest)
-            XCTFail()
+            XCTFail("Request succeeded. Expected error.")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, APIClientError.domain)
             XCTAssertEqual(error.code, APIClientError.Code.serverResponseError.rawValue)
@@ -127,7 +124,7 @@ class HTTP_Tests: XCTestCase {
 
         do {
             _ = try await sut.performRequest(fakeRequest)
-            XCTFail()
+            XCTFail("Request succeeded. Expected error.")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, APIClientError.domain)
             XCTAssertEqual(error.code, APIClientError.Code.unknown.rawValue)
