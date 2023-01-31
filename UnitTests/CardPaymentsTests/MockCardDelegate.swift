@@ -1,5 +1,5 @@
 @testable import CorePayments
-@testable import PaymentsCore
+@testable import CardPayments
 
 class MockCardDelegate: CardDelegate {
 
