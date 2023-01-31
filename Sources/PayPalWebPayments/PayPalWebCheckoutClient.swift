@@ -9,25 +9,37 @@ public class PayPalWebCheckoutClient: NSObject {
     public weak var delegate: PayPalWebCheckoutDelegate?
     let config: CoreConfig
     private let webAuthenticationSession: WebAuthenticationSession
-
+    private let apiClient: APIClient
+    
     /// Initialize a PayPalNativeCheckoutClient to process PayPal transaction
     /// - Parameters:
     ///   - config: The CoreConfig object
     public init(config: CoreConfig) {
         self.config = config
         self.webAuthenticationSession = WebAuthenticationSession()
+        self.apiClient = APIClient(coreConfig: config)
     }
     
     /// For internal use for testing/mocking purpose
-    init(config: CoreConfig, webAuthenticationSession: WebAuthenticationSession) {
+    init(config: CoreConfig, apiClient: APIClient, webAuthenticationSession: WebAuthenticationSession) {
         self.config = config
         self.webAuthenticationSession = webAuthenticationSession
+        self.apiClient = apiClient
     }
 
     /// Launch the PayPal web flow
     /// - Parameters:
     ///   - request: the PayPalRequest for the transaction
     public func start(request: PayPalWebCheckoutRequest) {
+        Task {
+            do {
+                _ = try await apiClient.getClientID()
+            } catch {
+                notifyFailure(with: CorePaymentsError.clientIDNotFoundError)
+                return
+            }
+        }
+        
         let baseURLString = config.environment.payPalBaseURL.absoluteString
         let payPalCheckoutURLString =
             "\(baseURLString)/checkoutnow?token=\(request.orderID)" +

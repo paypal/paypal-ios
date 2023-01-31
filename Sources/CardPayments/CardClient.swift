@@ -37,6 +37,13 @@ public class CardClient: NSObject {
     public func approveOrder(request: CardRequest) {
         Task {
             do {
+                _ = try await apiClient.getClientID()
+            } catch {
+                notifyFailure(with: CorePaymentsError.clientIDNotFoundError)
+                return
+            }
+            
+            do {
                 let confirmPaymentRequest = try ConfirmPaymentSourceRequest(accessToken: config.accessToken, cardRequest: request)
                 let (result) = try await apiClient.fetch(request: confirmPaymentRequest)
                 if let url: String = result.links?.first(where: { $0.rel == "payer-action" })?.href {

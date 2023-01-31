@@ -25,6 +25,8 @@ class APIClient_Tests: XCTestCase {
         sut = APIClient(http: mockHTTP)
     }
     
+    // MARK: - fetch()
+    
     func testFetch_forwardsAPIRequestToHTTPClass() async throws {
         let fakeRequest = FakeRequest()
         mockURLSession.cannedJSONData = #"{ "fake_param": "something" }"#

@@ -15,10 +15,6 @@ public class APIClient {
     public init(coreConfig: CoreConfig) {
         self.http = HTTP(coreConfig: coreConfig)
         self.coreConfig = coreConfig
-        
-//        Task {
-//            try await getClientID()
-//        }
     }
     
     // MARK: - Internal Initializer
