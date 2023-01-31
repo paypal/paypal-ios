@@ -2,7 +2,7 @@ import XCTest
 @testable import PaymentsCore
 @testable import TestShared
 
-// swiftlint:disable force_unwrapping implicitly_unwrapped_optional force_cast
+// swiftlint:disable force_unwrapping implicitly_unwrapped_optional
 class HTTP_Tests: XCTestCase {
     
     // MARK: - Helper Properties
@@ -35,15 +35,6 @@ class HTTP_Tests: XCTestCase {
             urlCache: mockURLCache,
             coreConfig: config
         )
-    }
-    
-    // MARK: - performRequest()
-    
-    func testPerformRequest_withoutCachingEnabled_sendsHTTPRequest() async throws {
-        mockURLSession.cannedJSONData = #"{ "fake_param": "some_value" }"#
-        
-        _ = try await sut.performRequest(fakeRequest)
-        XCTAssertEqual(mockURLSession.lastURLRequestPerformed?.url?.absoluteString, "https://api.sandbox.paypal.com/fake-path")
     }
 
     // MARK: - performRequest()
@@ -149,6 +140,13 @@ class HTTP_Tests: XCTestCase {
             XCTFail("Unexpected error type")
         }
     }
+        
+    func testPerformRequest_withoutCachingEnabled_alwaysSendsHTTPRequest() async throws {
+        mockURLSession.cannedJSONData = #"{ "fake_param": "some_value" }"#
+        
+        _ = try await sut.performRequest(fakeRequest)
+        XCTAssertEqual(mockURLSession.lastURLRequestPerformed?.url?.absoluteString, "https://api.sandbox.paypal.com/fake-path")
+    }
     
     // MARK: - performRequest(withCaching: true)
     
@@ -185,5 +183,4 @@ class HTTP_Tests: XCTestCase {
         
         XCTAssertEqual(decodedCacheData.fakeParam, "cached_value2")
     }
-    
 }
