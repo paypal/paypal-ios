@@ -1,6 +1,15 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+* Rename `PayPalDataCollector` to `FraudProtection`
+* Rename `PayPalNativeCheckout` to `PayPalNativePayments`
+* Rename `PayPalWebCheckout` to `PayPalWebPayments`
+* Rename `PayPalUI` to `PaymentButtons`
+* Rename `Card` to `CardPayments`
+* PayPalUI
+    * Fix issue where label was not being shown
+
 ## 0.0.4 (2023-01-17)
 * Card
   * Remove `ThreeDSecureRequest` from `CardRequest` and create URLs internally 

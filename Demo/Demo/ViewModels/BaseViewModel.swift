@@ -1,9 +1,9 @@
 import UIKit
-import Card
-import PayPalWebCheckout
+import CardPayments
+import PayPalWebPayments
 import PaymentsCore
 import AuthenticationServices
-import PayPalNativeCheckout
+import PayPalNativePayments
 import PayPalCheckout
 
 /// This class is used to share the orderID across shared views, update the text of `bottomStatusLabel` in our `FeatureBaseViewController`
