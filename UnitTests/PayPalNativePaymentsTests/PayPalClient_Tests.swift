@@ -26,6 +26,18 @@ class PayPalClient_Tests: XCTestCase {
         apiClient: apiClient
     )
 
+    func testStart_ifClientIDFetchFails_returnsError() async {
+        apiClient.cannedClientIDError = CoreSDKError(code: 0, domain: "", errorDescription: "")
+        
+        let mockPayPalDelegate = MockPayPalDelegate()
+        payPalClient.delegate = mockPayPalDelegate
+        await payPalClient.start { _ in }
+        
+        XCTAssertEqual(mockPayPalDelegate.capturedError?.code, 1)
+        XCTAssertEqual(mockPayPalDelegate.capturedError?.domain, "CorePaymentsErrorDomain")
+        XCTAssertEqual(mockPayPalDelegate.capturedError?.errorDescription, "Error fetching clientID. Contact developer.paypal.com/support.")
+    }
+
     // todo: check for approval result instead of cancel
     func testStart_whenNativeSDKOnApproveCalled_returnsPayPalResult() async {
 

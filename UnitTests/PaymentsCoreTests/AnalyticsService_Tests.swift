@@ -27,7 +27,7 @@ class AnalyticsService_Tests: XCTestCase {
         let mockHTTP = MockHTTP(urlSession: mockURLSession, coreConfig: fakeConfig)
 
         let analyticsService = AnalyticsService.sharedInstance(http: mockHTTP)
-        await analyticsService.sendEvent("fake-event")
+        await analyticsService.sendEvent(name: "fake-event", clientID: "fake-client-id")
 
         XCTAssert(mockHTTP.lastAPIRequest is AnalyticsEventRequest)
     }
@@ -41,7 +41,7 @@ class AnalyticsService_Tests: XCTestCase {
         var analyticsService = AnalyticsService.sharedInstance(http: mockHTTP1)
         
         // Send 1st event
-        await analyticsService.sendEvent("fake-event-1")
+        await analyticsService.sendEvent(name: "fake-event-1", clientID: "fake-client-id")
         
         // Capture sessionID
         let postParams1 = mockHTTP1.lastPOSTParameters as! [String: [String: [String: Any]]]
@@ -53,7 +53,7 @@ class AnalyticsService_Tests: XCTestCase {
         analyticsService = AnalyticsService.sharedInstance(http: mockHTTP2)
         
         // Send 2nd event
-        await analyticsService.sendEvent("fake-event-2")
+        await analyticsService.sendEvent(name: "fake-event-2", clientID: "fake-client-id")
         
         // Capture sessionID
         let postParams2 = mockHTTP2.lastPOSTParameters as! [String: [String: [String: Any]]]
@@ -69,7 +69,7 @@ class AnalyticsService_Tests: XCTestCase {
         var analyticsService = AnalyticsService.sharedInstance(http: mockHTTP1)
         
         // Send 1st event
-        await analyticsService.sendEvent("fake-event-1")
+        await analyticsService.sendEvent(name: "fake-event-1", clientID: "fake-client-id")
         
         // Capture sessionID
         let postParams1 = mockHTTP1.lastPOSTParameters as! [String: [String: [String: Any]]]
@@ -81,7 +81,7 @@ class AnalyticsService_Tests: XCTestCase {
         analyticsService = AnalyticsService.sharedInstance(http: mockHTTP2)
         
         // Send 2nd event
-        await analyticsService.sendEvent("fake-event-2")
+        await analyticsService.sendEvent(name: "fake-event-2", clientID: "fake-client-id")
         
         // Capture sessionID
         let postParams2 = mockHTTP2.lastPOSTParameters as! [String: [String: [String: Any]]]

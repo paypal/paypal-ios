@@ -18,12 +18,12 @@ class HTTP {
         self.coreConfig = coreConfig
     }
     
-    func performRequest<T: APIRequest>(_ request: T, withCaching: Bool = false) async throws -> (T.ResponseType) {
+    func performRequest<T: APIRequest>(_ request: T, withCaching cachingEnabled: Bool = false) async throws -> (T.ResponseType) {
         guard let urlRequest = request.toURLRequest(environment: coreConfig.environment) else {
             throw APIClientError.invalidURLRequestError
         }
         
-        if withCaching, let response = urlCache.cachedResponse(for: urlRequest) {
+        if cachingEnabled, let response = urlCache.cachedResponse(for: urlRequest) {
             let decodedData = try decoder.decode(T.self, from: response.data)
             return (decodedData)
         }
@@ -33,7 +33,7 @@ class HTTP {
             throw APIClientError.invalidURLResponseError
         }
         
-        if withCaching {
+        if cachingEnabled {
             let cachedURLResponse = CachedURLResponse(response: response, data: data)
             urlCache.storeCachedResponse(cachedURLResponse, for: urlRequest)
         }

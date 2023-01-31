@@ -66,7 +66,7 @@ public class PayPalNativeCheckoutClient {
             nxoConfig: nxoConfig
             )
         } catch {
-            delegate?.paypal(self, didFinishWithError: PayPalError.clientIDNotFoundError(error))
+            delegate?.paypal(self, didFinishWithError: CorePaymentsError.clientIDNotFoundError)
         }
     }
 
