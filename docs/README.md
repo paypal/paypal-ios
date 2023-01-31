@@ -1,6 +1,6 @@
 # PayPal SDK Documentation
 
-- [Card](Card)
-- [PayPalUI](PayPalUI)
-- [PayPal Native Checkout](PayPalNativeCheckout)
-- [PayPal Web Checkout](PayPalWebCheckout)
+- [CardPayments](CardPayments)
+- [PaymentButtons](PaymentButtons)
+- [PayPal Native Payments](PayPalNativePayments)
+- [PayPal Web Payments](PayPalWebPayments)
