@@ -1,7 +1,7 @@
 import Foundation
 @testable import PaymentsCore
 
-class MockURLCache: URLCacheTestable {
+class MockURLCache: URLCacheable {
     
     var cannedCachedURLResponse: CachedURLResponse?
     var cannedCache: [URLRequest: CachedURLResponse] = [:]

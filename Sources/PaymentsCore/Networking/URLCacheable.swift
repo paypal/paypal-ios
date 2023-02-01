@@ -1,10 +1,10 @@
 import Foundation
 
-protocol URLCacheTestable {
+protocol URLCacheable {
     
     func cachedResponse(for request: URLRequest) -> CachedURLResponse?
     
     func storeCachedResponse(_ cachedResponse: CachedURLResponse, for request: URLRequest)
 }
 
-extension URLCache: URLCacheTestable { }
+extension URLCache: URLCacheable { }
