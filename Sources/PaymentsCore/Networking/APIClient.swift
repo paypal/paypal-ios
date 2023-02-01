@@ -36,7 +36,7 @@ public class APIClient {
     ///
     /// Retrieves the merchant's clientID either from the local cache, or via an HTTP request if not cached.
     /// - Returns: Merchant clientID.
-    public func getClientID() async throws -> String {
+    public func fetchCachedOrRemoteClientID() async throws -> String {
         let request = GetClientIDRequest(accessToken: coreConfig.accessToken)
         let (response) = try await http.performRequest(request, withCaching: true)
         return response.clientID
@@ -46,7 +46,7 @@ public class APIClient {
     /// - Parameter name: Event name string used to identify this unique event in FPTI.
     public func sendAnalyticsEvent(_ name: String) async {
         do {
-            let clientID = try await getClientID()
+            let clientID = try await fetchCachedOrRemoteClientID()
             let analyticsService = AnalyticsService.sharedInstance(http: http)
             await analyticsService.sendEvent(name: name, clientID: clientID)
         } catch {

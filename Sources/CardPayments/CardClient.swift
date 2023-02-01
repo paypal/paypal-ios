@@ -37,7 +37,7 @@ public class CardClient: NSObject {
     public func approveOrder(request: CardRequest) {
         Task {
             do {
-                _ = try await apiClient.getClientID()
+                _ = try await apiClient.fetchCachedOrRemoteClientID()
             } catch {
                 notifyFailure(with: CorePaymentsError.clientIDNotFoundError)
                 return

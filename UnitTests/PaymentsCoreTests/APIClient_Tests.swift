@@ -38,13 +38,13 @@ class APIClient_Tests: XCTestCase {
         XCTAssertEqual(mockHTTP.lastAPIRequest?.path, "/fake-path")
     }
     
-    // MARK: - getClientID()
+    // MARK: - fetchCachedOrRemoteClientID()
 
     func testGetClientID_successfullyReturnsData() async throws {
         mockURLSession.cannedJSONData = APIResponses.oauthTokenJson.rawValue
         mockURLSession.cannedURLResponse = successURLResponse
 
-        let response = try await sut.getClientID()
+        let response = try await sut.fetchCachedOrRemoteClientID()
         XCTAssertEqual(response, "sample_id")
     }
 }

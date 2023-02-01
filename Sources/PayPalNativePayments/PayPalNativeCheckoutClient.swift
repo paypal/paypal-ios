@@ -39,7 +39,7 @@ public class PayPalNativeCheckoutClient {
         createOrder: @escaping PayPalCheckout.CheckoutConfig.CreateOrderCallback
     ) async {
         do {
-            let clientID = try await apiClient.getClientID()
+            let clientID = try await apiClient.fetchCachedOrRemoteClientID()
             let nxoConfig = CheckoutConfig(
                 clientID: clientID,
                 createOrder: nil,

@@ -33,7 +33,7 @@ public class PayPalWebCheckoutClient: NSObject {
     public func start(request: PayPalWebCheckoutRequest) {
         Task {
             do {
-                _ = try await apiClient.getClientID()
+                _ = try await apiClient.fetchCachedOrRemoteClientID()
             } catch {
                 notifyFailure(with: CorePaymentsError.clientIDNotFoundError)
                 return
