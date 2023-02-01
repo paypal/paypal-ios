@@ -1,7 +1,7 @@
 import Foundation
 import AuthenticationServices
-#if canImport(PaymentsCore)
-import PaymentsCore
+#if canImport(CorePayments)
+import CorePayments
 #endif
 
 public class CardClient: NSObject {

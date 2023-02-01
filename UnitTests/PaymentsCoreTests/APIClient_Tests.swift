@@ -1,5 +1,5 @@
 import XCTest
-@testable import PaymentsCore
+@testable import CorePayments
 @testable import TestShared
 
 // swiftlint:disable force_unwrapping implicitly_unwrapped_optional

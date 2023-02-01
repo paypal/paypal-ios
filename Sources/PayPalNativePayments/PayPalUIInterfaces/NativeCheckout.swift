@@ -1,8 +1,8 @@
 import Foundation
 import UIKit
 import PayPalCheckout
-#if canImport(PaymentsCore)
-import PaymentsCore
+#if canImport(CorePayments)
+import CorePayments
 #endif
 
 class NativeCheckoutProvider: NativeCheckoutStartable {

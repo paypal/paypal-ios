@@ -23,24 +23,24 @@
 		8021B69029144E6D000FBC54 /* PayPalCoreConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8021B68F29144E6D000FBC54 /* PayPalCoreConstants.swift */; };
 		802C4A742945670400896A5D /* MockHTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C4A732945670400896A5D /* MockHTTP.swift */; };
 		802C4A762945676E00896A5D /* AnalyticsService_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C4A752945676E00896A5D /* AnalyticsService_Tests.swift */; };
-		8034A9E726B875C90055AF13 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; };
+		8034A9E726B875C90055AF13 /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; };
 		8036C1E4270F9BE700C0F091 /* APIClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036C1E0270F9BE700C0F091 /* APIClient_Tests.swift */; };
 		8036C1E5270F9BE700C0F091 /* Environment_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036C1E1270F9BE700C0F091 /* Environment_Tests.swift */; };
 		803C31B1270E41690067D36E /* TestShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E743F8270E40CE00BACECA /* TestShared.framework */; };
 		803C31B4270E430E0067D36E /* TestShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E743F8270E40CE00BACECA /* TestShared.framework */; };
-		803C31B5270E46EB0067D36E /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; };
+		803C31B5270E46EB0067D36E /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; };
 		803C31B7270E49160067D36E /* Card_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803C31B6270E49160067D36E /* Card_Tests.swift */; };
 		803C31B9270E4C560067D36E /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803C31B8270E4C560067D36E /* MockURLSession.swift */; };
 		8048D28C270B9DE00072214A /* ConfirmPaymentSourceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE00A226F3E32A0000CC46 /* ConfirmPaymentSourceResponse.swift */; };
 		804E62822937EBCE004B9FEF /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804E62812937EBCE004B9FEF /* HTTP.swift */; };
 		804E628629380B04004B9FEF /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804E628529380B04004B9FEF /* AnalyticsService.swift */; };
-		805AB85926B88882003BEE0D /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; platformFilter = ios; };
+		805AB85926B88882003BEE0D /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; platformFilter = ios; };
 		807C5E67291027D400ECECD8 /* AnalyticsEventRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807C5E66291027D400ECECD8 /* AnalyticsEventRequest.swift */; };
 		807C5E6929102D9800ECECD8 /* AnalyticsEventData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807C5E6829102D9800ECECD8 /* AnalyticsEventData.swift */; };
 		808B263129849FCE00FD1BB3 /* HTTP_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808B263029849FCE00FD1BB3 /* HTTP_Tests.swift */; };
 		808EEA81291321FE001B6765 /* AnalyticsEventRequest_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808EEA80291321FE001B6765 /* AnalyticsEventRequest_Tests.swift */; };
 		80D0C1382731CC9B00548A3D /* PayPalNativeCheckoutClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7116152723227200165069 /* PayPalNativeCheckoutClient.swift */; };
-		80DB6F1726B89DC700277E54 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; platformFilter = ios; };
+		80DB6F1726B89DC700277E54 /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; platformFilter = ios; };
 		80DCC59E2719DB6F00EC7C5A /* CardClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DCC59D2719DB6F00EC7C5A /* CardClientError.swift */; };
 		80E74400270E40F300BACECA /* FakeRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E743FF270E40F300BACECA /* FakeRequests.swift */; };
 		80E8DAE126B8784600FAFC3F /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E8DAE026B8784600FAFC3F /* Card.swift */; };
@@ -56,7 +56,7 @@
 		BC9C18D827D279C70019B541 /* MagnesSDKResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C18D727D279C70019B541 /* MagnesSDKResult.swift */; };
 		BC9C18DA27D27CE40019B541 /* MockMagnesSDKResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C18D927D27CE40019B541 /* MockMagnesSDKResult.swift */; };
 		BC9C18DE27D2A1610019B541 /* DeviceInspector_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C18DD27D2A1610019B541 /* DeviceInspector_Tests.swift */; };
-		BCD5C47E27E9200800B074D5 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; platformFilter = ios; };
+		BCD5C47E27E9200800B074D5 /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; platformFilter = ios; };
 		BCE8A7F327EA531C00AC301B /* MockPayPalWebDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE8A7F227EA531C00AC301B /* MockPayPalWebDelegate.swift */; };
 		BCE8A7F927EA555800AC301B /* PayPalWebCheckoutClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE8A7F827EA555800AC301B /* PayPalWebCheckoutClient_Tests.swift */; };
 		BCE8A7FB27EA5B1D00AC301B /* Environment+PayPalWebCheckout_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE8A7FA27EA5B1D00AC301B /* Environment+PayPalWebCheckout_Tests.swift */; };
@@ -74,7 +74,7 @@
 		BCF735EF27D1652100A52E03 /* DeviceInspectorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF735EE27D1652100A52E03 /* DeviceInspectorProtocol.swift */; };
 		BCF735F927D2715400A52E03 /* PayPalDataCollector_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF735F527D270E000A52E03 /* PayPalDataCollector_Tests.swift */; };
 		BCF735FB27D2719400A52E03 /* MockMagnesSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF735FA27D2719400A52E03 /* MockMagnesSDK.swift */; };
-		BCFAC70227ED042500C3AF00 /* PaymentsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* PaymentsCore.framework */; platformFilter = ios; };
+		BCFAC70227ED042500C3AF00 /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; platformFilter = ios; };
 		BCFAC70527ED042500C3AF00 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE00B79D2742F9F000758C63 /* Assets.xcassets */; };
 		BCFAC70E27ED043100C3AF00 /* PayPalButton_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE00B7AC27444FE900758C63 /* PayPalButton_Tests.swift */; };
 		BCFAC70F27ED043100C3AF00 /* Coordinator_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF3FF1627AC5DF3006B4B69 /* Coordinator_Tests.swift */; };
@@ -226,7 +226,7 @@
 		8021B68F29144E6D000FBC54 /* PayPalCoreConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalCoreConstants.swift; sourceTree = "<group>"; };
 		802C4A732945670400896A5D /* MockHTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHTTP.swift; sourceTree = "<group>"; };
 		802C4A752945676E00896A5D /* AnalyticsService_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService_Tests.swift; sourceTree = "<group>"; };
-		8034A9E326B875C90055AF13 /* PaymentsCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaymentsCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8034A9E326B875C90055AF13 /* CorePaymentsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CorePaymentsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8036C1E0270F9BE700C0F091 /* APIClient_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIClient_Tests.swift; path = UnitTests/PaymentsCoreTests/APIClient_Tests.swift; sourceTree = SOURCE_ROOT; };
 		8036C1E1270F9BE700C0F091 /* Environment_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Environment_Tests.swift; path = UnitTests/PaymentsCoreTests/Environment_Tests.swift; sourceTree = SOURCE_ROOT; };
 		803C31B6270E49160067D36E /* Card_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card_Tests.swift; sourceTree = "<group>"; };
@@ -237,7 +237,7 @@
 		807C5E6829102D9800ECECD8 /* AnalyticsEventData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventData.swift; sourceTree = "<group>"; };
 		808B263029849FCE00FD1BB3 /* HTTP_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTP_Tests.swift; sourceTree = "<group>"; };
 		808EEA80291321FE001B6765 /* AnalyticsEventRequest_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventRequest_Tests.swift; sourceTree = "<group>"; };
-		80B9F85126B8750000D67843 /* PaymentsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PaymentsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		80B9F85126B8750000D67843 /* CorePayments.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CorePayments.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80DB6F0E26B89D9600277E54 /* PayPalNativePayments.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PayPalNativePayments.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80DCC59D2719DB6F00EC7C5A /* CardClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardClientError.swift; sourceTree = "<group>"; };
 		80E743F8270E40CE00BACECA /* TestShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TestShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -356,7 +356,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				803C31B4270E430E0067D36E /* TestShared.framework in Frameworks */,
-				8034A9E726B875C90055AF13 /* PaymentsCore.framework in Frameworks */,
+				8034A9E726B875C90055AF13 /* CorePayments.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,7 +371,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				80DB6F1726B89DC700277E54 /* PaymentsCore.framework in Frameworks */,
+				80DB6F1726B89DC700277E54 /* CorePayments.framework in Frameworks */,
 				BC43406F27E91C2700F70193 /* PayPalCheckout in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -381,7 +381,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCF735E527D1590600A52E03 /* PPRiskMagnes.xcframework in Frameworks */,
-				803C31B5270E46EB0067D36E /* PaymentsCore.framework in Frameworks */,
+				803C31B5270E46EB0067D36E /* CorePayments.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,7 +389,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				805AB85926B88882003BEE0D /* PaymentsCore.framework in Frameworks */,
+				805AB85926B88882003BEE0D /* CorePayments.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,7 +406,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCD5C47E27E9200800B074D5 /* PaymentsCore.framework in Frameworks */,
+				BCD5C47E27E9200800B074D5 /* CorePayments.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,7 +438,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCFAC70227ED042500C3AF00 /* PaymentsCore.framework in Frameworks */,
+				BCFAC70227ED042500C3AF00 /* CorePayments.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -559,7 +559,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		80B9F85226B8750000D67843 /* PaymentsCore */ = {
+		80B9F85226B8750000D67843 /* CorePayments */ = {
 			isa = PBXGroup;
 			children = (
 				5324C2CA283EB36600DBC34F /* api */,
@@ -573,8 +573,8 @@
 				807C5E6829102D9800ECECD8 /* AnalyticsEventData.swift */,
 				8021B68F29144E6D000FBC54 /* PayPalCoreConstants.swift */,
 			);
-			name = PaymentsCore;
-			path = Sources/PaymentsCore;
+			name = CorePayments;
+			path = Sources/CorePayments;
 			sourceTree = "<group>";
 		};
 		80DB6F0F26B89D9600277E54 /* PayPalNativePayments */ = {
@@ -859,8 +859,8 @@
 			isa = PBXGroup;
 			children = (
 				"PayPal::PayPalTests::Product" /* PayPalNativeCheckoutTests.xctest */,
-				80B9F85126B8750000D67843 /* PaymentsCore.framework */,
-				8034A9E326B875C90055AF13 /* PaymentsCoreTests.xctest */,
+				80B9F85126B8750000D67843 /* CorePayments.framework */,
+				8034A9E326B875C90055AF13 /* CorePaymentsTests.xctest */,
 				80E8DAD926B8783800FAFC3F /* CardPayments.framework */,
 				80E8DAE626B8785D00FAFC3F /* CardPaymentsTests.xctest */,
 				80DB6F0E26B89D9600277E54 /* PayPalNativePayments.framework */,
@@ -892,7 +892,7 @@
 			isa = PBXGroup;
 			children = (
 				80E8DADA26B8783800FAFC3F /* CardPayments */,
-				80B9F85226B8750000D67843 /* PaymentsCore */,
+				80B9F85226B8750000D67843 /* CorePayments */,
 				BCF735C127D157CD00A52E03 /* FraudProtection */,
 				80DB6F0F26B89D9600277E54 /* PayPalNativePayments */,
 				BCFAC71927ED044300C3AF00 /* PaymentButtons */,
@@ -935,9 +935,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8034A9E226B875C90055AF13 /* PaymentsCoreTests */ = {
+		8034A9E226B875C90055AF13 /* CorePaymentsTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8034A9EA26B875C90055AF13 /* Build configuration list for PBXNativeTarget "PaymentsCoreTests" */;
+			buildConfigurationList = 8034A9EA26B875C90055AF13 /* Build configuration list for PBXNativeTarget "CorePaymentsTests" */;
 			buildPhases = (
 				8034A9DF26B875C90055AF13 /* Sources */,
 				8034A9E026B875C90055AF13 /* Frameworks */,
@@ -948,14 +948,14 @@
 			dependencies = (
 				8034A9E926B875C90055AF13 /* PBXTargetDependency */,
 			);
-			name = PaymentsCoreTests;
+			name = CorePaymentsTests;
 			productName = PaymentsCoreTests;
-			productReference = 8034A9E326B875C90055AF13 /* PaymentsCoreTests.xctest */;
+			productReference = 8034A9E326B875C90055AF13 /* CorePaymentsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		80B9F85026B8750000D67843 /* PaymentsCore */ = {
+		80B9F85026B8750000D67843 /* CorePayments */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 80B9F85526B8750000D67843 /* Build configuration list for PBXNativeTarget "PaymentsCore" */;
+			buildConfigurationList = 80B9F85526B8750000D67843 /* Build configuration list for PBXNativeTarget "CorePayments" */;
 			buildPhases = (
 				80B9F84D26B8750000D67843 /* Sources */,
 				80B9F84E26B8750000D67843 /* Frameworks */,
@@ -966,9 +966,9 @@
 			);
 			dependencies = (
 			);
-			name = PaymentsCore;
+			name = CorePayments;
 			productName = PaymentsCore;
-			productReference = 80B9F85126B8750000D67843 /* PaymentsCore.framework */;
+			productReference = 80B9F85126B8750000D67843 /* CorePayments.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		80DB6F0D26B89D9600277E54 /* PayPalNativePayments */ = {
@@ -1239,8 +1239,8 @@
 			targets = (
 				80E8DAD826B8783800FAFC3F /* CardPayments */,
 				80E8DAE526B8785D00FAFC3F /* CardPaymentsTests */,
-				80B9F85026B8750000D67843 /* PaymentsCore */,
-				8034A9E226B875C90055AF13 /* PaymentsCoreTests */,
+				80B9F85026B8750000D67843 /* CorePayments */,
+				8034A9E226B875C90055AF13 /* CorePaymentsTests */,
 				BCF735C227D1583200A52E03 /* FraudProtection */,
 				BCF735D327D1583400A52E03 /* FraudProtectionTests */,
 				80DB6F0D26B89D9600277E54 /* PayPalNativePayments */,
@@ -1576,7 +1576,7 @@
 /* Begin PBXTargetDependency section */
 		8034A9E926B875C90055AF13 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 80B9F85026B8750000D67843 /* PaymentsCore */;
+			target = 80B9F85026B8750000D67843 /* CorePayments */;
 			targetProxy = 8034A9E826B875C90055AF13 /* PBXContainerItemProxy */;
 		};
 		80903D4926BADDD7003A381D /* PBXTargetDependency */ = {
@@ -1667,7 +1667,7 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.PaymentsCoreTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.CorePaymentsTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -1733,7 +1733,7 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.PaymentsCoreTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.CorePaymentsTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -1809,7 +1809,7 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.PaymentsCore";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.CorePayments";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1886,7 +1886,7 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.PaymentsCore";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.CorePayments";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -3355,7 +3355,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8034A9EA26B875C90055AF13 /* Build configuration list for PBXNativeTarget "PaymentsCoreTests" */ = {
+		8034A9EA26B875C90055AF13 /* Build configuration list for PBXNativeTarget "CorePaymentsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8034A9EB26B875C90055AF13 /* Debug */,
@@ -3364,7 +3364,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		80B9F85526B8750000D67843 /* Build configuration list for PBXNativeTarget "PaymentsCore" */ = {
+		80B9F85526B8750000D67843 /* Build configuration list for PBXNativeTarget "CorePayments" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				80B9F85626B8750000D67843 /* Debug */,

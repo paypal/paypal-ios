@@ -1,13 +1,13 @@
 import PayPalCheckout
 
-#if canImport(PaymentsCore)
-import PaymentsCore
+#if canImport(CorePayments)
+import CorePayments
 #endif
 
 #if COCOAPODS
 private typealias PayPalEnvironment = PayPal.Environment
 #else
-private typealias PayPalEnvironment = PaymentsCore.Environment
+private typealias PayPalEnvironment = CorePayments.Environment
 #endif
 
 extension PayPalEnvironment {

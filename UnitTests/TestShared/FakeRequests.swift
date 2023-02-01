@@ -1,5 +1,5 @@
 import Foundation
-import PaymentsCore
+import CorePayments
 
 public struct FakeResponse: Codable {
 

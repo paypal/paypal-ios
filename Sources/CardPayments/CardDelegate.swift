@@ -1,6 +1,6 @@
 import Foundation
-#if canImport(PaymentsCore)
-import PaymentsCore
+#if canImport(CorePayments)
+import CorePayments
 #endif
 
 /// Card delegate to handle events from CardClient

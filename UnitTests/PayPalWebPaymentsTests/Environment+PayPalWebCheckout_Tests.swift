@@ -1,5 +1,5 @@
 import XCTest
-@testable import PaymentsCore
+@testable import CorePayments
 @testable import PayPalWebPayments
 
 class Environment_PayPalWebCheckout_Tests: XCTestCase {

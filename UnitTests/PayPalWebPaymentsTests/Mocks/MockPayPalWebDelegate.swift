@@ -1,4 +1,4 @@
-import PaymentsCore
+import CorePayments
 import PayPalWebPayments
 
 class MockPayPalWebDelegate: PayPalWebCheckoutDelegate {

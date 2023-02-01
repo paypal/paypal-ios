@@ -1,6 +1,6 @@
 import XCTest
 import AuthenticationServices
-@testable import PaymentsCore
+@testable import CorePayments
 @testable import PayPalWebPayments
 @testable import TestShared
 
