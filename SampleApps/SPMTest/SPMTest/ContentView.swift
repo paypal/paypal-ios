@@ -4,6 +4,7 @@ import PayPalWebPayments
 import PayPalNativePayments
 import FraudProtection
 import PaymentButtons
+import CorePayments
 
 struct ContentView: View {
     var body: some View {
