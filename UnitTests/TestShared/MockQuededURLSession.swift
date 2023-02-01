@@ -1,5 +1,5 @@
 import Foundation
-@testable import PaymentsCore
+@testable import CorePayments
 
 class MockQuededURLSession: URLSessionProtocol {
 

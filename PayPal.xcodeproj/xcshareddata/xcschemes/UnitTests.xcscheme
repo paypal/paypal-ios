@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8034A9E226B875C90055AF13"
-               BuildableName = "PaymentsCoreTests.xctest"
-               BlueprintName = "PaymentsCoreTests"
+               BuildableName = "CorePaymentsTests.xctest"
+               BlueprintName = "CorePaymentsTests"
                ReferencedContainer = "container:PayPal.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -124,8 +124,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8034A9E226B875C90055AF13"
-               BuildableName = "PaymentsCoreTests.xctest"
-               BlueprintName = "PaymentsCoreTests"
+               BuildableName = "CorePaymentsTests.xctest"
+               BlueprintName = "CorePaymentsTests"
                ReferencedContainer = "container:PayPal.xcodeproj">
             </BuildableReference>
          </TestableReference>

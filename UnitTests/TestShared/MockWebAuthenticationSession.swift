@@ -1,6 +1,6 @@
 import Foundation
 import AuthenticationServices
-@testable import PaymentsCore
+@testable import CorePayments
 
 class MockWebAuthenticationSession: WebAuthenticationSession {
 

@@ -1,4 +1,4 @@
-import PaymentsCore
+import CorePayments
 
 enum Environment: String {
     case sandbox
@@ -13,7 +13,7 @@ enum Environment: String {
         }
     }
 
-    var paypalSDKEnvironment: PaymentsCore.Environment {
+    var paypalSDKEnvironment: CorePayments.Environment {
         switch self {
         case .sandbox:
             return .sandbox

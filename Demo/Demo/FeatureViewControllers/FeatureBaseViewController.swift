@@ -1,5 +1,5 @@
 import UIKit
-import PaymentsCore
+import CorePayments
 import AuthenticationServices
 
 class FeatureBaseViewController: UIViewController {

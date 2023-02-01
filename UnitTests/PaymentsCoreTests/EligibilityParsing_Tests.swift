@@ -1,5 +1,5 @@
 import XCTest
-@testable import PaymentsCore
+@testable import CorePayments
 
 class EligibilityParsing_Tests: XCTestCase {
 

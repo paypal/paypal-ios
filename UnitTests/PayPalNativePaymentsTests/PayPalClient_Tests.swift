@@ -1,6 +1,6 @@
 import XCTest
 import PayPalCheckout
-@testable import PaymentsCore
+@testable import CorePayments
 @testable import PayPalNativePayments
 @testable import TestShared
 

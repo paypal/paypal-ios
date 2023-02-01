@@ -1,6 +1,6 @@
 import Foundation
-#if canImport(PaymentsCore)
-import PaymentsCore
+#if canImport(CorePayments)
+import CorePayments
 #endif
 
 /// The result of a card payment flow.
