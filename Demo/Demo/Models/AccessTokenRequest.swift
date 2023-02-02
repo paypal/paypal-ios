@@ -1,5 +1,5 @@
 import Foundation
-import PaymentsCore
+import CorePayments
 
 /// Describes request to get a low scoped access token (LSAT) given some Client ID
 public struct AccessTokenRequest: APIRequest {

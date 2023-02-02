@@ -9,8 +9,8 @@ let package = Package(
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
-            name: "PaymentsCore",
-            targets: ["PaymentsCore"]
+            name: "CorePayments",
+            targets: ["CorePayments"]
         ),
         .library(
            name: "PayPalNativePayments",
@@ -41,24 +41,24 @@ let package = Package(
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
-            name: "PaymentsCore",
+            name: "CorePayments",
             dependencies: []
         ),
         .target(
             name: "CardPayments",
-            dependencies: ["PaymentsCore"]
+            dependencies: ["CorePayments"]
         ),
         .target(
            name: "PayPalNativePayments",
-           dependencies: ["PaymentsCore", "PayPalCheckout"]
+           dependencies: ["CorePayments", "PayPalCheckout"]
         ),
         .target(
             name: "PaymentButtons",
-            dependencies: ["PaymentsCore"]
+            dependencies: ["CorePayments"]
         ),
         .target(
             name: "PayPalWebPayments",
-            dependencies: ["PaymentsCore"]
+            dependencies: ["CorePayments"]
         ),
         .target(
             name: "FraudProtection",

@@ -1,5 +1,5 @@
 import XCTest
-@testable import PaymentsCore
+@testable import CorePayments
 
 class Environment_Tests: XCTestCase {
 

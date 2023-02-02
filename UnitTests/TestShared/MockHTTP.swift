@@ -1,4 +1,4 @@
-@testable import PaymentsCore
+@testable import CorePayments
 import Foundation
 
 class MockHTTP: HTTP {

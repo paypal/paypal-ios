@@ -1,7 +1,7 @@
 import XCTest
 import SwiftUI
 import AuthenticationServices
-@testable import PaymentsCore
+@testable import CorePayments
 @testable import CardPayments
 @testable import TestShared
 

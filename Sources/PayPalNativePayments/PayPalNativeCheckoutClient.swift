@@ -1,7 +1,7 @@
 import UIKit
 import PayPalCheckout
-#if canImport(PaymentsCore)
-import PaymentsCore
+#if canImport(CorePayments)
+import CorePayments
 #endif
 
 /// PayPal Paysheet to handle PayPal transaction
