@@ -11,8 +11,12 @@
 		80C6FD6926BD8AFF00B73E76 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C6FD6826BD8AFF00B73E76 /* ContentView.swift */; };
 		80C6FD6B26BD8B0000B73E76 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80C6FD6A26BD8B0000B73E76 /* Assets.xcassets */; };
 		80C6FD6E26BD8B0000B73E76 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80C6FD6D26BD8B0000B73E76 /* Preview Assets.xcassets */; };
-		BC8A981527EB6BC900F6A4F2 /* PayPalWebCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = BC8A981427EB6BC900F6A4F2 /* PayPalWebCheckout */; };
 		CB1AC3BE2982BE250081AED6 /* CardPayments in Frameworks */ = {isa = PBXBuildFile; productRef = CB1AC3BD2982BE250081AED6 /* CardPayments */; };
+		CBDEEA182989782D00A460A6 /* FraudProtection in Frameworks */ = {isa = PBXBuildFile; productRef = CBDEEA172989782D00A460A6 /* FraudProtection */; };
+		CBDEEA1A2989782D00A460A6 /* PaymentButtons in Frameworks */ = {isa = PBXBuildFile; productRef = CBDEEA192989782D00A460A6 /* PaymentButtons */; };
+		CBDEEA1E2989782D00A460A6 /* PayPalNativePayments in Frameworks */ = {isa = PBXBuildFile; productRef = CBDEEA1D2989782D00A460A6 /* PayPalNativePayments */; };
+		CBDEEA202989782D00A460A6 /* PayPalWebPayments in Frameworks */ = {isa = PBXBuildFile; productRef = CBDEEA1F2989782D00A460A6 /* PayPalWebPayments */; };
+		CBDEEA25298AE91400A460A6 /* CorePayments in Frameworks */ = {isa = PBXBuildFile; productRef = CBDEEA24298AE91400A460A6 /* CorePayments */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,7 +32,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC8A981527EB6BC900F6A4F2 /* PayPalWebCheckout in Frameworks */,
+				CBDEEA182989782D00A460A6 /* FraudProtection in Frameworks */,
+				CBDEEA202989782D00A460A6 /* PayPalWebPayments in Frameworks */,
+				CBDEEA25298AE91400A460A6 /* CorePayments in Frameworks */,
+				CBDEEA1A2989782D00A460A6 /* PaymentButtons in Frameworks */,
+				CBDEEA1E2989782D00A460A6 /* PayPalNativePayments in Frameworks */,
 				CB1AC3BE2982BE250081AED6 /* CardPayments in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -96,8 +104,12 @@
 			);
 			name = SPMTest;
 			packageProductDependencies = (
-				BC8A981427EB6BC900F6A4F2 /* PayPalWebCheckout */,
 				CB1AC3BD2982BE250081AED6 /* CardPayments */,
+				CBDEEA172989782D00A460A6 /* FraudProtection */,
+				CBDEEA192989782D00A460A6 /* PaymentButtons */,
+				CBDEEA1D2989782D00A460A6 /* PayPalNativePayments */,
+				CBDEEA1F2989782D00A460A6 /* PayPalWebPayments */,
+				CBDEEA24298AE91400A460A6 /* CorePayments */,
 			);
 			productName = SPMTest;
 			productReference = 80C6FD6326BD8AFF00B73E76 /* SPMTest.app */;
@@ -368,22 +380,42 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/paypal/iOS-SDK.git";
 			requirement = {
-				branch = "rename-paypalui";
+				branch = main;
 				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		BC8A981427EB6BC900F6A4F2 /* PayPalWebCheckout */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BC8A980427EB6AB700F6A4F2 /* XCRemoteSwiftPackageReference "iOS-SDK" */;
-			productName = PayPalWebCheckout;
-		};
 		CB1AC3BD2982BE250081AED6 /* CardPayments */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BC8A980427EB6AB700F6A4F2 /* XCRemoteSwiftPackageReference "iOS-SDK" */;
 			productName = CardPayments;
+		};
+		CBDEEA172989782D00A460A6 /* FraudProtection */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC8A980427EB6AB700F6A4F2 /* XCRemoteSwiftPackageReference "iOS-SDK" */;
+			productName = FraudProtection;
+		};
+		CBDEEA192989782D00A460A6 /* PaymentButtons */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC8A980427EB6AB700F6A4F2 /* XCRemoteSwiftPackageReference "iOS-SDK" */;
+			productName = PaymentButtons;
+		};
+		CBDEEA1D2989782D00A460A6 /* PayPalNativePayments */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC8A980427EB6AB700F6A4F2 /* XCRemoteSwiftPackageReference "iOS-SDK" */;
+			productName = PayPalNativePayments;
+		};
+		CBDEEA1F2989782D00A460A6 /* PayPalWebPayments */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC8A980427EB6AB700F6A4F2 /* XCRemoteSwiftPackageReference "iOS-SDK" */;
+			productName = PayPalWebPayments;
+		};
+		CBDEEA24298AE91400A460A6 /* CorePayments */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC8A980427EB6AB700F6A4F2 /* XCRemoteSwiftPackageReference "iOS-SDK" */;
+			productName = CorePayments;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
