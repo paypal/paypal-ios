@@ -25,7 +25,7 @@ class HTTP {
         
         if cachingEnabled, let response = urlCache.cachedResponse(for: urlRequest) {
             let decodedData = try decoder.decode(T.self, from: response.data)
-            return (decodedData)
+            return decodedData
         }
         
         let (data, response) = try await urlSession.performRequest(with: urlRequest)
