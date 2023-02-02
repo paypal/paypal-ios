@@ -13,6 +13,7 @@ struct AnalyticsEventData: Encodable {
     enum EventParameterKeys: String, CodingKey, CaseIterable {
         case appID = "app_id"
         case appName = "app_name"
+        case clientID = "partner_client_id"
         case clientSDKVersion = "c_sdk_ver"
         case clientOS = "client_os"
         case component = "comp"
@@ -32,6 +33,8 @@ struct AnalyticsEventData: Encodable {
     let appID: String = Bundle.main.infoDictionary?[kCFBundleIdentifierKey as String] as? String ?? "N/A"
     
     let appName: String = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String ?? "N/A"
+    
+    let clientID: String
 
     let clientSDKVersion = PayPalCoreConstants.payPalSDKVersion
 
@@ -84,8 +87,9 @@ struct AnalyticsEventData: Encodable {
 
     let tenantName = "PayPal"
     
-    init(eventName: String, sessionID: String) {
+    init(eventName: String, clientID: String, sessionID: String) {
         self.eventName = eventName
+        self.clientID = clientID
         self.sessionID = sessionID
     }
     
@@ -96,6 +100,7 @@ struct AnalyticsEventData: Encodable {
         
         try eventParameters.encode(appID, forKey: .appID)
         try eventParameters.encode(appName, forKey: .appName)
+        try eventParameters.encode(clientID, forKey: .clientID)
         try eventParameters.encode(clientSDKVersion, forKey: .clientSDKVersion)
         try eventParameters.encode(clientOS, forKey: .clientOS)
         try eventParameters.encode(component, forKey: .component)

@@ -31,17 +31,26 @@ public class APIClient {
     public func fetch<T: APIRequest>(request: T) async throws -> (T.ResponseType) {
         return try await http.performRequest(request)
     }
-
+    
     /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
-    public func getClientID() async throws -> String {
+    ///
+    /// Retrieves the merchant's clientID either from the local cache, or via an HTTP request if not cached.
+    /// - Returns: Merchant clientID.
+    public func fetchCachedOrRemoteClientID() async throws -> String {
         let request = GetClientIDRequest(accessToken: coreConfig.accessToken)
-        let (response) = try await http.performRequest(request)
+        let (response) = try await http.performRequest(request, withCaching: true)
         return response.clientID
     }
     
     /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
     /// - Parameter name: Event name string used to identify this unique event in FPTI.
     public func sendAnalyticsEvent(_ name: String) async {
-        await AnalyticsService.sharedInstance(http: http).sendEvent(name)
+        do {
+            let clientID = try await fetchCachedOrRemoteClientID()
+            let analyticsService = AnalyticsService.sharedInstance(http: http)
+            await analyticsService.sendEvent(name: name, clientID: clientID)
+        } catch {
+            NSLog("[PayPal SDK] Failed to send analytics due to missing clientID: %@", error.localizedDescription)
+        }
     }
 }

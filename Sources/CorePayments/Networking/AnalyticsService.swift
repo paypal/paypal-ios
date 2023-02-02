@@ -32,8 +32,12 @@ class AnalyticsService {
         return instance
     }
         
-    func sendEvent(_ name: String) async {
-        let eventData = AnalyticsEventData(eventName: name, sessionID: sessionID)
+    func sendEvent(name: String, clientID: String) async {
+        let eventData = AnalyticsEventData(
+            eventName: name,
+            clientID: clientID,
+            sessionID: sessionID
+        )
         
         do {
             let analyticsEventRequest = try AnalyticsEventRequest(eventData: eventData)

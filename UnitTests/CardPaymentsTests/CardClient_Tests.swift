@@ -44,6 +44,28 @@ class CardClient_Tests: XCTestCase {
     }
 
     // MARK: - approveOrder() tests
+    
+    func testApproveOrder_ifClientIDFetchFails_returnsError() {
+        mockAPIClient.cannedClientIDError = CoreSDKError(code: 0, domain: "", errorDescription: "")
+        
+        let expectation = expectation(description: "approveOrder() completed")
+
+        let mockCardDelegate = MockCardDelegate(success: {_, _ in
+            XCTFail("Invoked success() callback. Should invoke error().")
+        }, error: { _, err in
+            XCTAssertEqual(err.code, 1)
+            XCTAssertEqual(err.domain, "CorePaymentsErrorDomain")
+            XCTAssertEqual(err.errorDescription, "Error fetching clientID. Contact developer.paypal.com/support.")
+            expectation.fulfill()
+        }, threeDSWillLaunch: { _ in
+            XCTFail("Invoked willLaunch() callback. Should invoke error().")
+        })
+
+        cardClient.delegate = mockCardDelegate
+        cardClient.approveOrder(request: cardRequest)
+
+        waitForExpectations(timeout: 10)
+    }
 
     func testApproveOrder_withNoThreeDSecure_returnsOrderData() {
         mockAPIClient.cannedJSONResponse = CardResponses.confirmPaymentSourceJson.rawValue

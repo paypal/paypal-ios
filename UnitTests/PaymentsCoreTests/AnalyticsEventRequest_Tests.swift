@@ -12,7 +12,11 @@ class AnalyticsEventRequest_Tests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        fakeAnalyticsEventData = AnalyticsEventData(eventName: "fake-name", sessionID: "fake-session")
+        fakeAnalyticsEventData = AnalyticsEventData(
+            eventName: "fake-name",
+            clientID: "fake-client-id",
+            sessionID: "fake-session"
+        )
         
         sut = try! AnalyticsEventRequest(eventData: fakeAnalyticsEventData)
     }
@@ -38,6 +42,7 @@ class AnalyticsEventRequest_Tests: XCTestCase {
         XCTAssertEqual(eventParams["is_simulator"] as? Bool, true)
         XCTAssertNotNil(eventParams["mapv"] as? String) // Unable to specify bundle version number within test targets
         XCTAssertTrue((eventParams["mobile_device_model"] as! String).matches("iPhone\\d,\\d|x86_64|arm64"))
+        XCTAssertEqual(eventParams["partner_client_id"] as! String, "fake-client-id")
         XCTAssertEqual(eventParams["platform"] as? String, "iOS")
         XCTAssertEqual(eventParams["session_id"] as? String, "fake-session")
         XCTAssertGreaterThanOrEqual(eventParams["t"] as! String, currentTime)

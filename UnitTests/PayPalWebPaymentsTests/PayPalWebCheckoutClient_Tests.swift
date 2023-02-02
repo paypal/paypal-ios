@@ -10,19 +10,38 @@ class PayPalClient_Tests: XCTestCase {
     var config: CoreConfig!
     var mockWebAuthenticationSession: MockWebAuthenticationSession!
     var payPalClient: PayPalWebCheckoutClient!
+    var mockAPIClient: MockAPIClient!
     // swiftlint:enable implicitly_unwrapped_optional
     
     override func setUp() {
         super.setUp()
         config = CoreConfig(accessToken: "testAccessToken", environment: .sandbox)
         mockWebAuthenticationSession = MockWebAuthenticationSession()
-
+        mockAPIClient = MockAPIClient(http: MockHTTP(coreConfig: config))
+        
         payPalClient = PayPalWebCheckoutClient(
             config: config,
+            apiClient: mockAPIClient,
             webAuthenticationSession: mockWebAuthenticationSession
         )
     }
-
+    
+    func testStart_ifClientIDFetchFails_returnsError() {
+        mockAPIClient.cannedClientIDError = CoreSDKError(code: 0, domain: "", errorDescription: "")
+        
+        let request = PayPalWebCheckoutRequest(orderID: "1234")
+        let delegate = MockPayPalWebDelegate()
+        
+        payPalClient.delegate = delegate
+        payPalClient.start(request: request)
+        
+        let error = delegate.capturedError
+        
+        XCTAssertEqual(error?.domain, "CorePaymentsErrorDomain")
+        XCTAssertEqual(error?.code, 1)
+        XCTAssertEqual(error?.localizedDescription, "Error fetching clientID. Contact developer.paypal.com/support.")
+    }
+    
     func testStart_whenNativeSDKOnCancelCalled_returnsCancellationError() {
         let request = PayPalWebCheckoutRequest(orderID: "1234")
         let delegate = MockPayPalWebDelegate()
