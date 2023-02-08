@@ -33,8 +33,8 @@ class AnalyticsService {
     }
         
     func sendEvent(name: String, clientID: String) async {
-        guard let http else { // Will never occur
-            NSLog("[PayPal SDK]", "Failed to send analytics due to malformed HTTP client.")
+        guard let http else {
+            NSLog("[PayPal SDK]", "Failed to send analytics due to nil HTTP client.")
             return
         }
         
