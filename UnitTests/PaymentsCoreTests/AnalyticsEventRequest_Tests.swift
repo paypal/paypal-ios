@@ -13,6 +13,7 @@ class AnalyticsEventRequest_Tests: XCTestCase {
     override func setUp() {
         super.setUp()
         fakeAnalyticsEventData = AnalyticsEventData(
+            environment: "fake-env",
             eventName: "fake-name",
             clientID: "fake-client-id",
             sessionID: "fake-session"
@@ -36,6 +37,7 @@ class AnalyticsEventRequest_Tests: XCTestCase {
         XCTAssertTrue((eventParams["client_os"] as! String).matches("iOS \\d+\\.\\d+|iPadOS \\d+\\.\\d+"))
         XCTAssertEqual(eventParams["comp"] as? String, "ppunifiedsdk")
         XCTAssertEqual(eventParams["device_manufacturer"] as? String, "Apple")
+        XCTAssertEqual(eventParams["merchant_app_environment"] as? String, "fake-env")
         XCTAssertEqual(eventParams["event_name"] as? String, "fake-name")
         XCTAssertEqual(eventParams["event_source"] as? String, "mobile-native")
         XCTAssertTrue((eventParams["ios_package_manager"] as! String).matches("Carthage or Other|CocoaPods|Swift Package Manager"))

@@ -22,4 +22,13 @@ public enum Environment {
             return URL(string: "https://paypal.com/graphql")!
         }
     }
+    
+    public var toString: String {
+        switch self {
+        case .sandbox:
+            return "sandbox"
+        case .production:
+            return "production"
+        }
+    }
 }

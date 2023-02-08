@@ -18,6 +18,7 @@ struct AnalyticsEventData: Encodable {
         case clientOS = "client_os"
         case component = "comp"
         case deviceManufacturer = "device_manufacturer"
+        case environment = "merchant_app_environment"
         case eventName = "event_name"
         case eventSource = "event_source"
         case packageManager = "ios_package_manager"
@@ -47,6 +48,8 @@ struct AnalyticsEventData: Encodable {
     let eventName: String
 
     let eventSource = "mobile-native"
+    
+    let environment: String
 
     let packageManager: String = {
         #if COCOAPODS
@@ -87,7 +90,8 @@ struct AnalyticsEventData: Encodable {
 
     let tenantName = "PayPal"
     
-    init(eventName: String, clientID: String, sessionID: String) {
+    init(environment: String, eventName: String, clientID: String, sessionID: String) {
+        self.environment = environment
         self.eventName = eventName
         self.clientID = clientID
         self.sessionID = sessionID
@@ -105,6 +109,7 @@ struct AnalyticsEventData: Encodable {
         try eventParameters.encode(clientOS, forKey: .clientOS)
         try eventParameters.encode(component, forKey: .component)
         try eventParameters.encode(deviceManufacturer, forKey: .deviceManufacturer)
+        try eventParameters.encode(environment, forKey: .environment)
         try eventParameters.encode(eventName, forKey: .eventName)
         try eventParameters.encode(eventSource, forKey: .eventSource)
         try eventParameters.encode(packageManager, forKey: .packageManager)
