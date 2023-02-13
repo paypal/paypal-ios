@@ -2,14 +2,14 @@ import Foundation
 
 public enum Environment {
     case sandbox
-    case production
+    case live
 
     // swiftlint:disable force_unwrapping
     var baseURL: URL {
         switch self {
         case .sandbox:
             return URL(string: "https://api.sandbox.paypal.com")!
-        case .production:
+        case .live:
             return URL(string: "https://api.paypal.com")!
         }
     }
@@ -18,7 +18,7 @@ public enum Environment {
         switch self {
         case .sandbox:
             return URL(string: "https://www.sandbox.paypal.com/graphql")!
-        case .production:
+        case .live:
             return URL(string: "https://paypal.com/graphql")!
         }
     }
@@ -27,8 +27,8 @@ public enum Environment {
         switch self {
         case .sandbox:
             return "sandbox"
-        case .production:
-            return "production"
+        case .live:
+            return "live"
         }
     }
 }

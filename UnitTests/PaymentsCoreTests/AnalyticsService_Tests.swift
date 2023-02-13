@@ -32,8 +32,8 @@ class AnalyticsService_Tests: XCTestCase {
         XCTAssert(mockHTTP.lastAPIRequest is AnalyticsEventRequest)
     }
     
-    func testSendEvent_whenProduction_sendsProperTag() async {
-        let fakeConfig = CoreConfig(accessToken: "fake-token-1", environment: .production)
+    func testSendEvent_whenLive_sendsProperTag() async {
+        let fakeConfig = CoreConfig(accessToken: "fake-token-1", environment: .live)
         let mockHTTP = MockHTTP(urlSession: mockURLSession, coreConfig: fakeConfig)
 
         let analyticsService = AnalyticsService.sharedInstance(http: mockHTTP)
@@ -44,7 +44,7 @@ class AnalyticsService_Tests: XCTestCase {
             return
         }
         
-        XCTAssertEqual(eventParams["merchant_app_environment"] as? String, "production")
+        XCTAssertEqual(eventParams["merchant_app_environment"] as? String, "live")
     }
     
     func testSendEvent_whenSandbox_sendsProperTag() async {

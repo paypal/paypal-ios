@@ -19,7 +19,7 @@ struct AnalyticsEventRequest: APIRequest {
     
     // api.sandbox.paypal.com does not currently send FPTI events to BigQuery/Looker
     func toURLRequest(environment: Environment) -> URLRequest? {
-        composeURLRequest(environment: .production)
+        composeURLRequest(environment: .live)
     }
 }
 

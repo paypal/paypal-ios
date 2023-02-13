@@ -6,9 +6,9 @@ class PayPalEnvironment_Tests: XCTestCase {
 
     func testPayPalEnvironment_convertsToPayPalCheckoutEnvironmentCorrectly() {
         let sandbox = Environment.sandbox
-        let prod = Environment.production
+        let live = Environment.live
 
         XCTAssertEqual(sandbox.toNativeCheckoutSDKEnvironment(), .sandbox)
-        XCTAssertEqual(prod.toNativeCheckoutSDKEnvironment(), .live)
+        XCTAssertEqual(live.toNativeCheckoutSDKEnvironment(), .live)
     }
 }

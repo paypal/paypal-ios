@@ -24,12 +24,12 @@
 			<key>Titles</key>
 			<array>
 				<string>Sandbox</string>
-				<string>Production</string>
+				<string>Live</string>
 			</array>
 			<key>Values</key>
 			<array>
 				<string>sandbox</string>
-				<string>production</string>
+				<string>live</string>
 			</array>
 		</dict>
 		<dict>

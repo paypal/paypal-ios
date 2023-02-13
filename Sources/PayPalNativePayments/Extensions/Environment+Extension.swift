@@ -16,7 +16,7 @@ extension PayPalEnvironment {
         switch self {
         case .sandbox:
             return .sandbox
-        case .production:
+        case .live:
             return .live
         }
     }

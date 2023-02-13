@@ -14,7 +14,7 @@ class PayPalDataCollector_Tests: XCTestCase {
     }
 
     func testCollectDeviceData_setsMagnesEnvironmentToLIVE() {
-        let sut = PayPalDataCollector(environment: .production, magnesSDK: magnesSDK, deviceInspector: deviceInspector)
+        let sut = PayPalDataCollector(environment: .live, magnesSDK: magnesSDK, deviceInspector: deviceInspector)
         _ = sut.collectDeviceData()
 
         XCTAssertEqual(.LIVE, magnesSDK.capturedSetupParams?.env)

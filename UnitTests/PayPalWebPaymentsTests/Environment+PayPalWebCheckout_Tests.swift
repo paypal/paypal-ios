@@ -6,9 +6,9 @@ class Environment_PayPalWebCheckout_Tests: XCTestCase {
 
     func testPayPalEnvironment_returnsCorrectBaseURL() {
         let sandbox = Environment.sandbox
-        let production = Environment.production
+        let live = Environment.live
 
         XCTAssertEqual(sandbox.payPalBaseURL.absoluteString, "https://www.sandbox.paypal.com")
-        XCTAssertEqual(production.payPalBaseURL.absoluteString, "https://www.paypal.com")
+        XCTAssertEqual(live.payPalBaseURL.absoluteString, "https://www.paypal.com")
     }
 }
