@@ -8,8 +8,8 @@ class Environment_Tests: XCTestCase {
         XCTAssertEqual(Environment.sandbox.baseURL.absoluteString, expectedUrlString)
     }
 
-    func testEnvironment_productionURL_matchesExpectation() throws {
+    func testEnvironment_liveURL_matchesExpectation() throws {
         let expectedUrlString = "https://api.paypal.com"
-        XCTAssertEqual(Environment.production.baseURL.absoluteString, expectedUrlString)
+        XCTAssertEqual(Environment.live.baseURL.absoluteString, expectedUrlString)
     }
 }

@@ -47,7 +47,7 @@ enum DemoSettings {
         switch environment {
         case .sandbox:
             return "AcXwOk3dof7NCNcriyS8RVh5q39ozvdWUF9oHPrWqfyrDS4AwVdKe32Axuk2ADo6rI_31Vv6MGgOyzRt"
-        case .production:
+        case .live:
             // TODO: Investigate getting a prod testing account that doesn't charge real money
             return "TODO"
         }

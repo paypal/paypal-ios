@@ -2,13 +2,13 @@ import CorePayments
 
 enum Environment: String {
     case sandbox
-    case production
+    case live
 
     var baseURL: String {
         switch self {
         case .sandbox:
             return "https://sdk-sample-merchant-server.herokuapp.com"
-        case .production:
+        case .live:
             return "https://sdk-sample-merchant-server.herokuapp.com"
         }
     }
@@ -17,8 +17,8 @@ enum Environment: String {
         switch self {
         case .sandbox:
             return .sandbox
-        case .production:
-            return .production
+        case .live:
+            return .live
         }
     }
 }

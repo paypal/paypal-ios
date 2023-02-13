@@ -11,7 +11,7 @@ extension Environment {
         switch self {
         case .sandbox:
             return URL(string: "https://www.sandbox.paypal.com")!
-        case .production:
+        case .live:
             return URL(string: "https://www.paypal.com")!
         }
     }
