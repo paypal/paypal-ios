@@ -51,8 +51,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         if launchArgs.contains("-EnvironmentSandbox") {
             DemoSettings.environment = .sandbox
-        } else if launchArgs.contains("-EnvironmentProduction") {
-            DemoSettings.environment = .production
+        } else if launchArgs.contains("-EnvironmentLive") {
+            DemoSettings.environment = .live
         }
 
         if launchArgs.contains("-DemoTypeCard") {

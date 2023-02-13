@@ -32,6 +32,36 @@ class AnalyticsService_Tests: XCTestCase {
         XCTAssert(mockHTTP.lastAPIRequest is AnalyticsEventRequest)
     }
     
+    func testSendEvent_whenLive_sendsProperTag() async {
+        let fakeConfig = CoreConfig(accessToken: "fake-token-1", environment: .live)
+        let mockHTTP = MockHTTP(urlSession: mockURLSession, coreConfig: fakeConfig)
+
+        let analyticsService = AnalyticsService.sharedInstance(http: mockHTTP)
+        await analyticsService.sendEvent(name: "fake-event", clientID: "fake-client-id")
+        
+        guard let eventParams = (mockHTTP.lastPOSTParameters?["events"] as! [String: [String: Any]])["event_params"] else {
+            XCTFail("JSON body missing `event_params` key.")
+            return
+        }
+        
+        XCTAssertEqual(eventParams["merchant_app_environment"] as? String, "live")
+    }
+    
+    func testSendEvent_whenSandbox_sendsProperTag() async {
+        let fakeConfig = CoreConfig(accessToken: "fake-token-1", environment: .sandbox)
+        let mockHTTP = MockHTTP(urlSession: mockURLSession, coreConfig: fakeConfig)
+
+        let analyticsService = AnalyticsService.sharedInstance(http: mockHTTP)
+        await analyticsService.sendEvent(name: "fake-event", clientID: "fake-client-id")
+        
+        guard let eventParams = (mockHTTP.lastPOSTParameters?["events"] as! [String: [String: Any]])["event_params"] else {
+            XCTFail("JSON body missing `event_params` key.")
+            return
+        }
+        
+        XCTAssertEqual(eventParams["merchant_app_environment"] as? String, "sandbox")
+    }
+    
     // MARK: - sharedInstance()
 
     func testSharedInstance_withDifferentAccessToken_postsUniqueSessionID() async {

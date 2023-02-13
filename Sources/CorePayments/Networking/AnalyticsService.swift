@@ -33,7 +33,13 @@ class AnalyticsService {
     }
         
     func sendEvent(name: String, clientID: String) async {
+        guard let http else {
+            NSLog("[PayPal SDK]", "Failed to send analytics due to nil HTTP client.")
+            return
+        }
+        
         let eventData = AnalyticsEventData(
+            environment: http.coreConfig.environment.toString,
             eventName: name,
             clientID: clientID,
             sessionID: sessionID
@@ -41,7 +47,7 @@ class AnalyticsService {
         
         do {
             let analyticsEventRequest = try AnalyticsEventRequest(eventData: eventData)
-            let (_) = try await http?.performRequest(analyticsEventRequest)
+            let (_) = try await http.performRequest(analyticsEventRequest)
         } catch {
             NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription)
         }
