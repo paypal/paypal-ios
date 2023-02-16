@@ -35,7 +35,7 @@ class AnalyticsEventRequest_Tests: XCTestCase {
         XCTAssertEqual(eventParams["app_name"] as? String, "xctest")
         XCTAssertTrue((eventParams["c_sdk_ver"] as! String).matches("^\\d+\\.\\d+\\.\\d+(-[0-9a-zA-Z-]+)?$"))
         XCTAssertTrue((eventParams["client_os"] as! String).matches("iOS \\d+\\.\\d+|iPadOS \\d+\\.\\d+"))
-        XCTAssertEqual(eventParams["comp"] as? String, "ppunifiedsdk")
+        XCTAssertEqual(eventParams["comp"] as? String, "ppcpmobilesdk")
         XCTAssertEqual(eventParams["device_manufacturer"] as? String, "Apple")
         XCTAssertEqual(eventParams["merchant_app_environment"] as? String, "fake-env")
         XCTAssertEqual(eventParams["event_name"] as? String, "fake-name")
