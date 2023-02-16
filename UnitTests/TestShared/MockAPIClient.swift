@@ -9,6 +9,8 @@ class MockAPIClient: APIClient {
     var cannedJSONResponse: String?
     var cannedFetchError: Error?
     
+    var postedAnalyticsEvents: [String] = []
+    
     override convenience init(coreConfig: CoreConfig) {
         self.init(http: HTTP(urlSession: MockURLSession(), coreConfig: coreConfig))
     }
@@ -27,5 +29,9 @@ class MockAPIClient: APIClient {
             throw cannedClientIDError
         }
         return cannedClientID
+    }
+    
+    override func sendAnalyticsEvent(_ name: String) {
+        postedAnalyticsEvents.append(name)
     }
 }
