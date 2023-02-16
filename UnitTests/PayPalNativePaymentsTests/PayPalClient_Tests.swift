@@ -81,14 +81,14 @@ class PayPalClient_Tests: XCTestCase {
     
     func testAnalyticsEvent_whenClientStarted_isSent() async {
         await payPalClient.start { _ in }
-        XCTAssertEqual(apiClient.postedAnalyticsEvents.first, "paypal-native-checkout:started")
+        XCTAssertEqual(apiClient.postedAnalyticsEvents.first, "paypal-native-payments:started")
     }
     
     func testAnalyticsEvent_whenNXOCanceled_isSent() async {
         await payPalClient.start { _ in }
         
         mockNativeCheckoutProvider.triggerCancel()
-        XCTAssertEqual(apiClient.postedAnalyticsEvents[1], "paypal-native-checkout:canceled")
+        XCTAssertEqual(apiClient.postedAnalyticsEvents[1], "paypal-native-payments:canceled")
     }
     
     // TODO: - The following tests are blocked by inability to mock PayPalCheckout final classes.
