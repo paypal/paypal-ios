@@ -31,6 +31,8 @@ public class PayPalWebCheckoutClient: NSObject {
     /// - Parameters:
     ///   - request: the PayPalRequest for the transaction
     public func start(request: PayPalWebCheckoutRequest) {
+        apiClient.sendAnalyticsEvent("paypal-web-payments:started")
+        
         Task {
             do {
                 _ = try await apiClient.fetchCachedOrRemoteClientID()
@@ -97,14 +99,17 @@ public class PayPalWebCheckoutClient: NSObject {
 
     private func notifySuccess(for result: PayPalWebCheckoutResult) {
         let payPalResult = PayPalWebCheckoutResult(orderID: result.orderID, payerID: result.payerID)
+        apiClient.sendAnalyticsEvent("paypal-web-payments:succeeded")
         delegate?.payPal(self, didFinishWithResult: payPalResult)
     }
 
     private func notifyFailure(with error: CoreSDKError) {
+        apiClient.sendAnalyticsEvent("paypal-web-payments:failed")
         delegate?.payPal(self, didFinishWithError: error)
     }
 
     private func notifyCancellation() {
+        apiClient.sendAnalyticsEvent("paypal-web-payments:browser-login:canceled")
         delegate?.payPalDidCancel(self)
     }
 }
