@@ -1,7 +1,7 @@
 
 # PayPal iOS SDK Release Notes
 
-## unreleased
+## 0.0.5 (2023-02-21)
 * Rename `PaymentsCore` to `CorePayments`
 * Rename `PayPalDataCollector` to `FraudProtection`
 * Rename `PayPalNativeCheckout` to `PayPalNativePayments`
