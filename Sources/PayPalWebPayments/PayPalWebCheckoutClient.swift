@@ -31,6 +31,8 @@ public class PayPalWebCheckoutClient: NSObject {
     /// - Parameters:
     ///   - request: the PayPalRequest for the transaction
     public func start(request: PayPalWebCheckoutRequest) {
+        apiClient.sendAnalyticsEvent("paypal-web-payments:started")
+        
         Task {
             do {
                 _ = try await apiClient.fetchCachedOrRemoteClientID()
@@ -51,30 +53,41 @@ public class PayPalWebCheckoutClient: NSObject {
             self.notifyFailure(with: PayPalWebCheckoutClientError.payPalURLError)
             return
         }
+        
+        webAuthenticationSession.start(
+            url: payPalCheckoutURLComponents,
+            context: self,
+            sessionDidDisplay: { [weak self] didDisplay in
+                if didDisplay {
+                    self?.apiClient.sendAnalyticsEvent("paypal-web-payments:browser-presentation:succeeded")
+                } else {
+                    self?.apiClient.sendAnalyticsEvent("paypal-web-payments:browser-presentation:failed")
+                }
+            },
+            sessionDidComplete: { url, error in
+                if let error = error {
+                    switch error {
+                    case ASWebAuthenticationSessionError.canceledLogin:
+                        self.notifyCancellation()
+                        return
+                    default:
+                        self.notifyFailure(with: PayPalWebCheckoutClientError.webSessionError(error))
+                        return
+                    }
+                }
 
-        webAuthenticationSession.start(url: payPalCheckoutURLComponents, context: self) { url, error in
-            if let error = error {
-                switch error {
-                case ASWebAuthenticationSessionError.canceledLogin:
-                    self.notifyCancellation()
-                    return
-                default:
-                    self.notifyFailure(with: PayPalWebCheckoutClientError.webSessionError(error))
-                    return
+                if let url = url {
+                    guard let orderID = self.getQueryStringParameter(url: url.absoluteString, param: "token"),
+                    let payerID = self.getQueryStringParameter(url: url.absoluteString, param: "PayerID") else {
+                        self.notifyFailure(with: PayPalWebCheckoutClientError.malformedResultError)
+                        return
+                    }
+
+                    let result = PayPalWebCheckoutResult(orderID: orderID, payerID: payerID)
+                    self.notifySuccess(for: result)
                 }
             }
-
-            if let url = url {
-                guard let orderID = self.getQueryStringParameter(url: url.absoluteString, param: "token"),
-                let payerID = self.getQueryStringParameter(url: url.absoluteString, param: "PayerID") else {
-                    self.notifyFailure(with: PayPalWebCheckoutClientError.malformedResultError)
-                    return
-                }
-
-                let result = PayPalWebCheckoutResult(orderID: orderID, payerID: payerID)
-                self.notifySuccess(for: result)
-            }
-        }
+        )
     }
 
     func payPalCheckoutReturnURL(payPalCheckoutURL: URL) -> URL? {
@@ -97,14 +110,17 @@ public class PayPalWebCheckoutClient: NSObject {
 
     private func notifySuccess(for result: PayPalWebCheckoutResult) {
         let payPalResult = PayPalWebCheckoutResult(orderID: result.orderID, payerID: result.payerID)
+        apiClient.sendAnalyticsEvent("paypal-web-payments:succeeded")
         delegate?.payPal(self, didFinishWithResult: payPalResult)
     }
 
     private func notifyFailure(with error: CoreSDKError) {
+        apiClient.sendAnalyticsEvent("paypal-web-payments:failed")
         delegate?.payPal(self, didFinishWithError: error)
     }
 
     private func notifyCancellation() {
+        apiClient.sendAnalyticsEvent("paypal-web-payments:browser-login:canceled")
         delegate?.payPalDidCancel(self)
     }
 }

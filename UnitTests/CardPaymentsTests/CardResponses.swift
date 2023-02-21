@@ -32,6 +32,26 @@ enum CardResponses: String {
             ]
         }
         """
+    
+    case confirmPaymentSourceJsonInvalid3DSURL = """
+        {
+            "id": "testOrderId",
+            "status": "APPROVED",
+            "payment_source": {
+                "card": {
+                    "last_four_digits": "7321",
+                    "brand": "VISA",
+                    "type": "CREDIT"
+                }
+            },
+            "links": [
+                {
+                    "rel": "payer-action",
+                    "href": ""
+                }
+            ]
+        }
+        """
 
     case successfullGetOrderJson = """
         {

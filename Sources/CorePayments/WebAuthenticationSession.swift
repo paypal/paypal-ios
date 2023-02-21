@@ -6,19 +6,20 @@ public class WebAuthenticationSession: NSObject {
     public func start(
         url: URL,
         context: ASWebAuthenticationPresentationContextProviding,
-        completion: @escaping (URL?, Error?) -> Void
+        sessionDidDisplay: @escaping (Bool) -> Void,
+        sessionDidComplete: @escaping (URL?, Error?) -> Void
     ) {
         let authenticationSession = ASWebAuthenticationSession(
             url: url,
             callbackURLScheme: PayPalCoreConstants.callbackURLScheme,
-            completionHandler: completion
+            completionHandler: sessionDidComplete
         )
 
         authenticationSession.prefersEphemeralWebBrowserSession = true
         authenticationSession.presentationContextProvider = context
 
         DispatchQueue.main.async {
-            authenticationSession.start()
+            sessionDidDisplay(authenticationSession.start())
         }
     }
 }

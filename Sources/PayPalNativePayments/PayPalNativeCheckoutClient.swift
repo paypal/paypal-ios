@@ -50,6 +50,8 @@ public class PayPalNativeCheckoutClient {
                 environment: config.environment.toNativeCheckoutSDKEnvironment()
             )
             delegate?.paypalWillStart(self)
+            
+            apiClient.sendAnalyticsEvent("paypal-native-payments:started")
             self.nativeCheckoutProvider.start(
                 presentingViewController: presentingViewController,
                 createOrder: createOrder,
@@ -71,19 +73,24 @@ public class PayPalNativeCheckoutClient {
     }
 
     private func notifySuccess(for approval: PayPalCheckout.Approval) {
+        apiClient.sendAnalyticsEvent("paypal-native-payments:succeeded")
         delegate?.paypal(self, didFinishWithResult: approval)
     }
 
     private func notifyFailure(with errorInfo: PayPalCheckoutErrorInfo) {
+        apiClient.sendAnalyticsEvent("paypal-native-payments:failed")
+        
         let error = PayPalError.nativeCheckoutSDKError(errorInfo)
         delegate?.paypal(self, didFinishWithError: error)
     }
 
     private func notifyCancellation() {
+        apiClient.sendAnalyticsEvent("paypal-native-payments:canceled")
         delegate?.paypalDidCancel(self)
     }
 
     private func notifyShippingChange(shippingChange: ShippingChange, shippingChangeAction: ShippingChangeAction) {
+        apiClient.sendAnalyticsEvent("paypal-native-payments:shipping-address-changed")
         delegate?.paypalDidShippingAddressChange(self, shippingChange: shippingChange, shippingChangeAction: shippingChangeAction)
     }
 }

@@ -10,6 +10,14 @@ class APIClientDecoder {
     }
 
     func decode<T: APIRequest>(_ type: T.Type, from data: Data) throws -> T.ResponseType {
+        guard !data.isEmpty else {
+            if let emptyResponse = EmptyResponse() as? T.ResponseType {
+                return emptyResponse
+            } else {
+                throw APIClientError.noResponseDataError
+            }
+        }
+        
         do {
             return try self.decoder.decode(T.ResponseType.self, from: data)
         } catch {
@@ -20,13 +28,6 @@ class APIClientDecoder {
     func decode(from data: Data) throws -> ErrorResponse {
         do {
             return try self.decoder.decode(ErrorResponse.self, from: data)
-        } catch {
-            throw APIClientError.unknownError
-        }
-    }
-    func decode<T: Decodable>(from data: Data) throws -> T {
-        do {
-            return try self.decoder.decode(T.self, from: data)
         } catch {
             throw APIClientError.unknownError
         }

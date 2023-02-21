@@ -16,6 +16,9 @@ enum CardClientError {
 
         /// 2. An error occurred during 3DS challenge.
         case threeDSecureError
+        
+        /// 3 . An invalid 3DS challenge URL was returned by `/confirm-payment-source`
+        case threeDSecureURLError
     }
 
     static let encodingError = CoreSDKError(
@@ -31,4 +34,10 @@ enum CardClientError {
             errorDescription: error.localizedDescription
         )
     }
+    
+    static let threeDSecureURLError = CoreSDKError(
+        code: Code.threeDSecureURLError.rawValue,
+        domain: domain,
+        errorDescription: "An invalid 3DS URL was returned. Contact developer.paypal.com/support."
+    )
 }
