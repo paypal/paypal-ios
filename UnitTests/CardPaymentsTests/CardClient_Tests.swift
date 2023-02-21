@@ -66,6 +66,28 @@ class CardClient_Tests: XCTestCase {
 
         waitForExpectations(timeout: 10)
     }
+    
+    func testApproveOrder_withInvalid3DSURL_returnsError() {
+        mockAPIClient.cannedJSONResponse = CardResponses.confirmPaymentSourceJsonWithInvalid3DSURL.rawValue
+        
+        let expectation = expectation(description: "approveOrder() completed")
+
+        let mockCardDelegate = MockCardDelegate(success: {_, _ in
+            XCTFail("Invoked success() callback. Should invoke error().")
+        }, error: { _, err in
+            XCTAssertEqual(err.code, 3)
+            XCTAssertEqual(err.domain, "CardClientErrorDomain")
+            XCTAssertEqual(err.errorDescription, "An invalid 3DS URL was returned. Contact developer.paypal.com/support.")
+            expectation.fulfill()
+        }, threeDSWillLaunch: { _ in
+            XCTFail("Invoked willLaunch() callback. Should invoke error().")
+        })
+
+        cardClient.delegate = mockCardDelegate
+        cardClient.approveOrder(request: cardRequest)
+
+        waitForExpectations(timeout: 10)
+    }
 
     func testApproveOrder_withNoThreeDSecure_returnsOrderData() {
         mockAPIClient.cannedJSONResponse = CardResponses.confirmPaymentSourceJson.rawValue

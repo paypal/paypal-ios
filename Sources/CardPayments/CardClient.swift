@@ -51,7 +51,6 @@ public class CardClient: NSObject {
                 if let url: String = result.links?.first(where: { $0.rel == "payer-action" })?.href {
                     apiClient.sendAnalyticsEvent("card-payments:3ds:confirm-payment-source:challenge-required")
                     
-                    delegate?.cardThreeDSecureWillLaunch(self)
                     startThreeDSecureChallenge(url: url, orderId: result.id)
                 } else {
                     apiClient.sendAnalyticsEvent("card-payments:3ds:confirm-payment-source:succeeded")
@@ -79,6 +78,8 @@ public class CardClient: NSObject {
             self.notifyFailure(with: CardClientError.threeDSecureURLError)
             return
         }
+        
+        delegate?.cardThreeDSecureWillLaunch(self)
         
         webAuthenticationSession.start(
             url: threeDSURL,
