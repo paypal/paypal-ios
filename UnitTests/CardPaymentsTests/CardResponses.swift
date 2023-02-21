@@ -33,7 +33,7 @@ enum CardResponses: String {
         }
         """
     
-    case confirmPaymentSourceJsonWithInvalid3DSURL = """
+    case confirmPaymentSourceJsonInvalid3DSURL = """
         {
             "id": "testOrderId",
             "status": "APPROVED",

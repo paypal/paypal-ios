@@ -68,7 +68,7 @@ class CardClient_Tests: XCTestCase {
     }
     
     func testApproveOrder_withInvalid3DSURL_returnsError() {
-        mockAPIClient.cannedJSONResponse = CardResponses.confirmPaymentSourceJsonWithInvalid3DSURL.rawValue
+        mockAPIClient.cannedJSONResponse = CardResponses.confirmPaymentSourceJsonInvalid3DSURL.rawValue
         
         let expectation = expectation(description: "approveOrder() completed")
 
