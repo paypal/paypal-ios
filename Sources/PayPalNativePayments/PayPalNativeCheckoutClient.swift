@@ -74,7 +74,6 @@ public class PayPalNativeCheckoutClient {
 
     private func notifySuccess(for approval: PayPalCheckout.Approval) {
         apiClient.sendAnalyticsEvent("paypal-native-payments:succeeded")
-        
         delegate?.paypal(self, didFinishWithResult: approval)
     }
 
@@ -87,13 +86,11 @@ public class PayPalNativeCheckoutClient {
 
     private func notifyCancellation() {
         apiClient.sendAnalyticsEvent("paypal-native-payments:canceled")
-        
         delegate?.paypalDidCancel(self)
     }
 
     private func notifyShippingChange(shippingChange: ShippingChange, shippingChangeAction: ShippingChangeAction) {
         apiClient.sendAnalyticsEvent("paypal-native-payments:shipping-address-changed")
-        
         delegate?.paypalDidShippingAddressChange(self, shippingChange: shippingChange, shippingChangeAction: shippingChangeAction)
     }
 }
