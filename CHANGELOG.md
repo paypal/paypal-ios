@@ -1,6 +1,9 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+* Fix CocoaPods build error for Xcode 13
+
 ## 0.0.5 (2023-02-21)
 * Rename `PaymentsCore` to `CorePayments`
 * Rename `PayPalDataCollector` to `FraudProtection`
