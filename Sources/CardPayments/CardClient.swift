@@ -99,12 +99,10 @@ public class CardClient: NSObject {
                         self.notifyCancellation()
                         return
                     default:
-                        self.apiClient.sendAnalyticsEvent("card-payments:3ds:challenge:failed")
                         self.notifyFailure(with: CardClientError.threeDSecureError(error))
                         return
                     }
                 }
-                self.apiClient.sendAnalyticsEvent("card-payments:3ds:challenge:succeeded")
                 self.getOrderInfo(id: orderId)
             }
         )
