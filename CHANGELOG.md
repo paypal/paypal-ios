@@ -1,7 +1,7 @@
 
 # PayPal iOS SDK Release Notes
 
-## unreleased
+## 0.0.6 (2023-02-21)
 * Fix CocoaPods build error for Xcode 13
 
 ## 0.0.5 (2023-02-21)
