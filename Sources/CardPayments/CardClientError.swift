@@ -40,5 +40,4 @@ enum CardClientError {
         domain: domain,
         errorDescription: "An invalid 3DS URL was returned. Contact developer.paypal.com/support."
     )
-
 }

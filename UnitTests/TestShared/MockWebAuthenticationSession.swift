@@ -11,10 +11,10 @@ class MockWebAuthenticationSession: WebAuthenticationSession {
     override func start(
         url: URL,
         context: ASWebAuthenticationPresentationContextProviding,
-        sessionDidDisplay: ((Bool) -> Void)? = nil,
+        sessionDidDisplay: @escaping (Bool) -> Void,
         sessionDidComplete: @escaping (URL?, Error?) -> Void
     ) {
-        sessionDidDisplay?(cannedDidDisplayResult)
+        sessionDidDisplay(cannedDidDisplayResult)
         sessionDidComplete(cannedResponseURL, cannedErrorResponse)
     }
 }

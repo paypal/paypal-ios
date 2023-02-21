@@ -39,7 +39,6 @@ class PayPalClient_Tests: XCTestCase {
     }
 
     // todo: check for approval result instead of cancel
-    // JIRA ticket DTNOR-259
     func testStart_whenNativeSDKOnApproveCalled_returnsPayPalResult() async {
 
         let mockPayPalDelegate = MockPayPalDelegate()
@@ -67,7 +66,6 @@ class PayPalClient_Tests: XCTestCase {
     }
 
     // todo: check for error case instead of cancel
-    // JIRA ticket DTNOR-259
     func testStart_whenNativeSDKOnErrorCalled_returnsCheckoutError() async {
 
         let mockPayPalDelegate = MockPayPalDelegate()
@@ -76,27 +74,4 @@ class PayPalClient_Tests: XCTestCase {
         mockNativeCheckoutProvider.triggerCancel()
         XCTAssert(mockPayPalDelegate.paypalDidCancel)
     }
-    
-    // MARK: - Analytics
-    
-    func testAnalyticsEvent_whenClientStarted_isSent() async {
-        await payPalClient.start { _ in }
-        XCTAssertEqual(apiClient.postedAnalyticsEvents.first, "paypal-native-payments:started")
-    }
-    
-    func testAnalyticsEvent_whenNXOCanceled_isSent() async {
-        await payPalClient.start { _ in }
-        
-        mockNativeCheckoutProvider.triggerCancel()
-        XCTAssertEqual(apiClient.postedAnalyticsEvents[1], "paypal-native-payments:canceled")
-    }
-    
-    // TODO: - The following tests are blocked by inability to mock PayPalCheckout final classes.
-    // JIRA ticket DTNOR-259
-    
-    func pendAnalyticsEvent_whenNXOError_isSent() async { }
-    
-    func pendAnalyticsEvent_whenNXOSucceeded_isSent() { }
-    
-    func pendAnalyticsEvent_whenNXOShippingAddressChanged_isSent() { }
 }

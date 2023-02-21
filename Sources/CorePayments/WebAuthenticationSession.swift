@@ -6,7 +6,7 @@ public class WebAuthenticationSession: NSObject {
     public func start(
         url: URL,
         context: ASWebAuthenticationPresentationContextProviding,
-        sessionDidDisplay: ((Bool) -> Void)? = nil,
+        sessionDidDisplay: @escaping (Bool) -> Void,
         sessionDidComplete: @escaping (URL?, Error?) -> Void
     ) {
         let authenticationSession = ASWebAuthenticationSession(
@@ -19,12 +19,7 @@ public class WebAuthenticationSession: NSObject {
         authenticationSession.presentationContextProvider = context
 
         DispatchQueue.main.async {
-            // TODO: - Make sessionDidDisplay non-optional after implementing analytics for PayPalWebCheckout
-            if let sessionDidDisplay {
-                sessionDidDisplay(authenticationSession.start())
-            } else {
-                authenticationSession.start()
-            }
+            sessionDidDisplay(authenticationSession.start())
         }
     }
 }
