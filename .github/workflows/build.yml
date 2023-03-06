@@ -6,22 +6,22 @@ concurrency:
 jobs:
   cocoapods:
     name: CocoaPods
-    runs-on: macos-12
+    runs-on: macos-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
       - name: Use Xcode 14
-        run: sudo xcode-select -switch /Applications/Xcode_14.0.1.app
+        run: sudo xcode-select -switch /Applications/Xcode_14.2.app
       - name: Run pod lib lint
         run: pod lib lint
   spm:
     name: Swift Package Manager
-    runs-on: macos-12
+    runs-on: macos-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
       - name: Use Xcode 14
-        run: sudo xcode-select -switch /Applications/Xcode_14.0.1.app
+        run: sudo xcode-select -switch /Applications/Xcode_14.2.app
       - name: Use current branch
         run: sed -i '' 's/branch = .*/branch = \"'"$GITHUB_HEAD_REF"'\";/' SampleApps/SPMTest/SPMTest.xcodeproj/project.pbxproj
       - name: Run swift package resolve
