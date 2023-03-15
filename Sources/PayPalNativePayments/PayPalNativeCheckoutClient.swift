@@ -77,10 +77,10 @@ public class PayPalNativeCheckoutClient {
         delegate?.paypal(self, didFinishWithResult: approval)
     }
 
-    private func notifyFailure(with errorInfo: PayPalCheckoutErrorInfo) {
+    private func notifyFailure(with errorInfo: PayPalCheckout.ErrorInfo) {
         apiClient.sendAnalyticsEvent("paypal-native-payments:failed")
         
-        let error = PayPalError.nativeCheckoutSDKError(errorInfo)
+        let error = PayPalNativePaymentsError.nativeCheckoutSDKError(errorInfo.reason)
         delegate?.paypal(self, didFinishWithError: error)
     }
 
