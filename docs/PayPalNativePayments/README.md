@@ -106,7 +106,7 @@ Implement `PayPalNativeCheckoutDelegate` to listen for result notifications from
 ```swift
 extension MyViewModel: PayPalNativeCheckoutDelegate {
 
-    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithResult approvalResult: Approval) {
+    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithResult result: PayPalNativeCheckoutResult) {
         // order was successfully approved and is ready to be captured/authorized (see step 5)
     }
 

@@ -10,8 +10,8 @@ public protocol PayPalNativeCheckoutDelegate: AnyObject {
     /// Notify that the PayPal flow finished with a successful result
     /// - Parameters:
     ///   - didFinishWithResult: the successful result from the flow
-    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithResult approvalResult: PayPalCheckout.Approval)
-
+    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithResult result: PayPalNativeCheckoutResult)
+    
     /// Notify that an error occurred in the PayPal flow
     /// - Parameters:
     ///   - didFinishWithError: the error returned by the PayPal flow
