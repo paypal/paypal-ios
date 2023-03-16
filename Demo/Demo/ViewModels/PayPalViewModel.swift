@@ -77,7 +77,7 @@ class PayPalViewModel: ObservableObject {
 
 
     private func patchAmountAndShippingOptions(
-        shippingMethods: [ShippingMethod],
+        shippingMethods: [PayPalCheckout.ShippingMethod],
         action: ShippingChangeAction
     ) {
         let selectedMethod = shippingMethods.first { $0.selected }
@@ -116,7 +116,18 @@ extension PayPalViewModel: PayPalNativeCheckoutDelegate {
     func paypalWillStart(_ payPalClient: PayPalNativeCheckoutClient) {
         publishStateToMainThread(.mainContent(title: "Starting", content: "PayPal is about to start", flowComplete: true))
     }
-
+    
+    // Non-ambiguous name for ShippingAddress?
+    func onShippingAddressChanged(_ payPalClient: PayPalNativeCheckoutClient, shippingAddress: PayPalNativePayments.ShippingAddress) {
+        // TODO
+        print(shippingAddress)
+    }
+    
+    func onShippingMethodChanged(_ payPalClient: PayPalNativePayments.PayPalNativeCheckoutClient, shippingMethod: PayPalNativePayments.ShippingMethod) {
+        // TODO
+        print(shippingMethod)
+    }
+    
     func paypalDidShippingAddressChange(
         _ payPalClient: PayPalNativeCheckoutClient,
         shippingChange: ShippingChange,
