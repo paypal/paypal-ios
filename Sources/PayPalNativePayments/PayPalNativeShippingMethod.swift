@@ -1,15 +1,4 @@
-public struct ShippingMethod {
-    
-    public let selectedShippingMethod: ShippingUnit
-    public let secondaryShippingMethods: [ShippingUnit]?
-    
-    public init(selectedShippingMethod: ShippingUnit, secondaryShippingMethods: [ShippingUnit]?) {
-        self.selectedShippingMethod = selectedShippingMethod
-        self.secondaryShippingMethods = secondaryShippingMethods
-    }
-}
-
-public struct ShippingUnit {
+public struct PayPalNativeShippingMethod {
     
     /// A unique ID that identifies a payer-selected shipping option.
     public let id: String

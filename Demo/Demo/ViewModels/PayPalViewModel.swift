@@ -118,14 +118,14 @@ extension PayPalViewModel: PayPalNativeCheckoutDelegate {
     }
     
     // Non-ambiguous name for ShippingAddress?
-    func onShippingAddressChanged(_ payPalClient: PayPalNativeCheckoutClient, shippingAddress: PayPalNativePayments.ShippingAddress) {
+    func onShippingAddressChanged(_ payPalClient: PayPalNativeCheckoutClient, shippingAddress: PayPalNativeShippingAddress) {
         // TODO
         print(shippingAddress)
     }
     
-    func onShippingMethodChanged(_ payPalClient: PayPalNativePayments.PayPalNativeCheckoutClient, shippingMethod: PayPalNativePayments.ShippingMethod) {
+    func onShippingMethodChanged(_ payPalClient: PayPalNativeCheckoutClient, shippingMethods: [PayPalNativeShippingMethod]) {
         // TODO
-        print(shippingMethod)
+        print(shippingMethods)
     }
     
     func paypalDidShippingAddressChange(

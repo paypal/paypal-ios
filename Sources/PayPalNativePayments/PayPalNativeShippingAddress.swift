@@ -1,5 +1,5 @@
 // TODO: - Copied from NXO ShippingChangeAddress
-public struct ShippingAddress {
+public struct PayPalNativeShippingAddress {
     
     /// The ID of the shipping address
     public internal(set) var addressID: String?

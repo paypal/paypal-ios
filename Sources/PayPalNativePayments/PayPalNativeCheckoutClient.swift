@@ -76,7 +76,7 @@ public class PayPalNativeCheckoutClient {
                     switch shippingChange.type {
                     case .shippingAddress:
                         // Transform shippingChange --> shippingAddress
-                        let shippingAddress = ShippingAddress(
+                        let shippingAddress = PayPalNativeShippingAddress(
                             addressID: shippingChange.selectedShippingAddress.addressID,
                             fullName: shippingChange.selectedShippingAddress.fullName,
                             adminArea1: shippingChange.selectedShippingAddress.adminArea1,
@@ -91,7 +91,7 @@ public class PayPalNativeCheckoutClient {
                     case .shippingMethod:
                         // Transform shippingChange --> shippingMethod
                         let nxoShippingList = shippingChange.shippingMethods.map { method in
-                            PayPalNativePayments.ShippingUnit(
+                            PayPalNativePayments.PayPalNativeShippingMethod(
                                 id: method.id,
                                 label: method.label,
                                 selected: method.selected,
@@ -101,8 +101,7 @@ public class PayPalNativeCheckoutClient {
                             )
                         }
                                                 
-                        let shippingMethod = ShippingMethod(selectedShippingMethod: nxoShippingList.first!, secondaryShippingMethods: [])
-                        self.delegate?.onShippingMethodChanged(self, shippingMethod: shippingMethod)
+                        self.delegate?.onShippingMethodChanged(self, shippingMethods: nxoShippingList)
                     @unknown default:
                         // do nothing
                         print("")
@@ -147,11 +146,11 @@ public class PayPalNativeCheckoutClient {
         delegate?.paypalDidCancel(self)
     }
     
-    private func notifyShippingMethod(shippingMethod: ShippingMethod) {
-        delegate?.onShippingMethodChanged(self, shippingMethod: shippingMethod)
+    private func notifyShippingMethod(shippingMethods: [PayPalNativeShippingMethod]) {
+        delegate?.onShippingMethodChanged(self, shippingMethods: shippingMethods)
     }
     
-    private func notifyShippingChange2(shippingAddress: ShippingAddress) {
+    private func notifyShippingChange2(shippingAddress: PayPalNativeShippingAddress) {
         apiClient.sendAnalyticsEvent("paypal-native-payments:shipping-address-changed")
         delegate?.onShippingAddressChanged(self, shippingAddress: shippingAddress)
     }
