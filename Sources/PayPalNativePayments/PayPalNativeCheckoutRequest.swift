@@ -11,6 +11,4 @@ public struct PayPalNativeCheckoutRequest {
     public init(orderID: String) {
         self.orderID = orderID
     }
-    
-    // TODO: - do we want to add billing agreement token or vault approval session ID? These are available to set on NXO
 }
