@@ -65,8 +65,9 @@ public class PayPalNativeCheckoutClient {
                     )
                     self.notifySuccess(for: result)
                 },
-                onShippingChange: { shippingChange, _ in
-                    // TODO: - Store shippingChangeAction to expose `patch` order capabilities in follow-up PR
+                onShippingChange: { shippingChange, shippingChangeAction in
+                    shippingChangeAction.approve()
+                    
                     switch shippingChange.type {
                     case .shippingAddress:
                         let shippingAddress = PayPalNativeShippingAddress(shippingChange.selectedShippingAddress)
@@ -113,11 +114,11 @@ public class PayPalNativeCheckoutClient {
     
     private func notifyShippingMethod(shippingMethod: PayPalNativeShippingMethod) {
         apiClient.sendAnalyticsEvent("paypal-native-payments:shipping-method-changed")
-        delegate?.onShippingMethodChanged(self, shippingMethod: shippingMethod)
+        shippingDelegate?.paypal(self, didShippingMethodChange: shippingMethod)
     }
     
     private func notifyShippingChange(shippingAddress: PayPalNativeShippingAddress) {
         apiClient.sendAnalyticsEvent("paypal-native-payments:shipping-address-changed")
-        delegate?.onShippingAddressChanged(self, shippingAddress: shippingAddress)
+        shippingDelegate?.paypal(self, didShippingAddressChange: shippingAddress)
     }
 }

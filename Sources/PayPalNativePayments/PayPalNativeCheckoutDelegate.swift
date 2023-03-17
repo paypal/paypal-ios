@@ -26,17 +26,6 @@ public protocol PayPalNativeCheckoutDelegate: AnyObject {
     /// - Parameters:
     ///   - client: the PayPalClient associated with delegate
     func paypalWillStart(_ payPalClient: PayPalNativeCheckoutClient)
-
-    /// Notify when a shipping method and/or address has changed
-    /// - Parameters:
-    ///   - client: the PayPalClient associated with delegate
-    ///   - shippingChange: what change was produced in shipping
-    ///   - shippingChangeAction: actions to perform for the change in shipping
-    func paypalDidShippingAddressChange(
-        _ payPalClient: PayPalNativeCheckoutClient,
-        shippingChange: ShippingChange,
-        shippingChangeAction: ShippingChangeAction
-    )
 }
 
 /// An optional delegate to receive notifcations if the user changes their shipping information.
@@ -46,11 +35,11 @@ public protocol PayPalNativeShippingDelegate: AnyObject {
     /// - Parameters:
     ///   - payPalClient: the PayPalClient associated with delegate
     ///   - shippingAddress: the user's most recently selected shipping address
-    func onShippingAddressChanged(_ payPalClient: PayPalNativeCheckoutClient, shippingAddress: PayPalNativeShippingAddress)
+    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didShippingAddressChange shippingAddress: PayPalNativeShippingAddress)
     
     /// Notify when the users selected shipping method changes
     /// - Parameters:
     ///   - payPalClient: the PayPalClient associated with delegate
     ///   - shippingMethod: the user's most recently selected shipping method
-    func onShippingMethodChanged(_ payPalClient: PayPalNativeCheckoutClient, shippingMethod: PayPalNativeShippingMethod)
+    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didShippingMethodChange: PayPalNativeShippingMethod)
 }
