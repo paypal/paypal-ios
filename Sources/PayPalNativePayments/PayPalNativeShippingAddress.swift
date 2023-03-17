@@ -1,3 +1,5 @@
+import PayPalCheckout
+
 // TODO: - Copied from NXO ShippingChangeAddress
 public struct PayPalNativeShippingAddress {
     
@@ -36,22 +38,14 @@ public struct PayPalNativeShippingAddress {
     /// For more information, refer to: https://developer.paypal.com/api/rest/reference/country-codes/
     public internal(set) var countryCode: String?
     
-    init(addressID: String? = nil,
-         fullName: String? = nil,
-         adminArea1: String? = nil,
-         adminArea2: String? = nil,
-         adminArea3: String? = nil,
-         adminArea4: String? = nil,
-         postalCode: String? = nil,
-         countryCode: String? = nil
-    ) {
-        self.addressID = addressID
-        self.fullName = fullName
-        self.adminArea1 = adminArea1
-        self.adminArea2 = adminArea2
-        self.adminArea3 = adminArea3
-        self.adminArea4 = adminArea4
-        self.postalCode = postalCode
-        self.countryCode = countryCode
+    init(_ shippingChangeAddress: PayPalCheckout.ShippingChangeAddress) {
+        self.addressID = shippingChangeAddress.addressID
+        self.fullName = shippingChangeAddress.fullName
+        self.adminArea1 = shippingChangeAddress.adminArea1
+        self.adminArea2 = shippingChangeAddress.adminArea2
+        self.adminArea3 = shippingChangeAddress.adminArea3
+        self.adminArea4 = shippingChangeAddress.adminArea4
+        self.postalCode = shippingChangeAddress.postalCode
+        self.countryCode = shippingChangeAddress.countryCode
     }
 }

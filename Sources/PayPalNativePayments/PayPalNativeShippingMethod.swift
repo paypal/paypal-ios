@@ -1,4 +1,18 @@
+import PayPalCheckout
+
 public struct PayPalNativeShippingMethod {
+    
+    public enum DeliveryType: Int, CaseIterable, Codable {
+            
+        /// The payer intends to receive the items at a specified address.
+        case shipping
+        
+        /// The payer intends to pick up the items at a specified address. For example, a store address.
+        case pickup
+        
+        /// todo
+        case none
+    }
     
     /// A unique ID that identifies a payer-selected shipping option.
     public let id: String
@@ -15,7 +29,7 @@ public struct PayPalNativeShippingMethod {
     public internal(set) var selected: Bool
 
     /// The method by which the payer wants to get their items.
-    public let type: ShippingType
+    public let type: DeliveryType
     
     /// The shipping cost for the selected option, which might be:
     /// An integer for currencies like JPY that are not typically fractional.
@@ -31,21 +45,28 @@ public struct PayPalNativeShippingMethod {
     /// Currency code in text format (example: "USD")
     public let currencyCodeString: String?
     
-    public init(id: String, label: String, selected: Bool, type: ShippingType, value: String?, currencyCodeString: String?) {
-        self.id = id
-        self.label = label
-        self.selected = selected
-        self.type = type
-        self.value = value
-        self.currencyCodeString = currencyCodeString
+    init(_ shippingMethod: PayPalCheckout.ShippingMethod) {
+        self.id = shippingMethod.id
+        self.label = shippingMethod.label
+        self.selected = shippingMethod.selected
+        self.type = shippingMethod.type.toMerchantFacingShippingType()
+        self.value = shippingMethod.amount?.value
+        self.currencyCodeString = shippingMethod.amount?.currencyCodeString
     }
 }
 
-public enum ShippingType: Int, CaseIterable, Codable {
-        
-    /// The payer intends to receive the items at a specified address.
-    case shipping
+extension PayPalCheckout.ShippingType {
     
-    /// The payer intends to pick up the items at a specified address. For example, a store address.
-    case pickup
+    func toMerchantFacingShippingType() -> PayPalNativeShippingMethod.DeliveryType {
+        switch self {
+        case .shipping:
+            return PayPalNativeShippingMethod.DeliveryType.shipping
+        case .pickup:
+            return PayPalNativeShippingMethod.DeliveryType.pickup
+        case .none:
+            return PayPalNativeShippingMethod.DeliveryType.none
+        @unknown default:
+            return PayPalNativeShippingMethod.DeliveryType.none
+        }
+    }
 }

@@ -123,9 +123,11 @@ extension PayPalViewModel: PayPalNativeCheckoutDelegate {
         print(shippingAddress)
     }
     
-    func onShippingMethodChanged(_ payPalClient: PayPalNativeCheckoutClient, shippingMethods: [PayPalNativeShippingMethod]) {
+    // first is user's selected
+    func onShippingMethodChanged(_ payPalClient: PayPalNativeCheckoutClient, shippingMethod: PayPalNativeShippingMethod) {
         // TODO
-        print(shippingMethods)
+        print(shippingMethod)
+//        self.payPalClient?.replaceAmount()
     }
     
     func paypalDidShippingAddressChange(

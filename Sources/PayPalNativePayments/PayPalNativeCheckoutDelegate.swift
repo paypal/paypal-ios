@@ -46,5 +46,5 @@ public protocol PayPalNativeCheckoutDelegate: AnyObject {
     
     func onShippingAddressChanged(_ payPalClient: PayPalNativeCheckoutClient, shippingAddress: PayPalNativeShippingAddress)
     
-    func onShippingMethodChanged(_ payPalClient: PayPalNativeCheckoutClient, shippingMethods: [PayPalNativeShippingMethod])
+    func onShippingMethodChanged(_ payPalClient: PayPalNativeCheckoutClient, shippingMethod: PayPalNativeShippingMethod)
 }
