@@ -117,19 +117,6 @@ extension PayPalViewModel: PayPalNativeCheckoutDelegate {
         publishStateToMainThread(.mainContent(title: "Starting", content: "PayPal is about to start", flowComplete: true))
     }
     
-    // Non-ambiguous name for ShippingAddress?
-    func onShippingAddressChanged(_ payPalClient: PayPalNativeCheckoutClient, shippingAddress: PayPalNativeShippingAddress) {
-        // TODO
-        print(shippingAddress)
-    }
-    
-    // first is user's selected
-    func onShippingMethodChanged(_ payPalClient: PayPalNativeCheckoutClient, shippingMethod: PayPalNativeShippingMethod) {
-        // TODO
-        print(shippingMethod)
-//        self.payPalClient?.replaceAmount()
-    }
-    
     func paypalDidShippingAddressChange(
         _ payPalClient: PayPalNativeCheckoutClient,
         shippingChange: ShippingChange,
@@ -156,4 +143,8 @@ extension PayPalViewModel: PayPalNativeCheckoutDelegate {
             break
         }
     }
+}
+
+extension PayPalNativeShippingDelegate {
+    // TODO
 }

@@ -4,7 +4,7 @@ import CorePayments
 #endif
 import PayPalCheckout
 
-/// PayPal delegate to handle events from PayPalClient
+/// A required delegate to handle events from `PayPalNativeCheckoutClient.start()`
 public protocol PayPalNativeCheckoutDelegate: AnyObject {
 
     /// Notify that the PayPal flow finished with a successful result
@@ -37,14 +37,20 @@ public protocol PayPalNativeCheckoutDelegate: AnyObject {
         shippingChange: ShippingChange,
         shippingChangeAction: ShippingChangeAction
     )
+}
+
+/// An optional delegate to receive notifcations if the user changes their shipping information.
+public protocol PayPalNativeShippingDelegate: AnyObject {
     
-//    func paypalDidShippingInfoChange(
-//        _ payPalClient: PayPalNativeCheckoutClient,
-//        address: Address?,
-//        shippingMethod: ShippingMethod?,
-//    )
-    
+    ///  Notify when the users selected shipping address changes
+    /// - Parameters:
+    ///   - payPalClient: the PayPalClient associated with delegate
+    ///   - shippingAddress: the user's most recently selected shipping address
     func onShippingAddressChanged(_ payPalClient: PayPalNativeCheckoutClient, shippingAddress: PayPalNativeShippingAddress)
     
+    /// Notify when the users selected shipping method changes
+    /// - Parameters:
+    ///   - payPalClient: the PayPalClient associated with delegate
+    ///   - shippingMethod: the user's most recently selected shipping method
     func onShippingMethodChanged(_ payPalClient: PayPalNativeCheckoutClient, shippingMethod: PayPalNativeShippingMethod)
 }

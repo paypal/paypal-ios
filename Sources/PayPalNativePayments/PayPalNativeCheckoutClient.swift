@@ -9,6 +9,7 @@ import CorePayments
 public class PayPalNativeCheckoutClient {
 
     public weak var delegate: PayPalNativeCheckoutDelegate?
+    public weak var shippingDelegate: PayPalNativeShippingDelegate?
     private let nativeCheckoutProvider: NativeCheckoutStartable
     private let apiClient: APIClient
     private let config: CoreConfig
