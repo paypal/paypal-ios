@@ -1,6 +1,7 @@
 import PayPalCheckout
 
-// TODO: - Copied from NXO ShippingChangeAddress
+// Wrapper for PayPalCheckout.ShippingChangeAddress
+/// The user's selected shipping address via the PayPal Native Checkout UI.
 public struct PayPalNativeShippingAddress {
     
     /// The ID of the shipping address

@@ -1,7 +1,14 @@
 import PayPalCheckout
 
+// Wrapper for PayPalCheckout.ShippingMethod
+/// Shipping method details for an order via the PayPal Native Checkout UI.
+///
+/// If you want to show shipping options in the PayPal Native Paysheet,
+/// provide `purchase_units[].shipping.options` when creating an orderID with
+/// the [`orders/v2` API](https://developer.paypal.com/docs/api/orders/v2/#definition-purchase_unit) on your server. Otherwise, our Paysheet won't display any shipping options.
 public struct PayPalNativeShippingMethod {
     
+    /// The method by which the payer wants to get their items.
     public enum DeliveryType: Int, CaseIterable, Codable {
             
         /// The payer intends to receive the items at a specified address.
@@ -10,7 +17,7 @@ public struct PayPalNativeShippingMethod {
         /// The payer intends to pick up the items at a specified address. For example, a store address.
         case pickup
         
-        /// todo
+        /// No delivery type specified.
         case none
     }
     
