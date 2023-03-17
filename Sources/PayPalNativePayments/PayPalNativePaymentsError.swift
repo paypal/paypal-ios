@@ -2,7 +2,7 @@
 import CorePayments
 #endif
 
-enum PayPalError {
+enum PayPalNativePaymentsError {
 
     static let domain = "PayPalErrorDomain"
 
@@ -14,11 +14,11 @@ enum PayPalError {
         case nativeCheckoutSDKError
     }
 
-    static let nativeCheckoutSDKError: (PayPalCheckoutErrorInfo) -> CoreSDKError = { errorInfo in
+    static let nativeCheckoutSDKError: (String) -> CoreSDKError = { description in
         CoreSDKError(
             code: Code.nativeCheckoutSDKError.rawValue,
             domain: domain,
-            errorDescription: errorInfo.reason
+            errorDescription: description
         )
     }
 }
