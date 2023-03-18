@@ -574,12 +574,12 @@
 				53A2A4E128A182AC0093441C /* NativeCheckoutProvider.swift */,
 				3D25238127344F330099E4EB /* NativeCheckoutStartable.swift */,
 				BE7116152723227200165069 /* PayPalNativeCheckoutClient.swift */,
-				80DBC9DD29C3B57200462539 /* PayPalNativeShippingAddress.swift */,
-				80DBC9DF29C3B8A800462539 /* PayPalNativeShippingMethod.swift */,
-				BE71161B27234B8A00165069 /* PayPalNativePaymentsError.swift */,
 				BC900B7C27AC307A00D48DBA /* PayPalNativeCheckoutDelegate.swift */,
 				80DBC9DB29C350A900462539 /* PayPalNativeCheckoutRequest.swift */,
 				80DBC9D929C340D900462539 /* PayPalNativeCheckoutResult.swift */,
+				BE71161B27234B8A00165069 /* PayPalNativePaymentsError.swift */,
+				80DBC9DD29C3B57200462539 /* PayPalNativeShippingAddress.swift */,
+				80DBC9DF29C3B8A800462539 /* PayPalNativeShippingMethod.swift */,
 			);
 			name = PayPalNativePayments;
 			path = Sources/PayPalNativePayments;
