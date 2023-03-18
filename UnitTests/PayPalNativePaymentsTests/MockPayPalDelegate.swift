@@ -4,7 +4,6 @@ import PayPalCheckout
 
 class MockPayPalDelegate: PayPalNativeCheckoutDelegate {
 
-    var shippingChange: ShippingChange?
     var capturedResult: PayPalNativeCheckoutResult?
     var capturedError: CoreSDKError?
     var paypalDidCancel = false
@@ -12,14 +11,6 @@ class MockPayPalDelegate: PayPalNativeCheckoutDelegate {
 
     func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithResult result: PayPalNativeCheckoutResult) {
         capturedResult = result
-    }
-
-    func paypalDidShippingAddressChange(
-        _ payPalClient: PayPalNativeCheckoutClient,
-        shippingChange: ShippingChange,
-        shippingChangeAction: ShippingChangeAction
-    ) {
-        self.shippingChange = shippingChange
     }
 
     func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithError error: CoreSDKError) {
