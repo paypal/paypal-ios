@@ -93,7 +93,7 @@ The `id` field of the response contains the order ID to pass to your client.
 
 ### 4. Approve the order using the Payments SDK
 
-To start the PayPal Native checkout flow, call the `start` function on`PayPalNativeCheckoutClient`, with a `PayPalNativeCheckoutRequest` using your order ID from [step 3](#3-create-an-order): 
+To start the PayPal Native checkout flow, call the `start` function on `PayPalNativeCheckoutClient`, with a `PayPalNativeCheckoutRequest` using your order ID from [step 3](#3-create-an-order): 
 
 ```swift
 let request = PayPalNativeCheckoutRequest(orderID: "<ORDER_ID>")
