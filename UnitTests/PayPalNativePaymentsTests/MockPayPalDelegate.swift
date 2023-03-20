@@ -5,13 +5,13 @@ import PayPalCheckout
 class MockPayPalDelegate: PayPalNativeCheckoutDelegate {
 
     var shippingChange: ShippingChange?
-    var capturedResult: Approval?
+    var capturedResult: PayPalNativeCheckoutResult?
     var capturedError: CoreSDKError?
     var paypalDidCancel = false
     var paypalDidStart = false
 
-    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithResult approvalResult: Approval) {
-        capturedResult = approvalResult
+    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithResult result: PayPalNativeCheckoutResult) {
+        capturedResult = result
     }
 
     func paypalDidShippingAddressChange(

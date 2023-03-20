@@ -55,26 +55,32 @@ public class PayPalNativeCheckoutClient {
             self.nativeCheckoutProvider.start(
                 presentingViewController: presentingViewController,
                 createOrder: createOrder,
-                onApprove: { approval in self.notifySuccess(for: approval) },
-            onShippingChange: { shippingChange, shippingChangeAction in
-                self.notifyShippingChange(shippingChange: shippingChange, shippingChangeAction: shippingChangeAction)
-            },
-            onCancel: {
-                self.notifyCancellation()
-            },
-            onError: { error in
-                self.notifyFailure(with: error)
-            },
-            nxoConfig: nxoConfig
+                onApprove: { approval in
+                    let result = PayPalNativeCheckoutResult(
+                        orderID: approval.data.ecToken,
+                        payerID: approval.data.payerID
+                    )
+                    self.notifySuccess(for: result)
+                },
+                onShippingChange: { shippingChange, shippingChangeAction in
+                    self.notifyShippingChange(shippingChange: shippingChange, shippingChangeAction: shippingChangeAction)
+                },
+                onCancel: {
+                    self.notifyCancellation()
+                },
+                onError: { error in
+                    self.notifyFailure(with: error)
+                },
+                nxoConfig: nxoConfig
             )
         } catch {
             delegate?.paypal(self, didFinishWithError: CorePaymentsError.clientIDNotFoundError)
         }
     }
 
-    private func notifySuccess(for approval: PayPalCheckout.Approval) {
+    private func notifySuccess(for result: PayPalNativeCheckoutResult) {
         apiClient.sendAnalyticsEvent("paypal-native-payments:succeeded")
-        delegate?.paypal(self, didFinishWithResult: approval)
+        delegate?.paypal(self, didFinishWithResult: result)
     }
 
     private func notifyFailure(with errorInfo: PayPalCheckout.ErrorInfo) {

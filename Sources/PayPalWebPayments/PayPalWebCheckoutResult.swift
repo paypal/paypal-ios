@@ -1,6 +1,6 @@
 import Foundation
 
-/// The result of a PayPal payment flow.
+/// The result of a PayPal web payment flow.
 public struct PayPalWebCheckoutResult {
 
     /// The order ID associated with the transaction.
