@@ -1,7 +1,7 @@
 import PayPalCheckout
 
 // Wrapper for PayPalCheckout.ShippingMethod
-/// Shipping method details for an order via the PayPal Native Checkout UI.
+/// The user's selected shipping method via the PayPal Native Checkout UI.
 ///
 /// If you want to show shipping options in the PayPal Native Paysheet,
 /// provide `purchase_units[].shipping.options` when creating an orderID with
