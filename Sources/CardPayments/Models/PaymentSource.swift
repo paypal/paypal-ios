@@ -25,3 +25,14 @@ public struct PaymentSource: Decodable {
         public let authenticationResult: AuthenticationResult?
     }
 }
+
+public struct AuthenticationResult: Decodable {
+
+    public let liabilityShift: String?
+    public let threeDSecure: ThreeDSecure?
+}
+
+public struct ThreeDSecure: Decodable {
+
+    public let enrollmentStatus, authenticationStatus: String?
+}

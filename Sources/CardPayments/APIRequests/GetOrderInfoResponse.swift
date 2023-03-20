@@ -10,3 +10,14 @@ struct GetOrderInfoResponse: Decodable {
     let paymentSource: PaymentSource?
     let links: [Link]?
 }
+
+struct PurchaseUnit: Codable {
+
+    let amount: Amount
+}
+
+struct Amount: Codable {
+
+    let currencyCode: String
+    let value: String
+}

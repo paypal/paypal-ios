@@ -6,6 +6,7 @@
   * Update `PayPalNativeCheckoutDelegate.paypal(_:didFinishWithResult:)` to use `PayPalNativeCheckoutResult` instead of `PayPalCheckout.Approval` type.
   * Update `PayPalNativeCheckoutClient.start(presentingViewController:createOrder)` to `PayPalNativeCheckoutClient.start(request:presentingViewController:)`
     * Require `PayPalNativeCheckoutRequest` param instead of `PayPalCheckout.CheckoutConfig.CreateOrderCallback`
+  * Update `PayPalNativeCheckoutDelegate.paypal(_:didFinishWithResult:)` to use `PayPalNativeCheckoutResult` instead of `PayPalCheckout.Approval` type.
 
 ## 0.0.6 (2023-02-21)
 * Fix CocoaPods build error for Xcode 13
