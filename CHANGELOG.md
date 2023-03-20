@@ -6,6 +6,10 @@
   * Update `PayPalNativeCheckoutDelegate.paypal(_:didFinishWithResult:)` to use `PayPalNativeCheckoutResult` instead of `PayPalCheckout.Approval` type.
   * Update `PayPalNativeCheckoutClient.start(presentingViewController:createOrder)` to `PayPalNativeCheckoutClient.start(request:presentingViewController:)`
     * Require `PayPalNativeCheckoutRequest` param instead of `PayPalCheckout.CheckoutConfig.CreateOrderCallback`
+  * Add `PayPalNativeShippingDelegate` as optional delegate on `PayPalNativeCheckoutClient`
+    * Add `PayPalNativeShippingDelegate.didShippingAddressChange()`
+    * Add `PayPalNativeShippingDelegate.didShippingMethodChange()`
+    * Remove `PayPalNativeCheckoutDelegate.paypalDidShippingAddressChange()`
   * Update `PayPalNativeCheckoutDelegate.paypal(_:didFinishWithResult:)` to use `PayPalNativeCheckoutResult` instead of `PayPalCheckout.Approval` type.
 
 ## 0.0.6 (2023-02-21)

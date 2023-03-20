@@ -9,10 +9,11 @@ import CorePayments
 public class PayPalNativeCheckoutClient {
 
     public weak var delegate: PayPalNativeCheckoutDelegate?
+    public weak var shippingDelegate: PayPalNativeShippingDelegate?
     private let nativeCheckoutProvider: NativeCheckoutStartable
     private let apiClient: APIClient
     private let config: CoreConfig
-
+        
     /// Initialize a PayPalNativeCheckoutClient to process PayPal transaction
     /// - Parameters:
     ///   - config: The CoreConfig object
@@ -65,7 +66,21 @@ public class PayPalNativeCheckoutClient {
                     self.notifySuccess(for: result)
                 },
                 onShippingChange: { shippingChange, shippingChangeAction in
-                    self.notifyShippingChange(shippingChange: shippingChange, shippingChangeAction: shippingChangeAction)
+                    shippingChangeAction.approve()
+                    
+                    switch shippingChange.type {
+                    case .shippingAddress:
+                        let shippingAddress = PayPalNativeShippingAddress(shippingChange.selectedShippingAddress)
+                        self.notifyShippingChange(shippingAddress: shippingAddress)
+                        
+                    case .shippingMethod:
+                        if let selectedShippingMethod = shippingChange.selectedShippingMethod {
+                            let shippingMethod = PayPalNativeShippingMethod(selectedShippingMethod)
+                            self.notifyShippingMethod(shippingMethod: shippingMethod)
+                        }
+                    @unknown default:
+                        break // do nothing
+                    }
                 },
                 onCancel: {
                     self.notifyCancellation()
@@ -79,7 +94,7 @@ public class PayPalNativeCheckoutClient {
             delegate?.paypal(self, didFinishWithError: CorePaymentsError.clientIDNotFoundError)
         }
     }
-
+    
     private func notifySuccess(for result: PayPalNativeCheckoutResult) {
         apiClient.sendAnalyticsEvent("paypal-native-payments:succeeded")
         delegate?.paypal(self, didFinishWithResult: result)
@@ -96,9 +111,14 @@ public class PayPalNativeCheckoutClient {
         apiClient.sendAnalyticsEvent("paypal-native-payments:canceled")
         delegate?.paypalDidCancel(self)
     }
-
-    private func notifyShippingChange(shippingChange: ShippingChange, shippingChangeAction: ShippingChangeAction) {
+    
+    private func notifyShippingMethod(shippingMethod: PayPalNativeShippingMethod) {
+        apiClient.sendAnalyticsEvent("paypal-native-payments:shipping-method-changed")
+        shippingDelegate?.paypal(self, didShippingMethodChange: shippingMethod)
+    }
+    
+    private func notifyShippingChange(shippingAddress: PayPalNativeShippingAddress) {
         apiClient.sendAnalyticsEvent("paypal-native-payments:shipping-address-changed")
-        delegate?.paypalDidShippingAddressChange(self, shippingChange: shippingChange, shippingChangeAction: shippingChangeAction)
+        shippingDelegate?.paypal(self, didShippingAddressChange: shippingAddress)
     }
 }
