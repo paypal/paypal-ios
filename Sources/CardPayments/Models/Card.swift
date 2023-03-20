@@ -62,3 +62,13 @@ public struct Card: Encodable {
         try container.encode(attributes, forKey: .attributes)
     }
 }
+
+struct Attributes: Codable {
+
+    let verification: Verification
+}
+
+struct Verification: Codable {
+
+    let method: String
+}

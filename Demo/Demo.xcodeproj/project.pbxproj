@@ -13,6 +13,8 @@
 		53B9E8EA28C93B4400719239 /* OrderRequestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B9E8E928C93B4400719239 /* OrderRequestHelpers.swift */; };
 		53DBDAA52885D83100E0ABA1 /* AccessTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DBDAA42885D83100E0ABA1 /* AccessTokenResponse.swift */; };
 		53DBDAA72885D86F00E0ABA1 /* AccessTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DBDAA62885D86F00E0ABA1 /* AccessTokenRequest.swift */; };
+		8052E2A529B684BA00B33FBC /* PPRiskMagnes.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8052E2A229B684A600B33FBC /* PPRiskMagnes.xcframework */; };
+		8052E2A629B684BA00B33FBC /* PPRiskMagnes.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8052E2A229B684A600B33FBC /* PPRiskMagnes.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		80561B3826FB5F0F0023138C /* CardDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80561B3726FB5F0F0023138C /* CardDemoViewController.swift */; };
 		80561B3A26FB5F1C0023138C /* PayPalWebCheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80561B3926FB5F1C0023138C /* PayPalWebCheckoutViewController.swift */; };
 		80561B3E26FB72D80023138C /* FeatureBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80561B3D26FB72D80023138C /* FeatureBaseViewController.swift */; };
@@ -86,6 +88,7 @@
 				CBDEEA232989990200A460A6 /* CorePayments.framework in Embed Frameworks */,
 				CB1AC3C12982C4030081AED6 /* PayPalWebPayments.framework in Embed Frameworks */,
 				CB1AC3BC2982BB130081AED6 /* PaymentButtons.framework in Embed Frameworks */,
+				8052E2A629B684BA00B33FBC /* PPRiskMagnes.xcframework in Embed Frameworks */,
 				CB1AC3C82982E32D0081AED6 /* FraudProtection.framework in Embed Frameworks */,
 				CB1AC3C52982DBA10081AED6 /* PayPalNativePayments.framework in Embed Frameworks */,
 				CB1AC3B92982AAD70081AED6 /* CardPayments.framework in Embed Frameworks */,
@@ -103,6 +106,7 @@
 		53B9E8E928C93B4400719239 /* OrderRequestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderRequestHelpers.swift; sourceTree = "<group>"; };
 		53DBDAA42885D83100E0ABA1 /* AccessTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenResponse.swift; sourceTree = "<group>"; };
 		53DBDAA62885D86F00E0ABA1 /* AccessTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRequest.swift; sourceTree = "<group>"; };
+		8052E2A229B684A600B33FBC /* PPRiskMagnes.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = PPRiskMagnes.xcframework; path = ../Frameworks/XCFrameworks/PPRiskMagnes.xcframework; sourceTree = "<group>"; };
 		80561B3726FB5F0F0023138C /* CardDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDemoViewController.swift; sourceTree = "<group>"; };
 		80561B3926FB5F1C0023138C /* PayPalWebCheckoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebCheckoutViewController.swift; sourceTree = "<group>"; };
 		80561B3D26FB72D80023138C /* FeatureBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureBaseViewController.swift; sourceTree = "<group>"; };
@@ -165,6 +169,7 @@
 				BE1766D726FA7AC3007EF438 /* InAppSettingsKit in Frameworks */,
 				CB1AC3BB2982BB130081AED6 /* PaymentButtons.framework in Frameworks */,
 				CBDEEA222989990200A460A6 /* CorePayments.framework in Frameworks */,
+				8052E2A529B684BA00B33FBC /* PPRiskMagnes.xcframework in Frameworks */,
 				80DACC282911ADC6009214C5 /* PayPalCheckout in Frameworks */,
 				CB1AC3C72982E32D0081AED6 /* FraudProtection.framework in Frameworks */,
 				CB1AC3C42982DBA10081AED6 /* PayPalNativePayments.framework in Frameworks */,
@@ -204,6 +209,7 @@
 		805AB84C26B87A87003BEE0D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8052E2A229B684A600B33FBC /* PPRiskMagnes.xcframework */,
 				CBDEEA212989990200A460A6 /* CorePayments.framework */,
 				CB1AC3C62982E32D0081AED6 /* FraudProtection.framework */,
 				CB1AC3C32982DBA10081AED6 /* PayPalNativePayments.framework */,
