@@ -18,6 +18,8 @@ class PayPalClient_Tests: XCTestCase {
         onError: nil,
         environment: .sandbox
     )
+    
+    let request = PayPalNativeCheckoutRequest(orderID: "fake-order-id")
 
     lazy var mockNativeCheckoutProvider = MockNativeCheckoutProvider(nxoConfig: nxoConfig)
     lazy var payPalClient = PayPalNativeCheckoutClient(
@@ -31,7 +33,7 @@ class PayPalClient_Tests: XCTestCase {
         
         let mockPayPalDelegate = MockPayPalDelegate()
         payPalClient.delegate = mockPayPalDelegate
-        await payPalClient.start { _ in }
+        await payPalClient.start(request: request)
         
         XCTAssertEqual(mockPayPalDelegate.capturedError?.code, 1)
         XCTAssertEqual(mockPayPalDelegate.capturedError?.domain, "CorePaymentsErrorDomain")
@@ -43,7 +45,7 @@ class PayPalClient_Tests: XCTestCase {
 
         let mockPayPalDelegate = MockPayPalDelegate()
         payPalClient.delegate = mockPayPalDelegate
-        await payPalClient.start { _ in }
+        await payPalClient.start(request: request)
         mockNativeCheckoutProvider.triggerCancel()
         XCTAssert(mockPayPalDelegate.paypalDidCancel)
     }
@@ -52,7 +54,7 @@ class PayPalClient_Tests: XCTestCase {
 
         let mockPayPalDelegate = MockPayPalDelegate()
         payPalClient.delegate = mockPayPalDelegate
-        await payPalClient.start { _ in }
+        await payPalClient.start(request: request)
         mockNativeCheckoutProvider.triggerCancel()
         XCTAssert(mockPayPalDelegate.paypalDidCancel)
     }
@@ -61,7 +63,7 @@ class PayPalClient_Tests: XCTestCase {
 
         let mockPayPalDelegate = MockPayPalDelegate()
         payPalClient.delegate = mockPayPalDelegate
-        await payPalClient.start { _ in }
+        await payPalClient.start(request: request)
         XCTAssert(mockPayPalDelegate.paypalDidStart)
     }
 
@@ -70,7 +72,7 @@ class PayPalClient_Tests: XCTestCase {
 
         let mockPayPalDelegate = MockPayPalDelegate()
         payPalClient.delegate = mockPayPalDelegate
-        await payPalClient.start { _ in }
+        await payPalClient.start(request: request)
         mockNativeCheckoutProvider.triggerCancel()
         XCTAssert(mockPayPalDelegate.paypalDidCancel)
     }

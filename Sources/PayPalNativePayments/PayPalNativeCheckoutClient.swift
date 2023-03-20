@@ -32,11 +32,11 @@ public class PayPalNativeCheckoutClient {
 
     /// Present PayPal Paysheet and start a PayPal transaction
     /// - Parameters:
+    ///   - request: The PayPalNativeCheckoutRequest for the transaction
     ///   - presentingViewController: the ViewController to present PayPalPaysheet on, if not provided, the Paysheet will be presented on your top-most ViewController
-    ///   - createOrder: action to perform when an order has been created
     public func start(
-        presentingViewController: UIViewController? = nil,
-        createOrder: @escaping PayPalCheckout.CheckoutConfig.CreateOrderCallback
+        request: PayPalNativeCheckoutRequest,
+        presentingViewController: UIViewController? = nil
     ) async {
         do {
             let clientID = try await apiClient.fetchCachedOrRemoteClientID()
@@ -54,7 +54,9 @@ public class PayPalNativeCheckoutClient {
             apiClient.sendAnalyticsEvent("paypal-native-payments:started")
             self.nativeCheckoutProvider.start(
                 presentingViewController: presentingViewController,
-                createOrder: createOrder,
+                createOrder: { orderRequestAction in
+                    orderRequestAction.set(orderId: request.orderID)
+                },
                 onApprove: { approval in
                     let result = PayPalNativeCheckoutResult(
                         orderID: approval.data.ecToken,
