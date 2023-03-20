@@ -34,6 +34,8 @@
 		804E62822937EBCE004B9FEF /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804E62812937EBCE004B9FEF /* HTTP.swift */; };
 		804E628629380B04004B9FEF /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804E628529380B04004B9FEF /* AnalyticsService.swift */; };
 		805AB85926B88882003BEE0D /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; platformFilter = ios; };
+		8071AFA529C8BD8C008A39E9 /* PayPalNativeShippingMethod_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8071AFA429C8BD8C008A39E9 /* PayPalNativeShippingMethod_Tests.swift */; };
+		8071AFA729C8BEF3008A39E9 /* PayPalNativeShippingAddress_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8071AFA629C8BEF3008A39E9 /* PayPalNativeShippingAddress_Tests.swift */; };
 		807C5E67291027D400ECECD8 /* AnalyticsEventRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807C5E66291027D400ECECD8 /* AnalyticsEventRequest.swift */; };
 		807C5E6929102D9800ECECD8 /* AnalyticsEventData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807C5E6829102D9800ECECD8 /* AnalyticsEventData.swift */; };
 		808EEA81291321FE001B6765 /* AnalyticsEventRequest_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808EEA80291321FE001B6765 /* AnalyticsEventRequest_Tests.swift */; };
@@ -234,6 +236,8 @@
 		803C31B8270E4C560067D36E /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		804E62812937EBCE004B9FEF /* HTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTP.swift; sourceTree = "<group>"; };
 		804E628529380B04004B9FEF /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
+		8071AFA429C8BD8C008A39E9 /* PayPalNativeShippingMethod_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalNativeShippingMethod_Tests.swift; sourceTree = "<group>"; };
+		8071AFA629C8BEF3008A39E9 /* PayPalNativeShippingAddress_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalNativeShippingAddress_Tests.swift; sourceTree = "<group>"; };
 		807C5E66291027D400ECECD8 /* AnalyticsEventRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventRequest.swift; sourceTree = "<group>"; };
 		807C5E6829102D9800ECECD8 /* AnalyticsEventData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventData.swift; sourceTree = "<group>"; };
 		808EEA80291321FE001B6765 /* AnalyticsEventRequest_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventRequest_Tests.swift; sourceTree = "<group>"; };
@@ -838,6 +842,8 @@
 				CBD6004628D0C24900C3EFF6 /* MockPayPalDelegate.swift */,
 				065EBD8B272865E4001E81C4 /* PayPalClient_Tests.swift */,
 				067C92E427270FDE009E3054 /* PayPalEnvironment_Tests.swift */,
+				8071AFA629C8BEF3008A39E9 /* PayPalNativeShippingAddress_Tests.swift */,
+				8071AFA429C8BD8C008A39E9 /* PayPalNativeShippingMethod_Tests.swift */,
 			);
 			name = PayPalNativePaymentsTests;
 			path = UnitTests/PayPalNativePaymentsTests;
@@ -1556,6 +1562,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				8071AFA729C8BEF3008A39E9 /* PayPalNativeShippingAddress_Tests.swift in Sources */,
+				8071AFA529C8BD8C008A39E9 /* PayPalNativeShippingMethod_Tests.swift in Sources */,
 				067C92E527270FDE009E3054 /* PayPalEnvironment_Tests.swift in Sources */,
 				065EBD8C272865E4001E81C4 /* PayPalClient_Tests.swift in Sources */,
 				CB1AC3C22982CDB10081AED6 /* MockNativeCheckoutProvider.swift in Sources */,

@@ -50,7 +50,7 @@ public struct PayPalNativeShippingMethod {
     /// that identifies the currency.
     ///
     /// Currency code in text format (example: "USD")
-    public let currencyCodeString: String?
+    public let currencyCode: String?
     
     init(_ shippingMethod: PayPalCheckout.ShippingMethod) {
         self.id = shippingMethod.id
@@ -58,7 +58,7 @@ public struct PayPalNativeShippingMethod {
         self.selected = shippingMethod.selected
         self.type = shippingMethod.type.toMerchantFacingShippingType()
         self.value = shippingMethod.amount?.value
-        self.currencyCodeString = shippingMethod.amount?.currencyCodeString
+        self.currencyCode = shippingMethod.amount?.currencyCodeString
     }
 }
 
