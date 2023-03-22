@@ -56,7 +56,7 @@ let config = CoreConfig(accessToken: "<ACCESS_TOKEN>", environment: .sandbox)
 Create a `PayPalNativeCheckoutClient` to approve an order with a PayPal payment method:
 
 ```swift
-let payPalClient = PayPalNativeCheckoutClient(config: config)
+let paypalNativeClient = PayPalNativeCheckoutClient(config: config)
 ```
 
 ### 3. Create an order
@@ -93,18 +93,21 @@ The `id` field of the response contains the order ID to pass to your client.
 
 ### 4. Approve the order using the Payments SDK
 
-To start the PayPal Native checkout flow, call the `start` function in `PayPalNativeCheckoutClient`, with the `CreateOrderCallback` and set the order ID from [step 3](#3-create-an-order) in `createOrderActions`: 
+To start the PayPal Native checkout flow, call the `start` function on `PayPalNativeCheckoutClient`, with a `PayPalNativeCheckoutRequest` using your order ID from [step 3](#3-create-an-order): 
 
 ```swift
-payPalClient.start { createOrderAction in
-    createOrderAction.set(orderId: orderID)
-}
+let request = PayPalNativeCheckoutRequest(orderID: "<ORDER_ID>")
+await paypalNativeClient.start(request: request)
 ```
 
 Implement `PayPalNativeCheckoutDelegate` to listen for result notifications from the SDK. In this example, we implement it in a view model:
 
 ```swift
 extension MyViewModel: PayPalNativeCheckoutDelegate {
+
+    func setup() {
+        paypalNativeClient.delegate = self
+    }
 
     func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithResult result: PayPalNativeCheckoutResult) {
         // order was successfully approved and is ready to be captured/authorized (see step 5)
@@ -121,20 +124,36 @@ extension MyViewModel: PayPalNativeCheckoutDelegate {
     func paypalWillStart(_ payPalClient: PayPalNativeCheckoutClient) {
         // the paypal pay sheet is about to appear. Handle loading views, spinners, etc.
     }
-
-    func paypalDidShippingAddressChange(
-        _ payPalClient: PayPalNativeCheckoutClient,
-        shippingChange: ShippingChange,
-        shippingChangeAction: ShippingChangeAction
-    ) {
-        // called when the user decides to change the address or the shipping method of the order.
-    }
 }
 ```
 
 For a working example please refer to [PayPalViewModel](../../Demo/Demo/ViewModels/PayPalViewModel.swift) in our Demo application
 
-### 5. Capture/Authorize the order
+### 5. Optionally inspect shipping details
+
+You can optionally conform to `PayPalNativeShippingDelegate` to receive notifications when the user updates their shipping address or shipping method details.
+
+```swift
+extension MyViewModel: PayPalNativeShippingDelegate {
+
+    func setup() {
+        paypalNativeClient.delegate = self         // required
+        paypalNativeClient.shippingDelegate = self // optional
+    }
+    
+    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didShippingAddressChange shippingAddress: PayPalNativeShippingAddress) {
+        // called when the user updates their chosen shipping address
+    }
+    
+    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didShippingMethodChange: PayPalNativeShippingMethod) {
+        // called when the user updates their chosen shipping method
+    }
+}
+```
+
+If you want to show shipping options in the PayPal Native Paysheet, provide `purchase_units[].shipping.options` when creating an orderID with the [`orders/v2` API](https://developer.paypal.com/docs/api/orders/v2/#definition-purchase_unit) on your server. Otherwise, our paysheet UI won't display any shipping options.
+
+### 6. Capture/Authorize the order
 
 If you receive a successful result in the client-side flow, you can then capture or authorize the order. 
 
@@ -156,53 +175,6 @@ curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/order
 --data-raw ''
 ```
 
-## Billing Agreement
-
-### 1. Create Order
-
-```bash
-curl --location --request POST 'https://api.sandbox.paypal.com/v2/checkout/orders/' \
---header 'Content-Type: application/json' \
---header 'Authorization: Bearer <ACCESS_TOKEN>' \
---data-raw '{
-  "description": "Billing Agreement",
-  "shipping_address":
-  {
-    "line1": "1350 North First Street",
-    "city": "San Jose",
-    "state": "CA",
-    "postal_code": "95112",
-    "country_code": "US",
-    "recipient_name": "John Doe"
-  },
-  "payer":
-  {
-    "payment_method": "PAYPAL"
-  },
-  "plan":
-  {
-    "type": "MERCHANT_INITIATED_BILLING",
-  }
-}'
-```
-
-**Response**
-
-```json
-{
-   "token_id": "<TOKEN>"
-}
-```
-### 2. Set BillingAgreement token
-
-```swift
-payPalClient.start { createOrderAction in
-    createOrderAction.set(billingAgreementToken: "<billingAgreementToken>")
-}
-```
-### 3. Approve the order
-Follow steps here to [Approve the order using the Payments SDK](#4-approve-the-order-using-the-payments-sdk)
-
 **Note**: Be sure that the endpoint you are calling aligns with the intent set on the order created in [step 3](#3-initiate-the-payments-sdk).
 
 ## Test and go live
@@ -215,4 +187,3 @@ When prompted to login with PayPal during the payment flow on your mobile app, y
 ### 2. Go live with your integration
 
 Follow [these instructions](https://developer.paypal.com/api/rest/production/) to prepare your integration to go live.
-
