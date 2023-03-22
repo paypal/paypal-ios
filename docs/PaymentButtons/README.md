@@ -8,26 +8,14 @@
 
 #### Swift Package Manager
 
-In Xcode, follow the guide to [add package dependencies to your app](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app) and enter https://github.com/paypal/iOS-SDK as the repository URL. Select the checkboxes for each specific PayPal library you wish to include in your project.
-
-In your app's source files, use the following import syntax to include PayPal's libraries:
-
-```swift
-import PaymentButtons
-```
+In Xcode, follow the guide to [add package dependencies to your app](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app) and enter https://github.com/paypal/iOS-SDK as the repository URL. Tick the `PaymentButtons` checkbox to add the Payment Buttons library to your app.
 
 #### CocoaPods
 
-Include the PayPal pod in your `Podfile`.
+Include the `PaymentButtons` sub-mobule in your `Podfile`.
 
 ```ruby
-pod 'PayPal'
-```
-
-In your app's source files, use the following import syntax to include PayPal's libraries:
-
-```swift
-import PaymentButtons
+pod 'PayPal/PaymentButtons'
 ```
 
 ### 2. Render PayPal buttons

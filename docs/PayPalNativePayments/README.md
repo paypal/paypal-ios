@@ -15,7 +15,6 @@ You will need to set up authorization to use the PayPal Payments SDK.
 Follow the steps in [Get Started](https://developer.paypal.com/api/rest/#link-getstarted) to create a client ID. 
 
 You will need a server integration to create an order to capture funds using the [PayPal Orders v2 API](https://developer.paypal.com/docs/api/orders/v2). 
-For initial setup, the `curl` commands below can be used as a reference for making server-side RESTful API calls.
 
 ## Add PayPal Native Payment Module
 
@@ -23,26 +22,14 @@ For initial setup, the `curl` commands below can be used as a reference for maki
 
 #### Swift Package Manager
 
-In Xcode, add the PayPal SDK as a [package dependency](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app) to your Xcode project. Enter https://github.com/paypal/iOS-SDK as the package URL. Tick the "PayPalNativePayments" checkbox to add the PayPal Native Payments package to your app.
-
-In your app's source code files, use the following import syntax to include the PayPal Native Payments module:
-
-```swift
-import PayPalNativePayments
-```
+In Xcode, add the PayPal SDK as a [package dependency](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app) to your Xcode project. Enter https://github.com/paypal/iOS-SDK as the package URL. Tick the `PayPalNativePayments` checkbox to add the PayPal Native Payments library to your app.
 
 #### CocoaPods
 
-Include the PayPal Native Payment pod in your `Podfile`.
+Include the `PayPalNativePayments` sub-module in your `Podfile`:
 
 ```ruby
-pod 'PayPalNativePayments'
-```
-
-In your app's source files, use the following import syntax to include PayPal's libraries:
-
-```swift
-import PayPalNativePayments
+pod 'PayPal/PayPalNativePayments'
 ```
 
 ### 2. Initiate the Payments SDK
