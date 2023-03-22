@@ -14,7 +14,6 @@ You will need to set up authorization to use the PayPal Payments SDK.
 Follow the steps in [Get Started](https://developer.paypal.com/api/rest/#link-getstarted) to create a client ID and generate an access token. 
 
 You will need a server integration to create an order and capture the funds using [PayPal Orders v2 API](https://developer.paypal.com/docs/api/orders/v2). 
-For initial setup, the `curl` commands below can be used in place of a server SDK.
 
 ## Add CardPayments Module
 
@@ -22,26 +21,14 @@ For initial setup, the `curl` commands below can be used in place of a server SD
 
 #### Swift Package Manager
 
-In Xcode, add the PayPal SDK as a [package dependency](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app) to your Xcode project. Enter https://github.com/paypal/iOS-SDK as the package URL. Tick the "CardPayments" checkbox to add the CardPayments package to your app.
-
-In your app's source code files, use the following import syntax to include the PayPal CardPayments module:
-
-```swift
-import CardPayments
-```
+In Xcode, add the PayPal SDK as a [package dependency](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app) to your Xcode project. Enter https://github.com/paypal/iOS-SDK as the package URL. Tick the `CardPayments` checkbox to add the Card Payments library to your app.
 
 #### CocoaPods
 
-Include the PayPal pod in your `Podfile`.
+Include the `CardPayments` sub-module in your `Podfile`:
 
 ```ruby
-pod 'PayPal'
-```
-
-In your app's source files, use the following import syntax to include PayPal's Card library:
-
-```swift
-import CardPayments
+pod 'PayPal/CardPayments'
 ```
 
 ### 2. Initiate the CardPayments SDK
