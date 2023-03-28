@@ -1,5 +1,6 @@
 import Foundation
 
+/// Represents raw credit or debit card data provided by the customer.
 public struct Card: Encodable {
 
     enum CodingKeys: String, CodingKey {
