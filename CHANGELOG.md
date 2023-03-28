@@ -3,7 +3,7 @@
 
 ## unreleased
 * Card
-  * Rename `Card.init()` param from to `cardholderName`
+  * Rename `Card.init()` parameter from `cardHolderName` to `cardholderName`
   * Remove unnecessary `Card.expiry` property
 
 ## 0.0.7 (2023-03-28)
