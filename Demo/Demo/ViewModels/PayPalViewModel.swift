@@ -26,6 +26,7 @@ class PayPalViewModel: ObservableObject {
             accessToken = token
             payPalClient = PayPalNativeCheckoutClient(config: CoreConfig(accessToken: token, environment: CorePayments.Environment.sandbox))
             payPalClient?.delegate = self
+            payPalClient?.shippingDelegate = self
             publishStateToMainThread(.mainContent(title: "Access Token", content: accessToken, flowComplete: false))
         }
     }
@@ -54,10 +55,10 @@ class PayPalViewModel: ObservableObject {
         Task {
             do {
                 let orderID = try await self.getOrderID(shippingPreference)
-                await self.payPalClient?.start { createOrderAction in
-                    self.shippingPreference = shippingPreference
-                    createOrderAction.set(orderId: orderID)
-                }
+                self.shippingPreference = shippingPreference
+
+                let request = PayPalNativeCheckoutRequest(orderID: orderID)
+                await self.payPalClient?.start(request: request)
             } catch let error {
                 publishStateToMainThread(.mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true))
             }
@@ -75,23 +76,6 @@ class PayPalViewModel: ObservableObject {
         await DemoMerchantAPI.sharedService.getAccessToken(environment: DemoSettings.environment)
     }
 
-
-    private func patchAmountAndShippingOptions(
-        shippingMethods: [ShippingMethod],
-        action: ShippingChangeAction
-    ) {
-        let selectedMethod = shippingMethods.first { $0.selected }
-        let selectedMethodPrice = Double(selectedMethod?.amount?.value ?? "0") ?? 0
-        let newTotal = String(OrderRequestHelpers.orderAmount + selectedMethodPrice)
-
-        let patchRequest = PatchRequest()
-
-        patchRequest.replace(amount: PayPalCheckout.PurchaseUnit.Amount(currencyCode: .usd, value: newTotal))
-        patchRequest.replace(shippingOptions: shippingMethods)
-
-        action.patch(request: patchRequest) { _, _ in }
-    }
-
     private func publishStateToMainThread(_ state: State) {
         DispatchQueue.main.async {
             self.state = state
@@ -101,8 +85,8 @@ class PayPalViewModel: ObservableObject {
 
 extension PayPalViewModel: PayPalNativeCheckoutDelegate {
 
-    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithResult approvalResult: Approval) {
-        publishStateToMainThread(.mainContent(title: "Complete", content: "OrderId: \(approvalResult.data.ecToken)", flowComplete: true))
+    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithResult result: PayPalNativeCheckoutResult) {
+        publishStateToMainThread(.mainContent(title: "Complete", content: "OrderId: \(result.orderID)", flowComplete: true))
     }
 
     func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithError error: CoreSDKError) {
@@ -116,31 +100,15 @@ extension PayPalViewModel: PayPalNativeCheckoutDelegate {
     func paypalWillStart(_ payPalClient: PayPalNativeCheckoutClient) {
         publishStateToMainThread(.mainContent(title: "Starting", content: "PayPal is about to start", flowComplete: true))
     }
+}
 
-    func paypalDidShippingAddressChange(
-        _ payPalClient: PayPalNativeCheckoutClient,
-        shippingChange: ShippingChange,
-        shippingChangeAction: ShippingChangeAction
-    ) {
-        switch shippingChange.type {
-        case .shippingAddress:
-            // If user selected new address, we generate new shipping methods
-            let availableShippingMethods = OrderRequestHelpers.getShippingMethods(baseValue: Int.random(in: 0..<6))
-            // If shipping methods are available, then patch order with the new shipping methods and new amount
-            patchAmountAndShippingOptions(
-                shippingMethods: availableShippingMethods,
-                action: shippingChangeAction
-            )
-
-        case .shippingMethod:
-            // If user selected new method, we patch the selected shipping method + amount
-            patchAmountAndShippingOptions(
-                shippingMethods: shippingChange.shippingMethods,
-                action: shippingChangeAction
-            )
-
-        @unknown default:
-            break
-        }
+extension PayPalViewModel: PayPalNativeShippingDelegate {
+    
+    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didShippingAddressChange shippingAddress: PayPalNativeShippingAddress) {
+        publishStateToMainThread(.mainContent(title: "User action", content: "Shipping address changed", flowComplete: false))
+    }
+    
+    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didShippingMethodChange: PayPalNativeShippingMethod) {
+        publishStateToMainThread(.mainContent(title: "User action", content: "Shipping method changed", flowComplete: false))
     }
 }

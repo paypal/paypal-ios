@@ -1,6 +1,6 @@
 import Foundation
 
-/// Used to configure options for approving a PayPal order
+/// Used to configure options for approving a PayPal web order
 public struct PayPalWebCheckoutRequest {
 
     /// The order ID associated with the request.
