@@ -14,10 +14,10 @@ public struct Card: Encodable {
     /// The primary account number (PAN) for the payment card.
     public var number: String
 
-    /// The card expiration month in `MM` format
+    /// The 2-digit card expiration month in `MM` format
     public var expirationMonth: String
 
-    /// The card expiration year in `YYYY` format
+    /// The 4-digit card expiration year in `YYYY` format
     public var expirationYear: String
 
     /// The three- or four-digit security code of the card. Also known as the CVV, CVC, CVN, CVE, or CID.
@@ -41,14 +41,14 @@ public struct Card: Encodable {
         expirationMonth: String,
         expirationYear: String,
         securityCode: String,
-        cardHolderName: String? = nil,
+        cardholderName: String? = nil,
         billingAddress: Address? = nil
     ) {
         self.number = number
         self.expirationMonth = expirationMonth
         self.expirationYear = expirationYear
         self.securityCode = securityCode
-        self.cardholderName = cardHolderName
+        self.cardholderName = cardholderName
         self.billingAddress = billingAddress
     }
 

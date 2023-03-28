@@ -20,7 +20,7 @@ class Card_Tests: XCTestCase {
             expirationMonth: "01",
             expirationYear: "2031",
             securityCode: "123",
-            cardHolderName: "Test Name",
+            cardholderName: "Test Name",
             billingAddress: Address(
                 addressLine1: "Test Line 1",
                 addressLine2: "Test Line 2",

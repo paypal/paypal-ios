@@ -85,7 +85,7 @@ Create a `Card` object containing the user's card details.
 let card = Card(
     number: "4111111111111111",
     expirationMonth: "01",
-    expirationYear: "25",
+    expirationYear: "2025",
     securityCode: "123",
     cardholderName: "Jane Smith",
     billingAddress: Address(
@@ -105,7 +105,7 @@ Attach the card and the order ID from [step 4](#4-create-an-order) to a `CardReq
 let cardRequest = CardRequest(
     orderID: "<ORDER_ID>",
     card: card,
-    sca: .always // default value is .whenRequired
+    sca: .scaAlways // default value is .scaWhenRequired
 )
 ```
 
