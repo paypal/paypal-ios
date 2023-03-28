@@ -1,6 +1,11 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+* Card
+  * Rename `Card.init()` param from to `cardholderName`
+  * Remove unnecessary `Card.expiry` property
+
 ## 0.0.7 (2023-03-28)
 * PayPalNativePayments
   * Update `PayPalNativeCheckoutDelegate.paypal(_:didFinishWithResult:)` to use `PayPalNativeCheckoutResult` instead of `PayPalCheckout.Approval` type.
