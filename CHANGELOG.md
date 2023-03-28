@@ -1,7 +1,7 @@
 
 # PayPal iOS SDK Release Notes
 
-## unreleased
+## 0.0.7 (2023-03-28)
 * PayPalNativePayments
   * Update `PayPalNativeCheckoutDelegate.paypal(_:didFinishWithResult:)` to use `PayPalNativeCheckoutResult` instead of `PayPalCheckout.Approval` type.
   * Update `PayPalNativeCheckoutClient.start(presentingViewController:createOrder)` to `PayPalNativeCheckoutClient.start(request:presentingViewController:)`
