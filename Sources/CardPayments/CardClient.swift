@@ -11,6 +11,7 @@ public class CardClient: NSObject {
     private let apiClient: APIClient
     private let config: CoreConfig
     private let webAuthenticationSession: WebAuthenticationSession
+    private var analyticsService: AnalyticsService?
 
     /// Initialize a CardClient to process card payment
     /// - Parameter config: The CoreConfig object
@@ -35,25 +36,19 @@ public class CardClient: NSObject {
     /// - Returns: Card result
     /// - Throws: PayPalSDK error if approve order could not complete successfully
     public func approveOrder(request: CardRequest) {
-        apiClient.sendAnalyticsEvent("card-payments:3ds:started")
+        analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
+        analyticsService?.sendEvent("card-payments:3ds:started")
         Task {
-            do {
-                _ = try await apiClient.fetchCachedOrRemoteClientID()
-            } catch {
-                notifyFailure(with: CorePaymentsError.clientIDNotFoundError)
-                return
-            }
-            
             do {
                 let confirmPaymentRequest = try ConfirmPaymentSourceRequest(accessToken: config.accessToken, cardRequest: request)
                 let (result) = try await apiClient.fetch(request: confirmPaymentRequest)
                 
                 if let url: String = result.links?.first(where: { $0.rel == "payer-action" })?.href {
-                    apiClient.sendAnalyticsEvent("card-payments:3ds:confirm-payment-source:challenge-required")
+                    analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:challenge-required")
                     
                     startThreeDSecureChallenge(url: url, orderId: result.id)
                 } else {
-                    apiClient.sendAnalyticsEvent("card-payments:3ds:confirm-payment-source:succeeded")
+                    analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:succeeded")
                     
                     let cardResult = CardResult(
                         orderID: result.id,
@@ -63,7 +58,7 @@ public class CardClient: NSObject {
                     notifySuccess(for: cardResult)
                 }
             } catch let error as CoreSDKError {
-                apiClient.sendAnalyticsEvent("card-payments:3ds:confirm-payment-source:failed")
+                analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:failed")
                 notifyFailure(with: error)
             } catch {
             }
@@ -86,9 +81,9 @@ public class CardClient: NSObject {
             context: self,
             sessionDidDisplay: { [weak self] didDisplay in
                 if didDisplay {
-                    self?.apiClient.sendAnalyticsEvent("card-payments:3ds:challenge-presentation:succeeded")
+                    self?.analyticsService?.sendEvent("card-payments:3ds:challenge-presentation:succeeded")
                 } else {
-                    self?.apiClient.sendAnalyticsEvent("card-payments:3ds:challenge-presentation:failed")
+                    self?.analyticsService?.sendEvent("card-payments:3ds:challenge-presentation:failed")
                 }
             },
             sessionDidComplete: { _, error in
@@ -121,27 +116,27 @@ public class CardClient: NSObject {
                     status: result.status,
                     paymentSource: result.paymentSource
                 )
-                self.apiClient.sendAnalyticsEvent("card-payments:3ds:get-order-info:succeeded")
+                self.analyticsService?.sendEvent("card-payments:3ds:get-order-info:succeeded")
                 notifySuccess(for: cardResult)
             } catch let error as CoreSDKError {
-                self.apiClient.sendAnalyticsEvent("card-payments:3ds:get-order-info:failed")
+                self.analyticsService?.sendEvent("card-payments:3ds:get-order-info:failed")
                 notifyFailure(with: error)
             }
         }
     }
 
     private func notifySuccess(for result: CardResult) {
-        apiClient.sendAnalyticsEvent("card-payments:3ds:succeeded")
+        analyticsService?.sendEvent("card-payments:3ds:succeeded")
         delegate?.card(self, didFinishWithResult: result)
     }
 
     private func notifyFailure(with error: CoreSDKError) {
-        apiClient.sendAnalyticsEvent("card-payments:3ds:failed")
+        analyticsService?.sendEvent("card-payments:3ds:failed")
         delegate?.card(self, didFinishWithError: error)
     }
 
     private func notifyCancellation() {
-        apiClient.sendAnalyticsEvent("card-payments:3ds:challenge:user-canceled")
+        analyticsService?.sendEvent("card-payments:3ds:challenge:user-canceled")
         delegate?.cardDidCancel(self)
     }
 }

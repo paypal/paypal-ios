@@ -47,14 +47,14 @@ public class APIClient {
     /// Sends analytics event to https://api.paypal.com/v1/tracking/events/ via a background task.
     /// - Parameter name: Event name string used to identify this unique event in FPTI.
     public func sendAnalyticsEvent(_ name: String) {
-        Task(priority: .background) {
-            do {
-                let clientID = try await fetchCachedOrRemoteClientID()
-                let analyticsService = AnalyticsService.sharedInstance(http: http)
-                await analyticsService.sendEvent(name: name, clientID: clientID)
-            } catch {
-                NSLog("[PayPal SDK] Failed to send analytics due to missing clientID: %@", error.localizedDescription.debugDescription)
-            }
-        }
+//        Task(priority: .background) {
+//            do {
+//                let clientID = try await fetchCachedOrRemoteClientID()
+//                let analyticsService = AnalyticsService.sharedInstance(http: http)
+//                await analyticsService.sendEvent(name: name, clientID: clientID)
+//            } catch {
+//                NSLog("[PayPal SDK] Failed to send analytics due to missing clientID: %@", error.localizedDescription.debugDescription)
+//            }
+//        }
     }
 }
