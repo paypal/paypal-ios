@@ -66,18 +66,26 @@ public class PayPalNativeCheckoutClient {
                     self.notifySuccess(for: result)
                 },
                 onShippingChange: { shippingChange, shippingChangeAction in
-                    shippingChangeAction.approve()
-                    
                     switch shippingChange.type {
                     case .shippingAddress:
+                        shippingChangeAction.approve()
                         let shippingAddress = PayPalNativeShippingAddress(shippingChange.selectedShippingAddress)
                         self.notifyShippingChange(shippingAddress: shippingAddress)
                         
                     case .shippingMethod:
-                        if let selectedShippingMethod = shippingChange.selectedShippingMethod {
-                            let shippingMethod = PayPalNativeShippingMethod(selectedShippingMethod)
-                            self.notifyShippingMethod(shippingMethod: shippingMethod)
+                        guard let selectedShippingMethod = shippingChange.selectedShippingMethod else {
+                            return
                         }
+                        
+                        let patchRequest = PayPalCheckout.PatchRequest()
+                        patchRequest.add(shippingOptions: [selectedShippingMethod])
+
+                        shippingChangeAction.patch(request: patchRequest, onComplete: { _, error in
+                            if error == nil {
+                                let shippingMethod = PayPalNativeShippingMethod(selectedShippingMethod)
+                                self.notifyShippingMethod(shippingMethod: shippingMethod)
+                            }
+                        })
                     @unknown default:
                         break // do nothing
                     }
