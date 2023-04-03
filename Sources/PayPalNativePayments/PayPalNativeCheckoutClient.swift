@@ -78,7 +78,7 @@ public class PayPalNativeCheckoutClient {
                         }
                         
                         let patchRequest = PayPalCheckout.PatchRequest()
-                        patchRequest.add(shippingOptions: [selectedShippingMethod])
+                        patchRequest.add(shippingOptions: shippingChange.shippingMethods)
 
                         shippingChangeAction.patch(request: patchRequest, onComplete: { _, error in
                             if error == nil {
