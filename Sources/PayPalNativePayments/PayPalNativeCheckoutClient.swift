@@ -81,7 +81,9 @@ public class PayPalNativeCheckoutClient {
                         patchRequest.add(shippingOptions: shippingChange.shippingMethods)
 
                         shippingChangeAction.patch(request: patchRequest, onComplete: { _, error in
-                            if error == nil {
+                            if let error {
+                                self.notifyFailure(with: error.localizedDescription)
+                            } else {
                                 let shippingMethod = PayPalNativeShippingMethod(selectedShippingMethod)
                                 self.notifyShippingMethod(shippingMethod: shippingMethod)
                             }
@@ -94,7 +96,7 @@ public class PayPalNativeCheckoutClient {
                     self.notifyCancellation()
                 },
                 onError: { error in
-                    self.notifyFailure(with: error)
+                    self.notifyFailure(with: error.reason)
                 },
                 nxoConfig: nxoConfig
             )
@@ -108,10 +110,10 @@ public class PayPalNativeCheckoutClient {
         delegate?.paypal(self, didFinishWithResult: result)
     }
 
-    private func notifyFailure(with errorInfo: PayPalCheckout.ErrorInfo) {
+    private func notifyFailure(with errorDescription: String) {
         apiClient.sendAnalyticsEvent("paypal-native-payments:failed")
         
-        let error = PayPalNativePaymentsError.nativeCheckoutSDKError(errorInfo.reason)
+        let error = PayPalNativePaymentsError.nativeCheckoutSDKError(errorDescription)
         delegate?.paypal(self, didFinishWithError: error)
     }
 
