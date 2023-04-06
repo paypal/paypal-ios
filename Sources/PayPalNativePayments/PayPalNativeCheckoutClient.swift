@@ -77,17 +77,14 @@ public class PayPalNativeCheckoutClient {
                             return
                         }
                         
-                        let patchRequest = PayPalCheckout.PatchRequest()
-                        patchRequest.add(shippingOptions: shippingChange.shippingMethods)
-
-                        shippingChangeAction.patch(request: patchRequest, onComplete: { _, error in
-                            if let error {
-                                self.notifyFailure(with: error.localizedDescription)
-                            } else {
-                                let shippingMethod = PayPalNativeShippingMethod(selectedShippingMethod)
-                                self.notifyShippingMethod(shippingMethod: shippingMethod)
-                            }
-                        })
+                        Task {
+                            await self.patchShippingMethodChanges(
+                                orderID: request.orderID,
+                                selectedShippingMethod: selectedShippingMethod,
+                                shippingChange: shippingChange,
+                                shippingChangeAction: shippingChangeAction
+                            )
+                        }
                     @unknown default:
                         break // do nothing
                     }
@@ -102,6 +99,58 @@ public class PayPalNativeCheckoutClient {
             )
         } catch {
             delegate?.paypal(self, didFinishWithError: CorePaymentsError.clientIDNotFoundError)
+        }
+    }
+    
+    /// Updates the underlying orderID to include the newly selected shipping amount price.
+    ///
+    /// https://developer.paypal.com/docs/api/orders/v2/#orders_patch
+    func patchShippingMethodChanges(
+        orderID: String,
+        selectedShippingMethod: ShippingMethod,
+        shippingChange: ShippingChange,
+        shippingChangeAction: ShippingChangeAction
+    ) async {
+        guard let shippingPriceString = selectedShippingMethod.amount?.value,
+              let currencyCode = selectedShippingMethod.amount?.currencyCode,
+              let shippingPrice = Decimal(string: shippingPriceString) else {
+            // error, missing amount details on newly selected shipping method
+            return
+        }
+        
+        guard let existingOrderPriceString = try? await self.getOrderAmount(for: orderID),
+              let existingOrderPrice = Decimal(string: existingOrderPriceString) else {
+            // error
+            return
+        }
+        
+        let newPurchaseUnit = PayPalCheckout.PurchaseUnit.Amount(
+            currencyCode: currencyCode,
+            value: String(describing: existingOrderPrice + shippingPrice)
+        )
+        
+        let patchRequest = PayPalCheckout.PatchRequest()
+        patchRequest.add(shippingOptions: shippingChange.shippingMethods)
+        patchRequest.replace(amount: newPurchaseUnit)
+        
+        shippingChangeAction.patch(request: patchRequest) { _, error in
+            if let error {
+                self.notifyFailure(with: error.localizedDescription)
+            } else {
+                let shippingMethod = PayPalNativeShippingMethod(selectedShippingMethod)
+                self.notifyShippingMethod(shippingMethod: shippingMethod)
+            }
+        }
+    }
+    
+    /// Fetches the current amount details associated with the orderID
+    private func getOrderAmount(for orderID: String) async throws -> String {
+        let request = GetOrderAmountRequest(orderID: orderID, accessToken: config.accessToken)
+        let orderAmountResponse = try await apiClient.fetch(request: request)
+        if let amount = orderAmountResponse.purchaseUnits?.first?.amount.value {
+            return amount
+        } else {
+            throw PayPalNativePaymentsError.getOrderDetailsError(orderID)
         }
     }
     
