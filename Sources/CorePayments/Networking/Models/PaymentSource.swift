@@ -1,8 +1,4 @@
-import Foundation
-#if canImport(CorePayments)
-import CorePayments
-#endif
-
+/// :nodoc:
 public struct PaymentSource: Decodable {
 
     /// The card used as payment
@@ -26,12 +22,14 @@ public struct PaymentSource: Decodable {
     }
 }
 
+/// :nodoc:
 public struct AuthenticationResult: Decodable {
 
     public let liabilityShift: String?
     public let threeDSecure: ThreeDSecure?
 }
 
+/// :nodoc:
 public struct ThreeDSecure: Decodable {
 
     public let enrollmentStatus, authenticationStatus: String?

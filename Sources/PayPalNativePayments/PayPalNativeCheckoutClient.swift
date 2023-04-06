@@ -59,6 +59,7 @@ public class PayPalNativeCheckoutClient {
                     orderRequestAction.set(orderId: request.orderID)
                 },
                 onApprove: { approval in
+                    print(approval)
                     let result = PayPalNativeCheckoutResult(
                         orderID: approval.data.ecToken,
                         payerID: approval.data.payerID
@@ -145,7 +146,7 @@ public class PayPalNativeCheckoutClient {
     
     /// Fetches the current amount details associated with the orderID
     private func getOrderAmount(for orderID: String) async throws -> String {
-        let request = GetOrderAmountRequest(orderID: orderID, accessToken: config.accessToken)
+        let request = GetOrderInfoRequest(orderID: orderID, accessToken: config.accessToken)
         let orderAmountResponse = try await apiClient.fetch(request: request)
         if let amount = orderAmountResponse.purchaseUnits?.first?.amount.value {
             return amount

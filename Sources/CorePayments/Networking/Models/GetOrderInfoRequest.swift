@@ -1,25 +1,22 @@
-#if canImport(CorePayments)
-import CorePayments
-#endif
-
-struct GetOrderAmountRequest: APIRequest {
+/// :nodoc:
+public struct GetOrderInfoRequest: APIRequest {
 
     private let pathFormat: String = "v2/checkout/orders/%@"
     private let accessToken: String
 
-    init(orderID: String, accessToken: String) {
+    public init(orderID: String, accessToken: String) {
         self.accessToken = accessToken
         path = String(format: pathFormat, orderID)
     }
 
     // MARK: - APIRequest
 
-    typealias ResponseType = GetOrderAmountResponse
+    public typealias ResponseType = GetOrderInfoResponse
 
-    var path: String
-    var method: HTTPMethod = .get
+    public var path: String
+    public var method: HTTPMethod = .get
 
-    var headers: [HTTPHeader: String] {
+    public var headers: [HTTPHeader: String] {
         [
             .contentType: "application/json",
             .acceptLanguage: "en_US",
