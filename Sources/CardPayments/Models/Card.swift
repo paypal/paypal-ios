@@ -29,6 +29,11 @@ public struct Card: Encodable {
 
     /// Optional. The billing address
     public var billingAddress: Address?
+    
+    /// The expiration year and month, in ISO-8601 `YYYY-MM` date format.
+    public var expiry: String {
+        "\(expirationYear)-\(expirationMonth)"
+    }
 
     internal var attributes: Attributes?
 
@@ -51,6 +56,7 @@ public struct Card: Encodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(number, forKey: .number)
+        try container.encode(expiry, forKey: .expiry)
         try container.encode(securityCode, forKey: .securityCode)
         try container.encode(cardholderName, forKey: .cardholderName)
         try container.encode(billingAddress, forKey: .billingAddress)
