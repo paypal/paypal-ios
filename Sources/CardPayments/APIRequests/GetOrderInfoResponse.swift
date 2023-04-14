@@ -1,5 +1,9 @@
-/// :nodoc:
-public struct GetOrderInfoResponse: Decodable {
+import Foundation
+#if canImport(CorePayments)
+import CorePayments
+#endif
+
+struct GetOrderInfoResponse: Decodable {
 
     public let id, status, intent: String
     public let paymentSource: PaymentSource?
@@ -7,21 +11,18 @@ public struct GetOrderInfoResponse: Decodable {
     public let links: [Link]?
 }
 
-/// :nodoc:
-public struct PurchaseUnit: Codable {
+struct PurchaseUnit: Codable {
 
     public let amount: Amount
 }
 
-/// :nodoc:
-public struct Amount: Codable {
+struct Amount: Codable {
 
     public let currencyCode: String
     public let value: String
 }
 
-/// :nodoc:
-public struct Link: Decodable {
+struct Link: Decodable {
 
     public let href: String?
     public let rel, method: String?
