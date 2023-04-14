@@ -104,11 +104,19 @@ extension PayPalViewModel: PayPalNativeCheckoutDelegate {
 
 extension PayPalViewModel: PayPalNativeShippingDelegate {
     
-    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didShippingAddressChange shippingAddress: PayPalNativeShippingAddress) {
+    func paypal(
+        _ payPalClient: PayPalNativeCheckoutClient,
+        shippingActions: PayPalNativeShippingActions,
+        didShippingAddressChange shippingAddress: PayPalNativeShippingAddress
+    ) {
         publishStateToMainThread(.mainContent(title: "User action", content: "Shipping address changed", flowComplete: false))
     }
     
-    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didShippingMethodChange: PayPalNativeShippingMethod) {
+    func paypal(
+        _ payPalClient: PayPalNativeCheckoutClient,
+        shippingActions: PayPalNativeShippingActions,
+        didShippingMethodChange: PayPalNativeShippingMethod
+    ) {
         publishStateToMainThread(.mainContent(title: "User action", content: "Shipping method changed", flowComplete: false))
     }
 }
