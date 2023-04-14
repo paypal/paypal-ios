@@ -31,7 +31,7 @@ public struct Card: Encodable {
     public var billingAddress: Address?
     
     /// The expiration year and month, in ISO-8601 `YYYY-MM` date format.
-    public var expiry: String {
+    private var expiry: String {
         "\(expirationYear)-\(expirationMonth)"
     }
 
@@ -50,7 +50,7 @@ public struct Card: Encodable {
         self.expirationYear = expirationYear
         self.securityCode = securityCode
         self.cardholderName = cardholderName
-        self.billingAddress = billingAddress
+        self.billingAddress = billingAddress        
     }
 
     public func encode(to encoder: Encoder) throws {
