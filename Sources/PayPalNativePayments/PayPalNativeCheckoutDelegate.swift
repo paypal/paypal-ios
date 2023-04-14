@@ -35,11 +35,19 @@ public protocol PayPalNativeShippingDelegate: AnyObject {
     /// - Parameters:
     ///   - payPalClient: the PayPalClient associated with delegate
     ///   - shippingAddress: the user's most recently selected shipping address
-    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didShippingAddressChange shippingAddress: PayPalNativeShippingAddress)
+    func paypal(
+        _ payPalClient: PayPalNativeCheckoutClient,
+        shippingActions: PayPalNativeShippingActions,
+        didShippingAddressChange shippingAddress: PayPalNativeShippingAddress
+    )
     
     /// Notify when the users selected shipping method changes
     /// - Parameters:
     ///   - payPalClient: the PayPalClient associated with delegate
     ///   - shippingMethod: the user's most recently selected shipping method
-    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didShippingMethodChange: PayPalNativeShippingMethod)
+    func paypal(
+        _ payPalClient: PayPalNativeCheckoutClient,
+        shippingActions: PayPalNativeShippingActions,
+        didShippingMethodChange: PayPalNativeShippingMethod
+    )
 }

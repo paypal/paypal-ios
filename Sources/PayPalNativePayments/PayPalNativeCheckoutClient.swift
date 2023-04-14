@@ -67,24 +67,20 @@ public class PayPalNativeCheckoutClient {
                     self.notifySuccess(for: result)
                 },
                 onShippingChange: { shippingChange, shippingChangeAction in
+                    let paypalShippingActions = PayPalNativeShippingActions(shippingChangeAction)
                     switch shippingChange.type {
                     case .shippingAddress:
                         let shippingAddress = PayPalNativeShippingAddress(shippingChange.selectedShippingAddress)
-                        self.notifyShippingChange(shippingAddress: shippingAddress)
+                        self.notifyShippingChange(shippingActions: paypalShippingActions, shippingAddress: shippingAddress)
                         
                     case .shippingMethod:
                         guard let selectedShippingMethod = shippingChange.selectedShippingMethod else {
                             return
                         }
-                        
-                        Task {
-                            await self.patchShippingMethodChanges(
-                                orderID: request.orderID,
-                                selectedShippingMethod: selectedShippingMethod,
-                                shippingChange: shippingChange,
-                                shippingChangeAction: shippingChangeAction
-                            )
-                        }
+                        self.notifyShippingMethod(
+                            shippingActions: paypalShippingActions,
+                            shippingMethod: PayPalNativeShippingMethod(selectedShippingMethod)
+                        )
                     @unknown default:
                         break // do nothing
                     }
@@ -100,18 +96,6 @@ public class PayPalNativeCheckoutClient {
         } catch {
             delegate?.paypal(self, didFinishWithError: CorePaymentsError.clientIDNotFoundError)
         }
-    }
-    
-    /// Updates the underlying orderID to include the newly selected shipping amount price.
-    ///
-    /// https://developer.paypal.com/docs/api/orders/v2/#orders_patch
-    func patchShippingMethodChanges(
-        orderID: String,
-        selectedShippingMethod: ShippingMethod,
-        shippingChange: ShippingChange,
-        shippingChangeAction: ShippingChangeAction
-    ) async {
-        self.notifyShippingMethod(shippingMethod: shippingMethod)
     }
     
     private func notifySuccess(for result: PayPalNativeCheckoutResult) {
@@ -131,13 +115,19 @@ public class PayPalNativeCheckoutClient {
         delegate?.paypalDidCancel(self)
     }
     
-    private func notifyShippingMethod(shippingMethod: PayPalNativeShippingMethod) {
+    private func notifyShippingMethod(
+        shippingActions: PayPalNativeShippingActions,
+        shippingMethod: PayPalNativeShippingMethod
+    ) {
         apiClient.sendAnalyticsEvent("paypal-native-payments:shipping-method-changed")
-        shippingDelegate?.paypal(self, didShippingMethodChange: shippingMethod)
+        shippingDelegate?.paypal(self, shippingActions: shippingActions, didShippingMethodChange: shippingMethod)
     }
     
-    private func notifyShippingChange(shippingAddress: PayPalNativeShippingAddress) {
+    private func notifyShippingChange(
+        shippingActions: PayPalNativeShippingActions,
+        shippingAddress: PayPalNativeShippingAddress
+    ) {
         apiClient.sendAnalyticsEvent("paypal-native-payments:shipping-address-changed")
-        shippingDelegate?.paypal(self, didShippingAddressChange: shippingAddress)
+        shippingDelegate?.paypal(self, shippingActions: shippingActions, didShippingAddressChange: shippingAddress)
     }
 }
