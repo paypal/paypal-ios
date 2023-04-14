@@ -16,3 +16,4 @@ struct Link: Decodable {
     let href: String?
     let rel, method: String?
 }
+// swiftlint:enable space_after_main_type
