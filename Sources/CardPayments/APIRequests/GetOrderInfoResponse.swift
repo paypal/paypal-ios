@@ -5,25 +5,25 @@ import CorePayments
 
 struct GetOrderInfoResponse: Decodable {
 
-    public let id, status, intent: String
-    public let paymentSource: PaymentSource?
-    public let purchaseUnits: [PurchaseUnit]?
-    public let links: [Link]?
+    let id, status, intent: String
+    let paymentSource: PaymentSource?
+    let purchaseUnits: [PurchaseUnit]?
+    let links: [Link]?
 }
 
 struct PurchaseUnit: Codable {
 
-    public let amount: Amount
+    let amount: Amount
 }
 
 struct Amount: Codable {
 
-    public let currencyCode: String
-    public let value: String
+    let currencyCode: String
+    let value: String
 }
 
 struct Link: Decodable {
 
-    public let href: String?
-    public let rel, method: String?
+    let href: String?
+    let rel, method: String?
 }
