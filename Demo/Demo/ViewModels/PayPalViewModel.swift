@@ -15,6 +15,7 @@ class PayPalViewModel: ObservableObject {
     private var accessToken = ""
     private var payPalClient: PayPalNativeCheckoutClient?
     private var shippingPreference: OrderApplicationContext.ShippingPreference = .noShipping
+    private var orderID = ""
 
     func getAccessToken() {
         state = .loading(content: "Getting access token")
@@ -54,7 +55,7 @@ class PayPalViewModel: ObservableObject {
         state = .loading(content: "Initializing checkout")
         Task {
             do {
-                let orderID = try await self.getOrderID(shippingPreference)
+                orderID = try await self.getOrderID(shippingPreference)
                 self.shippingPreference = shippingPreference
 
                 let request = PayPalNativeCheckoutRequest(orderID: orderID)
@@ -110,15 +111,30 @@ extension PayPalViewModel: PayPalNativeShippingDelegate {
         didShippingAddressChange shippingAddress: PayPalNativeShippingAddress
     ) {
         publishStateToMainThread(.mainContent(title: "User action", content: "Shipping address changed", flowComplete: false))
-        shippingActions.approve()
+        if shippingAddress.adminArea1?.isEmpty ?? true || shippingAddress.adminArea1 == "NV" {
+            shippingActions.reject()
+        } else {
+            shippingActions.approve()
+        }
     }
     
     func paypal(
         _ payPalClient: PayPalNativeCheckoutClient,
         shippingActions: PayPalNativeShippingActions,
-        didShippingMethodChange: PayPalNativeShippingMethod
+        didShippingMethodChange shippingMethod: PayPalNativeShippingMethod
     ) {
         publishStateToMainThread(.mainContent(title: "User action", content: "Shipping method changed", flowComplete: false))
-        shippingActions.approve()
+        Task {
+            do {
+                let shippingMethods = OrderRequestHelpers.getShippingMethods(selectedID: shippingMethod.id)
+                let amount = OrderRequestHelpers.getAmount(shipping: Double(shippingMethod.value ?? "0.0") ?? 0.0)
+                let params = UpdateOrderParams(orderID: orderID, shippingMethods: shippingMethods, amount: amount)
+                try await DemoMerchantAPI.sharedService.updateOrder(params)
+                shippingActions.approve()
+            } catch let error {
+                shippingActions.reject()
+                publishStateToMainThread(.mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true))
+            }
+        }
     }
 }
