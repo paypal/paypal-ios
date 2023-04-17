@@ -3,7 +3,7 @@
 
 ## unreleased
 * PayPalNativePayments
-  * Fix bug where newly selected shipping method was not reflected in the Paysheet UI
+  * Add `PayPalNativeShippingActions` to `PayPalNativeShippingDelegate.didShippingAddressChange()` and `PayPalNativeShippingDelegate.didShippingMethodChange()`
 * Card
   * Rename `Card.init()` parameter from `cardHolderName` to `cardholderName`
   * Remove unnecessary `Card.expiry` property
