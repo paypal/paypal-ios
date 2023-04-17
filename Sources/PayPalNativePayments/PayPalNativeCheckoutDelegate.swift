@@ -31,9 +31,13 @@ public protocol PayPalNativeCheckoutDelegate: AnyObject {
 /// An optional delegate to receive notifcations if the user changes their shipping information.
 public protocol PayPalNativeShippingDelegate: AnyObject {
     
-    ///  Notify when the users selected shipping address changes
+    /// Notify when the users selected shipping address changes. Use `PayPalNativeShippingActions.approve`
+    /// or `PayPalNativeShippingActions.reject` to approve or reject the newly selected shipping address.
+    /// Optionally, if the order needs to be patched, call  `PayPalNativeShippingActions.approve` once
+    /// patching has completed successfully.
     /// - Parameters:
     ///   - payPalClient: the PayPalClient associated with delegate
+    ///   - shippingActions: actions to perform after a change in shipping address
     ///   - shippingAddress: the user's most recently selected shipping address
     func paypal(
         _ payPalClient: PayPalNativeCheckoutClient,
@@ -41,13 +45,20 @@ public protocol PayPalNativeShippingDelegate: AnyObject {
         didShippingAddressChange shippingAddress: PayPalNativeShippingAddress
     )
     
-    /// Notify when the users selected shipping method changes
+    /// Notify when the users selected a different shipping method. To reflect the newly selected
+    /// shipping method in the paysheet, patch the order on your server with operation `replace`, with all of the
+    /// shipping methods (marking the new one as selected). You can also update the amount to reflect
+    /// the new shipping cost. Once patching completes, its mandatory to call `PayPalNativeShippingActions.approve` or
+    /// `PayPalNativeShippingActions.reject` to either accept or reject the changes and continue the flow.
+    /// Visit https://developer.paypal.com/docs/api/orders/v2/#orders_patch for
+    /// more detailed information on patching an order.
     /// - Parameters:
     ///   - payPalClient: the PayPalClient associated with delegate
+    ///   - shippingActions: actions to perform after a change in shipping method
     ///   - shippingMethod: the user's most recently selected shipping method
     func paypal(
         _ payPalClient: PayPalNativeCheckoutClient,
         shippingActions: PayPalNativeShippingActions,
-        didShippingMethodChange: PayPalNativeShippingMethod
+        didShippingMethodChange shippingMethod: PayPalNativeShippingMethod
     )
 }
