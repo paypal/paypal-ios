@@ -59,7 +59,6 @@ public class PayPalNativeCheckoutClient {
                     orderRequestAction.set(orderId: request.orderID)
                 },
                 onApprove: { approval in
-                    print(approval)
                     let result = PayPalNativeCheckoutResult(
                         orderID: approval.data.ecToken,
                         payerID: approval.data.payerID
