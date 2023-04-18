@@ -33,7 +33,7 @@ public struct PayPalNativeShippingMethod {
     /// when they view the shipping options within the PayPal Checkout experience.
     /// The selected shipping option must match the shipping cost in the order breakdown.
     /// Only one shipping option per purchase unit can be selected.
-    public internal(set) var selected: Bool
+    public let selected: Bool
 
     /// The method by which the payer wants to get their items.
     public let type: DeliveryType
@@ -59,6 +59,23 @@ public struct PayPalNativeShippingMethod {
         self.type = shippingMethod.type.toMerchantFacingShippingType()
         self.value = shippingMethod.amount?.value
         self.currencyCode = shippingMethod.amount?.currencyCodeString
+    }
+    
+    // For testing
+    init(
+        id: String,
+        label: String,
+        selected: Bool,
+        type: DeliveryType,
+        value: String,
+        currencyCode: String
+    ) {
+        self.id = id
+        self.label = label
+        self.selected = selected
+        self.type = type
+        self.value = value
+        self.currencyCode = currencyCode
     }
 }
 

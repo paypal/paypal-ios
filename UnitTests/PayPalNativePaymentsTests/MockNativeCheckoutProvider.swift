@@ -50,7 +50,8 @@ class MockNativeCheckoutProvider: NativeCheckoutStartable {
         type: ShippingChangeType,
         actions: PayPalNativeShippingActions,
         address: PayPalNativeShippingAddress,
-        method: PayPalNativeShippingMethod) {
+        method: PayPalNativeShippingMethod? = nil
+    ) {
         onShippingChange?(type, actions, address, method)
     }
 }

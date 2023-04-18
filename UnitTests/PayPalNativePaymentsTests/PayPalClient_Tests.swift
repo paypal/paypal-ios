@@ -81,10 +81,57 @@ class PayPalClient_Tests: XCTestCase {
     }
     
     func testStart_whenNativeSDKShippingAddressChange_returnsNewAddress() async {
+        let mockShippingDelegate = MockPayPalNativeShipping()
+        let mockShippingAddress = PayPalNativeShippingAddress(
+            addressID: "id",
+            adminArea1: "area1",
+            adminArea2: "area2",
+            postalCode: "postal_code",
+            countryCode: "us"
+        )
+           
+        payPalClient.shippingDelegate = mockShippingDelegate
+        await payPalClient.start(request: request)
+        mockNativeCheckoutProvider.triggerShippingChange(
+            type: .shippingAddress,
+            actions: PayPalNativeShippingActions(),
+            address: mockShippingAddress
+        )
         
+        let capturedShippingAddress = mockShippingDelegate.capturedShippingAddress
+        XCTAssertEqual(mockShippingAddress.addressID, capturedShippingAddress?.addressID)
+        XCTAssertEqual(mockShippingAddress.adminArea1, capturedShippingAddress?.adminArea1)
+        XCTAssertEqual(mockShippingAddress.adminArea2, capturedShippingAddress?.adminArea2)
+        XCTAssertEqual(mockShippingAddress.postalCode, capturedShippingAddress?.postalCode)
+        XCTAssertEqual(mockShippingAddress.countryCode, capturedShippingAddress?.countryCode)
     }
     
     func testStart_whenNativeSDKShippingMethodChange_returnsNewMethod() async {
         
+        let mockShippingDelegate = MockPayPalNativeShipping()
+        let mockShippingMethod = PayPalNativeShippingMethod(
+            id: "id",
+            label: "label",
+            selected: true,
+            type: .shipping,
+            value: "0.0",
+            currencyCode: "usd"
+        )
+        payPalClient.shippingDelegate = mockShippingDelegate
+        await payPalClient.start(request: request)
+        mockNativeCheckoutProvider.triggerShippingChange(
+            type: .shippingMethod,
+            actions: PayPalNativeShippingActions(),
+            address: PayPalNativeShippingAddress(),
+            method: mockShippingMethod
+        )
+        
+        let capturedShippingMethod = mockShippingDelegate.capturedShippingMethod
+        XCTAssertEqual(mockShippingMethod.id, capturedShippingMethod?.id)
+        XCTAssertEqual(mockShippingMethod.label, capturedShippingMethod?.label)
+        XCTAssertEqual(mockShippingMethod.currencyCode, capturedShippingMethod?.currencyCode)
+        XCTAssertEqual(mockShippingMethod.value, capturedShippingMethod?.value)
+        XCTAssertEqual(mockShippingMethod.type, capturedShippingMethod?.type)
+        XCTAssertEqual(mockShippingMethod.selected, capturedShippingMethod?.selected)
     }
 }
