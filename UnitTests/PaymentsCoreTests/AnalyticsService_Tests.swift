@@ -132,3 +132,4 @@ class AnalyticsService_Tests: XCTestCase {
         XCTAssertTrue(analyticsService1 === analyticsService2)
     }
 }
+// swiftlint:enable force_unwrapping implicitly_unwrapped_optional force_cast

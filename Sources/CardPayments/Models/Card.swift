@@ -50,7 +50,7 @@ public struct Card: Encodable {
         self.expirationYear = expirationYear
         self.securityCode = securityCode
         self.cardholderName = cardholderName
-        self.billingAddress = billingAddress        
+        self.billingAddress = billingAddress
     }
 
     public func encode(to encoder: Encoder) throws {
