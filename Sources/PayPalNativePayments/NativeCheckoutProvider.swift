@@ -7,6 +7,11 @@ import CorePayments
 
 class NativeCheckoutProvider: NativeCheckoutStartable {
 
+    private let checkout: CheckoutProtocol.Type
+    
+    init(_ mxo: CheckoutProtocol.Type = Checkout.self) {
+        self.checkout = mxo
+    }
     // swiftlint:disable:next function_parameter_count
     func start(
         presentingViewController: UIViewController?,
@@ -17,10 +22,10 @@ class NativeCheckoutProvider: NativeCheckoutStartable {
         onStartableError: @escaping StartabeErrorCallback,
         nxoConfig: CheckoutConfig
     ) {
-        Checkout.showsExitAlert = false
-        Checkout.set(config: nxoConfig)
-        DispatchQueue.main.async {
-            Checkout.start(
+        checkout.showsExitAlert = false
+        checkout.set(config: nxoConfig)
+        guaranteeMainThread {
+            self.checkout.start(
                 presentingViewController: presentingViewController,
                 createOrder: { createOrderAction in
                     createOrderAction.set(orderId: orderID)
@@ -45,4 +50,31 @@ class NativeCheckoutProvider: NativeCheckoutStartable {
             )
         }
     }
+    
+    private func guaranteeMainThread(_ work: @escaping () -> Void) {
+        if Thread.isMainThread {
+            work()
+        } else {
+            DispatchQueue.main.async(execute: work)
+        }
+    }
 }
+
+protocol CheckoutProtocol {
+    
+    // swiftlint:disable:next function_parameter_count
+    static func start(
+        presentingViewController: UIViewController?,
+        createOrder: PayPalCheckout.CheckoutConfig.CreateOrderCallback?,
+        onApprove: PayPalCheckout.CheckoutConfig.ApprovalCallback?,
+        onShippingChange: PayPalCheckout.CheckoutConfig.ShippingChangeCallback?,
+        onCancel: PayPalCheckout.CheckoutConfig.CancelCallback?,
+        onError: PayPalCheckout.CheckoutConfig.ErrorCallback?
+    )
+    
+    static var showsExitAlert: Bool { get set }
+    
+    static func set(config: PayPalCheckout.CheckoutConfig)
+}
+
+extension Checkout: CheckoutProtocol { }
