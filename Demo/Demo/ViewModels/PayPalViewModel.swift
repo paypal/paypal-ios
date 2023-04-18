@@ -107,8 +107,8 @@ extension PayPalViewModel: PayPalNativeShippingDelegate {
     
     func paypal(
         _ payPalClient: PayPalNativeCheckoutClient,
-        shippingActions: PayPalNativeShippingActions,
-        didShippingAddressChange shippingAddress: PayPalNativeShippingAddress
+        didShippingAddressChange shippingAddress: PayPalNativeShippingAddress,
+        withAction shippingActions: PayPalNativeShippingActions
     ) {
         publishStateToMainThread(.mainContent(title: "User action", content: "Shipping address changed", flowComplete: false))
         if shippingAddress.adminArea1?.isEmpty ?? true || shippingAddress.adminArea1 == "NV" {
@@ -120,8 +120,8 @@ extension PayPalViewModel: PayPalNativeShippingDelegate {
     
     func paypal(
         _ payPalClient: PayPalNativeCheckoutClient,
-        shippingActions: PayPalNativeShippingActions,
-        didShippingMethodChange shippingMethod: PayPalNativeShippingMethod
+        didShippingMethodChange shippingMethod: PayPalNativeShippingMethod,
+        withAction shippingActions: PayPalNativeShippingActions
     ) {
         publishStateToMainThread(.mainContent(title: "User action", content: "Shipping method changed", flowComplete: false))
         Task {

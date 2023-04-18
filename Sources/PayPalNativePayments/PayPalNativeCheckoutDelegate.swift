@@ -37,12 +37,12 @@ public protocol PayPalNativeShippingDelegate: AnyObject {
     /// patching has completed successfully.
     /// - Parameters:
     ///   - payPalClient: the PayPalClient associated with delegate
-    ///   - shippingActions: actions to perform after a change in shipping address
     ///   - shippingAddress: the user's most recently selected shipping address
+    ///   - shippingActions: actions to perform after a change in shipping address
     func paypal(
         _ payPalClient: PayPalNativeCheckoutClient,
-        shippingActions: PayPalNativeShippingActions,
-        didShippingAddressChange shippingAddress: PayPalNativeShippingAddress
+        didShippingAddressChange shippingAddress: PayPalNativeShippingAddress,
+        withAction shippingActions: PayPalNativeShippingActions
     )
     
     /// Notify when the users selected a different shipping method. To reflect the newly selected
@@ -54,11 +54,11 @@ public protocol PayPalNativeShippingDelegate: AnyObject {
     /// more detailed information on patching an order.
     /// - Parameters:
     ///   - payPalClient: the PayPalClient associated with delegate
-    ///   - shippingActions: actions to perform after a change in shipping method
     ///   - shippingMethod: the user's most recently selected shipping method
+    ///   - shippingActions: actions to perform after a change in shipping method
     func paypal(
         _ payPalClient: PayPalNativeCheckoutClient,
-        shippingActions: PayPalNativeShippingActions,
-        didShippingMethodChange shippingMethod: PayPalNativeShippingMethod
+        didShippingMethodChange shippingMethod: PayPalNativeShippingMethod,
+        withAction shippingActions: PayPalNativeShippingActions
     )
 }
