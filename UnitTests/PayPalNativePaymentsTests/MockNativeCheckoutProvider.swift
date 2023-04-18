@@ -46,7 +46,11 @@ class MockNativeCheckoutProvider: NativeCheckoutStartable {
         onApprove?(orderdID, payerID)
     }
     
-    func triggerShippingChange() {
-        // TODO: trigger shipping change
+    func triggerShippingChange(
+        type: ShippingChangeType,
+        actions: PayPalNativeShippingActions,
+        address: PayPalNativeShippingAddress,
+        method: PayPalNativeShippingMethod) {
+        onShippingChange?(type, actions, address, method)
     }
 }

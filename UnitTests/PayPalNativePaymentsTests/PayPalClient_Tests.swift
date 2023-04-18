@@ -40,14 +40,17 @@ class PayPalClient_Tests: XCTestCase {
         XCTAssertEqual(mockPayPalDelegate.capturedError?.errorDescription, "Error fetching clientID. Contact developer.paypal.com/support.")
     }
 
-    // todo: check for approval result instead of cancel
     func testStart_whenNativeSDKOnApproveCalled_returnsPayPalResult() async {
 
+        let mockOrderID = "mock_order_id"
+        let mockPayerID = "mock_payer_id"
         let mockPayPalDelegate = MockPayPalDelegate()
         payPalClient.delegate = mockPayPalDelegate
         await payPalClient.start(request: request)
-        mockNativeCheckoutProvider.triggerCancel()
-        XCTAssert(mockPayPalDelegate.paypalDidCancel)
+        mockNativeCheckoutProvider.triggerApprove(orderdID: mockOrderID, payerID: mockPayerID)
+        let result = mockPayPalDelegate.capturedResult
+        XCTAssertEqual(result?.orderID, mockOrderID)
+        XCTAssertEqual(result?.payerID, mockPayerID)
     }
 
     func testStart_whenNativeSDKOnCancelCalled_returnsCancellation() async {
@@ -67,13 +70,21 @@ class PayPalClient_Tests: XCTestCase {
         XCTAssert(mockPayPalDelegate.paypalDidStart)
     }
 
-    // todo: check for error case instead of cancel
     func testStart_whenNativeSDKOnErrorCalled_returnsCheckoutError() async {
 
+        let errorMessage = "error_message"
         let mockPayPalDelegate = MockPayPalDelegate()
         payPalClient.delegate = mockPayPalDelegate
         await payPalClient.start(request: request)
-        mockNativeCheckoutProvider.triggerCancel()
-        XCTAssert(mockPayPalDelegate.paypalDidCancel)
+        mockNativeCheckoutProvider.triggerError(errorReason: errorMessage)
+        XCTAssertEqual(mockPayPalDelegate.capturedError?.errorDescription, errorMessage)
+    }
+    
+    func testStart_whenNativeSDKShippingAddressChange_returnsNewAddress() async {
+        
+    }
+    
+    func testStart_whenNativeSDKShippingMethodChange_returnsNewMethod() async {
+        
     }
 }
