@@ -12,5 +12,4 @@ class MockShippingChangeActions: ShippingActionsProtocol {
     func approve() {
         approveInvoked = true
     }
-    
 }
