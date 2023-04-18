@@ -11,26 +11,42 @@ class MockNativeCheckoutProvider: NativeCheckoutStartable {
     required init(nxoConfig: CheckoutConfig) {
     }
 
-    var onCancel: CheckoutConfig.CancelCallback?
-    var onError: CheckoutConfig.ErrorCallback?
+    var onCancel: StartabeCancelCallback?
+    var onError: StartabeErrorCallback?
+    var onApprove: StartabeApproveCallback?
+    var onShippingChange: StartabeShippingCallback?
 
     // todo: implemenet cases for other callbacks
     // swiftlint:disable function_parameter_count
     func start(
         presentingViewController: UIViewController?,
-        createOrder: CheckoutConfig.CreateOrderCallback?,
-        onApprove: CheckoutConfig.ApprovalCallback?,
-        onShippingChange: CheckoutConfig.ShippingChangeCallback?,
-        onCancel: CheckoutConfig.CancelCallback?,
-        onError: CheckoutConfig.ErrorCallback?,
+        orderID: String,
+        onStartableApprove: @escaping StartabeApproveCallback,
+        onStartableShippingChange: @escaping StartabeShippingCallback,
+        onStartableCancel: @escaping StartabeCancelCallback,
+        onStartableError: @escaping StartabeErrorCallback,
         nxoConfig: CheckoutConfig
     ) {
-        self.onCancel = onCancel
-        self.onError = onError
+        self.onCancel = onStartableCancel
+        self.onError = onStartableError
+        self.onApprove = onStartableApprove
+        self.onShippingChange = onStartableShippingChange
     }
     // swiftlint:enable function_parameter_count
 
     func triggerCancel() {
         onCancel?()
+    }
+    
+    func triggerError(errorReason: String) {
+        onError?(errorReason)
+    }
+    
+    func triggerApprove(orderdID: String, payerID: String) {
+        onApprove?(orderdID, payerID)
+    }
+    
+    func triggerShippingChange() {
+        // TODO: trigger shipping change
     }
 }
