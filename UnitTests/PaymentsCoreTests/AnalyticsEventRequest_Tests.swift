@@ -68,3 +68,4 @@ extension String {
         self.range(of: regex, options: .regularExpression) != nil
     }
 }
+// swiftlint:enable force_unwrapping implicitly_unwrapped_optional force_try force_cast

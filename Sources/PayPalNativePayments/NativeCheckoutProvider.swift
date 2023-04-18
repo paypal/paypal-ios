@@ -30,5 +30,5 @@ class NativeCheckoutProvider: NativeCheckoutStartable {
             )
         }
     }
-    // swift_lint: enable function_parameter_count
+    // swiftlint: enable function_parameter_count
 }
