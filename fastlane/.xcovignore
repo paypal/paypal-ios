@@ -8,7 +8,5 @@
 # Exclude WebAuthSession for now
 - Sources/PaymentsCore/WebAuthenticationSession.swift
 # ToDo: Excluding PayPal native checkout until figured out mocking interfaces with oxo
-- Sources/PayPalNativePayments/PayPalNativePaymentsError.swift
-- Sources/PayPalNativePayments/PayPalNativeCheckoutClient.swift
 - Sources/PayPalNativePayments/NativeCheckoutProvider.swift
 - Sources/PayPalNativePayments/NativeCheckoutStartable.swift

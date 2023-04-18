@@ -3,9 +3,9 @@ import PayPalCheckout
 /// The actions that can be performed when the `PayPalNativeShippingDelegate` methods are invoked.
 public class PayPalNativeShippingActions {
 
-    private let shippingActions: ShippingChangeAction?
+    private let shippingActions: ShippingActionsProtocol?
     
-    init(_ shippingActions: ShippingChangeAction) {
+    init(_ shippingActions: ShippingActionsProtocol) {
         self.shippingActions = shippingActions
     }
     
@@ -26,3 +26,11 @@ public class PayPalNativeShippingActions {
     /// For more information on patching an order, visit: https://developer.paypal.com/docs/api/orders/v2/#orders_patch
     public func approve() { self.shippingActions?.approve() }
 }
+
+protocol ShippingActionsProtocol {
+    
+    func reject()
+    func approve()
+}
+
+extension ShippingChangeAction: ShippingActionsProtocol { }
