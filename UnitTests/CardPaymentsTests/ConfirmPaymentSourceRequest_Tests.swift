@@ -37,7 +37,8 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
                                 "verification": {
                                     "method": "SCA_WHEN_REQUIRED"
                                 }
-                            }
+                        },
+                            "expiry": "2024-11"
                         }
                     }
                 }

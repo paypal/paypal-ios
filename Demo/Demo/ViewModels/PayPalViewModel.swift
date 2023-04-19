@@ -106,8 +106,8 @@ extension PayPalViewModel: PayPalNativeShippingDelegate {
     
     func paypal(
         _ payPalClient: PayPalNativeCheckoutClient,
-        shippingActions: PayPalNativeShippingActions,
-        didShippingAddressChange shippingAddress: PayPalNativeShippingAddress
+        didShippingAddressChange shippingAddress: PayPalNativeShippingAddress,
+        withAction shippingActions: PayPalNativeShippingActions
     ) {
         publishStateToMainThread(.mainContent(title: "User action", content: "Shipping address changed", flowComplete: false))
         shippingActions.approve()
@@ -115,8 +115,8 @@ extension PayPalViewModel: PayPalNativeShippingDelegate {
     
     func paypal(
         _ payPalClient: PayPalNativeCheckoutClient,
-        shippingActions: PayPalNativeShippingActions,
-        didShippingMethodChange: PayPalNativeShippingMethod
+        didShippingMethodChange: PayPalNativeShippingMethod,
+        withAction shippingActions: PayPalNativeShippingActions
     ) {
         publishStateToMainThread(.mainContent(title: "User action", content: "Shipping method changed", flowComplete: false))
         shippingActions.approve()
