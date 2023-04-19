@@ -48,4 +48,3 @@ class APIClient_Tests: XCTestCase {
         XCTAssertEqual(response, "sample_id")
     }
 }
-// swiftlint:enable force_unwrapping implicitly_unwrapped_optional

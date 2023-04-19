@@ -42,7 +42,7 @@ public protocol PayPalNativeShippingDelegate: AnyObject {
     func paypal(
         _ payPalClient: PayPalNativeCheckoutClient,
         didShippingAddressChange shippingAddress: PayPalNativeShippingAddress,
-        withAction shippingActions: PayPalNativeShippingActions
+        withAction shippingActions: PayPalNativePaysheetActions
     )
     
     /// Notify when the users selected a different shipping method. To reflect the newly selected
@@ -59,6 +59,6 @@ public protocol PayPalNativeShippingDelegate: AnyObject {
     func paypal(
         _ payPalClient: PayPalNativeCheckoutClient,
         didShippingMethodChange shippingMethod: PayPalNativeShippingMethod,
-        withAction shippingActions: PayPalNativeShippingActions
+        withAction shippingActions: PayPalNativePaysheetActions
     )
 }
