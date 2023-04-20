@@ -5,7 +5,7 @@ import Foundation
 public struct CoreConfig {
 
     public let environment: Environment
-    public let accessToken: String
+    public let accessToken: String!
 
     public init(accessToken: String, environment: Environment) {
         self.environment = environment
