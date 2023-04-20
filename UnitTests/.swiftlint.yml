@@ -1,12 +1,6 @@
 # Reference: https://github.com/realm/SwiftLint
 # Required Swiftlint Version
 # swiftlint_version: 0.39.2
-
-# Paths to include in lint
-included:
-  - Demo
-  - Sources
-  - UnitTests
  
 disabled_rules:
   - todo
