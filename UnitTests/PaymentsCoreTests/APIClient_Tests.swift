@@ -2,7 +2,6 @@ import XCTest
 @testable import CorePayments
 @testable import TestShared
 
-// swiftlint:disable force_unwrapping implicitly_unwrapped_optional
 class APIClient_Tests: XCTestCase {
 
     // MARK: - Helper Properties
@@ -48,4 +47,3 @@ class APIClient_Tests: XCTestCase {
         XCTAssertEqual(response, "sample_id")
     }
 }
-// swiftlint:enable force_unwrapping implicitly_unwrapped_optional

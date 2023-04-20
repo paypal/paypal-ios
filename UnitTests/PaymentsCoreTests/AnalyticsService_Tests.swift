@@ -2,7 +2,6 @@ import XCTest
 @testable import CorePayments
 @testable import TestShared
 
-// swiftlint:disable force_unwrapping implicitly_unwrapped_optional force_cast
 class AnalyticsService_Tests: XCTestCase {
 
     // MARK: - Helper properties
@@ -132,4 +131,3 @@ class AnalyticsService_Tests: XCTestCase {
         XCTAssertTrue(analyticsService1 === analyticsService2)
     }
 }
-// swiftlint:enable force_unwrapping implicitly_unwrapped_optional force_cast

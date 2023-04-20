@@ -15,7 +15,6 @@ class MockNativeCheckoutProvider: NativeCheckoutStartable {
     var onError: CheckoutConfig.ErrorCallback?
 
     // todo: implemenet cases for other callbacks
-    // swiftlint:disable function_parameter_count
     func start(
         presentingViewController: UIViewController?,
         createOrder: CheckoutConfig.CreateOrderCallback?,
@@ -28,7 +27,6 @@ class MockNativeCheckoutProvider: NativeCheckoutStartable {
         self.onCancel = onCancel
         self.onError = onError
     }
-    // swiftlint:enable function_parameter_count
 
     func triggerCancel() {
         onCancel?()
