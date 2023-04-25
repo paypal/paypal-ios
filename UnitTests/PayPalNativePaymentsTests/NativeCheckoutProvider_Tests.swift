@@ -25,7 +25,6 @@ class NativeCheckoutProvider_Tests: XCTestCase {
 
 class MockCheckout: CheckoutProtocol {
     
-    // swiftlint:disable:next function_parameter_count
     static func start(
         presentingViewController: UIViewController?,
         createOrder: PayPalCheckout.CheckoutConfig.CreateOrderCallback?,
