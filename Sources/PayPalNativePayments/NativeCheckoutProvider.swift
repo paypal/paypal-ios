@@ -7,7 +7,7 @@ import CorePayments
 
 class NativeCheckoutProvider: NativeCheckoutStartable {
 
-    // swiftlint:disable function_parameter_count
+    // swiftlint:disable:next function_parameter_count
     func start(
         presentingViewController: UIViewController? = nil,
         createOrder: CheckoutConfig.CreateOrderCallback?,
@@ -30,5 +30,4 @@ class NativeCheckoutProvider: NativeCheckoutStartable {
             )
         }
     }
-    // swiftlint: enable function_parameter_count
 }

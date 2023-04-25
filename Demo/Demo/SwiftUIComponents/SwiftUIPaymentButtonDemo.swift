@@ -24,7 +24,7 @@ struct SwiftUIPaymentButtonDemo: View {
     @State private var labelIndex = 0
     private var labels = PayPalButton.Label.allCasesAsString()
     @State private var selectedLabel = PayPalButton.Label.allCases[0]
-    
+
     @ViewBuilder var body: some View {
         ZStack {
             VStack {
