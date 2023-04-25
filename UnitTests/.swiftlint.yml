@@ -1,0 +1,13 @@
+# Reference: https://github.com/realm/SwiftLint
+# Required Swiftlint Version
+# swiftlint_version: 0.39.2
+ 
+disabled_rules:
+  - todo
+  - type_name # tests will have have the format <SUT>_Tests
+  - xctfail_message
+  - implicitly_unwrapped_optional
+  - force_unwrapping
+  - force_cast
+  - force_try
+  - function_parameter_count
