@@ -48,7 +48,7 @@ class MockNativeCheckoutProvider: NativeCheckoutStartable {
     
     func triggerShippingChange(
         type: ShippingChangeType,
-        actions: PayPalNativeShippingActions,
+        actions: PayPalNativePaysheetActions,
         address: PayPalNativeShippingAddress,
         method: PayPalNativeShippingMethod? = nil
     ) {

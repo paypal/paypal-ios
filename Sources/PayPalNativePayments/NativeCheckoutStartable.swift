@@ -10,7 +10,7 @@ protocol NativeCheckoutStartable {
     typealias StartabeApproveCallback = (String, String) -> Void
     typealias StartabeShippingCallback = (
         ShippingChangeType,
-        PayPalNativeShippingActions,
+        PayPalNativePaysheetActions,
         PayPalNativeShippingAddress,
         PayPalNativeShippingMethod?
     ) -> Void

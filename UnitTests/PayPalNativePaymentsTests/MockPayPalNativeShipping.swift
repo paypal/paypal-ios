@@ -8,7 +8,7 @@ class MockPayPalNativeShipping: PayPalNativeShippingDelegate {
     func paypal(
         _ payPalClient: PayPalNativePayments.PayPalNativeCheckoutClient,
         didShippingAddressChange shippingAddress: PayPalNativePayments.PayPalNativeShippingAddress,
-        withAction shippingActions: PayPalNativePayments.PayPalNativeShippingActions
+        withAction shippingActions: PayPalNativePayments.PayPalNativePaysheetActions
     ) {
         capturedShippingAddress = shippingAddress
     }
@@ -16,7 +16,7 @@ class MockPayPalNativeShipping: PayPalNativeShippingDelegate {
     func paypal(
         _ payPalClient: PayPalNativePayments.PayPalNativeCheckoutClient,
         didShippingMethodChange shippingMethod: PayPalNativePayments.PayPalNativeShippingMethod,
-        withAction shippingActions: PayPalNativePayments.PayPalNativeShippingActions
+        withAction shippingActions: PayPalNativePayments.PayPalNativePaysheetActions
     ) {
         capturedShippingMethod = shippingMethod
     }

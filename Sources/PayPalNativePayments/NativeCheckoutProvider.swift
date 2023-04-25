@@ -35,7 +35,7 @@ class NativeCheckoutProvider: NativeCheckoutStartable {
                 },
                 onShippingChange: { shippingChangeData, shippingChangeActions in
                     let type = shippingChangeData.type
-                    let shippingActions = PayPalNativeShippingActions(shippingChangeActions)
+                    let shippingActions = PayPalNativePaysheetActions(shippingChangeActions)
                     let shippingAddress = PayPalNativeShippingAddress(shippingChangeData.selectedShippingAddress)
                     var shippingMethod: PayPalNativeShippingMethod?
                     if let selectedMethod = shippingChangeData.selectedShippingMethod {
