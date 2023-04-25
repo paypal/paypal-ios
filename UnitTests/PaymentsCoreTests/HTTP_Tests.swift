@@ -2,7 +2,6 @@ import XCTest
 @testable import CorePayments
 @testable import TestShared
 
-// swiftlint:disable force_unwrapping implicitly_unwrapped_optional
 class HTTP_Tests: XCTestCase {
     
     // MARK: - Helper Properties
@@ -182,4 +181,3 @@ class HTTP_Tests: XCTestCase {
         XCTAssertEqual(decodedCacheData.fakeParam, "cached_value2")
     }
 }
-// swiftlint:enable force_unwrapping implicitly_unwrapped_optional

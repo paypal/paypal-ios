@@ -6,12 +6,10 @@ import AuthenticationServices
 
 class PayPalClient_Tests: XCTestCase {
     
-    // swiftlint:disable implicitly_unwrapped_optional
     var config: CoreConfig!
     var mockWebAuthenticationSession: MockWebAuthenticationSession!
     var payPalClient: PayPalWebCheckoutClient!
     var mockAPIClient: MockAPIClient!
-    // swiftlint:enable implicitly_unwrapped_optional
     
     override func setUp() {
         super.setUp()
@@ -110,7 +108,6 @@ class PayPalClient_Tests: XCTestCase {
     }
 
     func testpayPalCheckoutReturnURL_returnsCorrectURL() {
-        // swiftlint:disable:next force_unwrapping
         let url = URL(string: "https://sandbox.paypal.com/checkoutnow?token=1234")!
         let checkoutURL = payPalClient.payPalCheckoutReturnURL(payPalCheckoutURL: url)
 

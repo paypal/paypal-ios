@@ -12,6 +12,7 @@ class NativeCheckoutProvider: NativeCheckoutStartable {
     init(_ mxo: CheckoutProtocol.Type = Checkout.self) {
         self.checkout = mxo
     }
+
     // swiftlint:disable:next function_parameter_count
     func start(
         presentingViewController: UIViewController?,

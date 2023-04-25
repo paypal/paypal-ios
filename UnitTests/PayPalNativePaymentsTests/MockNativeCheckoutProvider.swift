@@ -17,7 +17,6 @@ class MockNativeCheckoutProvider: NativeCheckoutStartable {
     var onShippingChange: StartableShippingCallback?
 
     // todo: implemenet cases for other callbacks
-    // swiftlint:disable function_parameter_count
     func start(
         presentingViewController: UIViewController?,
         orderID: String,
@@ -32,7 +31,6 @@ class MockNativeCheckoutProvider: NativeCheckoutStartable {
         self.onApprove = onStartableApprove
         self.onShippingChange = onStartableShippingChange
     }
-    // swiftlint:enable function_parameter_count
 
     func triggerCancel() {
         onCancel?()
