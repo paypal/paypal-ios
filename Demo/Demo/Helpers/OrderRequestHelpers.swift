@@ -10,10 +10,7 @@ enum OrderRequestHelpers {
             intent: .authorize,
             purchaseUnits: [
                 PayPalCheckout.PurchaseUnit(
-                    amount: PayPalCheckout.PurchaseUnit.Amount(
-                        currencyCode: .usd,
-                        value: String(orderAmount)
-                    ),
+                    amount: getAmount(value: orderAmount),
                     payee: PayPalCheckout.PurchaseUnit.Payee(emailAddress: "merchant@email.com", merchantId: "X5XAHHCG636FA"),
                     shipping: PayPalCheckout.PurchaseUnit.Shipping(
                         shippingName: PayPalCheckout.PurchaseUnit.ShippingName(fullName: "Cookie Monster"),
@@ -25,7 +22,7 @@ enum OrderRequestHelpers {
                             adminArea2: "New York City",
                             postalCode: "32422"
                         ),
-                        options: shippingPreference == .getFromFile ? getShippingMethods(baseValue: 0) : nil
+                        options: shippingPreference == .getFromFile ? getShippingMethods() : nil
                     )
                 )
             ],
@@ -37,13 +34,24 @@ enum OrderRequestHelpers {
             )
         )
     }
+    
+    static func getAmount(value: Double = orderAmount, shipping: Double = 3.99) -> PayPalCheckout.PurchaseUnit.Amount {
+        return PayPalCheckout.PurchaseUnit.Amount(
+            currencyCode: .usd,
+            value: String(value + shipping),
+            breakdown: PayPalCheckout.PurchaseUnit.Breakdown(
+                itemTotal: UnitAmount(currencyCode: .usd, value: String(value)),
+                shipping: UnitAmount(currencyCode: .usd, value: String(shipping))
+            )
+        )
+    }
 
-    static func getShippingMethods(baseValue: Int) -> [PayPalCheckout.ShippingMethod] {
+    static func getShippingMethods(baseValue: Int = 0, selectedID: String = "ShipTest1") -> [PayPalCheckout.ShippingMethod] {
         let currency = CurrencyCode.usd
         let ship1 = PayPalCheckout.ShippingMethod(
             id: "ShipTest1",
             label: "standard shipping",
-            selected: true,
+            selected: false,
             type: .shipping,
             amount: UnitAmount(currencyCode: currency, value: String(3.99 + Double(baseValue)))
         )
@@ -82,6 +90,17 @@ enum OrderRequestHelpers {
             type: .pickup,
             amount: UnitAmount(currencyCode: currency, value: "0")
         )
-        return [ship1, ship2, ship3, pick1, pick2, pick3]
+        var shippingOptions = [ship1, ship2, ship3, pick1, pick2, pick3]
+        if let index = shippingOptions.firstIndex(where: { $0.id == selectedID }) {
+            let shippingMethod = shippingOptions[index]
+            shippingOptions[index] = PayPalCheckout.ShippingMethod(
+                id: selectedID,
+                label: shippingMethod.label,
+                selected: true,
+                type: shippingMethod.type,
+                amount: shippingMethod.amount
+            )
+        }
+        return shippingOptions
     }
 }

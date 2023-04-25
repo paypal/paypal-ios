@@ -56,6 +56,18 @@ final class DemoMerchantAPI {
         let data = try await data(for: urlRequest)
         return try parse(from: data)
     }
+    
+    /// This function replicates a way a merchant may go about patching an order on their server and is not part of the SDK flow.
+    /// - Parameters:
+    ///   - updateOrderParams: the parameters to update the order with
+    /// - Throws: an error explaining why patching the order failed
+    func updateOrder(_ updateOrderParams: UpdateOrderParams) async throws {
+        guard let url = buildBaseURL(with: "/orders/" + updateOrderParams.orderID) else {
+            throw URLResponseError.invalidURL
+        }
+        let urlRequest = buildURLRequest(method: "PATCH", url: url, body: updateOrderParams.updateOperations)
+        _ = try await data(for: urlRequest)
+    }
 
     /// This function fetches an access token to initialize any module of the SDK
     /// - Parameters:
