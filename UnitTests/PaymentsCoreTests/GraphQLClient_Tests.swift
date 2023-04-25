@@ -6,16 +6,15 @@ class GraphQLClient_Tests: XCTestCase {
 
     let mockClientID = "mockClientId"
     let mockAccessToken = "mockAccessToken"
+    
     // MARK: - Helper Properties
-    // swiftlint:disable implicitly_unwrapped_optional
-    // swiftlint:disable:next force_unwrapping
+    
     let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])
     let fakeRequest = FakeRequest()
     var config: CoreConfig!
     var mockURLSession: MockURLSession!
     var graphQLClient: GraphQLClient!
     var graphQLQuery: GraphQLQuery!
-    // swiftlint:enable implicitly_unwrapped_optional
 
     // MARK: - Test lifecycle
 
@@ -46,7 +45,6 @@ class GraphQLClient_Tests: XCTestCase {
 
 
         mockURLSession.cannedURLResponse = HTTPURLResponse(
-            // swiftlint:disable:next force_unwrapping
             url: URL(string: "www.fake.com")!,
             statusCode: 200,
             httpVersion: "1",
@@ -68,7 +66,6 @@ class GraphQLClient_Tests: XCTestCase {
 
 
         mockURLSession.cannedURLResponse = HTTPURLResponse(
-            // swiftlint:disable:next force_unwrapping
             url: URL(string: "www.fake.com")!,
             statusCode: 200,
             httpVersion: "1",
