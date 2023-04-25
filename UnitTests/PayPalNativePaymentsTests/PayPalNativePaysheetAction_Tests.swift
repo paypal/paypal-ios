@@ -1,11 +1,11 @@
 import XCTest
 @testable import PayPalNativePayments
 
-class PayPalNativeShippingAction_Tests: XCTestCase {
+class PayPalNativePaysheetAction_Tests: XCTestCase {
 
     func testReject_whenRejectIsCalled_wrappedRejectIsInvoked() {
         let mockWrappedShippingActions = MockShippingChangeActions()
-        let payPalNativeShippingActions = PayPalNativeShippingActions(mockWrappedShippingActions)
+        let payPalNativeShippingActions = PayPalNativePaysheetActions(mockWrappedShippingActions)
         
         payPalNativeShippingActions.reject()
         XCTAssertTrue(mockWrappedShippingActions.rejectInvoked)
@@ -13,7 +13,7 @@ class PayPalNativeShippingAction_Tests: XCTestCase {
     
     func testApprove_whenApproveIsCalled_wrappedApproveIsInvoked() {
         let mockWrappedShippingActions = MockShippingChangeActions()
-        let payPalNativeShippingActions = PayPalNativeShippingActions(mockWrappedShippingActions)
+        let payPalNativeShippingActions = PayPalNativePaysheetActions(mockWrappedShippingActions)
         
         payPalNativeShippingActions.approve()
         XCTAssertTrue(mockWrappedShippingActions.approveInvoked)

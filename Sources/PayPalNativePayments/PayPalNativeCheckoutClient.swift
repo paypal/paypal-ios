@@ -110,7 +110,7 @@ public class PayPalNativeCheckoutClient {
     }
     
     private func notifyShippingMethod(
-        shippingActions: PayPalNativeShippingActions,
+        shippingActions: PayPalNativePaysheetActions,
         shippingMethod: PayPalNativeShippingMethod
     ) {
         apiClient.sendAnalyticsEvent("paypal-native-payments:shipping-method-changed")
@@ -118,7 +118,7 @@ public class PayPalNativeCheckoutClient {
     }
     
     private func notifyShippingChange(
-        shippingActions: PayPalNativeShippingActions,
+        shippingActions: PayPalNativePaysheetActions,
         shippingAddress: PayPalNativeShippingAddress
     ) {
         apiClient.sendAnalyticsEvent("paypal-native-payments:shipping-address-changed")

@@ -1,7 +1,7 @@
 import PayPalCheckout
 
-/// The actions that can be performed when the `PayPalNativeShippingDelegate` methods are invoked.
-public class PayPalNativeShippingActions {
+/// The actions that can be used to update the Paysheet UI after `PayPalNativeShippingDelegate` methods are invoked.
+public class PayPalNativePaysheetActions {
 
     private let shippingActions: ShippingActionsProtocol?
     
