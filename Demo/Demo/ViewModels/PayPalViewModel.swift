@@ -108,6 +108,7 @@ extension PayPalViewModel: PayPalNativeShippingDelegate {
     func paypal(
         _ payPalClient: PayPalNativeCheckoutClient,
         didShippingAddressChange shippingAddress: PayPalNativeShippingAddress,
+<<<<<<< HEAD
         withAction shippingActions: PayPalNativeShippingActions
     ) {
         publishStateToMainThread(.mainContent(title: "User action", content: "Shipping address changed", flowComplete: false))
@@ -116,10 +117,17 @@ extension PayPalViewModel: PayPalNativeShippingDelegate {
         } else {
             shippingActions.approve()
         }
+=======
+        withAction shippingActions: PayPalNativePaysheetActions
+    ) {
+        publishStateToMainThread(.mainContent(title: "User action", content: "Shipping address changed", flowComplete: false))
+        shippingActions.approve()
+>>>>>>> main
     }
     
     func paypal(
         _ payPalClient: PayPalNativeCheckoutClient,
+<<<<<<< HEAD
         didShippingMethodChange shippingMethod: PayPalNativeShippingMethod,
         withAction shippingActions: PayPalNativeShippingActions
     ) {
@@ -136,5 +144,12 @@ extension PayPalViewModel: PayPalNativeShippingDelegate {
                 publishStateToMainThread(.mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true))
             }
         }
+=======
+        didShippingMethodChange: PayPalNativeShippingMethod,
+        withAction shippingActions: PayPalNativePaysheetActions
+    ) {
+        publishStateToMainThread(.mainContent(title: "User action", content: "Shipping method changed", flowComplete: false))
+        shippingActions.approve()
+>>>>>>> main
     }
 }
