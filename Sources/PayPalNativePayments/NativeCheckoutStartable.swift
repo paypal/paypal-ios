@@ -7,25 +7,25 @@ import CorePayments
 
 protocol NativeCheckoutStartable {
     
-    typealias StartabeApproveCallback = (String, String) -> Void
-    typealias StartabeShippingCallback = (
+    typealias StartableApproveCallback = (String, String) -> Void
+    typealias StartableShippingCallback = (
         ShippingChangeType,
         PayPalNativePaysheetActions,
         PayPalNativeShippingAddress,
         PayPalNativeShippingMethod?
     ) -> Void
-    typealias StartabeCancelCallback = () -> Void
-    typealias StartabeErrorCallback = (String) -> Void
+    typealias StartableCancelCallback = () -> Void
+    typealias StartableErrorCallback = (String) -> Void
 
 
     // swiftlint:disable:next function_parameter_count
     func start(
         presentingViewController: UIViewController?,
         orderID: String,
-        onStartableApprove: @escaping StartabeApproveCallback,
-        onStartableShippingChange: @escaping StartabeShippingCallback,
-        onStartableCancel: @escaping StartabeCancelCallback,
-        onStartableError: @escaping StartabeErrorCallback,
+        onStartableApprove: @escaping StartableApproveCallback,
+        onStartableShippingChange: @escaping StartableShippingCallback,
+        onStartableCancel: @escaping StartableCancelCallback,
+        onStartableError: @escaping StartableErrorCallback,
         nxoConfig: CheckoutConfig
     )
 }

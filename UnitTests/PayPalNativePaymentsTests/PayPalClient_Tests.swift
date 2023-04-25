@@ -94,7 +94,7 @@ class PayPalClient_Tests: XCTestCase {
         await payPalClient.start(request: request)
         mockNativeCheckoutProvider.triggerShippingChange(
             type: .shippingAddress,
-            actions: PayPalNativePaysheetActions(),
+            actions: PayPalNativePaysheetActions(MockShippingChangeActions()),
             address: mockShippingAddress
         )
         
@@ -121,7 +121,7 @@ class PayPalClient_Tests: XCTestCase {
         await payPalClient.start(request: request)
         mockNativeCheckoutProvider.triggerShippingChange(
             type: .shippingMethod,
-            actions: PayPalNativePaysheetActions(),
+            actions: PayPalNativePaysheetActions(MockShippingChangeActions()),
             address: PayPalNativeShippingAddress(),
             method: mockShippingMethod
         )

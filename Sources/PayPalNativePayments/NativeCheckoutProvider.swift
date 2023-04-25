@@ -16,10 +16,10 @@ class NativeCheckoutProvider: NativeCheckoutStartable {
     func start(
         presentingViewController: UIViewController?,
         orderID: String,
-        onStartableApprove: @escaping StartabeApproveCallback,
-        onStartableShippingChange: @escaping StartabeShippingCallback,
-        onStartableCancel: @escaping StartabeCancelCallback,
-        onStartableError: @escaping StartabeErrorCallback,
+        onStartableApprove: @escaping StartableApproveCallback,
+        onStartableShippingChange: @escaping StartableShippingCallback,
+        onStartableCancel: @escaping StartableCancelCallback,
+        onStartableError: @escaping StartableErrorCallback,
         nxoConfig: CheckoutConfig
     ) {
         checkout.showsExitAlert = false

@@ -11,20 +11,20 @@ class MockNativeCheckoutProvider: NativeCheckoutStartable {
     required init(nxoConfig: CheckoutConfig) {
     }
 
-    var onCancel: StartabeCancelCallback?
-    var onError: StartabeErrorCallback?
-    var onApprove: StartabeApproveCallback?
-    var onShippingChange: StartabeShippingCallback?
+    var onCancel: StartableCancelCallback?
+    var onError: StartableErrorCallback?
+    var onApprove: StartableApproveCallback?
+    var onShippingChange: StartableShippingCallback?
 
     // todo: implemenet cases for other callbacks
     // swiftlint:disable function_parameter_count
     func start(
         presentingViewController: UIViewController?,
         orderID: String,
-        onStartableApprove: @escaping StartabeApproveCallback,
-        onStartableShippingChange: @escaping StartabeShippingCallback,
-        onStartableCancel: @escaping StartabeCancelCallback,
-        onStartableError: @escaping StartabeErrorCallback,
+        onStartableApprove: @escaping StartableApproveCallback,
+        onStartableShippingChange: @escaping StartableShippingCallback,
+        onStartableCancel: @escaping StartableCancelCallback,
+        onStartableError: @escaping StartableErrorCallback,
         nxoConfig: CheckoutConfig
     ) {
         self.onCancel = onStartableCancel
