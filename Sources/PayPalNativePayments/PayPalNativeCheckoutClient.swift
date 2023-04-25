@@ -55,40 +55,35 @@ public class PayPalNativeCheckoutClient {
             apiClient.sendAnalyticsEvent("paypal-native-payments:started")
             self.nativeCheckoutProvider.start(
                 presentingViewController: presentingViewController,
-                createOrder: { orderRequestAction in
-                    orderRequestAction.set(orderId: request.orderID)
-                },
-                onApprove: { approval in
+                orderID: request.orderID,
+                onStartableApprove: { ecToken, payerID in
                     let result = PayPalNativeCheckoutResult(
-                        orderID: approval.data.ecToken,
-                        payerID: approval.data.payerID
+                        orderID: ecToken,
+                        payerID: payerID
                     )
                     self.notifySuccess(for: result)
                 },
-                onShippingChange: { shippingChange, shippingChangeAction in
-                    let paypalShippingActions = PayPalNativePaysheetActions(shippingChangeAction)
-                    switch shippingChange.type {
+                onStartableShippingChange: { shippingType, shippingAction, shippingAddress, shippingMethod in
+                    switch shippingType {
                     case .shippingAddress:
-                        let shippingAddress = PayPalNativeShippingAddress(shippingChange.selectedShippingAddress)
-                        self.notifyShippingChange(shippingActions: paypalShippingActions, shippingAddress: shippingAddress)
-                        
+                        self.notifyShippingChange(shippingActions: shippingAction, shippingAddress: shippingAddress)
                     case .shippingMethod:
-                        guard let selectedShippingMethod = shippingChange.selectedShippingMethod else {
+                        guard let selectedShippingMethod = shippingMethod else {
                             return
                         }
                         self.notifyShippingMethod(
-                            shippingActions: paypalShippingActions,
-                            shippingMethod: PayPalNativeShippingMethod(selectedShippingMethod)
+                            shippingActions: shippingAction,
+                            shippingMethod: selectedShippingMethod
                         )
                     @unknown default:
                         break // do nothing
                     }
                 },
-                onCancel: {
+                onStartableCancel: {
                     self.notifyCancellation()
                 },
-                onError: { error in
-                    self.notifyFailure(with: error.reason)
+                onStartableError: { errorReason in
+                    self.notifyFailure(with: errorReason)
                 },
                 nxoConfig: nxoConfig
             )

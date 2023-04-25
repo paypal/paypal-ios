@@ -3,9 +3,9 @@ import PayPalCheckout
 /// The actions that can be used to update the Paysheet UI after `PayPalNativeShippingDelegate` methods are invoked.
 public class PayPalNativePaysheetActions {
 
-    private let shippingActions: ShippingChangeAction
+    private let shippingActions: ShippingActionsProtocol
     
-    init(_ shippingActions: ShippingChangeAction) {
+    init(_ shippingActions: ShippingActionsProtocol) {
         self.shippingActions = shippingActions
     }
     
@@ -23,3 +23,11 @@ public class PayPalNativePaysheetActions {
     /// For more information on patching an order, visit: https://developer.paypal.com/docs/api/orders/v2/#orders_patch
     public func approve() { self.shippingActions.approve() }
 }
+
+protocol ShippingActionsProtocol {
+    
+    func reject()
+    func approve()
+}
+
+extension ShippingChangeAction: ShippingActionsProtocol { }
