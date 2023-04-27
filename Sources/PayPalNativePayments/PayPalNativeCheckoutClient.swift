@@ -13,7 +13,8 @@ public class PayPalNativeCheckoutClient {
     private let nativeCheckoutProvider: NativeCheckoutStartable
     private let apiClient: APIClient
     private let config: CoreConfig
-        
+    private var analyticsService: AnalyticsService?
+
     /// Initialize a PayPalNativeCheckoutClient to process PayPal transaction
     /// - Parameters:
     ///   - config: The CoreConfig object
@@ -39,6 +40,8 @@ public class PayPalNativeCheckoutClient {
         request: PayPalNativeCheckoutRequest,
         presentingViewController: UIViewController? = nil
     ) async {
+        analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
+
         do {
             let clientID = try await apiClient.fetchCachedOrRemoteClientID()
             let nxoConfig = CheckoutConfig(
@@ -52,7 +55,7 @@ public class PayPalNativeCheckoutClient {
             )
             delegate?.paypalWillStart(self)
             
-            apiClient.sendAnalyticsEvent("paypal-native-payments:started")
+            analyticsService?.sendAnalyticsEvent("paypal-native-payments:started")
             self.nativeCheckoutProvider.start(
                 presentingViewController: presentingViewController,
                 createOrder: { orderRequestAction in
@@ -96,29 +99,29 @@ public class PayPalNativeCheckoutClient {
     }
     
     private func notifySuccess(for result: PayPalNativeCheckoutResult) {
-        apiClient.sendAnalyticsEvent("paypal-native-payments:succeeded")
+        analyticsService?.sendAnalyticsEvent("paypal-native-payments:succeeded")
         delegate?.paypal(self, didFinishWithResult: result)
     }
 
     private func notifyFailure(with errorInfo: PayPalCheckout.ErrorInfo) {
-        apiClient.sendAnalyticsEvent("paypal-native-payments:failed")
+        analyticsService?.sendAnalyticsEvent("paypal-native-payments:failed")
         
         let error = PayPalNativePaymentsError.nativeCheckoutSDKError(errorInfo.reason)
         delegate?.paypal(self, didFinishWithError: error)
     }
 
     private func notifyCancellation() {
-        apiClient.sendAnalyticsEvent("paypal-native-payments:canceled")
+        analyticsService?.sendAnalyticsEvent("paypal-native-payments:canceled")
         delegate?.paypalDidCancel(self)
     }
     
     private func notifyShippingMethod(shippingMethod: PayPalNativeShippingMethod) {
-        apiClient.sendAnalyticsEvent("paypal-native-payments:shipping-method-changed")
+        analyticsService?.sendAnalyticsEvent("paypal-native-payments:shipping-method-changed")
         shippingDelegate?.paypal(self, didShippingMethodChange: shippingMethod)
     }
     
     private func notifyShippingChange(shippingAddress: PayPalNativeShippingAddress) {
-        apiClient.sendAnalyticsEvent("paypal-native-payments:shipping-address-changed")
+        analyticsService?.sendAnalyticsEvent("paypal-native-payments:shipping-address-changed")
         shippingDelegate?.paypal(self, didShippingAddressChange: shippingAddress)
     }
 }

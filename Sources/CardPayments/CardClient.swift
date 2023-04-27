@@ -37,18 +37,18 @@ public class CardClient: NSObject {
     /// - Throws: PayPalSDK error if approve order could not complete successfully
     public func approveOrder(request: CardRequest) {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
-        analyticsService?.sendEvent("card-payments:3ds:started")
+        analyticsService?.sendAnalyticsEvent("card-payments:3ds:started")
         Task {
             do {
                 let confirmPaymentRequest = try ConfirmPaymentSourceRequest(accessToken: config.accessToken, cardRequest: request)
                 let (result) = try await apiClient.fetch(request: confirmPaymentRequest)
                 
                 if let url: String = result.links?.first(where: { $0.rel == "payer-action" })?.href {
-                    analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:challenge-required")
+                    analyticsService?.sendAnalyticsEvent("card-payments:3ds:confirm-payment-source:challenge-required")
                     
                     startThreeDSecureChallenge(url: url, orderId: result.id)
                 } else {
-                    analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:succeeded")
+                    analyticsService?.sendAnalyticsEvent("card-payments:3ds:confirm-payment-source:succeeded")
                     
                     let cardResult = CardResult(
                         orderID: result.id,
@@ -58,7 +58,7 @@ public class CardClient: NSObject {
                     notifySuccess(for: cardResult)
                 }
             } catch let error as CoreSDKError {
-                analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:failed")
+                analyticsService?.sendAnalyticsEvent("card-payments:3ds:confirm-payment-source:failed")
                 notifyFailure(with: error)
             } catch {
             }
@@ -81,9 +81,9 @@ public class CardClient: NSObject {
             context: self,
             sessionDidDisplay: { [weak self] didDisplay in
                 if didDisplay {
-                    self?.analyticsService?.sendEvent("card-payments:3ds:challenge-presentation:succeeded")
+                    self?.analyticsService?.sendAnalyticsEvent("card-payments:3ds:challenge-presentation:succeeded")
                 } else {
-                    self?.analyticsService?.sendEvent("card-payments:3ds:challenge-presentation:failed")
+                    self?.analyticsService?.sendAnalyticsEvent("card-payments:3ds:challenge-presentation:failed")
                 }
             },
             sessionDidComplete: { _, error in
@@ -116,27 +116,27 @@ public class CardClient: NSObject {
                     status: result.status,
                     paymentSource: result.paymentSource
                 )
-                self.analyticsService?.sendEvent("card-payments:3ds:get-order-info:succeeded")
+                self.analyticsService?.sendAnalyticsEvent("card-payments:3ds:get-order-info:succeeded")
                 notifySuccess(for: cardResult)
             } catch let error as CoreSDKError {
-                self.analyticsService?.sendEvent("card-payments:3ds:get-order-info:failed")
+                self.analyticsService?.sendAnalyticsEvent("card-payments:3ds:get-order-info:failed")
                 notifyFailure(with: error)
             }
         }
     }
 
     private func notifySuccess(for result: CardResult) {
-        analyticsService?.sendEvent("card-payments:3ds:succeeded")
+        analyticsService?.sendAnalyticsEvent("card-payments:3ds:succeeded")
         delegate?.card(self, didFinishWithResult: result)
     }
 
     private func notifyFailure(with error: CoreSDKError) {
-        analyticsService?.sendEvent("card-payments:3ds:failed")
+        analyticsService?.sendAnalyticsEvent("card-payments:3ds:failed")
         delegate?.card(self, didFinishWithError: error)
     }
 
     private func notifyCancellation() {
-        analyticsService?.sendEvent("card-payments:3ds:challenge:user-canceled")
+        analyticsService?.sendAnalyticsEvent("card-payments:3ds:challenge:user-canceled")
         delegate?.cardDidCancel(self)
     }
 }

@@ -11,31 +11,45 @@ public class AnalyticsService {
         
     // MARK: - Initializer
     
-    /// This initializer is private to enforce the singleton pattern. An instance of `AnalyticsService` cannot be instantiated outside this file.
     public init(coreConfig: CoreConfig, orderID: String) {
         self.coreConfig = coreConfig
         self.http = HTTP(coreConfig: coreConfig)
         self.orderID = orderID
-        // TODO: - Make init async, or throw if clientID not found
+    }
+    
+    // MARK: - Internal Initializer
+
+    /// Exposed for testing
+    init(coreConfig: CoreConfig, orderID: String, http: HTTP) {
+        self.coreConfig = coreConfig
+        self.http = http
+        self.orderID = orderID
     }
     
     // MARK: - Public Methods
         
-    public func sendEvent(_ name: String) {
+    /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
+    ///
+    /// Sends analytics event to https://api.paypal.com/v1/tracking/events/ via a background task.
+    /// - Parameter name: Event name string used to identify this unique event in FPTI.
+    public func sendAnalyticsEvent(_ name: String) {
         Task {
             do {
                 let clientID = try await fetchCachedOrRemoteClientID()
+                sendEvent(name, clientID: clientID)
             } catch {
                 NSLog("[PayPal SDK] Failed to send analytics due to missing clientID: %@", error.localizedDescription.debugDescription)
             }
         }
-        
-        // TODO: - block sending event until clientID fetched
-        
+    }
+    
+    // MARK: - Private Methods
+    
+    private func sendEvent(_ name: String, clientID: String) {
         let eventData = AnalyticsEventData(
             environment: http.coreConfig.environment.toString,
             eventName: name,
-            clientID: "clientID",
+            clientID: clientID,
             sessionID: orderID
         )
         
