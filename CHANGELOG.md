@@ -3,7 +3,7 @@
 
 ## unreleased
 * PayPalNativePayments
-  * Add `PayPalNativeShippingActions` to `PayPalNativeShippingDelegate.didShippingAddressChange()` and `PayPalNativeShippingDelegate.didShippingMethodChange()`
+  * Add `PayPalNativePaysheetActions` to `PayPalNativeShippingDelegate.didShippingAddressChange()` and `PayPalNativeShippingDelegate.didShippingMethodChange()`
 * Card
   * Rename `Card.init()` parameter from `cardHolderName` to `cardholderName`
   * Remove unnecessary `Card.expiry` property
