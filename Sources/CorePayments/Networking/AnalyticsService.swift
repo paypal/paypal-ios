@@ -33,44 +33,36 @@ public class AnalyticsService {
     /// Sends analytics event to https://api.paypal.com/v1/tracking/events/ via a background task.
     /// - Parameter name: Event name string used to identify this unique event in FPTI.
     public func sendAnalyticsEvent(_ name: String) {
-        Task {
-            do {
-                let clientID = try await fetchCachedOrRemoteClientID()
-                await sendEvent(name, clientID: clientID)
-            } catch {
-                NSLog("[PayPal SDK] Failed to send analytics due to missing clientID: %@", error.localizedDescription.debugDescription)
-            }
+        Task(priority: .background) {
+            await sendEvent(name)
         }
     }
     
-    /// Exposed for testing
+    /// :nodoc: Exposed for testing only.
+    ///
+    /// Blocking version of the `sendAnalyticsEvent` function. Allows easy unit testing of asychronous code.
     func sendAnalyticsEvent(_ name: String) async {
-        do {
-            let clientID = try await fetchCachedOrRemoteClientID()
-            await sendEvent(name, clientID: clientID)
-        } catch {
-            NSLog("[PayPal SDK] Failed to send analytics due to missing clientID: %@", error.localizedDescription.debugDescription)
-        }
+        await sendEvent(name)
     }
     
     // MARK: - Private Methods
     
-    private func sendEvent(_ name: String, clientID: String) async {
-        let eventData = AnalyticsEventData(
-            environment: http.coreConfig.environment.toString,
-            eventName: name,
-            clientID: clientID,
-            orderID: orderID
-        )
-        
-//        Task(priority: .background) {
-            do {
-                let analyticsEventRequest = try AnalyticsEventRequest(eventData: eventData)
-                let (_) = try await http.performRequest(analyticsEventRequest)
-            } catch {
-                NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription)
-            }
-//        }
+    private func sendEvent(_ name: String) async {
+        do {
+            let clientID = try await fetchCachedOrRemoteClientID()
+            
+            let eventData = AnalyticsEventData(
+                environment: http.coreConfig.environment.toString,
+                eventName: name,
+                clientID: clientID,
+                orderID: orderID
+            )
+            
+            let analyticsEventRequest = try AnalyticsEventRequest(eventData: eventData)
+            let (_) = try await http.performRequest(analyticsEventRequest)
+        } catch {
+            NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription.debugDescription)
+        }
     }
     
     private func fetchCachedOrRemoteClientID() async throws -> String {
