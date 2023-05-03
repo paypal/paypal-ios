@@ -36,16 +36,26 @@ public class AnalyticsService {
         Task {
             do {
                 let clientID = try await fetchCachedOrRemoteClientID()
-                sendEvent(name, clientID: clientID)
+                await sendEvent(name, clientID: clientID)
             } catch {
                 NSLog("[PayPal SDK] Failed to send analytics due to missing clientID: %@", error.localizedDescription.debugDescription)
             }
         }
     }
     
+    /// Exposed for testing
+    func sendAnalyticsEvent(_ name: String) async {
+        do {
+            let clientID = try await fetchCachedOrRemoteClientID()
+            await sendEvent(name, clientID: clientID)
+        } catch {
+            NSLog("[PayPal SDK] Failed to send analytics due to missing clientID: %@", error.localizedDescription.debugDescription)
+        }
+    }
+    
     // MARK: - Private Methods
     
-    private func sendEvent(_ name: String, clientID: String) {
+    private func sendEvent(_ name: String, clientID: String) async {
         let eventData = AnalyticsEventData(
             environment: http.coreConfig.environment.toString,
             eventName: name,
@@ -53,14 +63,14 @@ public class AnalyticsService {
             sessionID: orderID
         )
         
-        Task(priority: .background) {
+//        Task(priority: .background) {
             do {
                 let analyticsEventRequest = try AnalyticsEventRequest(eventData: eventData)
                 let (_) = try await http.performRequest(analyticsEventRequest)
             } catch {
                 NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription)
             }
-        }
+//        }
     }
     
     private func fetchCachedOrRemoteClientID() async throws -> String {
