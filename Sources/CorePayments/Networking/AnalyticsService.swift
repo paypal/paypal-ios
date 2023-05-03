@@ -32,22 +32,22 @@ public class AnalyticsService {
     ///
     /// Sends analytics event to https://api.paypal.com/v1/tracking/events/ via a background task.
     /// - Parameter name: Event name string used to identify this unique event in FPTI.
-    public func sendAnalyticsEvent(_ name: String) {
+    public func sendEvent(_ name: String) {
         Task(priority: .background) {
-            await sendEvent(name)
+            await performEventRequest(name)
         }
     }
     
     /// :nodoc: Exposed for testing only.
     ///
-    /// Blocking version of the `sendAnalyticsEvent` function. Allows easy unit testing of asychronous code.
-    func sendAnalyticsEvent(_ name: String) async {
-        await sendEvent(name)
+    /// Blocking version of the `sendEvent` function. Allows easy unit testing of asychronous code.
+    func sendEvent(_ name: String) async {
+        await performEventRequest(name)
     }
     
     // MARK: - Private Methods
     
-    private func sendEvent(_ name: String) async {
+    private func performEventRequest(_ name: String) async {
         do {
             let clientID = try await fetchCachedOrRemoteClientID()
             

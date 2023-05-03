@@ -33,7 +33,7 @@ public class PayPalWebCheckoutClient: NSObject {
     ///   - request: the PayPalRequest for the transaction
     public func start(request: PayPalWebCheckoutRequest) {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
-        analyticsService?.sendAnalyticsEvent("paypal-web-payments:started")
+        analyticsService?.sendEvent("paypal-web-payments:started")
         
         Task {
             do {
@@ -61,9 +61,9 @@ public class PayPalWebCheckoutClient: NSObject {
             context: self,
             sessionDidDisplay: { [weak self] didDisplay in
                 if didDisplay {
-                    self?.analyticsService?.sendAnalyticsEvent("paypal-web-payments:browser-presentation:succeeded")
+                    self?.analyticsService?.sendEvent("paypal-web-payments:browser-presentation:succeeded")
                 } else {
-                    self?.analyticsService?.sendAnalyticsEvent("paypal-web-payments:browser-presentation:failed")
+                    self?.analyticsService?.sendEvent("paypal-web-payments:browser-presentation:failed")
                 }
             },
             sessionDidComplete: { url, error in
@@ -112,17 +112,17 @@ public class PayPalWebCheckoutClient: NSObject {
 
     private func notifySuccess(for result: PayPalWebCheckoutResult) {
         let payPalResult = PayPalWebCheckoutResult(orderID: result.orderID, payerID: result.payerID)
-        analyticsService?.sendAnalyticsEvent("paypal-web-payments:succeeded")
+        analyticsService?.sendEvent("paypal-web-payments:succeeded")
         delegate?.payPal(self, didFinishWithResult: payPalResult)
     }
 
     private func notifyFailure(with error: CoreSDKError) {
-        analyticsService?.sendAnalyticsEvent("paypal-web-payments:failed")
+        analyticsService?.sendEvent("paypal-web-payments:failed")
         delegate?.payPal(self, didFinishWithError: error)
     }
 
     private func notifyCancellation() {
-        analyticsService?.sendAnalyticsEvent("paypal-web-payments:browser-login:canceled")
+        analyticsService?.sendEvent("paypal-web-payments:browser-login:canceled")
         delegate?.payPalDidCancel(self)
     }
 }

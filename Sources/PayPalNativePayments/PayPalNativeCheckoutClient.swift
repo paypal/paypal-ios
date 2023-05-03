@@ -55,7 +55,7 @@ public class PayPalNativeCheckoutClient {
             )
             delegate?.paypalWillStart(self)
             
-            analyticsService?.sendAnalyticsEvent("paypal-native-payments:started")
+            analyticsService?.sendEvent("paypal-native-payments:started")
             self.nativeCheckoutProvider.start(
                 presentingViewController: presentingViewController,
                 createOrder: { orderRequestAction in
@@ -99,29 +99,29 @@ public class PayPalNativeCheckoutClient {
     }
     
     private func notifySuccess(for result: PayPalNativeCheckoutResult) {
-        analyticsService?.sendAnalyticsEvent("paypal-native-payments:succeeded")
+        analyticsService?.sendEvent("paypal-native-payments:succeeded")
         delegate?.paypal(self, didFinishWithResult: result)
     }
 
     private func notifyFailure(with errorInfo: PayPalCheckout.ErrorInfo) {
-        analyticsService?.sendAnalyticsEvent("paypal-native-payments:failed")
+        analyticsService?.sendEvent("paypal-native-payments:failed")
         
         let error = PayPalNativePaymentsError.nativeCheckoutSDKError(errorInfo.reason)
         delegate?.paypal(self, didFinishWithError: error)
     }
 
     private func notifyCancellation() {
-        analyticsService?.sendAnalyticsEvent("paypal-native-payments:canceled")
+        analyticsService?.sendEvent("paypal-native-payments:canceled")
         delegate?.paypalDidCancel(self)
     }
     
     private func notifyShippingMethod(shippingMethod: PayPalNativeShippingMethod) {
-        analyticsService?.sendAnalyticsEvent("paypal-native-payments:shipping-method-changed")
+        analyticsService?.sendEvent("paypal-native-payments:shipping-method-changed")
         shippingDelegate?.paypal(self, didShippingMethodChange: shippingMethod)
     }
     
     private func notifyShippingChange(shippingAddress: PayPalNativeShippingAddress) {
-        analyticsService?.sendAnalyticsEvent("paypal-native-payments:shipping-address-changed")
+        analyticsService?.sendEvent("paypal-native-payments:shipping-address-changed")
         shippingDelegate?.paypal(self, didShippingAddressChange: shippingAddress)
     }
 }
