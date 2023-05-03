@@ -30,10 +30,22 @@ class AnalyticsService_Tests: XCTestCase {
 
     // MARK: - sendEvent()
 
-    func testSendEvent_postsAnalyticsEventRequestType() async {
+    func testSendEvent_whenClientID_postsAnalyticsEventRequestType() async {
         await sut.sendAnalyticsEvent("fake-event")
 
         XCTAssert(mockHTTP.lastAPIRequest is AnalyticsEventRequest)
+    }
+    
+    func testSendEvent_whenNoClientID_doesNotPostAnalyticsEventRequestType() async {
+        mockURLSession.cannedJSONData = nil
+        
+        let coreConfig = CoreConfig(accessToken: "fake-token", environment: .live)
+        let mockHTTP = MockHTTP(urlSession: mockURLSession, coreConfig: coreConfig)
+        let sut = AnalyticsService(coreConfig: coreConfig, orderID: "fake-orderID", http: mockHTTP)
+                
+        await sut.sendAnalyticsEvent("fake-event")
+
+        XCTAssert(mockHTTP.lastAPIRequest is GetClientIDRequest)
     }
     
     func testSendEvent_whenLive_sendsProperTag() async {

@@ -1,6 +1,6 @@
 import Foundation
 
-/// Constructs `AnalyticsEventData` models and sends FPTI analytics events.
+/// :nodoc: Constructs `AnalyticsEventData` models and sends FPTI analytics events.
 public class AnalyticsService {
     
     // MARK: - Internal Properties
@@ -61,7 +61,7 @@ public class AnalyticsService {
             let analyticsEventRequest = try AnalyticsEventRequest(eventData: eventData)
             let (_) = try await http.performRequest(analyticsEventRequest)
         } catch {
-            NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription.debugDescription)
+            NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription)
         }
     }
     
