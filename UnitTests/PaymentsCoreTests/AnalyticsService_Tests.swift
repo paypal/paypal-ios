@@ -75,8 +75,8 @@ class AnalyticsService_Tests: XCTestCase {
             return
         }
         
-        guard let orderID = parsePostParam(from: mockHTTP.lastPOSTParameters, forKey: "session_id") else {
-            XCTFail("JSON body missing `session_id` key.")
+        guard let orderID = parsePostParam(from: mockHTTP.lastPOSTParameters, forKey: "order_id") else {
+            XCTFail("JSON body missing `order_id` key.")
             return
         }
         

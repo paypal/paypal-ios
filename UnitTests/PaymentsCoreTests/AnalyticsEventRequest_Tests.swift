@@ -16,7 +16,7 @@ class AnalyticsEventRequest_Tests: XCTestCase {
             environment: "fake-env",
             eventName: "fake-name",
             clientID: "fake-client-id",
-            sessionID: "fake-session"
+            orderID: "fake-session"
         )
         
         sut = try! AnalyticsEventRequest(eventData: fakeAnalyticsEventData)
