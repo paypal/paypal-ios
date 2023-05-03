@@ -127,13 +127,36 @@ extension MyViewModel: PayPalNativeShippingDelegate {
         paypalNativeClient.delegate = self         // required
         paypalNativeClient.shippingDelegate = self // optional
     }
-    
-    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didShippingAddressChange shippingAddress: PayPalNativeShippingAddress) {
+
+    func paypal(
+        _ payPalClient: PayPalNativeCheckoutClient,
+        didShippingAddressChange shippingAddress: PayPalNativeShippingAddress,
+        withAction shippingActions: PayPalNativePaysheetActions
+    ) {
         // called when the user updates their chosen shipping address
+
+        // OPTIONAL: if you patch your order server-side, call actions.approve() or actions.reject() once complete.
+        // if patchOrder() == .success {
+        //     actions.approve()
+        // } else {
+        //     actions.reject()
+        // }
     }
-    
-    func paypal(_ payPalClient: PayPalNativeCheckoutClient, didShippingMethodChange: PayPalNativeShippingMethod) {
+
+    func paypal(
+        _ payPalClient: PayPalNativeCheckoutClient,
+        didShippingMethodChange shippingMethod: PayPalNativeShippingMethod,
+        withAction shippingActions: PayPalNativePaysheetActions
+    ) {
         // called when the user updates their chosen shipping method
+
+        // REQUIRED: patch your order server-side with the updated shipping amount.
+        // Once complete, call `actions.approve()` or `actions.reject()`
+        if patchOrder() == .success {
+            actions.approve()
+        } else {
+            actions.reject()
+        }
     }
 }
 ```
