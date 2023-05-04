@@ -30,7 +30,7 @@ class AnalyticsService_Tests: XCTestCase {
     // MARK: - sendEvent()
 
     func testSendEvent_whenClientID_postsAnalyticsEventRequestType() async {
-        await sut.sendEvent("fake-event")
+        await sut.performEventRequest("fake-event")
 
         XCTAssert(mockHTTP.lastAPIRequest is AnalyticsEventRequest)
     }
@@ -42,7 +42,7 @@ class AnalyticsService_Tests: XCTestCase {
         let mockHTTP = MockHTTP(urlSession: mockURLSession, coreConfig: coreConfig)
         let sut = AnalyticsService(coreConfig: coreConfig, orderID: "fake-orderID", http: mockHTTP)
                 
-        await sut.sendEvent("fake-event")
+        await sut.performEventRequest("fake-event")
 
         XCTAssert(mockHTTP.lastAPIRequest is GetClientIDRequest)
     }
@@ -52,7 +52,7 @@ class AnalyticsService_Tests: XCTestCase {
         let mockHTTP = MockHTTP(urlSession: mockURLSession, coreConfig: coreConfig)
         let sut = AnalyticsService(coreConfig: coreConfig, orderID: "fake-orderID", http: mockHTTP)
         
-        await sut.sendEvent("fake-event")
+        await sut.performEventRequest("fake-event")
         
         guard let env = parsePostParam(from: mockHTTP.lastPOSTParameters, forKey: "merchant_sdk_env") else {
             XCTFail("JSON body missing `merchant_sdk_env` key.")
@@ -63,7 +63,7 @@ class AnalyticsService_Tests: XCTestCase {
     }
     
     func testSendEvent_whenSandbox_sendsProperTag() async {
-        await sut.sendEvent("fake-event")
+        await sut.performEventRequest("fake-event")
         
         guard let env = parsePostParam(from: mockHTTP.lastPOSTParameters, forKey: "merchant_sdk_env") else {
             XCTFail("JSON body missing `merchant_sdk_env` key.")
@@ -74,7 +74,7 @@ class AnalyticsService_Tests: XCTestCase {
     }
     
     func testSendEvent_addsMetadataParams() async {
-        await sut.sendEvent("fake-event")
+        await sut.performEventRequest("fake-event")
         
         guard let eventName = parsePostParam(from: mockHTTP.lastPOSTParameters, forKey: "event_name") else {
             XCTFail("JSON body missing `event_name` key.")

@@ -38,16 +38,9 @@ public struct AnalyticsService {
         }
     }
     
-    /// :nodoc: Exposed for testing only.
-    ///
-    /// Blocking version of the `sendEvent` function. Allows easy unit testing of asychronous code.
-    func sendEvent(_ name: String) async {
-        await performEventRequest(name)
-    }
+    // MARK: - Internal Methods
     
-    // MARK: - Private Methods
-    
-    private func performEventRequest(_ name: String) async {
+    func performEventRequest(_ name: String) async {
         do {
             let clientID = try await fetchCachedOrRemoteClientID()
             
