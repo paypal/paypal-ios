@@ -18,7 +18,7 @@ struct AnalyticsEventData: Encodable {
         case clientOS = "client_os"
         case component = "comp"
         case deviceManufacturer = "device_manufacturer"
-        case environment = "merchant_app_environment"
+        case environment = "merchant_sdk_env"
         case eventName = "event_name"
         case eventSource = "event_source"
         case orderID = "order_id"

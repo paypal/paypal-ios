@@ -54,8 +54,8 @@ class AnalyticsService_Tests: XCTestCase {
         
         await sut.sendEvent("fake-event")
         
-        guard let env = parsePostParam(from: mockHTTP.lastPOSTParameters, forKey: "merchant_app_environment") else {
-            XCTFail("JSON body missing `merchant_app_environment` key.")
+        guard let env = parsePostParam(from: mockHTTP.lastPOSTParameters, forKey: "merchant_sdk_env") else {
+            XCTFail("JSON body missing `merchant_sdk_env` key.")
             return
         }
         
@@ -65,8 +65,8 @@ class AnalyticsService_Tests: XCTestCase {
     func testSendEvent_whenSandbox_sendsProperTag() async {
         await sut.sendEvent("fake-event")
         
-        guard let env = parsePostParam(from: mockHTTP.lastPOSTParameters, forKey: "merchant_app_environment") else {
-            XCTFail("JSON body missing `merchant_app_environment` key.")
+        guard let env = parsePostParam(from: mockHTTP.lastPOSTParameters, forKey: "merchant_sdk_env") else {
+            XCTFail("JSON body missing `merchant_sdk_env` key.")
             return
         }
         

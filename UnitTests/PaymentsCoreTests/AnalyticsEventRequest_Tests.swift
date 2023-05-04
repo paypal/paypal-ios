@@ -15,7 +15,7 @@ class AnalyticsEventRequest_Tests: XCTestCase {
             environment: "fake-env",
             eventName: "fake-name",
             clientID: "fake-client-id",
-            orderID: "fake-session"
+            orderID: "fake-order"
         )
         
         sut = try! AnalyticsEventRequest(eventData: fakeAnalyticsEventData)
@@ -36,7 +36,7 @@ class AnalyticsEventRequest_Tests: XCTestCase {
         XCTAssertTrue((eventParams["client_os"] as! String).matches("iOS \\d+\\.\\d+|iPadOS \\d+\\.\\d+"))
         XCTAssertEqual(eventParams["comp"] as? String, "ppcpmobilesdk")
         XCTAssertEqual(eventParams["device_manufacturer"] as? String, "Apple")
-        XCTAssertEqual(eventParams["merchant_app_environment"] as? String, "fake-env")
+        XCTAssertEqual(eventParams["merchant_sdk_env"] as? String, "fake-env")
         XCTAssertEqual(eventParams["event_name"] as? String, "fake-name")
         XCTAssertEqual(eventParams["event_source"] as? String, "mobile-native")
         XCTAssertTrue((eventParams["ios_package_manager"] as! String).matches("Carthage or Other|CocoaPods|Swift Package Manager"))
@@ -45,7 +45,7 @@ class AnalyticsEventRequest_Tests: XCTestCase {
         XCTAssertTrue((eventParams["mobile_device_model"] as! String).matches("iPhone\\d,\\d|x86_64|arm64"))
         XCTAssertEqual(eventParams["partner_client_id"] as! String, "fake-client-id")
         XCTAssertEqual(eventParams["platform"] as? String, "iOS")
-        XCTAssertEqual(eventParams["session_id"] as? String, "fake-session")
+        XCTAssertEqual(eventParams["order_id"] as? String, "fake-order")
         XCTAssertGreaterThanOrEqual(eventParams["t"] as! String, currentTime)
         XCTAssertLessThanOrEqual(eventParams["t"] as! String, oneSecondLater)
         XCTAssertEqual(eventParams["tenant_name"] as? String, "PayPal")

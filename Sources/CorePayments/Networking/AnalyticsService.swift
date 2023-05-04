@@ -1,7 +1,7 @@
 import Foundation
 
 /// :nodoc: Constructs `AnalyticsEventData` models and sends FPTI analytics events.
-public class AnalyticsService {
+public struct AnalyticsService {
     
     // MARK: - Internal Properties
     
