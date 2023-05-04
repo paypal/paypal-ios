@@ -11,26 +11,45 @@ class MockNativeCheckoutProvider: NativeCheckoutStartable {
     required init(nxoConfig: CheckoutConfig) {
     }
 
-    var onCancel: CheckoutConfig.CancelCallback?
-    var onError: CheckoutConfig.ErrorCallback?
+    var onCancel: StartableCancelCallback?
+    var onError: StartableErrorCallback?
+    var onApprove: StartableApproveCallback?
+    var onShippingChange: StartableShippingCallback?
 
     // todo: implemenet cases for other callbacks
-    // swiftlint:disable function_parameter_count
     func start(
         presentingViewController: UIViewController?,
-        createOrder: CheckoutConfig.CreateOrderCallback?,
-        onApprove: CheckoutConfig.ApprovalCallback?,
-        onShippingChange: CheckoutConfig.ShippingChangeCallback?,
-        onCancel: CheckoutConfig.CancelCallback?,
-        onError: CheckoutConfig.ErrorCallback?,
+        orderID: String,
+        onStartableApprove: @escaping StartableApproveCallback,
+        onStartableShippingChange: @escaping StartableShippingCallback,
+        onStartableCancel: @escaping StartableCancelCallback,
+        onStartableError: @escaping StartableErrorCallback,
         nxoConfig: CheckoutConfig
     ) {
-        self.onCancel = onCancel
-        self.onError = onError
+        self.onCancel = onStartableCancel
+        self.onError = onStartableError
+        self.onApprove = onStartableApprove
+        self.onShippingChange = onStartableShippingChange
     }
-    // swiftlint:enable function_parameter_count
 
     func triggerCancel() {
         onCancel?()
+    }
+    
+    func triggerError(errorReason: String) {
+        onError?(errorReason)
+    }
+    
+    func triggerApprove(orderdID: String, payerID: String) {
+        onApprove?(orderdID, payerID)
+    }
+    
+    func triggerShippingChange(
+        type: ShippingChangeType,
+        actions: PayPalNativePaysheetActions,
+        address: PayPalNativeShippingAddress,
+        method: PayPalNativeShippingMethod? = nil
+    ) {
+        onShippingChange?(type, actions, address, method)
     }
 }

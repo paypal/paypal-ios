@@ -1,7 +1,6 @@
 import XCTest
 @testable import CorePayments
 
-// swiftlint:disable force_unwrapping implicitly_unwrapped_optional force_try force_cast
 class AnalyticsEventRequest_Tests: XCTestCase {
     
     var fakeAnalyticsEventData: AnalyticsEventData!

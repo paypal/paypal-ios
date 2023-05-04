@@ -64,6 +64,7 @@
 		CB9ED44A283E59090081F4DE /* PaymentButtonCustomizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9ED449283E59090081F4DE /* PaymentButtonCustomizationViewController.swift */; };
 		CB9ED44C283FDA900081F4DE /* PaymentButtonEnums+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9ED44B283FDA900081F4DE /* PaymentButtonEnums+Extension.swift */; };
 		CB9ED44E28411B120081F4DE /* SwiftUIPaymentButtonDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9ED44D28411B110081F4DE /* SwiftUIPaymentButtonDemo.swift */; };
+		CBC16DD929ED90B600307117 /* UpdateOrderParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC16DD829ED90B600307117 /* UpdateOrderParams.swift */; };
 		CBDEEA222989990200A460A6 /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBDEEA212989990200A460A6 /* CorePayments.framework */; };
 		CBDEEA232989990200A460A6 /* CorePayments.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CBDEEA212989990200A460A6 /* CorePayments.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -156,6 +157,7 @@
 		CB9ED449283E59090081F4DE /* PaymentButtonCustomizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentButtonCustomizationViewController.swift; sourceTree = "<group>"; };
 		CB9ED44B283FDA900081F4DE /* PaymentButtonEnums+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PaymentButtonEnums+Extension.swift"; sourceTree = "<group>"; };
 		CB9ED44D28411B110081F4DE /* SwiftUIPaymentButtonDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIPaymentButtonDemo.swift; sourceTree = "<group>"; };
+		CBC16DD829ED90B600307117 /* UpdateOrderParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateOrderParams.swift; sourceTree = "<group>"; };
 		CBDEEA212989990200A460A6 /* CorePayments.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CorePayments.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -277,6 +279,7 @@
 				53DBDAA42885D83100E0ABA1 /* AccessTokenResponse.swift */,
 				53DBDAA62885D86F00E0ABA1 /* AccessTokenRequest.swift */,
 				5301468B28918B4D00184F22 /* ApprovalResult.swift */,
+				CBC16DD829ED90B600307117 /* UpdateOrderParams.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -506,6 +509,7 @@
 				BECD84A227036DDB007CCAE4 /* Intent.swift in Sources */,
 				BED041AF270CA0FB00C80954 /* CustomButton.swift in Sources */,
 				BE1766B326F911A2007EF438 /* URLResponseError.swift in Sources */,
+				CBC16DD929ED90B600307117 /* UpdateOrderParams.swift in Sources */,
 				BE9F36D82745490400AFC7DA /* FloatingLabelTextField.swift in Sources */,
 				BE9F36E7275548A600AFC7DA /* BaseViewModel.swift in Sources */,
 				806F1E3926B85367007A60E6 /* AppDelegate.swift in Sources */,
@@ -787,7 +791,7 @@
 			repositoryURL = "https://github.com/paypal/paypalcheckout-ios";
 			requirement = {
 				kind = exactVersion;
-				version = 0.109.0;
+				version = 0.112.1;
 			};
 		};
 		BE1766D526FA7AC3007EF438 /* XCRemoteSwiftPackageReference "InAppSettingsKit" */ = {

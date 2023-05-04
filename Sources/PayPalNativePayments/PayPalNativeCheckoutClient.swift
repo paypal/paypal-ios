@@ -58,38 +58,35 @@ public class PayPalNativeCheckoutClient {
             analyticsService?.sendEvent("paypal-native-payments:started")
             self.nativeCheckoutProvider.start(
                 presentingViewController: presentingViewController,
-                createOrder: { orderRequestAction in
-                    orderRequestAction.set(orderId: request.orderID)
-                },
-                onApprove: { approval in
+                orderID: request.orderID,
+                onStartableApprove: { ecToken, payerID in
                     let result = PayPalNativeCheckoutResult(
-                        orderID: approval.data.ecToken,
-                        payerID: approval.data.payerID
+                        orderID: ecToken,
+                        payerID: payerID
                     )
                     self.notifySuccess(for: result)
                 },
-                onShippingChange: { shippingChange, shippingChangeAction in
-                    shippingChangeAction.approve()
-                    
-                    switch shippingChange.type {
+                onStartableShippingChange: { shippingType, shippingAction, shippingAddress, shippingMethod in
+                    switch shippingType {
                     case .shippingAddress:
-                        let shippingAddress = PayPalNativeShippingAddress(shippingChange.selectedShippingAddress)
-                        self.notifyShippingChange(shippingAddress: shippingAddress)
-                        
+                        self.notifyShippingChange(shippingActions: shippingAction, shippingAddress: shippingAddress)
                     case .shippingMethod:
-                        if let selectedShippingMethod = shippingChange.selectedShippingMethod {
-                            let shippingMethod = PayPalNativeShippingMethod(selectedShippingMethod)
-                            self.notifyShippingMethod(shippingMethod: shippingMethod)
+                        guard let selectedShippingMethod = shippingMethod else {
+                            return
                         }
+                        self.notifyShippingMethod(
+                            shippingActions: shippingAction,
+                            shippingMethod: selectedShippingMethod
+                        )
                     @unknown default:
                         break // do nothing
                     }
                 },
-                onCancel: {
+                onStartableCancel: {
                     self.notifyCancellation()
                 },
-                onError: { error in
-                    self.notifyFailure(with: error)
+                onStartableError: { errorReason in
+                    self.notifyFailure(with: errorReason)
                 },
                 nxoConfig: nxoConfig
             )
@@ -103,10 +100,10 @@ public class PayPalNativeCheckoutClient {
         delegate?.paypal(self, didFinishWithResult: result)
     }
 
-    private func notifyFailure(with errorInfo: PayPalCheckout.ErrorInfo) {
+    private func notifyFailure(with errorDescription: String) {
         analyticsService?.sendEvent("paypal-native-payments:failed")
         
-        let error = PayPalNativePaymentsError.nativeCheckoutSDKError(errorInfo.reason)
+        let error = PayPalNativePaymentsError.nativeCheckoutSDKError(errorDescription)
         delegate?.paypal(self, didFinishWithError: error)
     }
 
@@ -115,13 +112,19 @@ public class PayPalNativeCheckoutClient {
         delegate?.paypalDidCancel(self)
     }
     
-    private func notifyShippingMethod(shippingMethod: PayPalNativeShippingMethod) {
+    private func notifyShippingMethod(
+        shippingActions: PayPalNativePaysheetActions,
+        shippingMethod: PayPalNativeShippingMethod
+    ) {
         analyticsService?.sendEvent("paypal-native-payments:shipping-method-changed")
-        shippingDelegate?.paypal(self, didShippingMethodChange: shippingMethod)
+        shippingDelegate?.paypal(self, didShippingMethodChange: shippingMethod, withAction: shippingActions)
     }
     
-    private func notifyShippingChange(shippingAddress: PayPalNativeShippingAddress) {
+    private func notifyShippingChange(
+        shippingActions: PayPalNativePaysheetActions,
+        shippingAddress: PayPalNativeShippingAddress
+    ) {
         analyticsService?.sendEvent("paypal-native-payments:shipping-address-changed")
-        shippingDelegate?.paypal(self, didShippingAddressChange: shippingAddress)
+        shippingDelegate?.paypal(self, didShippingAddressChange: shippingAddress, withAction: shippingActions)
     }
 }

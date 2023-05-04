@@ -12,6 +12,9 @@ enum PayPalNativePaymentsError {
 
         /// 1. Error returned from the PayPal Checkout SDK
         case nativeCheckoutSDKError
+        
+        /// 2. An error occured fetching details for this Order ID
+        case getOrderDetailsError
     }
 
     static let nativeCheckoutSDKError: (String) -> CoreSDKError = { description in
