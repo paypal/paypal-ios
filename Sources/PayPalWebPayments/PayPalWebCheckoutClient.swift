@@ -35,15 +35,6 @@ public class PayPalWebCheckoutClient: NSObject {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         analyticsService?.sendEvent("paypal-web-payments:started")
         
-        Task {
-            do {
-                _ = try await apiClient.fetchCachedOrRemoteClientID()
-            } catch {
-                notifyFailure(with: CorePaymentsError.clientIDNotFoundError)
-                return
-            }
-        }
-        
         let baseURLString = config.environment.payPalBaseURL.absoluteString
         let payPalCheckoutURLString =
             "\(baseURLString)/checkoutnow?token=\(request.orderID)" +
