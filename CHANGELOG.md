@@ -7,6 +7,8 @@
 * Card
   * Rename `Card.init()` parameter from `cardHolderName` to `cardholderName`
   * Remove unnecessary `Card.expiry` property
+* CorePayments
+  * Send `orderID` instead of `sessionID` for analytics
 
 ## 0.0.7 (2023-03-28)
 * PayPalNativePayments
