@@ -18,15 +18,15 @@ struct AnalyticsEventData: Encodable {
         case clientOS = "client_os"
         case component = "comp"
         case deviceManufacturer = "device_manufacturer"
-        case environment = "merchant_app_environment"
+        case environment = "merchant_sdk_env"
         case eventName = "event_name"
         case eventSource = "event_source"
+        case orderID = "order_id"
         case packageManager = "ios_package_manager"
         case isSimulator = "is_simulator"
         case merchantAppVersion = "mapv"
         case deviceModel = "mobile_device_model"
         case platform = "platform"
-        case sessionID = "session_id"
         case timestamp = "t"
         case tenantName = "tenant_name"
     }
@@ -50,6 +50,8 @@ struct AnalyticsEventData: Encodable {
     let eventSource = "mobile-native"
     
     let environment: String
+    
+    let orderID: String
 
     let packageManager: String = {
         #if COCOAPODS
@@ -84,17 +86,15 @@ struct AnalyticsEventData: Encodable {
 
     let platform = "iOS"
 
-    let sessionID: String
-
     let timestamp = String(Date().timeIntervalSince1970 * 1000)
 
     let tenantName = "PayPal"
     
-    init(environment: String, eventName: String, clientID: String, sessionID: String) {
+    init(environment: String, eventName: String, clientID: String, orderID: String) {
         self.environment = environment
         self.eventName = eventName
         self.clientID = clientID
-        self.sessionID = sessionID
+        self.orderID = orderID
     }
     
     func encode(to encoder: Encoder) throws {
@@ -117,7 +117,7 @@ struct AnalyticsEventData: Encodable {
         try eventParameters.encode(merchantAppVersion, forKey: .merchantAppVersion)
         try eventParameters.encode(deviceModel, forKey: .deviceModel)
         try eventParameters.encode(platform, forKey: .platform)
-        try eventParameters.encode(sessionID, forKey: .sessionID)
+        try eventParameters.encode(orderID, forKey: .orderID)
         try eventParameters.encode(timestamp, forKey: .timestamp)
         try eventParameters.encode(tenantName, forKey: .tenantName)
     }

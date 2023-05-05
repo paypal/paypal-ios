@@ -1,55 +1,66 @@
 import Foundation
 
-/// Constructs `AnalyticsEventData` models and sends FPTI analytics events.
-class AnalyticsService {
+/// :nodoc: Constructs `AnalyticsEventData` models and sends FPTI analytics events.
+public struct AnalyticsService {
     
     // MARK: - Internal Properties
-
-    private static let instance = AnalyticsService()
     
-    private var sessionID = UUID().uuidString.replacingOccurrences(of: "-", with: "")
-    
-    private var http: HTTP? {
-        // This property observer generates a new `sessionID` if the `accessToken`
-        // injected into the `AnalyticsSingleton` ever changes.
-        willSet {
-            if newValue?.coreConfig.accessToken != http?.coreConfig.accessToken {
-                sessionID = UUID().uuidString.replacingOccurrences(of: "-", with: "")
-            }
-        }
-    }
+    private let coreConfig: CoreConfig
+    private let http: HTTP
+    private let orderID: String
         
     // MARK: - Initializer
     
-    /// This initializer is private to enforce the singleton pattern. An instance of `AnalyticsService` cannot be instantiated outside this file.
-    private init() { }
+    public init(coreConfig: CoreConfig, orderID: String) {
+        self.coreConfig = coreConfig
+        self.http = HTTP(coreConfig: coreConfig)
+        self.orderID = orderID
+    }
+    
+    // MARK: - Internal Initializer
+
+    /// Exposed for testing
+    init(coreConfig: CoreConfig, orderID: String, http: HTTP) {
+        self.coreConfig = coreConfig
+        self.http = http
+        self.orderID = orderID
+    }
+    
+    // MARK: - Public Methods
+        
+    /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
+    ///
+    /// Sends analytics event to https://api.paypal.com/v1/tracking/events/ via a background task.
+    /// - Parameter name: Event name string used to identify this unique event in FPTI.
+    public func sendEvent(_ name: String) {
+        Task(priority: .background) {
+            await performEventRequest(name)
+        }
+    }
     
     // MARK: - Internal Methods
     
-    /// Used to access the singleton instance of `AnalyticsService`.
-    static func sharedInstance(http: HTTP) -> AnalyticsService {
-        instance.http = http
-        return instance
-    }
-        
-    func sendEvent(name: String, clientID: String) async {
-        guard let http else {
-            NSLog("[PayPal SDK]", "Failed to send analytics due to nil HTTP client.")
-            return
-        }
-        
-        let eventData = AnalyticsEventData(
-            environment: http.coreConfig.environment.toString,
-            eventName: name,
-            clientID: clientID,
-            sessionID: sessionID
-        )
-        
+    func performEventRequest(_ name: String) async {
         do {
+            let clientID = try await fetchCachedOrRemoteClientID()
+            
+            let eventData = AnalyticsEventData(
+                environment: http.coreConfig.environment.toString,
+                eventName: name,
+                clientID: clientID,
+                orderID: orderID
+            )
+            
             let analyticsEventRequest = try AnalyticsEventRequest(eventData: eventData)
             let (_) = try await http.performRequest(analyticsEventRequest)
         } catch {
             NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription)
         }
+    }
+    
+    private func fetchCachedOrRemoteClientID() async throws -> String {
+        let request = GetClientIDRequest(accessToken: coreConfig.accessToken)
+        let response = try await http.performRequest(request, withCaching: true)
+        return response.clientID
     }
 }

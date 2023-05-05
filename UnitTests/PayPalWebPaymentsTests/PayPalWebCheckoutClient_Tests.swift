@@ -24,22 +24,6 @@ class PayPalClient_Tests: XCTestCase {
         )
     }
     
-    func testStart_ifClientIDFetchFails_returnsError() {
-        mockAPIClient.cannedClientIDError = CoreSDKError(code: 0, domain: "", errorDescription: "")
-        
-        let request = PayPalWebCheckoutRequest(orderID: "1234")
-        let delegate = MockPayPalWebDelegate()
-        
-        payPalClient.delegate = delegate
-        payPalClient.start(request: request)
-        
-        let error = delegate.capturedError
-        
-        XCTAssertEqual(error?.domain, "CorePaymentsErrorDomain")
-        XCTAssertEqual(error?.code, 1)
-        XCTAssertEqual(error?.localizedDescription, "Error fetching clientID. Contact developer.paypal.com/support.")
-    }
-    
     func testStart_whenNativeSDKOnCancelCalled_returnsCancellationError() {
         let request = PayPalWebCheckoutRequest(orderID: "1234")
         let delegate = MockPayPalWebDelegate()

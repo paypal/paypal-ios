@@ -29,8 +29,4 @@ class MockAPIClient: APIClient {
         }
         return cannedClientID
     }
-    
-    override func sendAnalyticsEvent(_ name: String) {
-        postedAnalyticsEvents.append(name)
-    }
 }

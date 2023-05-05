@@ -10,7 +10,8 @@ public class PayPalWebCheckoutClient: NSObject {
     let config: CoreConfig
     private let webAuthenticationSession: WebAuthenticationSession
     private let apiClient: APIClient
-    
+    private var analyticsService: AnalyticsService?
+
     /// Initialize a PayPalNativeCheckoutClient to process PayPal transaction
     /// - Parameters:
     ///   - config: The CoreConfig object
@@ -31,16 +32,8 @@ public class PayPalWebCheckoutClient: NSObject {
     /// - Parameters:
     ///   - request: the PayPalRequest for the transaction
     public func start(request: PayPalWebCheckoutRequest) {
-        apiClient.sendAnalyticsEvent("paypal-web-payments:started")
-        
-        Task {
-            do {
-                _ = try await apiClient.fetchCachedOrRemoteClientID()
-            } catch {
-                notifyFailure(with: CorePaymentsError.clientIDNotFoundError)
-                return
-            }
-        }
+        analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
+        analyticsService?.sendEvent("paypal-web-payments:started")
         
         let baseURLString = config.environment.payPalBaseURL.absoluteString
         let payPalCheckoutURLString =
@@ -59,9 +52,9 @@ public class PayPalWebCheckoutClient: NSObject {
             context: self,
             sessionDidDisplay: { [weak self] didDisplay in
                 if didDisplay {
-                    self?.apiClient.sendAnalyticsEvent("paypal-web-payments:browser-presentation:succeeded")
+                    self?.analyticsService?.sendEvent("paypal-web-payments:browser-presentation:succeeded")
                 } else {
-                    self?.apiClient.sendAnalyticsEvent("paypal-web-payments:browser-presentation:failed")
+                    self?.analyticsService?.sendEvent("paypal-web-payments:browser-presentation:failed")
                 }
             },
             sessionDidComplete: { url, error in
@@ -110,17 +103,17 @@ public class PayPalWebCheckoutClient: NSObject {
 
     private func notifySuccess(for result: PayPalWebCheckoutResult) {
         let payPalResult = PayPalWebCheckoutResult(orderID: result.orderID, payerID: result.payerID)
-        apiClient.sendAnalyticsEvent("paypal-web-payments:succeeded")
+        analyticsService?.sendEvent("paypal-web-payments:succeeded")
         delegate?.payPal(self, didFinishWithResult: payPalResult)
     }
 
     private func notifyFailure(with error: CoreSDKError) {
-        apiClient.sendAnalyticsEvent("paypal-web-payments:failed")
+        analyticsService?.sendEvent("paypal-web-payments:failed")
         delegate?.payPal(self, didFinishWithError: error)
     }
 
     private func notifyCancellation() {
-        apiClient.sendAnalyticsEvent("paypal-web-payments:browser-login:canceled")
+        analyticsService?.sendEvent("paypal-web-payments:browser-login:canceled")
         delegate?.payPalDidCancel(self)
     }
 }
