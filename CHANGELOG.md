@@ -1,7 +1,7 @@
 
 # PayPal iOS SDK Release Notes
 
-## unreleased
+## 0.0.8 (2023-05-08)
 * PayPalNativePayments
   * Add `PayPalNativePaysheetActions` to `PayPalNativeShippingDelegate.didShippingAddressChange()` and `PayPalNativeShippingDelegate.didShippingMethodChange()`
 * Card
