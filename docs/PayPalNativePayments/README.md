@@ -135,10 +135,10 @@ extension MyViewModel: PayPalNativeShippingDelegate {
     ) {
         // called when the user updates their chosen shipping address
 
-        // REQUIRED: you must call actions.approve() or actions.reject() in this callback
-        actions.approve()
+        // REQUIRED: you must call shippingActions.approve() or shippingActions.reject() in this callback
+        shippingActions.approve()
 
-        // OPTIONAL: you can optionally patch your order. Once complete, call actions.approve() if successful or actions.reject() if not.
+        // OPTIONAL: you can optionally patch your order. Once complete, call shippingActions.approve() if successful or shippingActions.reject() if not.
     }
 
     func paypal(
@@ -149,11 +149,11 @@ extension MyViewModel: PayPalNativeShippingDelegate {
         // called when the user updates their chosen shipping method
 
         // REQUIRED: patch your order server-side with the updated shipping amount.
-        // Once complete, call `actions.approve()` or `actions.reject()`
+        // Once complete, call `shippingActions.approve()` or `shippingActions.reject()`
         if patchOrder() == .success {
-            actions.approve()
+            shippingActions.approve()
         } else {
-            actions.reject()
+            shippingActions.reject()
         }
     }
 }
