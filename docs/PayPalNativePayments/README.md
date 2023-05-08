@@ -120,6 +120,8 @@ For a working example please refer to [PayPalViewModel](../../Demo/Demo/ViewMode
 
 You can optionally conform to `PayPalNativeShippingDelegate` to receive notifications when the user updates their shipping address or shipping method details.
 
+Implementing this optional delegate will require your server implementation support the [PayPal Orders API - Update order](https://developer.paypal.com/docs/api/orders/v2/#orders_patch) (or `PATCH`) functionality.
+
 ```swift
 extension MyViewModel: PayPalNativeShippingDelegate {
 
