@@ -180,4 +180,16 @@ class HTTP_Tests: XCTestCase {
         
         XCTAssertEqual(decodedCacheData.fakeParam, "cached_value2")
     }
+    
+    func testPerformRequestWithCaching_whenBadStatusCode_doesNotCacheHTTPResponse() async throws {
+        mockURLSession.cannedJSONData = #"{ "fake_param": "response" }"#
+        mockURLSession.cannedURLResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 400, httpVersion: "https", headerFields: [:])!
+        
+        do {
+            _ = try await sut.performRequest(fakeRequest, withCaching: true)
+        } catch {
+            let dataInCache = mockURLCache.cannedCache[fakeURLRequest]?.data
+            XCTAssertNil(dataInCache)
+        }
+    }
 }
