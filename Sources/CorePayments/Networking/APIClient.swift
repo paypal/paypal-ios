@@ -32,13 +32,21 @@ public class APIClient {
         return try await http.performRequest(request)
     }
     
+    func performRequest<T: Decodable>(endpoint: Endpoint, responseModel: T.Type) async throws -> T {
+        return try await http.performRequest2(request: endpoint, responseModel: responseModel)
+    }
+    
     /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
     ///
     /// Retrieves the merchant's clientID either from the local cache, or via an HTTP request if not cached.
     /// - Returns: Merchant clientID.
     public func fetchCachedOrRemoteClientID() async throws -> String {
-        let request = GetClientIDRequest(accessToken: coreConfig.accessToken)
-        let (response) = try await http.performRequest(request, withCaching: true)
+        let request = GetClientIDRequest2(accessToken: coreConfig.accessToken)
+        let (response) = try await http.performRequest2(
+            request: request,
+            responseModel: GetClientIDResponse.self,
+            cachingEnabled: false
+        )
         return response.clientID
     }
 }

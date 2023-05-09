@@ -7,7 +7,9 @@ class HTTP {
     private var urlSession: URLSessionProtocol
     private var urlCache: URLCacheable
     private let decoder = APIClientDecoder()
-
+    
+    let jsonDecoder = JSONDecoder()
+    
     init(
         urlSession: URLSessionProtocol = URLSession.shared,
         urlCache: URLCacheable = URLCache.shared,
@@ -16,6 +18,44 @@ class HTTP {
         self.urlSession = urlSession
         self.urlCache = urlCache
         self.coreConfig = coreConfig
+        
+        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+    }
+    
+    func performRequest2<T: Decodable>(request: Endpoint, responseModel: T.Type, cachingEnabled: Bool = false) async throws -> T {
+        guard let urlRequest = request.toURLRequest(environment: coreConfig.environment) else {
+            throw APIClientError.invalidURLRequestError
+        }
+        
+        if cachingEnabled, let response = urlCache.cachedResponse(for: urlRequest) {
+            let decodedData = try jsonDecoder.decode(T.self, from: response.data)
+//            let decodedData = try decoder.decode(T.self, from: response.data)
+            return decodedData
+        }
+        
+        let (data, response) = try await urlSession.performRequest(with: urlRequest)
+        guard let response = response as? HTTPURLResponse else {
+            throw APIClientError.invalidURLResponseError
+        }
+        
+        if cachingEnabled {
+            let cachedURLResponse = CachedURLResponse(response: response, data: data)
+            urlCache.storeCachedResponse(cachedURLResponse, for: urlRequest)
+        }
+        
+        switch response.statusCode {
+        case 200..<300:
+            let decodedData = try jsonDecoder.decode(T.self, from: data)
+//            let decodedData = try decoder.decode(T.self, from: data)
+            return (decodedData)
+        default:
+//            let errorData = try decoder.decode(from: data)
+            let errorData = try jsonDecoder.decode(ErrorResponse.self, from: data)
+            throw APIClientError.serverResponseError(errorData.readableDescription)
+        }
+        
+        
+        ///
     }
     
     func performRequest<T: APIRequest>(_ request: T, withCaching cachingEnabled: Bool = false) async throws -> (T.ResponseType) {
