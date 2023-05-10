@@ -126,8 +126,8 @@ For a working example please refer to [PayPalViewModel](../../Demo/Demo/ViewMode
 extension MyViewModel: PayPalNativeShippingDelegate {
 
     func setup() {
-        paypalNativeClient.delegate = self         // required
-        paypalNativeClient.shippingDelegate = self // optional
+        paypalNativeClient.delegate = self         // always required
+        paypalNativeClient.shippingDelegate = self // required for `GET_FROM_FILE` orders
     }
 
     func paypal(
