@@ -116,11 +116,11 @@ extension MyViewModel: PayPalNativeCheckoutDelegate {
 
 For a working example please refer to [PayPalViewModel](../../Demo/Demo/ViewModels/PayPalViewModel.swift) in our Demo application
 
-### 5. Optionally inspect shipping details
+### 5. Inspect shipping details
 
-You can optionally conform to `PayPalNativeShippingDelegate` to receive notifications when the user updates their shipping address or shipping method details.
+:warning: Only implement `PayPalNativeShippingDelegate` if your order ID was created with [`shipping_preference`](https://developer.paypal.com/docs/api/orders/v2/#definition-order_application_context) = `GET_FROM_FILE`. If you created your order ID with [`shipping_preference`](https://developer.paypal.com/docs/api/orders/v2/#definition-order_application_context) = `NO_SHIPPING` or `SET_PROVIDED_ADDRESS`, **skip this step**.
 
-Implementing this optional delegate will require your server implementation support the [PayPal Orders API - Update order](https://developer.paypal.com/docs/api/orders/v2/#orders_patch) (or `PATCH`) functionality.
+`PayPalNativeShippingDelegate` notifies your app when the user updates their shipping address or shipping method details. You are required to `PATCH` the order details on your server if the shipping method (or amount) changes. Do this with the [PayPal Orders API - Update order](https://developer.paypal.com/docs/api/orders/v2/#orders_patch) functionality.
 
 ```swift
 extension MyViewModel: PayPalNativeShippingDelegate {
