@@ -4,7 +4,7 @@ import CorePayments
 #endif
 
 /// Describes request to confirm a payment source (approve an order)
-struct ConfirmPaymentSourceRequest: APIRequest {
+struct ConfirmPaymentSourceRequest: Endpoint {
     
     private let orderID: String
     private let pathFormat: String = "/v2/checkout/orders/%@/confirm-payment-source"
@@ -43,9 +43,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     }
     
     // MARK: - APIRequest
-    
-    typealias ResponseType = ConfirmPaymentSourceResponse
-    
+        
     var path: String
     var method: HTTPMethod = .post
     var body: Data?

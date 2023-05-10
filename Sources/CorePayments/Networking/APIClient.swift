@@ -32,7 +32,7 @@ public class APIClient {
         return try await http.performRequest(request)
     }
     
-    func performRequest<T: Decodable>(endpoint: Endpoint, responseModel: T.Type) async throws -> T {
+    public func fetch<T: Decodable>(endpoint: Endpoint, responseModel: T.Type) async throws -> T {
         return try await http.performRequest2(request: endpoint, responseModel: responseModel)
     }
     

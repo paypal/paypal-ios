@@ -3,7 +3,7 @@ import Foundation
 import CorePayments
 #endif
 
-struct GetOrderInfoRequest: APIRequest {
+struct GetOrderInfoRequest: Endpoint {
 
     private let pathFormat: String = "v2/checkout/orders/%@"
     private let accessToken: String
@@ -14,8 +14,6 @@ struct GetOrderInfoRequest: APIRequest {
     }
 
     // MARK: - APIRequest
-
-    typealias ResponseType = GetOrderInfoResponse
 
     var path: String
     var method: HTTPMethod = .get

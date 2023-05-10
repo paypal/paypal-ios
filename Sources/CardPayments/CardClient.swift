@@ -41,7 +41,7 @@ public class CardClient: NSObject {
         Task {
             do {
                 let confirmPaymentRequest = try ConfirmPaymentSourceRequest(accessToken: config.accessToken, cardRequest: request)
-                let (result) = try await apiClient.fetch(request: confirmPaymentRequest)
+                let (result) = try await apiClient.fetch(endpoint: confirmPaymentRequest, responseModel: ConfirmPaymentSourceResponse.self)
                 
                 if let url: String = result.links?.first(where: { $0.rel == "payer-action" })?.href {
                     analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:challenge-required")
@@ -110,7 +110,7 @@ public class CardClient: NSObject {
         )
         Task {
             do {
-                let (result) = try await apiClient.fetch(request: getOrderInfoRequest)
+                let (result) = try await apiClient.fetch(endpoint: getOrderInfoRequest, responseModel: GetOrderInfoResponse.self)
                 let cardResult = CardResult(
                     orderID: result.id,
                     status: result.status,

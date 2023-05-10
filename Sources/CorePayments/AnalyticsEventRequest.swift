@@ -1,6 +1,6 @@
 import Foundation
 
-struct AnalyticsEventRequest: APIRequest {
+struct AnalyticsEventRequest: Endpoint {
     
     init(eventData: AnalyticsEventData) throws {
         let encoder = JSONEncoder()
@@ -10,7 +10,7 @@ struct AnalyticsEventRequest: APIRequest {
     
     // MARK: - APIRequest conformance
     
-    typealias ResponseType = EmptyResponse
+//    typealias ResponseType = EmptyResponse
     
     var path = "v1/tracking/events"
     var method: HTTPMethod = .post

@@ -52,7 +52,7 @@ public struct AnalyticsService {
             )
             
             let analyticsEventRequest = try AnalyticsEventRequest(eventData: eventData)
-            let (_) = try await http.performRequest(analyticsEventRequest)
+            let (_) = try await http.performRequest2(request: analyticsEventRequest, responseModel: EmptyResponse.self)
         } catch {
             NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription)
         }

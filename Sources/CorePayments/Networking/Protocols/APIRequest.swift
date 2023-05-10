@@ -12,7 +12,7 @@ public protocol APIRequest {
     func toURLRequest(environment: Environment) -> URLRequest?
 }
 
-protocol Endpoint {
+public protocol Endpoint {
     
     var path: String { get }
     var method: HTTPMethod { get }
@@ -23,7 +23,7 @@ protocol Endpoint {
     func toURLRequest(environment: Environment) -> URLRequest?
 }
 
-extension Endpoint {
+public extension Endpoint {
 
     var queryParameters: [String: String] { [:] }
 
