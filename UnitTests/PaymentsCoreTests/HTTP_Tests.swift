@@ -192,4 +192,16 @@ class HTTP_Tests: XCTestCase {
             XCTAssertNil(dataInCache)
         }
     }
+    
+    func testPerformRequestWithCaching_whenDecodingFailure_doesNotCacheHTTPResponse() async throws {
+        mockURLSession.cannedJSONData = #"{ "fake_param": "missingParenthesisBadResponse""#
+        mockURLSession.cannedURLResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])!
+        
+        do {
+            _ = try await sut.performRequest(fakeRequest, withCaching: true)
+        } catch {
+            let dataInCache = mockURLCache.cannedCache[fakeURLRequest]?.data
+            XCTAssertNil(dataInCache)
+        }
+    }
 }
