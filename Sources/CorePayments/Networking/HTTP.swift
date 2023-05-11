@@ -35,12 +35,11 @@ class HTTP {
         
         switch response.statusCode {
         case 200..<300:
+            let decodedData = try decoder.decode(T.self, from: data)
             if cachingEnabled {
                 let cachedURLResponse = CachedURLResponse(response: response, data: data)
                 urlCache.storeCachedResponse(cachedURLResponse, for: urlRequest)
             }
-            
-            let decodedData = try decoder.decode(T.self, from: data)
             return (decodedData)
         default:
             let errorData = try decoder.decode(from: data)
