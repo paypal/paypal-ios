@@ -145,6 +145,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         Task {
             do {
                 payPalWebCheckoutClient = try await getPayPalClient()
+                payPalWebCheckoutClient?.delegate = self
                 guard let client = payPalWebCheckoutClient else {
                     print("Error in initializing paypal webcheckout client")
                     return
