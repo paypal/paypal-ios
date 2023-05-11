@@ -60,7 +60,7 @@ public class CardClient: NSObject {
             } catch let error as CoreSDKError {
                 analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:failed")
                 notifyFailure(with: error)
-            } catch {            
+            } catch {
             }
         }
     }
