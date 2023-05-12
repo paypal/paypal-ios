@@ -74,10 +74,7 @@ class PayPalViewModel: ObservableObject {
     }
 
     func getAccessToken() async -> String? {
-        if let injectedAccessToken = InjectedValues.DEFAULT_ACCESS_TOKEN {
-            return injectedAccessToken
-        }
-        return await DemoMerchantAPI.sharedService.getAccessToken(environment: DemoSettings.environment)
+        await DemoMerchantAPI.sharedService.getAccessToken(environment: DemoSettings.environment)
     }
 
     private func publishStateToMainThread(_ state: State) {

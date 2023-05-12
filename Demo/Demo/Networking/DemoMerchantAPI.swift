@@ -9,6 +9,12 @@ final class DemoMerchantAPI {
 
     static let sharedService = DemoMerchantAPI()
     var accessToken: String?
+    
+    enum InjectedValues {
+        static let orderID: String? = nil
+        static let accessToken: String? = nil
+    }
+
 
     private init() {}
 
@@ -19,6 +25,10 @@ final class DemoMerchantAPI {
     /// - Returns: an order
     /// - Throws: an error explaining why create order failed
     func createOrder(orderParams: CreateOrderParams) async throws -> Order {
+        if let injectedOrderID = InjectedValues.orderID {
+            return Order(id: injectedOrderID, status: "CREATED")
+        }
+        
         guard let url = buildBaseURL(with: "/orders") else {
             throw URLResponseError.invalidURL
         }
@@ -33,6 +43,9 @@ final class DemoMerchantAPI {
     /// - Returns: an order
     /// - Throws: an error explaining why create order failed
     func createOrder(orderRequest: PayPalCheckout.OrderRequest) async throws -> Order {
+        if let injectedOrderID = InjectedValues.orderID {
+            return Order(id: injectedOrderID, status: "CREATED")
+        }
         guard let url = buildBaseURL(with: "/orders") else {
             throw URLResponseError.invalidURL
         }
@@ -75,6 +88,9 @@ final class DemoMerchantAPI {
     /// - Returns: a String representing an access token
     /// - Throws: an error explaining why process order failed
     public func getAccessToken(environment: Demo.Environment) async -> String? {
+        if let injectedAccessToken = InjectedValues.accessToken {
+            return injectedAccessToken
+        }
         guard let token = self.accessToken else {
             self.accessToken = await fetchAccessToken(environment: environment)
             return self.accessToken
