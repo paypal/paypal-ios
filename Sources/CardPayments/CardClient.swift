@@ -61,6 +61,8 @@ public class CardClient: NSObject {
                 analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:failed")
                 notifyFailure(with: error)
             } catch {
+                analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:failed")
+                notifyFailure(with: CardClientError.unknownError)
             }
         }
     }

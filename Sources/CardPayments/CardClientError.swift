@@ -21,6 +21,12 @@ enum CardClientError {
         case threeDSecureURLError
     }
 
+    static let unknownError = CoreSDKError(
+        code: Code.encodingError.rawValue,
+        domain: domain,
+        errorDescription: "An unknown error has occured. Contact developer.paypal.com/support."
+    )
+    
     static let encodingError = CoreSDKError(
         code: Code.encodingError.rawValue,
         domain: domain,

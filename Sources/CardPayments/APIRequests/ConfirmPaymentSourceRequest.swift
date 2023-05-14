@@ -36,7 +36,11 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         path = String(format: pathFormat, orderID)
         
         jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
-        body = try jsonEncoder.encode(confirmPaymentSource)
+        do {
+            body = try jsonEncoder.encode(confirmPaymentSource)
+        } catch {
+            throw CardClientError.encodingError
+        }
         
         // TODO - The complexity in this `init` signals to reconsider our use/design of the `APIRequest` protocol.
         // Existing pattern doesn't provide clear, testable interface for encoding JSON POST bodies.
