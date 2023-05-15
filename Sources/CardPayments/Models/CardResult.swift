@@ -14,4 +14,7 @@ public struct CardResult {
 
     /// The payment source
     public let paymentSource: PaymentSource?
+    
+    /// The order intent
+    public let intent: String
 }

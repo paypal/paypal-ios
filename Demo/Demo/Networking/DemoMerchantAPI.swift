@@ -13,7 +13,27 @@ final class DemoMerchantAPI {
     private init() {}
 
     // MARK: Public Methods
-
+    
+    func caputureOrder(orderID: String) async throws -> Order {
+        guard let url = buildBaseURL(with: "/orders/\(orderID)/capture") else {
+            throw URLResponseError.invalidURL
+        }
+        
+        let urlRequest = buildURLRequest(method: "POST", url: url, body: EmptyBodyParams())
+        let data = try await data(for: urlRequest)
+        return try parse(from: data)
+    }
+    
+    func authorizeOrder(orderID: String) async throws -> Order {
+        guard let url = buildBaseURL(with: "/orders/\(orderID)/authorize") else {
+            throw URLResponseError.invalidURL
+        }
+        
+        let urlRequest = buildURLRequest(method: "POST", url: url, body: EmptyBodyParams())
+        let data = try await data(for: urlRequest)
+        return try parse(from: data)
+    }
+    
     /// This function replicates a way a merchant may go about creating an order on their server and is not part of the SDK flow.
     /// - Parameter orderParams: the parameters to create the order with
     /// - Returns: an order
@@ -95,7 +115,7 @@ final class DemoMerchantAPI {
         if let token = accessToken {
             urlRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
-
+        
         if let json = try? encoder.encode(body) {
             print(String(data: json, encoding: .utf8) ?? "")
             urlRequest.httpBody = json

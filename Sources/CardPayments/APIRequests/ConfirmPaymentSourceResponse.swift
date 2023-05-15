@@ -6,6 +6,7 @@ import CorePayments
 struct ConfirmPaymentSourceResponse: Decodable {
     
     let id, status: String
+    let intent: String?
     let paymentSource: PaymentSource?
     let links: [Link]?
 }
