@@ -1,6 +1,3 @@
-
 import Foundation
 
-struct EmptyBodyParams: Codable {
-    
-}
+struct EmptyBodyParams: Codable {}

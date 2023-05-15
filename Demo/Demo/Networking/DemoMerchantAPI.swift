@@ -115,7 +115,7 @@ final class DemoMerchantAPI {
         if let token = accessToken {
             urlRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
-        
+
         if let json = try? encoder.encode(body) {
             print(String(data: json, encoding: .utf8) ?? "")
             urlRequest.httpBody = json
