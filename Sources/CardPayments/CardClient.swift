@@ -53,8 +53,7 @@ public class CardClient: NSObject {
                     let cardResult = CardResult(
                         orderID: result.id,
                         status: result.status,
-                        paymentSource: result.paymentSource,
-                        intent: result.intent ?? ""
+                        paymentSource: result.paymentSource
                     )
                     notifySuccess(for: cardResult)
                 }
@@ -115,8 +114,7 @@ public class CardClient: NSObject {
                 let cardResult = CardResult(
                     orderID: result.id,
                     status: result.status,
-                    paymentSource: result.paymentSource,
-                    intent: result.intent ?? ""
+                    paymentSource: result.paymentSource
                 )
                 self.analyticsService?.sendEvent("card-payments:3ds:get-order-info:succeeded")
                 notifySuccess(for: cardResult)

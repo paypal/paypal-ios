@@ -178,14 +178,14 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     // MARK: - Card Delegate
 
     func card(_ cardClient: CardClient, didFinishWithResult result: CardResult) {
-        if result.intent == "CAPTURE" {
+        let intent = DemoSettings.intent.rawValue.uppercased()
+        if intent == "CAPTURE" {
             updateTitle("Capturing Order with Id:\(result.orderID)...")
             captureOrderOnMerchantServer(result: result)
-        } else if result.intent == "AUTHORIZE" {
+        } else if intent == "AUTHORIZE" {
             updateTitle("Authorizing Order with Id:\(result.orderID)...")
             authorizeOrderOnMerchantServer(result: result)
         }
-        
     }
     
     private func captureOrderOnMerchantServer(result: CardResult) {
