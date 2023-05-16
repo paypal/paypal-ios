@@ -74,10 +74,6 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
         XCTAssertEqual(confirmPaymentSourceRequest.headers, expectedHeaders)
     }
 
-    enum TestError: Error {
-        case encodingError
-    }
-
     class FailingJSONEncoder: JSONEncoder {
         
         override func encode<T>(_ value: T) throws -> Data where T: Encodable {
