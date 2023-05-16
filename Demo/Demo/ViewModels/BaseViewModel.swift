@@ -180,10 +180,10 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     func card(_ cardClient: CardClient, didFinishWithResult result: CardResult) {
         let intent = DemoSettings.intent.rawValue.uppercased()
         if intent == "CAPTURE" {
-            updateTitle("Capturing Order with Id:\(result.orderID)...")
+            updateTitle("Capturing Order with ID:\(result.orderID)...")
             captureOrderOnMerchantServer(result: result)
         } else if intent == "AUTHORIZE" {
-            updateTitle("Authorizing Order with Id:\(result.orderID)...")
+            updateTitle("Authorizing Order with ID:\(result.orderID)...")
             authorizeOrderOnMerchantServer(result: result)
         }
     }
@@ -192,7 +192,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         Task {
             let captureResult = try? await DemoMerchantAPI.sharedService.caputureOrder(orderID: result.orderID)
             let status = captureResult?.status ?? result.status
-            updateTitle("Order Id:\(result.orderID) status: \(status)\n \(String(describing: result.paymentSource))")
+            updateTitle("Order ID:\(result.orderID) status: \(status)\n \(String(describing: result.paymentSource))")
         }
     }
     
@@ -200,7 +200,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         Task {
             let authorizeResult = try? await DemoMerchantAPI.sharedService.authorizeOrder(orderID: result.orderID)
             let status = authorizeResult?.status ?? result.status
-            updateTitle("Order Id:\(result.orderID) status: \(status)\n \(String(describing: result.paymentSource))")
+            updateTitle("Order ID:\(result.orderID) status: \(status)\n \(String(describing: result.paymentSource))")
         }
     }
     
