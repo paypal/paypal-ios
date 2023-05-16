@@ -9,15 +9,21 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     private let orderID: String
     private let pathFormat: String = "/v2/checkout/orders/%@/confirm-payment-source"
     private let accessToken: String
-    private let jsonEncoder = JSONEncoder()
+    var jsonEncoder: JSONEncoder?
     
     /// Creates a request to attach a payment source to a specific order.
     /// In order to use this initializer, the `paymentSource` parameter has to
     /// contain the entire dictionary as it exists underneath the `payment_source` key.
     init(
         accessToken: String,
-        cardRequest: CardRequest
+        cardRequest: CardRequest,
+        encoder: JSONEncoder? = nil
     ) throws {
+        if encoder != nil {
+            self.jsonEncoder = encoder
+        } else {
+            self.jsonEncoder = JSONEncoder()
+        }
         var confirmPaymentSource = ConfirmPaymentSource()
         var card = cardRequest.card
         let verification = Verification(method: cardRequest.sca.rawValue)
@@ -35,9 +41,9 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         
         path = String(format: pathFormat, orderID)
         
-        jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
+        jsonEncoder?.keyEncodingStrategy = .convertToSnakeCase
         do {
-            body = try jsonEncoder.encode(confirmPaymentSource)
+            body = try jsonEncoder?.encode(confirmPaymentSource)
         } catch {
             throw CardClientError.encodingError
         }

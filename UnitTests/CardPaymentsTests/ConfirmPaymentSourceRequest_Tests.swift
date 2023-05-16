@@ -73,4 +73,39 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
         XCTAssertEqual(confirmPaymentSourceRequest.method, expectedMethod)
         XCTAssertEqual(confirmPaymentSourceRequest.headers, expectedHeaders)
     }
+
+    enum TestError: Error {
+        case encodingError
+    }
+
+    class FailingJSONEncoder: JSONEncoder {
+        
+        override func encode<T>(_ value: T) throws -> Data where T: Encodable {
+            throw CardClientError.encodingError
+        }
+    }
+
+    func testEncodingFailure_throws_EncodingError() throws {
+        let mockOrderId = "mockOrderId"
+        let card = Card(
+            number: "4032036247327321",
+            expirationMonth: "11",
+            expirationYear: "2024",
+            securityCode: "222"
+        )
+        let cardRequest = CardRequest(orderID: mockOrderId, card: card)
+        
+        let failingEncoder = FailingJSONEncoder()
+        
+        XCTAssertThrowsError(try ConfirmPaymentSourceRequest(
+            accessToken: "fake token",
+            cardRequest: cardRequest,
+            encoder: failingEncoder)) { error in
+            guard let coreSDKError = error as? CoreSDKError else {
+                XCTFail("Thrown error should be a CoreSDKError")
+                return
+            }
+            XCTAssertEqual(coreSDKError.code, CardClientError.encodingError.code)
+        }
+    }
 }
