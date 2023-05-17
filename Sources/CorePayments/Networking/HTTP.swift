@@ -10,7 +10,7 @@ class HTTP {
 
     init(
         urlSession: URLSessionProtocol = URLSession.shared,
-        urlCache: URLCacheable = URLCache.shared,
+        urlCache: URLCacheable = URLCache(memoryCapacity: 4 * 1024 * 1024, diskCapacity: 0),
         coreConfig: CoreConfig
     ) {
         self.urlSession = urlSession
