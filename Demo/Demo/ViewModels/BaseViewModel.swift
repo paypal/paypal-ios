@@ -178,9 +178,32 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     // MARK: - Card Delegate
 
     func card(_ cardClient: CardClient, didFinishWithResult result: CardResult) {
-        updateTitle("Order Id:\(result.orderID) status: \(result.status)\n \(String(describing: result.paymentSource))")
+        let intent = DemoSettings.intent.rawValue.uppercased()
+        if intent == "CAPTURE" {
+            updateTitle("Capturing Order with ID:\(result.orderID)...")
+            captureOrderOnMerchantServer(result: result)
+        } else if intent == "AUTHORIZE" {
+            updateTitle("Authorizing Order with ID:\(result.orderID)...")
+            authorizeOrderOnMerchantServer(result: result)
+        }
     }
-
+    
+    private func captureOrderOnMerchantServer(result: CardResult) {
+        Task {
+            let captureResult = try? await DemoMerchantAPI.sharedService.caputureOrder(orderID: result.orderID)
+            let status = captureResult?.status ?? result.status
+            updateTitle("Order ID:\(result.orderID) status: \(status)\n \(String(describing: result.paymentSource))")
+        }
+    }
+    
+    private func authorizeOrderOnMerchantServer(result: CardResult) {
+        Task {
+            let authorizeResult = try? await DemoMerchantAPI.sharedService.authorizeOrder(orderID: result.orderID)
+            let status = authorizeResult?.status ?? result.status
+            updateTitle("Order ID:\(result.orderID) status: \(status)\n \(String(describing: result.paymentSource))")
+        }
+    }
+    
     func card(_ cardClient: CardClient, didFinishWithError error: CoreSDKError) {
         updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
         print("❌ There was an error: \(error)")
