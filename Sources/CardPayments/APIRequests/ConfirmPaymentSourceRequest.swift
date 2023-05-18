@@ -48,7 +48,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         // Existing pattern doesn't provide clear, testable interface for encoding JSON POST bodies.
     }
     
-    /// :nodoc: for testing purpose
+    /// For testing purpose
     init(
         accessToken: String,
         cardRequest: CardRequest,
