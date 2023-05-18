@@ -18,7 +18,6 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         accessToken: String,
         cardRequest: CardRequest
     ) throws {
-       
         self.jsonEncoder = JSONEncoder()
         var confirmPaymentSource = ConfirmPaymentSource()
         var card = cardRequest.card
