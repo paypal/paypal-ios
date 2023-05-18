@@ -16,14 +16,10 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     /// contain the entire dictionary as it exists underneath the `payment_source` key.
     init(
         accessToken: String,
-        cardRequest: CardRequest,
-        encoder: JSONEncoder? = nil
+        cardRequest: CardRequest
     ) throws {
-        if encoder != nil {
-            self.jsonEncoder = encoder
-        } else {
-            self.jsonEncoder = JSONEncoder()
-        }
+       
+        self.jsonEncoder = JSONEncoder()
         var confirmPaymentSource = ConfirmPaymentSource()
         var card = cardRequest.card
         let verification = Verification(method: cardRequest.sca.rawValue)
@@ -52,6 +48,41 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         // Existing pattern doesn't provide clear, testable interface for encoding JSON POST bodies.
     }
     
+    /// :nodoc: for testing purpose
+    init(
+        accessToken: String,
+        cardRequest: CardRequest,
+        encoder: JSONEncoder?
+    ) throws {
+        // encode with custom encoder that throws error if passed in
+        self.jsonEncoder = encoder ?? JSONEncoder()
+        var confirmPaymentSource = ConfirmPaymentSource()
+        var card = cardRequest.card
+        let verification = Verification(method: cardRequest.sca.rawValue)
+        card.attributes = Attributes(verification: verification)
+            
+        confirmPaymentSource.applicationContext = ApplicationContext(
+            returnUrl: PayPalCoreConstants.callbackURLScheme + "://card/success",
+            cancelUrl: PayPalCoreConstants.callbackURLScheme + "://card/cancel"
+        )
+        
+        confirmPaymentSource.paymentSource = PaymentSource(card: card)
+        
+        self.orderID = cardRequest.orderID
+        self.accessToken = accessToken
+        
+        path = String(format: pathFormat, orderID)
+        
+        jsonEncoder?.keyEncodingStrategy = .convertToSnakeCase
+        do {
+            body = try jsonEncoder?.encode(confirmPaymentSource)
+        } catch {
+            throw CardClientError.encodingError
+        }
+        
+        // TODO - The complexity in this `init` signals to reconsider our use/design of the `APIRequest` protocol.
+        // Existing pattern doesn't provide clear, testable interface for encoding JSON POST bodies.
+    }
     // MARK: - APIRequest
     
     typealias ResponseType = ConfirmPaymentSourceResponse

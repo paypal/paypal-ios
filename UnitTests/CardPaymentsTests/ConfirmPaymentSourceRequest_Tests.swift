@@ -86,14 +86,14 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
     }
 
     func testEncodingFailure_throws_EncodingError() throws {
-        let mockOrderId = "mockOrderId"
+        let mockOrderID = "mockOrderID"
         let card = Card(
             number: "4032036247327321",
             expirationMonth: "11",
             expirationYear: "2024",
             securityCode: "222"
         )
-        let cardRequest = CardRequest(orderID: mockOrderId, card: card)
+        let cardRequest = CardRequest(orderID: mockOrderID, card: card)
         
         let failingEncoder = FailingJSONEncoder()
         
