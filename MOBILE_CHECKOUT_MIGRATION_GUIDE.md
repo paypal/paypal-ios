@@ -36,7 +36,6 @@ In order to use this migration guide, you must:
     * Construct a `PayPalNativeCheckoutClient`.
     * Set delegates (more details to follow).
     
-
     ```diff=
     private func configurePayPalCheckout() {
     -     let config = CheckoutConfig(
