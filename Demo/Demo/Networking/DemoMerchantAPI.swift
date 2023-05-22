@@ -10,11 +10,11 @@ final class DemoMerchantAPI {
     static let sharedService = DemoMerchantAPI()
     var accessToken: String?
     
+    // To hardcode an access token and order ID for this demo app, set the below values
     enum InjectedValues {
         static let orderID: String? = nil
         static let accessToken: String? = nil
     }
-
 
     private init() {}
 
