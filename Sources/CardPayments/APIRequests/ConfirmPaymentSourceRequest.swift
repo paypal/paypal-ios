@@ -15,7 +15,6 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     /// In order to use this initializer, the `paymentSource` parameter has to
     /// contain the entire dictionary as it exists underneath the `payment_source` key.
     
-    /// For testing purpose
     init(
         accessToken: String,
         cardRequest: CardRequest,
