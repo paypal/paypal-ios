@@ -15,7 +15,6 @@ In order to use this migration guide, you must:
 
 *Assuming the pre-requisites are met, this migration should take ~1 developer day to complete.*
 
-
 1. Add the new SDK to your app
   * Swift Package Manger
       * In Xcode, add the PayPal SDK as a [package dependency](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app) to your Xcode project. Enter https://github.com/paypal/iOS-SDK.git as the package URL. 
