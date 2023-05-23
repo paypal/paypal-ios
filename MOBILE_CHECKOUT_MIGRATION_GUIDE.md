@@ -36,7 +36,7 @@ In order to use this migration guide, you must:
     * Construct a `PayPalNativeCheckoutClient`.
     * Set delegates (more details to follow).
     
-    ```diff=
+    ```diff
     private func configurePayPalCheckout() {
     -     let config = CheckoutConfig(
     -         clientID: "<ACCESS_TOKEN>",
@@ -60,7 +60,7 @@ In order to use this migration guide, you must:
     * Update your UI to display a `PaymentButtons.PayPalButton()`, instead of a `PaymentButtonContainer()`.
     * The `PayPalButton` needs a corresponding `@objc` action method.
 
-    ```diff=
+    ```diff
      private func addPayPalButton() {
     -    let container = PaymentButtonContainer()
     +    let paypalButton = PaymentButtons.PayPalButton()
@@ -76,7 +76,7 @@ In order to use this migration guide, you must:
     * Create a `PayPalNativeCheckoutRequest` with your Order ID from the [pre-requisite](#pre-requisites) steps.
     * Call `PayPalNativeCheckoutClient.start()` to present the PayPal Paysheet.
 
-    ```diff=
+    ```diff
     + @objc private func payPalButtonTapped() {
     +     let request = PayPalNativeCheckoutRequest(orderID: "<ORDER_ID>")
     +     Task { await self.paypalClient?.start(request: request) }
@@ -88,7 +88,7 @@ In order to use this migration guide, you must:
     * Implement the required `PayPalNativeCheckoutDelegate`. This is how your app will receive notifications of the PayPal flow's success, cancel, error, and willStart events.
     * Remove the analogous `Checkout` singleton `setCallback()` methods.
 
-    ```diff=
+    ```diff
     private func configurePayPalCheckout() {
     -    Checkout.setOnApproveCallback { approval in
     -        approval.actions.capture { response, error in
@@ -137,7 +137,7 @@ In order to use this migration guide, you must:
         * In the previous SDK, both shipping change types were lumped into one `ShippingChangeCallback`.
     * You are required to PATCH the order details on your server if the shipping method (or amount) changes. Do this with the [PayPal Orders API - Update order](https://developer.paypal.com/docs/api/orders/v2/#orders_patch) functionality.
 
-    ```diff=
+    ```diff
     + extension ViewController: PayPalNativeShippingDelegate {
 
     +    func paypal(
