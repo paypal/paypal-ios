@@ -27,7 +27,8 @@ class MockAPIClient: APIClient {
         if let cannedFetchError {
             throw cannedFetchError
         } else {
-            return cannedFetchResponse as! T
+            let cannedData = cannedJSONResponse!.data(using: String.Encoding.utf8)!
+            return try APIClientDecoder().decode(T.self, from: cannedData)
         }
     }
 

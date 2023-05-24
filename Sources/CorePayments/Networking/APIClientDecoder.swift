@@ -8,6 +8,22 @@ class APIClientDecoder {
         decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
     }
+    
+    func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
+        guard !data.isEmpty else {
+            if let emptyResponse = EmptyResponse() as? T {
+                return emptyResponse
+            } else {
+                throw APIClientError.noResponseDataError
+            }
+        }
+        
+        do {
+            return try self.decoder.decode(T.self, from: data)
+        } catch {
+            throw APIClientError.dataParsingError
+        }
+    }
 
     func decode<T: APIRequest>(_ type: T.Type, from data: Data) throws -> T.ResponseType {
         guard !data.isEmpty else {
