@@ -15,14 +15,16 @@ class AnalyticsService_Tests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        mockURLSession = MockURLSession()
-        mockURLSession.cannedError = nil
-        mockURLSession.cannedURLResponse = HTTPURLResponse(url: URL(string: "www.fake-url.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])
-        mockURLSession.cannedJSONData = """
-            { "client_id": "fake-client-id" }
-        """
+//        mockURLSession = MockURLSession()
+//        mockURLSession.cannedError = nil
+//        mockURLSession.cannedURLResponse = HTTPURLResponse(url: URL(string: "www.fake-url.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])
+//        mockURLSession.cannedJSONData = """
+//            { "client_id": "fake-client-id" }
+//        """
+//
+        mockHTTP = MockHTTP(urlSession: MockURLSession(), coreConfig: coreConfig)
         
-        mockHTTP = MockHTTP(urlSession: mockURLSession, coreConfig: coreConfig)
+        mockHTTP.
         
         sut = AnalyticsService(coreConfig: coreConfig, orderID: "fake-order-id", http: mockHTTP)
     }

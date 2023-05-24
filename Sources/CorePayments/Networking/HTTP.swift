@@ -18,6 +18,19 @@ class HTTP {
         self.coreConfig = coreConfig
     }
     
+    func performRequest(_ request: any APIRequest) async throws -> HTTPResponse {
+        guard let urlRequest = request.toURLRequest(environment: coreConfig.environment) else {
+            throw APIClientError.invalidURLRequestError
+        }
+        
+        let (data, response) = try await urlSession.performRequest(with: urlRequest)
+        guard let response = response as? HTTPURLResponse else {
+            throw APIClientError.invalidURLResponseError
+        }
+        
+        return HTTPResponse(status: response.statusCode, body: data)
+    }
+    
     func performRequest<T: APIRequest>(_ request: T, withCaching cachingEnabled: Bool = false) async throws -> (T.ResponseType) {
         guard let urlRequest = request.toURLRequest(environment: coreConfig.environment) else {
             throw APIClientError.invalidURLRequestError

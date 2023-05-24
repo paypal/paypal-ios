@@ -48,6 +48,7 @@
 		80DBC9E029C3B8A800462539 /* PayPalNativeShippingMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DBC9DF29C3B8A800462539 /* PayPalNativeShippingMethod.swift */; };
 		80DCC59E2719DB6F00EC7C5A /* CardClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DCC59D2719DB6F00EC7C5A /* CardClientError.swift */; };
 		80E2F09929897DED006A7DBF /* MockURLCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FA148029848FCC00CCB09C /* MockURLCache.swift */; };
+		80E643832A1EBBD2008FD705 /* HTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E643822A1EBBD2008FD705 /* HTTPResponse.swift */; };
 		80E74400270E40F300BACECA /* FakeRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E743FF270E40F300BACECA /* FakeRequests.swift */; };
 		80E8DAE126B8784600FAFC3F /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E8DAE026B8784600FAFC3F /* Card.swift */; };
 		80E8DAEA26B8785D00FAFC3F /* CardPayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E8DAD926B8783800FAFC3F /* CardPayments.framework */; };
@@ -248,6 +249,7 @@
 		80DBC9DD29C3B57200462539 /* PayPalNativeShippingAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalNativeShippingAddress.swift; sourceTree = "<group>"; };
 		80DBC9DF29C3B8A800462539 /* PayPalNativeShippingMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalNativeShippingMethod.swift; sourceTree = "<group>"; };
 		80DCC59D2719DB6F00EC7C5A /* CardClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardClientError.swift; sourceTree = "<group>"; };
+		80E643822A1EBBD2008FD705 /* HTTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPResponse.swift; sourceTree = "<group>"; };
 		80E743F8270E40CE00BACECA /* TestShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TestShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80E743FF270E40F300BACECA /* FakeRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeRequests.swift; sourceTree = "<group>"; };
 		80E8DAD926B8783800FAFC3F /* CardPayments.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CardPayments.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -737,6 +739,7 @@
 				BEA100E626EF9EDA0036A6A5 /* APIClient.swift */,
 				804E628529380B04004B9FEF /* AnalyticsService.swift */,
 				804E62812937EBCE004B9FEF /* HTTP.swift */,
+				80E643822A1EBBD2008FD705 /* HTTPResponse.swift */,
 				80FA147E29848F0D00CCB09C /* URLCacheable.swift */,
 				CBA92A4227B304140077FF14 /* APIClientDecoder.swift */,
 				BEA100EF26EFA7C20036A6A5 /* APIClientError.swift */,
@@ -1365,6 +1368,7 @@
 				807C5E67291027D400ECECD8 /* AnalyticsEventRequest.swift in Sources */,
 				E6022E7F2857C6BE008B0E27 /* FundingEligibilityQuery.swift in Sources */,
 				E6022E802857C6BE008B0E27 /* GraphQLQueryResponse.swift in Sources */,
+				80E643832A1EBBD2008FD705 /* HTTPResponse.swift in Sources */,
 				807C5E6929102D9800ECECD8 /* AnalyticsEventData.swift in Sources */,
 				E6022E812857C6BE008B0E27 /* Extension.swift in Sources */,
 				E6022E822857C6BE008B0E27 /* Error.swift in Sources */,
