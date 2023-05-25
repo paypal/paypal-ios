@@ -33,7 +33,7 @@ class MockHTTP: HTTP {
         if let stubHTTPError {
             throw stubHTTPError
         } else {
-            return stubHTTPResponse ?? HTTPResponse(status: 200, body: Data())
+            return stubHTTPResponse ?? HTTPResponse(status: 200, body: nil)
         }
     }
 }

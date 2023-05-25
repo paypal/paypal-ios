@@ -6,11 +6,6 @@ class APIClient_Tests: XCTestCase {
 
     // MARK: - Helper Properties
 
-    let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])
-    let fakeRequest = FakeRequest()
-
-    let config = CoreConfig(accessToken: "mockAccessToken", environment: .sandbox)
-    var mockURLSession: MockURLSession!
     var sut: APIClient!
     let mockHTTP = MockHTTP()
 
@@ -18,7 +13,6 @@ class APIClient_Tests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        mockURLSession = MockURLSession()
         
         sut = APIClient(http: mockHTTP)
     }
@@ -26,9 +20,7 @@ class APIClient_Tests: XCTestCase {
     // MARK: - fetch()
     
     func testFetch_forwardsAPIRequestToHTTPClass() async throws {
-        let fakeRequest = FakeRequest()
-                
-        _ = try await sut.fetch(request: fakeRequest)
+        _ = try? await sut.fetch(request: FakeRequest())
         
         XCTAssert(mockHTTP.lastAPIRequest is FakeRequest)
         XCTAssertEqual(mockHTTP.lastAPIRequest?.path, "/fake-path")
