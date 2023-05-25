@@ -6,7 +6,6 @@ class AnalyticsService_Tests: XCTestCase {
 
     // MARK: - Helper properties
 
-    var mockURLSession: MockURLSession!
     var sut: AnalyticsService!
     var mockHTTP: MockHTTP!
     var coreConfig = CoreConfig(accessToken: "fake-token", environment: .sandbox)

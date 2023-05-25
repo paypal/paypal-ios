@@ -12,7 +12,7 @@ class MockAPIClient: APIClient {
     var postedAnalyticsEvents: [String] = []
     
     override convenience init(coreConfig: CoreConfig) {
-        self.init(http: HTTP(urlSession: MockURLSession(), coreConfig: coreConfig))
+        self.init(http: MockHTTP())
     }
     
     override func fetch<T: APIRequest>(request: T) async throws -> (T.ResponseType) {
