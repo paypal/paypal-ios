@@ -17,7 +17,7 @@ class AnalyticsService_Tests: XCTestCase {
     override func setUp() {
         super.setUp()
                 
-        mockHTTP = MockHTTP(coreConfig: coreConfig)
+        mockHTTP = MockHTTP()
         mockHTTP.stubHTTPResponse = HTTPResponse(status: 200, body: clientIDResponseJSON.data(using: .utf8)!)
         
         sut = AnalyticsService(coreConfig: coreConfig, orderID: "fake-order-id", http: mockHTTP)

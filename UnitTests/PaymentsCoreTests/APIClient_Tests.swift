@@ -12,14 +12,13 @@ class APIClient_Tests: XCTestCase {
     let config = CoreConfig(accessToken: "mockAccessToken", environment: .sandbox)
     var mockURLSession: MockURLSession!
     var sut: APIClient!
-    var mockHTTP: MockHTTP!
+    let mockHTTP = MockHTTP()
 
     // MARK: - Test lifecycle
 
     override func setUp() {
         super.setUp()
         mockURLSession = MockURLSession()
-        mockHTTP = MockHTTP(urlSession: mockURLSession, coreConfig: config)
         
         sut = APIClient(http: mockHTTP)
     }
@@ -28,9 +27,7 @@ class APIClient_Tests: XCTestCase {
     
     func testFetch_forwardsAPIRequestToHTTPClass() async throws {
         let fakeRequest = FakeRequest()
-        mockURLSession.cannedJSONData = #"{ "fake_param": "something" }"#
-        mockURLSession.cannedURLResponse = successURLResponse
-        
+                
         _ = try await sut.fetch(request: fakeRequest)
         
         XCTAssert(mockHTTP.lastAPIRequest is FakeRequest)
@@ -40,9 +37,8 @@ class APIClient_Tests: XCTestCase {
     // MARK: - fetchCachedOrRemoteClientID()
 
     func testGetClientID_successfullyReturnsData() async throws {
-        mockURLSession.cannedJSONData = APIResponses.oauthTokenJson.rawValue
-        mockURLSession.cannedURLResponse = successURLResponse
-
+        mockHTTP.stubHTTPResponse = HTTPResponse(status: 200, body: #"{ "client_id": "sample_id" }"#.data(using: .utf8)!)
+        
         let response = try await sut.fetchCachedOrRemoteClientID()
         XCTAssertEqual(response, "sample_id")
     }

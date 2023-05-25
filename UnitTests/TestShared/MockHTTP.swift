@@ -8,6 +8,10 @@ class MockHTTP: HTTP {
     
     var stubHTTPResponse: HTTPResponse?
     var stubHTTPError: Error?
+    
+    init(coreConfig: CoreConfig = CoreConfig(accessToken: "fake-access-token", environment: .sandbox)) {
+        super.init(coreConfig: coreConfig)
+    }
 
     // Problem is you can't mock the return value of this func due to generics. I can't instantite the result type.
     override func performRequest<T: APIRequest>(_ request: T, withCaching: Bool = false) async throws -> (T.ResponseType) {
