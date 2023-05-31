@@ -157,7 +157,6 @@
 		E6022E872857C81E008B0E27 /* EligibilityParsing_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6022E862857C81E008B0E27 /* EligibilityParsing_Tests.swift */; };
 		E647636F2899B1EB00074113 /* GetClientIDRequest_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E647636E2899B1EB00074113 /* GetClientIDRequest_Tests.swift */; };
 		E64763712899B60C00074113 /* MockAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64763702899B60C00074113 /* MockAPIClient.swift */; };
-		E65D2D19289866FD00F94DFC /* GetClientIDRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65D2D18289866FD00F94DFC /* GetClientIDRequest.swift */; };
 		E65D2D1B2898674700F94DFC /* GetClientIDResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65D2D1A2898674700F94DFC /* GetClientIDResponse.swift */; };
 		E699EC16285A388E0044A753 /* GraphQLClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E699EC15285A388E0044A753 /* GraphQLClient_Tests.swift */; };
 /* End PBXBuildFile section */
@@ -355,7 +354,6 @@
 		E64623372836AFC1008AC8E1 /* GraphQLClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLClient.swift; sourceTree = "<group>"; };
 		E647636E2899B1EB00074113 /* GetClientIDRequest_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetClientIDRequest_Tests.swift; sourceTree = "<group>"; };
 		E64763702899B60C00074113 /* MockAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPIClient.swift; sourceTree = "<group>"; };
-		E65D2D18289866FD00F94DFC /* GetClientIDRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetClientIDRequest.swift; sourceTree = "<group>"; };
 		E65D2D1A2898674700F94DFC /* GetClientIDResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetClientIDResponse.swift; sourceTree = "<group>"; };
 		E699EC15285A388E0044A753 /* GraphQLClient_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLClient_Tests.swift; sourceTree = "<group>"; };
 		OBJ_16 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -560,7 +558,6 @@
 				06CE009826F3D1660000CC46 /* CoreConfig.swift */,
 				065A4DBB26FCD8080007014A /* CoreSDKError.swift */,
 				BEA100E526EF9EDA0036A6A5 /* Networking */,
-				E65D2D18289866FD00F94DFC /* GetClientIDRequest.swift */,
 				E65D2D1A2898674700F94DFC /* GetClientIDResponse.swift */,
 				807C5E66291027D400ECECD8 /* AnalyticsEventRequest.swift */,
 				807C5E6829102D9800ECECD8 /* AnalyticsEventData.swift */,
@@ -1394,7 +1391,6 @@
 				804E62822937EBCE004B9FEF /* HTTP.swift in Sources */,
 				BC04836F27B2FB3600FA7B46 /* URLSessionProtocol.swift in Sources */,
 				065A4DBC26FCD8090007014A /* CoreSDKError.swift in Sources */,
-				E65D2D19289866FD00F94DFC /* GetClientIDRequest.swift in Sources */,
 				BEA100E726EF9EDA0036A6A5 /* APIClient.swift in Sources */,
 				807BF58F2A2A5D19002F32B3 /* HTTPResponseParser.swift in Sources */,
 			);

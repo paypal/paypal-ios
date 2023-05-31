@@ -32,14 +32,4 @@ public class APIClient {
         let httpResponse = try await http.performRequest(request)
         return try HTTPResponseParser().parse(httpResponse, as: T.ResponseType.self)
     }
-        
-    /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
-    ///
-    /// Retrieves the merchant's clientID either from the local cache, or via an HTTP request if not cached.
-    /// - Returns: Merchant clientID.
-    public func fetchCachedOrRemoteClientID() async throws -> String {
-        let request = GetClientIDRequest(accessToken: coreConfig.clientID)
-        let (response) = try await http.performRequest(request, withCaching: true)
-        return response.clientID
-    }
 }
