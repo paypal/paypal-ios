@@ -40,7 +40,7 @@ public class CardClient: NSObject {
         analyticsService?.sendEvent("card-payments:3ds:started")
         Task {
             do {
-                let confirmPaymentRequest = try ConfirmPaymentSourceRequest(accessToken: config.accessToken, cardRequest: request)
+                let confirmPaymentRequest = try ConfirmPaymentSourceRequest(clientID: config.clientID, cardRequest: request)
                 let (result) = try await apiClient.fetch(request: confirmPaymentRequest)
                 
                 if let url: String = result.links?.first(where: { $0.rel == "payer-action" })?.href {
@@ -51,9 +51,7 @@ public class CardClient: NSObject {
                     analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:succeeded")
                     
                     let cardResult = CardResult(
-                        orderID: result.id,
-                        status: result.status,
-                        paymentSource: result.paymentSource
+                        orderID: result.id
                     )
                     notifySuccess(for: cardResult)
                 }
@@ -98,31 +96,13 @@ public class CardClient: NSObject {
                         return
                     }
                 }
-                self.getOrderInfo(id: orderId)
-            }
-        )
-    }
-
-    private func getOrderInfo(id orderId: String) {
-        let getOrderInfoRequest = GetOrderInfoRequest(
-            orderID: orderId,
-            accessToken: config.accessToken
-        )
-        Task {
-            do {
-                let (result) = try await apiClient.fetch(request: getOrderInfoRequest)
+                
                 let cardResult = CardResult(
-                    orderID: result.id,
-                    status: result.status,
-                    paymentSource: result.paymentSource
+                    orderID: orderId
                 )
-                self.analyticsService?.sendEvent("card-payments:3ds:get-order-info:succeeded")
-                notifySuccess(for: cardResult)
-            } catch let error as CoreSDKError {
-                self.analyticsService?.sendEvent("card-payments:3ds:get-order-info:failed")
-                notifyFailure(with: error)
+                self.notifySuccess(for: cardResult)
             }
-        }
+        )
     }
 
     private func notifySuccess(for result: CardResult) {

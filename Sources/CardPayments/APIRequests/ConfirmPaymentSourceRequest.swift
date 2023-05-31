@@ -8,14 +8,14 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     
     private let orderID: String
     private let pathFormat: String = "/v2/checkout/orders/%@/confirm-payment-source"
-    private let accessToken: String
+    private let base64EncodedClientID: String
     private let jsonEncoder = JSONEncoder()
     
     /// Creates a request to attach a payment source to a specific order.
     /// In order to use this initializer, the `paymentSource` parameter has to
     /// contain the entire dictionary as it exists underneath the `payment_source` key.
     init(
-        accessToken: String,
+        clientID: String,
         cardRequest: CardRequest
     ) throws {
         var confirmPaymentSource = ConfirmPaymentSource()
@@ -31,7 +31,8 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         confirmPaymentSource.paymentSource = PaymentSource(card: card)
         
         self.orderID = cardRequest.orderID
-        self.accessToken = accessToken
+        var modifiedClientID = clientID + ":"
+        self.base64EncodedClientID = Data(modifiedClientID.utf8).base64EncodedString()
         
         path = String(format: pathFormat, orderID)
         
@@ -53,7 +54,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     var headers: [HTTPHeader: String] {
         [
             .contentType: "application/json", .acceptLanguage: "en_US",
-            .authorization: "Bearer \(accessToken)"
+            .authorization: "Basic \(base64EncodedClientID)"
         ]
     }
     
