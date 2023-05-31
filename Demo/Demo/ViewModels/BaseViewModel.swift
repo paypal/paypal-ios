@@ -191,16 +191,16 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     private func captureOrderOnMerchantServer(result: CardResult) {
         Task {
             let captureResult = try? await DemoMerchantAPI.sharedService.caputureOrder(orderID: result.orderID)
-            let status = captureResult?.status ?? result.status
-            updateTitle("Order ID:\(result.orderID) status: \(status)\n \(String(describing: result.paymentSource))")
+            let status = captureResult?.status ?? ""
+            updateTitle("Order ID:\(result.orderID) status: \(status)")
         }
     }
     
     private func authorizeOrderOnMerchantServer(result: CardResult) {
         Task {
             let authorizeResult = try? await DemoMerchantAPI.sharedService.authorizeOrder(orderID: result.orderID)
-            let status = authorizeResult?.status ?? result.status
-            updateTitle("Order ID:\(result.orderID) status: \(status)\n \(String(describing: result.paymentSource))")
+            let status = authorizeResult?.status ?? ""
+            updateTitle("Order ID:\(result.orderID) status: \(status)")
         }
     }
     
@@ -229,10 +229,10 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     }
 
     func getCoreConfig() async -> CoreConfig? {
-        guard let token = await getAccessToken() else {
-            return nil
-        }
-        return CoreConfig(accessToken: token, environment: DemoSettings.environment.paypalSDKEnvironment)
+        // TODO: replace with merchant server call to get clientID
+        let clientID = "AcXwOk3dof7NCNcriyS8RVh5q39ozvdWUF9oHPrWqfyrDS4AwVdKe32Axuk2ADo6rI_31Vv6MGgOyzRt"
+        
+        return CoreConfig(clientID: clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
     }
 
     func getNativeCheckoutClient() async throws -> PayPalNativeCheckoutClient {

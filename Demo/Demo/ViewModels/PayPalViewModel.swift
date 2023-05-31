@@ -25,7 +25,7 @@ class PayPalViewModel: ObservableObject {
                 return
             }
             accessToken = token
-            payPalClient = PayPalNativeCheckoutClient(config: CoreConfig(accessToken: token, environment: CorePayments.Environment.sandbox))
+            payPalClient = PayPalNativeCheckoutClient(config: CoreConfig(clientID: token, environment: CorePayments.Environment.sandbox))
             payPalClient?.delegate = self
             payPalClient?.shippingDelegate = self
             publishStateToMainThread(.mainContent(title: "Access Token", content: accessToken, flowComplete: false))
