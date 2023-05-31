@@ -18,9 +18,8 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     init(
         accessToken: String,
         cardRequest: CardRequest,
-        encoder: JSONEncoder = JSONEncoder()
+        encoder: JSONEncoder = JSONEncoder() // exposed for test injection
     ) throws {
-        // encode with custom encoder that throws error if passed in
         self.jsonEncoder = encoder
         var confirmPaymentSource = ConfirmPaymentSource()
         var card = cardRequest.card
