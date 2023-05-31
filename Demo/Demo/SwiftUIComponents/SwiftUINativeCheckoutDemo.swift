@@ -71,8 +71,8 @@ struct SwiftUINativeCheckoutDemo: View {
     func getAccessTokenView() -> some View {
         NavigationView {
             VStack(spacing: 16) {
-                Button("Get Access Token") {
-                    viewModel.getAccessToken()
+                Button("Get ClientID") {
+                    viewModel.getClientID()
                 }
                 .foregroundColor(.white)
                 .padding()

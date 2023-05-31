@@ -43,9 +43,8 @@ public class PayPalNativeCheckoutClient {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
 
         do {
-            let clientID = try await apiClient.fetchCachedOrRemoteClientID()
             let nxoConfig = CheckoutConfig(
-                clientID: clientID,
+                clientID: config.clientID,
                 createOrder: nil,
                 onApprove: nil,
                 onShippingChange: nil,

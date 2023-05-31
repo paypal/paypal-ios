@@ -12,29 +12,24 @@ class PayPalViewModel: ObservableObject {
     }
 
     @Published private(set) var state = State.initial
-    private var accessToken = ""
     private var payPalClient: PayPalNativeCheckoutClient?
     private var shippingPreference: OrderApplicationContext.ShippingPreference = .noShipping
     private var orderID = ""
 
-    func getAccessToken() {
-        state = .loading(content: "Getting access token")
+    func getClientID() {
+        state = .loading(content: "Getting clientID")
         Task {
-            guard let token = await getAccessToken() else {
-                publishStateToMainThread(.mainContent(title: "Access Token", content: accessToken, flowComplete: false))
-                return
-            }
-            accessToken = token
-            payPalClient = PayPalNativeCheckoutClient(config: CoreConfig(clientID: token, environment: CorePayments.Environment.sandbox))
+        // TODO: call getClientID to call merchant server's getClientID
+            let clientID = "AcXwOk3dof7NCNcriyS8RVh5q39ozvdWUF9oHPrWqfyrDS4AwVdKe32Axuk2ADo6rI_31Vv6MGgOyzRt"
+            payPalClient = PayPalNativeCheckoutClient(config: CoreConfig(clientID: clientID, environment: CorePayments.Environment.sandbox))
             payPalClient?.delegate = self
             payPalClient?.shippingDelegate = self
-            publishStateToMainThread(.mainContent(title: "Access Token", content: accessToken, flowComplete: false))
+            publishStateToMainThread(.mainContent(title: "ClientID", content: clientID, flowComplete: false))
         }
     }
 
     func retry() {
         payPalClient = nil
-        accessToken = ""
         state = .initial
         shippingPreference = .noShipping
     }
