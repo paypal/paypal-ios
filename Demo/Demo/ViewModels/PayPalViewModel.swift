@@ -15,12 +15,16 @@ class PayPalViewModel: ObservableObject {
     private var payPalClient: PayPalNativeCheckoutClient?
     private var shippingPreference: OrderApplicationContext.ShippingPreference = .noShipping
     private var orderID = ""
+    private var clientID = ""
 
     func getClientID() {
         state = .loading(content: "Getting clientID")
         Task {
-        // TODO: call getClientID to call merchant server's getClientID
-            let clientID = "AcXwOk3dof7NCNcriyS8RVh5q39ozvdWUF9oHPrWqfyrDS4AwVdKe32Axuk2ADo6rI_31Vv6MGgOyzRt"
+            guard let token = await getClientID() else {
+                publishStateToMainThread(.mainContent(title: "ClientID", content: clientID, flowComplete: false))
+                return
+            }
+            clientID = token
             payPalClient = PayPalNativeCheckoutClient(config: CoreConfig(clientID: clientID, environment: CorePayments.Environment.sandbox))
             payPalClient?.delegate = self
             payPalClient?.shippingDelegate = self
@@ -68,8 +72,8 @@ class PayPalViewModel: ObservableObject {
         return order.id
     }
 
-    func getAccessToken() async -> String? {
-        await DemoMerchantAPI.sharedService.getAccessToken(environment: DemoSettings.environment)
+    func getClientID() async -> String? {
+        await DemoMerchantAPI.sharedService.getClientID(environment: DemoSettings.environment)
     }
 
     private func publishStateToMainThread(_ state: State) {
