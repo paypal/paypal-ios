@@ -224,14 +224,14 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         print("3DS challenge has finished")
     }
 
-    func getAccessToken() async -> String? {
-        await DemoMerchantAPI.sharedService.getAccessToken(environment: DemoSettings.environment)
+    func getClientID() async -> String? {
+        await DemoMerchantAPI.sharedService.getClientID(environment: DemoSettings.environment)
     }
-
+    
     func getCoreConfig() async -> CoreConfig? {
-        // TODO: replace with merchant server call to get clientID
-        let clientID = "AcXwOk3dof7NCNcriyS8RVh5q39ozvdWUF9oHPrWqfyrDS4AwVdKe32Axuk2ADo6rI_31Vv6MGgOyzRt"
-        
+        guard let clientID = await getClientID() else {
+            return nil
+        }
         return CoreConfig(clientID: clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
     }
 

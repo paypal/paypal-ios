@@ -9,6 +9,7 @@ final class DemoMerchantAPI {
 
     static let sharedService = DemoMerchantAPI()
     var accessToken: String?
+    var clientID: String?
     
     // To hardcode an access token and order ID for this demo app, set the below values
     enum InjectedValues {
@@ -102,35 +103,29 @@ final class DemoMerchantAPI {
         _ = try await data(for: urlRequest)
     }
 
-    /// This function fetches an access token to initialize any module of the SDK
+    /// This function fetches a clientID to initialize any module of the SDK
     /// - Parameters:
     ///   - environment: the current environment
-    /// - Returns: a String representing an access token
-    /// - Throws: an error explaining why process order failed
-    public func getAccessToken(environment: Demo.Environment) async -> String? {
-        if let injectedAccessToken = InjectedValues.accessToken {
-            return injectedAccessToken
-        }
+    /// - Returns: a String representing an clientID
+    /// - Throws: an error explaining why fetch clientID failed
+    public func getClientID(environment: Demo.Environment) async -> String? {
+       
         guard let token = self.accessToken else {
-            self.accessToken = await fetchAccessToken(environment: environment)
-            return self.accessToken
+            self.clientID = await fetchClientID(environment: environment)
+            return self.clientID
         }
         return token
     }
 
     // MARK: Private methods
 
-    private func buildURLRequest<T>(method: String, url: URL, body: T, accessToken: String? = nil) -> URLRequest where T: Encodable {
+    private func buildURLRequest<T>(method: String, url: URL, body: T) -> URLRequest where T: Encodable {
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
 
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        if let token = accessToken {
-            urlRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        }
 
         if let json = try? encoder.encode(body) {
             print(String(data: json, encoding: .utf8) ?? "")
@@ -165,36 +160,36 @@ final class DemoMerchantAPI {
         URL(string: "https://api.sandbox.paypal.com" + endpoint)
     }
 
-    private func fetchAccessToken(environment: Demo.Environment) async -> String? {
+    private func fetchClientID(environment: Demo.Environment) async -> String? {
         do {
-            let accessTokenRequest = AccessTokenRequest()
-            let request = try createUrlRequest(accessTokenRequest: accessTokenRequest, environment: environment)
+            let clientIDRequest = ClientIDRequest()
+            let request = try createUrlRequest(clientIDRequest: clientIDRequest, environment: environment)
             let (data, response) = try await URLSession.shared.performRequest(with: request)
             guard let response = response as? HTTPURLResponse else {
                 throw URLResponseError.serverError
             }
             switch response.statusCode {
             case 200..<300:
-                let accessTokenResponse: AccessTokenResponse = try parse(from: data)
-                return accessTokenResponse.accessToken
+                let clientIDResponse: ClientIDResponse = try parse(from: data)
+                return clientIDResponse.clientID
             default: throw URLResponseError.dataParsingError
             }
         } catch {
-            print("Error in fetching token")
+            print("Error in fetching clientID")
             return nil
         }
     }
-
-    private func createUrlRequest(accessTokenRequest: AccessTokenRequest, environment: Demo.Environment) throws -> URLRequest {
+    
+    private func createUrlRequest(clientIDRequest: ClientIDRequest, environment: Demo.Environment) throws -> URLRequest {
         var completeUrl = environment.baseURL
-        completeUrl.append(contentsOf: accessTokenRequest.path)
+        completeUrl.append(contentsOf: clientIDRequest.path)
         guard let url = URL(string: completeUrl) else {
             throw URLResponseError.invalidURL
         }
         var request = URLRequest(url: url)
-        request.httpMethod = accessTokenRequest.method.rawValue
-        request.httpBody = accessTokenRequest.body
-        accessTokenRequest.headers.forEach { key, value in
+        request.httpMethod = clientIDRequest.method.rawValue
+        request.httpBody = clientIDRequest.body
+        clientIDRequest.headers.forEach { key, value in
             request.addValue(value, forHTTPHeaderField: key.rawValue)
         }
         return request
