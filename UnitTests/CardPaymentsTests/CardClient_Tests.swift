@@ -32,7 +32,7 @@ class CardClient_Tests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        config = CoreConfig(accessToken: mockAccessToken, environment: .sandbox)
+        config = CoreConfig(clientID: mockClientID, environment: .sandbox)
         mockAPIClient = MockAPIClient(coreConfig: config)
         cardRequest = CardRequest(orderID: "testOrderId", card: card)
 
@@ -74,9 +74,6 @@ class CardClient_Tests: XCTestCase {
 
         let mockCardDelegate = MockCardDelegate(success: {_, result -> Void in
             XCTAssertEqual(result.orderID, "testOrderId")
-            XCTAssertEqual(result.paymentSource?.card.brand, "VISA")
-            XCTAssertEqual(result.paymentSource?.card.lastFourDigits, "7321")
-            XCTAssertEqual(result.paymentSource?.card.type, "CREDIT")
             expectation.fulfill()
         }, error: { _, _ in
             XCTFail("Invoked error() callback. Should invoke success().")
@@ -124,13 +121,6 @@ class CardClient_Tests: XCTestCase {
         let mockCardDelegate = MockCardDelegate(
             success: {_, result in
                 XCTAssertEqual(result.orderID, "testOrderId")
-                XCTAssertEqual(result.status, "CREATED")
-                XCTAssertEqual(result.paymentSource?.card.brand, "VISA")
-                XCTAssertEqual(result.paymentSource?.card.lastFourDigits, "7321")
-                XCTAssertEqual(result.paymentSource?.card.type, "CREDIT")
-                XCTAssertEqual(result.paymentSource?.card.authenticationResult?.liabilityShift, "POSSIBLE")
-                XCTAssertEqual(result.paymentSource?.card.authenticationResult?.threeDSecure?.authenticationStatus, "Y")
-                XCTAssertEqual(result.paymentSource?.card.authenticationResult?.threeDSecure?.enrollmentStatus, "Y")
                 expectation.fulfill()
             },
             error: { _, error in

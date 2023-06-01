@@ -22,11 +22,4 @@ class MockAPIClient: APIClient {
         let cannedData = cannedJSONResponse!.data(using: String.Encoding.utf8)!
         return try APIClientDecoder().decode(T.self, from: cannedData)
     }
-
-    override func fetchCachedOrRemoteClientID() async throws -> String {
-        if let cannedClientIDError {
-            throw cannedClientIDError
-        }
-        return cannedClientID
-    }
 }

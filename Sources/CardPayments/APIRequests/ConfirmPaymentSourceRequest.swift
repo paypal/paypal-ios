@@ -31,7 +31,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         confirmPaymentSource.paymentSource = PaymentSource(card: card)
         
         self.orderID = cardRequest.orderID
-        var modifiedClientID = clientID + ":"
+        let modifiedClientID = clientID + ":"
         self.base64EncodedClientID = Data(modifiedClientID.utf8).base64EncodedString()
         
         path = String(format: pathFormat, orderID)

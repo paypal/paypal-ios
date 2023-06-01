@@ -20,7 +20,7 @@ class HTTP_Tests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        config = CoreConfig(accessToken: "mockAccessToken", environment: .sandbox)
+        config = CoreConfig(clientID: "mockClientID", environment: .sandbox)
         
         mockURLSession = MockURLSession()
         mockURLSession.cannedError = nil
@@ -31,7 +31,6 @@ class HTTP_Tests: XCTestCase {
 
         sut = HTTP(
             urlSession: mockURLSession,
-            urlCache: mockURLCache,
             coreConfig: config
         )
     }
@@ -143,65 +142,5 @@ class HTTP_Tests: XCTestCase {
         
         _ = try await sut.performRequest(fakeRequest)
         XCTAssertEqual(mockURLSession.lastURLRequestPerformed?.url?.absoluteString, "https://api.sandbox.paypal.com/fake-path")
-    }
-    
-    // MARK: - performRequest(withCaching: true)
-    
-    func testPerformRequestWithCaching_hasCachedValue_doesNotSendHTTPRequestAndReturnsCachedValue() async throws {
-        let cachedURLResponse = CachedURLResponse(
-            response: successURLResponse,
-            data: #"{ "fake_param": "cached_value1" }"#.data(using: String.Encoding.utf8)!
-        )
-        mockURLCache.cannedCache = [fakeURLRequest: cachedURLResponse]
-        
-        let response = try await sut.performRequest(fakeRequest, withCaching: true)
-        XCTAssertNil(mockURLSession.lastURLRequestPerformed?.url?.absoluteString)
-        XCTAssertEqual(response.fakeParam, "cached_value1")
-    }
-    
-    func testPerformRequestWithCaching_hasEmptyCache_sendsHTTPRequest() async throws {
-        mockURLSession.cannedJSONData = #"{ "fake_param": "cached_value2" }"#
-
-        _ = try await sut.performRequest(fakeRequest, withCaching: true)
-        XCTAssertEqual(mockURLSession.lastURLRequestPerformed?.url?.absoluteString, "https://api.sandbox.paypal.com/fake-path")
-    }
-    
-    func testPerformRequestWithCaching_hasEmptyCache_cachesHTTPResponse() async throws {
-        mockURLSession.cannedJSONData = #"{ "fake_param": "cached_value2" }"#
-
-        _ = try await sut.performRequest(fakeRequest, withCaching: true)
-        
-        let dataInCache = mockURLCache.cannedCache[fakeURLRequest]?.data
-        XCTAssertNotNil(dataInCache)
-        
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        let decodedCacheData = try decoder.decode(FakeRequest.ResponseType.self, from: dataInCache!)
-        
-        XCTAssertEqual(decodedCacheData.fakeParam, "cached_value2")
-    }
-    
-    func testPerformRequestWithCaching_whenBadStatusCode_doesNotCacheHTTPResponse() async throws {
-        mockURLSession.cannedJSONData = #"{ "fake_param": "response" }"#
-        mockURLSession.cannedURLResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 400, httpVersion: "https", headerFields: [:])!
-        
-        do {
-            _ = try await sut.performRequest(fakeRequest, withCaching: true)
-        } catch {
-            let dataInCache = mockURLCache.cannedCache[fakeURLRequest]?.data
-            XCTAssertNil(dataInCache)
-        }
-    }
-    
-    func testPerformRequestWithCaching_whenDecodingFailure_doesNotCacheHTTPResponse() async throws {
-        mockURLSession.cannedJSONData = #"{ "fake_param": "missingParenthesisBadResponse""#
-        mockURLSession.cannedURLResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])!
-        
-        do {
-            _ = try await sut.performRequest(fakeRequest, withCaching: true)
-        } catch {
-            let dataInCache = mockURLCache.cannedCache[fakeURLRequest]?.data
-            XCTAssertNil(dataInCache)
-        }
     }
 }

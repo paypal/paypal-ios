@@ -9,7 +9,7 @@ class APIClient_Tests: XCTestCase {
     let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])
     let fakeRequest = FakeRequest()
 
-    let config = CoreConfig(accessToken: "mockAccessToken", environment: .sandbox)
+    let config = CoreConfig(clientID: "mockClientID", environment: .sandbox)
     var mockURLSession: MockURLSession!
     var sut: APIClient!
     var mockHTTP: MockHTTP!
@@ -35,15 +35,5 @@ class APIClient_Tests: XCTestCase {
         
         XCTAssert(mockHTTP.lastAPIRequest is FakeRequest)
         XCTAssertEqual(mockHTTP.lastAPIRequest?.path, "/fake-path")
-    }
-    
-    // MARK: - fetchCachedOrRemoteClientID()
-
-    func testGetClientID_successfullyReturnsData() async throws {
-        mockURLSession.cannedJSONData = APIResponses.oauthTokenJson.rawValue
-        mockURLSession.cannedURLResponse = successURLResponse
-
-        let response = try await sut.fetchCachedOrRemoteClientID()
-        XCTAssertEqual(response, "sample_id")
     }
 }

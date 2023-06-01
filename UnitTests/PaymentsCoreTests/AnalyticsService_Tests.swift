@@ -9,7 +9,7 @@ class AnalyticsService_Tests: XCTestCase {
     var mockURLSession: MockURLSession!
     var sut: AnalyticsService!
     var mockHTTP: MockHTTP!
-    var coreConfig = CoreConfig(accessToken: "fake-token", environment: .sandbox)
+    var coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
     // MARK: - Test lifecycle
     
     override func setUp() {
@@ -31,24 +31,12 @@ class AnalyticsService_Tests: XCTestCase {
 
     func testSendEvent_whenClientID_postsAnalyticsEventRequestType() async {
         await sut.performEventRequest("fake-event")
-
+        
         XCTAssert(mockHTTP.lastAPIRequest is AnalyticsEventRequest)
     }
     
-    func testSendEvent_whenNoClientID_doesNotPostAnalyticsEventRequestType() async {
-        mockURLSession.cannedJSONData = nil
-        
-        let coreConfig = CoreConfig(accessToken: "fake-token", environment: .live)
-        let mockHTTP = MockHTTP(urlSession: mockURLSession, coreConfig: coreConfig)
-        let sut = AnalyticsService(coreConfig: coreConfig, orderID: "fake-orderID", http: mockHTTP)
-                
-        await sut.performEventRequest("fake-event")
-
-        XCTAssert(mockHTTP.lastAPIRequest is GetClientIDRequest)
-    }
-    
     func testSendEvent_whenLive_sendsProperTag() async {
-        let coreConfig = CoreConfig(accessToken: "fake-token", environment: .live)
+        let coreConfig = CoreConfig(clientID: "fake-token", environment: .live)
         let mockHTTP = MockHTTP(urlSession: mockURLSession, coreConfig: coreConfig)
         let sut = AnalyticsService(coreConfig: coreConfig, orderID: "fake-orderID", http: mockHTTP)
         
