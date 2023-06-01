@@ -8,7 +8,7 @@ class HTTP_Tests: XCTestCase {
     
     var fakeRequest = FakeRequest()
     
-    let config = CoreConfig(accessToken: "mockAccessToken", environment: .sandbox)
+    var config: CoreConfig!
     var mockURLSession: MockURLSession!
     var sut: HTTP!
     
@@ -16,7 +16,9 @@ class HTTP_Tests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-                
+        
+        config = CoreConfig(clientID: "mockClientID", environment: .sandbox)
+        
         mockURLSession = MockURLSession()
         mockURLSession.cannedError = nil
         mockURLSession.cannedURLResponse = nil

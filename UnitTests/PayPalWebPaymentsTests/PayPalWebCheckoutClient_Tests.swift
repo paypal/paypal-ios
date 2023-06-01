@@ -13,7 +13,7 @@ class PayPalClient_Tests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        config = CoreConfig(accessToken: "testAccessToken", environment: .sandbox)
+        config = CoreConfig(clientID: "testClientID", environment: .sandbox)
         mockWebAuthenticationSession = MockWebAuthenticationSession()
         mockAPIClient = MockAPIClient(http: MockHTTP(coreConfig: config))
         

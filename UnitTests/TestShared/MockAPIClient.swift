@@ -20,11 +20,4 @@ class MockAPIClient: APIClient {
             as: T.ResponseType.self
         )
     }
-    
-    override func fetchCachedOrRemoteClientID() async throws -> String {
-        if let cannedClientIDError {
-            throw cannedClientIDError
-        }
-        return cannedClientID
-    }
 }

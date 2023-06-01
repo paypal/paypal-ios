@@ -5,7 +5,6 @@ import XCTest
 class GraphQLClient_Tests: XCTestCase {
 
     let mockClientID = "mockClientId"
-    let mockAccessToken = "mockAccessToken"
     
     // MARK: - Helper Properties
     
@@ -20,7 +19,7 @@ class GraphQLClient_Tests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        config = CoreConfig(accessToken: mockAccessToken, environment: .sandbox)
+        config = CoreConfig(clientID: mockClientID, environment: .sandbox)
         mockURLSession = MockURLSession()
         mockURLSession.cannedError = nil
         mockURLSession.cannedURLResponse = nil

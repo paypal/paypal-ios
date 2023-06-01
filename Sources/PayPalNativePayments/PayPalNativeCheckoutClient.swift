@@ -41,57 +41,53 @@ public class PayPalNativeCheckoutClient {
         presentingViewController: UIViewController? = nil
     ) async {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
-
-        do {
-            let nxoConfig = CheckoutConfig(
-                clientID: config.clientID,
-                createOrder: nil,
-                onApprove: nil,
-                onShippingChange: nil,
-                onCancel: nil,
-                onError: nil,
-                environment: config.environment.toNativeCheckoutSDKEnvironment()
-            )
-            delegate?.paypalWillStart(self)
-            
-            analyticsService?.sendEvent("paypal-native-payments:started")
-            self.nativeCheckoutProvider.start(
-                presentingViewController: presentingViewController,
-                orderID: request.orderID,
-                onStartableApprove: { ecToken, payerID in
-                    let result = PayPalNativeCheckoutResult(
-                        orderID: ecToken,
-                        payerID: payerID
-                    )
-                    self.notifySuccess(for: result)
-                },
-                onStartableShippingChange: { shippingType, shippingAction, shippingAddress, shippingMethod in
-                    switch shippingType {
-                    case .shippingAddress:
-                        self.notifyShippingChange(shippingActions: shippingAction, shippingAddress: shippingAddress)
-                    case .shippingMethod:
-                        guard let selectedShippingMethod = shippingMethod else {
-                            return
-                        }
-                        self.notifyShippingMethod(
-                            shippingActions: shippingAction,
-                            shippingMethod: selectedShippingMethod
-                        )
-                    @unknown default:
-                        break // do nothing
+        
+        let nxoConfig = CheckoutConfig(
+            clientID: config.clientID,
+            createOrder: nil,
+            onApprove: nil,
+            onShippingChange: nil,
+            onCancel: nil,
+            onError: nil,
+            environment: config.environment.toNativeCheckoutSDKEnvironment()
+        )
+        delegate?.paypalWillStart(self)
+        
+        analyticsService?.sendEvent("paypal-native-payments:started")
+        self.nativeCheckoutProvider.start(
+            presentingViewController: presentingViewController,
+            orderID: request.orderID,
+            onStartableApprove: { ecToken, payerID in
+                let result = PayPalNativeCheckoutResult(
+                    orderID: ecToken,
+                    payerID: payerID
+                )
+                self.notifySuccess(for: result)
+            },
+            onStartableShippingChange: { shippingType, shippingAction, shippingAddress, shippingMethod in
+                switch shippingType {
+                case .shippingAddress:
+                    self.notifyShippingChange(shippingActions: shippingAction, shippingAddress: shippingAddress)
+                case .shippingMethod:
+                    guard let selectedShippingMethod = shippingMethod else {
+                        return
                     }
-                },
-                onStartableCancel: {
-                    self.notifyCancellation()
-                },
-                onStartableError: { errorReason in
-                    self.notifyFailure(with: errorReason)
-                },
-                nxoConfig: nxoConfig
-            )
-        } catch {
-            delegate?.paypal(self, didFinishWithError: CorePaymentsError.clientIDNotFoundError)
-        }
+                    self.notifyShippingMethod(
+                        shippingActions: shippingAction,
+                        shippingMethod: selectedShippingMethod
+                    )
+                @unknown default:
+                    break // do nothing
+                }
+            },
+            onStartableCancel: {
+                self.notifyCancellation()
+            },
+            onStartableError: { errorReason in
+                self.notifyFailure(with: errorReason)
+            },
+            nxoConfig: nxoConfig
+        )
     }
     
     private func notifySuccess(for result: PayPalNativeCheckoutResult) {

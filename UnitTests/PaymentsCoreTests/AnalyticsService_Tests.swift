@@ -8,7 +8,7 @@ class AnalyticsService_Tests: XCTestCase {
 
     var sut: AnalyticsService!
     var mockHTTP: MockHTTP!
-    var coreConfig = CoreConfig(accessToken: "fake-token", environment: .sandbox)
+    var coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
     let clientIDResponseJSON = #"{ "client_id": "fake-client-id" }"#
 
     // MARK: - Test lifecycle
@@ -26,23 +26,12 @@ class AnalyticsService_Tests: XCTestCase {
 
     func testSendEvent_whenClientID_postsAnalyticsEventRequestType() async {
         await sut.performEventRequest("fake-event")
-
+        
         XCTAssert(mockHTTP.lastAPIRequest is AnalyticsEventRequest)
     }
     
-    func testSendEvent_whenNoClientID_doesNotPostAnalyticsEventRequestType() async {
-        let mockHTTP = MockHTTP(coreConfig: coreConfig)
-        mockHTTP.stubHTTPError = CoreSDKError.init(code: 1, domain: "", errorDescription: "")
-
-        let sut = AnalyticsService(coreConfig: coreConfig, orderID: "fake-orderID", http: mockHTTP)
-                
-        await sut.performEventRequest("fake-event")
-
-        XCTAssert(mockHTTP.lastAPIRequest is GetClientIDRequest)
-    }
-    
     func testSendEvent_whenLive_sendsProperTag() async {
-        let coreConfig = CoreConfig(accessToken: "fake-token", environment: .live)
+        let coreConfig = CoreConfig(clientID: "fake-token", environment: .live)
         let mockHTTP = MockHTTP(coreConfig: coreConfig)
         mockHTTP.stubHTTPResponse = HTTPResponse(status: 200, body: clientIDResponseJSON.data(using: .utf8)!)
         
