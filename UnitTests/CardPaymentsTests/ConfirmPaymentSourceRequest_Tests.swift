@@ -89,9 +89,9 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
         
         XCTAssertThrowsError(
             try ConfirmPaymentSourceRequest(
-            accessToken: "fake token",
-            cardRequest: cardRequest,
-            encoder: failingEncoder)
+                accessToken: "fake token",
+                cardRequest: cardRequest,
+                encoder: failingEncoder)
         ) { error in
             guard let coreSDKError = error as? CoreSDKError else {
                 XCTFail("Thrown error should be a CoreSDKError")
