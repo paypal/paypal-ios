@@ -2,6 +2,7 @@ import Foundation
 import XCTest
 @testable import CorePayments
 @testable import CardPayments
+@testable import TestShared
 
 class ConfirmPaymentSourceRequest_Tests: XCTestCase {
 
@@ -72,5 +73,31 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
         XCTAssertEqual(confirmPaymentSourceRequest.path, expectedPath)
         XCTAssertEqual(confirmPaymentSourceRequest.method, expectedMethod)
         XCTAssertEqual(confirmPaymentSourceRequest.headers, expectedHeaders)
+    }
+
+    func testEncodingFailure_throws_EncodingError() throws {
+        let mockOrderID = "mockOrderID"
+        let card = Card(
+            number: "4032036247327321",
+            expirationMonth: "11",
+            expirationYear: "2024",
+            securityCode: "222"
+        )
+        let cardRequest = CardRequest(orderID: mockOrderID, card: card)
+        
+        let failingEncoder = FailingJSONEncoder()
+        
+        XCTAssertThrowsError(
+            try ConfirmPaymentSourceRequest(
+                accessToken: "fake token",
+                cardRequest: cardRequest,
+                encoder: failingEncoder)
+        ) { error in
+            guard let coreSDKError = error as? CoreSDKError else {
+                XCTFail("Thrown error should be a CoreSDKError")
+                return
+            }
+            XCTAssertEqual(coreSDKError.code, CardClientError.encodingError.code)
+        }
     }
 }
