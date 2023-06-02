@@ -11,8 +11,8 @@ enum APIClientError {
         /// 1. Error returned from URLSession while making request.
         case urlSessionError
 
-        /// 2. Error parsing HTTP response data.
-        case dataParsingError
+        /// 2. An error occured decoding HTTP response data
+        case jsonDecodingError
 
         /// 3. Invalid HTTPURLResponse from network.
         case invalidURLResponse
@@ -25,9 +25,6 @@ enum APIClientError {
 
         /// 6. The server's response body returned an error message.
         case serverResponseError
-        
-        /// 7. An error occured during JSON decoding
-        case jsonDecodingError
     }
 
     static let unknownError = CoreSDKError(
@@ -44,11 +41,13 @@ enum APIClientError {
         )
     }
 
-    static let dataParsingError = CoreSDKError(
-        code: Code.dataParsingError.rawValue,
-        domain: domain,
-        errorDescription: "An error occured parsing HTTP response data. Contact developer.paypal.com/support."
-    )
+    static let jsonDecodingError: (String) -> CoreSDKError = { description in
+        CoreSDKError(
+            code: Code.jsonDecodingError.rawValue,
+            domain: domain,
+            errorDescription: description
+        )
+    }
 
     static let invalidURLResponseError = CoreSDKError(
         code: Code.invalidURLResponse.rawValue,
@@ -71,14 +70,6 @@ enum APIClientError {
     static let serverResponseError: (String) -> CoreSDKError = { description in
         CoreSDKError(
             code: Code.serverResponseError.rawValue,
-            domain: domain,
-            errorDescription: description
-        )
-    }
-    
-    static let jsonDecodingError: (String) -> CoreSDKError = { description in
-        CoreSDKError(
-            code: Code.jsonDecodingError.rawValue,
             domain: domain,
             errorDescription: description
         )

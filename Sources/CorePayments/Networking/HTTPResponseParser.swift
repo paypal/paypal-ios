@@ -15,11 +15,19 @@ class HTTPResponseParser {
         }
         
         if httpResponse.isSuccessful {
-            let decodedData = try decoder.decode(T.self, from: data)
-            return (decodedData)
+            do {
+                let decodedData = try decoder.decode(T.self, from: data)
+                return (decodedData)
+            } catch {
+                throw APIClientError.jsonDecodingError(error.localizedDescription)
+            }
         } else {
-            let errorData = try decoder.decode(ErrorResponse.self, from: data)
-            throw APIClientError.serverResponseError(errorData.readableDescription)
+            do {
+                let errorData = try decoder.decode(ErrorResponse.self, from: data)
+                throw APIClientError.serverResponseError(errorData.readableDescription)
+            } catch {
+                throw APIClientError.jsonDecodingError(error.localizedDescription)
+            }
         }
     }
 }
