@@ -5,16 +5,13 @@ class HTTP {
     
     let coreConfig: CoreConfig
     private var urlSession: URLSessionProtocol
-    private var urlCache: URLCacheable
     private let decoder = APIClientDecoder()
 
     init(
         urlSession: URLSessionProtocol = URLSession.shared,
-        urlCache: URLCacheable = URLCache(memoryCapacity: 4 * 1024 * 1024, diskCapacity: 0),
         coreConfig: CoreConfig
     ) {
         self.urlSession = urlSession
-        self.urlCache = urlCache
         self.coreConfig = coreConfig
     }
     
