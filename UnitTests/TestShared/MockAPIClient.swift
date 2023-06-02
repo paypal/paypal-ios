@@ -18,9 +18,9 @@ class MockAPIClient: APIClient {
         return try HTTPResponseParser().parse(
             HTTPResponse(status: 200, body: cannedData),
             as: T.ResponseType.self
-        )        
+        )
     }
-
+    
     override func fetchCachedOrRemoteClientID() async throws -> String {
         if let cannedClientIDError {
             throw cannedClientIDError
