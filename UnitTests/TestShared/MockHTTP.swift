@@ -16,7 +16,6 @@ class MockHTTP: HTTP {
     override func performRequest(_ request: any APIRequest) async throws -> HTTPResponse {
         lastAPIRequest = request
         
-        // Is there a better way to do this? Returning a codable type maybe?
         if let body = request.body {
             lastPOSTParameters = try JSONSerialization.jsonObject(with: body, options: []) as? [String: Any]
         }
