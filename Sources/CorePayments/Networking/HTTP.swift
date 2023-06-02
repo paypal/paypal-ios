@@ -5,7 +5,6 @@ class HTTP {
     
     let coreConfig: CoreConfig
     private var urlSession: URLSessionProtocol
-    private let decoder = APIClientDecoder()
 
     init(
         urlSession: URLSessionProtocol = URLSession.shared,
