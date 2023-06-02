@@ -37,6 +37,8 @@
 		805AB85926B88882003BEE0D /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; platformFilter = ios; };
 		8071AFA529C8BD8C008A39E9 /* PayPalNativeShippingMethod_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8071AFA429C8BD8C008A39E9 /* PayPalNativeShippingMethod_Tests.swift */; };
 		8071AFA729C8BEF3008A39E9 /* PayPalNativeShippingAddress_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8071AFA629C8BEF3008A39E9 /* PayPalNativeShippingAddress_Tests.swift */; };
+		807BF58F2A2A5D19002F32B3 /* HTTPResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807BF58E2A2A5D19002F32B3 /* HTTPResponseParser.swift */; };
+		807BF5912A2A5D48002F32B3 /* HTTPResponseParser_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807BF5902A2A5D48002F32B3 /* HTTPResponseParser_Tests.swift */; };
 		807C5E67291027D400ECECD8 /* AnalyticsEventRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807C5E66291027D400ECECD8 /* AnalyticsEventRequest.swift */; };
 		807C5E6929102D9800ECECD8 /* AnalyticsEventData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807C5E6829102D9800ECECD8 /* AnalyticsEventData.swift */; };
 		808EEA81291321FE001B6765 /* AnalyticsEventRequest_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808EEA80291321FE001B6765 /* AnalyticsEventRequest_Tests.swift */; };
@@ -239,6 +241,8 @@
 		804E628529380B04004B9FEF /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		8071AFA429C8BD8C008A39E9 /* PayPalNativeShippingMethod_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalNativeShippingMethod_Tests.swift; sourceTree = "<group>"; };
 		8071AFA629C8BEF3008A39E9 /* PayPalNativeShippingAddress_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalNativeShippingAddress_Tests.swift; sourceTree = "<group>"; };
+		807BF58E2A2A5D19002F32B3 /* HTTPResponseParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPResponseParser.swift; sourceTree = "<group>"; };
+		807BF5902A2A5D48002F32B3 /* HTTPResponseParser_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPResponseParser_Tests.swift; sourceTree = "<group>"; };
 		807C5E66291027D400ECECD8 /* AnalyticsEventRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventRequest.swift; sourceTree = "<group>"; };
 		807C5E6829102D9800ECECD8 /* AnalyticsEventData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventData.swift; sourceTree = "<group>"; };
 		808EEA80291321FE001B6765 /* AnalyticsEventRequest_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventRequest_Tests.swift; sourceTree = "<group>"; };
@@ -537,6 +541,7 @@
 				E647636E2899B1EB00074113 /* GetClientIDRequest_Tests.swift */,
 				808EEA80291321FE001B6765 /* AnalyticsEventRequest_Tests.swift */,
 				80FC261C29847AC7008EC841 /* HTTP_Tests.swift */,
+				807BF5902A2A5D48002F32B3 /* HTTPResponseParser_Tests.swift */,
 			);
 			path = PaymentsCoreTests;
 			sourceTree = "<group>";
@@ -740,6 +745,7 @@
 				804E628529380B04004B9FEF /* AnalyticsService.swift */,
 				804E62812937EBCE004B9FEF /* HTTP.swift */,
 				80E643822A1EBBD2008FD705 /* HTTPResponse.swift */,
+				807BF58E2A2A5D19002F32B3 /* HTTPResponseParser.swift */,
 				80FA147E29848F0D00CCB09C /* URLCacheable.swift */,
 				CBA92A4227B304140077FF14 /* APIClientDecoder.swift */,
 				BEA100EF26EFA7C20036A6A5 /* APIClientError.swift */,
@@ -1346,6 +1352,7 @@
 				80FC261D29847AC7008EC841 /* HTTP_Tests.swift in Sources */,
 				802C4A762945676E00896A5D /* AnalyticsService_Tests.swift in Sources */,
 				E6022E872857C81E008B0E27 /* EligibilityParsing_Tests.swift in Sources */,
+				807BF5912A2A5D48002F32B3 /* HTTPResponseParser_Tests.swift in Sources */,
 				8036C1E4270F9BE700C0F091 /* APIClient_Tests.swift in Sources */,
 				80E2F09929897DED006A7DBF /* MockURLCache.swift in Sources */,
 			);
@@ -1393,6 +1400,7 @@
 				065A4DBC26FCD8090007014A /* CoreSDKError.swift in Sources */,
 				E65D2D19289866FD00F94DFC /* GetClientIDRequest.swift in Sources */,
 				BEA100E726EF9EDA0036A6A5 /* APIClient.swift in Sources */,
+				807BF58F2A2A5D19002F32B3 /* HTTPResponseParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

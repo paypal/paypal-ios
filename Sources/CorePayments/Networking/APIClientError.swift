@@ -25,6 +25,9 @@ enum APIClientError {
 
         /// 6. The server's response body returned an error message.
         case serverResponseError
+        
+        /// 7. An error occured during JSON decoding
+        case jsonDecodingError
     }
 
     static let unknownError = CoreSDKError(
@@ -68,6 +71,14 @@ enum APIClientError {
     static let serverResponseError: (String) -> CoreSDKError = { description in
         CoreSDKError(
             code: Code.serverResponseError.rawValue,
+            domain: domain,
+            errorDescription: description
+        )
+    }
+    
+    static let jsonDecodingError: (String) -> CoreSDKError = { description in
+        CoreSDKError(
+            code: Code.jsonDecodingError.rawValue,
             domain: domain,
             errorDescription: description
         )
