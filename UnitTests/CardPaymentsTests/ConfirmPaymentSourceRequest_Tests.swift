@@ -91,7 +91,7 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
         
         XCTAssertThrowsError(
             try ConfirmPaymentSourceRequest(
-                accessToken: "fake token",
+                clientID: "fake-client-id",
                 cardRequest: cardRequest,
                 encoder: failingEncoder)
         ) { error in
