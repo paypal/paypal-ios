@@ -8,7 +8,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     
     private let orderID: String
     private let pathFormat: String = "/v2/checkout/orders/%@/confirm-payment-source"
-    private let base64EncodedClientID: String
+    private let base64EncodedCredentials: String
     var jsonEncoder: JSONEncoder
     
     /// Creates a request to attach a payment source to a specific order.
@@ -33,7 +33,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         confirmPaymentSource.paymentSource = PaymentSource(card: card)
         
         self.orderID = cardRequest.orderID
-        self.base64EncodedClientID = Data(clientID.appending(":").utf8).base64EncodedString()
+        self.base64EncodedCredentials = Data(clientID.appending(":").utf8).base64EncodedString()
         path = String(format: pathFormat, orderID)
         
         jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
@@ -58,7 +58,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     var headers: [HTTPHeader: String] {
         [
             .contentType: "application/json", .acceptLanguage: "en_US",
-            .authorization: "Basic \(base64EncodedClientID)"
+            .authorization: "Basic \(base64EncodedCredentials)"
         ]
     }
     

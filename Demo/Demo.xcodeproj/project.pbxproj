@@ -279,16 +279,16 @@
 		80F33CEB26F8E799006811B1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				80F33CEC26F8E7A9006811B1 /* Order.swift */,
+				53DBDAA62885D86F00E0ABA1 /* AccessTokenRequest.swift */,
+				53DBDAA42885D83100E0ABA1 /* AccessTokenResponse.swift */,
+				5301468B28918B4D00184F22 /* ApprovalResult.swift */,
 				3B80D50D2A291C0800D2EAC4 /* ClientIDRequest.swift */,
 				3B80D50F2A291CB100D2EAC4 /* ClientIDResponse.swift */,
 				80F33CEE26F8E7CC006811B1 /* CreateOrderParams.swift */,
-				80F33CF026F8E7D9006811B1 /* ProcessOrderParams.swift */,
-				53DBDAA42885D83100E0ABA1 /* AccessTokenResponse.swift */,
-				53DBDAA62885D86F00E0ABA1 /* AccessTokenRequest.swift */,
-				5301468B28918B4D00184F22 /* ApprovalResult.swift */,
-				CBC16DD829ED90B600307117 /* UpdateOrderParams.swift */,
 				BC6460CC2A12A2A0002B974B /* EmptyBodyParams.swift */,
+				80F33CEC26F8E7A9006811B1 /* Order.swift */,
+				80F33CF026F8E7D9006811B1 /* ProcessOrderParams.swift */,
+				CBC16DD829ED90B600307117 /* UpdateOrderParams.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";

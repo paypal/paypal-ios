@@ -20,11 +20,11 @@ class PayPalViewModel: ObservableObject {
     func getClientID() {
         state = .loading(content: "Getting clientID")
         Task {
-            guard let token = await getClientID() else {
+            guard let clientID = await getClientID() else {
                 publishStateToMainThread(.mainContent(title: "ClientID", content: clientID, flowComplete: false))
                 return
             }
-            clientID = token
+            self.clientID = clientID
             payPalClient = PayPalNativeCheckoutClient(config: CoreConfig(clientID: clientID, environment: CorePayments.Environment.sandbox))
             payPalClient?.delegate = self
             payPalClient?.shippingDelegate = self
