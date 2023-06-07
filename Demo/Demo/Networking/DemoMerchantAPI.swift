@@ -8,13 +8,12 @@ final class DemoMerchantAPI {
     // MARK: Public properties
 
     static let sharedService = DemoMerchantAPI()
-    var accessToken: String?
     var clientID: String?
     
     // To hardcode an access token and order ID for this demo app, set the below values
     enum InjectedValues {
         static let orderID: String? = nil
-        static let accessToken: String? = nil
+        static let clientID: String? = nil
     }
 
     private init() {}
@@ -110,11 +109,11 @@ final class DemoMerchantAPI {
     /// - Throws: an error explaining why fetch clientID failed
     public func getClientID(environment: Demo.Environment) async -> String? {
        
-        guard let token = self.accessToken else {
+        guard let clientID = self.clientID else {
             self.clientID = await fetchClientID(environment: environment)
             return self.clientID
         }
-        return token
+        return clientID
     }
 
     // MARK: Private methods
