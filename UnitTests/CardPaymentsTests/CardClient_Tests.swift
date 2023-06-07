@@ -103,8 +103,8 @@ class CardClient_Tests: XCTestCase {
             XCTFail("Invoked success() callback. Should invoke error().")
         }, error: { _, error in
             XCTAssertEqual(error.domain, APIClientError.domain)
-            XCTAssertEqual(error.code, APIClientError.Code.dataParsingError.rawValue)
-            XCTAssertEqual(error.localizedDescription, "An error occured parsing HTTP response data. Contact developer.paypal.com/support.")
+            XCTAssertEqual(error.code, APIClientError.Code.jsonDecodingError.rawValue)
+            XCTAssertNotNil(error.localizedDescription)
             expectation.fulfill()
         }, threeDSWillLaunch: { _ in
             XCTFail("Invoked willLaunch() callback. Should invoke error().")

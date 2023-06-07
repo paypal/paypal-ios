@@ -59,8 +59,10 @@ public struct AnalyticsService {
     }
     
     private func fetchCachedOrRemoteClientID() async throws -> String {
-        let request = GetClientIDRequest(accessToken: coreConfig.accessToken)
-        let response = try await http.performRequest(request, withCaching: true)
+        let clientIDRequest = GetClientIDRequest(accessToken: coreConfig.accessToken)
+        let httpResponse = try await http.performRequest(clientIDRequest)
+        
+        let response = try HTTPResponseParser().parse(httpResponse, as: GetClientIDResponse.self)
         return response.clientID
     }
 }

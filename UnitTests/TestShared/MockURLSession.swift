@@ -7,11 +7,7 @@ class MockURLSession: URLSessionProtocol {
     var cannedURLResponse: URLResponse?
     var cannedJSONData: String?
     
-    var lastURLRequestPerformed: URLRequest?
-
     func performRequest(with urlRequest: URLRequest) async throws -> (Data, URLResponse) {
-        lastURLRequestPerformed = urlRequest
-        
         if let error = cannedError {
             throw error
         } else {
