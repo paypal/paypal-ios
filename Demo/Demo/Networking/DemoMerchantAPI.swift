@@ -108,7 +108,10 @@ final class DemoMerchantAPI {
     /// - Returns: a String representing an clientID
     /// - Throws: an error explaining why fetch clientID failed
     public func getClientID(environment: Demo.Environment) async -> String? {
-       
+        if let injectedClientID = InjectedValues.clientID {
+            return injectedClientID
+        }
+        
         guard let clientID = self.clientID else {
             self.clientID = await fetchClientID(environment: environment)
             return self.clientID
