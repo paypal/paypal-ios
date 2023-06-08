@@ -24,7 +24,7 @@ struct SwiftUINativeCheckoutDemo: View {
             loadingView(content)
         case let .mainContent(title, content, isFlowComplete):
             checkoutView(title, content, isFlowComplete)
-        case .error(message: let message):
+        case .error(let message):
             errorView("Error \(message)")
         }
     }
