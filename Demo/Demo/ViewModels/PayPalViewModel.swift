@@ -9,22 +9,21 @@ class PayPalViewModel: ObservableObject {
         case initial
         case loading(content: String)
         case mainContent(title: String, content: String, flowComplete: Bool)
+        case error(message: String)
     }
 
     @Published private(set) var state = State.initial
     private var payPalClient: PayPalNativeCheckoutClient?
     private var shippingPreference: OrderApplicationContext.ShippingPreference = .noShipping
     private var orderID = ""
-    private var clientID = ""
 
     func getClientID() {
         state = .loading(content: "Getting clientID")
         Task {
             guard let clientID = await getClientID() else {
-                publishStateToMainThread(.mainContent(title: "ClientID", content: clientID, flowComplete: false))
+                publishStateToMainThread(.error(message: "Unable to fetch clientID"))
                 return
             }
-            self.clientID = clientID
             payPalClient = PayPalNativeCheckoutClient(config: CoreConfig(clientID: clientID, environment: CorePayments.Environment.sandbox))
             payPalClient?.delegate = self
             payPalClient?.shippingDelegate = self
