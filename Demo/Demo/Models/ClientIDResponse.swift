@@ -1,4 +1,4 @@
-public struct ClientIDResponse: Codable {
+struct ClientIDResponse: Codable {
 
     enum CodingKeys: String, CodingKey {
         case clientID = "value"

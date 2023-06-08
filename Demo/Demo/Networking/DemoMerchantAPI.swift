@@ -112,9 +112,9 @@ final class DemoMerchantAPI {
             return injectedClientID
         }
         
-        guard let clientID = self.clientID else {
-            self.clientID = await fetchClientID(environment: environment)
-            return self.clientID
+        guard let clientID else {
+            clientID = await fetchClientID(environment: environment)
+            return clientID
         }
         return clientID
     }
