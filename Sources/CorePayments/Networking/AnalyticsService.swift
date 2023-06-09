@@ -42,7 +42,7 @@ public struct AnalyticsService {
     
     func performEventRequest(_ name: String) async {
         do {
-            let clientID = try await fetchCachedOrRemoteClientID()
+            let clientID = coreConfig.clientID
             
             let eventData = AnalyticsEventData(
                 environment: http.coreConfig.environment.toString,
@@ -56,13 +56,5 @@ public struct AnalyticsService {
         } catch {
             NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription)
         }
-    }
-    
-    private func fetchCachedOrRemoteClientID() async throws -> String {
-        let clientIDRequest = GetClientIDRequest(accessToken: coreConfig.accessToken)
-        let httpResponse = try await http.performRequest(clientIDRequest)
-        
-        let response = try HTTPResponseParser().parse(httpResponse, as: GetClientIDResponse.self)
-        return response.clientID
     }
 }

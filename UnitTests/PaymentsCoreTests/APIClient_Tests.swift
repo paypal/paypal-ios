@@ -38,13 +38,4 @@ class APIClient_Tests: XCTestCase {
             XCTFail("Expected fetch() to succeed")
         }
     }
-    
-    // MARK: - fetchCachedOrRemoteClientID()
-
-    func testGetClientID_successfullyReturnsData() async throws {
-        mockHTTP.stubHTTPResponse = HTTPResponse(status: 200, body: #"{ "client_id": "sample_id" }"#.data(using: .utf8)!)
-        
-        let response = try await sut.fetchCachedOrRemoteClientID()
-        XCTAssertEqual(response, "sample_id")
-    }
 }

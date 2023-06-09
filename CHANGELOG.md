@@ -1,6 +1,14 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+* Breaking Changes
+  * CardPayments
+    * Remove `status` property from `CardResult`
+    * Remove `paymentSource` property from `CardResult`
+  * CorePayments
+    * CoreConfig instances must now be instantiated using a `clientID` instead of an `accessToken`
+
 ## 0.0.8 (2023-05-08)
 * PayPalNativePayments
   * Add `PayPalNativePaysheetActions` to `PayPalNativeShippingDelegate.didShippingAddressChange()` and `PayPalNativeShippingDelegate.didShippingMethodChange()`

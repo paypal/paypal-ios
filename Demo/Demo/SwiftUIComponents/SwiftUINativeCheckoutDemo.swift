@@ -19,11 +19,13 @@ struct SwiftUINativeCheckoutDemo: View {
     var body: some View {
         switch viewModel.state {
         case .initial:
-            getAccessTokenView()
+            getClientIDView()
         case .loading(let content):
             loadingView(content)
         case let .mainContent(title, content, isFlowComplete):
             checkoutView(title, content, isFlowComplete)
+        case .error(let message):
+            errorView("Error \(message)")
         }
     }
 
@@ -68,11 +70,11 @@ struct SwiftUINativeCheckoutDemo: View {
         .padding(.top, 32)
     }
 
-    func getAccessTokenView() -> some View {
+    func getClientIDView() -> some View {
         NavigationView {
             VStack(spacing: 16) {
-                Button("Get Access Token") {
-                    viewModel.getAccessToken()
+                Button("Get ClientID") {
+                    viewModel.getClientID()
                 }
                 .foregroundColor(.white)
                 .padding()

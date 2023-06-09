@@ -6,7 +6,7 @@ import PayPalCheckout
 
 class PayPalClient_Tests: XCTestCase {
 
-    let config = CoreConfig(accessToken: "testAccessToken", environment: .sandbox)
+    let config = CoreConfig(clientID: "testClientID", environment: .sandbox)
     lazy var apiClient = MockAPIClient(coreConfig: config)
 
     let nxoConfig = CheckoutConfig(
@@ -27,18 +27,6 @@ class PayPalClient_Tests: XCTestCase {
         nativeCheckoutProvider: mockNativeCheckoutProvider,
         apiClient: apiClient
     )
-
-    func testStart_ifClientIDFetchFails_returnsError() async {
-        apiClient.cannedClientIDError = CoreSDKError(code: 0, domain: "", errorDescription: "")
-        
-        let mockPayPalDelegate = MockPayPalDelegate()
-        payPalClient.delegate = mockPayPalDelegate
-        await payPalClient.start(request: request)
-        
-        XCTAssertEqual(mockPayPalDelegate.capturedError?.code, 1)
-        XCTAssertEqual(mockPayPalDelegate.capturedError?.domain, "CorePaymentsErrorDomain")
-        XCTAssertEqual(mockPayPalDelegate.capturedError?.errorDescription, "Error fetching clientID. Contact developer.paypal.com/support.")
-    }
 
     func testStart_whenNativeSDKOnApproveCalled_returnsPayPalResult() async {
 

@@ -191,16 +191,16 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     private func captureOrderOnMerchantServer(result: CardResult) {
         Task {
             let captureResult = try? await DemoMerchantAPI.sharedService.caputureOrder(orderID: result.orderID)
-            let status = captureResult?.status ?? result.status
-            updateTitle("Order ID:\(result.orderID) status: \(status)\n \(String(describing: result.paymentSource))")
+            let status = captureResult?.status ?? ""
+            updateTitle("Order ID:\(result.orderID) status: \(status)")
         }
     }
     
     private func authorizeOrderOnMerchantServer(result: CardResult) {
         Task {
             let authorizeResult = try? await DemoMerchantAPI.sharedService.authorizeOrder(orderID: result.orderID)
-            let status = authorizeResult?.status ?? result.status
-            updateTitle("Order ID:\(result.orderID) status: \(status)\n \(String(describing: result.paymentSource))")
+            let status = authorizeResult?.status ?? ""
+            updateTitle("Order ID:\(result.orderID) status: \(status)")
         }
     }
     
@@ -224,15 +224,15 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         print("3DS challenge has finished")
     }
 
-    func getAccessToken() async -> String? {
-        await DemoMerchantAPI.sharedService.getAccessToken(environment: DemoSettings.environment)
+    func getClientID() async -> String? {
+        await DemoMerchantAPI.sharedService.getClientID(environment: DemoSettings.environment)
     }
-
+    
     func getCoreConfig() async -> CoreConfig? {
-        guard let token = await getAccessToken() else {
+        guard let clientID = await getClientID() else {
             return nil
         }
-        return CoreConfig(accessToken: token, environment: DemoSettings.environment.paypalSDKEnvironment)
+        return CoreConfig(clientID: clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
     }
 
     func getNativeCheckoutClient() async throws -> PayPalNativeCheckoutClient {

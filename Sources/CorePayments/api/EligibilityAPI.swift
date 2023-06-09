@@ -26,7 +26,7 @@ class EligibilityAPI {
     /// Checks merchants eligibility for different payment methods.
     /// - Returns: a result object with either eligibility or an error
     func checkEligibility() async throws -> Result<Eligibility, Error> {
-        let clientID = try await apiClient.fetchCachedOrRemoteClientID()
+        let clientID = coreConfig.clientID
         let fundingEligibilityQuery = FundingEligibilityQuery(
             clientID: clientID,
             fundingEligibilityIntent: FundingEligibilityIntent.CAPTURE,

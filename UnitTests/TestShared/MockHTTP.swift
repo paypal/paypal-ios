@@ -9,7 +9,7 @@ class MockHTTP: HTTP {
     var stubHTTPResponse: HTTPResponse?
     var stubHTTPError: Error?
     
-    init(coreConfig: CoreConfig = CoreConfig(accessToken: "fake-access-token", environment: .sandbox)) {
+    init(coreConfig: CoreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)) {
         super.init(coreConfig: coreConfig)
     }
     
