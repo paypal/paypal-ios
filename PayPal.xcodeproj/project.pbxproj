@@ -85,7 +85,6 @@
 		BCF735EF27D1652100A52E03 /* DeviceInspectorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF735EE27D1652100A52E03 /* DeviceInspectorProtocol.swift */; };
 		BCF735F927D2715400A52E03 /* PayPalDataCollector_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF735F527D270E000A52E03 /* PayPalDataCollector_Tests.swift */; };
 		BCF735FB27D2719400A52E03 /* MockMagnesSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF735FA27D2719400A52E03 /* MockMagnesSDK.swift */; };
-		BCFAC70527ED042500C3AF00 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE00B79D2742F9F000758C63 /* Assets.xcassets */; };
 		BCFAC70E27ED043100C3AF00 /* PayPalButton_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE00B7AC27444FE900758C63 /* PayPalButton_Tests.swift */; };
 		BCFAC70F27ED043100C3AF00 /* Coordinator_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF3FF1627AC5DF3006B4B69 /* Coordinator_Tests.swift */; };
 		BCFAC71327ED043100C3AF00 /* PayPalCreditButton_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36E3275520E700AFC7DA /* PayPalCreditButton_Tests.swift */; };
@@ -103,6 +102,7 @@
 		BE4F785827EB656400FF4C0E /* PayPalWebCheckoutResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4F784727EB629100FF4C0E /* PayPalWebCheckoutResult.swift */; };
 		BE71161C27234B8A00165069 /* PayPalNativePaymentsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71161B27234B8A00165069 /* PayPalNativePaymentsError.swift */; };
 		BE711621272358E200165069 /* Environment+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE711620272358E200165069 /* Environment+Extension.swift */; };
+		BE9ACA472A33AEAE004EBA90 /* ButtonAssets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 800DB4172A33901C00561A82 /* ButtonAssets.bundle */; };
 		BEA100E726EF9EDA0036A6A5 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100E626EF9EDA0036A6A5 /* APIClient.swift */; };
 		BEA100E926EFA1EE0036A6A5 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100E826EFA1EE0036A6A5 /* APIRequest.swift */; };
 		BEA100EC26EFA7790036A6A5 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100EB26EFA7790036A6A5 /* HTTPMethod.swift */; };
@@ -1362,7 +1362,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCFAC70527ED042500C3AF00 /* Assets.xcassets in Resources */,
+				BE9ACA472A33AEAE004EBA90 /* ButtonAssets.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

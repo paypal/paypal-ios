@@ -39,6 +39,7 @@
 		BE1766D926FA7BC8007EF438 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BE1766D826FA7BC8007EF438 /* Settings.bundle */; };
 		BE31187C273F00B60021C5A2 /* DemoUIFramework.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE31187B273F00B60021C5A2 /* DemoUIFramework.swift */; };
 		BE31187E273F02A80021C5A2 /* SwiftUICardDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE31187D273F02A80021C5A2 /* SwiftUICardDemo.swift */; };
+		BE9ACA492A33AF4B004EBA90 /* ButtonAssets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BE9ACA482A33AF4B004EBA90 /* ButtonAssets.bundle */; };
 		BE9F36D82745490400AFC7DA /* FloatingLabelTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36D72745490400AFC7DA /* FloatingLabelTextField.swift */; };
 		BE9F36DC274578D100AFC7DA /* FeatureBaseViewControllerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36DB274578D100AFC7DA /* FeatureBaseViewControllerRepresentable.swift */; };
 		BE9F36E7275548A600AFC7DA /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36E6275548A600AFC7DA /* BaseViewModel.swift */; };
@@ -138,6 +139,7 @@
 		BE31187B273F00B60021C5A2 /* DemoUIFramework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoUIFramework.swift; sourceTree = "<group>"; };
 		BE31187D273F02A80021C5A2 /* SwiftUICardDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUICardDemo.swift; sourceTree = "<group>"; };
 		BE420F3628189A7A00D8D66A /* PayPalUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PayPalUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE9ACA482A33AF4B004EBA90 /* ButtonAssets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = ButtonAssets.bundle; path = "../../../../Library/Developer/Xcode/DerivedData/PayPal-fxtcdepsbdxdfhbctopkotrbxjae/Build/Products/Debug-iphonesimulator/ButtonAssets.bundle"; sourceTree = "<group>"; };
 		BE9F36D72745490400AFC7DA /* FloatingLabelTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingLabelTextField.swift; sourceTree = "<group>"; };
 		BE9F36DB274578D100AFC7DA /* FeatureBaseViewControllerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureBaseViewControllerRepresentable.swift; sourceTree = "<group>"; };
 		BE9F36E6275548A600AFC7DA /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 		806F1E2C26B85367007A60E6 = {
 			isa = PBXGroup;
 			children = (
+				BE9ACA482A33AF4B004EBA90 /* ButtonAssets.bundle */,
 				806F1E3726B85367007A60E6 /* Demo */,
 				BC9D4D1627C54F3F0089E5B1 /* DemoUITests */,
 				805AB84C26B87A87003BEE0D /* Frameworks */,
@@ -468,6 +471,7 @@
 			files = (
 				80921C1D2710A0720040D76F /* LaunchScreen.storyboard in Resources */,
 				BE1766D926FA7BC8007EF438 /* Settings.bundle in Resources */,
+				BE9ACA492A33AF4B004EBA90 /* ButtonAssets.bundle in Resources */,
 				806F1E4226B85369007A60E6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

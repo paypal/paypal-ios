@@ -17,7 +17,8 @@ public class PaymentButton: UIButton {
 //        return frameworkBundle
 //    }()
 //    #else
-    static let bundle = Bundle(for: PaymentButton.self)
+    static let buttonAssets = Bundle.main.path(forResource: "ButtonAssets", ofType: ".bundle")
+    static let bundle = Bundle(path: buttonAssets!)
 //    #endif
 
     // MARK: - Init
