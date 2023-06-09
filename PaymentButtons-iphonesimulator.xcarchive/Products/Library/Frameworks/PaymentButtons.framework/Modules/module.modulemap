@@ -1,0 +1,4 @@
+framework module PaymentButtons {
+  header "PaymentButtons-Swift.h"
+  requires objc
+}

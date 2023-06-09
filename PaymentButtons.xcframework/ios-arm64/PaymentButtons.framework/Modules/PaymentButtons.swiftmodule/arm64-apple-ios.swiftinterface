@@ -1,0 +1,217 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.8.1 (swiftlang-5.8.0.124.5 clang-1403.0.22.11.100)
+// swift-module-flags: -target arm64-apple-ios14.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name PaymentButtons
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import Foundation
+import Swift
+import SwiftUI
+import UIKit
+import _Concurrency
+import _StringProcessing
+public enum PaymentButtonLabel : Swift.String {
+  case checkout
+  case buyNow
+  case payWith
+  case payLater
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) final public class PayPalCreditButton : PaymentButtons.PaymentButton {
+  public enum Color : Swift.String {
+    case white
+    case black
+    case darkBlue
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  @_Concurrency.MainActor(unsafe) convenience public init(insets: UIKit.NSDirectionalEdgeInsets? = nil, color: PaymentButtons.PayPalCreditButton.Color = .darkBlue, edges: PaymentButtons.PaymentButtonEdges = .softEdges, size: PaymentButtons.PaymentButtonSize = .collapsed)
+  @objc deinit
+}
+extension PaymentButtons.PayPalCreditButton {
+  public struct Representable : SwiftUI.UIViewRepresentable {
+    public init(insets: UIKit.NSDirectionalEdgeInsets? = nil, color: PaymentButtons.PayPalCreditButton.Color = .darkBlue, edges: PaymentButtons.PaymentButtonEdges = .softEdges, size: PaymentButtons.PaymentButtonSize = .collapsed, _ action: @escaping () -> Swift.Void = { })
+    @_Concurrency.MainActor(unsafe) public func makeCoordinator() -> PaymentButtons.Coordinator
+    @_Concurrency.MainActor(unsafe) public func makeUIView(context: PaymentButtons.PayPalCreditButton.Representable.Context) -> UIKit.UIView
+    @_Concurrency.MainActor(unsafe) public func updateUIView(_ uiView: UIKit.UIView, context: PaymentButtons.PayPalCreditButton.Representable.Context)
+    public typealias Body = Swift.Never
+    public typealias Coordinator = PaymentButtons.Coordinator
+    public typealias UIViewType = UIKit.UIView
+  }
+}
+public enum PaymentButtonFundingSource : Swift.String {
+  case payPal
+  case payLater
+  case credit
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) final public class PayPalButton : PaymentButtons.PaymentButton {
+  public enum Color : Swift.String {
+    case gold
+    case white
+    case black
+    case silver
+    case blue
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum Label : Swift.String {
+    case none
+    case checkout
+    case buyNow
+    case payWith
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  @_Concurrency.MainActor(unsafe) convenience public init(insets: UIKit.NSDirectionalEdgeInsets? = nil, color: PaymentButtons.PayPalButton.Color = .gold, edges: PaymentButtons.PaymentButtonEdges = .softEdges, size: PaymentButtons.PaymentButtonSize = .collapsed, label: PaymentButtons.PayPalButton.Label? = nil)
+  @objc deinit
+}
+extension PaymentButtons.PayPalButton {
+  public struct Representable : SwiftUI.UIViewRepresentable {
+    public init(insets: UIKit.NSDirectionalEdgeInsets? = nil, color: PaymentButtons.PayPalButton.Color = .gold, edges: PaymentButtons.PaymentButtonEdges = .softEdges, size: PaymentButtons.PaymentButtonSize = .collapsed, label: PaymentButtons.PayPalButton.Label? = nil, _ action: @escaping () -> Swift.Void = { })
+    @_Concurrency.MainActor(unsafe) public func makeCoordinator() -> PaymentButtons.Coordinator
+    @_Concurrency.MainActor(unsafe) public func makeUIView(context: PaymentButtons.PayPalButton.Representable.Context) -> UIKit.UIView
+    @_Concurrency.MainActor(unsafe) public func updateUIView(_ uiView: UIKit.UIView, context: PaymentButtons.PayPalButton.Representable.Context)
+    public typealias Body = Swift.Never
+    public typealias Coordinator = PaymentButtons.Coordinator
+    public typealias UIViewType = UIKit.UIView
+  }
+}
+public enum PaymentButtonSize : Swift.Int, Swift.CustomStringConvertible {
+  case mini
+  case collapsed
+  case expanded
+  case full
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public class Coordinator {
+  public init(action: @escaping () -> Swift.Void)
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) public class PaymentButton : UIKit.UIButton {
+  @_Concurrency.MainActor(unsafe) public var fundingSource: PaymentButtons.PaymentButtonFundingSource {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public var color: PaymentButtons.PaymentButtonColor {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public var edges: PaymentButtons.PaymentButtonEdges {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public var size: PaymentButtons.PaymentButtonSize {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public var insets: UIKit.NSDirectionalEdgeInsets? {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public var label: PaymentButtons.PaymentButtonLabel? {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func layoutSubviews()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) final public class PayPalPayLaterButton : PaymentButtons.PaymentButton {
+  public enum Color : Swift.String {
+    case gold
+    case white
+    case black
+    case silver
+    case blue
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  @_Concurrency.MainActor(unsafe) convenience public init(insets: UIKit.NSDirectionalEdgeInsets? = nil, color: PaymentButtons.PayPalPayLaterButton.Color = .gold, edges: PaymentButtons.PaymentButtonEdges = .softEdges, size: PaymentButtons.PaymentButtonSize = .collapsed, _ action: @escaping () -> Swift.Void = { })
+  @objc deinit
+}
+extension PaymentButtons.PayPalPayLaterButton {
+  public struct Representable : SwiftUI.UIViewRepresentable {
+    public init(insets: UIKit.NSDirectionalEdgeInsets? = nil, color: PaymentButtons.PayPalPayLaterButton.Color = .gold, edges: PaymentButtons.PaymentButtonEdges = .softEdges, size: PaymentButtons.PaymentButtonSize = .collapsed, _ action: @escaping () -> Swift.Void = { })
+    @_Concurrency.MainActor(unsafe) public func makeCoordinator() -> PaymentButtons.Coordinator
+    @_Concurrency.MainActor(unsafe) public func makeUIView(context: PaymentButtons.PayPalPayLaterButton.Representable.Context) -> UIKit.UIView
+    @_Concurrency.MainActor(unsafe) public func updateUIView(_ uiView: UIKit.UIView, context: PaymentButtons.PayPalPayLaterButton.Representable.Context)
+    public typealias Body = Swift.Never
+    public typealias Coordinator = PaymentButtons.Coordinator
+    public typealias UIViewType = UIKit.UIView
+  }
+}
+public enum PaymentButtonEdges : Swift.Int {
+  case hardEdges
+  case softEdges
+  case rounded
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public enum PaymentButtonColor : Swift.String {
+  case gold
+  case white
+  case black
+  case silver
+  case blue
+  case darkBlue
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+extension PaymentButtons.PaymentButtonLabel : Swift.Equatable {}
+extension PaymentButtons.PaymentButtonLabel : Swift.Hashable {}
+extension PaymentButtons.PaymentButtonLabel : Swift.RawRepresentable {}
+extension PaymentButtons.PayPalCreditButton.Color : Swift.Equatable {}
+extension PaymentButtons.PayPalCreditButton.Color : Swift.Hashable {}
+extension PaymentButtons.PayPalCreditButton.Color : Swift.RawRepresentable {}
+extension PaymentButtons.PaymentButtonFundingSource : Swift.Equatable {}
+extension PaymentButtons.PaymentButtonFundingSource : Swift.Hashable {}
+extension PaymentButtons.PaymentButtonFundingSource : Swift.RawRepresentable {}
+extension PaymentButtons.PayPalButton.Color : Swift.Equatable {}
+extension PaymentButtons.PayPalButton.Color : Swift.Hashable {}
+extension PaymentButtons.PayPalButton.Color : Swift.RawRepresentable {}
+extension PaymentButtons.PayPalButton.Label : Swift.Equatable {}
+extension PaymentButtons.PayPalButton.Label : Swift.Hashable {}
+extension PaymentButtons.PayPalButton.Label : Swift.RawRepresentable {}
+extension PaymentButtons.PaymentButtonSize : Swift.Equatable {}
+extension PaymentButtons.PaymentButtonSize : Swift.Hashable {}
+extension PaymentButtons.PaymentButtonSize : Swift.RawRepresentable {}
+extension PaymentButtons.PayPalPayLaterButton.Color : Swift.Equatable {}
+extension PaymentButtons.PayPalPayLaterButton.Color : Swift.Hashable {}
+extension PaymentButtons.PayPalPayLaterButton.Color : Swift.RawRepresentable {}
+extension PaymentButtons.PaymentButtonEdges : Swift.Equatable {}
+extension PaymentButtons.PaymentButtonEdges : Swift.Hashable {}
+extension PaymentButtons.PaymentButtonEdges : Swift.RawRepresentable {}
+extension PaymentButtons.PaymentButtonColor : Swift.Equatable {}
+extension PaymentButtons.PaymentButtonColor : Swift.Hashable {}
+extension PaymentButtons.PaymentButtonColor : Swift.RawRepresentable {}

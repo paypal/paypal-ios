@@ -4,21 +4,21 @@ import UIKit
 public class PaymentButton: UIButton {
 
     // asset identifier path for image and color button assets
-    #if SWIFT_PACKAGE
-    static let bundle = Bundle.module
-    #elseif COCOAPODS
-    static let bundle: Bundle = {
-        let frameworkBundle = Bundle(for: PaymentButton.self)
-        if let bundleURL = frameworkBundle.resourceURL?.appendingPathComponent("PayPalSDK.bundle") {
-            if let bundle = Bundle(url: bundleURL) {
-                return bundle
-            }
-        }
-        return frameworkBundle
-    }()
-    #else
+//    #if SWIFT_PACKAGE
+//    static let bundle = Bundle.module
+//    #elseif COCOAPODS
+//    static let bundle: Bundle = {
+//        let frameworkBundle = Bundle(for: PaymentButton.self)
+//        if let bundleURL = frameworkBundle.resourceURL?.appendingPathComponent("PayPalSDK.bundle") {
+//            if let bundle = Bundle(url: bundleURL) {
+//                return bundle
+//            }
+//        }
+//        return frameworkBundle
+//    }()
+//    #else
     static let bundle = Bundle(for: PaymentButton.self)
-    #endif
+//    #endif
 
     // MARK: - Init
 
