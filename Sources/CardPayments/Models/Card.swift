@@ -10,6 +10,7 @@ public struct Card: Encodable {
         case cardholderName = "name"
         case billingAddress
         case attributes
+        case storeInVault = "store_in_vault"
     }
 
     /// The primary account number (PAN) for the payment card.
@@ -66,10 +67,22 @@ public struct Card: Encodable {
 
 struct Attributes: Codable {
 
+    let customer: Customer?
+    let vault: Vault?
     let verification: Verification
 }
 
 struct Verification: Codable {
 
     let method: String
+}
+
+struct Customer: Codable {
+    
+    let id: String
+}
+
+struct Vault: Codable {
+    
+    let storeInVault: String
 }

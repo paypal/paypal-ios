@@ -23,8 +23,19 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         var confirmPaymentSource = ConfirmPaymentSource()
         var card = cardRequest.card
         let verification = Verification(method: cardRequest.sca.rawValue)
-        card.attributes = Attributes(verification: verification)
+        
+        var customer: Customer?
+        if cardRequest.shouldVault {
+            let vault = Vault(storeInVault: "ON_SUCCESS")
+            if let customerID = cardRequest.customerID {
+                customer = Customer(id: customerID)
+            }
             
+            card.attributes = Attributes(customer: customer, vault: vault, verification: verification)
+        } else {
+            card.attributes = Attributes(customer: nil, vault: nil, verification: verification)
+        }
+        
         confirmPaymentSource.applicationContext = ApplicationContext(
             returnUrl: PayPalCoreConstants.callbackURLScheme + "://card/success",
             cancelUrl: PayPalCoreConstants.callbackURLScheme + "://card/cancel"
