@@ -2,6 +2,8 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
+* CardPayments
+  * Add `deepLinkURL` property to `CardResult`
 * Breaking Changes
   * CardPayments
     * Remove `status` property from `CardResult`
