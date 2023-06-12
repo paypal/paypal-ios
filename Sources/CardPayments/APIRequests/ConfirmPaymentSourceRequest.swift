@@ -25,7 +25,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         let verification = Verification(method: cardRequest.sca.rawValue)
         
         if cardRequest.shouldVault {
-            var customer: Customer? = nil
+            var customer: Customer?
             let vault = Vault(storeInVault: "ON_SUCCESS")
             if let customerID = cardRequest.customerID {
                 customer = Customer(id: customerID)

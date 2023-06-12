@@ -10,7 +10,7 @@ public struct Card: Encodable {
         case cardholderName = "name"
         case billingAddress
         case attributes
-        case storeInVault = "store_in_vault"
+        case storeInVault
     }
 
     /// The primary account number (PAN) for the payment card.
