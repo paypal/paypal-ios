@@ -29,9 +29,9 @@ This SDK supports:
 * UIKit
 * SwiftUI
 
-## ClientID
+## Client ID
 
-The PayPal SDK uses clientID for authentication.
+The PayPal SDK uses client ID for authentication.
 
 > The following example can be adapted to any server-side language/framework of your choice. We use command-line curl requests to demonstrate the overall composition of the Access Token HTTP request.
 
