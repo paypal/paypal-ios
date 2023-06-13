@@ -33,10 +33,10 @@ pod 'PayPal/CardPayments'
 
 ### 2. Initiate the CardPayments SDK
 
-Create a `CoreConfig` using an [access token](../../README.md#access-token):
+Create a `CoreConfig` using an [client id](https://developer.paypal.com/api/rest/):
 
 ```swift
-let config = CoreConfig(accessToken: "<ACCESS_TOKEN>", environment: .sandbox)
+let config = CoreConfig(clientID: "<CLIENT_ID>", environment: .sandbox)
 ```
 
 Create a `CardClient` to approve an order with a Card payment method:
