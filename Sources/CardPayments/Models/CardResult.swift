@@ -10,7 +10,6 @@ public struct CardResult {
     public let orderID: String
 
     //// :nodoc: This is the deep link url returned from 3DS authentication
-    ///
     // TODO: parse contents of this URL once we are clear on values returned from 3ds
     public let deepLinkURL: URL?
 }
