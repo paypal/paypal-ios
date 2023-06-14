@@ -109,6 +109,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         }
         let cardClient = CardClient(config: config)
         cardClient.delegate = self
+        // TODO: here pass an option for vaulting option or customer id
         let cardRequest = CardRequest(orderID: orderID, card: card, sca: .scaAlways)
         cardClient.approveOrder(request: cardRequest)
     }

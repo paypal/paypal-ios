@@ -9,6 +9,8 @@ struct SwiftUICardDemo: View {
     @State private var cardNumberText: String = ""
     @State private var expirationDateText: String = ""
     @State private var cvvText: String = ""
+    @State private var vaultCustomerID: String = ""
+    @State var shouldVaultSelected = false
 
     @StateObject var baseViewModel = BaseViewModel()
 
@@ -32,6 +34,14 @@ struct SwiftUICardDemo: View {
                     .onChange(of: cvvText) { newValue in
                         cvvText = cardFormatter.formatFieldWith(newValue, field: .cvv)
                     }
+                HStack {
+                    CheckBoxView(checked: $shouldVaultSelected)
+                    Text("Should Vault")
+                    Spacer()
+                }
+                if shouldVaultSelected {
+                    FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $vaultCustomerID)
+                }
                 Button("\(DemoSettings.intent.rawValue.capitalized) Order") {
                     guard let card = baseViewModel.createCard(
                         cardNumber: cardNumberText,
@@ -69,6 +79,6 @@ struct SwiftUICardDemo: View {
 struct ContentView_Previews: PreviewProvider {
 
     static var previews: some View {
-        SwiftUICardDemo(baseViewModel: BaseViewModel())
+        SwiftUICardDemo(shouldVaultSelected: true, baseViewModel: BaseViewModel())
     }
 }
