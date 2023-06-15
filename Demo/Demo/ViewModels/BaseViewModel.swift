@@ -102,15 +102,23 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
 
     func checkoutWith(
         card: Card,
-        orderID: String
+        orderID: String,
+        shouldVault: Bool = false,
+        customerID: String = ""
     ) async {
         guard let config = await getCoreConfig() else {
             return
         }
         let cardClient = CardClient(config: config)
         cardClient.delegate = self
-        // TODO: here pass an option for vaulting option or customer id
-        let cardRequest = CardRequest(orderID: orderID, card: card, sca: .scaAlways)
+        
+        var passedCustomerID: String?
+        if customerID.isEmpty {
+            passedCustomerID = nil
+        } else {
+            passedCustomerID = customerID
+        }
+        let cardRequest = CardRequest(orderID: orderID, card: card, sca: .scaAlways, shouldVault: shouldVault, customerID: passedCustomerID)
         cardClient.approveOrder(request: cardRequest)
     }
 
