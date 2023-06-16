@@ -214,7 +214,12 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         Task {
             let authorizeResult = try? await DemoMerchantAPI.sharedService.authorizeOrder(orderID: result.orderID)
             let status = authorizeResult?.status ?? ""
-            updateTitle("Order ID:\(result.orderID) status: \(status)")
+            let vault = authorizeResult?.paymentSource?.card.attributes?.vault
+            let orderInfo = "Order ID: \(result.orderID) \n Status: \(status)"
+            let vaultInfo = vault != nil ? "Vault Status: \((vault?.status) ?? "") \n Vault ID: \((vault?.id) ?? "")" : ""
+            let customerInfo = vault != nil ? "Customer ID: \((vault?.customer.id ?? ""))" : ""
+            
+            updateTitle("\(orderInfo) \n \(vaultInfo)\n \(customerInfo)")
         }
     }
     
