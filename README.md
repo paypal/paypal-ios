@@ -31,10 +31,7 @@ This SDK supports:
 
 ## Client ID
 
-The PayPal SDK uses client ID for authentication.
-
-> The following example can be adapted to any server-side language/framework of your choice. We use command-line curl requests to demonstrate the overall composition of the Access Token HTTP request.
-
+The PayPal SDK uses a client ID for authentication.
 
 ## Modules
 
