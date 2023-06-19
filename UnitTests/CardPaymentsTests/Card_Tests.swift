@@ -56,7 +56,7 @@ class Card_Tests: XCTestCase {
         )
         card.attributes = Attributes(
             customer: nil,
-            vault: Vault(storeInVault: "ON_SUCCESS"),
+            vault: Vault(storeInVault: .onSuccess),
             verification: Verification(
                 method: "SCA_ALWAYS")
         )
@@ -93,7 +93,7 @@ class Card_Tests: XCTestCase {
         let customer = Customer(id: "test_id")
         card.attributes = Attributes(
             customer: customer,
-            vault: Vault(storeInVault: "ON_SUCCESS"),
+            vault: Vault(storeInVault: .onSuccess),
             verification: Verification(
                 method: "SCA_ALWAYS")
         )

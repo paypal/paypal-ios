@@ -81,7 +81,11 @@ struct Customer: Codable {
     let id: String
 }
 
+enum StoreInVault: String, Codable {
+    case onSuccess = "ON_SUCCESS"
+}
+
 struct Vault: Codable {
     
-    let storeInVault: String
+    let storeInVault: StoreInVault
 }
