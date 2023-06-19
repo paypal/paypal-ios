@@ -35,8 +35,7 @@ struct SwiftUICardDemo: View {
                         cvvText = cardFormatter.formatFieldWith(newValue, field: .cvv)
                     }
                 HStack {
-                    CheckBoxView(checked: $shouldVaultSelected)
-                    Text("Should Vault")
+                    Toggle("Should Vault", isOn: $shouldVaultSelected)
                     Spacer()
                 }
                 if shouldVaultSelected {
