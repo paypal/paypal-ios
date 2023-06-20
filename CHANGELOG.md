@@ -3,6 +3,14 @@
 
 ## unreleased
 * Breaking Changes
+  * Card 
+    * Update `Attributes` field, adding `customer` and `vault` properties
+      `customer` is of optional `Customer` type, containing property `id` of String type
+      `vault` is of optional `Vault` type, containing `storeInVault` field of `StoreInVault` enum type
+       with one value, `.onSuccess`
+  * CardRequest
+    * Add `shouldVault` Boolean property for Vault with Purchase flow
+    * Add `customerID` Optional String type. If none is entered, PayPal API creates on
   * CardPayments
     * Remove `status` property from `CardResult`
     * Remove `paymentSource` property from `CardResult`
