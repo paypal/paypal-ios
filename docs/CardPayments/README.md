@@ -11,7 +11,7 @@ Follow these steps to add Card payments:
 ## Setup a PayPal Developer Account
 
 You will need to set up authorization to use the PayPal Payments SDK. 
-Follow the steps in [Get Started](https://developer.paypal.com/api/rest/#link-getstarted) to create a client ID and generate an access token. 
+Follow the steps in [Get Started](https://developer.paypal.com/api/rest/#link-getstarted) to create a client ID.
 
 You will need a server integration to create an order and capture the funds using [PayPal Orders v2 API](https://developer.paypal.com/docs/api/orders/v2). 
 
@@ -33,10 +33,10 @@ pod 'PayPal/CardPayments'
 
 ### 2. Initiate the CardPayments SDK
 
-Create a `CoreConfig` using an [access token](../../README.md#access-token):
+Create a `CoreConfig` using an [client id](https://developer.paypal.com/api/rest/):
 
 ```swift
-let config = CoreConfig(accessToken: "<ACCESS_TOKEN>", environment: .sandbox)
+let config = CoreConfig(clientID: "<CLIENT_ID>", environment: .sandbox)
 ```
 
 Create a `CardClient` to approve an order with a Card payment method:
