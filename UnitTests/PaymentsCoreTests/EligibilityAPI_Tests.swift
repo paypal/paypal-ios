@@ -5,7 +5,6 @@ import XCTest
 class EligibilityAPI_Tests: XCTestCase {
 
     let mockClientID = "mockClientId"
-    let mockAccessToken = "mockAccessToken"
     let mockURLSession = MockURLSession()
     var coreConfig: CoreConfig!
     var graphQLClient: GraphQLClient!
