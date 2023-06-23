@@ -50,9 +50,7 @@ public class CardClient: NSObject {
                 } else {
                     analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:succeeded")
                     
-                    let cardResult = CardResult(
-                        orderID: result.id
-                    )
+                    let cardResult = CardResult(orderID: result.id, deepLinkURL: nil)
                     notifySuccess(for: cardResult)
                 }
             } catch let error as CoreSDKError {
@@ -86,7 +84,7 @@ public class CardClient: NSObject {
                     self?.analyticsService?.sendEvent("card-payments:3ds:challenge-presentation:failed")
                 }
             },
-            sessionDidComplete: { _, error in
+            sessionDidComplete: { url, error in
                 self.delegate?.cardThreeDSecureDidFinish(self)
                 if let error = error {
                     switch error {
@@ -99,9 +97,7 @@ public class CardClient: NSObject {
                     }
                 }
                 
-                let cardResult = CardResult(
-                    orderID: orderId
-                )
+                let cardResult = CardResult(orderID: orderId, deepLinkURL: url)
                 self.notifySuccess(for: cardResult)
             }
         )
