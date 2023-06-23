@@ -31,7 +31,7 @@ This SDK supports:
 
 ## Client ID
 
-The PayPal SDK uses a client ID for authentication.
+The PayPal SDK uses a client ID for authentication. This can be found in your [PayPal Developer Dashboard](https://developer.paypal.com/api/rest/#link-getstarted).
 
 ## Modules
 
