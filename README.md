@@ -44,35 +44,6 @@ Each feature module has its own onboarding guide:
 
 To accept a certain payment method in your app, you only need to include that payment-specific submodule.
 
-## Sample Code
-
-```swift
-// STEP 0: Enter a CLIENT_ID and fetch ORDER_ID from your server.
-
-// STEP 1: Create a CoreConfiguration object
-paymentConfig = CoreConfig(clientID: CLIENT_ID, environment: .sandbox)
-
-// STEP 2: Create payment method client objects
-cardClient = CardClient(config: paymentConfig)
-
-// STEP 3: Collect relevant payment method details
-card = Card(number: 4111111111111111, cvv: 123, ...)
-
-// STEP 4: Call checkout method
-cardClient?.checkoutWithCard(orderID: ORDER_ID, card: card) { result in
-    switch result {
-    case .success(let orderId):
-      // Send orderID to your server to process the payment
-    case .error(let error):
-      // handle checkout error
-    }
-}
-
-// STEP 5: Send orderID to your server to capture/authorize
-
-```
-
-
 ## Testing
 
 This project uses the `XCTest` framework provided by Xcode. Every code path should be unit tested. Unit tests should make up most of the test coverage, with integration, and then UI tests following.
