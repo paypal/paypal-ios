@@ -6,7 +6,7 @@ This guide outlines how to update your integration from using the soon-to-be-dep
 In order to use this migration guide, you must:
 
 1. Have a server-side integration with the [PayPal Orders v2 API](https://developer.paypal.com/docs/api/orders/v2/). Please update to Orders v2 if you're on [Payments V1](https://developer.paypal.com/docs/api/payments/v1/) or [NVP/SOAP](https://developer.paypal.com/api/nvp-soap/).
-1. Enable your server to [fetch an Access Token](https://developer.paypal.com/reference/get-an-access-token/).
+1. Obtain your client ID. Follow the steps in [Get Started](https://developer.paypal.com/api/rest/#link-getstarted) to create a client ID in your PayPal Developer Dashboard.
 1. Enable your server to create an [Order ID](https://developer.paypal.com/docs/api/orders/v2/).
 1. Enable your server to [PATCH](https://developer.paypal.com/docs/api/orders/v2/#orders_patch) an order.
     * _Note:_ This is **only required** if you create your order ID with [`shipping_preference`](https://developer.paypal.com/docs/api/orders/v2/#definition-order_application_context) = `GET_FROM_FILE`. See step 6 in the guides below.
@@ -32,14 +32,14 @@ In order to use this migration guide, you must:
 2. Update Configuration
 
     * Remove `CheckoutConfig` and related `set()` methods.
-    * Instantiate a `CoreConfig` with your Access Token from the [pre-requisite](#pre-requisites) steps.
+    * Instantiate a `CoreConfig` with your client ID from the [pre-requisite](#pre-requisites) steps.
     * Construct a `PayPalNativeCheckoutClient`.
     * Set delegates (more details to follow).
     
     ```diff
     private func configurePayPalCheckout() {
     -     let config = CheckoutConfig(
-    -         clientID: "<ACCESS_TOKEN>",
+    -         clientID: "<CLIENT_ID>",
     -         environment: .sandbox
     -     )
     -     Checkout.set(config: config)     
@@ -47,7 +47,7 @@ In order to use this migration guide, you must:
     -         createOrderAction.set(orderId: "<ORDER_ID>")
     -     }
 
-    +     let coreConfig = CoreConfig(accessToken: "<ACCESS_TOKEN>"", environment: CorePayments.Environment.sandbox)
+    +     let coreConfig = CoreConfig(clientID: "<CLIENT_ID>"", environment: CorePayments.Environment.sandbox)
     +     paypalClient = PayPalNativeCheckoutClient(config: coreConfig)
     
     +     paypalClient?.delegate = self          // always required
@@ -180,9 +180,3 @@ In order to use this migration guide, you must:
 * CocoaPods
     * Remove `pod 'PayPalCheckout'` from your Podfile
     * Refresh your local `/Pods`
- 
-## Resources
-
-We migrated a sample app for you to reference:
-
-* [iOS PR](https://github.com/scannillo/paypal-xo-sample/pull/1): ➕101 lines ➖39 lines
