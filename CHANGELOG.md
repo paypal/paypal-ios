@@ -1,7 +1,7 @@
 
 # PayPal iOS SDK Release Notes
 
-## unreleased
+## 0.0.9 (2023-06-23)
 * Breaking Changes
   * CardPayments
     * Remove `status` property from `CardResult`
