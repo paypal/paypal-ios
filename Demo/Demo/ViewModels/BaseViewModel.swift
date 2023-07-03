@@ -111,13 +111,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         }
         let cardClient = CardClient(config: config)
         cardClient.delegate = self
-        
-        var passedCustomerID: String?
-        if customerID.isEmpty {
-            passedCustomerID = nil
-        } else {
-            passedCustomerID = customerID
-        }
+        let passedCustomerID = customerID.isEmpty ? nil : customerID
         let cardRequest = CardRequest(orderID: orderID, card: card, sca: .scaAlways, shouldVault: shouldVault, customerID: passedCustomerID)
         cardClient.approveOrder(request: cardRequest)
     }
