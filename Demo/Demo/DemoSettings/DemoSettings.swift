@@ -5,7 +5,6 @@ enum DemoSettings {
     private static let EnvironmentDefaultsKey = "environment"
     private static let IntentDefaultsKey = "intent"
     private static let DemoTypeDefaultsKey = "demo_type"
-    private static let DemoUIFrameworkKey = "demo_ui_framework"
     private static let ClientIDKey = "clientID"
 
     static var environment: Environment {
@@ -30,16 +29,6 @@ enum DemoSettings {
         }
         set {
             UserDefaults.standard.set(newValue.rawValue, forKey: DemoTypeDefaultsKey)
-        }
-    }
-
-    static var demoUIFramework: DemoUIFramework {
-        get {
-            UserDefaults.standard.string(forKey: DemoUIFrameworkKey)
-                .flatMap { DemoUIFramework(rawValue: $0) } ?? .uikit
-        }
-        set {
-            UserDefaults.standard.set(newValue.rawValue, forKey: DemoUIFrameworkKey)
         }
     }
 
