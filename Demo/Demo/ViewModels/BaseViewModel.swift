@@ -8,27 +8,6 @@ import PayPalCheckout
 
 /// This class is used to share the orderID across shared views, update the text of `bottomStatusLabel` in our `FeatureBaseViewController`
 /// as well as share the logic of `processOrder` across our duplicate (SwiftUI and UIKit) card views.
-///
-/// // temp place instead of new file
-enum MerchantIntegration {
-    case direct
-    case connectedPath
-    case managedPath
-    case unspecified
-    
-    var path: String {
-        switch self {
-        case .direct:
-            return "/direct"
-        case .connectedPath:
-            return "/connected_path"
-        case .managedPath:
-            return "/managed_path"
-        default:
-            return ""
-        }
-    }
-}
 
 class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
 
@@ -38,7 +17,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
 
     /// order ID shared across views
     @Published var orderID: String?
-    @Published var selectedMerchantIntegration: MerchantIntegration = .connectedPath
+    @Published var selectedMerchantIntegration: MerchantIntegration = .unspecified
 
     // MARK: - Init
 
