@@ -3457,7 +3457,7 @@
 			repositoryURL = "https://github.com/paypal/paypalcheckout-ios";
 			requirement = {
 				kind = exactVersion;
-				version = 0.112.1;
+				version = 1.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
