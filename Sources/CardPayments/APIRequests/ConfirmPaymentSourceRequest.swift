@@ -22,19 +22,12 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         self.jsonEncoder = encoder
         var confirmPaymentSource = ConfirmPaymentSource()
         var card = cardRequest.card
-        let verification = Verification(method: cardRequest.sca.rawValue)
         
-        if cardRequest.shouldVault {
-            var customer: Customer?
-            let vault = Vault(storeInVault: .onSuccess)
-            if let customerID = cardRequest.customerID {
-                customer = Customer(id: customerID)
-            }
-            
-            card.attributes = Attributes(customer: customer, vault: vault, verification: verification)
-        } else {
-            card.attributes = Attributes(customer: nil, vault: nil, verification: verification)
-        }
+        card.attributes = Attributes(
+            customerID: cardRequest.customerID,
+            shouldVault: cardRequest.shouldVault,
+            verificationMethod: cardRequest.sca.rawValue
+        )
         
         confirmPaymentSource.applicationContext = ApplicationContext(
             returnUrl: PayPalCoreConstants.callbackURLScheme + "://card/success",

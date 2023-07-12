@@ -66,9 +66,18 @@ public struct Card: Encodable {
 
 struct Attributes: Codable {
 
-    let customer: Customer?
-    let vault: Vault?
+    var customer: Customer?
+    var vault: String?
     let verification: Verification
+    
+    init(customerID: String?, shouldVault: Bool, verificationMethod: String) {
+        if let customerID = customerID {
+            self.customer = Customer(id: customerID)
+        }
+        self.vault = shouldVault ? "ON_SUCCESS" : nil
+        
+        self.verification = Verification(method: verificationMethod)
+    }
 }
 
 struct Verification: Codable {
@@ -81,11 +90,7 @@ struct Customer: Codable {
     let id: String
 }
 
-enum StoreInVault: String, Codable {
-    case onSuccess = "ON_SUCCESS"
-}
-
 struct Vault: Codable {
     
-    let storeInVault: StoreInVault
+    let storeInVault: String
 }
