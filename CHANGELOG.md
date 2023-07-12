@@ -4,6 +4,7 @@
 ## unreleased
 * PayPalNativePayments
   * Bump `PayPalCheckout` to `1.0.0`
+  
 ## 0.0.9 (2023-06-23)
 * Breaking Changes
   * CardPayments
