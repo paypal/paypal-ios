@@ -6,20 +6,13 @@ class APIClient_Tests: XCTestCase {
 
     // MARK: - Helper Properties
 
-    let successURLResponse = HTTPURLResponse(url: URL(string: "www.test.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])
-    let fakeRequest = FakeRequest()
-
-    let config = CoreConfig(accessToken: "mockAccessToken", environment: .sandbox)
-    var mockURLSession: MockURLSession!
     var sut: APIClient!
-    var mockHTTP: MockHTTP!
+    let mockHTTP = MockHTTP()
 
     // MARK: - Test lifecycle
 
     override func setUp() {
         super.setUp()
-        mockURLSession = MockURLSession()
-        mockHTTP = MockHTTP(urlSession: mockURLSession, coreConfig: config)
         
         sut = APIClient(http: mockHTTP)
     }
@@ -27,23 +20,22 @@ class APIClient_Tests: XCTestCase {
     // MARK: - fetch()
     
     func testFetch_forwardsAPIRequestToHTTPClass() async throws {
-        let fakeRequest = FakeRequest()
-        mockURLSession.cannedJSONData = #"{ "fake_param": "something" }"#
-        mockURLSession.cannedURLResponse = successURLResponse
-        
-        _ = try await sut.fetch(request: fakeRequest)
+        _ = try? await sut.fetch(request: FakeRequest())
         
         XCTAssert(mockHTTP.lastAPIRequest is FakeRequest)
         XCTAssertEqual(mockHTTP.lastAPIRequest?.path, "/fake-path")
     }
     
-    // MARK: - fetchCachedOrRemoteClientID()
-
-    func testGetClientID_successfullyReturnsData() async throws {
-        mockURLSession.cannedJSONData = APIResponses.oauthTokenJson.rawValue
-        mockURLSession.cannedURLResponse = successURLResponse
-
-        let response = try await sut.fetchCachedOrRemoteClientID()
-        XCTAssertEqual(response, "sample_id")
+    func testFetch_parsesHTTPResponse() async {
+        let jsonResponse = #"{ "fake_param": "fake-response" }"#
+        mockHTTP.stubHTTPResponse = HTTPResponse(status: 200, body: jsonResponse.data(using: .utf8)!)
+        
+        do {
+            let response = try await sut.fetch(request: FakeRequest())
+            XCTAssert((response as Any) is FakeResponse)
+            XCTAssertEqual(response.fakeParam, "fake-response")
+        } catch {
+            XCTFail("Expected fetch() to succeed")
+        }
     }
 }

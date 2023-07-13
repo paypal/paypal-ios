@@ -5,10 +5,10 @@ import Foundation
 public struct CoreConfig {
 
     public let environment: Environment
-    public let accessToken: String
+    public let clientID: String
 
-    public init(accessToken: String, environment: Environment) {
+    public init(clientID: String, environment: Environment) {
         self.environment = environment
-        self.accessToken = accessToken
+        self.clientID = clientID
     }
 }

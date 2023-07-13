@@ -9,32 +9,31 @@ class PayPalViewModel: ObservableObject {
         case initial
         case loading(content: String)
         case mainContent(title: String, content: String, flowComplete: Bool)
+        case error(message: String)
     }
 
     @Published private(set) var state = State.initial
-    private var accessToken = ""
+    @Published var selectedMerchantIntegration: MerchantIntegration = .unspecified
     private var payPalClient: PayPalNativeCheckoutClient?
     private var shippingPreference: OrderApplicationContext.ShippingPreference = .noShipping
     private var orderID = ""
 
-    func getAccessToken() {
-        state = .loading(content: "Getting access token")
+    func getClientID() {
+        state = .loading(content: "Getting clientID")
         Task {
-            guard let token = await getAccessToken() else {
-                publishStateToMainThread(.mainContent(title: "Access Token", content: accessToken, flowComplete: false))
+            guard let clientID = await getClientID() else {
+                publishStateToMainThread(.error(message: "Unable to fetch clientID"))
                 return
             }
-            accessToken = token
-            payPalClient = PayPalNativeCheckoutClient(config: CoreConfig(accessToken: token, environment: CorePayments.Environment.sandbox))
+            payPalClient = PayPalNativeCheckoutClient(config: CoreConfig(clientID: clientID, environment: CorePayments.Environment.sandbox))
             payPalClient?.delegate = self
             payPalClient?.shippingDelegate = self
-            publishStateToMainThread(.mainContent(title: "Access Token", content: accessToken, flowComplete: false))
+            publishStateToMainThread(.mainContent(title: "ClientID", content: clientID, flowComplete: false))
         }
     }
 
     func retry() {
         payPalClient = nil
-        accessToken = ""
         state = .initial
         shippingPreference = .noShipping
     }
@@ -68,13 +67,15 @@ class PayPalViewModel: ObservableObject {
 
     private func getOrderID(_ shippingPreference: OrderApplicationContext.ShippingPreference) async throws -> String {
         let order = try await DemoMerchantAPI.sharedService.createOrder(
-            orderRequest: OrderRequestHelpers.getOrderRequest(shippingPreference)
+            orderRequest: OrderRequestHelpers.getOrderRequest(shippingPreference), selectedMerchantIntegration: selectedMerchantIntegration
         )
         return order.id
     }
 
-    func getAccessToken() async -> String? {
-        await DemoMerchantAPI.sharedService.getAccessToken(environment: DemoSettings.environment)
+    func getClientID() async -> String? {
+        await DemoMerchantAPI.sharedService.getClientID(
+            environment: DemoSettings.environment, selectedMerchantIntegration: selectedMerchantIntegration
+        )
     }
 
     private func publishStateToMainThread(_ state: State) {
@@ -129,7 +130,7 @@ extension PayPalViewModel: PayPalNativeShippingDelegate {
                 let shippingMethods = OrderRequestHelpers.getShippingMethods(selectedID: shippingMethod.id)
                 let amount = OrderRequestHelpers.getAmount(shipping: Double(shippingMethod.value ?? "0.0") ?? 0.0)
                 let params = UpdateOrderParams(orderID: orderID, shippingMethods: shippingMethods, amount: amount)
-                try await DemoMerchantAPI.sharedService.updateOrder(params)
+                try await DemoMerchantAPI.sharedService.updateOrder(params, selectedMerchantIntegration: selectedMerchantIntegration)
                 shippingActions.approve()
             } catch let error {
                 shippingActions.reject()

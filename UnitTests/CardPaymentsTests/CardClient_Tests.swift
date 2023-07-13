@@ -8,7 +8,6 @@ import AuthenticationServices
 class CardClient_Tests: XCTestCase {
 
     let mockClientID = "mockClientId"
-    let mockAccessToken = "mockAccessToken"
 
     // MARK: - Helper Properties
 
@@ -32,7 +31,7 @@ class CardClient_Tests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        config = CoreConfig(accessToken: mockAccessToken, environment: .sandbox)
+        config = CoreConfig(clientID: mockClientID, environment: .sandbox)
         mockAPIClient = MockAPIClient(coreConfig: config)
         cardRequest = CardRequest(orderID: "testOrderId", card: card)
 
@@ -74,9 +73,6 @@ class CardClient_Tests: XCTestCase {
 
         let mockCardDelegate = MockCardDelegate(success: {_, result -> Void in
             XCTAssertEqual(result.orderID, "testOrderId")
-            XCTAssertEqual(result.paymentSource?.card.brand, "VISA")
-            XCTAssertEqual(result.paymentSource?.card.lastFourDigits, "7321")
-            XCTAssertEqual(result.paymentSource?.card.type, "CREDIT")
             expectation.fulfill()
         }, error: { _, _ in
             XCTFail("Invoked error() callback. Should invoke success().")
@@ -103,8 +99,8 @@ class CardClient_Tests: XCTestCase {
             XCTFail("Invoked success() callback. Should invoke error().")
         }, error: { _, error in
             XCTAssertEqual(error.domain, APIClientError.domain)
-            XCTAssertEqual(error.code, APIClientError.Code.dataParsingError.rawValue)
-            XCTAssertEqual(error.localizedDescription, "An error occured parsing HTTP response data. Contact developer.paypal.com/support.")
+            XCTAssertEqual(error.code, APIClientError.Code.jsonDecodingError.rawValue)
+            XCTAssertNotNil(error.localizedDescription)
             expectation.fulfill()
         }, threeDSWillLaunch: { _ in
             XCTFail("Invoked willLaunch() callback. Should invoke error().")
@@ -124,13 +120,6 @@ class CardClient_Tests: XCTestCase {
         let mockCardDelegate = MockCardDelegate(
             success: {_, result in
                 XCTAssertEqual(result.orderID, "testOrderId")
-                XCTAssertEqual(result.status, "CREATED")
-                XCTAssertEqual(result.paymentSource?.card.brand, "VISA")
-                XCTAssertEqual(result.paymentSource?.card.lastFourDigits, "7321")
-                XCTAssertEqual(result.paymentSource?.card.type, "CREDIT")
-                XCTAssertEqual(result.paymentSource?.card.authenticationResult?.liabilityShift, "POSSIBLE")
-                XCTAssertEqual(result.paymentSource?.card.authenticationResult?.threeDSecure?.authenticationStatus, "Y")
-                XCTAssertEqual(result.paymentSource?.card.authenticationResult?.threeDSecure?.enrollmentStatus, "Y")
                 expectation.fulfill()
             },
             error: { _, error in

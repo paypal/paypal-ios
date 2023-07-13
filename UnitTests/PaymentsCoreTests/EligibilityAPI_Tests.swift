@@ -5,7 +5,6 @@ import XCTest
 class EligibilityAPI_Tests: XCTestCase {
 
     let mockClientID = "mockClientId"
-    let mockAccessToken = "mockAccessToken"
     let mockURLSession = MockURLSession()
     var coreConfig: CoreConfig!
     var graphQLClient: GraphQLClient!
@@ -14,7 +13,7 @@ class EligibilityAPI_Tests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        coreConfig = CoreConfig(accessToken: mockAccessToken, environment: .sandbox)
+        coreConfig = CoreConfig(clientID: mockClientID, environment: .sandbox)
         apiClient = MockAPIClient(coreConfig: coreConfig)
         graphQLClient = GraphQLClient(environment: .sandbox, urlSession: mockURLSession)
     }

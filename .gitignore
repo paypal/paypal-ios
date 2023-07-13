@@ -34,10 +34,8 @@ Pods
 Carthage/
 
 # SPM
-Package.resolved
 .swiftpm
 .build
-*/xcshareddata/swiftpm
 SampleApps/SPMTest/SPMTest.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
 
 # Fastlane

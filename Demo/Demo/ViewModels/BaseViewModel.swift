@@ -16,6 +16,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
 
     /// order ID shared across views
     @Published var orderID: String?
+    @Published var selectedMerchantIntegration: MerchantIntegration = .unspecified
 
     // MARK: - Init
 
@@ -37,18 +38,22 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         }
     }
 
-    func createOrder(amount: String?) async -> String? {
+    func createOrder(amount: String?, selectedMerchantIntegration: MerchantIntegration) async -> String? {
+        // might need to pass in payee as payee object or as auth header
         updateTitle("Creating order...")
         guard let amount = amount else { return nil }
 
         let amountRequest = Amount(currencyCode: "USD", value: amount)
+        // TODO: might need to pass in payee as payee object or as auth header
         let orderRequestParams = CreateOrderParams(
             intent: DemoSettings.intent.rawValue.uppercased(),
             purchaseUnits: [PurchaseUnit(amount: amountRequest)]
         )
 
         do {
-            let order = try await DemoMerchantAPI.sharedService.createOrder(orderParams: orderRequestParams)
+            let order = try await DemoMerchantAPI.sharedService.createOrder(
+                orderParams: orderRequestParams, selectedMerchantIntegration: selectedMerchantIntegration
+            )
             updateTitle("Order ID: \(order.id)")
             updateOrderID(with: order.id)
             print("✅ fetched orderID: \(order.id) with status: \(order.status)")
@@ -57,30 +62,6 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
             print("❌ failed to fetch orderID: \(error)")
         }
         return orderID
-    }
-
-    func processOrder(orderID: String) async {
-        switch DemoSettings.intent {
-        case .authorize:
-            updateTitle("Authorizing order...")
-        case .capture:
-            updateTitle("Capturing order...")
-        }
-
-        let processOrderParams = ProcessOrderParams(
-            orderId: orderID,
-            intent: DemoSettings.intent.rawValue,
-            countryCode: "US"
-        )
-
-        do {
-            let order = try await DemoMerchantAPI.sharedService.processOrder(processOrderParams: processOrderParams)
-            updateTitle("\(DemoSettings.intent.rawValue.capitalized) success: \(order.status)")
-            print("✅ processed orderID: \(order.id) with status: \(order.status)")
-        } catch {
-            updateTitle("\(DemoSettings.intent.rawValue.capitalized) fail: \(error.localizedDescription)")
-            print("❌ failed to process orderID: \(error)")
-        }
     }
 
     // MARK: Card Module Integration
@@ -190,17 +171,21 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     
     private func captureOrderOnMerchantServer(result: CardResult) {
         Task {
-            let captureResult = try? await DemoMerchantAPI.sharedService.caputureOrder(orderID: result.orderID)
-            let status = captureResult?.status ?? result.status
-            updateTitle("Order ID:\(result.orderID) status: \(status)\n \(String(describing: result.paymentSource))")
+            let captureResult = try? await DemoMerchantAPI.sharedService.captureOrder(
+                orderID: result.orderID, selectedMerchantIntegration: selectedMerchantIntegration
+            )
+            let status = captureResult?.status ?? ""
+            updateTitle("Order ID:\(result.orderID) status: \(status)")
         }
     }
     
     private func authorizeOrderOnMerchantServer(result: CardResult) {
         Task {
-            let authorizeResult = try? await DemoMerchantAPI.sharedService.authorizeOrder(orderID: result.orderID)
-            let status = authorizeResult?.status ?? result.status
-            updateTitle("Order ID:\(result.orderID) status: \(status)\n \(String(describing: result.paymentSource))")
+            let authorizeResult = try? await DemoMerchantAPI.sharedService.authorizeOrder(
+                orderID: result.orderID, selectedMerchantIntegration: selectedMerchantIntegration
+            )
+            let status = authorizeResult?.status ?? ""
+            updateTitle("Order ID:\(result.orderID) status: \(status)")
         }
     }
     
@@ -224,15 +209,17 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         print("3DS challenge has finished")
     }
 
-    func getAccessToken() async -> String? {
-        await DemoMerchantAPI.sharedService.getAccessToken(environment: DemoSettings.environment)
+    func getClientID() async -> String? {
+        await DemoMerchantAPI.sharedService.getClientID(
+            environment: DemoSettings.environment, selectedMerchantIntegration: selectedMerchantIntegration
+        )
     }
-
+    
     func getCoreConfig() async -> CoreConfig? {
-        guard let token = await getAccessToken() else {
+        guard let clientID = await getClientID() else {
             return nil
         }
-        return CoreConfig(accessToken: token, environment: DemoSettings.environment.paypalSDKEnvironment)
+        return CoreConfig(clientID: clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
     }
 
     func getNativeCheckoutClient() async throws -> PayPalNativeCheckoutClient {

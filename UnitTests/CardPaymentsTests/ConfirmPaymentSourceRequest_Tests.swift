@@ -17,7 +17,7 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
         let cardRequest = CardRequest(orderID: mockOrderID, card: card)
 
         let confirmPaymentSourceRequest = try XCTUnwrap(
-            ConfirmPaymentSourceRequest(accessToken: "fake-token", cardRequest: cardRequest)
+            ConfirmPaymentSourceRequest(clientID: "fake-token", cardRequest: cardRequest)
         )
 
         let paymentSourceBody = try XCTUnwrap(confirmPaymentSourceRequest.body)
@@ -60,14 +60,16 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
         let cardRequest = CardRequest(orderID: mockOrderId, card: card)
 
         let confirmPaymentSourceRequest = try XCTUnwrap(
-            ConfirmPaymentSourceRequest(accessToken: "fake-token", cardRequest: cardRequest)
+            ConfirmPaymentSourceRequest(clientID: "fake-token", cardRequest: cardRequest)
         )
 
+        let modifiedClientID = "fake-token" + ":"
+        let expectedBase64EncodedClientID = Data(modifiedClientID.utf8).base64EncodedString()
         let expectedPath = "/v2/checkout/orders/\(mockOrderId)/confirm-payment-source"
         let expectedMethod = HTTPMethod.post
         let expectedHeaders: [HTTPHeader: String] = [
             .contentType: "application/json", .acceptLanguage: "en_US",
-            .authorization: "Bearer fake-token"
+            .authorization: "Basic \(expectedBase64EncodedClientID)"
         ]
 
         XCTAssertEqual(confirmPaymentSourceRequest.path, expectedPath)
@@ -89,7 +91,7 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
         
         XCTAssertThrowsError(
             try ConfirmPaymentSourceRequest(
-                accessToken: "fake token",
+                clientID: "fake-client-id",
                 cardRequest: cardRequest,
                 encoder: failingEncoder)
         ) { error in

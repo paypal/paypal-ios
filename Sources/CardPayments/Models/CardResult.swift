@@ -9,9 +9,7 @@ public struct CardResult {
     /// The order ID associated with the transaction
     public let orderID: String
 
-    /// The order status
-    public let status: String
-
-    /// The payment source
-    public let paymentSource: PaymentSource?
+    //// :nodoc: This is the deep link url returned from 3DS authentication
+    // TODO: parse contents of this URL once we are clear on values returned from 3ds
+    public let deepLinkURL: URL?
 }

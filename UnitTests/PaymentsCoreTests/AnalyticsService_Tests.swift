@@ -6,23 +6,18 @@ class AnalyticsService_Tests: XCTestCase {
 
     // MARK: - Helper properties
 
-    var mockURLSession: MockURLSession!
     var sut: AnalyticsService!
     var mockHTTP: MockHTTP!
-    var coreConfig = CoreConfig(accessToken: "fake-token", environment: .sandbox)
+    var coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
+    let clientIDResponseJSON = #"{ "client_id": "fake-client-id" }"#
+
     // MARK: - Test lifecycle
     
     override func setUp() {
         super.setUp()
-        
-        mockURLSession = MockURLSession()
-        mockURLSession.cannedError = nil
-        mockURLSession.cannedURLResponse = HTTPURLResponse(url: URL(string: "www.fake-url.com")!, statusCode: 200, httpVersion: "https", headerFields: [:])
-        mockURLSession.cannedJSONData = """
-            { "client_id": "fake-client-id" }
-        """
-        
-        mockHTTP = MockHTTP(urlSession: mockURLSession, coreConfig: coreConfig)
+                
+        mockHTTP = MockHTTP()
+        mockHTTP.stubHTTPResponse = HTTPResponse(status: 200, body: clientIDResponseJSON.data(using: .utf8)!)
         
         sut = AnalyticsService(coreConfig: coreConfig, orderID: "fake-order-id", http: mockHTTP)
     }
@@ -31,25 +26,15 @@ class AnalyticsService_Tests: XCTestCase {
 
     func testSendEvent_whenClientID_postsAnalyticsEventRequestType() async {
         await sut.performEventRequest("fake-event")
-
+        
         XCTAssert(mockHTTP.lastAPIRequest is AnalyticsEventRequest)
     }
     
-    func testSendEvent_whenNoClientID_doesNotPostAnalyticsEventRequestType() async {
-        mockURLSession.cannedJSONData = nil
-        
-        let coreConfig = CoreConfig(accessToken: "fake-token", environment: .live)
-        let mockHTTP = MockHTTP(urlSession: mockURLSession, coreConfig: coreConfig)
-        let sut = AnalyticsService(coreConfig: coreConfig, orderID: "fake-orderID", http: mockHTTP)
-                
-        await sut.performEventRequest("fake-event")
-
-        XCTAssert(mockHTTP.lastAPIRequest is GetClientIDRequest)
-    }
-    
     func testSendEvent_whenLive_sendsProperTag() async {
-        let coreConfig = CoreConfig(accessToken: "fake-token", environment: .live)
-        let mockHTTP = MockHTTP(urlSession: mockURLSession, coreConfig: coreConfig)
+        let coreConfig = CoreConfig(clientID: "fake-token", environment: .live)
+        let mockHTTP = MockHTTP(coreConfig: coreConfig)
+        mockHTTP.stubHTTPResponse = HTTPResponse(status: 200, body: clientIDResponseJSON.data(using: .utf8)!)
+        
         let sut = AnalyticsService(coreConfig: coreConfig, orderID: "fake-orderID", http: mockHTTP)
         
         await sut.performEventRequest("fake-event")

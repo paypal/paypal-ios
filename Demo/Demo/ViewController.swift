@@ -30,31 +30,20 @@ class ViewController: UIViewController {
 
     func displayDemoFeatureViewController() {
         removeChildViews()
-
-        switch DemoSettings.demoUIFramework {
-        case .uikit:
-            let demoViewController = DemoSettings.demoType.viewController
-            demoViewController.modalPresentationStyle = .fullScreen
-
-            navigationItem.title = DemoSettings.demoType.rawValue.uppercased()
-
-            addChild(demoViewController)
-            view.addSubview(demoViewController.view)
-        case .swiftui:
-            let swiftUIController = UIHostingController(rootView: DemoSettings.demoType.swiftUIView)
-            swiftUIController.view.translatesAutoresizingMaskIntoConstraints = false
-
-            navigationItem.title = "SwiftUI - \(DemoSettings.demoType.rawValue.uppercased())"
-
-            addChild(swiftUIController)
-            view.addSubview(swiftUIController.view)
-
-            NSLayoutConstraint.activate([
-                swiftUIController.view.topAnchor.constraint(equalTo: view.topAnchor),
-                swiftUIController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                swiftUIController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                swiftUIController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-            ])
-        }
+        
+        let swiftUIController = UIHostingController(rootView: DemoSettings.demoType.swiftUIView)
+        swiftUIController.view.translatesAutoresizingMaskIntoConstraints = false
+        
+        navigationItem.title = "SwiftUI - \(DemoSettings.demoType.rawValue.uppercased())"
+        
+        addChild(swiftUIController)
+        view.addSubview(swiftUIController.view)
+        
+        NSLayoutConstraint.activate([
+            swiftUIController.view.topAnchor.constraint(equalTo: view.topAnchor),
+            swiftUIController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            swiftUIController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            swiftUIController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
 }
