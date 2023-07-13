@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3B80D50E2A291C0800D2EAC4 /* ClientIDRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50D2A291C0800D2EAC4 /* ClientIDRequest.swift */; };
 		3B80D5102A291CB100D2EAC4 /* ClientIDResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50F2A291CB100D2EAC4 /* ClientIDResponse.swift */; };
+		3BB7A9772A5CA6FD00C05140 /* MerchantIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB7A9762A5CA6FD00C05140 /* MerchantIntegration.swift */; };
 		5301468C28918B4D00184F22 /* ApprovalResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301468B28918B4D00184F22 /* ApprovalResult.swift */; };
 		536A5CA82898AA2A005C053D /* SwiftUINativeCheckoutDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536A5CA72898AA2A005C053D /* SwiftUINativeCheckoutDemo.swift */; };
 		53B9E8EA28C93B4400719239 /* OrderRequestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B9E8E928C93B4400719239 /* OrderRequestHelpers.swift */; };
@@ -98,6 +99,7 @@
 /* Begin PBXFileReference section */
 		3B80D50D2A291C0800D2EAC4 /* ClientIDRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientIDRequest.swift; sourceTree = "<group>"; };
 		3B80D50F2A291CB100D2EAC4 /* ClientIDResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientIDResponse.swift; sourceTree = "<group>"; };
+		3BB7A9762A5CA6FD00C05140 /* MerchantIntegration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantIntegration.swift; sourceTree = "<group>"; };
 		5301468B28918B4D00184F22 /* ApprovalResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApprovalResult.swift; sourceTree = "<group>"; };
 		536A5CA22898A48C005C053D /* PayPalNativeCheckout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PayPalNativeCheckout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		536A5CA72898AA2A005C053D /* SwiftUINativeCheckoutDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUINativeCheckoutDemo.swift; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 			children = (
 				80F33CE726F8DE29006811B1 /* DemoMerchantAPI.swift */,
 				BE1766B226F911A2007EF438 /* URLResponseError.swift */,
+				3BB7A9762A5CA6FD00C05140 /* MerchantIntegration.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -493,6 +496,7 @@
 				80F33CEF26F8E7CC006811B1 /* CreateOrderParams.swift in Sources */,
 				BECD84A227036DDB007CCAE4 /* Intent.swift in Sources */,
 				BED041AF270CA0FB00C80954 /* CustomButton.swift in Sources */,
+				3BB7A9772A5CA6FD00C05140 /* MerchantIntegration.swift in Sources */,
 				BE1766B326F911A2007EF438 /* URLResponseError.swift in Sources */,
 				CBC16DD929ED90B600307117 /* UpdateOrderParams.swift in Sources */,
 				BE9F36D82745490400AFC7DA /* FloatingLabelTextField.swift in Sources */,
