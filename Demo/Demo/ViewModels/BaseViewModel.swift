@@ -8,7 +8,6 @@ import PayPalCheckout
 
 /// This class is used to share the orderID across shared views, update the text of `bottomStatusLabel` in our `FeatureBaseViewController`
 /// as well as share the logic of `processOrder` across our duplicate (SwiftUI and UIKit) card views.
-
 class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
 
     /// Weak reference to associated view
@@ -45,7 +44,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         guard let amount = amount else { return nil }
 
         let amountRequest = Amount(currencyCode: "USD", value: amount)
-        // might need to pass in payee as payee object or as auth header
+        // TODO: might need to pass in payee as payee object or as auth header
         let orderRequestParams = CreateOrderParams(
             intent: DemoSettings.intent.rawValue.uppercased(),
             purchaseUnits: [PurchaseUnit(amount: amountRequest)]
