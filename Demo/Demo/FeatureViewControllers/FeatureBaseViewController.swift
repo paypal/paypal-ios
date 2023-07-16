@@ -94,7 +94,9 @@ class FeatureBaseViewController: UIViewController {
 
     @objc func createOrderTapped() {
         Task {
-            await baseViewModel.createOrder(amount: amountTextField.text)
+            await baseViewModel.createOrder(
+                amount: amountTextField.text, selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration
+            )
         }
     }
 }

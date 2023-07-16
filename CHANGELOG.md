@@ -2,6 +2,10 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
+* PayPalNativePayments
+  * Bump `PayPalCheckout` to `1.0.0`
+  
+## 0.0.9 (2023-06-23)
 * Breaking Changes
   * Card 
     * Update `Attributes` field, adding `customer` and `vault` properties

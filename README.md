@@ -29,48 +29,9 @@ This SDK supports:
 * UIKit
 * SwiftUI
 
-## Access Token
+## Client ID
 
-The PayPal SDK uses access tokens for authentication.
-
-> The following example can be adapted to any server-side language/framework of your choice. We use command-line curl requests to demonstrate the overall composition of the Access Token HTTP request.
-
-To create an access token:
-
-1. Follow the steps in [Get Started](https://developer.paypal.com/api/rest/#link-getstarted) to obtain a client ID and secret from the PayPal Developer site.
-1. Make an HTTP request with Basic Authentication using client ID and secret to fetch an access token:
-
-**Request**
-```bash
-# for LIVE environment
-curl -X POST https://api.paypal.com/v1/oauth2/token \
--u $CLIENT_ID:$CLIENT_SECRET \
--H 'Content-Type: application/x-www-form-urlencoded' \
--d 'grant_type=client_credentials&response_type=token&return_authn_schemes=true'
-
-# for SANDBOX environment
-curl -X POST https://api.sandbox.paypal.com/v1/oauth2/token \
--u $CLIENT_ID:$CLIENT_SECRET \
--H 'Content-Type: application/x-www-form-urlencoded' \
--d 'grant_type=client_credentials&response_type=token&return_authn_schemes=true'
-```
-
-:warning:&nbsp;Make sure the environment variables for `CLIENT_ID` and `CLIENT_SECRET` are set.
-
-**Response**
-
-```json
-{
-  "scope": "...",
-  "access_token": "<ACCESS_TOKEN>",
-  "token_type": "Bearer",
-  "app_id": "...",
-  "expires_in": 32400,
-  "nonce": "..."
-}
-```
-
-Use the value for `access_token` in the response to create an instance of `CoreConfig` to use with any of the SDK's feature clients.
+The PayPal SDK uses a client ID for authentication. This can be found in your [PayPal Developer Dashboard](https://developer.paypal.com/api/rest/#link-getstarted).
 
 ## Modules
 
@@ -82,35 +43,6 @@ Each feature module has its own onboarding guide:
 - [PayPal Web Payments](docs/PayPalWebPayments)
 
 To accept a certain payment method in your app, you only need to include that payment-specific submodule.
-
-## Sample Code
-
-```swift
-// STEP 0: Fetch an ACCESS_TOKEN and ORDER_ID from your server.
-
-// STEP 1: Create a PaymentConfiguration object
-paymentConfig = PaymentConfig(token: ACCESS_TOKEN)
-
-// STEP 2: Create payment method client objects
-cardClient = CardClient(config: paymentConfig)
-
-// STEP 3: Collect relevant payment method details
-card = Card(number: 4111111111111111, cvv: 123, ...)
-
-// STEP 4: Call checkout method
-cardClient?.checkoutWithCard(orderID: ORDER_ID, card: card) { result in
-    switch result {
-    case .success(let orderId):
-      // Send orderID to your server to process the payment
-    case .error(let error):
-      // handle checkout error
-    }
-}
-
-// STEP 5: Send orderID to your server to capture/authorize
-
-```
-
 
 ## Testing
 

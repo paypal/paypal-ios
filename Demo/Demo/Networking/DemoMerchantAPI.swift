@@ -8,9 +8,8 @@ final class DemoMerchantAPI {
     // MARK: Public properties
 
     static let sharedService = DemoMerchantAPI()
-    var clientID: String?
-    
-    // To hardcode an access token and order ID for this demo app, set the below values
+
+    // To hardcode an order ID and client ID for this demo app, set the below values
     enum InjectedValues {
         static let orderID: String? = nil
         static let clientID: String? = nil
@@ -20,8 +19,8 @@ final class DemoMerchantAPI {
 
     // MARK: Public Methods
     
-    func caputureOrder(orderID: String) async throws -> Order {
-        guard let url = buildBaseURL(with: "/orders/\(orderID)/capture") else {
+    func captureOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws -> Order {
+        guard let url = buildBaseURL(with: "/orders/\(orderID)/capture", selectedMerchantIntegration: selectedMerchantIntegration) else {
             throw URLResponseError.invalidURL
         }
         
@@ -30,8 +29,8 @@ final class DemoMerchantAPI {
         return try parse(from: data)
     }
     
-    func authorizeOrder(orderID: String) async throws -> Order {
-        guard let url = buildBaseURL(with: "/orders/\(orderID)/authorize") else {
+    func authorizeOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws -> Order {
+        guard let url = buildBaseURL(with: "/orders/\(orderID)/authorize", selectedMerchantIntegration: selectedMerchantIntegration) else {
             throw URLResponseError.invalidURL
         }
         
@@ -44,12 +43,11 @@ final class DemoMerchantAPI {
     /// - Parameter orderParams: the parameters to create the order with
     /// - Returns: an order
     /// - Throws: an error explaining why create order failed
-    func createOrder(orderParams: CreateOrderParams) async throws -> Order {
+    func createOrder(orderParams: CreateOrderParams, selectedMerchantIntegration: MerchantIntegration) async throws -> Order {
         if let injectedOrderID = InjectedValues.orderID {
             return Order(id: injectedOrderID, status: "CREATED")
         }
-        
-        guard let url = buildBaseURL(with: "/orders") else {
+        guard let url = buildBaseURL(with: "/orders", selectedMerchantIntegration: selectedMerchantIntegration) else {
             throw URLResponseError.invalidURL
         }
 
@@ -62,11 +60,12 @@ final class DemoMerchantAPI {
     /// - Parameter orderRequest: the order request to create an order
     /// - Returns: an order
     /// - Throws: an error explaining why create order failed
-    func createOrder(orderRequest: PayPalCheckout.OrderRequest) async throws -> Order {
+    func createOrder(orderRequest: PayPalCheckout.OrderRequest, selectedMerchantIntegration: MerchantIntegration) async throws -> Order {
         if let injectedOrderID = InjectedValues.orderID {
             return Order(id: injectedOrderID, status: "CREATED")
         }
-        guard let url = buildBaseURL(with: "/orders") else {
+
+        guard let url = buildBaseURL(with: "/orders", selectedMerchantIntegration: selectedMerchantIntegration) else {
             throw URLResponseError.invalidURL
         }
 
@@ -75,27 +74,14 @@ final class DemoMerchantAPI {
         return try parse(from: data)
     }
 
-    /// This function replicates a way a merchant may go about authorizing/capturing an order on their server and is not part of the SDK flow.
-    /// - Parameters:
-    ///   - processOrderParams: the parameters to process the order with
-    /// - Returns: an order
-    /// - Throws: an error explaining why process order failed
-    func processOrder(processOrderParams: ProcessOrderParams) async throws -> Order {
-        guard let url = buildBaseURL(with: "/\(processOrderParams.intent)-order") else {
-            throw URLResponseError.invalidURL
-        }
-
-        let urlRequest = buildURLRequest(method: "POST", url: url, body: processOrderParams)
-        let data = try await data(for: urlRequest)
-        return try parse(from: data)
-    }
-    
     /// This function replicates a way a merchant may go about patching an order on their server and is not part of the SDK flow.
     /// - Parameters:
     ///   - updateOrderParams: the parameters to update the order with
     /// - Throws: an error explaining why patching the order failed
-    func updateOrder(_ updateOrderParams: UpdateOrderParams) async throws {
-        guard let url = buildBaseURL(with: "/orders/" + updateOrderParams.orderID) else {
+    func updateOrder(_ updateOrderParams: UpdateOrderParams, selectedMerchantIntegration: MerchantIntegration) async throws {
+        guard let url = buildBaseURL(
+            with: "/orders/" + updateOrderParams.orderID, selectedMerchantIntegration: selectedMerchantIntegration
+        ) else {
             throw URLResponseError.invalidURL
         }
         let urlRequest = buildURLRequest(method: "PATCH", url: url, body: updateOrderParams.updateOperations)
@@ -107,16 +93,13 @@ final class DemoMerchantAPI {
     ///   - environment: the current environment
     /// - Returns: a String representing an clientID
     /// - Throws: an error explaining why fetch clientID failed
-    public func getClientID(environment: Demo.Environment) async -> String? {
+    public func getClientID(environment: Demo.Environment, selectedMerchantIntegration: MerchantIntegration) async -> String? {
         if let injectedClientID = InjectedValues.clientID {
             return injectedClientID
         }
         
-        guard let clientID else {
-            clientID = await fetchClientID(environment: environment)
+        let clientID = await fetchClientID(environment: environment, selectedMerchantIntegration: selectedMerchantIntegration)
             return clientID
-        }
-        return clientID
     }
 
     // MARK: Private methods
@@ -154,18 +137,20 @@ final class DemoMerchantAPI {
         }
     }
 
-    private func buildBaseURL(with endpoint: String) -> URL? {
-        URL(string: DemoSettings.environment.baseURL + endpoint)
+    private func buildBaseURL(with endpoint: String, selectedMerchantIntegration: MerchantIntegration = .unspecified) -> URL? {
+        return URL(string: DemoSettings.environment.baseURL + selectedMerchantIntegration.path + endpoint)
     }
 
     private func buildPayPalURL(with endpoint: String) -> URL? {
         URL(string: "https://api.sandbox.paypal.com" + endpoint)
     }
 
-    private func fetchClientID(environment: Demo.Environment) async -> String? {
+    private func fetchClientID(environment: Demo.Environment, selectedMerchantIntegration: MerchantIntegration) async -> String? {
         do {
             let clientIDRequest = ClientIDRequest()
-            let request = try createUrlRequest(clientIDRequest: clientIDRequest, environment: environment)
+            let request = try createUrlRequest(
+                clientIDRequest: clientIDRequest, environment: environment, selectedMerchantIntegration: selectedMerchantIntegration
+            )
             let (data, response) = try await URLSession.shared.performRequest(with: request)
             guard let response = response as? HTTPURLResponse else {
                 throw URLResponseError.serverError
@@ -182,8 +167,12 @@ final class DemoMerchantAPI {
         }
     }
     
-    private func createUrlRequest(clientIDRequest: ClientIDRequest, environment: Demo.Environment) throws -> URLRequest {
+    private func createUrlRequest(
+        clientIDRequest: ClientIDRequest, environment: Demo.Environment, selectedMerchantIntegration: MerchantIntegration
+    ) throws -> URLRequest {
         var completeUrl = environment.baseURL
+       
+        completeUrl += selectedMerchantIntegration.path
         completeUrl.append(contentsOf: clientIDRequest.path)
         guard let url = URL(string: completeUrl) else {
             throw URLResponseError.invalidURL

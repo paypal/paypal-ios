@@ -13,6 +13,7 @@ class PayPalViewModel: ObservableObject {
     }
 
     @Published private(set) var state = State.initial
+    @Published var selectedMerchantIntegration: MerchantIntegration = .unspecified
     private var payPalClient: PayPalNativeCheckoutClient?
     private var shippingPreference: OrderApplicationContext.ShippingPreference = .noShipping
     private var orderID = ""
@@ -66,13 +67,15 @@ class PayPalViewModel: ObservableObject {
 
     private func getOrderID(_ shippingPreference: OrderApplicationContext.ShippingPreference) async throws -> String {
         let order = try await DemoMerchantAPI.sharedService.createOrder(
-            orderRequest: OrderRequestHelpers.getOrderRequest(shippingPreference)
+            orderRequest: OrderRequestHelpers.getOrderRequest(shippingPreference), selectedMerchantIntegration: selectedMerchantIntegration
         )
         return order.id
     }
 
     func getClientID() async -> String? {
-        await DemoMerchantAPI.sharedService.getClientID(environment: DemoSettings.environment)
+        await DemoMerchantAPI.sharedService.getClientID(
+            environment: DemoSettings.environment, selectedMerchantIntegration: selectedMerchantIntegration
+        )
     }
 
     private func publishStateToMainThread(_ state: State) {
@@ -127,7 +130,7 @@ extension PayPalViewModel: PayPalNativeShippingDelegate {
                 let shippingMethods = OrderRequestHelpers.getShippingMethods(selectedID: shippingMethod.id)
                 let amount = OrderRequestHelpers.getAmount(shipping: Double(shippingMethod.value ?? "0.0") ?? 0.0)
                 let params = UpdateOrderParams(orderID: orderID, shippingMethods: shippingMethods, amount: amount)
-                try await DemoMerchantAPI.sharedService.updateOrder(params)
+                try await DemoMerchantAPI.sharedService.updateOrder(params, selectedMerchantIntegration: selectedMerchantIntegration)
                 shippingActions.approve()
             } catch let error {
                 shippingActions.reject()
