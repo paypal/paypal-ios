@@ -21,27 +21,15 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     ) throws {
         self.jsonEncoder = encoder
         var confirmPaymentSource = ConfirmPaymentSource()
-        var card = cardRequest.card
-        let verification = Verification(method: cardRequest.sca.rawValue)
         
-        if cardRequest.shouldVault {
-            var customer: Customer?
-            let vault = Vault(storeInVault: .onSuccess)
-            if let customerID = cardRequest.customerID {
-                customer = Customer(id: customerID)
-            }
-            
-            card.attributes = Attributes(customer: customer, vault: vault, verification: verification)
-        } else {
-            card.attributes = Attributes(customer: nil, vault: nil, verification: verification)
-        }
+        let serviceCard = ServiceCard(cardRequest: cardRequest)
         
         confirmPaymentSource.applicationContext = ApplicationContext(
             returnUrl: PayPalCoreConstants.callbackURLScheme + "://card/success",
             cancelUrl: PayPalCoreConstants.callbackURLScheme + "://card/cancel"
         )
-        
-        confirmPaymentSource.paymentSource = PaymentSource(card: card)
+
+        confirmPaymentSource.paymentSource = PaymentSource(card: serviceCard)
         
         self.orderID = cardRequest.orderID
         self.base64EncodedCredentials = Data(clientID.appending(":").utf8).base64EncodedString()
@@ -87,6 +75,6 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     
     private struct PaymentSource: Encodable {
         
-        let card: Card
+        let card: ServiceCard
     }
 }

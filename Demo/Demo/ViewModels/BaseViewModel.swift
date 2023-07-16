@@ -112,7 +112,11 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         let cardClient = CardClient(config: config)
         cardClient.delegate = self
         let passedCustomerID = customerID.isEmpty ? nil : customerID
-        let cardRequest = CardRequest(orderID: orderID, card: card, sca: .scaAlways, shouldVault: shouldVault, customerID: passedCustomerID)
+        var vault: Vault?
+        if shouldVault {
+            vault = Vault(customerID: passedCustomerID)
+        }
+        let cardRequest = CardRequest(orderID: orderID, card: card, sca: .scaAlways, vault: vault)
         cardClient.approveOrder(request: cardRequest)
     }
 
@@ -194,27 +198,25 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     private func captureOrderOnMerchantServer(result: CardResult) {
         Task {
             let captureResult = try? await DemoMerchantAPI.sharedService.caputureOrder(orderID: result.orderID)
-            let status = captureResult?.status ?? ""
-            let vault = captureResult?.paymentSource?.card.attributes?.vault
-            let orderInfo = "Order ID: \(result.orderID) \n Status: \(status)"
-            let vaultInfo = vault != nil ? "Vault Status: \((vault?.status) ?? "") \n Vault ID: \((vault?.id) ?? "")" : ""
-            let customerInfo = vault != nil ? "Customer ID: \((vault?.customer.id ?? ""))" : ""
-            
-            updateTitle("\(orderInfo) \n \(vaultInfo)\n \(customerInfo)")
+            displayResult(cardResult: result, orderResult: captureResult)
         }
     }
     
     private func authorizeOrderOnMerchantServer(result: CardResult) {
         Task {
             let authorizeResult = try? await DemoMerchantAPI.sharedService.authorizeOrder(orderID: result.orderID)
-            let status = authorizeResult?.status ?? ""
-            let vault = authorizeResult?.paymentSource?.card.attributes?.vault
-            let orderInfo = "Order ID: \(result.orderID) \n Status: \(status)"
-            let vaultInfo = vault != nil ? "Vault Status: \((vault?.status) ?? "") \n Vault ID: \((vault?.id) ?? "")" : ""
-            let customerInfo = vault != nil ? "Customer ID: \((vault?.customer.id ?? ""))" : ""
-            
-            updateTitle("\(orderInfo) \n \(vaultInfo)\n \(customerInfo)")
+            displayResult(cardResult: result, orderResult: authorizeResult)
         }
+    }
+    
+    func displayResult(cardResult: CardResult, orderResult: Order?) {
+        let status = orderResult?.status ?? ""
+        let vault = orderResult?.paymentSource?.card.attributes?.vault
+        let orderInfo = "Order ID: \(cardResult.orderID) \n Status: \(status)"
+        let vaultInfo = vault != nil ? "Vault Status: \((vault?.status) ?? "") \n Vault ID: \((vault?.id) ?? "")" : ""
+        let customerInfo = vault != nil ? "Customer ID: \((vault?.customer.id ?? ""))" : ""
+                
+        updateTitle("\(orderInfo) \n \(vaultInfo)\n \(customerInfo)")
     }
     
     func card(_ cardClient: CardClient, didFinishWithError error: CoreSDKError) {
