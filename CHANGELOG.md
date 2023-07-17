@@ -8,12 +8,14 @@
 ## 0.0.9 (2023-06-23)
 * Breaking Changes
   * Card 
-    * Removed `Attributes` field
+    * Update `Attributes` field, adding `customer` and `vault` properties
+      `customer` is of optional `Customer` type, containing property `id` of String type
+      `vault` is of optional `Vault` type, containing `storeInVault` field of `StoreInVault` enum type
+       with one value, `.onSuccess`
   * CardRequest
     * Add `shouldVault` Boolean property for Vault with Purchase flow
     * Add `customerID` Optional String type. If none is entered, PayPal API creates on
   * CardPayments
-    * Add `vault` property of Vault type that contains `customerID` of String type.
     * Remove `status` property from `CardResult`
     * Remove `paymentSource` property from `CardResult`
   * CorePayments
