@@ -2,19 +2,17 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
+* Breaking Changes
+  * CardPayments
+    * Add `vault`, optional `Vault` type that contains `customerID`, an optional String property  
 * PayPalNativePayments
   * Bump `PayPalCheckout` to `1.0.0`
+* CardPayments
+    * Remove `attributes` from `Card`
+    * Add `ServiceCard` and added `attributes`    
   
 ## 0.0.9 (2023-06-23)
 * Breaking Changes
-  * Card 
-    * Update `Attributes` field, adding `customer` and `vault` properties
-      `customer` is of optional `Customer` type, containing property `id` of String type
-      `vault` is of optional `Vault` type, containing `storeInVault` field of `StoreInVault` enum type
-       with one value, `.onSuccess`
-  * CardRequest
-    * Add `shouldVault` Boolean property for Vault with Purchase flow
-    * Add `customerID` Optional String type. If none is entered, PayPal API creates on
   * CardPayments
     * Remove `status` property from `CardResult`
     * Remove `paymentSource` property from `CardResult`
