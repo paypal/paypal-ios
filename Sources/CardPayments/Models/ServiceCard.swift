@@ -50,7 +50,7 @@ struct Attributes: Codable {
     
     init(vault: Vault? = nil, verificationMethod: String) {
         self.verification = Verification(method: verificationMethod)
-        if let vault = vault {
+        if let vault {
             self.vault = CardVault(storeInVault: .onSuccess)
             if let id = vault.customerID {
                 self.customer = Customer(id: id)

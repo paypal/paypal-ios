@@ -4,12 +4,9 @@
 ## unreleased
 * Breaking Changes
   * CardPayments
-    * Add `vault`, optional `Vault` type that contains `customerID`, an optional String property  
+    * Add `vault`property in `CardRequest`, optional `Vault` type that contains `customerID`, an optional String property  
 * PayPalNativePayments
-  * Bump `PayPalCheckout` to `1.0.0`
-* CardPayments
-    * Remove `attributes` from `Card`
-    * Add `ServiceCard` and added `attributes`    
+  * Bump `PayPalCheckout` to `1.0.0`   
   
 ## 0.0.9 (2023-06-23)
 * Breaking Changes
