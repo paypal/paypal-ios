@@ -181,7 +181,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
             let captureResult = try? await DemoMerchantAPI.sharedService.captureOrder(
                 orderID: result.orderID, selectedMerchantIntegration: selectedMerchantIntegration
             )
-            displayResult(cardResult: result, orderResult: captureResult)
+            displayResult(result, orderResult: captureResult)
         }
     }
     
@@ -190,11 +190,11 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
             let authorizeResult = try? await DemoMerchantAPI.sharedService.authorizeOrder(
                 orderID: result.orderID, selectedMerchantIntegration: selectedMerchantIntegration
             )
-            displayResult(cardResult: result, orderResult: authorizeResult)
+            displayResult(result, orderResult: authorizeResult)
         }
     }
     
-    func displayResult(cardResult: CardResult, orderResult: Order?) {
+    func displayResult(_ cardResult: CardResult, orderResult: Order?) {
         let status = orderResult?.status ?? ""
         let vault = orderResult?.paymentSource?.card.attributes?.vault
         let orderInfo = "Order ID: \(cardResult.orderID) \n Status: \(status)"
