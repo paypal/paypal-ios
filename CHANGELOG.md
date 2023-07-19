@@ -6,7 +6,7 @@
   * CardPayments
     * Add `vault`property in `CardRequest`, optional `Vault` type that contains `customerID`, an optional String property  
 * PayPalNativePayments
-  * Bump `PayPalCheckout` to `1.0.0`   
+  * Bump `PayPalCheckout` to `1.0.0`
   
 ## 0.0.9 (2023-06-23)
 * Breaking Changes

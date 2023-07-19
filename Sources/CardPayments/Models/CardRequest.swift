@@ -19,7 +19,7 @@ public struct CardRequest {
     ///    - orderID: The order to be approved
     ///    - card: The card to be charged for this order
     ///    - sca: Specificy to always launch 3DS or only when required. Defaults to `scaWhenRequired`.
-    ///    - vault: The vault object contains optional customerID and passed in when vaulting option is selected in checkout
+    ///    - vault: The details used when vaulting a payment method
     public init(orderID: String, card: Card, sca: SCA = .scaWhenRequired, vault: Vault? = nil) {
         self.orderID = orderID
         self.card = card

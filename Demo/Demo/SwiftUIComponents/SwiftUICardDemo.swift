@@ -57,7 +57,7 @@ struct SwiftUICardDemo: View {
                             card: card,
                             orderID: orderID,
                             shouldVault: shouldVaultSelected,
-                            customerID: vaultCustomerID
+                            customerID: vaultCustomerID.isEmpty ? nil : vaultCustomerID
                         )
                     }
                 }

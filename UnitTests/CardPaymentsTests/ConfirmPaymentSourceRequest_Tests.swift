@@ -22,7 +22,7 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
         
         let paymentSourceBody = try XCTUnwrap(confirmPaymentSourceRequest.body)
         
-        let expectedPaymentSourceDict: [String: Any] = [
+        let expectedPaymentSourceDict: [String: Any?] = [
             "application_context": [
                 "return_url": "sdk.ios.paypal://card/success",
                 "cancel_url": "sdk.ios.paypal://card/cancel"
@@ -31,15 +31,15 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
                 "card": [
                     "number": "4032036247327321",
                     "security_code": "222",
-                    "billing_address": NSNull(),
-                    "name": NSNull(),
+                    "billing_address": nil,
+                    "name": nil,
                     "attributes": [
                         "verification": [
                             "method": "SCA_WHEN_REQUIRED"
                         ]
                     ],
                     "expiry": "2024-11"
-                ] as [String: Any]
+                ] as [String: Any?]
             ]
         ]
         let paymentSourceDict = try JSONSerialization.jsonObject(with: paymentSourceBody, options: []) as! [String: Any]
@@ -63,7 +63,7 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
         )
 
         let paymentSourceBody = try XCTUnwrap(confirmPaymentSourceRequest.body)
-        let expectedPaymentSourceDict: [String: Any] = [
+        let expectedPaymentSourceDict: [String: Any?] = [
             "application_context": [
                 "return_url": "sdk.ios.paypal://card/success",
                 "cancel_url": "sdk.ios.paypal://card/cancel"
@@ -72,8 +72,8 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
                 "card": [
                     "number": "4032036247327321",
                     "security_code": "222",
-                    "billing_address": NSNull(),
-                    "name": NSNull(),
+                    "billing_address": nil,
+                    "name": nil,
                     "attributes": [
                         "vault": [
                             "store_in_vault": "ON_SUCCESS"
@@ -86,7 +86,7 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
                         ]
                     ],
                     "expiry": "2024-11"
-                ] as [String: Any]
+                ] as [String: Any?]
             ]
         ]
         let paymentSourceDict = try JSONSerialization.jsonObject(with: paymentSourceBody, options: []) as! [String: Any]
