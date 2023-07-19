@@ -11,7 +11,7 @@ public struct CardRequest {
     /// 3DS authentication launch option
     public let sca: SCA
     
-    /// Vault is a struct with optional customerID that indicates option to vault a card in checkout
+    /// The details used when vaulting a payment method
     public let vault: Vault?
     
     /// Creates an instance of a card request
