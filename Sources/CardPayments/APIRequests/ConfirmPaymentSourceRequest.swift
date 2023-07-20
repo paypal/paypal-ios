@@ -30,7 +30,11 @@ struct ConfirmPaymentSourceRequest: APIRequest {
             cancelUrl: PayPalCoreConstants.callbackURLScheme + "://card/cancel"
         )
         
-        confirmPaymentSource.paymentSource = PaymentSource(card: card)
+        confirmPaymentSource.paymentSource = PaymentSource(
+            card: card,
+            scaType: cardRequest.sca,
+            shouldVault: true // Extract from CardRequest
+        )
         
         self.orderID = cardRequest.orderID
         self.base64EncodedCredentials = Data(clientID.appending(":").utf8).base64EncodedString()
@@ -76,6 +80,41 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     
     private struct PaymentSource: Encodable {
         
-        let card: Card
+        var card: PaymentSource.Card
+        
+        struct Card: Encodable {
+            
+            var number: String
+            var expiry: String
+            var securityCode: String
+            var cardholderName: String?
+            var billingAddress: Address?
+            var attributes: PaymentSource.Attributes
+            var vault: PaymentSource.Vault
+        }
+        
+        struct Attributes: Encodable {
+            
+            let verification: PaymentSource.Verification
+        }
+        
+        struct Verification: Codable {
+
+            let method: String
+        }
+        
+        struct Vault: Encodable {
+            
+            let storeInVault: String?
+        }
+        
+        init(card: CardPayments.Card, scaType: SCA, shouldVault: Bool) {
+            self.card = PaymentSource.Card(
+                number: card.number,
+                expiry: card.expirationMonth + card.expirationYear,
+                securityCode: card.securityCode,
+                attributes: PaymentSource.Attributes(verification: Verification(method: scaType.rawValue)),
+                vault: Vault(storeInVault: shouldVault ? "ON_SUCCESS" : nil))
+        }
     }
 }
