@@ -138,7 +138,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     
     private struct PaymentSource: Encodable {
         
-        var card: EncodedCard
+        let card: EncodedCard
         
         init(card: Card, scaType: SCA, vault: Vault?) {
             self.card = EncodedCard(
