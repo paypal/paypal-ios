@@ -84,7 +84,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         case attributes
     }
     
-    private struct Card: Encodable {
+    private struct EncodedCard: Encodable {
         
         let number: String
         let securityCode: String
@@ -138,11 +138,11 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     
     private struct PaymentSource: Encodable {
         
-        var card: Card
+        var card: EncodedCard
         var customer: Customer?
         
-        init(card: CardPayments.Card, scaType: SCA, vault: Vault?) {
-            self.card = Card(
+        init(card: Card, scaType: SCA, vault: Vault?) {
+            self.card = EncodedCard(
                 number: card.number,
                 securityCode: card.securityCode,
                 billingAddress: card.billingAddress,
