@@ -109,7 +109,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         let method: String
     }
     
-    private  struct Vault: Encodable {
+    private  struct CardVault: Encodable {
         
         let storeInVault: String?
     }
@@ -122,13 +122,13 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     private struct Attributes: Encodable {
         
         var customer: Customer?
-        var vault: Vault?
+        var vault: CardVault?
         let verification: Verification
         
-        init(vault: CardPayments.Vault? = nil, verificationMethod: String) {
+        init(vault: Vault? = nil, verificationMethod: String) {
             self.verification = Verification(method: verificationMethod)
             if let vault {
-                self.vault = Vault(storeInVault: "ON_SUCCESS")
+                self.vault = CardVault(storeInVault: "ON_SUCCESS")
                 if let id = vault.customerID {
                     self.customer = Customer(id: id)
                 }
@@ -141,7 +141,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         var card: Card
         var customer: Customer?
         
-        init(card: CardPayments.Card, scaType: SCA, vault: CardPayments.Vault?) {
+        init(card: CardPayments.Card, scaType: SCA, vault: Vault?) {
             self.card = Card(
                 number: card.number,
                 securityCode: card.securityCode,
