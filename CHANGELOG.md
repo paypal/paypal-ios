@@ -2,9 +2,8 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
-* Breaking Changes
-  * CardPayments
-    * Add `vault`property in `CardRequest`, optional `Vault` type that contains `customerID`, an optional String property  
+* CardPayments
+    * Add `vault`property in `CardRequest`, this type contains a `customerID`, if a customer ID is not provided one will be generated  
 * PayPalNativePayments
   * Bump `PayPalCheckout` to `1.0.0`
   
