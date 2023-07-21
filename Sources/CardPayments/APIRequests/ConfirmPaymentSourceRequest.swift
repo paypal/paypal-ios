@@ -21,16 +21,17 @@ struct ConfirmPaymentSourceRequest: APIRequest {
     ) throws {
         self.jsonEncoder = encoder
         var confirmPaymentSource = ConfirmPaymentSource()
-        var card = cardRequest.card
-        let verification = Verification(method: cardRequest.sca.rawValue)
-        card.attributes = Attributes(verification: verification)
-            
+        
         confirmPaymentSource.applicationContext = ApplicationContext(
             returnUrl: PayPalCoreConstants.callbackURLScheme + "://card/success",
             cancelUrl: PayPalCoreConstants.callbackURLScheme + "://card/cancel"
         )
-        
-        confirmPaymentSource.paymentSource = PaymentSource(card: card)
+
+        confirmPaymentSource.paymentSource = PaymentSource(
+            card: cardRequest.card,
+            scaType: cardRequest.sca,
+            vault: cardRequest.vault
+        )
         
         self.orderID = cardRequest.orderID
         self.base64EncodedCredentials = Data(clientID.appending(":").utf8).base64EncodedString()
@@ -74,8 +75,80 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         let cancelUrl: String
     }
     
+    enum CodingKeys: String, CodingKey {
+        case number
+        case expiry
+        case securityCode
+        case name
+        case billingAddress
+        case attributes
+    }
+    
+    private struct EncodedCard: Encodable {
+        
+        let number: String
+        let securityCode: String
+        let billingAddress: Address?
+        let name: String?
+        let expiry: String
+        let attributes: Attributes?
+                
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(number, forKey: .number)
+            try container.encode(expiry, forKey: .expiry)
+            try container.encode(securityCode, forKey: .securityCode)
+            try container.encode(name, forKey: .name)
+            try container.encode(billingAddress, forKey: .billingAddress)
+            try container.encode(attributes, forKey: .attributes)
+        }
+    }
+    
+    private struct Verification: Encodable {
+        
+        let method: String
+    }
+    
+    private  struct CardVault: Encodable {
+        
+        let storeInVault: String?
+    }
+    
+    private struct Customer: Encodable {
+        
+        let id: String
+    }
+    
+    private struct Attributes: Encodable {
+        
+        var customer: Customer?
+        var vault: CardVault?
+        let verification: Verification
+        
+        init(vault: Vault? = nil, verificationMethod: String) {
+            self.verification = Verification(method: verificationMethod)
+            if let vault {
+                self.vault = CardVault(storeInVault: "ON_SUCCESS")
+                if let id = vault.customerID {
+                    self.customer = Customer(id: id)
+                }
+            }
+        }
+    }
+    
     private struct PaymentSource: Encodable {
         
-        let card: Card
+        let card: EncodedCard
+        
+        init(card: Card, scaType: SCA, vault: Vault?) {
+            self.card = EncodedCard(
+                number: card.number,
+                securityCode: card.securityCode,
+                billingAddress: card.billingAddress,
+                name: card.cardholderName,
+                expiry: "\(card.expirationYear)-\(card.expirationMonth)",
+                attributes: Attributes(vault: vault, verificationMethod: scaType.rawValue)
+            )
+        }
     }
 }

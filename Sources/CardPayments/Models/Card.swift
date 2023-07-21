@@ -1,16 +1,7 @@
 import Foundation
 
 /// Represents raw credit or debit card data provided by the customer.
-public struct Card: Encodable {
-
-    enum CodingKeys: String, CodingKey {
-        case number
-        case expiry
-        case securityCode
-        case cardholderName = "name"
-        case billingAddress
-        case attributes
-    }
+public struct Card {
 
     /// The primary account number (PAN) for the payment card.
     public var number: String
@@ -35,8 +26,6 @@ public struct Card: Encodable {
         "\(expirationYear)-\(expirationMonth)"
     }
 
-    internal var attributes: Attributes?
-
     public init(
         number: String,
         expirationMonth: String,
@@ -52,24 +41,4 @@ public struct Card: Encodable {
         self.cardholderName = cardholderName
         self.billingAddress = billingAddress
     }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(number, forKey: .number)
-        try container.encode(expiry, forKey: .expiry)
-        try container.encode(securityCode, forKey: .securityCode)
-        try container.encode(cardholderName, forKey: .cardholderName)
-        try container.encode(billingAddress, forKey: .billingAddress)
-        try container.encode(attributes, forKey: .attributes)
-    }
-}
-
-struct Attributes: Codable {
-
-    let verification: Verification
-}
-
-struct Verification: Codable {
-
-    let method: String
 }

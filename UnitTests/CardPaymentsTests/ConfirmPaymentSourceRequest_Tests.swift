@@ -6,7 +6,7 @@ import XCTest
 
 class ConfirmPaymentSourceRequest_Tests: XCTestCase {
 
-    func testEncodingPaymentSource_withValidCardDictionary_expectsBody() throws {
+    func testEncodingPaymentSource_withValidCard() throws {
         let mockOrderID = "mockOrderID"
         let card = Card(
             number: "4032036247327321",
@@ -15,38 +15,170 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
             securityCode: "222"
         )
         let cardRequest = CardRequest(orderID: mockOrderID, card: card)
+        
+        let confirmPaymentSourceRequest = try XCTUnwrap(
+            ConfirmPaymentSourceRequest(clientID: "fake-token", cardRequest: cardRequest)
+        )
+        
+        let paymentSourceBody = try XCTUnwrap(confirmPaymentSourceRequest.body)
+        
+        let expectedPaymentSourceDict: [String: Any?] = [
+            "application_context": [
+                "return_url": "sdk.ios.paypal://card/success",
+                "cancel_url": "sdk.ios.paypal://card/cancel"
+            ],
+            "payment_source": [
+                "card": [
+                    "number": "4032036247327321",
+                    "security_code": "222",
+                    "billing_address": nil,
+                    "name": nil,
+                    "attributes": [
+                        "verification": [
+                            "method": "SCA_WHEN_REQUIRED"
+                        ]
+                    ],
+                    "expiry": "2024-11"
+                ] as [String: Any?]
+            ]
+        ]
+        let paymentSourceDict = try JSONSerialization.jsonObject(with: paymentSourceBody, options: []) as! [String: Any]
+        XCTAssertEqual(paymentSourceDict as NSDictionary, expectedPaymentSourceDict as NSDictionary)
+    }
+    
+    func testEncodingPaymentSource_withValidCard_andVaultWithPurchase() throws {
+        let mockOrderID = "mockOrderID"
+        let card = Card(
+            number: "4032036247327321",
+            expirationMonth: "11",
+            expirationYear: "2024",
+            securityCode: "222"
+        )
+
+        let vault = Vault(customerID: "testCustomer1")
+        let cardRequest = CardRequest(orderID: mockOrderID, card: card, vault: vault)
 
         let confirmPaymentSourceRequest = try XCTUnwrap(
             ConfirmPaymentSourceRequest(clientID: "fake-token", cardRequest: cardRequest)
         )
 
         let paymentSourceBody = try XCTUnwrap(confirmPaymentSourceRequest.body)
-        if let paymentSourceBodyString = String(data: paymentSourceBody, encoding: .utf8) {
-            let expectedPaymentSourceBodyString = """
-                {
-                    "application_context": {
-                        "return_url": "sdk.ios.paypal:\\/\\/card\\/success",
-                        "cancel_url": "sdk.ios.paypal:\\/\\/card\\/cancel"
-                    },
-                    "payment_source": {
-                        "card": {
-                            "number": "4032036247327321",
-                            "security_code": "222",
-                            "billing_address": null,
-                            "name": null,
-                            "attributes": {
-                                "verification": {
-                                    "method": "SCA_WHEN_REQUIRED"
-                                }
-                        },
-                            "expiry": "2024-11"
-                        }
-                    }
-                }
-                """.replacingOccurrences(of: " ", with: "").replacingOccurrences(of: "\n", with: "")
-            
-            XCTAssertEqual(paymentSourceBodyString, expectedPaymentSourceBodyString)
-        }
+        let expectedPaymentSourceDict: [String: Any?] = [
+            "application_context": [
+                "return_url": "sdk.ios.paypal://card/success",
+                "cancel_url": "sdk.ios.paypal://card/cancel"
+            ],
+            "payment_source": [
+                "card": [
+                    "number": "4032036247327321",
+                    "security_code": "222",
+                    "billing_address": nil,
+                    "name": nil,
+                    "attributes": [
+                        "vault": [
+                            "store_in_vault": "ON_SUCCESS"
+                        ],
+                        "verification": [
+                            "method": "SCA_WHEN_REQUIRED"
+                        ],
+                        "customer": [
+                            "id": "testCustomer1"
+                        ]
+                    ],
+                    "expiry": "2024-11"
+                ] as [String: Any?]
+            ]
+        ]
+        let paymentSourceDict = try JSONSerialization.jsonObject(with: paymentSourceBody, options: []) as! [String: Any]
+        XCTAssertEqual(paymentSourceDict as NSDictionary, expectedPaymentSourceDict as NSDictionary)
+    }
+    
+    func testEncodingPaymentSource_withValidCard_andVaultWithPurchase_noCustomerID() throws {
+        let mockOrderID = "mockOrderID"
+        let card = Card(
+            number: "4032036247327321",
+            expirationMonth: "11",
+            expirationYear: "2024",
+            securityCode: "222"
+        )
+
+        let vault = Vault()
+        let cardRequest = CardRequest(orderID: mockOrderID, card: card, vault: vault)
+
+        let confirmPaymentSourceRequest = try XCTUnwrap(
+            ConfirmPaymentSourceRequest(clientID: "fake-token", cardRequest: cardRequest)
+        )
+
+        let paymentSourceBody = try XCTUnwrap(confirmPaymentSourceRequest.body)
+        let expectedPaymentSourceDict: [String: Any?] = [
+            "application_context": [
+                "return_url": "sdk.ios.paypal://card/success",
+                "cancel_url": "sdk.ios.paypal://card/cancel"
+            ],
+            "payment_source": [
+                "card": [
+                    "number": "4032036247327321",
+                    "security_code": "222",
+                    "billing_address": nil,
+                    "name": nil,
+                    "attributes": [
+                        "vault": [
+                            "store_in_vault": "ON_SUCCESS"
+                        ],
+                        "verification": [
+                            "method": "SCA_WHEN_REQUIRED"
+                        ]
+                    ],
+                    "expiry": "2024-11"
+                ] as [String: Any?]
+            ]
+        ]
+        let paymentSourceDict = try JSONSerialization.jsonObject(with: paymentSourceBody, options: []) as! [String: Any]
+        XCTAssertEqual(paymentSourceDict as NSDictionary, expectedPaymentSourceDict as NSDictionary)
+    }
+    
+    func testEncodingPaymentSource_withValidCard_andVaultWithPurchase_nilCustomerID() throws {
+        let mockOrderID = "mockOrderID"
+        let card = Card(
+            number: "4032036247327321",
+            expirationMonth: "11",
+            expirationYear: "2024",
+            securityCode: "222"
+        )
+
+        let vault = Vault(customerID: nil)
+        let cardRequest = CardRequest(orderID: mockOrderID, card: card, vault: vault)
+
+        let confirmPaymentSourceRequest = try XCTUnwrap(
+            ConfirmPaymentSourceRequest(clientID: "fake-token", cardRequest: cardRequest)
+        )
+
+        let paymentSourceBody = try XCTUnwrap(confirmPaymentSourceRequest.body)
+        let expectedPaymentSourceDict: [String: Any?] = [
+            "application_context": [
+                "return_url": "sdk.ios.paypal://card/success",
+                "cancel_url": "sdk.ios.paypal://card/cancel"
+            ],
+            "payment_source": [
+                "card": [
+                    "number": "4032036247327321",
+                    "security_code": "222",
+                    "billing_address": nil,
+                    "name": nil,
+                    "attributes": [
+                        "vault": [
+                            "store_in_vault": "ON_SUCCESS"
+                        ],
+                        "verification": [
+                            "method": "SCA_WHEN_REQUIRED"
+                        ]
+                    ],
+                    "expiry": "2024-11"
+                ] as [String: Any?]
+            ]
+        ]
+        let paymentSourceDict = try JSONSerialization.jsonObject(with: paymentSourceBody, options: []) as! [String: Any]
+        XCTAssertEqual(paymentSourceDict as NSDictionary, expectedPaymentSourceDict as NSDictionary)
     }
 
     func testEncodingPaymentSource_withValidCardDictionary_expectsValidHTTPParams() throws {
