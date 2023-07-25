@@ -16,6 +16,7 @@ public class CardClient: NSObject {
     /// Initialize a CardClient to process card payment
     /// - Parameter config: The CoreConfig object
     public init(config: CoreConfig) {
+        print("test")
         self.config = config
         self.apiClient = APIClient(coreConfig: config)
         self.webAuthenticationSession = WebAuthenticationSession()
