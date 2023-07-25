@@ -22,7 +22,7 @@ You will need a server integration to create an order to capture funds using the
 
 #### Swift Package Manager
 
-In Xcode, add the PayPal SDK as a [package dependency](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app) to your Xcode project. Enter https://github.com/paypal/iOS-SDK as the package URL. Tick the `PayPalNativePayments` checkbox to add the PayPal Native Payments library to your app.
+In Xcode, add the PayPal SDK as a [package dependency](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app) to your Xcode project. Enter https://github.com/paypal/paypal-ios as the package URL. Tick the `PayPalNativePayments` checkbox to add the PayPal Native Payments library to your app.
 
 #### CocoaPods
 

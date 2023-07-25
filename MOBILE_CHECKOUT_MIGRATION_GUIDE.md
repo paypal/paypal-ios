@@ -1,6 +1,6 @@
 # PayPal Mobile Checkout SDK: Migration Guide
 
-This guide outlines how to update your integration from using the soon-to-be-deprecated [PayPal Mobile Checkout SDK](https://developer.paypal.com/limited-release/paypal-mobile-checkout/) to the new PayPal Mobile [iOS SDK](https://github.com/paypal/iOS-SDK).
+This guide outlines how to update your integration from using the soon-to-be-deprecated [PayPal Mobile Checkout SDK](https://developer.paypal.com/limited-release/paypal-mobile-checkout/) to the new PayPal Mobile [iOS SDK](https://github.com/paypal/paypal-ios).
 
 ## Pre-Requisites
 In order to use this migration guide, you must:
@@ -17,7 +17,7 @@ In order to use this migration guide, you must:
 
 1. Add the new SDK to your app
   * Swift Package Manger
-      * In Xcode, add the PayPal SDK as a [package dependency](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app) to your Xcode project. Enter https://github.com/paypal/iOS-SDK.git as the package URL. 
+      * In Xcode, add the PayPal SDK as a [package dependency](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app) to your Xcode project. Enter https://github.com/paypal/paypal-ios.git as the package URL. 
       * Tick the `PayPalNativePayments`, `PaymentButtons`, and `CorePayments` boxes to add the libraries to your app.
 
   * CocoaPods
