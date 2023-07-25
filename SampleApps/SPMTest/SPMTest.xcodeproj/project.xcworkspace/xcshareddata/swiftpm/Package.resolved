@@ -1,12 +1,12 @@
 {
   "pins" : [
     {
-      "identity" : "ios-sdk",
+      "identity" : "paypal-ios",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/paypal/iOS-SDK.git",
+      "location" : "https://github.com/paypal/paypal-ios",
       "state" : {
         "branch" : "main",
-        "revision" : "37162c457947f6a9014fd6bf2e78a1cb93251f4b"
+        "revision" : "80bf151ba2a5d74b08cef1c55a596e9e7ecfe497"
       }
     },
     {
@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/paypal/paypalcheckout-ios",
       "state" : {
-        "revision" : "0d50b2c2a16437de057ce4f6f3612561a3d9a263",
-        "version" : "0.109.0"
+        "revision" : "773568fbbffd54f900d6d78be7793ae1871d3b35",
+        "version" : "1.0.0"
       }
     }
   ],
