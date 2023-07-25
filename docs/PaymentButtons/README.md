@@ -8,7 +8,7 @@
 
 #### Swift Package Manager
 
-In Xcode, follow the guide to [add package dependencies to your app](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app) and enter https://github.com/paypal/iOS-SDK as the repository URL. Tick the `PaymentButtons` checkbox to add the Payment Buttons library to your app.
+In Xcode, follow the guide to [add package dependencies to your app](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app) and enter https://github.com/paypal/paypal-ios as the repository URL. Tick the `PaymentButtons` checkbox to add the Payment Buttons library to your app.
 
 #### CocoaPods
 
