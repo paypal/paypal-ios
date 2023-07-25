@@ -55,7 +55,7 @@ bundle install
 bundle exec fastlane unit_tests
 ```
 
-If you would like to get the code coverage for all of the modules within the `iOS-SDK`, run the following:
+If you would like to get the code coverage for all of the modules within the workspace, run the following:
 ```
 bundle install
 bundle exec fastlane coverage
