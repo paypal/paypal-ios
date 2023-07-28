@@ -31,5 +31,14 @@ public enum Environment {
             return "live"
         }
     }
+    
+    var analyticsString: String {
+        switch self {
+        case .sandbox:
+            return "sandbox"
+        case .live:
+            return "production"
+        }
+    }
 }
 // swiftlint:enable force_unwrapping

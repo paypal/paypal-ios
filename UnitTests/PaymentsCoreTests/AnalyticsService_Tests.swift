@@ -44,7 +44,7 @@ class AnalyticsService_Tests: XCTestCase {
             return
         }
         
-        XCTAssertEqual(env, "live")
+        XCTAssertEqual(env, "production")
     }
     
     func testSendEvent_whenSandbox_sendsProperTag() async {

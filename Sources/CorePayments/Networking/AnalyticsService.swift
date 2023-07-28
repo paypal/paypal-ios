@@ -45,7 +45,7 @@ public struct AnalyticsService {
             let clientID = coreConfig.clientID
             
             let eventData = AnalyticsEventData(
-                environment: http.coreConfig.environment.toString,
+                environment: http.coreConfig.environment.analyticsString,
                 eventName: name,
                 clientID: clientID,
                 orderID: orderID
