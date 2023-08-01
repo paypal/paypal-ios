@@ -12,22 +12,78 @@ public class CardClient: NSObject {
     private let config: CoreConfig
     private let webAuthenticationSession: WebAuthenticationSession
     private var analyticsService: AnalyticsService?
+    private var graphQLClient: GraphQLClient?
 
     /// Initialize a CardClient to process card payment
     /// - Parameter config: The CoreConfig object
-    public init(config: CoreConfig) {
+    public init(config: CoreConfig, graphQLClient: GraphQLClient? = nil) {
         self.config = config
         self.apiClient = APIClient(coreConfig: config)
         self.webAuthenticationSession = WebAuthenticationSession()
+        self.graphQLClient = graphQLClient
     }
 
     /// For internal use for testing/mocking purpose
-    init(config: CoreConfig, apiClient: APIClient, webAuthenticationSession: WebAuthenticationSession) {
+    init(
+        config: CoreConfig,
+        apiClient: APIClient,
+        webAuthenticationSession: WebAuthenticationSession,
+        graphQLClient: GraphQLClient? = nil
+    ) {
         self.config = config
         self.apiClient = apiClient
         self.webAuthenticationSession = webAuthenticationSession
+        self.graphQLClient = graphQLClient
     }
 
+    /// Vault a card without purchase, standalone vaulting
+    public func vault(vaultRequest: VaultRequest) {
+        Task {
+            do {
+                let setUpTokenRequest = try SetUpTokenRequest(clientID: config.clientID, vaultRequest: vaultRequest)
+                let (result) = try await apiClient.fetch(request: setUpTokenRequest)
+                let token = result.id
+                let card = VaultCard(
+                    number: vaultRequest.card.number,
+                    expiry: vaultRequest.card.expiry,
+                    securityCode: vaultRequest.card.securityCode)
+                let paymentSource = PaymentSourceInput(card: card)
+                let (updateResult) = try await updateSetupToken(
+                    clientID: config.clientID,
+                    vaultSetupToken: token,
+                    paymentSource: paymentSource)
+                if let result = updateResult {
+                    print("🌸 \(result.id): setup token status:\(result.status) Links: \(result.links)")
+                }
+            } catch  let error as CoreSDKError {
+                notifyFailure(with: error)
+            } catch {
+                notifyFailure(with: CardClientError.unknownError)
+            }
+        }
+    }
+    
+    public func updateSetupToken(
+        clientID: String,
+        vaultSetupToken: String,
+        paymentSource: PaymentSourceInput
+    ) async throws -> TokenDetails? {
+        let input = UpdateVaultSetupTokenMutation(clientID: clientID, vaultSetupToken: vaultSetupToken, paymentSource: paymentSource)
+        self.graphQLClient = GraphQLClient(environment: .sandbox)
+        guard let graphQLClient else {
+            throw CardClientError.unknownError
+        }
+        let response: GraphQLQueryResponse<UpdateVaultSetupTokenResponse> = try await graphQLClient.callGraphQL(
+            name: "UpdateVaultToken",
+            query: input
+        )
+        guard let data = response.data
+        else {
+            return nil
+        }
+        return data.updateVaultSetupToken
+    }
+    
     /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
     /// After the order has been successfully approved, you will need to handle capturing/authorizing the order in your server.
     /// - Parameters:
@@ -45,7 +101,6 @@ public class CardClient: NSObject {
                 
                 if let url: String = result.links?.first(where: { $0.rel == "payer-action" })?.href {
                     analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:challenge-required")
-                    
                     startThreeDSecureChallenge(url: url, orderId: result.id)
                 } else {
                     analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:succeeded")

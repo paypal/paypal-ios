@@ -1,4 +1,4 @@
-struct GraphQLQueryResponse<T: Codable>: Codable {
+public struct GraphQLQueryResponse<T: Codable>: Codable {
 
-    let data: T?
+    public let data: T?
 }

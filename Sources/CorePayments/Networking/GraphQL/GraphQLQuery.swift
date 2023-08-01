@@ -1,7 +1,7 @@
 import Foundation
 
-protocol GraphQLQuery {
+public protocol GraphQLQuery {
     var query: String { get }
-    var variables: [String: Any] { get }
+    var variables: Variables? { get }
     func requestBody() throws -> Data
 }

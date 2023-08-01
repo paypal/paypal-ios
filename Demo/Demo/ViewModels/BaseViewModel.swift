@@ -96,6 +96,18 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         let cardRequest = CardRequest(orderID: orderID, card: card, sca: .scaAlways, vault: vault)
         cardClient.approveOrder(request: cardRequest)
     }
+    
+    func vaultCard(
+        card: Card,
+        customerID: String? = nil
+    ) async {
+        guard let config = await getCoreConfig() else {
+            return
+        }
+        let cardClient = CardClient(config: config)
+        let vaultRequest = VaultRequest(card: card, customerID: customerID)
+        cardClient.vault(vaultRequest: vaultRequest)
+    }
 
     func isCardFormValid(cardNumber: String, expirationDate: String, cvv: String) -> Bool {
         guard orderID != nil else {

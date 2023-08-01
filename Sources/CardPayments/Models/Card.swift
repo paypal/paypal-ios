@@ -22,7 +22,7 @@ public struct Card {
     public var billingAddress: Address?
     
     /// The expiration year and month, in ISO-8601 `YYYY-MM` date format.
-    private var expiry: String {
+    public var expiry: String {
         "\(expirationYear)-\(expirationMonth)"
     }
 
