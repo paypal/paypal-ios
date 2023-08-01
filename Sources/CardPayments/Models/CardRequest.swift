@@ -11,19 +11,14 @@ public struct CardRequest {
     /// 3DS authentication launch option
     public let sca: SCA
     
-    /// The details used when vaulting a payment method
-    public let vault: Vault?
-    
     /// Creates an instance of a card request
     /// - Parameters:
     ///    - orderID: The order to be approved
     ///    - card: The card to be charged for this order
     ///    - sca: Specificy to always launch 3DS or only when required. Defaults to `scaWhenRequired`.
-    ///    - vault: The details used when vaulting a payment method
-    public init(orderID: String, card: Card, sca: SCA = .scaWhenRequired, vault: Vault? = nil) {
+    public init(orderID: String, card: Card, sca: SCA = .scaWhenRequired) {
         self.orderID = orderID
         self.card = card
         self.sca = sca
-        self.vault = vault
     }
 }
