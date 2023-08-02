@@ -11,7 +11,7 @@ public class GraphQLClient {
         self.urlSession = urlSession
     }
 
-    func executeQuery<T: Decodable>(query: GraphQLQuery) async throws -> GraphQLQueryResponse<T> {
+    func executeQuery<T: Decodable, Q: GraphQLQuery>(query: Q) async throws -> GraphQLQueryResponse<T> {
         var request = try createURLRequest(requestBody: query.requestBody())
         headers().forEach { key, value in
             request.addValue(value, forHTTPHeaderField: key)
@@ -24,7 +24,7 @@ public class GraphQLClient {
         return decoded
     }
 
-    public func callGraphQL<T: Decodable>(name: String, query: GraphQLQuery) async throws -> GraphQLQueryResponse<T> {
+    public func callGraphQL<T: Decodable, Q: GraphQLQuery>(name: String, query: Q) async throws -> GraphQLQueryResponse<T> {
         
         var request = try createURLRequest(name: name, requestBody: query.requestBody())
         headers().forEach { key, value in
