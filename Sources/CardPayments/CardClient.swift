@@ -16,11 +16,11 @@ public class CardClient: NSObject {
 
     /// Initialize a CardClient to process card payment
     /// - Parameter config: The CoreConfig object
-    public init(config: CoreConfig, graphQLClient: GraphQLClient? = nil) {
+    public init(config: CoreConfig) {
         self.config = config
         self.apiClient = APIClient(coreConfig: config)
         self.webAuthenticationSession = WebAuthenticationSession()
-        self.graphQLClient = graphQLClient
+        self.graphQLClient = GraphQLClient(environment: config.environment)
     }
 
     /// For internal use for testing/mocking purpose
@@ -46,7 +46,8 @@ public class CardClient: NSObject {
                 let card = VaultCard(
                     number: vaultRequest.card.number,
                     expiry: vaultRequest.card.expiry,
-                    securityCode: vaultRequest.card.securityCode)
+                    securityCode: vaultRequest.card.securityCode
+                )
                 let paymentSource = PaymentSourceInput(card: card)
                 let (updateResult) = try await updateSetupToken(
                     clientID: config.clientID,
@@ -55,6 +56,8 @@ public class CardClient: NSObject {
                 if let result = updateResult {
                     print("🌸 \(result.id): setup token status:\(result.status) Links: \(result.links)")
                 }
+                // TODO: handle 3DS contingency with payer-action
+                // else return with success to merchant
             } catch  let error as CoreSDKError {
                 notifyFailure(with: error)
             } catch {
@@ -69,7 +72,6 @@ public class CardClient: NSObject {
         paymentSource: PaymentSourceInput
     ) async throws -> TokenDetails? {
         let input = UpdateVaultSetupTokenMutation(clientID: clientID, vaultSetupToken: vaultSetupToken, paymentSource: paymentSource)
-        self.graphQLClient = GraphQLClient(environment: .sandbox)
         guard let graphQLClient else {
             throw CardClientError.unknownError
         }

@@ -97,6 +97,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         cardClient.approveOrder(request: cardRequest)
     }
     
+    // this will be updateSetupCard
     func vaultCard(
         card: Card,
         customerID: String? = nil
