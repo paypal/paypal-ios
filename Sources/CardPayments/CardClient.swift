@@ -42,6 +42,7 @@ public class CardClient: NSObject {
             do {
                 let confirmPaymentRequest = try ConfirmPaymentSourceRequest(clientID: config.clientID, cardRequest: request)
                 let (result) = try await apiClient.fetch(request: confirmPaymentRequest)
+                // let result = try await checkoutOrdersAPI.confirmPaymentSource(request)
                 
                 if let url: String = result.links?.first(where: { $0.rel == "payer-action" })?.href {
                     analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:challenge-required")
