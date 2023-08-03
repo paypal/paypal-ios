@@ -14,7 +14,6 @@
 		067C92E527270FDE009E3054 /* PayPalEnvironment_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067C92E427270FDE009E3054 /* PayPalEnvironment_Tests.swift */; };
 		06CE009926F3D1660000CC46 /* CoreConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009826F3D1660000CC46 /* CoreConfig.swift */; };
 		06CE009B26F3D5A40000CC46 /* CardClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009A26F3D5A40000CC46 /* CardClient.swift */; };
-		3B4566602A61BE1C00C1F7F6 /* Vault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B45665F2A61BE1C00C1F7F6 /* Vault.swift */; };
 		3B80D50C2A27979000D2EAC4 /* FailingJSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */; };
 		3D1763A22720722A00652E1C /* CardResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1763A12720722A00652E1C /* CardResult.swift */; };
 		3DC42BA927187E8300B71645 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC42BA827187E8300B71645 /* ErrorResponse.swift */; };
@@ -205,7 +204,6 @@
 		06CE009A26F3D5A40000CC46 /* CardClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardClient.swift; sourceTree = "<group>"; };
 		06CE009F26F3DF100000CC46 /* ConfirmPaymentSourceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPaymentSourceRequest.swift; sourceTree = "<group>"; };
 		06CE00A226F3E32A0000CC46 /* ConfirmPaymentSourceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPaymentSourceResponse.swift; sourceTree = "<group>"; };
-		3B45665F2A61BE1C00C1F7F6 /* Vault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vault.swift; sourceTree = "<group>"; };
 		3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailingJSONEncoder.swift; sourceTree = "<group>"; };
 		3D1763A12720722A00652E1C /* CardResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardResult.swift; sourceTree = "<group>"; };
 		3D25238127344F330099E4EB /* NativeCheckoutStartable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NativeCheckoutStartable.swift; path = Sources/PayPalNativePayments/NativeCheckoutStartable.swift; sourceTree = SOURCE_ROOT; };
@@ -472,7 +470,6 @@
 				3D1763A12720722A00652E1C /* CardResult.swift */,
 				CB4BE285284802C200EA2DD1 /* PaymentSource.swift */,
 				CB4BE27C2847AF6F00EA2DD1 /* SCA.swift */,
-				3B45665F2A61BE1C00C1F7F6 /* Vault.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1351,7 +1348,6 @@
 				BC0A82A5270B9533006E9A21 /* ConfirmPaymentSourceRequest.swift in Sources */,
 				CB4BE2802847F01000EA2DD1 /* CardDelegate.swift in Sources */,
 				80E8DAE126B8784600FAFC3F /* Card.swift in Sources */,
-				3B4566602A61BE1C00C1F7F6 /* Vault.swift in Sources */,
 				CBC16DD529E99B4600307117 /* PaymentSource.swift in Sources */,
 				80DCC59E2719DB6F00EC7C5A /* CardClientError.swift in Sources */,
 				CB4BE27D2847AF6F00EA2DD1 /* SCA.swift in Sources */,
