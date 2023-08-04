@@ -14,12 +14,15 @@ class HTTP {
         self.coreConfig = coreConfig
     }
     
-    func performRequest(_ request: any APIRequest) async throws -> HTTPResponse {
+    func performRequest(test: Bool = false, _ request: any APIRequest) async throws -> HTTPResponse {
         guard let urlRequest = request.toURLRequest(environment: coreConfig.environment) else {
             throw APIClientError.invalidURLRequestError
         }
         
         let (data, response) = try await urlSession.performRequest(with: urlRequest)
+        if test {
+            print("⚱️ \(String(data: data, encoding: .utf8))")
+        }
         guard let response = response as? HTTPURLResponse else {
             throw APIClientError.invalidURLResponseError
         }

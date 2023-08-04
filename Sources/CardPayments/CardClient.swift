@@ -41,7 +41,7 @@ public class CardClient: NSObject {
         Task {
             do {
                 let setUpTokenRequest = try SetUpTokenRequest(clientID: config.clientID, vaultRequest: vaultRequest)
-                let (result) = try await apiClient.fetch(request: setUpTokenRequest)
+                let (result) = try await apiClient.fetch(test: true, request: setUpTokenRequest)
                 let token = result.id
                 let card = VaultCard(
                     number: vaultRequest.card.number,

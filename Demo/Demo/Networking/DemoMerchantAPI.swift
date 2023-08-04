@@ -19,6 +19,20 @@ final class DemoMerchantAPI {
 
     // MARK: Public Methods
     
+    func getSetupToken(card: Card, customerID: String? = nil, selectedMerchantIntegration: MerchantIntegration) async throws -> SetUpTokenResponse? {
+        let setupTokenRequest = try? SetUpTokenRequest(card: card, customerID: customerID)
+        if let setupTokenRequest {
+            guard let url = buildBaseURL(with: "/orders", selectedMerchantIntegration: selectedMerchantIntegration)
+            else {
+                throw URLResponseError.invalidURL
+            }
+            return SetUpTokenResponse(id: "45677", status: "APPROVED")
+        }
+        else {
+            return nil
+        }
+    }
+    
     func captureOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws -> Order {
         guard let url = buildBaseURL(with: "/orders/\(orderID)/capture", selectedMerchantIntegration: selectedMerchantIntegration) else {
             throw URLResponseError.invalidURL

@@ -28,8 +28,8 @@ public class APIClient {
     // MARK: - Public Methods
     
     /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
-    public func fetch<T: APIRequest>(request: T) async throws -> (T.ResponseType) {
-        let httpResponse = try await http.performRequest(request)
+    public func fetch<T: APIRequest>(test: Bool = false, request: T) async throws -> (T.ResponseType) {
+        let httpResponse = try await http.performRequest(test: test, request)
         return try HTTPResponseParser().parse(httpResponse, as: T.ResponseType.self)
     }
 }
