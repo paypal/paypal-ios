@@ -19,16 +19,17 @@ final class DemoMerchantAPI {
 
     // MARK: Public Methods
     
-    func getSetupToken(card: Card, customerID: String? = nil, selectedMerchantIntegration: MerchantIntegration) async throws -> SetUpTokenResponse? {
-        let setupTokenRequest = try? SetUpTokenRequest(card: card, customerID: customerID)
-        if let setupTokenRequest {
-            guard let url = buildBaseURL(with: "/orders", selectedMerchantIntegration: selectedMerchantIntegration)
-            else {
-                throw URLResponseError.invalidURL
-            }
-            return SetUpTokenResponse(id: "45677", status: "APPROVED")
-        }
-        else {
+    func getSetupToken(customerID: String? = nil, selectedMerchantIntegration: MerchantIntegration) async throws -> SetUpTokenResponse? {
+        let request = SetUpTokenRequest(customerID: customerID)
+        let urlRequest = try createUrlRequest(
+            apiRequest: request, environment: DemoSettings.environment, selectedMerchantIntegration: selectedMerchantIntegration
+        )
+        
+        do {
+            let data = try await data(for: urlRequest)
+            return try parse(from: data)
+        } catch {
+            print("error with the create setup token request: \(error.localizedDescription)")
             return nil
         }
     }
@@ -163,7 +164,7 @@ final class DemoMerchantAPI {
         do {
             let clientIDRequest = ClientIDRequest()
             let request = try createUrlRequest(
-                clientIDRequest: clientIDRequest, environment: environment, selectedMerchantIntegration: selectedMerchantIntegration
+                apiRequest: clientIDRequest, environment: environment, selectedMerchantIntegration: selectedMerchantIntegration
             )
             let (data, response) = try await URLSession.shared.performRequest(with: request)
             guard let response = response as? HTTPURLResponse else {
@@ -182,19 +183,19 @@ final class DemoMerchantAPI {
     }
     
     private func createUrlRequest(
-        clientIDRequest: ClientIDRequest, environment: Demo.Environment, selectedMerchantIntegration: MerchantIntegration
+        apiRequest: any APIRequest, environment: Demo.Environment, selectedMerchantIntegration: MerchantIntegration
     ) throws -> URLRequest {
         var completeUrl = environment.baseURL
        
         completeUrl += selectedMerchantIntegration.path
-        completeUrl.append(contentsOf: clientIDRequest.path)
+        completeUrl.append(contentsOf: apiRequest.path)
         guard let url = URL(string: completeUrl) else {
             throw URLResponseError.invalidURL
         }
         var request = URLRequest(url: url)
-        request.httpMethod = clientIDRequest.method.rawValue
-        request.httpBody = clientIDRequest.body
-        clientIDRequest.headers.forEach { key, value in
+        request.httpMethod = apiRequest.method.rawValue
+        request.httpBody = apiRequest.body
+        apiRequest.headers.forEach { key, value in
             request.addValue(value, forHTTPHeaderField: key.rawValue)
         }
         return request

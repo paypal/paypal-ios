@@ -11,11 +11,11 @@ public struct PaymentSourceInput: Codable {
 
 public struct VaultCard: Codable {
     
-    let number: String
-    let expiry: String
-    let name: String?
-    let securityCode: String
-    let billingAddress: Address?
+    public let number: String
+    public let expiry: String
+    public let name: String?
+    public let securityCode: String
+    public let billingAddress: Address?
     
     public init(number: String, expiry: String, name: String? = nil, securityCode: String, billingAddress: Address? = nil) {
         self.number = number

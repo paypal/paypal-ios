@@ -80,6 +80,21 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
 
         return Card(number: cleanedCardText, expirationMonth: expirationMonth, expirationYear: expirationYear, securityCode: cvv)
     }
+    
+    func createVaultCard(cardNumber: String?, expirationDate: String?, cvv: String?) -> VaultCard? {
+        guard let cardNumber = cardNumber, let expirationDate = expirationDate, let cvv = cvv else {
+            updateTitle("Failed: missing card / orderID.")
+            return nil
+        }
+
+        let cleanedCardText = cardNumber.replacingOccurrences(of: " ", with: "")
+
+        let expirationComponents = expirationDate.components(separatedBy: " / ")
+        let expirationMonth = expirationComponents[0]
+        let expirationYear = "20" + expirationComponents[1]
+
+        return VaultCard(number: cleanedCardText, expiry: "\(expirationYear)-\(expirationMonth)", securityCode: cvv)
+    }
 
     func checkoutWith(
         card: Card,
@@ -97,17 +112,23 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         cardClient.approveOrder(request: cardRequest)
     }
     
-    // this will be updateSetupCard
     func vaultCard(
-        card: Card,
+        card: VaultCard,
         customerID: String? = nil
     ) async {
-        guard let config = await getCoreConfig() else {
-            return
+        do {
+            guard let config = await getCoreConfig() else {
+                return
+            }
+            let cardClient = CardClient(config: config)
+            let tokenResponse = try await DemoMerchantAPI.sharedService.getSetupToken(customerID: customerID, selectedMerchantIntegration: selectedMerchantIntegration)
+            if let tokenResponse {
+                let cardVaultRequest = CardVaultRequest(card: card, setupToken: tokenResponse.id)
+                cardClient.vault(vaultRequest: cardVaultRequest)
+            }
+        } catch {
+            print("Error in getSetupToken: \(error.localizedDescription)")
         }
-        let cardClient = CardClient(config: config)
-        let vaultRequest = VaultRequest(card: card, customerID: customerID)
-        cardClient.vault(vaultRequest: vaultRequest)
     }
 
     func isCardFormValid(cardNumber: String, expirationDate: String, cvv: String) -> Bool {

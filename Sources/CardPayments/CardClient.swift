@@ -37,21 +37,15 @@ public class CardClient: NSObject {
     }
 
     /// Vault a card without purchase, standalone vaulting
-    public func vault(vaultRequest: VaultRequest) {
+    /// input: setup token, paymentSource
+    public func vault(vaultRequest: CardVaultRequest) {
         Task {
             do {
-                let setUpTokenRequest = try SetUpTokenRequest(clientID: config.clientID, vaultRequest: vaultRequest)
-                let (result) = try await apiClient.fetch(test: true, request: setUpTokenRequest)
-                let token = result.id
-                let card = VaultCard(
-                    number: vaultRequest.card.number,
-                    expiry: vaultRequest.card.expiry,
-                    securityCode: vaultRequest.card.securityCode
-                )
+                let card = vaultRequest.card
+                let setupToken = vaultRequest.setupToken
                 let paymentSource = PaymentSourceInput(card: card)
                 let (updateResult) = try await updateSetupToken(
-                    clientID: config.clientID,
-                    vaultSetupToken: token,
+                    vaultSetupToken: setupToken,
                     paymentSource: paymentSource)
                 if let result = updateResult {
                     print("🌸 \(result.id): setup token status:\(result.status) Links: \(result.links)")
@@ -67,14 +61,14 @@ public class CardClient: NSObject {
     }
     
     public func updateSetupToken(
-        clientID: String,
         vaultSetupToken: String,
         paymentSource: PaymentSourceInput
     ) async throws -> TokenDetails? {
-        let input = UpdateVaultSetupTokenMutation(clientID: clientID, vaultSetupToken: vaultSetupToken, paymentSource: paymentSource)
         guard let graphQLClient else {
             throw CardClientError.unknownError
         }
+        let clientID = config.clientID
+        let input = UpdateVaultSetupTokenMutation(clientID: clientID, vaultSetupToken: vaultSetupToken, paymentSource: paymentSource)
         let response: GraphQLQueryResponse<UpdateVaultSetupTokenResponse> = try await graphQLClient.callGraphQL(
             name: "UpdateVaultToken",
             query: input
