@@ -49,10 +49,17 @@ public class CardClient: NSObject {
                     paymentSource: paymentSource)
                 if let result = updateResult {
                     print("🌸 \(result.id): setup token status:\(result.status) Links: \(result.links)")
-                    // if approved do get request
-                    // parse paymentSource, etc and return success/
-                    // if helios link,
+                    // can it be not approved and end up here?
                     // TODO: handle 3DS contingency with helios link
+                    if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
+                        let url = link.href
+                        print("3DS url \(url)")
+                    } else {
+                        let tokenDetailsRequest = try SetupTokenDetailsRequest(clientID: config.clientID, setupTokenID: setupToken)
+                        print("tokenDetailsRequest: \(tokenDetailsRequest)")
+                        let (result) = try await apiClient.fetch(test: true, request: tokenDetailsRequest)
+                        print("🎉 result from tokenDetailRequest \(result)")
+                    }
                 } else {
                     notifyFailure(with: CardClientError.unknownError) // need to make Vault error?
                 }
@@ -83,9 +90,7 @@ public class CardClient: NSObject {
         }
         return data.updateVaultSetupToken
     }
-    
-   
-    
+           
     /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
     /// After the order has been successfully approved, you will need to handle capturing/authorizing the order in your server.
     /// - Parameters:
