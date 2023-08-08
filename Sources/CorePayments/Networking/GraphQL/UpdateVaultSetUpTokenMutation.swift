@@ -1,11 +1,32 @@
 import Foundation
 
-public struct PaymentSourceInput: Codable {
+public enum PaymentSourceInput: Codable {
+    case card(VaultCard)
     
-    let card: VaultCard
-
-    public init(card: VaultCard) {
-        self.card = card
+    enum CodingKeys: CodingKey {
+        case card
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        if let cardValue = try? container.decode(VaultCard.self, forKey: .card) {
+            self = .card(cardValue)
+            return
+        }
+        
+        throw DecodingError.dataCorrupted(
+            DecodingError.Context(
+                codingPath: container.codingPath, debugDescription: "Data doesn't match any of the cases")
+        )
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        switch self {
+        case .card(let cardValue):
+            try container.encode(cardValue, forKey: .card)
+        }
     }
 }
 

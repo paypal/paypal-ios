@@ -121,7 +121,9 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
                 return
             }
             let cardClient = CardClient(config: config)
-            let tokenResponse = try await DemoMerchantAPI.sharedService.getSetupToken(customerID: customerID, selectedMerchantIntegration: selectedMerchantIntegration)
+            let tokenResponse = try await DemoMerchantAPI.sharedService.getSetupToken(
+                customerID: customerID, selectedMerchantIntegration: selectedMerchantIntegration
+            )
             if let tokenResponse {
                 let cardVaultRequest = CardVaultRequest(card: card, setupToken: tokenResponse.id)
                 cardClient.vault(vaultRequest: cardVaultRequest)
