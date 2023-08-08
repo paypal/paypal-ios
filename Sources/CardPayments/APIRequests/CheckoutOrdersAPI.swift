@@ -43,7 +43,7 @@ class TrackingEventsAPI {
     }
 }
 
-/// IDEAS DAY 2 -----------
+/// --------------------- IDEAS DAY 2 -----------
 
 protocol RestRequest {
     var path: String { get }
@@ -54,22 +54,28 @@ protocol RestRequest {
 }
 
 protocol GraphQLRequest {
-    
+    var query: String { get }
+    var operationName: String { get }
+    var variables: [String: Any] { get }
 }
 
+// replacing APIClient & being called from PpassAPI.swift files
 class NetworkingClient {
     
     // need env
     
-    func performRequest(request: RestRequest, response: Decodable) {
-        // construct URLRequest
+    
+//     func performRequest<T: Decodable>(request: RestRequest) async throws -> T { } // <-- end state
+    
+    func performRequest<T: Decodable>(request: RestRequest, response: T) { // -> T {
+        // construct URL, then HTTPRequest
             // encode POST body if present
         // kick of HTTP.send()
         // do HTTPParser.parse() if needed
     }
     
     func performRequest(request: GraphQLRequest) {
-        // construct URLRequest
+        // construct URL, then HTTPRequest
             // encode POST body
         // kick of HTTP.send()
         // do HTTPParser.parse(), specific to graphQL
