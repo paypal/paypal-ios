@@ -35,18 +35,18 @@ public class CardClient: NSObject {
         self.webAuthenticationSession = webAuthenticationSession
         self.graphQLClient = graphQLClient
     }
-
-    /// Vault a card without purchase, standalone vaulting
-    /// input: setup token, paymentSource
+    
     public func vault(vaultRequest: CardVaultRequest) {
         Task {
+            guard let graphQLClient else {
+                throw CardClientError.unknownError
+            }
             do {
                 let card = vaultRequest.card
                 let setupToken = vaultRequest.setupToken
-                let paymentSource = PaymentSourceInput.card(card)
                 let (updateResult) = try await updateSetupToken(
                     vaultSetupToken: setupToken,
-                    paymentSource: paymentSource)
+                    card: card)
                 if let result = updateResult {
                     print("🌸 \(result.id): setup token status:\(result.status) Links: \(result.links)")
                     // can it be not approved and end up here?
@@ -71,18 +71,17 @@ public class CardClient: NSObject {
         }
     }
     
-    public func updateSetupToken(
+    func updateSetupToken(
         vaultSetupToken: String,
-        paymentSource: PaymentSourceInput
+        card: Card
     ) async throws -> TokenDetails? {
         guard let graphQLClient else {
             throw CardClientError.unknownError
         }
         let clientID = config.clientID
-        let input = UpdateVaultSetupTokenMutation(clientID: clientID, vaultSetupToken: vaultSetupToken, paymentSource: paymentSource)
-        let response: GraphQLQueryResponse<UpdateVaultSetupTokenResponse> = try await graphQLClient.callGraphQL(
-            name: "UpdateVaultToken",
-            query: input
+        let query = UpdateSetupTokenQuery(clientID: clientID, vaultSetupToken: vaultSetupToken, card: card)
+        let response: GraphQLQueryResponse<UpdateSetupTokenResponse> = try await graphQLClient.callGraphQL(
+            name: "UpdateVaultSetupToken", query: query
         )
         guard let data = response.data
         else {

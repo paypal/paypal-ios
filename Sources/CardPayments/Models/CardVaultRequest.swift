@@ -3,10 +3,10 @@ import CorePayments
 
 public struct CardVaultRequest {
     
-    public let card: VaultCard
+    public let card: Card
     public let setupToken: String
     
-    public init(card: VaultCard, setupToken: String) {
+    public init(card: Card, setupToken: String) {
         self.card = card
         self.setupToken = setupToken
     }

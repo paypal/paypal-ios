@@ -72,7 +72,7 @@ struct SwiftUICardDemo: View {
                 .cornerRadius(10)
                 .disabled(!baseViewModel.isCardFormValid(cardNumber: cardNumberText, expirationDate: expirationDateText, cvv: cvvText))
                 Button("Vault Card without Purchase") {
-                    guard let card = baseViewModel.createVaultCard(
+                    guard let card = baseViewModel.createCard(
                         cardNumber: cardNumberText,
                         expirationDate: expirationDateText,
                         cvv: cvvText

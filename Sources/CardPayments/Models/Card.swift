@@ -1,7 +1,7 @@
 import Foundation
 
 /// Represents raw credit or debit card data provided by the customer.
-public struct Card {
+public struct Card: Codable {
 
     /// The primary account number (PAN) for the payment card.
     public var number: String
@@ -22,7 +22,7 @@ public struct Card {
     public var billingAddress: Address?
     
     /// The expiration year and month, in ISO-8601 `YYYY-MM` date format.
-    private var expiry: String {
+    public var expiry: String {
         "\(expirationYear)-\(expirationMonth)"
     }
 

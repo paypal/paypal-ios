@@ -80,21 +80,6 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
 
         return Card(number: cleanedCardText, expirationMonth: expirationMonth, expirationYear: expirationYear, securityCode: cvv)
     }
-    
-    func createVaultCard(cardNumber: String?, expirationDate: String?, cvv: String?) -> VaultCard? {
-        guard let cardNumber = cardNumber, let expirationDate = expirationDate, let cvv = cvv else {
-            updateTitle("Failed: missing card / orderID.")
-            return nil
-        }
-
-        let cleanedCardText = cardNumber.replacingOccurrences(of: " ", with: "")
-
-        let expirationComponents = expirationDate.components(separatedBy: " / ")
-        let expirationMonth = expirationComponents[0]
-        let expirationYear = "20" + expirationComponents[1]
-
-        return VaultCard(number: cleanedCardText, expiry: "\(expirationYear)-\(expirationMonth)", securityCode: cvv)
-    }
 
     func checkoutWith(
         card: Card,
@@ -113,7 +98,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
     }
     
     func vaultCard(
-        card: VaultCard,
+        card: Card,
         customerID: String? = nil
     ) async {
         do {

@@ -14,12 +14,12 @@
 		067C92E527270FDE009E3054 /* PayPalEnvironment_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067C92E427270FDE009E3054 /* PayPalEnvironment_Tests.swift */; };
 		06CE009926F3D1660000CC46 /* CoreConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009826F3D1660000CC46 /* CoreConfig.swift */; };
 		06CE009B26F3D5A40000CC46 /* CardClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009A26F3D5A40000CC46 /* CardClient.swift */; };
+		3B22E8B42A83A64700962E34 /* UpdateSetupTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22E8B32A83A64700962E34 /* UpdateSetupTokenRequest.swift */; };
 		3B4566602A61BE1C00C1F7F6 /* Vault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B45665F2A61BE1C00C1F7F6 /* Vault.swift */; };
 		3B80D50C2A27979000D2EAC4 /* FailingJSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */; };
-		3BBE9EB52A77DEF00096E631 /* UpdateVaultSetUpTokenMutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBE9EB42A77DEF00096E631 /* UpdateVaultSetUpTokenMutation.swift */; };
-		3BBE9EB72A77FC6D0096E631 /* UpdateVaultSetupTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBE9EB62A77FC6D0096E631 /* UpdateVaultSetupTokenResponse.swift */; };
 		3BD82DB52A82B81E00CBE764 /* SetupTokenDetailsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD82DB42A82B81E00CBE764 /* SetupTokenDetailsRequest.swift */; };
 		3BD82DB72A82C73800CBE764 /* SetupTokenDetailsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD82DB62A82C73800CBE764 /* SetupTokenDetailsResponse.swift */; };
+		3BD82DBB2A835AF900CBE764 /* UpdateSetupTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD82DBA2A835AF900CBE764 /* UpdateSetupTokenResponse.swift */; };
 		3BDB34942A80CE6E008100D7 /* CardVaultRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB34932A80CE6E008100D7 /* CardVaultRequest.swift */; };
 		3D1763A22720722A00652E1C /* CardResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1763A12720722A00652E1C /* CardResult.swift */; };
 		3DC42BA927187E8300B71645 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC42BA827187E8300B71645 /* ErrorResponse.swift */; };
@@ -209,12 +209,12 @@
 		06CE009A26F3D5A40000CC46 /* CardClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardClient.swift; sourceTree = "<group>"; };
 		06CE009F26F3DF100000CC46 /* ConfirmPaymentSourceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPaymentSourceRequest.swift; sourceTree = "<group>"; };
 		06CE00A226F3E32A0000CC46 /* ConfirmPaymentSourceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPaymentSourceResponse.swift; sourceTree = "<group>"; };
+		3B22E8B32A83A64700962E34 /* UpdateSetupTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSetupTokenRequest.swift; sourceTree = "<group>"; };
 		3B45665F2A61BE1C00C1F7F6 /* Vault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vault.swift; sourceTree = "<group>"; };
 		3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailingJSONEncoder.swift; sourceTree = "<group>"; };
-		3BBE9EB42A77DEF00096E631 /* UpdateVaultSetUpTokenMutation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateVaultSetUpTokenMutation.swift; sourceTree = "<group>"; };
-		3BBE9EB62A77FC6D0096E631 /* UpdateVaultSetupTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateVaultSetupTokenResponse.swift; sourceTree = "<group>"; };
 		3BD82DB42A82B81E00CBE764 /* SetupTokenDetailsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupTokenDetailsRequest.swift; sourceTree = "<group>"; };
 		3BD82DB62A82C73800CBE764 /* SetupTokenDetailsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupTokenDetailsResponse.swift; sourceTree = "<group>"; };
+		3BD82DBA2A835AF900CBE764 /* UpdateSetupTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSetupTokenResponse.swift; sourceTree = "<group>"; };
 		3BDB34932A80CE6E008100D7 /* CardVaultRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultRequest.swift; sourceTree = "<group>"; };
 		3D1763A12720722A00652E1C /* CardResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardResult.swift; sourceTree = "<group>"; };
 		3D25238127344F330099E4EB /* NativeCheckoutStartable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NativeCheckoutStartable.swift; path = Sources/PayPalNativePayments/NativeCheckoutStartable.swift; sourceTree = SOURCE_ROOT; };
@@ -562,6 +562,8 @@
 				06CE00A226F3E32A0000CC46 /* ConfirmPaymentSourceResponse.swift */,
 				3BD82DB42A82B81E00CBE764 /* SetupTokenDetailsRequest.swift */,
 				3BD82DB62A82C73800CBE764 /* SetupTokenDetailsResponse.swift */,
+				3BD82DBA2A835AF900CBE764 /* UpdateSetupTokenResponse.swift */,
+				3B22E8B32A83A64700962E34 /* UpdateSetupTokenRequest.swift */,
 			);
 			path = APIRequests;
 			sourceTree = "<group>";
@@ -747,8 +749,6 @@
 				E64623222836A69E008AC8E1 /* GraphQLQueryResponse.swift */,
 				E646232B2836A9A9008AC8E1 /* SupportedCountryCurrencyType.swift */,
 				E646232D2836A9CF008AC8E1 /* SupportedPaymentMethodsType.swift */,
-				3BBE9EB42A77DEF00096E631 /* UpdateVaultSetUpTokenMutation.swift */,
-				3BBE9EB62A77FC6D0096E631 /* UpdateVaultSetupTokenResponse.swift */,
 			);
 			path = GraphQL;
 			sourceTree = "<group>";
@@ -1304,10 +1304,8 @@
 				06CE009926F3D1660000CC46 /* CoreConfig.swift in Sources */,
 				BEA100EC26EFA7790036A6A5 /* HTTPMethod.swift in Sources */,
 				BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */,
-				3BBE9EB72A77FC6D0096E631 /* UpdateVaultSetupTokenResponse.swift in Sources */,
 				CB4BE27E2847EA7D00EA2DD1 /* WebAuthenticationSession.swift in Sources */,
 				BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */,
-				3BBE9EB52A77DEF00096E631 /* UpdateVaultSetUpTokenMutation.swift in Sources */,
 				BEA100F026EFA7C20036A6A5 /* APIClientError.swift in Sources */,
 				804E628629380B04004B9FEF /* AnalyticsService.swift in Sources */,
 				BEA100E926EFA1EE0036A6A5 /* APIRequest.swift in Sources */,
@@ -1365,11 +1363,13 @@
 				3D1763A22720722A00652E1C /* CardResult.swift in Sources */,
 				BC0A82A5270B9533006E9A21 /* ConfirmPaymentSourceRequest.swift in Sources */,
 				CB4BE2802847F01000EA2DD1 /* CardDelegate.swift in Sources */,
+				3BD82DBB2A835AF900CBE764 /* UpdateSetupTokenResponse.swift in Sources */,
 				80E8DAE126B8784600FAFC3F /* Card.swift in Sources */,
 				3B4566602A61BE1C00C1F7F6 /* Vault.swift in Sources */,
 				CBC16DD529E99B4600307117 /* PaymentSource.swift in Sources */,
 				80DCC59E2719DB6F00EC7C5A /* CardClientError.swift in Sources */,
 				3BDB34942A80CE6E008100D7 /* CardVaultRequest.swift in Sources */,
+				3B22E8B42A83A64700962E34 /* UpdateSetupTokenRequest.swift in Sources */,
 				CB4BE27D2847AF6F00EA2DD1 /* SCA.swift in Sources */,
 				0647E70E2714962800F8E517 /* Address.swift in Sources */,
 				BC7F8123275FC1350011EDC8 /* CardRequest.swift in Sources */,
