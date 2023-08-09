@@ -1,12 +1,12 @@
 import Foundation
 import CorePayments
 
-struct SetUpTokenRequest {
+struct PaymentTokenRequest {
     
-    let customerID: String?
+	let setupToken: String
     
     var path: String {
-        return "/setup_tokens/"
+        return "/payment_tokens/"
     }
     
     var method: CorePayments.HTTPMethod {
@@ -19,14 +19,10 @@ struct SetUpTokenRequest {
     
     var body: Data? {
         let requestBody: [String: Any] = [
-            "customer": [
-                "id": customerID
-            ],
             "payment_source": [
-                "card": [:],
-                "experience_context": [
-                    "returnUrl": "https://example.com/returnUrl",
-                    "cancelUrl": "https://example.com/returnUrl"
+                "token": [
+                    "id": setupToken,
+                    "type": "SETUP_TOKEN"
                 ]
             ]
         ]

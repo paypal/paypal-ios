@@ -49,7 +49,6 @@ public class CardClient: NSObject {
                     vaultSetupToken: setupToken,
                     card: card)
                 if let result = updateResult {
-                    print("🌸 \(result.id): setup token status:\(result.status) Links: \(result.links)")
                     // can it be not approved and end up here?
                     // TODO: handle 3DS contingency with helios link
                     if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {

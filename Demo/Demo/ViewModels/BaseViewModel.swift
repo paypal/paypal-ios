@@ -242,8 +242,19 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
     // MARK: - CardVault Delegate
     
     func card(_ cardClient: CardClient, didFinishWithVaultResult vaultResult: CardVaultResult) {
-        updateTitle("Vault without Purchase has finished. \n SetupTokenID: \(vaultResult.setupTokenID) \nVault Status: \(vaultResult.status)")
+        updateTitle(
+            "Vault without Purchase has finished. \n SetupTokenID: \(vaultResult.setupTokenID) \nVault Status: \(vaultResult.status)"
+        )
         print("Vault without purchase has finished: \(vaultResult)")
+        Task {
+            if let paymentTokenResult = try? await DemoMerchantAPI.sharedService.getPaymentToken(
+                setupToken: vaultResult.setupTokenID, selectedMerchantIntegration: selectedMerchantIntegration
+            ) {
+                print("Payment Token: \(String(describing: paymentTokenResult))")
+            } else {
+                print("Payment Token could not be created")
+            }
+        }
     }
     
     func card(_ cardClient: CardClient, didFinishWithVaultError vaultError: CoreSDKError) {

@@ -2,6 +2,7 @@ import Foundation
 import CorePayments
 
 class UpdateSetupTokenQuery: Codable, GraphQLQuery {
+    
     struct VaultCard: Codable {
         
         public let number: String

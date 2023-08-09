@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B22E8BA2A842D8900962E34 /* PaymentTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22E8B92A842D8900962E34 /* PaymentTokenRequest.swift */; };
+		3B22E8BC2A84397600962E34 /* PaymentTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22E8BB2A84397600962E34 /* PaymentTokenResponse.swift */; };
 		3B80D50E2A291C0800D2EAC4 /* ClientIDRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50D2A291C0800D2EAC4 /* ClientIDRequest.swift */; };
 		3B80D5102A291CB100D2EAC4 /* ClientIDResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50F2A291CB100D2EAC4 /* ClientIDResponse.swift */; };
 		3BB7A9772A5CA6FD00C05140 /* MerchantIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB7A9762A5CA6FD00C05140 /* MerchantIntegration.swift */; };
@@ -99,6 +101,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3B22E8B92A842D8900962E34 /* PaymentTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentTokenRequest.swift; sourceTree = "<group>"; };
+		3B22E8BB2A84397600962E34 /* PaymentTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentTokenResponse.swift; sourceTree = "<group>"; };
 		3B80D50D2A291C0800D2EAC4 /* ClientIDRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientIDRequest.swift; sourceTree = "<group>"; };
 		3B80D50F2A291CB100D2EAC4 /* ClientIDResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientIDResponse.swift; sourceTree = "<group>"; };
 		3BB7A9762A5CA6FD00C05140 /* MerchantIntegration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantIntegration.swift; sourceTree = "<group>"; };
@@ -277,6 +281,8 @@
 				CBC16DD829ED90B600307117 /* UpdateOrderParams.swift */,
 				3BDB348D2A7CB02C008100D7 /* SetupTokenRequest.swift */,
 				3BDB34912A7CB5DE008100D7 /* SetupTokenResponse.swift */,
+				3B22E8B92A842D8900962E34 /* PaymentTokenRequest.swift */,
+				3B22E8BB2A84397600962E34 /* PaymentTokenResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -487,6 +493,7 @@
 				CB34B32328BE3A9A001325B9 /* PayPalViewModel.swift in Sources */,
 				BED04233271084DF00C80954 /* CardFormatter.swift in Sources */,
 				CB9ED44E28411B120081F4DE /* SwiftUIPaymentButtonDemo.swift in Sources */,
+				3B22E8BC2A84397600962E34 /* PaymentTokenResponse.swift in Sources */,
 				80561B3E26FB72D80023138C /* FeatureBaseViewController.swift in Sources */,
 				BE9F36DC274578D100AFC7DA /* FeatureBaseViewControllerRepresentable.swift in Sources */,
 				BECD84A027036DC2007CCAE4 /* Environment.swift in Sources */,
@@ -510,6 +517,7 @@
 				BE9F36D82745490400AFC7DA /* FloatingLabelTextField.swift in Sources */,
 				BE9F36E7275548A600AFC7DA /* BaseViewModel.swift in Sources */,
 				806F1E3926B85367007A60E6 /* AppDelegate.swift in Sources */,
+				3B22E8BA2A842D8900962E34 /* PaymentTokenRequest.swift in Sources */,
 				536A5CA82898AA2A005C053D /* SwiftUINativeCheckoutDemo.swift in Sources */,
 				806F1E3B26B85367007A60E6 /* SceneDelegate.swift in Sources */,
 				BC6460CD2A12A2A0002B974B /* EmptyBodyParams.swift in Sources */,
