@@ -3,6 +3,9 @@ import Foundation
 import CorePayments
 #endif
 
+/// This class coordinates networking logic for communicating with the v2/checkout/orders API.
+///
+/// Details on this PayPal API can be found in PPaaS under Merchant > Checkout > Orders > v2.
 class CheckoutOrdersAPI {
     
     // MARK: - Private Propertires
