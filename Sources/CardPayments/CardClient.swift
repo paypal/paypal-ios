@@ -7,7 +7,8 @@ import CorePayments
 public class CardClient: NSObject {
 
     public weak var delegate: CardDelegate?
-
+    public weak var vaultDelegate: CardVaultDelegate?
+    
     private let apiClient: APIClient
     private let config: CoreConfig
     private let webAuthenticationSession: WebAuthenticationSession
@@ -54,12 +55,9 @@ public class CardClient: NSObject {
                     if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
                         let url = link.href
                         print("3DS url \(url)")
-                        
                     } else {
-                        let tokenDetailsRequest = try SetupTokenDetailsRequest(clientID: config.clientID, setupTokenID: setupToken)
-                        print("tokenDetailsRequest: \(tokenDetailsRequest)")
-                        let (result) = try await apiClient.fetch(test: true, request: tokenDetailsRequest)
-                        print("🎉 result from tokenDetailRequest \(result)")
+                        let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status)
+                        notifyVaultSuccess(for: vaultResult)
                     }
                 } else {
                     notifyFailure(with: CardClientError.unknownError) // need to make Vault error?
@@ -173,6 +171,14 @@ public class CardClient: NSObject {
     private func notifyFailure(with error: CoreSDKError) {
         analyticsService?.sendEvent("card-payments:3ds:failed")
         delegate?.card(self, didFinishWithError: error)
+    }
+    
+    private func notifyVaultSuccess(for vaultResult: CardVaultResult) {
+        vaultDelegate?.card(self, didFinishWithVaultResult: vaultResult)
+    }
+
+    private func notifyVaultFailure(with vaultError: CoreSDKError) {
+        vaultDelegate?.card(self, didFinishWithVaultError: vaultError)
     }
 
     private func notifyCancellation() {

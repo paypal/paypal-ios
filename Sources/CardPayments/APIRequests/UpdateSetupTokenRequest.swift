@@ -78,4 +78,3 @@ class UpdateSetupTokenQuery: Codable, GraphQLQuery {
         self.query = queryString
     }
 }
-
