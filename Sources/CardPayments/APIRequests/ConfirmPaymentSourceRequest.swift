@@ -40,17 +40,8 @@ struct ConfirmPaymentSourceRequest: Encodable {
     }
     
     enum AttributesKeys: String, CodingKey {
-        case customer
         case vault
         case verification
-    }
-    
-    enum CustomerKeys: String, CodingKey {
-        case id
-    }
-    
-    enum VaultKeys: String, CodingKey {
-        case storeInVault
     }
     
     enum VerificationKeys: String, CodingKey {
@@ -93,13 +84,8 @@ struct ConfirmPaymentSourceRequest: Encodable {
             try billingAddress.encode(cardBillingInfo.locality, forKey: .adminArea2)
             try billingAddress.encode(cardBillingInfo.countryCode, forKey: .countryCode)
         }
+        
         var attributes = card.nestedContainer(keyedBy: AttributesKeys.self, forKey: .attributes)
-        var customer = attributes.nestedContainer(keyedBy: CustomerKeys.self, forKey: .customer)
-        try customer.encode("fake-customer-id", forKey: .id) // TODO: - Re-expose vault feature
-        
-        var vault = attributes.nestedContainer(keyedBy: VaultKeys.self, forKey: .vault)
-        try vault.encode("ON_SUCCESS", forKey: .storeInVault) // TODO: - Re-expose vault feature
-        
         var verification = attributes.nestedContainer(keyedBy: VerificationKeys.self, forKey: .verification)
         try verification.encode(cardRequest.sca.rawValue, forKey: .method)
     }
