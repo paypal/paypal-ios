@@ -70,19 +70,3 @@ public class APIClient {
         return url
     }
 }
-
-public struct RESTRequest {
-    public var path: String
-    public var method: HTTPMethod
-    public var headers: [HTTPHeader: String]
-    public var queryParameters: [String: String]?
-    public var body: Data?
-    
-    public init(path: String, method: HTTPMethod, headers: [HTTPHeader : String], queryParameters: [String : String]? = nil, body: Data? = nil) {
-        self.path = path
-        self.method = method
-        self.headers = headers
-        self.queryParameters = queryParameters
-        self.body = body
-    }
-}

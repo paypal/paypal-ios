@@ -6,23 +6,23 @@ public struct AnalyticsService {
     // MARK: - Internal Properties
     
     private let coreConfig: CoreConfig
-    private let apiClient: APIClient
+    private let trackingEventsAPI: TrackingEventsAPI
     private let orderID: String
         
     // MARK: - Initializer
     
     public init(coreConfig: CoreConfig, orderID: String) {
         self.coreConfig = coreConfig
-        self.apiClient = APIClient(coreConfig: CoreConfig(clientID: coreConfig.clientID, environment: .live))
+        self.trackingEventsAPI = TrackingEventsAPI()
         self.orderID = orderID
     }
     
     // MARK: - Internal Initializer
 
     /// Exposed for testing
-    init(coreConfig: CoreConfig, orderID: String, apiClient: APIClient) {
+    init(coreConfig: CoreConfig, orderID: String, trackingEventsAPI: TrackingEventsAPI) {
         self.coreConfig = coreConfig
-        self.apiClient = apiClient
+        self.trackingEventsAPI = trackingEventsAPI
         self.orderID = orderID
     }
     
@@ -51,32 +51,9 @@ public struct AnalyticsService {
                 orderID: orderID
             )
             
-            let (_) = try await TrackingEventsAPI().sendEvent(with: eventData)
+            let (_) = try await trackingEventsAPI.sendEvent(with: eventData)
         } catch {
             NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription)
         }
-    }
-}
-
-class TrackingEventsAPI {
-        
-    func sendEvent(with analyticsEventData: AnalyticsEventData) async throws -> HTTPResponse {
-        let apiClient = APIClient(coreConfig: CoreConfig(clientID: analyticsEventData.clientID, environment: .live))
-        
-        // encode the body -- todo move
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        let body = try encoder.encode(analyticsEventData) // handle with special
-        
-        let restRequest = RESTRequest(
-            path: "v1/tracking/events",
-            method: .post,
-            headers: [.contentType: "application/json"],
-            queryParameters: nil,
-            body: body
-        )
-        
-        return try await apiClient.fetch(request: restRequest)
-        // skip HTTP parsing!
     }
 }

@@ -3,76 +3,6 @@ import Foundation
 import CorePayments
 #endif
 
-class CheckoutOrdersAPI {
-    
-    let coreConfig: CoreConfig
-    
-    init(coreConfig: CoreConfig) {
-        self.coreConfig = coreConfig
-    }
-        
-    func confirmPaymentSource(clientID: String, cardRequest: CardRequest) async throws -> ConfirmPaymentSourceResponse {
-        let apiClient = APIClient(coreConfig: coreConfig)
-        
-        let confirmData = ConfirmPaymentSourceRequest(cardRequest: cardRequest)
-        
-        let base64EncodedCredentials = Data(clientID.appending(":").utf8).base64EncodedString()
-        
-        // encode the body -- todo move
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        let body = try encoder.encode(confirmData) // handle with special
-        
-        let restRequest = RESTRequest(
-            path: "/v2/checkout/orders/\(cardRequest.orderID)/confirm-payment-source",
-            method: .post,
-            headers: [
-                .contentType: "application/json", .acceptLanguage: "en_US",
-                .authorization: "Basic \(base64EncodedCredentials)"
-            ],
-            queryParameters: nil,
-            body: body
-        )
-        
-        let httpResponse = try await apiClient.fetch(request: restRequest)
-        return try HTTPResponseParser().parse(httpResponse, as: ConfirmPaymentSourceResponse.self)
-    }
-}
-
-
-//{
-//    "payment_source": {
-//        "card": {
-//            "number": "4111111111111111",
-//            "expiry": "2020-02",
-//            "name": "John Doe",
-//            "billing_address": {
-//                "address_line_1": "2211 N First Street",
-//                "address_line_2": "Building 17",
-//                "admin_area_2": "San Jose",
-//                "admin_area_1": "CA",
-//                "postal_code": "95131",
-//                "country_code": "US"
-//            },
-//            "attributes": {
-//                "customer": {
-//                    "id": "wxj1234"
-//                },
-//                "vault": {
-//                    "store_in_vault": "ON_SUCCESS"
-//                },
-//                "verification": {
-//                    "method": "SCA_WHEN_REQUIRED"
-//                }
-//            }
-//        }
-//    },
-//    "application_context": {
-//        "return_url": "return_url",
-//        "cancel_url": "return_url"
-//    }
-//}
-
 /// Describes request to confirm a payment source (approve an order)
 struct ConfirmPaymentSourceRequest: Encodable {
     
@@ -174,5 +104,37 @@ struct ConfirmPaymentSourceRequest: Encodable {
         var verification = attributes.nestedContainer(keyedBy: VerificationKeys.self, forKey: .verification)
         try verification.encode(cardRequest.sca.rawValue, forKey: .method) //TODO
     }
-    
 }
+
+//{
+//    "payment_source": {
+//        "card": {
+//            "number": "4111111111111111",
+//            "expiry": "2020-02",
+//            "name": "John Doe",
+//            "billing_address": {
+//                "address_line_1": "2211 N First Street",
+//                "address_line_2": "Building 17",
+//                "admin_area_2": "San Jose",
+//                "admin_area_1": "CA",
+//                "postal_code": "95131",
+//                "country_code": "US"
+//            },
+//            "attributes": {
+//                "customer": {
+//                    "id": "wxj1234"
+//                },
+//                "vault": {
+//                    "store_in_vault": "ON_SUCCESS"
+//                },
+//                "verification": {
+//                    "method": "SCA_WHEN_REQUIRED"
+//                }
+//            }
+//        }
+//    },
+//    "application_context": {
+//        "return_url": "return_url",
+//        "cancel_url": "return_url"
+//    }
+//}
