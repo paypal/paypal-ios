@@ -1,5 +1,4 @@
 import Foundation
-import CorePayments
 
 public struct CardVaultRequest {
     

@@ -21,7 +21,7 @@ final class DemoMerchantAPI {
     
     func getSetupToken(customerID: String? = nil, selectedMerchantIntegration: MerchantIntegration) async throws -> SetUpTokenResponse? {
         let request = SetUpTokenRequest(customerID: customerID)
-        let urlRequest = try createUrlRequest(
+        let urlRequest = try createSetupTokenUrlRequest(
             apiRequest: request, environment: DemoSettings.environment, selectedMerchantIntegration: selectedMerchantIntegration
         )
         
@@ -164,7 +164,7 @@ final class DemoMerchantAPI {
         do {
             let clientIDRequest = ClientIDRequest()
             let request = try createUrlRequest(
-                apiRequest: clientIDRequest, environment: environment, selectedMerchantIntegration: selectedMerchantIntegration
+                clientIDRequest: clientIDRequest, environment: environment, selectedMerchantIntegration: selectedMerchantIntegration
             )
             let (data, response) = try await URLSession.shared.performRequest(with: request)
             guard let response = response as? HTTPURLResponse else {
@@ -183,7 +183,26 @@ final class DemoMerchantAPI {
     }
     
     private func createUrlRequest(
-        apiRequest: any APIRequest, environment: Demo.Environment, selectedMerchantIntegration: MerchantIntegration
+        clientIDRequest: ClientIDRequest, environment: Demo.Environment, selectedMerchantIntegration: MerchantIntegration
+    ) throws -> URLRequest {
+        var completeUrl = environment.baseURL
+       
+        completeUrl += selectedMerchantIntegration.path
+        completeUrl.append(contentsOf: clientIDRequest.path)
+        guard let url = URL(string: completeUrl) else {
+            throw URLResponseError.invalidURL
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = clientIDRequest.method.rawValue
+        request.httpBody = clientIDRequest.body
+        clientIDRequest.headers.forEach { key, value in
+            request.addValue(value, forHTTPHeaderField: key.rawValue)
+        }
+        return request
+    }
+    
+    private func createSetupTokenUrlRequest(
+        apiRequest: SetUpTokenRequest, environment: Demo.Environment, selectedMerchantIntegration: MerchantIntegration
     ) throws -> URLRequest {
         var completeUrl = environment.baseURL
        

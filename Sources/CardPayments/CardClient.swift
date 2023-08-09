@@ -38,7 +38,7 @@ public class CardClient: NSObject {
     
     public func vault(vaultRequest: CardVaultRequest) {
         Task {
-            guard let graphQLClient else {
+            guard graphQLClient != nil else {
                 throw CardClientError.unknownError
             }
             do {
@@ -54,6 +54,7 @@ public class CardClient: NSObject {
                     if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
                         let url = link.href
                         print("3DS url \(url)")
+                        
                     } else {
                         let tokenDetailsRequest = try SetupTokenDetailsRequest(clientID: config.clientID, setupTokenID: setupToken)
                         print("tokenDetailsRequest: \(tokenDetailsRequest)")

@@ -1,7 +1,7 @@
 import Foundation
 import CorePayments
 
-struct SetUpTokenRequest: APIRequest {
+struct SetUpTokenRequest {
     
     typealias ResponseType = SetUpTokenResponse
     
