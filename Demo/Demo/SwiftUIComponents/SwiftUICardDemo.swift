@@ -55,9 +55,7 @@ struct SwiftUICardDemo: View {
                     Task {
                         await baseViewModel.checkoutWith(
                             card: card,
-                            orderID: orderID,
-                            shouldVault: shouldVaultSelected,
-                            customerID: vaultCustomerID.isEmpty ? nil : vaultCustomerID
+                            orderID: orderID
                         )
                     }
                 }

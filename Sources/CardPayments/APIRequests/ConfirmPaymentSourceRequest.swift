@@ -29,8 +29,7 @@ struct ConfirmPaymentSourceRequest: APIRequest {
 
         confirmPaymentSource.paymentSource = PaymentSource(
             card: cardRequest.card,
-            scaType: cardRequest.sca,
-            vault: cardRequest.vault
+            scaType: cardRequest.sca
         )
         
         self.orderID = cardRequest.orderID
@@ -109,30 +108,12 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         let method: String
     }
     
-    private  struct CardVault: Encodable {
-        
-        let storeInVault: String?
-    }
-    
-    private struct Customer: Encodable {
-        
-        let id: String
-    }
-    
     private struct Attributes: Encodable {
         
-        var customer: Customer?
-        var vault: CardVault?
         let verification: Verification
         
-        init(vault: Vault? = nil, verificationMethod: String) {
+        init(verificationMethod: String) {
             self.verification = Verification(method: verificationMethod)
-            if let vault {
-                self.vault = CardVault(storeInVault: "ON_SUCCESS")
-                if let id = vault.customerID {
-                    self.customer = Customer(id: id)
-                }
-            }
         }
     }
     
@@ -140,14 +121,14 @@ struct ConfirmPaymentSourceRequest: APIRequest {
         
         let card: EncodedCard
         
-        init(card: Card, scaType: SCA, vault: Vault?) {
+        init(card: Card, scaType: SCA) {
             self.card = EncodedCard(
                 number: card.number,
                 securityCode: card.securityCode,
                 billingAddress: card.billingAddress,
                 name: card.cardholderName,
                 expiry: "\(card.expirationYear)-\(card.expirationMonth)",
-                attributes: Attributes(vault: vault, verificationMethod: scaType.rawValue)
+                attributes: Attributes(verificationMethod: scaType.rawValue)
             )
         }
     }
