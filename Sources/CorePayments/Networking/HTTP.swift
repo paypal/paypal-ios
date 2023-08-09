@@ -32,6 +32,7 @@ class HTTP {
     }
 }
 
+/// :nodoc:
 public struct HTTPRequest {
     
     let url: URL

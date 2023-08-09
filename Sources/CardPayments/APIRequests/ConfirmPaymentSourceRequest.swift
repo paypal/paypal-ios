@@ -8,21 +8,21 @@ struct ConfirmPaymentSourceRequest: Encodable {
     
     // MARK: - Coding Keys
     
-    enum TopLevelKeys: String, CodingKey {
+    private enum TopLevelKeys: String, CodingKey {
         case paymentSource = "payment_source"
         case applicationContext = "application_context"
     }
     
-    enum ApplicationContextKeys: String, CodingKey {
+    private  enum ApplicationContextKeys: String, CodingKey {
         case returnURL = "return_url"
         case cancelURL = "cancel_url"
     }
     
-    enum PaymentSourceKeys: String, CodingKey {
+    private enum PaymentSourceKeys: String, CodingKey {
         case card
     }
     
-    enum CardKeys: String, CodingKey {
+    private enum CardKeys: String, CodingKey {
         case number
         case expiry
         case billingAddress
@@ -30,7 +30,7 @@ struct ConfirmPaymentSourceRequest: Encodable {
         case attributes
     }
     
-    enum BillingAddressKeys: String, CodingKey {
+    private enum BillingAddressKeys: String, CodingKey {
         case addressLine1 = "address_line_1"
         case addressLine2 = "address_line_2"
         case adminArea1 = "admin_area_1"
@@ -39,12 +39,12 @@ struct ConfirmPaymentSourceRequest: Encodable {
         case countryCode
     }
     
-    enum AttributesKeys: String, CodingKey {
+    private enum AttributesKeys: String, CodingKey {
         case vault
         case verification
     }
     
-    enum VerificationKeys: String, CodingKey {
+    private enum VerificationKeys: String, CodingKey {
         case method
     }
     
