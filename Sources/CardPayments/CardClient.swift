@@ -8,7 +8,7 @@ public class CardClient: NSObject {
 
     public weak var delegate: CardDelegate?
 
-    private let apiClient: APIClient
+    private let checkoutOrdersAPI: CheckoutOrdersAPI
     private let config: CoreConfig
     private let webAuthenticationSession: WebAuthenticationSession
     private var analyticsService: AnalyticsService?
@@ -17,14 +17,14 @@ public class CardClient: NSObject {
     /// - Parameter config: The CoreConfig object
     public init(config: CoreConfig) {
         self.config = config
-        self.apiClient = APIClient(coreConfig: config)
+        self.checkoutOrdersAPI = CheckoutOrdersAPI(coreConfig: config)
         self.webAuthenticationSession = WebAuthenticationSession()
     }
 
     /// For internal use for testing/mocking purpose
-    init(config: CoreConfig, apiClient: APIClient, webAuthenticationSession: WebAuthenticationSession) {
+    init(config: CoreConfig, checkoutOrdersAPI: CheckoutOrdersAPI, webAuthenticationSession: WebAuthenticationSession) {
         self.config = config
-        self.apiClient = apiClient
+        self.checkoutOrdersAPI = checkoutOrdersAPI
         self.webAuthenticationSession = webAuthenticationSession
     }
 
@@ -40,8 +40,7 @@ public class CardClient: NSObject {
         analyticsService?.sendEvent("card-payments:3ds:started")
         Task {
             do {
-                let confirmPaymentRequest = try ConfirmPaymentSourceRequest(clientID: config.clientID, cardRequest: request)
-                let (result) = try await apiClient.fetch(request: confirmPaymentRequest)
+                let result = try await checkoutOrdersAPI.confirmPaymentSource(clientID: config.clientID, cardRequest: request)
                 
                 if let url: String = result.links?.first(where: { $0.rel == "payer-action" })?.href {
                     analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:challenge-required")

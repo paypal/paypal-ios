@@ -1,6 +1,6 @@
 import Foundation
 
-struct HTTPResponse {
+public struct HTTPResponse {
     
     let status: Int
     let body: Data?

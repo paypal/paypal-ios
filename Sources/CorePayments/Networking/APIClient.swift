@@ -42,7 +42,7 @@ public class APIClient {
         return try HTTPResponseParser().parse(httpResponse, as: T.ResponseType.self)
     }
     
-    func fetch(request: RESTRequest) async throws -> HTTPResponse {
+    public func fetch(request: RESTRequest) async throws -> HTTPResponse {
         let url = try constructURL(path: request.path, queryParameters: request.queryParameters ?? [:]) // cleaner way
         
         let httpRequest = HTTPRequest(
@@ -77,4 +77,12 @@ public struct RESTRequest {
     public var headers: [HTTPHeader: String]
     public var queryParameters: [String: String]?
     public var body: Data?
+    
+    public init(path: String, method: HTTPMethod, headers: [HTTPHeader : String], queryParameters: [String : String]? = nil, body: Data? = nil) {
+        self.path = path
+        self.method = method
+        self.headers = headers
+        self.queryParameters = queryParameters
+        self.body = body
+    }
 }

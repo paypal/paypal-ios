@@ -45,7 +45,7 @@ class HTTP {
     }
 }
 
-struct HTTPRequest {
+public struct HTTPRequest {
     
     let url: URL
     let method: HTTPMethod

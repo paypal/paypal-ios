@@ -1,15 +1,15 @@
 import Foundation
 
-class HTTPResponseParser {
+public class HTTPResponseParser {
     
     private let decoder: JSONDecoder
 
-    init(decoder: JSONDecoder = JSONDecoder()) { // exposed for test injection
+    public init(decoder: JSONDecoder = JSONDecoder()) { // exposed for test injection
         self.decoder = decoder
         decoder.keyDecodingStrategy = .convertFromSnakeCase
     }
     
-    func parse<T: Decodable>(_ httpResponse: HTTPResponse, as type: T.Type) throws -> T {
+    public func parse<T: Decodable>(_ httpResponse: HTTPResponse, as type: T.Type) throws -> T {
         guard let data = httpResponse.body else {
             throw APIClientError.noResponseDataError
         }

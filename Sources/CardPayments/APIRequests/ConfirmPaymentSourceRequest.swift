@@ -3,133 +3,176 @@ import Foundation
 import CorePayments
 #endif
 
-/// Describes request to confirm a payment source (approve an order)
-struct ConfirmPaymentSourceRequest: APIRequest {
+class CheckoutOrdersAPI {
     
-    private let orderID: String
-    private let pathFormat: String = "/v2/checkout/orders/%@/confirm-payment-source"
-    private let base64EncodedCredentials: String
-    var jsonEncoder: JSONEncoder
+    let coreConfig: CoreConfig
     
-    /// Creates a request to attach a payment source to a specific order.
-    /// In order to use this initializer, the `paymentSource` parameter has to
-    /// contain the entire dictionary as it exists underneath the `payment_source` key.
-    init(
-        clientID: String,
-        cardRequest: CardRequest,
-        encoder: JSONEncoder = JSONEncoder() // exposed for test injection
-    ) throws {
-        self.jsonEncoder = encoder
-        var confirmPaymentSource = ConfirmPaymentSource()
+    init(coreConfig: CoreConfig) {
+        self.coreConfig = coreConfig
+    }
         
-        confirmPaymentSource.applicationContext = ApplicationContext(
-            returnUrl: PayPalCoreConstants.callbackURLScheme + "://card/success",
-            cancelUrl: PayPalCoreConstants.callbackURLScheme + "://card/cancel"
+    func confirmPaymentSource(clientID: String, cardRequest: CardRequest) async throws -> ConfirmPaymentSourceResponse {
+        let apiClient = APIClient(coreConfig: coreConfig)
+        
+        let confirmData = ConfirmPaymentSourceRequest(cardRequest: cardRequest)
+        
+        let base64EncodedCredentials = Data(clientID.appending(":").utf8).base64EncodedString()
+        
+        // encode the body -- todo move
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+        let body = try encoder.encode(confirmData) // handle with special
+        
+        let restRequest = RESTRequest(
+            path: "/v2/checkout/orders/\(cardRequest.orderID)/confirm-payment-source",
+            method: .post,
+            headers: [
+                .contentType: "application/json", .acceptLanguage: "en_US",
+                .authorization: "Basic \(base64EncodedCredentials)"
+            ],
+            queryParameters: nil,
+            body: body
         )
+        
+        let httpResponse = try await apiClient.fetch(request: restRequest)
+        return try HTTPResponseParser().parse(httpResponse, as: ConfirmPaymentSourceResponse.self)
+    }
+}
 
-        confirmPaymentSource.paymentSource = PaymentSource(
-            card: cardRequest.card,
-            scaType: cardRequest.sca
-        )
-        
-        self.orderID = cardRequest.orderID
-        self.base64EncodedCredentials = Data(clientID.appending(":").utf8).base64EncodedString()
-        path = String(format: pathFormat, orderID)
-        
-        jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
-        do {
-            body = try jsonEncoder.encode(confirmPaymentSource)
-        } catch {
-            throw CardClientError.encodingError
-        }
-        
-        // TODO - The complexity in this `init` signals to reconsider our use/design of the `APIRequest` protocol.
-        // Existing pattern doesn't provide clear, testable interface for encoding JSON POST bodies.
+
+//{
+//    "payment_source": {
+//        "card": {
+//            "number": "4111111111111111",
+//            "expiry": "2020-02",
+//            "name": "John Doe",
+//            "billing_address": {
+//                "address_line_1": "2211 N First Street",
+//                "address_line_2": "Building 17",
+//                "admin_area_2": "San Jose",
+//                "admin_area_1": "CA",
+//                "postal_code": "95131",
+//                "country_code": "US"
+//            },
+//            "attributes": {
+//                "customer": {
+//                    "id": "wxj1234"
+//                },
+//                "vault": {
+//                    "store_in_vault": "ON_SUCCESS"
+//                },
+//                "verification": {
+//                    "method": "SCA_WHEN_REQUIRED"
+//                }
+//            }
+//        }
+//    },
+//    "application_context": {
+//        "return_url": "return_url",
+//        "cancel_url": "return_url"
+//    }
+//}
+
+/// Describes request to confirm a payment source (approve an order)
+struct ConfirmPaymentSourceRequest: Encodable {
+    
+    // MARK: - Coding Keys
+    
+    enum TopLevelKeys: String, CodingKey {
+        case paymentSource = "payment_source"
+        case applicationContext = "application_context"
     }
     
-    // MARK: - APIRequest
-    
-    typealias ResponseType = ConfirmPaymentSourceResponse
-    
-    var path: String
-    var method: HTTPMethod = .post
-    var body: Data?
-    
-    var headers: [HTTPHeader: String] {
-        [
-            .contentType: "application/json", .acceptLanguage: "en_US",
-            .authorization: "Basic \(base64EncodedCredentials)"
-        ]
+    enum ApplicationContextKeys: String, CodingKey {
+        case returnURL = "return_url"
+        case cancelURL = "cancel_url"
     }
     
-    private struct ConfirmPaymentSource: Encodable {
-        
-        var paymentSource: PaymentSource?
-        var applicationContext: ApplicationContext?
+    enum PaymentSourceKeys: String, CodingKey {
+        case card
     }
     
-    private struct ApplicationContext: Encodable {
-        
-        let returnUrl: String
-        let cancelUrl: String
-    }
-    
-    enum CodingKeys: String, CodingKey {
+    enum CardKeys: String, CodingKey {
         case number
         case expiry
-        case securityCode
-        case name
         case billingAddress
+        case name
         case attributes
     }
     
-    private struct EncodedCard: Encodable {
-        
-        let number: String
-        let securityCode: String
-        let billingAddress: Address?
-        let name: String?
-        let expiry: String
-        let attributes: Attributes?
-                
-        func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(number, forKey: .number)
-            try container.encode(expiry, forKey: .expiry)
-            try container.encode(securityCode, forKey: .securityCode)
-            try container.encode(name, forKey: .name)
-            try container.encode(billingAddress, forKey: .billingAddress)
-            try container.encode(attributes, forKey: .attributes)
-        }
+    enum BillingAddressKeys: String, CodingKey {
+        case addressLine1 = "address_line_1"
+        case addressLine2 = "address_line_2"
+        case adminArea1 = "admin_area_1"
+        case adminArea2 = "admin_area_2"
+        case postalCode
+        case countryCode
     }
     
-    private struct Verification: Encodable {
-        
-        let method: String
+    enum AttributesKeys: String, CodingKey {
+        case customer
+        case vault
+        case verification
     }
     
-    private struct Attributes: Encodable {
-        
-        let verification: Verification
-        
-        init(verificationMethod: String) {
-            self.verification = Verification(method: verificationMethod)
-        }
+    enum CustomerKeys: String, CodingKey {
+        case id
     }
     
-    private struct PaymentSource: Encodable {
-        
-        let card: EncodedCard
-        
-        init(card: Card, scaType: SCA) {
-            self.card = EncodedCard(
-                number: card.number,
-                securityCode: card.securityCode,
-                billingAddress: card.billingAddress,
-                name: card.cardholderName,
-                expiry: "\(card.expirationYear)-\(card.expirationMonth)",
-                attributes: Attributes(verificationMethod: scaType.rawValue)
-            )
-        }
+    enum VaultKeys: String, CodingKey {
+        case storeInVault
     }
+    
+    enum VerificationKeys: String, CodingKey {
+        case method
+    }
+    
+    // MARK: - Properties
+    
+    let returnURL = PayPalCoreConstants.callbackURLScheme + "://card/success"
+    let cancelURL = PayPalCoreConstants.callbackURLScheme + "://card/cancel"
+    
+    let cardRequest: CardRequest
+    
+    // MARK: - Initializer
+    
+    init(cardRequest: CardRequest) {
+        self.cardRequest = cardRequest
+    }
+    
+    // MARK: - Custom Encoder
+    
+    func encode(to encoder: Encoder) throws {
+        var topLevel = encoder.container(keyedBy: TopLevelKeys.self)
+        
+        var applicationContext = topLevel.nestedContainer(keyedBy: ApplicationContextKeys.self, forKey: .applicationContext)
+        try applicationContext.encode(returnURL, forKey: .returnURL)
+        try applicationContext.encode(cancelURL, forKey: .cancelURL)
+        
+        var paymentSource = topLevel.nestedContainer(keyedBy: PaymentSourceKeys.self, forKey: .paymentSource)
+        var card = paymentSource.nestedContainer(keyedBy: CardKeys.self, forKey: .card)
+        try card.encode(cardRequest.card.number, forKey: .number)
+        try card.encode("\(cardRequest.card.expirationYear)-\(cardRequest.card.expirationMonth)", forKey: .expiry)
+        try card.encode(cardRequest.card.cardholderName, forKey: .name)
+
+        if let cardBillingInfo = cardRequest.card.billingAddress {
+            var billingAddress = card.nestedContainer(keyedBy: BillingAddressKeys.self, forKey: .billingAddress)
+            try billingAddress.encode(cardBillingInfo.addressLine1, forKey: .addressLine1)
+            try billingAddress.encode(cardBillingInfo.addressLine2, forKey: .addressLine2)
+            try billingAddress.encode(cardBillingInfo.postalCode, forKey: .postalCode)
+            try billingAddress.encode(cardBillingInfo.region, forKey: .adminArea1)
+            try billingAddress.encode(cardBillingInfo.locality, forKey: .adminArea2)
+            try billingAddress.encode(cardBillingInfo.countryCode, forKey: .countryCode)
+        }
+        var attributes = card.nestedContainer(keyedBy: AttributesKeys.self, forKey: .attributes)
+        var customer = attributes.nestedContainer(keyedBy: CustomerKeys.self, forKey: .customer)
+        try customer.encode("fake-customer-id", forKey: .id) // TODO
+        
+        var vault = attributes.nestedContainer(keyedBy: VaultKeys.self, forKey: .vault)
+        try vault.encode("ON_SUCCESS", forKey: .storeInVault) // TODO
+        
+        var verification = attributes.nestedContainer(keyedBy: VerificationKeys.self, forKey: .verification)
+        try verification.encode(cardRequest.sca.rawValue, forKey: .method) //TODO
+    }
+    
 }
