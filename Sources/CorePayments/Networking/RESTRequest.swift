@@ -1,5 +1,6 @@
 import Foundation
 
+/// :nodoc:
 public struct RESTRequest {
     
     var path: String
@@ -11,8 +12,8 @@ public struct RESTRequest {
     public init(
         path: String,
         method: HTTPMethod,
-        headers: [HTTPHeader : String],
-        queryParameters: [String : String]? = nil,
+        headers: [HTTPHeader: String],
+        queryParameters: [String: String]? = nil,
         body: Data? = nil
     ) {
         self.path = path

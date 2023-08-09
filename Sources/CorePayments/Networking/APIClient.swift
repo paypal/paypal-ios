@@ -27,7 +27,7 @@ public class APIClient {
     
     // MARK: - Public Methods
     
-    /// :nodoc: 
+    /// :nodoc:
     public func fetch(request: RESTRequest) async throws -> HTTPResponse {
         let url = try constructURL(path: request.path, queryParameters: request.queryParameters ?? [:]) // cleaner way
         
