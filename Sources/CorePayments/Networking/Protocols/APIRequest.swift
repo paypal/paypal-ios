@@ -1,5 +1,6 @@
 import Foundation
 
+// TODO: - Remove this protocol once tests are updated 🎉
 public protocol APIRequest {
     associatedtype ResponseType: Decodable
 

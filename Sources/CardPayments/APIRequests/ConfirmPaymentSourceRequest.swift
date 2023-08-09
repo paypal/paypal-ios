@@ -57,12 +57,11 @@ struct ConfirmPaymentSourceRequest: Encodable {
         case method
     }
     
-    // MARK: - Properties
+    // MARK: - Private Properties
     
-    let returnURL = PayPalCoreConstants.callbackURLScheme + "://card/success"
-    let cancelURL = PayPalCoreConstants.callbackURLScheme + "://card/cancel"
-    
-    let cardRequest: CardRequest
+    private let returnURL = PayPalCoreConstants.callbackURLScheme + "://card/success"
+    private let cancelURL = PayPalCoreConstants.callbackURLScheme + "://card/cancel"
+    private let cardRequest: CardRequest
     
     // MARK: - Initializer
     
@@ -96,45 +95,12 @@ struct ConfirmPaymentSourceRequest: Encodable {
         }
         var attributes = card.nestedContainer(keyedBy: AttributesKeys.self, forKey: .attributes)
         var customer = attributes.nestedContainer(keyedBy: CustomerKeys.self, forKey: .customer)
-        try customer.encode("fake-customer-id", forKey: .id) // TODO
+        try customer.encode("fake-customer-id", forKey: .id) // TODO: - Re-expose vault feature
         
         var vault = attributes.nestedContainer(keyedBy: VaultKeys.self, forKey: .vault)
-        try vault.encode("ON_SUCCESS", forKey: .storeInVault) // TODO
+        try vault.encode("ON_SUCCESS", forKey: .storeInVault) // TODO: - Re-expose vault feature
         
         var verification = attributes.nestedContainer(keyedBy: VerificationKeys.self, forKey: .verification)
-        try verification.encode(cardRequest.sca.rawValue, forKey: .method) //TODO
+        try verification.encode(cardRequest.sca.rawValue, forKey: .method)
     }
 }
-
-//{
-//    "payment_source": {
-//        "card": {
-//            "number": "4111111111111111",
-//            "expiry": "2020-02",
-//            "name": "John Doe",
-//            "billing_address": {
-//                "address_line_1": "2211 N First Street",
-//                "address_line_2": "Building 17",
-//                "admin_area_2": "San Jose",
-//                "admin_area_1": "CA",
-//                "postal_code": "95131",
-//                "country_code": "US"
-//            },
-//            "attributes": {
-//                "customer": {
-//                    "id": "wxj1234"
-//                },
-//                "vault": {
-//                    "store_in_vault": "ON_SUCCESS"
-//                },
-//                "verification": {
-//                    "method": "SCA_WHEN_REQUIRED"
-//                }
-//            }
-//        }
-//    },
-//    "application_context": {
-//        "return_url": "return_url",
-//        "cancel_url": "return_url"
-//    }
-//}

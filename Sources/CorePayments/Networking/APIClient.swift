@@ -27,21 +27,7 @@ public class APIClient {
     
     // MARK: - Public Methods
     
-    /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
-    public func fetch<T: APIRequest>(request: T) async throws -> (T.ResponseType) {
-        let url = try constructURL(path: request.path, queryParameters: request.queryParameters)
-        
-        let httpRequest = HTTPRequest(
-            url: url,
-            method: request.method,
-            body: request.body,
-            headers: request.headers
-        )
-        
-        let httpResponse = try await http.performRequest(httpRequest)
-        return try HTTPResponseParser().parse(httpResponse, as: T.ResponseType.self)
-    }
-    
+    /// :nodoc: 
     public func fetch(request: RESTRequest) async throws -> HTTPResponse {
         let url = try constructURL(path: request.path, queryParameters: request.queryParameters ?? [:]) // cleaner way
         
@@ -55,8 +41,10 @@ public class APIClient {
         return try await http.performRequest(httpRequest)
     }
     
-    // TODO: - Add GraphQL func
+    // TODO: - Add GraphQL equivalent request type & function
     // public func fetch(request: GraphQLRequest) async throws -> HTTPResponse { }
+    
+    // MARK: - Private Methods
     
     private func constructURL(path: String, queryParameters: [String: String]) throws -> URL {
         let urlString = coreConfig.environment.baseURL.appendingPathComponent(path)
@@ -67,7 +55,7 @@ public class APIClient {
         }
 
         guard let url = urlComponents?.url else {
-            throw CorePaymentsError.clientIDNotFoundError // fix
+            throw CorePaymentsError.clientIDNotFoundError // TODO: - throw proper error type
         }
         
         return url

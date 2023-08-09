@@ -5,11 +5,17 @@ import CorePayments
 
 class CheckoutOrdersAPI {
     
-    let coreConfig: CoreConfig
+    // MARK: - Private Propertires
+    
+    private let coreConfig: CoreConfig
+    
+    // MARK: - Initializer
     
     init(coreConfig: CoreConfig) {
         self.coreConfig = coreConfig
     }
+    
+    // MARK: - Internal Functions
         
     func confirmPaymentSource(clientID: String, cardRequest: CardRequest) async throws -> ConfirmPaymentSourceResponse {
         let apiClient = APIClient(coreConfig: coreConfig)
@@ -18,10 +24,10 @@ class CheckoutOrdersAPI {
         
         let base64EncodedCredentials = Data(clientID.appending(":").utf8).base64EncodedString()
         
-        // encode the body -- todo move
+        // TODO: - Move JSON encoding into custom class, similar to HTTPResponseParser
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
-        let body = try encoder.encode(confirmData) // handle with special
+        let body = try encoder.encode(confirmData)
         
         let restRequest = RESTRequest(
             path: "/v2/checkout/orders/\(cardRequest.orderID)/confirm-payment-source",

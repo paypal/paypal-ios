@@ -1,5 +1,6 @@
 import Foundation
 
+/// :nodoc:
 public struct HTTPResponse {
     
     let status: Int
