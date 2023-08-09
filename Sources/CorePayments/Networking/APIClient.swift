@@ -55,6 +55,9 @@ public class APIClient {
         return try await http.performRequest(httpRequest)
     }
     
+    // TODO: - Add GraphQL func
+    // public func fetch(request: GraphQLRequest) async throws -> HTTPResponse { }
+    
     private func constructURL(path: String, queryParameters: [String: String]) throws -> URL {
         let urlString = coreConfig.environment.baseURL.appendingPathComponent(path)
         var urlComponents = URLComponents(url: urlString, resolvingAgainstBaseURL: false)
