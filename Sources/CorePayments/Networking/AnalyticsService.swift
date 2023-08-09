@@ -6,23 +6,23 @@ public struct AnalyticsService {
     // MARK: - Internal Properties
     
     private let coreConfig: CoreConfig
-    private let http: HTTP
+    private let apiClient: APIClient
     private let orderID: String
         
     // MARK: - Initializer
     
     public init(coreConfig: CoreConfig, orderID: String) {
         self.coreConfig = coreConfig
-        self.http = HTTP(coreConfig: coreConfig)
+        self.apiClient = APIClient(coreConfig: CoreConfig(clientID: coreConfig.clientID, environment: .live))
         self.orderID = orderID
     }
     
     // MARK: - Internal Initializer
 
     /// Exposed for testing
-    init(coreConfig: CoreConfig, orderID: String, http: HTTP) {
+    init(coreConfig: CoreConfig, orderID: String, apiClient: APIClient) {
         self.coreConfig = coreConfig
-        self.http = http
+        self.apiClient = apiClient
         self.orderID = orderID
     }
     
@@ -45,16 +45,38 @@ public struct AnalyticsService {
             let clientID = coreConfig.clientID
             
             let eventData = AnalyticsEventData(
-                environment: http.coreConfig.environment.toString,
+                environment: coreConfig.environment.toString,
                 eventName: name,
                 clientID: clientID,
                 orderID: orderID
             )
             
-            let analyticsEventRequest = try AnalyticsEventRequest(eventData: eventData)
-            let (_) = try await http.performRequest(analyticsEventRequest)
+            let (_) = try await TrackingEventsAPI().sendEvent(with: eventData)
         } catch {
             NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription)
         }
+    }
+}
+
+class TrackingEventsAPI {
+        
+    func sendEvent(with analyticsEventData: AnalyticsEventData) async throws -> HTTPResponse {
+        let apiClient = APIClient(coreConfig: CoreConfig(clientID: analyticsEventData.clientID, environment: .live))
+        
+        // encode the body -- todo move
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+        let body = try encoder.encode(analyticsEventData) // handle with special
+        
+        let restRequest = RESTRequest(
+            path: "v1/tracking/events",
+            method: .post,
+            headers: [.contentType: "application/json"],
+            queryParameters: nil,
+            body: body
+        )
+        
+        return try await apiClient.fetch(request: restRequest)
+        // skip HTTP parsing!
     }
 }

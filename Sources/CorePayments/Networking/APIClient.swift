@@ -29,7 +29,52 @@ public class APIClient {
     
     /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
     public func fetch<T: APIRequest>(request: T) async throws -> (T.ResponseType) {
-        let httpResponse = try await http.performRequest(request)
+        let url = try constructURL(path: request.path, queryParameters: request.queryParameters)
+        
+        let httpRequest = HTTPRequest(
+            url: url,
+            method: request.method,
+            body: request.body,
+            headers: request.headers
+        )
+        
+        let httpResponse = try await http.performRequest(httpRequest)
         return try HTTPResponseParser().parse(httpResponse, as: T.ResponseType.self)
     }
+    
+    func fetch(request: RESTRequest) async throws -> HTTPResponse {
+        let url = try constructURL(path: request.path, queryParameters: request.queryParameters ?? [:]) // cleaner way
+        
+        let httpRequest = HTTPRequest(
+            url: url,
+            method: request.method,
+            body: request.body,
+            headers: request.headers
+        )
+        
+        return try await http.performRequest(httpRequest)
+    }
+    
+    private func constructURL(path: String, queryParameters: [String: String]) throws -> URL {
+        let urlString = coreConfig.environment.baseURL.appendingPathComponent(path)
+        var urlComponents = URLComponents(url: urlString, resolvingAgainstBaseURL: false)
+        
+        queryParameters.forEach {
+            urlComponents?.queryItems?.append(URLQueryItem(name: $0.key, value: $0.value))
+        }
+
+        guard let url = urlComponents?.url else {
+            throw CorePaymentsError.clientIDNotFoundError // fix
+        }
+        
+        return url
+    }
+}
+
+public struct RESTRequest {
+    public var path: String
+    public var method: HTTPMethod
+    public var headers: [HTTPHeader: String]
+    public var queryParameters: [String: String]?
+    public var body: Data?
 }
