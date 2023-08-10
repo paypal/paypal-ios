@@ -73,16 +73,16 @@ struct ConfirmPaymentSourceRequest: Encodable {
         var card = paymentSource.nestedContainer(keyedBy: CardKeys.self, forKey: .card)
         try card.encode(cardRequest.card.number, forKey: .number)
         try card.encode("\(cardRequest.card.expirationYear)-\(cardRequest.card.expirationMonth)", forKey: .expiry)
-        try card.encode(cardRequest.card.cardholderName, forKey: .name)
+        try card.encodeIfPresent(cardRequest.card.cardholderName, forKey: .name)
 
         if let cardBillingInfo = cardRequest.card.billingAddress {
             var billingAddress = card.nestedContainer(keyedBy: BillingAddressKeys.self, forKey: .billingAddress)
-            try billingAddress.encode(cardBillingInfo.addressLine1, forKey: .addressLine1)
-            try billingAddress.encode(cardBillingInfo.addressLine2, forKey: .addressLine2)
-            try billingAddress.encode(cardBillingInfo.postalCode, forKey: .postalCode)
-            try billingAddress.encode(cardBillingInfo.region, forKey: .adminArea1)
-            try billingAddress.encode(cardBillingInfo.locality, forKey: .adminArea2)
-            try billingAddress.encode(cardBillingInfo.countryCode, forKey: .countryCode)
+            try billingAddress.encodeIfPresent(cardBillingInfo.addressLine1, forKey: .addressLine1)
+            try billingAddress.encodeIfPresent(cardBillingInfo.addressLine2, forKey: .addressLine2)
+            try billingAddress.encodeIfPresent(cardBillingInfo.postalCode, forKey: .postalCode)
+            try billingAddress.encodeIfPresent(cardBillingInfo.region, forKey: .adminArea1)
+            try billingAddress.encodeIfPresent(cardBillingInfo.locality, forKey: .adminArea2)
+            try billingAddress.encodeIfPresent(cardBillingInfo.countryCode, forKey: .countryCode)
         }
         
         var attributes = card.nestedContainer(keyedBy: AttributesKeys.self, forKey: .attributes)
