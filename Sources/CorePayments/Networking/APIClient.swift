@@ -32,10 +32,10 @@ public class APIClient {
         let url = try constructURL(path: request.path, queryParameters: request.queryParameters ?? [:]) // cleaner way
         
         let httpRequest = HTTPRequest(
-            url: url,
+            headers: request.headers,
             method: request.method,
-            body: request.body,
-            headers: request.headers
+            url: url,
+            body: request.body
         )
         
         return try await http.performRequest(httpRequest)
