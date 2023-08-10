@@ -1,7 +1,7 @@
 import Foundation
 import CorePayments
 
-struct ClientIDRequest: APIRequest {
+struct ClientIDRequest {
 
     typealias ResponseType = ClientIDResponse
 
