@@ -4,6 +4,8 @@
 ## unreleased
 * PayPalNativePayments
   * Bump `PayPalCheckout` to `1.0.0`
+* PaymentsCore
+  * Allow `ASWebAuthenticationSession` used for PayPal Web & 3DS flows to share cookies with Safari (fixes #179)
   
 ## 0.0.9 (2023-06-23)
 * Breaking Changes
