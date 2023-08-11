@@ -3,6 +3,7 @@ import Foundation
 /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
 ///
 /// `APIClient` is the entry point for each payment method feature to perform API requests. It also offers convenience methods for API requests used across multiple payment methods / modules.
+// TODO: - Rename to `NetworkingClient`. Now that we have `<PPaaS>API.swift` classes, ths responsibility of this class really is to coordinate networking.
 public class APIClient {
         
     // MARK: - Internal Properties
