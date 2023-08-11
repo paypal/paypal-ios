@@ -14,8 +14,8 @@
 		067C92E527270FDE009E3054 /* PayPalEnvironment_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067C92E427270FDE009E3054 /* PayPalEnvironment_Tests.swift */; };
 		06CE009926F3D1660000CC46 /* CoreConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009826F3D1660000CC46 /* CoreConfig.swift */; };
 		06CE009B26F3D5A40000CC46 /* CardClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009A26F3D5A40000CC46 /* CardClient.swift */; };
-		3B109B392A85A9DB00D8135F /* MockGraphQLClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B109B382A85A9DB00D8135F /* MockGraphQLClient.swift */; };
 		3B109B3C2A85CC6200D8135F /* MockCardVaultDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B109B3A2A85B54800D8135F /* MockCardVaultDelegate.swift */; };
+		3B109B3D2A85D1CA00D8135F /* MockGraphQLClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B109B382A85A9DB00D8135F /* MockGraphQLClient.swift */; };
 		3B22E8B62A840ECF00962E34 /* CardVaultDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22E8B52A840ECF00962E34 /* CardVaultDelegate.swift */; };
 		3B22E8B82A841AEA00962E34 /* CardVaultResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22E8B72A841AEA00962E34 /* CardVaultResult.swift */; };
 		3B79E4F72A8503CA00C01D06 /* UpdateSetupTokenQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B79E4F62A8503C900C01D06 /* UpdateSetupTokenQuery.swift */; };
@@ -1314,7 +1314,6 @@
 			files = (
 				802C4A742945670400896A5D /* MockHTTP.swift in Sources */,
 				CB4BE28C2851427600EA2DD1 /* MockViewController.swift in Sources */,
-				3B109B392A85A9DB00D8135F /* MockGraphQLClient.swift in Sources */,
 				803C31B9270E4C560067D36E /* MockURLSession.swift in Sources */,
 				CB4BE28B2851423900EA2DD1 /* MockWebAuthenticationSession.swift in Sources */,
 				CB4BE28A28512A9800EA2DD1 /* MockQuededURLSession.swift in Sources */,
@@ -1331,6 +1330,7 @@
 				06CE009B26F3D5A40000CC46 /* CardClient.swift in Sources */,
 				3B79E4F72A8503CA00C01D06 /* UpdateSetupTokenQuery.swift in Sources */,
 				8048D28C270B9DE00072214A /* ConfirmPaymentSourceResponse.swift in Sources */,
+				3B109B3D2A85D1CA00D8135F /* MockGraphQLClient.swift in Sources */,
 				3D1763A22720722A00652E1C /* CardResult.swift in Sources */,
 				BC0A82A5270B9533006E9A21 /* ConfirmPaymentSourceRequest.swift in Sources */,
 				CB4BE2802847F01000EA2DD1 /* CardDelegate.swift in Sources */,
