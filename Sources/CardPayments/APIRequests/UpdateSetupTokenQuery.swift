@@ -1,5 +1,7 @@
 import Foundation
+#if canImport(CorePayments)
 import CorePayments
+#endif
 
 class UpdateSetupTokenQuery: Codable, GraphQLQuery {
     

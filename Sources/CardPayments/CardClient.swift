@@ -60,14 +60,13 @@ public class CardClient: NSObject {
                         notifyVaultSuccess(for: vaultResult)
                     }
                 } else {
-                    notifyFailure(with: CardClientError.noVaultTokenDataError)
+                    notifyVaultFailure(with: CardClientError.noVaultTokenDataError)
                 }
             } catch  let error as CoreSDKError {
-                // TODO: right now, GraphQLError is thrown, but will need to add new
-                // errors after refactor
-                notifyFailure(with: error)
+                // TODO: right now, GraphQLError is thrown, but will need to add new errors after refactor
+                notifyVaultFailure(with: error)
             } catch {
-                notifyFailure(with: CardClientError.vaultTokenError)
+                notifyVaultFailure(with: CardClientError.vaultTokenError)
             }
         }
     }

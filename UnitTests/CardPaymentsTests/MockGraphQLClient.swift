@@ -1,10 +1,9 @@
 @testable import CorePayments
-@testable import CardPayments
 
 class MockGraphQLClient: GraphQLClient {
     
     var mockSuccessResponse: GraphQLQueryResponse<UpdateSetupTokenResponse>?
-    var mockErrorResponse: CoreSDKError?
+    var mockErrorResponse: Error?
     
     override func callGraphQL<T, Q>(
         name: String, query: Q

@@ -60,8 +60,8 @@ enum CardClientError {
     )
     
     static let vaultTokenError = CoreSDKError(
-        code: Code.noVaultTokenDataError.rawValue,
+        code: Code.vaultTokenError.rawValue,
         domain: domain,
-        errorDescription: "An error occurred while vaulting a card"
+        errorDescription: "An error occurred while vaulting a card."
         )
 }
