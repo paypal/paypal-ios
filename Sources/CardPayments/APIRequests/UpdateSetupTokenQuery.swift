@@ -56,9 +56,10 @@ class UpdateSetupTokenQuery: Codable, GraphQLQuery {
             vaultSetupToken: vaultSetupToken,
             paymentSource: paymentSource
         )
+        // swiftlint:disable indentation_width
         let queryString = """
                 mutation UpdateVaultSetupToken(
-                    $clientID: String!,
+                 $clientID: String!,
                     $vaultSetupToken: String!,
                     $paymentSource: PaymentSource
                 ) {
@@ -77,4 +78,5 @@ class UpdateSetupTokenQuery: Codable, GraphQLQuery {
                 """
         self.query = queryString
     }
+    // swiftlint:enable indentation_width
 }

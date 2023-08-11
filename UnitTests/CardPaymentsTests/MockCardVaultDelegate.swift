@@ -3,11 +3,11 @@
 
 class MockCardVaultDelegate: CardVaultDelegate {
     
-    func card(_ cardClient: CardPayments.CardClient, didFinishWithVaultResult vaultResult: CardPayments.CardVaultResult) {
+    func card(_ cardClient: CardClient, didFinishWithVaultResult vaultResult: CardPayments.CardVaultResult) {
         success?(cardClient, vaultResult)
     }
     
-    func card(_ cardClient: CardPayments.CardClient, didFinishWithVaultError vaultError: CorePayments.CoreSDKError) {
+    func card(_ cardClient: CardClient, didFinishWithVaultError vaultError: CorePayments.CoreSDKError) {
         failure?(cardClient, vaultError)
     }
     

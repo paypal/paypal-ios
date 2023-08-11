@@ -15,7 +15,7 @@
 		06CE009926F3D1660000CC46 /* CoreConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009826F3D1660000CC46 /* CoreConfig.swift */; };
 		06CE009B26F3D5A40000CC46 /* CardClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009A26F3D5A40000CC46 /* CardClient.swift */; };
 		3B109B392A85A9DB00D8135F /* MockGraphQLClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B109B382A85A9DB00D8135F /* MockGraphQLClient.swift */; };
-		3B109B3B2A85B54800D8135F /* MockCardVaultDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B109B3A2A85B54800D8135F /* MockCardVaultDelegate.swift */; };
+		3B109B3C2A85CC6200D8135F /* MockCardVaultDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B109B3A2A85B54800D8135F /* MockCardVaultDelegate.swift */; };
 		3B22E8B62A840ECF00962E34 /* CardVaultDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22E8B52A840ECF00962E34 /* CardVaultDelegate.swift */; };
 		3B22E8B82A841AEA00962E34 /* CardVaultResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22E8B72A841AEA00962E34 /* CardVaultResult.swift */; };
 		3B79E4F72A8503CA00C01D06 /* UpdateSetupTokenQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B79E4F62A8503C900C01D06 /* UpdateSetupTokenQuery.swift */; };
@@ -1313,7 +1313,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				802C4A742945670400896A5D /* MockHTTP.swift in Sources */,
-				3B109B3B2A85B54800D8135F /* MockCardVaultDelegate.swift in Sources */,
 				CB4BE28C2851427600EA2DD1 /* MockViewController.swift in Sources */,
 				3B109B392A85A9DB00D8135F /* MockGraphQLClient.swift in Sources */,
 				803C31B9270E4C560067D36E /* MockURLSession.swift in Sources */,
@@ -1353,6 +1352,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				065A4DBF26FCDA5B0007014A /* CardClient_Tests.swift in Sources */,
+				3B109B3C2A85CC6200D8135F /* MockCardVaultDelegate.swift in Sources */,
 				CB16E6D8285B7A2B00FD6F52 /* CardResponses.swift in Sources */,
 				CB16E6DA285B7B7300FD6F52 /* MockCardDelegate.swift in Sources */,
 				BC0A82A6270B9954006E9A21 /* ConfirmPaymentSourceRequest_Tests.swift in Sources */,
