@@ -43,7 +43,8 @@ public class APIClient {
     
     // TODO: - Add GraphQL equivalent request type & function
 //     public func fetch(request: GraphQLRequest) async throws -> HTTPResponse { }
-    public func fetch() throws {
+    public func fetch() async throws -> HTTPResponse {
+        // Query String
         let queryString = """
             mutation UpdateVaultSetupToken(
                 $clientID: String!,
@@ -64,22 +65,47 @@ public class APIClient {
             }
         """
         
-        // TODO: - Move JSON encoding into custom class, similar to HTTPResponseParser
+        // Encodable Variables
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
         let variables = try encoder.encode(VaultDataEncodableVariables())
         
-        // Combine varialbes & query into single post body
-        let graphQLRequest = GraphQLRequest(
-            queryNameForURL: "UpdateVaultSetupToken",
-            query: queryString,
-            variables: variables
-        )
+        // Combine variables & query into single post body
+        let post = GraphQLHTTPPostBody(query: queryString, variables: variables)
+        let postData = try JSONEncoder().encode(VaultDataEncodableVariables())
+        
+        //        let graphQLRequest = GraphQLRequest(
+        //            queryNameForURL: "UpdateVaultSetupToken",
+        //            query: queryString,
+        //            variables: variables
+        //        )
+        
+        let url = try constructGraphQLURL(queryName: "UpdateVaultSetupToken")
         
         // Construct HTTPRequest
+        let httpRequest = HTTPRequest(
+            headers: [.contentType: "application/json"],
+            method: .post,
+            url: url,
+            body: postData
+        )
+        
+        return try await http.performRequest(httpRequest)
     }
     
     // MARK: - Private Methods
+    
+    private func constructGraphQLURL(queryName: String? = nil) throws -> URL {
+        guard let queryName else {
+            return coreConfig.environment.graphQLURL
+        }
+        
+        if let url = URL(string: coreConfig.environment.graphQLURL.absoluteString + "?" + queryName) {
+            return url
+        } else {
+            throw CorePaymentsError.clientIDNotFoundError // TODO: - throw proper error type
+        }
+    }
     
     private func constructURL(path: String, queryParameters: [String: String]) throws -> URL {
         let urlString = coreConfig.environment.baseURL.appendingPathComponent(path)
@@ -97,8 +123,15 @@ public class APIClient {
     }
 }
 
+public struct GraphQLHTTPPostBody: Encodable {
+    
+    let query: String
+    let variables: Data
+}
+
 /// :nodoc:
 public struct GraphQLRequest {
+    
     let queryNameForURL: String?
     let query: String
     let variables: Data // Dictionary

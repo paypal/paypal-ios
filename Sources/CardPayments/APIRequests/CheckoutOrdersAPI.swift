@@ -16,6 +16,16 @@ class CheckoutOrdersAPI {
     
     init(coreConfig: CoreConfig) {
         self.coreConfig = coreConfig
+        
+        let apiClient = APIClient(coreConfig: coreConfig)
+        Task {
+            do {
+                let response = try await apiClient.fetch()
+                print(response)
+            } catch {
+                //
+            }
+        }
     }
     
     // MARK: - Internal Methods
