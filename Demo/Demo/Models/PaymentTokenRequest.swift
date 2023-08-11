@@ -3,7 +3,7 @@ import CorePayments
 
 struct PaymentTokenRequest {
     
-	let setupToken: String
+    let setupToken: String
     
     var path: String {
         "/payment_tokens/"
