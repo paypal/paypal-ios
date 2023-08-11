@@ -46,9 +46,7 @@ public class CardClient: NSObject {
             do {
                 let card = vaultRequest.card
                 let setupTokenID = vaultRequest.setupTokenID
-                let (updateResult) = try await updateSetupToken(
-                    vaultSetupTokenID: setupTokenID,
-                    card: card)
+                let (updateResult) = try await updateSetupToken(vaultSetupTokenID: setupTokenID, card: card)
                 if let result = updateResult {
                     // can it be not approved and end up here?
                     // TODO: handle 3DS contingency with helios link

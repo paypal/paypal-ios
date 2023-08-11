@@ -1,5 +1,6 @@
 import Foundation
 
+//// :nodoc: This class handles urlRequests for GraphQL endpoints
 public class GraphQLClient {
 
     public let environment: Environment
