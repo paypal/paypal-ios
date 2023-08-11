@@ -56,6 +56,7 @@ public class GraphQLClient {
 
 extension GraphQLQuery where Self: Codable {
 
+    /// :nodoc: Converts GraphQLQuery into Data
     public func requestBody() throws -> Data {
         let encoder = JSONEncoder()
         return try encoder.encode(self)
