@@ -25,6 +25,8 @@ class CardClient_Tests: XCTestCase {
     var mockAPIClient: MockAPIClient!
     var cardClient: CardClient!
     var cardRequest: CardRequest!
+    var mockGraphQLClient: MockGraphQLClient!
+    var mockCardVaultDelegate: MockCardVaultDelegate!
     // swiftlint:enable implicitly_unwrapped_optional
 
     // MARK: - Test lifecycle
@@ -34,12 +36,38 @@ class CardClient_Tests: XCTestCase {
         config = CoreConfig(clientID: mockClientID, environment: .sandbox)
         mockAPIClient = MockAPIClient(coreConfig: config)
         cardRequest = CardRequest(orderID: "testOrderId", card: card)
-
+        mockGraphQLClient = MockGraphQLClient(environment: .sandbox)
+        
         cardClient = CardClient(
             config: config,
             apiClient: mockAPIClient,
-            webAuthenticationSession: mockWebAuthSession
+            webAuthenticationSession: mockWebAuthSession,
+            graphQLClient: mockGraphQLClient
         )
+    }
+    
+    // MARK: - vault() tests
+    
+    func testVault_withValidResponse_returnsSuccess() {
+        
+        let setupTokenID = "testToken1"
+        let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
+        let updateSetupTokenResponse = UpdateSetupTokenResponse(
+            updateVaultSetupToken: TokenDetails(id: setupTokenID, status: "APPROVED", links: [TokenDetails.Link(rel: "df", href: "h")])
+        )
+        mockGraphQLClient.mockSuccessResponse = GraphQLQueryResponse(data: updateSetupTokenResponse)
+        
+        let expectation = expectation(description: "vault completed")
+        let cardVaultDelegate = MockCardVaultDelegate(success: {_, result in
+            XCTAssertEqual(result.setupTokenID, setupTokenID)
+            expectation.fulfill()
+        }, error: {_, _ in
+            XCTFail("Invoked error() callback. Should invoke success().")
+        })
+        cardClient.vaultDelegate = cardVaultDelegate
+        cardClient.vault(vaultRequest: vaultRequest)
+        
+        waitForExpectations(timeout: 10)
     }
 
     // MARK: - approveOrder() tests

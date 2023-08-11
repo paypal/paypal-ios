@@ -40,13 +40,14 @@ public class CardClient: NSObject {
     public func vault(vaultRequest: CardVaultRequest) {
         Task {
             guard graphQLClient != nil else {
+                // TODO: this will be APIClient after networking layer refactor
                 throw CardClientError.unknownError
             }
             do {
                 let card = vaultRequest.card
-                let setupToken = vaultRequest.setupToken
+                let setupTokenID = vaultRequest.setupTokenID
                 let (updateResult) = try await updateSetupToken(
-                    vaultSetupToken: setupToken,
+                    vaultSetupTokenID: setupTokenID,
                     card: card)
                 if let result = updateResult {
                     // can it be not approved and end up here?
@@ -59,25 +60,27 @@ public class CardClient: NSObject {
                         notifyVaultSuccess(for: vaultResult)
                     }
                 } else {
-                    notifyFailure(with: CardClientError.unknownError) // need to make Vault error?
+                    notifyFailure(with: CardClientError.noVaultTokenDataError)
                 }
             } catch  let error as CoreSDKError {
+                // TODO: right now, GraphQLError is thrown, but will need to add new
+                // errors after refactor
                 notifyFailure(with: error)
             } catch {
-                notifyFailure(with: CardClientError.unknownError)
+                notifyFailure(with: CardClientError.vaultTokenError)
             }
         }
     }
     
     func updateSetupToken(
-        vaultSetupToken: String,
+        vaultSetupTokenID: String,
         card: Card
     ) async throws -> TokenDetails? {
         guard let graphQLClient else {
             throw CardClientError.unknownError
         }
         let clientID = config.clientID
-        let query = UpdateSetupTokenQuery(clientID: clientID, vaultSetupToken: vaultSetupToken, card: card)
+        let query = UpdateSetupTokenQuery(clientID: clientID, vaultSetupToken: vaultSetupTokenID, card: card)
         let response: GraphQLQueryResponse<UpdateSetupTokenResponse> = try await graphQLClient.callGraphQL(
             name: "UpdateVaultSetupToken", query: query
         )

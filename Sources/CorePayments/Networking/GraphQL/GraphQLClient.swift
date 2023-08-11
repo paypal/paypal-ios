@@ -11,19 +11,6 @@ public class GraphQLClient {
         self.urlSession = urlSession
     }
 
-    func executeQuery<T: Decodable, Q: GraphQLQuery>(query: Q) async throws -> GraphQLQueryResponse<T> {
-        var request = try createURLRequest(requestBody: query.requestBody())
-        headers().forEach { key, value in
-            request.addValue(value, forHTTPHeaderField: key)
-        }
-        let (data, response) = try await urlSession.performRequest(with: request)
-        guard response is HTTPURLResponse else {
-            return GraphQLQueryResponse(data: nil)
-        }
-        let decoded: GraphQLQueryResponse<T> = try parse(data: data)
-        return decoded
-    }
-
     public func callGraphQL<T: Decodable, Q: GraphQLQuery>(name: String, query: Q) async throws -> GraphQLQueryResponse<T> {
         
         var request = try createURLRequest(name: name, requestBody: query.requestBody())

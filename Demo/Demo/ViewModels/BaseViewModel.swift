@@ -108,7 +108,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
                 customerID: customerID, selectedMerchantIntegration: selectedMerchantIntegration
             )
             if let tokenResponse {
-                let cardVaultRequest = CardVaultRequest(card: card, setupToken: tokenResponse.id)
+                let cardVaultRequest = CardVaultRequest(card: card, setupTokenID: tokenResponse.id)
                 cardClient.vault(vaultRequest: cardVaultRequest)
             }
         } catch {
