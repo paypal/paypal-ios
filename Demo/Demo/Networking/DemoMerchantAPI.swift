@@ -19,34 +19,34 @@ final class DemoMerchantAPI {
 
     // MARK: Public Methods
     
-    func getSetupToken(customerID: String? = nil, selectedMerchantIntegration: MerchantIntegration) async throws -> SetUpTokenResponse? {
-        let request = SetUpTokenRequest(customerID: customerID)
-        let urlRequest = try createSetupTokenUrlRequest(
-            setupTokenRequest: request, environment: DemoSettings.environment, selectedMerchantIntegration: selectedMerchantIntegration
-        )
-        
+    func getSetupToken(customerID: String? = nil, selectedMerchantIntegration: MerchantIntegration) async throws -> SetUpTokenResponse {
         do {
+            let request = SetUpTokenRequest(customerID: customerID)
+            let urlRequest = try createSetupTokenUrlRequest(
+                setupTokenRequest: request, environment: DemoSettings.environment, selectedMerchantIntegration: selectedMerchantIntegration
+            )
+            
             let data = try await data(for: urlRequest)
             return try parse(from: data)
         } catch {
             print("error with the create setup token request: \(error.localizedDescription)")
-            return nil
+            throw error
         }
     }
     
-    func getPaymentToken(setupToken: String, selectedMerchantIntegration: MerchantIntegration) async throws -> PaymentTokenResponse? {
-        // make responseType
-        let request = PaymentTokenRequest(setupToken: setupToken)
-        let urlRequest = try createPaymentTokenUrlRequest(
-            paymentTokenRequest: request, environment: DemoSettings.environment, selectedMerchantIntegration: selectedMerchantIntegration
-        )
-        
+	func getPaymentToken(setupToken: String, selectedMerchantIntegration: MerchantIntegration) async throws -> PaymentTokenResponse {
         do {
-            let data = try await data(for: urlRequest)
+            let request = PaymentTokenRequest(setupToken: setupToken)
+            let urlRequest = try createPaymentTokenUrlRequest(
+                paymentTokenRequest: request,
+                environment: DemoSettings.environment,
+                selectedMerchantIntegration: selectedMerchantIntegration
+	)
+		let data = try await data(for: urlRequest)
             return try parse(from: data)
         } catch {
-            print("error with the create setup token request: \(error.localizedDescription)")
-            return nil
+            print("error with the create payment token request: \(error.localizedDescription)")
+            throw error
         }
     }
     
@@ -199,7 +199,9 @@ final class DemoMerchantAPI {
     }
     
     private func createUrlRequest(
-        clientIDRequest: ClientIDRequest, environment: Demo.Environment, selectedMerchantIntegration: MerchantIntegration
+        clientIDRequest: ClientIDRequest,
+        environment: Demo.Environment,
+        selectedMerchantIntegration: MerchantIntegration
     ) throws -> URLRequest {
         var completeUrl = environment.baseURL
        
@@ -218,7 +220,9 @@ final class DemoMerchantAPI {
     }
     
     private func createSetupTokenUrlRequest(
-        setupTokenRequest: SetUpTokenRequest, environment: Demo.Environment, selectedMerchantIntegration: MerchantIntegration
+        setupTokenRequest: SetUpTokenRequest,
+        environment: Demo.Environment,
+        selectedMerchantIntegration: MerchantIntegration
     ) throws -> URLRequest {
         var completeUrl = environment.baseURL
        
@@ -237,7 +241,9 @@ final class DemoMerchantAPI {
     }
     
     private func createPaymentTokenUrlRequest(
-        paymentTokenRequest: PaymentTokenRequest, environment: Demo.Environment, selectedMerchantIntegration: MerchantIntegration
+        paymentTokenRequest: PaymentTokenRequest,
+        environment: Demo.Environment,
+        selectedMerchantIntegration: MerchantIntegration
     ) throws -> URLRequest {
         var completeUrl = environment.baseURL
        

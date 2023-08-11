@@ -39,29 +39,20 @@ public class CardClient: NSObject {
     
     public func vault(vaultRequest: CardVaultRequest) {
         Task {
-            guard graphQLClient != nil else {
-                // TODO: this will be APIClient after networking layer refactor
-                throw CardClientError.unknownError
-            }
             do {
                 let card = vaultRequest.card
                 let setupTokenID = vaultRequest.setupTokenID
                 let (updateResult) = try await updateSetupToken(vaultSetupTokenID: setupTokenID, card: card)
-                if let result = updateResult {
-                    // can it be not approved and end up here?
-                    // TODO: handle 3DS contingency with helios link
-                    if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
-                        let url = link.href
-                        print("3DS url \(url)")
-                    } else {
-                        let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status)
-                        notifyVaultSuccess(for: vaultResult)
-                    }
+                let result = updateResult
+                // TODO: handle 3DS contingency with helios link
+                if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
+                    let url = link.href
+                    print("3DS url \(url)")
                 } else {
-                    notifyVaultFailure(with: CardClientError.noVaultTokenDataError)
+                    let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status)
+                    notifyVaultSuccess(for: vaultResult)
                 }
-            } catch  let error as CoreSDKError {
-                // TODO: right now, GraphQLError is thrown, but will need to add new errors after refactor
+            } catch let error as CoreSDKError {
                 notifyVaultFailure(with: error)
             } catch {
                 notifyVaultFailure(with: CardClientError.vaultTokenError)
@@ -72,18 +63,18 @@ public class CardClient: NSObject {
     func updateSetupToken(
         vaultSetupTokenID: String,
         card: Card
-    ) async throws -> TokenDetails? {
+    ) async throws -> TokenDetails {
         guard let graphQLClient else {
-            throw CardClientError.unknownError
+            throw CardClientError.nilGraphQLClientError
         }
+
         let clientID = config.clientID
         let query = UpdateSetupTokenQuery(clientID: clientID, vaultSetupToken: vaultSetupTokenID, card: card)
         let response: GraphQLQueryResponse<UpdateSetupTokenResponse> = try await graphQLClient.callGraphQL(
             name: "UpdateVaultSetupToken", query: query
         )
-        guard let data = response.data
-        else {
-            return nil
+        guard let data = response.data else {
+            throw CardClientError.noVaultTokenDataError
         }
         return data.updateVaultSetupToken
     }

@@ -25,6 +25,9 @@ enum CardClientError {
         
         /// 5. An error occurred during updating setup token
         case vaultTokenError
+
+        /// 6. GraphQLClient is unexpectedly nil
+        case nilGraphQLClientError
     }
 
     static let unknownError = CoreSDKError(
@@ -63,5 +66,11 @@ enum CardClientError {
         code: Code.vaultTokenError.rawValue,
         domain: domain,
         errorDescription: "An error occurred while vaulting a card."
+        )
+
+    static let nilGraphQLClientError = CoreSDKError(
+        code: Code.nilGraphQLClientError.rawValue,
+        domain: domain,
+        errorDescription: "GraphQLClient is unexpectedly nil."
         )
 }

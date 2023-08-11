@@ -47,7 +47,7 @@ class CardClient_Tests: XCTestCase {
     }
     
     // MARK: - vault() tests
-    
+
     func testVault_withValidResponse_returnsSuccess() {
         
         let setupTokenID = "testToken1"
@@ -76,7 +76,6 @@ class CardClient_Tests: XCTestCase {
         
         let setupTokenID = "testToken1"
         let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
-        let expectedError = CardClientError.noVaultTokenDataError
        
         mockGraphQLClient.mockSuccessResponse = GraphQLQueryResponse(data: nil)
         

@@ -99,18 +99,15 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
         customerID: String? = nil
     ) async {
         do {
-            guard let config = await getCoreConfig() else {
-                return
-            }
+            guard let config = await getCoreConfig() else { return }
             let cardClient = CardClient(config: config)
             cardClient.vaultDelegate = self
             let tokenResponse = try await DemoMerchantAPI.sharedService.getSetupToken(
                 customerID: customerID, selectedMerchantIntegration: selectedMerchantIntegration
             )
-            if let tokenResponse {
-                let cardVaultRequest = CardVaultRequest(card: card, setupTokenID: tokenResponse.id)
-                cardClient.vault(vaultRequest: cardVaultRequest)
-            }
+            
+            let cardVaultRequest = CardVaultRequest(card: card, setupTokenID: tokenResponse.id)
+            cardClient.vault(vaultRequest: cardVaultRequest)
         } catch {
             print("Error in getSetupToken: \(error.localizedDescription)")
         }
@@ -247,12 +244,13 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
         )
         print("Vault without purchase has finished: \(vaultResult)")
         Task {
-            if let paymentTokenResult = try? await DemoMerchantAPI.sharedService.getPaymentToken(
-                setupToken: vaultResult.setupTokenID, selectedMerchantIntegration: selectedMerchantIntegration
-            ) {
+            do {
+                let paymentTokenResult = try await DemoMerchantAPI.sharedService.getPaymentToken(
+                    setupToken: vaultResult.setupTokenID, selectedMerchantIntegration: selectedMerchantIntegration
+                )
                 print("Payment Token: \(String(describing: paymentTokenResult))")
-            } else {
-                print("Payment Token could not be created")
+            } catch {
+                print("Error obtaining Payment Token: \(error.localizedDescription)")
             }
         }
     }

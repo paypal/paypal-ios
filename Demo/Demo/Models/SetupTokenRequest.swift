@@ -6,15 +6,15 @@ struct SetUpTokenRequest {
     let customerID: String?
     
     var path: String {
-        return "/setup_tokens/"
+        "/setup_tokens/"
     }
     
     var method: CorePayments.HTTPMethod {
-        return .post
+        .post
     }
     
     var headers: [CorePayments.HTTPHeader: String] {
-        return [.contentType: "application/json"]
+        [.contentType: "application/json"]
     }
     
     var body: Data? {

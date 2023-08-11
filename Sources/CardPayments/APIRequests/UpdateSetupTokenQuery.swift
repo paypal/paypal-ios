@@ -42,7 +42,6 @@ class UpdateSetupTokenQuery: Codable, GraphQLQuery {
         vaultSetupToken: String,
         card: Card
     ) {
-        
         let vaultCard = VaultCard(
             number: card.number,
             expiry: card.expiry,
