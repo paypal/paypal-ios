@@ -24,11 +24,19 @@ public class HTTPResponseParser {
             }
         } else {
             do {
-                let errorData = try decoder.decode(ErrorResponse.self, from: data)
-                throw APIClientError.serverResponseError(errorData.readableDescription)
+                let errorData = try decoder.decode(GraphQLErrorResponse.self, from: data)
+                throw APIClientError.serverResponseError(errorData.error)
+
+//                throw APIClientError.serverResponseError(errorData.readableDescription)
             } catch {
                 throw APIClientError.jsonDecodingError(error.localizedDescription)
             }
         }
     }
+}
+
+struct GraphQLErrorResponse: Decodable {
+    
+    let error: String
+    let correlationId: String?
 }

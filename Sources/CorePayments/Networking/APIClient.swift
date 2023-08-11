@@ -41,48 +41,13 @@ public class APIClient {
         return try await http.performRequest(httpRequest)
     }
     
-    // TODO: - Add GraphQL equivalent request type & function
-//     public func fetch(request: GraphQLRequest) async throws -> HTTPResponse { }
-    public func fetch() async throws -> HTTPResponse {
-        // Query String
-        let queryString = """
-            mutation UpdateVaultSetupToken(
-                $clientID: String!,
-                $vaultSetupToken: String!,
-                $paymentSource: PaymentSource
-            ) {
-                updateVaultSetupToken(
-                    clientId: $clientID
-                    vaultSetupToken: $vaultSetupToken
-                    paymentSource: $paymentSource
-                ) {
-                    id,
-                    status,
-                    links {
-                        rel, href
-                    }
-                }
-            }
-        """
-        
-        // Encodable Variables
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        let variables = try encoder.encode(VaultDataEncodableVariables())
-        
-        // Combine variables & query into single post body
-        let post = GraphQLHTTPPostBody(query: queryString, variables: variables)
-        let postData = try JSONEncoder().encode(VaultDataEncodableVariables())
-        
-        //        let graphQLRequest = GraphQLRequest(
-        //            queryNameForURL: "UpdateVaultSetupToken",
-        //            query: queryString,
-        //            variables: variables
-        //        )
-        
-        let url = try constructGraphQLURL(queryName: "UpdateVaultSetupToken")
-        
-        // Construct HTTPRequest
+    /// :nodoc:
+    public func fetch(request: GraphQLRequest) async throws -> HTTPResponse {
+        let url = try constructGraphQLURL(queryName: request.queryNameForURL)
+
+        let postBody = GraphQLHTTPPostBody(query: request.query, variables: request.variables)
+        let postData = try JSONEncoder().encode(postBody)
+                
         let httpRequest = HTTPRequest(
             headers: [.contentType: "application/json"],
             method: .post,
@@ -122,66 +87,3 @@ public class APIClient {
         return url
     }
 }
-
-public struct GraphQLHTTPPostBody: Encodable {
-    
-    let query: String
-    let variables: Data
-}
-
-/// :nodoc:
-public struct GraphQLRequest {
-    
-    let queryNameForURL: String?
-    let query: String
-    let variables: Data // Dictionary
-}
-
-struct VaultDataEncodableVariables: Encodable {
-    
-    // MARK: - Coding KEys
-    
-    private enum TopLevelKeys: String, CodingKey {
-        case clientID
-        case vaultSetupToken
-        case paymentSource
-    }
-    
-    private  enum PaymentSourceKeys: String, CodingKey {
-        case card
-    }
-    
-    private enum CardKeys: String, CodingKey {
-        case number
-        case securityCode
-        case expiry
-        case name
-    }
-    
-    // MARK: - Initializer
-    
-    // TODO: - Migrate details from VaultRequest introduced in Victoria's PR
-    
-    // MARK: - Custom Encoder
-    
-    func encode(to encoder: Encoder) throws {
-        var topLevel = encoder.container(keyedBy: TopLevelKeys.self)
-        try topLevel.encode("fake-client-id", forKey: .clientID)
-        try topLevel.encode("fake-vault-setup-token", forKey: .vaultSetupToken)
-        
-        var paymentSource = topLevel.nestedContainer(keyedBy: PaymentSourceKeys.self, forKey: .paymentSource)
-        
-        var card = paymentSource.nestedContainer(keyedBy: CardKeys.self, forKey: .card)
-        try card.encode("4111 1111 1111 1111", forKey: .number)
-        try card.encode("123", forKey: .securityCode)
-        try card.encode("2027-09", forKey: .expiry)
-        try card.encode("Sammy", forKey: .name)
-    }
-}
-
-// SAMPLE
-//{
-//  "query": "query GreetingQuery ($arg1: String) { hello (name: $arg1) { value } }",
-//  "operationName": "GreetingQuery",
-//  "variables": { "arg1": "Timothy" }
-//}

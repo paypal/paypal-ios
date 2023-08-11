@@ -38,6 +38,8 @@
 		807BF58F2A2A5D19002F32B3 /* HTTPResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807BF58E2A2A5D19002F32B3 /* HTTPResponseParser.swift */; };
 		807BF5912A2A5D48002F32B3 /* HTTPResponseParser_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807BF5902A2A5D48002F32B3 /* HTTPResponseParser_Tests.swift */; };
 		807C5E6929102D9800ECECD8 /* AnalyticsEventData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807C5E6829102D9800ECECD8 /* AnalyticsEventData.swift */; };
+		807D56AC2A869044009E591D /* GraphQLHTTPPostBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807D56AB2A869044009E591D /* GraphQLHTTPPostBody.swift */; };
+		807D56AE2A869064009E591D /* GraphQLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807D56AD2A869064009E591D /* GraphQLRequest.swift */; };
 		808EEA81291321FE001B6765 /* AnalyticsEventRequest_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808EEA80291321FE001B6765 /* AnalyticsEventRequest_Tests.swift */; };
 		80D0C1382731CC9B00548A3D /* PayPalNativeCheckoutClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7116152723227200165069 /* PayPalNativeCheckoutClient.swift */; };
 		80DB2F762980795D00CFB86A /* CorePaymentsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DB2F752980795D00CFB86A /* CorePaymentsError.swift */; };
@@ -219,6 +221,8 @@
 		807BF58E2A2A5D19002F32B3 /* HTTPResponseParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPResponseParser.swift; sourceTree = "<group>"; };
 		807BF5902A2A5D48002F32B3 /* HTTPResponseParser_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPResponseParser_Tests.swift; sourceTree = "<group>"; };
 		807C5E6829102D9800ECECD8 /* AnalyticsEventData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventData.swift; sourceTree = "<group>"; };
+		807D56AB2A869044009E591D /* GraphQLHTTPPostBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLHTTPPostBody.swift; sourceTree = "<group>"; };
+		807D56AD2A869064009E591D /* GraphQLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLRequest.swift; sourceTree = "<group>"; };
 		808EEA80291321FE001B6765 /* AnalyticsEventRequest_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventRequest_Tests.swift; sourceTree = "<group>"; };
 		80B9F85126B8750000D67843 /* CorePayments.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CorePayments.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80DB2F752980795D00CFB86A /* CorePaymentsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorePaymentsError.swift; sourceTree = "<group>"; };
@@ -716,6 +720,8 @@
 				E64623262836A81E008AC8E1 /* GraphQLError.swift */,
 				E646231B28369B9B008AC8E1 /* GraphQLQuery.swift */,
 				E64623222836A69E008AC8E1 /* GraphQLQueryResponse.swift */,
+				807D56AB2A869044009E591D /* GraphQLHTTPPostBody.swift */,
+				807D56AD2A869064009E591D /* GraphQLRequest.swift */,
 			);
 			path = GraphQL;
 			sourceTree = "<group>";
@@ -1251,7 +1257,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				807C5E67291027D400ECECD8 /* AnalyticsEventRequest.swift in Sources */,
 				E6022E802857C6BE008B0E27 /* GraphQLQueryResponse.swift in Sources */,
 				80E643832A1EBBD2008FD705 /* HTTPResponse.swift in Sources */,
 				807C5E6929102D9800ECECD8 /* AnalyticsEventData.swift in Sources */,
@@ -1273,11 +1278,13 @@
 				BC04837427B2FC7300FA7B46 /* URLSession+URLSessionProtocol.swift in Sources */,
 				80E2FDC32A8354AD0045593D /* RESTRequest.swift in Sources */,
 				3DC42BA927187E8300B71645 /* ErrorResponse.swift in Sources */,
+				807D56AC2A869044009E591D /* GraphQLHTTPPostBody.swift in Sources */,
 				804E62822937EBCE004B9FEF /* HTTP.swift in Sources */,
 				BC04836F27B2FB3600FA7B46 /* URLSessionProtocol.swift in Sources */,
 				065A4DBC26FCD8090007014A /* CoreSDKError.swift in Sources */,
 				BEA100E726EF9EDA0036A6A5 /* APIClient.swift in Sources */,
 				807BF58F2A2A5D19002F32B3 /* HTTPResponseParser.swift in Sources */,
+				807D56AE2A869064009E591D /* GraphQLRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
