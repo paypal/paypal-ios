@@ -36,7 +36,7 @@ public class GraphQLClient {
             urlString.append("?\(name)")
         }
         guard let url = URL(string: urlString) else {
-            throw GraphQLError(message: "error fetching url", extensions: nil)
+            throw GraphQLError(message: "error fetching url")
         }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = HTTPMethod.post.rawValue
