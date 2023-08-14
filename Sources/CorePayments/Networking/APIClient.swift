@@ -55,7 +55,7 @@ public class APIClient {
         }
 
         guard let url = urlComponents?.url else {
-            throw CorePaymentsError.clientIDNotFoundError // TODO: - throw proper error type
+            throw CorePaymentsError.urlEncodingFailed
         }
         
         return url
