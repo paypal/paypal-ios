@@ -1,7 +1,7 @@
 
 # PayPal iOS SDK Release Notes
 
-## unreleased
+## 0.0.10 (2023-08-14)
 * PayPalNativePayments
   * Bump `PayPalCheckout` to `1.0.0`
 * PaymentsCore
