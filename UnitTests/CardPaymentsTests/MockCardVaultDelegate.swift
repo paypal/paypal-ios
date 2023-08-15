@@ -3,15 +3,6 @@
 
 class MockCardVaultDelegate: CardVaultDelegate {
     
-    func card(_ cardClient: CardClient, didFinishWithVaultResult vaultResult: CardPayments.CardVaultResult) {
-        success?(cardClient, vaultResult)
-    }
-    
-    func card(_ cardClient: CardClient, didFinishWithVaultError vaultError: CorePayments.CoreSDKError) {
-        failure?(cardClient, vaultError)
-    }
-    
-    
     private var success: ((CardClient, CardVaultResult) -> Void)?
     private var failure: ((CardClient, CoreSDKError) -> Void)?
     
@@ -21,5 +12,13 @@ class MockCardVaultDelegate: CardVaultDelegate {
     ) {
         self.success = success
         self.failure = error
+    }
+
+    func card(_ cardClient: CardClient, didFinishWithVaultResult vaultResult: CardPayments.CardVaultResult) {
+        success?(cardClient, vaultResult)
+    }
+
+    func card(_ cardClient: CardClient, didFinishWithVaultError vaultError: CorePayments.CoreSDKError) {
+        failure?(cardClient, vaultError)
     }
 }

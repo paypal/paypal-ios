@@ -49,7 +49,6 @@ class CardClient_Tests: XCTestCase {
     // MARK: - vault() tests
 
     func testVault_withValidResponse_returnsSuccess() {
-        
         let setupTokenID = "testToken1"
         let vaultStatus = "APPROVED"
         let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
@@ -73,7 +72,6 @@ class CardClient_Tests: XCTestCase {
     }
     
     func testVault_withNoData_ReturnsError() {
-        
         let setupTokenID = "testToken1"
         let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
        
@@ -93,9 +91,8 @@ class CardClient_Tests: XCTestCase {
         
         waitForExpectations(timeout: 10)
     }
-    
+
     func testVault_whenGraphQLCallFails_returnsError() {
-        
         let setupTokenID = "testToken1"
         let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
        

@@ -243,16 +243,6 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
             "Vault without Purchase has finished. \n SetupTokenID: \(vaultResult.setupTokenID) \nVault Status: \(vaultResult.status)"
         )
         print("Vault without purchase has finished: \(vaultResult)")
-        Task {
-            do {
-                let paymentTokenResult = try await DemoMerchantAPI.sharedService.getPaymentToken(
-                    setupToken: vaultResult.setupTokenID, selectedMerchantIntegration: selectedMerchantIntegration
-                )
-                print("Payment Token: \(String(describing: paymentTokenResult))")
-            } catch {
-                print("Error obtaining Payment Token: \(error.localizedDescription)")
-            }
-        }
     }
     
     func card(_ cardClient: CardClient, didFinishWithVaultError vaultError: CoreSDKError) {

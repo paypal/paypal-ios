@@ -68,7 +68,7 @@ class UpdateSetupTokenQuery: Codable, GraphQLQuery {
                         clientId: $clientID
                         vaultSetupToken: $vaultSetupToken
                         paymentSource: $paymentSource
-                        ) {
+                    	) {
                             id,
                             status,
                             links {
