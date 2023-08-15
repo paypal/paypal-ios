@@ -19,7 +19,6 @@ class TrackingEventsAPI {
         let restRequest = RESTRequest(
             path: "v1/tracking/events",
             method: .post,
-            headers: [.contentType: "application/json"],
             queryParameters: nil,
             body: body
         )

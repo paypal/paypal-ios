@@ -35,10 +35,6 @@ class CheckoutOrdersAPI {
         let restRequest = RESTRequest(
             path: "/v2/checkout/orders/\(cardRequest.orderID)/confirm-payment-source",
             method: .post,
-            headers: [
-                .contentType: "application/json", .acceptLanguage: "en_US",
-                .authorization: "Basic \(base64EncodedCredentials)"
-            ],
             queryParameters: nil,
             body: body
         )

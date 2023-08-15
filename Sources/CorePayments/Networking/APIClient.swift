@@ -31,8 +31,18 @@ public class APIClient {
     public func fetch(request: RESTRequest) async throws -> HTTPResponse {
         let url = try constructURL(path: request.path, queryParameters: request.queryParameters ?? [:])
         
+        let base64EncodedCredentials = Data(coreConfig.clientID.appending(":").utf8).base64EncodedString()
+        
+        var headers: [HTTPHeader: String] = [
+            .authorization: "Basic \(base64EncodedCredentials)"
+        ]
+        
+        if request.method == .post {
+            headers[.contentType] = "application/json"
+        }
+        
         let httpRequest = HTTPRequest(
-            headers: request.headers,
+            headers: headers,
             method: request.method,
             url: url,
             body: request.body
