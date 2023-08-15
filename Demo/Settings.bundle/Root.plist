@@ -70,6 +70,7 @@
 			<key>Titles</key>
 			<array>
 				<string>Card</string>
+				<string>CardVault</string>
 				<string>PayPal Web Checkout</string>
 				<string>Payment Button Customization</string>
 				<string>PayPal Native Checkout</string>
@@ -77,6 +78,7 @@
 			<key>Values</key>
 			<array>
 				<string>card</string>
+				<string>cardVault</string>
 				<string>payPalWebCheckout</string>
 				<string>paymentButtonCustomization</string>
 				<string>payPalNativeCheckout</string>
