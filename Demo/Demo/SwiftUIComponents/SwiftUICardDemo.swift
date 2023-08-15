@@ -35,12 +35,12 @@ struct SwiftUICardDemo: View {
                         cvvText = cardFormatter.formatFieldWith(newValue, field: .cvv)
                     }
                 HStack {
-                    Toggle("Should Vault", isOn: $shouldVaultSelected)
+                    Toggle("Should Vault with Purchase", isOn: $shouldVaultSelected)
+                    // TODO: turn on if vault with purchase on sample server is implemented
+                        .disabled(true)
                     Spacer()
                 }
-                if shouldVaultSelected {
-                    FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $vaultCustomerID)
-                }
+                FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $vaultCustomerID)
                 Button("\(DemoSettings.intent.rawValue.capitalized) Order") {
                     guard let card = baseViewModel.createCard(
                         cardNumber: cardNumberText,
