@@ -37,6 +37,7 @@ Pod::Spec.new do |s|
 
   s.subspec "FraudProtection" do |s|
     s.source_files = "Sources/FraudProtection/*.swift"
+    s.dependency "PayPal/CorePayments"
     s.vendored_frameworks = "Frameworks/XCFrameworks/PPRiskMagnes.xcframework"
   end
 
