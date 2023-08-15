@@ -612,13 +612,13 @@
 		BCF735C127D157CD00A52E03 /* FraudProtection */ = {
 			isa = PBXGroup;
 			children = (
+				BC171FB02A8C156300B26DCB /* CoreConfig+MagnesSDK.swift */,
 				BCF735EC27D1650800A52E03 /* DeviceInspector.swift */,
 				BCF735EE27D1652100A52E03 /* DeviceInspectorProtocol.swift */,
 				BCF735E827D15D2600A52E03 /* MagnesSDKProtocol.swift */,
 				BC9C18D727D279C70019B541 /* MagnesSDKResult.swift */,
 				BCF735EA27D160E800A52E03 /* MagnesSetupParams.swift */,
 				BCF735E627D15AB800A52E03 /* PayPalDataCollector.swift */,
-				BC171FB02A8C156300B26DCB /* CoreConfig+MagnesSDK.swift */,
 			);
 			name = FraudProtection;
 			path = Sources/FraudProtection;
