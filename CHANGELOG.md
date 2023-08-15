@@ -7,7 +7,11 @@
   * Add `CardVaultRequest` and `CardVaultResult` types for interacting with `vault` method
   * Add `CardVaultDelegate` protocol to receive success and failure results
   * Add `CardVaultDelegate` property to `CardClient`
-  
+* Breaking Changes
+  * FraudProtection
+    * Update `PayPalDataCollector` constructor to require a configuration instead of an environment
+    * Remove `PayPalDataCollectorEnvironment` enum
+
 ## 0.0.10 (2023-08-14)
 * PayPalNativePayments
   * Bump `PayPalCheckout` to `1.0.0`
