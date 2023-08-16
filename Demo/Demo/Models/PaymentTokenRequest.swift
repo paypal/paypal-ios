@@ -25,6 +25,7 @@ struct PaymentTokenRequest {
                 ]
             ]
         ]
+        
         return try? JSONSerialization.data(withJSONObject: requestBody)
     }
 }

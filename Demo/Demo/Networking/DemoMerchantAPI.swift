@@ -43,7 +43,7 @@ final class DemoMerchantAPI {
                 paymentTokenRequest: request,
                 environment: DemoSettings.environment,
                 selectedMerchantIntegration: selectedMerchantIntegration
-	)
+			)
 		let data = try await data(for: urlRequest)
             return try parse(from: data)
         } catch {

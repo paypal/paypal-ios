@@ -29,6 +29,7 @@ struct SetUpTokenRequest {
                 ]
             ]
         ]
+        
         return try? JSONSerialization.data(withJSONObject: requestBody)
     }
 }
