@@ -138,6 +138,9 @@
 		CBC16DF629EECCB900307117 /* NativeCheckoutProvider_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC16DF529EECCB900307117 /* NativeCheckoutProvider_Tests.swift */; };
 		CBD6004728D0C24A00C3EFF6 /* MockPayPalDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD6004628D0C24900C3EFF6 /* MockPayPalDelegate.swift */; };
 		E6022E802857C6BE008B0E27 /* GraphQLHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64623222836A69E008AC8E1 /* GraphQLHTTPResponse.swift */; };
+		E6022E822857C6BE008B0E27 /* GraphQLError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64623262836A81E008AC8E1 /* GraphQLError.swift */; };
+		E6022E832857C6BE008B0E27 /* GraphQLQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E646231B28369B9B008AC8E1 /* GraphQLQuery.swift */; };
+		E6022E842857C6BE008B0E27 /* GraphQLClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64623372836AFC1008AC8E1 /* GraphQLClient.swift */; };
 		E64763712899B60C00074113 /* MockAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64763702899B60C00074113 /* MockAPIClient.swift */; };
 		E699EC16285A388E0044A753 /* GraphQLClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E699EC15285A388E0044A753 /* GraphQLClient_Tests.swift */; };
 /* End PBXBuildFile section */
@@ -318,6 +321,9 @@
 		CBC16DF529EECCB900307117 /* NativeCheckoutProvider_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeCheckoutProvider_Tests.swift; sourceTree = "<group>"; };
 		CBD6004628D0C24900C3EFF6 /* MockPayPalDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPayPalDelegate.swift; sourceTree = "<group>"; };
 		E64623222836A69E008AC8E1 /* GraphQLHTTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLHTTPResponse.swift; sourceTree = "<group>"; };
+		E646231B28369B9B008AC8E1 /* GraphQLQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLQuery.swift; sourceTree = "<group>"; };
+		E64623262836A81E008AC8E1 /* GraphQLError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLError.swift; sourceTree = "<group>"; };
+		E64623372836AFC1008AC8E1 /* GraphQLClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLClient.swift; sourceTree = "<group>"; };
 		E64763702899B60C00074113 /* MockAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPIClient.swift; sourceTree = "<group>"; };
 		E699EC15285A388E0044A753 /* GraphQLClient_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLClient_Tests.swift; sourceTree = "<group>"; };
 		OBJ_16 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };

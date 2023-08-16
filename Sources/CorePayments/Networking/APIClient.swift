@@ -30,10 +30,20 @@ public class APIClient {
     
     /// :nodoc:
     public func fetch(request: RESTRequest) async throws -> HTTPResponse {
-        let url = try constructURL(path: request.path, queryParameters: request.queryParameters ?? [:]) // cleaner way
+        let url = try constructURL(path: request.path, queryParameters: request.queryParameters ?? [:])
+        
+        let base64EncodedCredentials = Data(coreConfig.clientID.appending(":").utf8).base64EncodedString()
+        
+        var headers: [HTTPHeader: String] = [
+            .authorization: "Basic \(base64EncodedCredentials)"
+        ]
+        
+        if request.method == .post {
+            headers[.contentType] = "application/json"
+        }
         
         let httpRequest = HTTPRequest(
-            headers: request.headers,
+            headers: headers,
             method: request.method,
             url: url,
             body: request.body
@@ -69,7 +79,7 @@ public class APIClient {
         if let url = URL(string: coreConfig.environment.graphQLURL.absoluteString + "?" + queryName) {
             return url
         } else {
-            throw CorePaymentsError.clientIDNotFoundError // TODO: - throw proper error type
+            throw CorePaymentsError.urlEncodingFailed
         }
     }
     
@@ -82,7 +92,7 @@ public class APIClient {
         }
 
         guard let url = urlComponents?.url else {
-            throw CorePaymentsError.clientIDNotFoundError // TODO: - throw proper error type
+            throw CorePaymentsError.urlEncodingFailed
         }
         
         return url

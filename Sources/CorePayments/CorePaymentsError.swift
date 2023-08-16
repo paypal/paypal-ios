@@ -6,13 +6,13 @@ public enum CorePaymentsError {
         /// 0. An unknown error occurred.
         case unknown
 
-        /// 1. Error returned from the ClientID service
-        case clientIDNotFoundError
+        /// 1. An error occured constructing the PayPal API URL
+        case urlEncodingFailed
     }
 
-    public static let clientIDNotFoundError = CoreSDKError(
-        code: Code.clientIDNotFoundError.rawValue,
+    public static let urlEncodingFailed = CoreSDKError(
+        code: Code.urlEncodingFailed.rawValue,
         domain: domain,
-        errorDescription: "Error fetching clientID. Contact developer.paypal.com/support."
+        errorDescription: "An error occured constructing the PayPal API URL. Contact developer.paypal.com/support."
     )
 }

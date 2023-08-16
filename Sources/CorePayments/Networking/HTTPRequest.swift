@@ -1,6 +1,6 @@
 import Foundation
 
-/// :nodoc: Values needed to initiate a REST network request
+/// :nodoc: Values needed to initiate a HTTP network request
 public struct HTTPRequest {
     
     let headers: [HTTPHeader: String]
