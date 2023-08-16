@@ -25,8 +25,6 @@ class CheckoutOrdersAPI {
         
         let confirmData = ConfirmPaymentSourceRequest(cardRequest: cardRequest)
         
-        let base64EncodedCredentials = Data(clientID.appending(":").utf8).base64EncodedString()
-        
         // TODO: - Move JSON encoding into custom class, similar to HTTPResponseParser
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
