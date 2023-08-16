@@ -1,5 +1,5 @@
 import XCTest
-import CorePayments
+@testable import CorePayments
 @testable import FraudProtection
 
 class PayPalDataCollector_Tests: XCTestCase {
