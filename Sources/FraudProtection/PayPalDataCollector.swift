@@ -1,6 +1,8 @@
 import Foundation
 import PPRiskMagnes
+#if canImport(CorePayments)
 import CorePayments
+#endif
 
 /// Enables you to collect data about a customer's device and correlate it with a session identifier on your server.
 public class PayPalDataCollector {

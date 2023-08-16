@@ -1,5 +1,7 @@
-import CorePayments
 import PPRiskMagnes
+#if canImport(CorePayments)
+import CorePayments
+#endif
 
 extension CoreConfig {
     
