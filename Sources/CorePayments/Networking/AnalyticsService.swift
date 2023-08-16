@@ -6,23 +6,23 @@ public struct AnalyticsService {
     // MARK: - Internal Properties
     
     private let coreConfig: CoreConfig
-    private let http: HTTP
+    private let trackingEventsAPI: TrackingEventsAPI
     private let orderID: String
         
     // MARK: - Initializer
     
     public init(coreConfig: CoreConfig, orderID: String) {
         self.coreConfig = coreConfig
-        self.http = HTTP(coreConfig: coreConfig)
+        self.trackingEventsAPI = TrackingEventsAPI()
         self.orderID = orderID
     }
     
     // MARK: - Internal Initializer
 
     /// Exposed for testing
-    init(coreConfig: CoreConfig, orderID: String, http: HTTP) {
+    init(coreConfig: CoreConfig, orderID: String, trackingEventsAPI: TrackingEventsAPI) {
         self.coreConfig = coreConfig
-        self.http = http
+        self.trackingEventsAPI = trackingEventsAPI
         self.orderID = orderID
     }
     
@@ -45,14 +45,13 @@ public struct AnalyticsService {
             let clientID = coreConfig.clientID
             
             let eventData = AnalyticsEventData(
-                environment: http.coreConfig.environment.toString,
+                environment: coreConfig.environment.toString,
                 eventName: name,
                 clientID: clientID,
                 orderID: orderID
             )
             
-            let analyticsEventRequest = try AnalyticsEventRequest(eventData: eventData)
-            let (_) = try await http.performRequest(analyticsEventRequest)
+            let (_) = try await trackingEventsAPI.sendEvent(with: eventData)
         } catch {
             NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription)
         }

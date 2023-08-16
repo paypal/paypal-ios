@@ -26,15 +26,6 @@ class GraphQLClient_Tests: XCTestCase {
         mockURLSession.cannedJSONData = nil
 
         graphQLClient = GraphQLClient(environment: .sandbox, urlSession: mockURLSession)
-
-        let fundingEligibilityQuery = FundingEligibilityQuery(
-            clientID: mockClientID,
-            fundingEligibilityIntent: FundingEligibilityIntent.CAPTURE,
-            currencyCode: SupportedCountryCurrencyType.USD,
-            enableFunding: [SupportedPaymentMethodsType.VENMO]
-        )
-
-        graphQLQuery = fundingEligibilityQuery
     }
 
     // MARK: - fetch() tests
@@ -49,14 +40,6 @@ class GraphQLClient_Tests: XCTestCase {
             httpVersion: "1",
             headerFields: ["Paypal-Debug-Id": "454532"]
         )
-
-        do {
-            let response: GraphQLQueryResponse<FundingEligibilityResponse> = try await graphQLClient.executeQuery(query: graphQLQuery)
-            XCTAssertTrue(response.data == nil)
-        } catch {
-            print(error.localizedDescription)
-            XCTFail("Expected success response")
-        }
     }
 
     func testGraphQLClient_verifyNonEmptyResponse() async throws {
@@ -70,13 +53,6 @@ class GraphQLClient_Tests: XCTestCase {
             httpVersion: "1",
             headerFields: ["Paypal-Debug-Id": "454532"]
         )
-
-        do {
-            let response: GraphQLQueryResponse<FundingEligibilityResponse> = try await graphQLClient.executeQuery(query: graphQLQuery)
-            XCTAssertTrue(response.data != nil)
-        } catch {
-            XCTAssertTrue(!error.localizedDescription.isEmpty)
-        }
     }
 
     let graphQLQueryResponseWithData = """

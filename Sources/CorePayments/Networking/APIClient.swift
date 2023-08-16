@@ -27,9 +27,47 @@ public class APIClient {
     
     // MARK: - Public Methods
     
-    /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
-    public func fetch<T: APIRequest>(request: T) async throws -> (T.ResponseType) {
-        let httpResponse = try await http.performRequest(request)
-        return try HTTPResponseParser().parse(httpResponse, as: T.ResponseType.self)
+    /// :nodoc:
+    public func fetch(request: RESTRequest) async throws -> HTTPResponse {
+        let url = try constructURL(path: request.path, queryParameters: request.queryParameters ?? [:])
+        
+        let base64EncodedCredentials = Data(coreConfig.clientID.appending(":").utf8).base64EncodedString()
+        
+        var headers: [HTTPHeader: String] = [
+            .authorization: "Basic \(base64EncodedCredentials)"
+        ]
+        
+        if request.method == .post {
+            headers[.contentType] = "application/json"
+        }
+        
+        let httpRequest = HTTPRequest(
+            headers: headers,
+            method: request.method,
+            url: url,
+            body: request.body
+        )
+        
+        return try await http.performRequest(httpRequest)
+    }
+    
+    // TODO: - Add GraphQL equivalent request type & function
+    // public func fetch(request: GraphQLRequest) async throws -> HTTPResponse { }
+    
+    // MARK: - Private Methods
+    
+    private func constructURL(path: String, queryParameters: [String: String]) throws -> URL {
+        let urlString = coreConfig.environment.baseURL.appendingPathComponent(path)
+        var urlComponents = URLComponents(url: urlString, resolvingAgainstBaseURL: false)
+        
+        queryParameters.forEach {
+            urlComponents?.queryItems?.append(URLQueryItem(name: $0.key, value: $0.value))
+        }
+
+        guard let url = urlComponents?.url else {
+            throw CorePaymentsError.urlEncodingFailed
+        }
+        
+        return url
     }
 }

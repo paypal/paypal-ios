@@ -1,6 +1,7 @@
 import Foundation
 
-struct HTTPResponse {
+/// :nodoc:
+public struct HTTPResponse {
     
     let status: Int
     let body: Data?
