@@ -30,7 +30,7 @@ public class APIClient {
     
     /// :nodoc:
     public func fetch(request: RESTRequest) async throws -> HTTPResponse {
-        let url = try constructURL(path: request.path, queryParameters: request.queryParameters ?? [:])
+        let url = try constructRestURL(path: request.path, queryParameters: request.queryParameters ?? [:])
         
         let base64EncodedCredentials = Data(coreConfig.clientID.appending(":").utf8).base64EncodedString()
         
@@ -71,19 +71,7 @@ public class APIClient {
     
     // MARK: - Private Methods
     
-    private func constructGraphQLURL(queryName: String? = nil) throws -> URL {
-        guard let queryName else {
-            return coreConfig.environment.graphQLURL
-        }
-        
-        if let url = URL(string: coreConfig.environment.graphQLURL.absoluteString + "?" + queryName) {
-            return url
-        } else {
-            throw CorePaymentsError.urlEncodingFailed
-        }
-    }
-    
-    private func constructURL(path: String, queryParameters: [String: String]) throws -> URL {
+    private func constructRestURL(path: String, queryParameters: [String: String]) throws -> URL {
         let urlString = coreConfig.environment.baseURL.appendingPathComponent(path)
         var urlComponents = URLComponents(url: urlString, resolvingAgainstBaseURL: false)
         
@@ -96,5 +84,17 @@ public class APIClient {
         }
         
         return url
+    }
+    
+    private func constructGraphQLURL(queryName: String? = nil) throws -> URL {
+        guard let queryName else {
+            return coreConfig.environment.graphQLURL
+        }
+        
+        if let url = URL(string: coreConfig.environment.graphQLURL.absoluteString + "?" + queryName) {
+            return url
+        } else {
+            throw CorePaymentsError.urlEncodingFailed
+        }
     }
 }
