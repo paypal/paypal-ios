@@ -91,10 +91,10 @@ public class APIClient {
             return coreConfig.environment.graphQLURL
         }
         
-        if let url = URL(string: coreConfig.environment.graphQLURL.absoluteString + "?" + queryName) {
-            return url
-        } else {
+        guard let url = URL(string: coreConfig.environment.graphQLURL.absoluteString + "?" + queryName) else {
             throw CorePaymentsError.urlEncodingFailed
         }
+        
+        return url
     }
 }
