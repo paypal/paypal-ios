@@ -65,6 +65,7 @@
 		BC0A82A5270B9533006E9A21 /* ConfirmPaymentSourceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009F26F3DF100000CC46 /* ConfirmPaymentSourceRequest.swift */; };
 		BC0A82A6270B9954006E9A21 /* ConfirmPaymentSourceRequest_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DC226FCE1D20007014A /* ConfirmPaymentSourceRequest_Tests.swift */; };
 		BC171FB12A8C156300B26DCB /* CoreConfig+MagnesSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC171FB02A8C156300B26DCB /* CoreConfig+MagnesSDK.swift */; };
+		BC171FB22A8D6FE500B26DCB /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; };
 		BC43406F27E91C2700F70193 /* PayPalCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = BC43406E27E91C2700F70193 /* PayPalCheckout */; };
 		BC7F8123275FC1350011EDC8 /* CardRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7F8122275FC1350011EDC8 /* CardRequest.swift */; };
 		BC900B7D27AC307A00D48DBA /* PayPalNativeCheckoutDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC900B7C27AC307A00D48DBA /* PayPalNativeCheckoutDelegate.swift */; };
@@ -404,6 +405,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC171FB22A8D6FE500B26DCB /* CorePayments.framework in Frameworks */,
 				BCF735E327D158B400A52E03 /* PPRiskMagnes.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
