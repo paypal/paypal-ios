@@ -37,13 +37,12 @@ public class CardClient: NSObject {
         self.graphQLClient = graphQLClient
     }
     
-    public func vault(vaultRequest: CardVaultRequest) {
+    public func vault(_ vaultRequest: CardVaultRequest) {
         Task {
             do {
                 let card = vaultRequest.card
                 let setupTokenID = vaultRequest.setupTokenID
-                let (updateResult) = try await updateSetupToken(vaultSetupTokenID: setupTokenID, card: card)
-                let result = updateResult
+                let result = try await updateSetupToken(vaultSetupTokenID: setupTokenID, card: card)
                 // TODO: handle 3DS contingency with helios link
                 if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
                     let url = link.href
@@ -60,10 +59,7 @@ public class CardClient: NSObject {
         }
     }
     
-    func updateSetupToken(
-        vaultSetupTokenID: String,
-        card: Card
-    ) async throws -> TokenDetails {
+    func updateSetupToken(vaultSetupTokenID: String, card: Card) async throws -> TokenDetails {
         guard let graphQLClient else {
             throw CardClientError.nilGraphQLClientError
         }
@@ -76,6 +72,7 @@ public class CardClient: NSObject {
         guard let data = response.data else {
             throw CardClientError.noVaultTokenDataError
         }
+        
         return data.updateVaultSetupToken
     }
            

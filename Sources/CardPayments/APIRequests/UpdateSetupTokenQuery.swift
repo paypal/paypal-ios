@@ -9,15 +9,15 @@ class UpdateSetupTokenQuery: Codable, GraphQLQuery {
         
         public let number: String
         public let expiry: String
-        public let name: String?
         public let securityCode: String
+        public let name: String?
         public let billingAddress: Address?
         
-        init(number: String, expiry: String, name: String? = nil, securityCode: String, billingAddress: Address? = nil) {
+        init(number: String, expiry: String, securityCode: String, name: String? = nil, billingAddress: Address? = nil) {
             self.number = number
             self.expiry = expiry
-            self.name = name
             self.securityCode = securityCode
+            self.name = name
             self.billingAddress = billingAddress
         }
     }
@@ -45,8 +45,8 @@ class UpdateSetupTokenQuery: Codable, GraphQLQuery {
         let vaultCard = VaultCard(
             number: card.number,
             expiry: card.expiry,
-            name: card.cardholderName,
             securityCode: card.securityCode,
+            name: card.cardholderName,
             billingAddress: card.billingAddress
         )
         

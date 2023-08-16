@@ -94,10 +94,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
         cardClient.approveOrder(request: cardRequest)
     }
     
-    func vaultCard(
-        card: Card,
-        customerID: String? = nil
-    ) async {
+    func vaultCard(card: Card, customerID: String? = nil) async {
         do {
             guard let config = await getCoreConfig() else { return }
             let cardClient = CardClient(config: config)
@@ -107,7 +104,7 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
             )
             
             let cardVaultRequest = CardVaultRequest(card: card, setupTokenID: tokenResponse.id)
-            cardClient.vault(vaultRequest: cardVaultRequest)
+            cardClient.vault(cardVaultRequest)
         } catch {
             print("Error in getSetupToken: \(error.localizedDescription)")
         }

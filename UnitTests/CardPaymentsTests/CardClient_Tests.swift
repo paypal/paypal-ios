@@ -66,7 +66,7 @@ class CardClient_Tests: XCTestCase {
             XCTFail("Invoked error() callback. Should invoke success().")
         })
         cardClient.vaultDelegate = cardVaultDelegate
-        cardClient.vault(vaultRequest: vaultRequest)
+        cardClient.vault(vaultRequest)
         
         waitForExpectations(timeout: 10)
     }
@@ -87,7 +87,7 @@ class CardClient_Tests: XCTestCase {
             expectation.fulfill()
         })
         cardClient.vaultDelegate = cardVaultDelegate
-        cardClient.vault(vaultRequest: vaultRequest)
+        cardClient.vault(vaultRequest)
         
         waitForExpectations(timeout: 10)
     }
@@ -109,7 +109,7 @@ class CardClient_Tests: XCTestCase {
             expectation.fulfill()
         })
         cardClient.vaultDelegate = cardVaultDelegate
-        cardClient.vault(vaultRequest: vaultRequest)
+        cardClient.vault(vaultRequest)
         
         waitForExpectations(timeout: 10)
     }

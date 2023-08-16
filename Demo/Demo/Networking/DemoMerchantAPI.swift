@@ -23,7 +23,9 @@ final class DemoMerchantAPI {
         do {
             let request = SetUpTokenRequest(customerID: customerID)
             let urlRequest = try createSetupTokenUrlRequest(
-                setupTokenRequest: request, environment: DemoSettings.environment, selectedMerchantIntegration: selectedMerchantIntegration
+                setupTokenRequest: request,
+                environment: DemoSettings.environment,
+                selectedMerchantIntegration: selectedMerchantIntegration
             )
             
             let data = try await data(for: urlRequest)
@@ -33,8 +35,8 @@ final class DemoMerchantAPI {
             throw error
         }
     }
-    
-	func getPaymentToken(setupToken: String, selectedMerchantIntegration: MerchantIntegration) async throws -> PaymentTokenResponse {
+
+    func getPaymentToken(setupToken: String, selectedMerchantIntegration: MerchantIntegration) async throws -> PaymentTokenResponse {
         do {
             let request = PaymentTokenRequest(setupToken: setupToken)
             let urlRequest = try createPaymentTokenUrlRequest(
@@ -225,18 +227,20 @@ final class DemoMerchantAPI {
         selectedMerchantIntegration: MerchantIntegration
     ) throws -> URLRequest {
         var completeUrl = environment.baseURL
-       
         completeUrl += selectedMerchantIntegration.path
         completeUrl.append(contentsOf: setupTokenRequest.path)
+
         guard let url = URL(string: completeUrl) else {
             throw URLResponseError.invalidURL
         }
+
         var request = URLRequest(url: url)
-        request.httpMethod = setupTokenRequest.method.rawValue
+        request.httpMethod = setupTokenRequest.method
         request.httpBody = setupTokenRequest.body
         setupTokenRequest.headers.forEach { key, value in
-            request.addValue(value, forHTTPHeaderField: key.rawValue)
+            request.addValue(value, forHTTPHeaderField: key)
         }
+
         return request
     }
     
@@ -246,18 +250,20 @@ final class DemoMerchantAPI {
         selectedMerchantIntegration: MerchantIntegration
     ) throws -> URLRequest {
         var completeUrl = environment.baseURL
-       
         completeUrl += selectedMerchantIntegration.path
         completeUrl.append(contentsOf: paymentTokenRequest.path)
+
         guard let url = URL(string: completeUrl) else {
             throw URLResponseError.invalidURL
         }
+        
         var request = URLRequest(url: url)
-        request.httpMethod = paymentTokenRequest.method.rawValue
+        request.httpMethod = paymentTokenRequest.method
         request.httpBody = paymentTokenRequest.body
         paymentTokenRequest.headers.forEach { key, value in
-            request.addValue(value, forHTTPHeaderField: key.rawValue)
+            request.addValue(value, forHTTPHeaderField: key)
         }
+
         return request
     }
 }

@@ -1,5 +1,4 @@
 import Foundation
-import CorePayments
 
 struct PaymentTokenRequest {
     
@@ -9,12 +8,12 @@ struct PaymentTokenRequest {
         "/payment_tokens/"
     }
     
-    var method: CorePayments.HTTPMethod {
-        .post
+    var method: String {
+        "POST"
     }
     
-    var headers: [CorePayments.HTTPHeader: String] {
-        [.contentType: "application/json"]
+    var headers: [String: String] {
+        ["Content-Type": "application/json"]
     }
     
     var body: Data? {
