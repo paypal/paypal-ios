@@ -29,6 +29,15 @@ struct CardVaultView: View {
                     if let paymentTokenResponse = cardVaultViewModel.state.paymentTokenResponse {
                         PaymentTokenResultView(paymentTokenResponse: paymentTokenResponse)
                             .id("paymentTokenResultView")
+                        Button("Reset") {
+                            cardVaultViewModel.resetState()
+                        }
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(.blue)
+                        .cornerRadius(10)
+                        .id("resetButton")
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .top)
@@ -46,7 +55,7 @@ struct CardVaultView: View {
                 }
                 .onChange(of: cardVaultViewModel.state.paymentTokenResponse?.id) { _ in
                     withAnimation {
-                        scrollView.scrollTo("paymentTokenResultView")
+                        scrollView.scrollTo("resetButton")
                     }
                 }
             }

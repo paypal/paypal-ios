@@ -23,6 +23,10 @@ class CardVaultViewModel: ObservableObject, CardVaultDelegate {
         }
     }
 
+    func resetState() {
+        state = CardVaultState()
+    }
+
     func getPaymentToken(
         setupToken: String,
         selectedMerchantIntegration: MerchantIntegration
