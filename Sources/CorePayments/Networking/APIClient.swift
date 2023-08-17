@@ -30,7 +30,7 @@ public class APIClient {
     
     /// :nodoc:
     public func fetch(request: RESTRequest) async throws -> HTTPResponse {
-        let url = try constructRestURL(path: request.path, queryParameters: request.queryParameters ?? [:])
+        let url = try constructRESTURL(path: request.path, queryParameters: request.queryParameters ?? [:])
         
         let base64EncodedCredentials = Data(coreConfig.clientID.appending(":").utf8).base64EncodedString()
         
@@ -71,7 +71,7 @@ public class APIClient {
     
     // MARK: - Private Methods
     
-    private func constructRestURL(path: String, queryParameters: [String: String]) throws -> URL {
+    private func constructRESTURL(path: String, queryParameters: [String: String]) throws -> URL {
         let urlString = coreConfig.environment.baseURL.appendingPathComponent(path)
         var urlComponents = URLComponents(url: urlString, resolvingAgainstBaseURL: false)
         
