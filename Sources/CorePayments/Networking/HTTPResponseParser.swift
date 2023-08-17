@@ -10,6 +10,7 @@ public class HTTPResponseParser {
         decoder.keyDecodingStrategy = .convertFromSnakeCase
     }
     
+    // TODO: - Update this func (or file) to handle both GraphQL and REST error parsing
     public func parse<T: Decodable>(_ httpResponse: HTTPResponse, as type: T.Type) throws -> T {
         guard let data = httpResponse.body else {
             throw APIClientError.noResponseDataError

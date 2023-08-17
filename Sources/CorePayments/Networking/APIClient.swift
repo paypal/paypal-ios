@@ -1,5 +1,6 @@
 import Foundation
 
+// TODO: - Rename to `NetworkingClient`. Now that we have `<PPaaS>API.swift` classes, ths responsibility of this class really is to coordinate networking. It transforms REST & GraphQL into HTTP requests.
 /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
 ///
 /// `APIClient` is the entry point for each payment method feature to perform API requests. It also offers convenience methods for API requests used across multiple payment methods / modules.
@@ -29,34 +30,36 @@ public class APIClient {
     
     /// :nodoc:
     public func fetch(request: RESTRequest) async throws -> HTTPResponse {
-        let url = try constructURL(path: request.path, queryParameters: request.queryParameters ?? [:])
+        let url = try constructRESTURL(path: request.path, queryParameters: request.queryParameters ?? [:])
         
         let base64EncodedCredentials = Data(coreConfig.clientID.appending(":").utf8).base64EncodedString()
-        
         var headers: [HTTPHeader: String] = [
             .authorization: "Basic \(base64EncodedCredentials)"
         ]
-        
         if request.method == .post {
             headers[.contentType] = "application/json"
         }
         
-        let httpRequest = HTTPRequest(
-            headers: headers,
-            method: request.method,
-            url: url,
-            body: request.body
-        )
+        let httpRequest = HTTPRequest(headers: headers, method: request.method, url: url, body: request.body)
         
         return try await http.performRequest(httpRequest)
     }
     
-    // TODO: - Add GraphQL equivalent request type & function
-    // public func fetch(request: GraphQLRequest) async throws -> HTTPResponse { }
+    /// :nodoc:
+    public func fetch(request: GraphQLRequest) async throws -> HTTPResponse {
+        let url = try constructGraphQLURL(queryName: request.queryNameForURL)
+
+        let postBody = GraphQLHTTPPostBody(query: request.query, variables: request.variables)
+        let postData = try JSONEncoder().encode(postBody)
+                
+        let httpRequest = HTTPRequest(headers: [.contentType: "application/json"], method: .post, url: url, body: postData)
+        
+        return try await http.performRequest(httpRequest)
+    }
     
     // MARK: - Private Methods
     
-    private func constructURL(path: String, queryParameters: [String: String]) throws -> URL {
+    private func constructRESTURL(path: String, queryParameters: [String: String]) throws -> URL {
         let urlString = coreConfig.environment.baseURL.appendingPathComponent(path)
         var urlComponents = URLComponents(url: urlString, resolvingAgainstBaseURL: false)
         
@@ -65,6 +68,18 @@ public class APIClient {
         }
 
         guard let url = urlComponents?.url else {
+            throw CorePaymentsError.urlEncodingFailed
+        }
+        
+        return url
+    }
+    
+    private func constructGraphQLURL(queryName: String? = nil) throws -> URL {
+        guard let queryName else {
+            return coreConfig.environment.graphQLURL
+        }
+        
+        guard let url = URL(string: coreConfig.environment.graphQLURL.absoluteString + "?" + queryName) else {
             throw CorePaymentsError.urlEncodingFailed
         }
         
