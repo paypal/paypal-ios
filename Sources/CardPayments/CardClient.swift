@@ -8,6 +8,12 @@ public class CardClient: NSObject {
 
     public weak var delegate: CardDelegate?
     public weak var vaultDelegate: CardVaultDelegate?
+<<<<<<< HEAD
+=======
+
+    private let checkoutOrdersAPI: CheckoutOrdersAPI
+    private let vaultAPI: VaultAPI
+>>>>>>> d7209b9 (WIP - Add VaultPPasSAPI.swift)
     
 <<<<<<< HEAD
     private let checkoutOrdersAPI: CheckoutOrdersAPI
@@ -26,12 +32,17 @@ public class CardClient: NSObject {
     public init(config: CoreConfig) {
         self.config = config
         self.checkoutOrdersAPI = CheckoutOrdersAPI(coreConfig: config)
+<<<<<<< HEAD
         self.vaultAPI = VaultPaymentTokensAPI(coreConfig: config)
+=======
+        self.vaultAPI = VaultAPI(coreConfig: config)
+>>>>>>> d7209b9 (WIP - Add VaultPPasSAPI.swift)
         self.webAuthenticationSession = WebAuthenticationSession()
         self.graphQLClient = GraphQLClient(environment: config.environment)
     }
 
     /// For internal use for testing/mocking purpose
+<<<<<<< HEAD
     init(
         config: CoreConfig,
 <<<<<<< HEAD
@@ -43,6 +54,12 @@ public class CardClient: NSObject {
         webAuthenticationSession: WebAuthenticationSession,
         graphQLClient: GraphQLClient? = nil
 >>>>>>> 7660350 (Vault without Purchase (#172))
+=======
+    init(config: CoreConfig,
+         checkoutOrdersAPI: CheckoutOrdersAPI,
+         vaultAPI: VaultAPI,
+         webAuthenticationSession: WebAuthenticationSession
+>>>>>>> d7209b9 (WIP - Add VaultPPasSAPI.swift)
     ) {
         self.config = config
         self.checkoutOrdersAPI = checkoutOrdersAPI
@@ -55,6 +72,7 @@ public class CardClient: NSObject {
         Task {
             do {
 <<<<<<< HEAD
+<<<<<<< HEAD
                 let result = try await vaultAPI.updateSetupToken(cardVaultRequest: vaultRequest).updateVaultSetupToken
                 
 =======
@@ -62,6 +80,10 @@ public class CardClient: NSObject {
                 let setupTokenID = vaultRequest.setupTokenID
                 let result = try await updateSetupToken(vaultSetupTokenID: setupTokenID, card: card)
 >>>>>>> 7660350 (Vault without Purchase (#172))
+=======
+                let result = try await vaultAPI.vaultWithoutPurchase(cardVaultRequest: vaultRequest).updateVaultSetupToken
+                
+>>>>>>> d7209b9 (WIP - Add VaultPPasSAPI.swift)
                 // TODO: handle 3DS contingency with helios link
                 if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
                     let url = link.href
