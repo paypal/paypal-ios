@@ -20,7 +20,7 @@ class CheckoutOrdersAPI {
     
     // MARK: - Internal Methods
         
-    func confirmPaymentSource(clientID: String, cardRequest: CardRequest) async throws -> ConfirmPaymentSourceResponse {
+    func confirmPaymentSource(cardRequest: CardRequest) async throws -> ConfirmPaymentSourceResponse {
         let apiClient = APIClient(coreConfig: coreConfig)
         
         let confirmData = ConfirmPaymentSourceRequest(cardRequest: cardRequest)

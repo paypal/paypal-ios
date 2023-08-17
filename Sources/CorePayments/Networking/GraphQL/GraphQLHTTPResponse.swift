@@ -1,5 +1,5 @@
-/// Used to decode the HTTP reponse body of GraphQL requests
-struct GraphQLHTTPResponse<T: Codable>: Codable {
+/// :nodoc: Used to decode the HTTP reponse body of GraphQL requests
+public struct GraphQLHTTPResponse<T: Codable>: Codable {
 
-    let data: T?
+    public let data: T?
 }

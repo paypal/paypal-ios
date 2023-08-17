@@ -10,6 +10,7 @@ public class CardClient: NSObject {
     public weak var vaultDelegate: CardVaultDelegate?
 
     private let checkoutOrdersAPI: CheckoutOrdersAPI
+    private let vaultAPI: VaultAPI
     
     private let config: CoreConfig
     private let webAuthenticationSession: WebAuthenticationSession
@@ -20,36 +21,41 @@ public class CardClient: NSObject {
     public init(config: CoreConfig) {
         self.config = config
         self.checkoutOrdersAPI = CheckoutOrdersAPI(coreConfig: config)
+        self.vaultAPI = VaultAPI(coreConfig: config)
         self.webAuthenticationSession = WebAuthenticationSession()
     }
 
     /// For internal use for testing/mocking purpose
-    init(config: CoreConfig, checkoutOrdersAPI: CheckoutOrdersAPI, webAuthenticationSession: WebAuthenticationSession) {
+    init(config: CoreConfig,
+         checkoutOrdersAPI: CheckoutOrdersAPI,
+         vaultAPI: VaultAPI,
+         webAuthenticationSession: WebAuthenticationSession
+    ) {
         self.config = config
         self.checkoutOrdersAPI = checkoutOrdersAPI
+        self.vaultAPI = vaultAPI
         self.webAuthenticationSession = webAuthenticationSession
     }
     
     public func vault(_ vaultRequest: CardVaultRequest) {
-//        Task {
-//            do {
-//                let card = vaultRequest.card
-//                let setupTokenID = vaultRequest.setupTokenID
-//                let result = try await updateSetupToken(vaultSetupTokenID: setupTokenID, card: card)
-//                // TODO: handle 3DS contingency with helios link
-//                if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
-//                    let url = link.href
-//                    print("3DS url \(url)")
-//                } else {
-//                    let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status)
-//                    notifyVaultSuccess(for: vaultResult)
-//                }
-//            } catch let error as CoreSDKError {
-//                notifyVaultFailure(with: error)
-//            } catch {
-//                notifyVaultFailure(with: CardClientError.vaultTokenError)
-//            }
-//        }
+        Task {
+            do {
+                let result = try await vaultAPI.vaultWithoutPurchase(cardVaultRequest: vaultRequest).updateVaultSetupToken
+                
+                // TODO: handle 3DS contingency with helios link
+                if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
+                    let url = link.href
+                    print("3DS url \(url)")
+                } else {
+                    let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status)
+                    notifyVaultSuccess(for: vaultResult)
+                }
+            } catch let error as CoreSDKError {
+                notifyVaultFailure(with: error)
+            } catch {
+                notifyVaultFailure(with: CardClientError.vaultTokenError)
+            }
+        }
     }
     
 //    func updateSetupToken(vaultSetupTokenID: String, card: Card) async throws -> TokenDetails {
@@ -81,7 +87,7 @@ public class CardClient: NSObject {
         analyticsService?.sendEvent("card-payments:3ds:started")
         Task {
             do {
-                let result = try await checkoutOrdersAPI.confirmPaymentSource(clientID: config.clientID, cardRequest: request)
+                let result = try await checkoutOrdersAPI.confirmPaymentSource(cardRequest: request)
                 
                 if let url: String = result.links?.first(where: { $0.rel == "payer-action" })?.href {
                     analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:challenge-required")
