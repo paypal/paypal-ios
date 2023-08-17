@@ -1338,6 +1338,7 @@
 				80E2FDBE2A83528B0045593D /* CheckoutOrdersAPI.swift in Sources */,
 				3B79E4F72A8503CA00C01D06 /* UpdateVaultVariables.swift in Sources */,
 				8048D28C270B9DE00072214A /* ConfirmPaymentSourceResponse.swift in Sources */,
+				3B109B3D2A85D1CA00D8135F /* MockGraphQLClient.swift in Sources */,
 				3D1763A22720722A00652E1C /* CardResult.swift in Sources */,
 				BC0A82A5270B9533006E9A21 /* ConfirmPaymentSourceRequest.swift in Sources */,
 				CB4BE2802847F01000EA2DD1 /* CardDelegate.swift in Sources */,

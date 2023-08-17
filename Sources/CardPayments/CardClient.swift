@@ -9,12 +9,17 @@ public class CardClient: NSObject {
     public weak var delegate: CardDelegate?
     public weak var vaultDelegate: CardVaultDelegate?
     
+<<<<<<< HEAD
     private let checkoutOrdersAPI: CheckoutOrdersAPI
     private let vaultAPI: VaultPaymentTokensAPI
     
+=======
+    private let apiClient: APIClient
+>>>>>>> 7660350 (Vault without Purchase (#172))
     private let config: CoreConfig
     private let webAuthenticationSession: WebAuthenticationSession
     private var analyticsService: AnalyticsService?
+    private var graphQLClient: GraphQLClient?
 
     /// Initialize a CardClient to process card payment
     /// - Parameter config: The CoreConfig object
@@ -23,26 +28,40 @@ public class CardClient: NSObject {
         self.checkoutOrdersAPI = CheckoutOrdersAPI(coreConfig: config)
         self.vaultAPI = VaultPaymentTokensAPI(coreConfig: config)
         self.webAuthenticationSession = WebAuthenticationSession()
+        self.graphQLClient = GraphQLClient(environment: config.environment)
     }
 
     /// For internal use for testing/mocking purpose
     init(
         config: CoreConfig,
+<<<<<<< HEAD
         checkoutOrdersAPI: CheckoutOrdersAPI,
         vaultAPI: VaultPaymentTokensAPI,
         webAuthenticationSession: WebAuthenticationSession
+=======
+        apiClient: APIClient,
+        webAuthenticationSession: WebAuthenticationSession,
+        graphQLClient: GraphQLClient? = nil
+>>>>>>> 7660350 (Vault without Purchase (#172))
     ) {
         self.config = config
         self.checkoutOrdersAPI = checkoutOrdersAPI
         self.vaultAPI = vaultAPI
         self.webAuthenticationSession = webAuthenticationSession
+        self.graphQLClient = graphQLClient
     }
     
     public func vault(_ vaultRequest: CardVaultRequest) {
         Task {
             do {
+<<<<<<< HEAD
                 let result = try await vaultAPI.updateSetupToken(cardVaultRequest: vaultRequest).updateVaultSetupToken
                 
+=======
+                let card = vaultRequest.card
+                let setupTokenID = vaultRequest.setupTokenID
+                let result = try await updateSetupToken(vaultSetupTokenID: setupTokenID, card: card)
+>>>>>>> 7660350 (Vault without Purchase (#172))
                 // TODO: handle 3DS contingency with helios link
                 if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
                     let url = link.href
@@ -58,6 +77,26 @@ public class CardClient: NSObject {
             }
         }
     }
+<<<<<<< HEAD
+=======
+    
+    func updateSetupToken(vaultSetupTokenID: String, card: Card) async throws -> TokenDetails {
+        guard let graphQLClient else {
+            throw CardClientError.nilGraphQLClientError
+        }
+
+        let clientID = config.clientID
+        let query = UpdateSetupTokenQuery(clientID: clientID, vaultSetupToken: vaultSetupTokenID, card: card)
+        let response: GraphQLQueryResponse<UpdateSetupTokenResponse> = try await graphQLClient.callGraphQL(
+            name: "UpdateVaultSetupToken", query: query
+        )
+        guard let data = response.data else {
+            throw CardClientError.noVaultTokenDataError
+        }
+        
+        return data.updateVaultSetupToken
+    }
+>>>>>>> 7660350 (Vault without Purchase (#172))
            
     /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
     /// After the order has been successfully approved, you will need to handle capturing/authorizing the order in your server.
