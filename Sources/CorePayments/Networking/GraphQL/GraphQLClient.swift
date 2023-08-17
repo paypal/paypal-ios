@@ -32,12 +32,15 @@ public class GraphQLClient {
 
     func createURLRequest(name: String? = nil, requestBody: Data) throws -> URLRequest {
         var urlString = environment.graphQLURL.absoluteString
+
         if let name {
             urlString.append("?\(name)")
         }
+
         guard let url = URL(string: urlString) else {
             throw GraphQLError(message: "error fetching url")
         }
+        
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = HTTPMethod.post.rawValue
         urlRequest.httpBody = requestBody

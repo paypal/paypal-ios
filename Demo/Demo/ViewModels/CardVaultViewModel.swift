@@ -54,7 +54,7 @@ class CardVaultViewModel: ObservableObject, CardVaultDelegate {
             cardClient.vaultDelegate = self
 
             let cardVaultRequest = CardVaultRequest(card: card, setupTokenID: setupToken)
-            cardClient.vault(vaultRequest: cardVaultRequest)
+            cardClient.vault(cardVaultRequest)
         }
     }
 

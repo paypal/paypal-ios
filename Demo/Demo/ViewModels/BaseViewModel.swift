@@ -216,11 +216,6 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         updateTitle("3DS challenge has finished")
         print("3DS challenge has finished")
     }
-    
-    func card(_ cardClient: CardClient, didFinishWithVaultError vaultError: CoreSDKError) {
-        updateTitle("Vault without purchase has failed: \(vaultError.localizedDescription)")
-        print("❌ There was an error: \(vaultError)")
-    }
 
     func getClientID() async -> String? {
         await DemoMerchantAPI.sharedService.getClientID(

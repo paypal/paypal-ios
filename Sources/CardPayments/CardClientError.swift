@@ -66,11 +66,11 @@ enum CardClientError {
         code: Code.vaultTokenError.rawValue,
         domain: domain,
         errorDescription: "An error occurred while vaulting a card."
-        )
+    )
 
     static let nilGraphQLClientError = CoreSDKError(
         code: Code.nilGraphQLClientError.rawValue,
         domain: domain,
         errorDescription: "GraphQLClient is unexpectedly nil."
-        )
+    )
 }

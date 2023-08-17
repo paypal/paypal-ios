@@ -2,13 +2,17 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
-* PayPalNativePayments
-  * Bump `PayPalCheckout` to `1.0.0`
 * CardPayments
   * Add `vault` method 
   * Add `CardVaultRequest` and `CardVaultResult` types for interacting with `vault` method
   * Add `CardVaultDelegate` protocol to receive success and failure results
   * Add `CardVaultDelegate` property to `CardClient`
+  
+## 0.0.10 (2023-08-14)
+* PayPalNativePayments
+  * Bump `PayPalCheckout` to `1.0.0`
+* PaymentsCore
+  * Allow `ASWebAuthenticationSession` used for PayPal Web & 3DS flows to share cookies with Safari (fixes #179)
   
 ## 0.0.9 (2023-06-23)
 * Breaking Changes

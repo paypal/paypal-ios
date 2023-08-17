@@ -6,7 +6,8 @@ class MockGraphQLClient: GraphQLClient {
     var mockErrorResponse: Error?
     
     override func callGraphQL<T, Q>(
-        name: String, query: Q
+        name: String,
+        query: Q
     ) async throws -> GraphQLQueryResponse<T> where T: Decodable, T: Encodable, Q: GraphQLQuery {
         if let response = mockSuccessResponse as? GraphQLQueryResponse<T> {
             return response

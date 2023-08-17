@@ -49,7 +49,6 @@ class CardClient_Tests: XCTestCase {
     // MARK: - vault() tests
 
     func testVault_withValidResponse_returnsSuccess() {
-        
         let setupTokenID = "testToken1"
         let vaultStatus = "APPROVED"
         let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
@@ -67,13 +66,12 @@ class CardClient_Tests: XCTestCase {
             XCTFail("Invoked error() callback. Should invoke success().")
         })
         cardClient.vaultDelegate = cardVaultDelegate
-        cardClient.vault(vaultRequest: vaultRequest)
+        cardClient.vault(vaultRequest)
         
         waitForExpectations(timeout: 10)
     }
     
     func testVault_withNoData_ReturnsError() {
-        
         let setupTokenID = "testToken1"
         let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
        
@@ -89,13 +87,12 @@ class CardClient_Tests: XCTestCase {
             expectation.fulfill()
         })
         cardClient.vaultDelegate = cardVaultDelegate
-        cardClient.vault(vaultRequest: vaultRequest)
+        cardClient.vault(vaultRequest)
         
         waitForExpectations(timeout: 10)
     }
-    
+
     func testVault_whenGraphQLCallFails_returnsError() {
-        
         let setupTokenID = "testToken1"
         let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
        
@@ -112,7 +109,7 @@ class CardClient_Tests: XCTestCase {
             expectation.fulfill()
         })
         cardClient.vaultDelegate = cardVaultDelegate
-        cardClient.vault(vaultRequest: vaultRequest)
+        cardClient.vault(vaultRequest)
         
         waitForExpectations(timeout: 10)
     }
