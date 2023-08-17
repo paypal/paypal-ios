@@ -19,6 +19,15 @@ enum CardClientError {
         
         /// 3 . An invalid 3DS challenge URL was returned by `/confirm-payment-source`
         case threeDSecureURLError
+        
+        /// 4. No data was returned from updating setup token
+        case noVaultTokenDataError
+        
+        /// 5. An error occurred during updating setup token
+        case vaultTokenError
+
+        /// 6. GraphQLClient is unexpectedly nil
+        case nilGraphQLClientError
     }
 
     static let unknownError = CoreSDKError(
@@ -45,5 +54,23 @@ enum CardClientError {
         code: Code.threeDSecureURLError.rawValue,
         domain: domain,
         errorDescription: "An invalid 3DS URL was returned. Contact developer.paypal.com/support."
+    )
+    
+    static let noVaultTokenDataError = CoreSDKError(
+        code: Code.noVaultTokenDataError.rawValue,
+        domain: domain,
+        errorDescription: "No data was returned from update setup token service."
+    )
+    
+    static let vaultTokenError = CoreSDKError(
+        code: Code.vaultTokenError.rawValue,
+        domain: domain,
+        errorDescription: "An error occurred while vaulting a card."
+    )
+
+    static let nilGraphQLClientError = CoreSDKError(
+        code: Code.nilGraphQLClientError.rawValue,
+        domain: domain,
+        errorDescription: "GraphQLClient is unexpectedly nil."
     )
 }

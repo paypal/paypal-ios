@@ -19,6 +19,39 @@ final class DemoMerchantAPI {
 
     // MARK: Public Methods
     
+    func getSetupToken(customerID: String? = nil, selectedMerchantIntegration: MerchantIntegration) async throws -> SetUpTokenResponse {
+        do {
+            let request = SetUpTokenRequest(customerID: customerID)
+            let urlRequest = try createSetupTokenUrlRequest(
+                setupTokenRequest: request,
+                environment: DemoSettings.environment,
+                selectedMerchantIntegration: selectedMerchantIntegration
+            )
+            
+            let data = try await data(for: urlRequest)
+            return try parse(from: data)
+        } catch {
+            print("error with the create setup token request: \(error.localizedDescription)")
+            throw error
+        }
+    }
+
+    func getPaymentToken(setupToken: String, selectedMerchantIntegration: MerchantIntegration) async throws -> PaymentTokenResponse {
+        do {
+            let request = PaymentTokenRequest(setupToken: setupToken)
+            let urlRequest = try createPaymentTokenUrlRequest(
+                paymentTokenRequest: request,
+                environment: DemoSettings.environment,
+                selectedMerchantIntegration: selectedMerchantIntegration
+			)
+		let data = try await data(for: urlRequest)
+            return try parse(from: data)
+        } catch {
+            print("error with the create payment token request: \(error.localizedDescription)")
+            throw error
+        }
+    }
+    
     func captureOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws -> Order {
         guard let url = buildBaseURL(with: "/orders/\(orderID)/capture", selectedMerchantIntegration: selectedMerchantIntegration) else {
             throw URLResponseError.invalidURL
@@ -168,7 +201,9 @@ final class DemoMerchantAPI {
     }
     
     private func createUrlRequest(
-        clientIDRequest: ClientIDRequest, environment: Demo.Environment, selectedMerchantIntegration: MerchantIntegration
+        clientIDRequest: ClientIDRequest,
+        environment: Demo.Environment,
+        selectedMerchantIntegration: MerchantIntegration
     ) throws -> URLRequest {
         var completeUrl = environment.baseURL
        
@@ -183,6 +218,52 @@ final class DemoMerchantAPI {
         clientIDRequest.headers.forEach { key, value in
             request.addValue(value, forHTTPHeaderField: key.rawValue)
         }
+        return request
+    }
+    
+    private func createSetupTokenUrlRequest(
+        setupTokenRequest: SetUpTokenRequest,
+        environment: Demo.Environment,
+        selectedMerchantIntegration: MerchantIntegration
+    ) throws -> URLRequest {
+        var completeUrl = environment.baseURL
+        completeUrl += selectedMerchantIntegration.path
+        completeUrl.append(contentsOf: setupTokenRequest.path)
+
+        guard let url = URL(string: completeUrl) else {
+            throw URLResponseError.invalidURL
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = setupTokenRequest.method
+        request.httpBody = setupTokenRequest.body
+        setupTokenRequest.headers.forEach { key, value in
+            request.addValue(value, forHTTPHeaderField: key)
+        }
+
+        return request
+    }
+    
+    private func createPaymentTokenUrlRequest(
+        paymentTokenRequest: PaymentTokenRequest,
+        environment: Demo.Environment,
+        selectedMerchantIntegration: MerchantIntegration
+    ) throws -> URLRequest {
+        var completeUrl = environment.baseURL
+        completeUrl += selectedMerchantIntegration.path
+        completeUrl.append(contentsOf: paymentTokenRequest.path)
+
+        guard let url = URL(string: completeUrl) else {
+            throw URLResponseError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = paymentTokenRequest.method
+        request.httpBody = paymentTokenRequest.body
+        paymentTokenRequest.headers.forEach { key, value in
+            request.addValue(value, forHTTPHeaderField: key)
+        }
+
         return request
     }
 }
