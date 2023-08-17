@@ -49,10 +49,19 @@ public class APIClient {
     public func fetch(request: GraphQLRequest) async throws -> HTTPResponse {
         let url = try constructGraphQLURL(queryName: request.queryNameForURL)
 
+        // TODO: - Let's have all encoding in 1 place (variables as dict not data)
+        
         let postBody = GraphQLHTTPPostBody(query: request.query, variables: request.variables)
+        // TODO: - encoding `Data` results in mumbo jumbo string. Why
         let postData = try JSONEncoder().encode(postBody)
-                
-        let httpRequest = HTTPRequest(headers: [.contentType: "application/json"], method: .post, url: url, body: postData)
+        
+        let httpRequest = HTTPRequest(
+            headers: [.contentType: "application/json",
+                      .accept: "application/json"],
+            method: .post,
+            url: url,
+            body: postData
+        )
         
         return try await http.performRequest(httpRequest)
     }
