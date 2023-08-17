@@ -1,18 +1,20 @@
 import Foundation
 
-class GraphQLClient {
+//// :nodoc: This class handles urlRequests for GraphQL endpoints
+public class GraphQLClient {
 
-    private let environment: Environment
-    private let urlSession: URLSessionProtocol
-    private let jsonDecoder = JSONDecoder()
+    public let environment: Environment
+    public let urlSession: URLSessionProtocol
+    public let jsonDecoder = JSONDecoder()
 
     public init(environment: Environment, urlSession: URLSessionProtocol = URLSession.shared) {
         self.environment = environment
         self.urlSession = urlSession
     }
 
-    func executeQuery<T: Decodable>(query: GraphQLQuery) async throws -> GraphQLQueryResponse<T> {
-        var request = try createURLRequest(requestBody: query.requestBody())
+    public func callGraphQL<T: Decodable, Q: GraphQLQuery>(name: String, query: Q) async throws -> GraphQLQueryResponse<T> {
+        
+        var request = try createURLRequest(name: name, requestBody: query.requestBody())
         headers().forEach { key, value in
             request.addValue(value, forHTTPHeaderField: key)
         }
@@ -23,13 +25,23 @@ class GraphQLClient {
         let decoded: GraphQLQueryResponse<T> = try parse(data: data)
         return decoded
     }
-
+    
     func parse<T: Decodable>(data: Data) throws -> T {
         return try jsonDecoder.decode(T.self, from: data)
     }
 
-    func createURLRequest(requestBody: Data) throws -> URLRequest {
-        var urlRequest = URLRequest(url: environment.graphQLURL)
+    func createURLRequest(name: String? = nil, requestBody: Data) throws -> URLRequest {
+        var urlString = environment.graphQLURL.absoluteString
+
+        if let name {
+            urlString.append("?\(name)")
+        }
+
+        guard let url = URL(string: urlString) else {
+            throw GraphQLError(message: "error fetching url")
+        }
+        
+        var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = HTTPMethod.post.rawValue
         urlRequest.httpBody = requestBody
         return urlRequest
@@ -45,14 +57,11 @@ class GraphQLClient {
     }
 }
 
-extension GraphQLQuery {
+extension GraphQLQuery where Self: Codable {
 
-    func requestBody() throws -> Data {
-        let body: [String: Any] = [
-            "query": query,
-            "variables": variables
-        ]
-        let data = try JSONSerialization.data(withJSONObject: body, options: [])
-        return data
+    /// :nodoc: Converts GraphQLQuery into Data
+    public func requestBody() throws -> Data {
+        let encoder = JSONEncoder()
+        return try encoder.encode(self)
     }
 }

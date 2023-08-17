@@ -7,11 +7,13 @@ import CorePayments
 public class CardClient: NSObject {
 
     public weak var delegate: CardDelegate?
-
+    public weak var vaultDelegate: CardVaultDelegate?
+    
     private let apiClient: APIClient
     private let config: CoreConfig
     private let webAuthenticationSession: WebAuthenticationSession
     private var analyticsService: AnalyticsService?
+    private var graphQLClient: GraphQLClient?
 
     /// Initialize a CardClient to process card payment
     /// - Parameter config: The CoreConfig object
@@ -19,15 +21,61 @@ public class CardClient: NSObject {
         self.config = config
         self.apiClient = APIClient(coreConfig: config)
         self.webAuthenticationSession = WebAuthenticationSession()
+        self.graphQLClient = GraphQLClient(environment: config.environment)
     }
 
     /// For internal use for testing/mocking purpose
-    init(config: CoreConfig, apiClient: APIClient, webAuthenticationSession: WebAuthenticationSession) {
+    init(
+        config: CoreConfig,
+        apiClient: APIClient,
+        webAuthenticationSession: WebAuthenticationSession,
+        graphQLClient: GraphQLClient? = nil
+    ) {
         self.config = config
         self.apiClient = apiClient
         self.webAuthenticationSession = webAuthenticationSession
+        self.graphQLClient = graphQLClient
     }
+    
+    public func vault(_ vaultRequest: CardVaultRequest) {
+        Task {
+            do {
+                let card = vaultRequest.card
+                let setupTokenID = vaultRequest.setupTokenID
+                let result = try await updateSetupToken(vaultSetupTokenID: setupTokenID, card: card)
+                // TODO: handle 3DS contingency with helios link
+                if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
+                    let url = link.href
+                    print("3DS url \(url)")
+                } else {
+                    let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status)
+                    notifyVaultSuccess(for: vaultResult)
+                }
+            } catch let error as CoreSDKError {
+                notifyVaultFailure(with: error)
+            } catch {
+                notifyVaultFailure(with: CardClientError.vaultTokenError)
+            }
+        }
+    }
+    
+    func updateSetupToken(vaultSetupTokenID: String, card: Card) async throws -> TokenDetails {
+        guard let graphQLClient else {
+            throw CardClientError.nilGraphQLClientError
+        }
 
+        let clientID = config.clientID
+        let query = UpdateSetupTokenQuery(clientID: clientID, vaultSetupToken: vaultSetupTokenID, card: card)
+        let response: GraphQLQueryResponse<UpdateSetupTokenResponse> = try await graphQLClient.callGraphQL(
+            name: "UpdateVaultSetupToken", query: query
+        )
+        guard let data = response.data else {
+            throw CardClientError.noVaultTokenDataError
+        }
+        
+        return data.updateVaultSetupToken
+    }
+           
     /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
     /// After the order has been successfully approved, you will need to handle capturing/authorizing the order in your server.
     /// - Parameters:
@@ -45,7 +93,6 @@ public class CardClient: NSObject {
                 
                 if let url: String = result.links?.first(where: { $0.rel == "payer-action" })?.href {
                     analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:challenge-required")
-                    
                     startThreeDSecureChallenge(url: url, orderId: result.id)
                 } else {
                     analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:succeeded")
@@ -111,6 +158,14 @@ public class CardClient: NSObject {
     private func notifyFailure(with error: CoreSDKError) {
         analyticsService?.sendEvent("card-payments:3ds:failed")
         delegate?.card(self, didFinishWithError: error)
+    }
+    
+    private func notifyVaultSuccess(for vaultResult: CardVaultResult) {
+        vaultDelegate?.card(self, didFinishWithVaultResult: vaultResult)
+    }
+
+    private func notifyVaultFailure(with vaultError: CoreSDKError) {
+        vaultDelegate?.card(self, didFinishWithVaultError: vaultError)
     }
 
     private func notifyCancellation() {

@@ -1,6 +1,13 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+* CardPayments
+  * Add `vault` method 
+  * Add `CardVaultRequest` and `CardVaultResult` types for interacting with `vault` method
+  * Add `CardVaultDelegate` protocol to receive success and failure results
+  * Add `CardVaultDelegate` property to `CardClient`
+  
 ## 0.0.10 (2023-08-14)
 * PayPalNativePayments
   * Bump `PayPalCheckout` to `1.0.0`
