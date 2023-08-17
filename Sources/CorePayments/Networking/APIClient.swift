@@ -42,12 +42,7 @@ public class APIClient {
             headers[.contentType] = "application/json"
         }
         
-        let httpRequest = HTTPRequest(
-            headers: headers,
-            method: request.method,
-            url: url,
-            body: request.body
-        )
+        let httpRequest = HTTPRequest(headers: headers, method: request.method, url: url, body: request.body)
         
         return try await http.performRequest(httpRequest)
     }
@@ -59,12 +54,7 @@ public class APIClient {
         let postBody = GraphQLHTTPPostBody(query: request.query, variables: request.variables)
         let postData = try JSONEncoder().encode(postBody)
                 
-        let httpRequest = HTTPRequest(
-            headers: [.contentType: "application/json"],
-            method: .post,
-            url: url,
-            body: postData
-        )
+        let httpRequest = HTTPRequest(headers: [.contentType: "application/json"], method: .post, url: url, body: postData)
         
         return try await http.performRequest(httpRequest)
     }
