@@ -210,6 +210,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B43290F2A8FD7FD00C5441A /* CardVaultViews */ = {
+			isa = PBXGroup;
+			children = (
+				3B4DD99F2A892A7000F4A716 /* CardVaultView.swift */,
+				3B20273C2A89E3F00007907E /* CreateSetupTokenView.swift */,
+				3B2027422A8A95EF0007907E /* SetupTokenResultView.swift */,
+				3B2027442A8AA78B0007907E /* UpdateSetupTokenView.swift */,
+				3BF999752A8AC093009CBDF2 /* UpdateSetupTokenResultView.swift */,
+				3BF999772A8AD072009CBDF2 /* CreatePaymentTokenView.swift */,
+				3BF999792A8AE12C009CBDF2 /* PaymentTokenResultView.swift */,
+			);
+			path = CardVaultViews;
+			sourceTree = "<group>";
+		};
 		53B9E8E828C93B2B00719239 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -370,20 +384,14 @@
 		BEDE3047275E998700D275FD /* SwiftUIComponents */ = {
 			isa = PBXGroup;
 			children = (
+				3B4DD9A12A8982B000F4A716 /* CardFormView.swift */,
+				3B43290F2A8FD7FD00C5441A /* CardVaultViews */,
 				BE9F36DB274578D100AFC7DA /* FeatureBaseViewControllerRepresentable.swift */,
 				BE9F36D72745490400AFC7DA /* FloatingLabelTextField.swift */,
 				BE31187D273F02A80021C5A2 /* SwiftUICardDemo.swift */,
 				BEDE304B275FA4A100D275FD /* SwiftUIPayPalDemo.swift */,
 				CB9ED44D28411B110081F4DE /* SwiftUIPaymentButtonDemo.swift */,
 				536A5CA72898AA2A005C053D /* SwiftUINativeCheckoutDemo.swift */,
-				3B4DD99F2A892A7000F4A716 /* CardVaultView.swift */,
-				3B4DD9A12A8982B000F4A716 /* CardFormView.swift */,
-				3B20273C2A89E3F00007907E /* CreateSetupTokenView.swift */,
-				3B2027422A8A95EF0007907E /* SetupTokenResultView.swift */,
-				3B2027442A8AA78B0007907E /* UpdateSetupTokenView.swift */,
-				3BF999752A8AC093009CBDF2 /* UpdateSetupTokenResultView.swift */,
-				3BF999772A8AD072009CBDF2 /* CreatePaymentTokenView.swift */,
-				3BF999792A8AE12C009CBDF2 /* PaymentTokenResultView.swift */,
 			);
 			path = SwiftUIComponents;
 			sourceTree = "<group>";
