@@ -1,9 +1,12 @@
 import Foundation
 import PPRiskMagnes
+#if canImport(CorePayments)
+import CorePayments
+#endif
 
 /// Enables you to collect data about a customer's device and correlate it with a session identifier on your server.
 public class PayPalDataCollector {
-
+    
     // MARK: - Properties
 
     private let magnesSDK: MagnesSDKProtocol
@@ -14,13 +17,13 @@ public class PayPalDataCollector {
 
     /// Construct an instance to collect device data to send to your server.
     /// - Parameter environment: enviroment for the data collector
-    public convenience init(environment: PayPalDataCollectorEnvironment) {
-        self.init(environment: environment, magnesSDK: MagnesSDK.shared(), deviceInspector: DeviceInspector())
+    public convenience init(config: CoreConfig) {
+        self.init(config: config, magnesSDK: MagnesSDK.shared(), deviceInspector: DeviceInspector())
     }
 
     /// internal constructor for testing
-    init(environment: PayPalDataCollectorEnvironment, magnesSDK: MagnesSDKProtocol, deviceInspector: DeviceInspectorProtocol) {
-        self.magnesEnvironment = environment.magnesEnvironment
+    init(config: CoreConfig, magnesSDK: MagnesSDKProtocol, deviceInspector: DeviceInspectorProtocol) {
+        self.magnesEnvironment = config.magnesEnvironment
         self.magnesSDK = magnesSDK
         self.deviceInspector = deviceInspector
     }

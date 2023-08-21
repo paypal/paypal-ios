@@ -62,7 +62,7 @@ let package = Package(
         ),
         .target(
             name: "FraudProtection",
-            dependencies: ["PPRiskMagnes"]
+            dependencies: ["CorePayments", "PPRiskMagnes"]
         ),
         .binaryTarget(
             name: "PPRiskMagnes",
