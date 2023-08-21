@@ -2,14 +2,16 @@ import SwiftUI
 
 struct CreateSetupTokenView: View {
 
+    let selectedMerchantIntegration: MerchantIntegration
+
     @State private var vaultCustomerID: String = ""
     @ObservedObject var cardVaultViewModel: CardVaultViewModel
-    @ObservedObject var baseViewModel: BaseViewModel
+
     @State private var isLoading = false
 
-    public init(baseViewModel: BaseViewModel, cardVaultViewModel: CardVaultViewModel) {
+    public init(selectedMerchantIntegration: MerchantIntegration, cardVaultViewModel: CardVaultViewModel) {
+        self.selectedMerchantIntegration = selectedMerchantIntegration
         self.cardVaultViewModel = cardVaultViewModel
-        self.baseViewModel = baseViewModel
     }
 
     var body: some View {
@@ -28,7 +30,7 @@ struct CreateSetupTokenView: View {
                         .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
                         .background(Color.black.opacity(0.4))
                         .cornerRadius(10)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .frame(maxWidth: .infinity)
                 }
                 Button("Create Setup Token") {
                     Task {
@@ -36,7 +38,7 @@ struct CreateSetupTokenView: View {
                             isLoading = true
                             try await cardVaultViewModel.getSetupToken(
                                 customerID: vaultCustomerID,
-                                selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration
+                                selectedMerchantIntegration: selectedMerchantIntegration
                             )
                             isLoading = false
                         } catch {

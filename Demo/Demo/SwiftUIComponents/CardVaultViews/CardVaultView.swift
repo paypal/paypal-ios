@@ -13,7 +13,10 @@ struct CardVaultView: View {
         ScrollView {
             ScrollViewReader { scrollView in
                 VStack(spacing: 16) {
-                    CreateSetupTokenView(baseViewModel: baseViewModel, cardVaultViewModel: cardVaultViewModel)
+                    CreateSetupTokenView(
+                        selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration,
+                        cardVaultViewModel: cardVaultViewModel
+                    )
                     if let setupTokenResponse = cardVaultViewModel.state.setupTokenResponse {
                         SetupTokenResultView(setupTokenResponse: setupTokenResponse)
                         let setupToken = setupTokenResponse.id
@@ -23,7 +26,11 @@ struct CardVaultView: View {
                     if let updateSetupTokenResponse = cardVaultViewModel.state.updateSetupToken {
                         let setupToken = updateSetupTokenResponse.id
                         UpdateSetupTokenResultView(updateSetupTokenResponse: updateSetupTokenResponse)
-                        CreatePaymentTokenView(baseViewModel: baseViewModel, cardVaultViewModel: cardVaultViewModel, setupToken: setupToken)
+                        CreatePaymentTokenView(
+                            cardVaultViewModel: cardVaultViewModel,
+                            selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration,
+                            setupToken: setupToken
+                        )
                             .id("createPaymentTokenView")
                     }
                     if let paymentTokenResponse = cardVaultViewModel.state.paymentTokenResponse {

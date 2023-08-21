@@ -44,7 +44,7 @@ struct UpdateSetupTokenView: View {
                         .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
                         .background(Color.black.opacity(0.4))
                         .cornerRadius(10)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .frame(maxWidth: .infinity)
                 }
                 Button("Vault Card") {
                     isLoading = true
