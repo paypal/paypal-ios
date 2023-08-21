@@ -2,9 +2,20 @@ import SwiftUI
 
 struct PaymentTokenResultView: View {
 
-    let paymentTokenResponse: PaymentTokenResponse
+    @ObservedObject var cardVaultViewModel: CardVaultViewModel
 
     var body: some View {
+        switch cardVaultViewModel.state.paymentTokenResponse {
+        case .idle, .loading:
+            EmptyView()
+        case .loaded(let paymentTokenResponse):
+            getSucessView(paymentTokenResponse: paymentTokenResponse)
+        case .error(let message):
+            ErrorView(errorText: message)
+        }
+    }
+
+    func getSucessView(paymentTokenResponse: PaymentTokenResponse) -> some View {
         VStack(spacing: 16) {
             HStack {
                 Text("Payment Token")

@@ -2,9 +2,20 @@ import SwiftUI
 
 struct SetupTokenResultView: View {
 
-    let setupTokenResponse: SetUpTokenResponse
+    @ObservedObject var cardVaultViewModel: CardVaultViewModel
 
     var body: some View {
+        switch cardVaultViewModel.state.setupTokenResponse {
+        case .idle, .loading:
+            EmptyView()
+        case .loaded(let setupTokenResponse):
+            getSuccessView(setupTokenResponse: setupTokenResponse)
+        case .error(let message):
+            ErrorView(errorText: message)
+        }
+    }
+
+    func getSuccessView(setupTokenResponse: SetUpTokenResponse) -> some View {
         VStack(spacing: 16) {
             HStack {
                 Text("Setup Token")

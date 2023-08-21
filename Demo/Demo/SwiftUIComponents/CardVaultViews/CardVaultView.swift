@@ -5,8 +5,6 @@ struct CardVaultView: View {
     @StateObject var baseViewModel = BaseViewModel()
     @StateObject var cardVaultViewModel = CardVaultViewModel()
 
-    private let cardFormatter = CardFormatter()
-
     // MARK: Views
 
     var body: some View {
@@ -17,53 +15,44 @@ struct CardVaultView: View {
                         selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration,
                         cardVaultViewModel: cardVaultViewModel
                     )
-                    if let setupTokenResponse = cardVaultViewModel.state.setupTokenResponse {
-                        SetupTokenResultView(setupTokenResponse: setupTokenResponse)
-                        let setupToken = setupTokenResponse.id
-                        UpdateSetupTokenView(baseViewModel: baseViewModel, cardVaultViewModel: cardVaultViewModel, setupToken: setupToken)
-                            .id("updateSetupTokenView")
+                    SetupTokenResultView(cardVaultViewModel: cardVaultViewModel)
+                    if let setupToken = cardVaultViewModel.state.setupToken {
+                        UpdateSetupTokenView(baseViewModel: baseViewModel, cardVaultViewModel: cardVaultViewModel, setupToken: setupToken.id)
                     }
-                    if let updateSetupTokenResponse = cardVaultViewModel.state.updateSetupToken {
-                        let setupToken = updateSetupTokenResponse.id
-                        UpdateSetupTokenResultView(updateSetupTokenResponse: updateSetupTokenResponse)
+                    UpdateSetupTokenResultView(cardVaultViewModel: cardVaultViewModel)
+                    if let updateSetupToken = cardVaultViewModel.state.updateSetupToken {
                         CreatePaymentTokenView(
                             cardVaultViewModel: cardVaultViewModel,
                             selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration,
-                            setupToken: setupToken
+                            setupToken: updateSetupToken.id
                         )
-                            .id("createPaymentTokenView")
                     }
-                    if let paymentTokenResponse = cardVaultViewModel.state.paymentTokenResponse {
-                        PaymentTokenResultView(paymentTokenResponse: paymentTokenResponse)
-                            .id("paymentTokenResultView")
-                        Button("Reset") {
-                            cardVaultViewModel.resetState()
+                    PaymentTokenResultView(cardVaultViewModel: cardVaultViewModel)
+                    switch cardVaultViewModel.state.paymentTokenResponse {
+                    case .loaded, .error:
+                        VStack {
+                            Button("Reset") {
+                                cardVaultViewModel.resetState()
+                            }
+                            .foregroundColor(.black)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(.gray)
+                            .cornerRadius(10)
                         }
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(.blue)
-                        .cornerRadius(10)
-                        .id("resetButton")
+                        .padding(5)
+                    default:
+                        EmptyView()
                     }
-                }
-                .frame(maxWidth: .infinity, alignment: .top)
-                .padding(.horizontal, 10)
-                .padding(.top, 10)
-                .onChange(of: cardVaultViewModel.state.setupTokenResponse?.id) { _ in
-                    withAnimation {
-                        scrollView.scrollTo("updateSetupTokenView")
-                    }
-                }
-                .onChange(of: cardVaultViewModel.state.updateSetupToken?.id) { _ in
-                    withAnimation {
-                        scrollView.scrollTo("createPaymentTokenView")
-                    }
-                }
-                .onChange(of: cardVaultViewModel.state.paymentTokenResponse?.id) { _ in
-                    withAnimation {
-                        scrollView.scrollTo("resetButton")
-                    }
+                    Text("")
+                        .id("bottomView")
+                        .frame(maxWidth: .infinity, alignment: .top)
+                        .padding(.horizontal, 10)
+                        .onChange(of: cardVaultViewModel.state) { _ in
+                            withAnimation {
+                                scrollView.scrollTo("bottomView")
+                            }
+                        }
                 }
             }
         }

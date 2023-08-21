@@ -11,8 +11,6 @@ struct UpdateSetupTokenView: View {
     @ObservedObject var cardVaultViewModel: CardVaultViewModel
     @ObservedObject var baseViewModel: BaseViewModel
 
-    @State private var isLoading = false
-
     public init(baseViewModel: BaseViewModel, cardVaultViewModel: CardVaultViewModel, setupToken: String) {
         self.cardVaultViewModel = cardVaultViewModel
         self.baseViewModel = baseViewModel
@@ -26,6 +24,7 @@ struct UpdateSetupTokenView: View {
                     .font(.system(size: 20))
                 Spacer()
             }
+
             CardFormView(
                 cardNumberText: $cardNumberText,
                 expirationDateText: $expirationDateText,
@@ -39,7 +38,7 @@ struct UpdateSetupTokenView: View {
             )
 
             ZStack {
-                if isLoading {
+                if case .loading = cardVaultViewModel.state.updateSetupTokenResponse {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
                         .background(Color.black.opacity(0.4))
@@ -47,27 +46,22 @@ struct UpdateSetupTokenView: View {
                         .frame(maxWidth: .infinity)
                 }
                 Button("Vault Card") {
-                    isLoading = true
                     Task {
                         let config = await baseViewModel.getCoreConfig()
                         if let config = config, let card = card {
-
                             await cardVaultViewModel.vault(
                                 config: config,
                                 card: card,
                                 setupToken: setupToken
                             )
                         } else {
+                            DispatchQueue.main.async {
+                                cardVaultViewModel.state.updateSetupTokenResponse = .error(message: "Error getting Config or Card")
+                            }
                             print("Error getting Config or Card")
-                            isLoading = false
                         }
                     }
                 }
-            }
-            .onChange(of: cardVaultViewModel.state.updateSetupToken?.id) { _ in
-                // Updating is done through CardVaultDelegate function after
-                // handing off control to CardClient's vault function.
-				isLoading = false
             }
             .foregroundColor(.white)
             .padding()

@@ -1,6 +1,10 @@
 import Foundation
 
-struct SetUpTokenResponse: Decodable {
+struct SetUpTokenResponse: Decodable, Equatable {
+
+    static func == (lhs: SetUpTokenResponse, rhs: SetUpTokenResponse) -> Bool {
+        lhs.id == rhs.id
+    }
     
     let id, status: String
     let customer: Customer?

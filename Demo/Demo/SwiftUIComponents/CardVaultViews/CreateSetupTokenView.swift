@@ -7,8 +7,6 @@ struct CreateSetupTokenView: View {
     @State private var vaultCustomerID: String = ""
     @ObservedObject var cardVaultViewModel: CardVaultViewModel
 
-    @State private var isLoading = false
-
     public init(selectedMerchantIntegration: MerchantIntegration, cardVaultViewModel: CardVaultViewModel) {
         self.selectedMerchantIntegration = selectedMerchantIntegration
         self.cardVaultViewModel = cardVaultViewModel
@@ -25,7 +23,7 @@ struct CreateSetupTokenView: View {
             .font(.headline)
             FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $vaultCustomerID)
             ZStack {
-                if isLoading {
+                if case .loading = cardVaultViewModel.state.setupTokenResponse {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
                         .background(Color.black.opacity(0.4))
@@ -35,14 +33,11 @@ struct CreateSetupTokenView: View {
                 Button("Create Setup Token") {
                     Task {
                         do {
-                            isLoading = true
                             try await cardVaultViewModel.getSetupToken(
                                 customerID: vaultCustomerID,
                                 selectedMerchantIntegration: selectedMerchantIntegration
                             )
-                            isLoading = false
                         } catch {
-                            isLoading = false
                             print("Error in getting setup token. \(error.localizedDescription)")
                         }
                     }

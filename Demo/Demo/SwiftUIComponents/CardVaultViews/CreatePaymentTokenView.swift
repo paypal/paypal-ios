@@ -7,8 +7,6 @@ struct CreatePaymentTokenView: View {
 
     @ObservedObject var cardVaultViewModel: CardVaultViewModel
 
-    @State private var isLoading = false
-
     public init(cardVaultViewModel: CardVaultViewModel, selectedMerchantIntegration: MerchantIntegration, setupToken: String) {
         self.cardVaultViewModel = cardVaultViewModel
         self.selectedMerchantIntegration = selectedMerchantIntegration
@@ -25,7 +23,7 @@ struct CreatePaymentTokenView: View {
             .frame(maxWidth: .infinity)
             .font(.headline)
             ZStack {
-                if isLoading {
+                if case .loading = cardVaultViewModel.state.paymentTokenResponse {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
                         .background(Color.black.opacity(0.4))
@@ -35,14 +33,11 @@ struct CreatePaymentTokenView: View {
                 Button("Create Payment Token") {
                     Task {
                         do {
-                            isLoading = true
                             try await cardVaultViewModel.getPaymentToken(
                                 setupToken: setupToken,
                                 selectedMerchantIntegration: selectedMerchantIntegration
                             )
-                            isLoading = false
                         } catch {
-                            isLoading = false
                             print("Error in getting setup token. \(error.localizedDescription)")
                         }
                     }
