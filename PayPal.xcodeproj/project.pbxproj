@@ -29,6 +29,7 @@
 		802C4A742945670400896A5D /* MockHTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C4A732945670400896A5D /* MockHTTP.swift */; };
 		802C4A762945676E00896A5D /* AnalyticsService_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C4A752945676E00896A5D /* AnalyticsService_Tests.swift */; };
 		802EFBD82A9685DF00AB709D /* MockTrackingEventsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802EFBD72A9685DF00AB709D /* MockTrackingEventsAPI.swift */; };
+		802EFBDA2A968BCD00AB709D /* TrackingEventsAPI_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802EFBD92A968BCD00AB709D /* TrackingEventsAPI_Tests.swift */; };
 		8034A9E726B875C90055AF13 /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; };
 		8036C1E4270F9BE700C0F091 /* APIClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036C1E0270F9BE700C0F091 /* APIClient_Tests.swift */; };
 		8036C1E5270F9BE700C0F091 /* Environment_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036C1E1270F9BE700C0F091 /* Environment_Tests.swift */; };
@@ -221,6 +222,7 @@
 		802C4A732945670400896A5D /* MockHTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHTTP.swift; sourceTree = "<group>"; };
 		802C4A752945676E00896A5D /* AnalyticsService_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService_Tests.swift; sourceTree = "<group>"; };
 		802EFBD72A9685DF00AB709D /* MockTrackingEventsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTrackingEventsAPI.swift; sourceTree = "<group>"; };
+		802EFBD92A968BCD00AB709D /* TrackingEventsAPI_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingEventsAPI_Tests.swift; sourceTree = "<group>"; };
 		8034A9E326B875C90055AF13 /* CorePaymentsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CorePaymentsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8036C1E0270F9BE700C0F091 /* APIClient_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIClient_Tests.swift; path = UnitTests/PaymentsCoreTests/APIClient_Tests.swift; sourceTree = SOURCE_ROOT; };
 		8036C1E1270F9BE700C0F091 /* Environment_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Environment_Tests.swift; path = UnitTests/PaymentsCoreTests/Environment_Tests.swift; sourceTree = SOURCE_ROOT; };
@@ -497,6 +499,7 @@
 				8036F87F2A30E492005B6186 /* HTTPResponse_Tests.swift */,
 				807BF5902A2A5D48002F32B3 /* HTTPResponseParser_Tests.swift */,
 				802EFBD72A9685DF00AB709D /* MockTrackingEventsAPI.swift */,
+				802EFBD92A968BCD00AB709D /* TrackingEventsAPI_Tests.swift */,
 			);
 			path = PaymentsCoreTests;
 			sourceTree = "<group>";
@@ -1295,6 +1298,7 @@
 				804E62822937EBCE004B9FEF /* HTTP.swift in Sources */,
 				BC04836F27B2FB3600FA7B46 /* URLSessionProtocol.swift in Sources */,
 				065A4DBC26FCD8090007014A /* CoreSDKError.swift in Sources */,
+				802EFBDA2A968BCD00AB709D /* TrackingEventsAPI_Tests.swift in Sources */,
 				BEA100E726EF9EDA0036A6A5 /* APIClient.swift in Sources */,
 				807BF58F2A2A5D19002F32B3 /* HTTPResponseParser.swift in Sources */,
 				807D56AE2A869064009E591D /* GraphQLRequest.swift in Sources */,
