@@ -78,6 +78,27 @@ class APIClient_Tests: XCTestCase {
         XCTAssertEqual(result, stubHTTPResponse)
     }
     
+    func testFetchREST_whenSuccess_bubblesHTTPResponse() async throws {
+        let fakeRequest = RESTRequest(path: "", method: .get)
+
+        let result = try await sut.fetch(request: fakeRequest)
+        XCTAssertEqual(result, stubHTTPResponse)
+    }
+    
+    func testFetchREST_whenError_bubblesHTTPErrorThrow() async throws {
+        mockHTTP.stubHTTPError = CoreSDKError(code: 0, domain: "", errorDescription: "Fake error from HTTP")
+        
+        let fakeRequest = RESTRequest(path: "", method: .get)
+
+        do {
+            _ = try await sut.fetch(request: fakeRequest)
+            XCTFail("Expected an error to be thrown.")
+        } catch {
+            let error = error as NSError
+            XCTAssertEqual(error.localizedDescription, "Fake error from HTTP")
+        }
+    }
+    
     // MARK: - fetch() GraphQL
     
     func testFetchGraphQL_whenLive_usesProperPayPalURL() async throws {
@@ -130,11 +151,25 @@ class APIClient_Tests: XCTestCase {
         XCTAssertEqual(mockHTTP.capturedHTTPRequest?.url.absoluteString, "https://www.sandbox.paypal.com/graphql?FakeName")
     }
     
-    func testFetchGraphQL_returnsHTTPResponse() async throws {
+    func testFetchGraphQL_whenSuccess_bubblesHTTPResponse() async throws {
         let fakeGraphQLRequest = GraphQLRequest(query: "fake-query", variables: FakeRequest(fakeParam: "fake-param"))
         
         let result = try await sut.fetch(request: fakeGraphQLRequest)
         XCTAssertEqual(result, stubHTTPResponse)
+    }
+    
+    func testFetchGraphQL_whenError_bubblesHTTPErrorThrow() async throws {
+        mockHTTP.stubHTTPError = CoreSDKError(code: 0, domain: "", errorDescription: "Fake error from HTTP")
+        
+        let fakeGraphQLRequest = GraphQLRequest(query: "fake-query", variables: FakeRequest(fakeParam: "fake-param"))
+        
+        do {
+            _ = try await sut.fetch(request: fakeGraphQLRequest)
+            XCTFail("Expected an error to be thrown.")
+        } catch {
+            let error = error as NSError
+            XCTAssertEqual(error.localizedDescription, "Fake error from HTTP")
+        }
     }
 }
 
