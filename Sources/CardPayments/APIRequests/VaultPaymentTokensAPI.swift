@@ -37,7 +37,8 @@ class VaultPaymentTokensAPI {
                     id,
                     status,
                     links {
-                        rel, href
+                        rel,
+                        href
                     }
                 }
             }
