@@ -10,7 +10,7 @@ public class CardClient: NSObject {
     public weak var vaultDelegate: CardVaultDelegate?
     
     private let checkoutOrdersAPI: CheckoutOrdersAPI
-    private let vaultAPI: VaultAPI
+    private let vaultAPI: VaultPaymentTokensAPI
     
     private let config: CoreConfig
     private let webAuthenticationSession: WebAuthenticationSession
@@ -21,7 +21,7 @@ public class CardClient: NSObject {
     public init(config: CoreConfig) {
         self.config = config
         self.checkoutOrdersAPI = CheckoutOrdersAPI(coreConfig: config)
-        self.vaultAPI = VaultAPI(coreConfig: config)
+        self.vaultAPI = VaultPaymentTokensAPI(coreConfig: config)
         self.webAuthenticationSession = WebAuthenticationSession()
     }
 
@@ -29,7 +29,7 @@ public class CardClient: NSObject {
     init(
         config: CoreConfig,
         checkoutOrdersAPI: CheckoutOrdersAPI,
-        vaultAPI: VaultAPI,
+        vaultAPI: VaultPaymentTokensAPI,
         webAuthenticationSession: WebAuthenticationSession
     ) {
         self.config = config
@@ -41,7 +41,7 @@ public class CardClient: NSObject {
     public func vault(_ vaultRequest: CardVaultRequest) {
         Task {
             do {
-                let result = try await vaultAPI.vaultWithoutPurchase(cardVaultRequest: vaultRequest).updateVaultSetupToken
+                let result = try await vaultAPI.updateSetupToken(cardVaultRequest: vaultRequest).updateVaultSetupToken
                 
                 // TODO: handle 3DS contingency with helios link
                 if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
@@ -71,8 +71,7 @@ public class CardClient: NSObject {
         analyticsService?.sendEvent("card-payments:3ds:started")
         Task {
             do {
-                let confirmPaymentRequest = try ConfirmPaymentSourceRequest(clientID: config.clientID, cardRequest: request)
-                let (result) = try await apiClient.fetch(request: confirmPaymentRequest)
+                let (result) = try await checkoutOrdersAPI.confirmPaymentSource(cardRequest: request)
                 
                 if let url: String = result.links?.first(where: { $0.rel == "payer-action" })?.href {
                     analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:challenge-required")

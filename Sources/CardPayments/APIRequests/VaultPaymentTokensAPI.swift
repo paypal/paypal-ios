@@ -3,10 +3,10 @@ import Foundation
 import CorePayments
 #endif
 
-/// This class coordinates networking logic for communicating with the v2/checkout/orders API.
+/// This class coordinates networking logic for communicating with the /graphql?UpdateVaultSetupToken API.
 ///
-/// Details on this PayPal API can be found in PPaaS under Merchant > Checkout > Orders > v2.
-class VaultAPI {
+/// Details on this PayPal API can be found in PPaaS under Merchant > Data Vault > Payment Method Tokens > v3.
+class VaultPaymentTokensAPI {
     
     // MARK: - Private Propertires
     
@@ -20,23 +20,8 @@ class VaultAPI {
     
     // MARK: - Internal Methods
         
-    func vaultWithoutPurchase(cardVaultRequest: CardVaultRequest) async throws -> UpdateSetupTokenResponse {
+    func updateSetupToken(cardVaultRequest: CardVaultRequest) async throws -> UpdateSetupTokenResponse {
         let apiClient = APIClient(coreConfig: coreConfig)
-
-        // TODO: - Move JSON encoding into custom class, similar to HTTPResponseParser
-        let variables = VaultDataEncodableVariables(cardVaultRequest: cardVaultRequest, clientID: coreConfig.clientID)
-//        let variables: [String: Any] = [
-//            "clientID": coreConfig.clientID,
-//            "vaultSetupToken": cardVaultRequest.setupTokenID,
-//            "paymentSource": [
-//                "card": [
-//                    "number": cardVaultRequest.card.number,
-//                    "securityCode": cardVaultRequest.card.securityCode,
-//                    "expiry": cardVaultRequest.card.expiry,
-//                    "name": cardVaultRequest.card.cardholderName
-//                ]
-//            ]
-//        ]
         
         let queryString = """
             mutation UpdateVaultSetupToken(
@@ -57,6 +42,8 @@ class VaultAPI {
                 }
             }
         """
+        
+        let variables = UpdateVaultVariables(cardVaultRequest: cardVaultRequest, clientID: coreConfig.clientID)
 
         let graphQLRequest = GraphQLRequest(
             query: queryString,
