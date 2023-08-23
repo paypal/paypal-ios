@@ -48,8 +48,9 @@ public class APIClient {
     /// :nodoc:
     public func fetch(request: GraphQLRequest) async throws -> HTTPResponse {
         let url = try constructGraphQLURL(queryName: request.queryNameForURL)
-        
-        let postData = try GraphQLHTTPPostBody(query: request.query, variables: request.variables).data
+                
+        let postBody = GraphQLHTTPPostBody(query: request.query, variables: request.variables)
+        let postData = try JSONEncoder().encode(postBody)
         
         let httpRequest = HTTPRequest(
             headers: [

@@ -4,13 +4,13 @@ import Foundation
 public struct GraphQLRequest {
     
     let query: String
-    let variables: [String: Any]
+    let variables: Encodable
     
     /// This is non-standard in the GraphQL language, but sometimes required by PayPal's GraphQL API.
     /// Some requests are sent to `https://www.api.paypal.com/graphql?<queryNameForURL>`
     let queryNameForURL: String?
     
-    public init(query: String, variables: [String: Any], queryNameForURL: String?) {
+    public init(query: String, variables: Encodable, queryNameForURL: String?) {
         self.query = query
         self.variables = variables
         self.queryNameForURL = queryNameForURL
