@@ -88,7 +88,7 @@ public class CardClient: NSObject {
         analyticsService?.sendEvent("card-payments:3ds:started")
         Task {
             do {
-                let (result) = try await checkoutOrdersAPI.confirmPaymentSource(cardRequest: request)
+                let result = try await checkoutOrdersAPI.confirmPaymentSource(cardRequest: request)
                 
                 if let url: String = result.links?.first(where: { $0.rel == "payer-action" })?.href {
                     analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:challenge-required")
