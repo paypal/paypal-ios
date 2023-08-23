@@ -15,7 +15,6 @@
 		06CE009926F3D1660000CC46 /* CoreConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009826F3D1660000CC46 /* CoreConfig.swift */; };
 		06CE009B26F3D5A40000CC46 /* CardClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CE009A26F3D5A40000CC46 /* CardClient.swift */; };
 		3B109B3C2A85CC6200D8135F /* MockCardVaultDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B109B3A2A85B54800D8135F /* MockCardVaultDelegate.swift */; };
-		3B109B3D2A85D1CA00D8135F /* MockGraphQLClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B109B382A85A9DB00D8135F /* MockGraphQLClient.swift */; };
 		3B22E8B62A840ECF00962E34 /* CardVaultDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22E8B52A840ECF00962E34 /* CardVaultDelegate.swift */; };
 		3B22E8B82A841AEA00962E34 /* CardVaultResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22E8B72A841AEA00962E34 /* CardVaultResult.swift */; };
 		3B79E4F72A8503CA00C01D06 /* UpdateVaultVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B79E4F62A8503C900C01D06 /* UpdateVaultVariables.swift */; };
@@ -205,7 +204,6 @@
 		06CE009A26F3D5A40000CC46 /* CardClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardClient.swift; sourceTree = "<group>"; };
 		06CE009F26F3DF100000CC46 /* ConfirmPaymentSourceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPaymentSourceRequest.swift; sourceTree = "<group>"; };
 		06CE00A226F3E32A0000CC46 /* ConfirmPaymentSourceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPaymentSourceResponse.swift; sourceTree = "<group>"; };
-		3B109B382A85A9DB00D8135F /* MockGraphQLClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGraphQLClient.swift; sourceTree = "<group>"; };
 		3B109B3A2A85B54800D8135F /* MockCardVaultDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCardVaultDelegate.swift; sourceTree = "<group>"; };
 		3B22E8B52A840ECF00962E34 /* CardVaultDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultDelegate.swift; sourceTree = "<group>"; };
 		3B22E8B72A841AEA00962E34 /* CardVaultResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultResult.swift; sourceTree = "<group>"; };
@@ -591,7 +589,6 @@
 				065A4DC226FCE1D20007014A /* ConfirmPaymentSourceRequest_Tests.swift */,
 				CB16E6D7285B7A2B00FD6F52 /* CardResponses.swift */,
 				CB16E6D9285B7B7300FD6F52 /* MockCardDelegate.swift */,
-				3B109B382A85A9DB00D8135F /* MockGraphQLClient.swift */,
 				3B109B3A2A85B54800D8135F /* MockCardVaultDelegate.swift */,
 			);
 			path = CardPaymentsTests;
@@ -1341,7 +1338,6 @@
 				80E2FDBE2A83528B0045593D /* CheckoutOrdersAPI.swift in Sources */,
 				3B79E4F72A8503CA00C01D06 /* UpdateVaultVariables.swift in Sources */,
 				8048D28C270B9DE00072214A /* ConfirmPaymentSourceResponse.swift in Sources */,
-				3B109B3D2A85D1CA00D8135F /* MockGraphQLClient.swift in Sources */,
 				3D1763A22720722A00652E1C /* CardResult.swift in Sources */,
 				BC0A82A5270B9533006E9A21 /* ConfirmPaymentSourceRequest.swift in Sources */,
 				CB4BE2802847F01000EA2DD1 /* CardDelegate.swift in Sources */,
