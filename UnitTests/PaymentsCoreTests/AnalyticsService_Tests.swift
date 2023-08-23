@@ -7,85 +7,47 @@ class AnalyticsService_Tests: XCTestCase {
     // MARK: - Helper properties
 
     var sut: AnalyticsService!
-    var mockHTTP: MockHTTP!
-    var coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
-    let clientIDResponseJSON = #"{ "client_id": "fake-client-id" }"#
+    var mockTrackingEventsAPI: MockTrackingEventsAPI!
+    var coreConfig = CoreConfig(clientID: "some-client-id", environment: .sandbox)
 
     // MARK: - Test lifecycle
     
     override func setUp() {
         super.setUp()
                 
-        mockHTTP = MockHTTP()
-        mockHTTP.stubHTTPResponse = HTTPResponse(status: 200, body: clientIDResponseJSON.data(using: .utf8)!)
-        
-        sut = AnalyticsService(coreConfig: coreConfig, orderID: "fake-order-id", http: mockHTTP)
+        mockTrackingEventsAPI = MockTrackingEventsAPI()
+        sut = AnalyticsService(coreConfig: coreConfig, orderID: "some-order-id", trackingEventsAPI: mockTrackingEventsAPI)
     }
 
     // MARK: - sendEvent()
-
-    func testSendEvent_whenClientID_postsAnalyticsEventRequestType() async {
-        await sut.performEventRequest("fake-event")
         
-        XCTAssert(mockHTTP.lastAPIRequest is AnalyticsEventRequest)
+    func testSendEvent_sendsAppropriateAnalyticsEventData() async {
+        await sut.performEventRequest("some-event")
+        
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.eventName, "some-event")
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.clientID, "some-client-id")
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.orderID, "some-order-id")
     }
     
-    func testSendEvent_whenLive_sendsProperTag() async {
-        let coreConfig = CoreConfig(clientID: "fake-token", environment: .live)
-        let mockHTTP = MockHTTP(coreConfig: coreConfig)
-        mockHTTP.stubHTTPResponse = HTTPResponse(status: 200, body: clientIDResponseJSON.data(using: .utf8)!)
+    func testSendEvent_whenLive_sendsAppropriateAnalyticsEventData() async {
+        let sut = AnalyticsService(
+            coreConfig: CoreConfig(clientID: "some-client-id", environment: .live),
+            orderID: "some-order-id",
+            trackingEventsAPI: mockTrackingEventsAPI
+        )
         
-        let sut = AnalyticsService(coreConfig: coreConfig, orderID: "fake-orderID", http: mockHTTP)
+        await sut.performEventRequest("some-event")
         
-        await sut.performEventRequest("fake-event")
-        
-        guard let env = parsePostParam(from: mockHTTP.lastPOSTParameters, forKey: "merchant_sdk_env") else {
-            XCTFail("JSON body missing `merchant_sdk_env` key.")
-            return
-        }
-        
-        XCTAssertEqual(env, "live")
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.environment, "live")
     }
     
-    func testSendEvent_whenSandbox_sendsProperTag() async {
-        await sut.performEventRequest("fake-event")
+    func testSendEvent_whenSandbox_sendsAppropriateAnalyticsEventData() async {
+        await sut.performEventRequest("some-event")
         
-        guard let env = parsePostParam(from: mockHTTP.lastPOSTParameters, forKey: "merchant_sdk_env") else {
-            XCTFail("JSON body missing `merchant_sdk_env` key.")
-            return
-        }
-        
-        XCTAssertEqual(env, "sandbox")
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.environment, "sandbox")
     }
     
-    func testSendEvent_addsMetadataParams() async {
-        await sut.performEventRequest("fake-event")
-        
-        guard let eventName = parsePostParam(from: mockHTTP.lastPOSTParameters, forKey: "event_name") else {
-            XCTFail("JSON body missing `event_name` key.")
-            return
-        }
-        
-        guard let clientID = parsePostParam(from: mockHTTP.lastPOSTParameters, forKey: "partner_client_id") else {
-            XCTFail("JSON body missing `partner_client_id` key.")
-            return
-        }
-        
-        guard let orderID = parsePostParam(from: mockHTTP.lastPOSTParameters, forKey: "order_id") else {
-            XCTFail("JSON body missing `order_id` key.")
-            return
-        }
-        
-        XCTAssertEqual(eventName, "fake-event")
-        XCTAssertEqual(clientID, "fake-client-id")
-        XCTAssertEqual(orderID, "fake-order-id")
-    }
-    
-    // MARK: - Helpers
-    
-    private func parsePostParam(from postParameters: [String: Any]?, forKey key: String) -> String? {
-        let topLevelEvent = postParameters?["events"] as? [String: Any]
-        let eventParams = topLevelEvent?["event_params"] as? [String: Any]
-        return eventParams?[key] as? String
+    func testSendEvent_whenAPIRequestFails_logsErrorToConsole() {
+        // We currently have no way to validate our console logging
     }
 }
