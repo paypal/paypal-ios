@@ -24,8 +24,20 @@ class VaultAPI {
         let apiClient = APIClient(coreConfig: coreConfig)
 
         // TODO: - Move JSON encoding into custom class, similar to HTTPResponseParser
-        let encoder = JSONEncoder()
-        let variables = try encoder.encode(VaultDataEncodableVariables(cardVaultRequest: cardVaultRequest, clientID: coreConfig.clientID))
+//        let encoder = JSONEncoder()
+//        let variables = try encoder.encode(VaultDataEncodableVariables(cardVaultRequest: cardVaultRequest, clientID: coreConfig.clientID))
+        let variables: [String: Any] = [
+            "clientID": coreConfig.clientID,
+            "vaultSetupToken": cardVaultRequest.setupTokenID,
+            "paymentSource": [
+                "card": [
+                    "number": cardVaultRequest.card.number,
+                    "securityCode": cardVaultRequest.card.securityCode,
+                    "expiry": cardVaultRequest.card.expiry,
+                    "name": cardVaultRequest.card.cardholderName
+                ]
+            ]
+        ]
         
         let queryString = """
             mutation UpdateVaultSetupToken(

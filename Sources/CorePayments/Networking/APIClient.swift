@@ -48,16 +48,16 @@ public class APIClient {
     /// :nodoc:
     public func fetch(request: GraphQLRequest) async throws -> HTTPResponse {
         let url = try constructGraphQLURL(queryName: request.queryNameForURL)
-
-        // TODO: - Let's have all encoding in 1 place (variables as dict not data)
         
-        let postBody = GraphQLHTTPPostBody(query: request.query, variables: request.variables)
-        // TODO: - encoding `Data` results in mumbo jumbo string. Why
-        let postData = try JSONEncoder().encode(postBody)
+        let postData = try GraphQLHTTPPostBody(query: request.query, variables: request.variables).data
         
         let httpRequest = HTTPRequest(
-            headers: [.contentType: "application/json",
-                      .accept: "application/json"],
+            headers: [
+                .contentType: "application/json",
+                .accept: "application/json",
+                .appName: "ppcpmobilesdk",
+                .origin: coreConfig.environment.graphQLURL.absoluteString
+            ],
             method: .post,
             url: url,
             body: postData
