@@ -75,8 +75,7 @@ public class CardClient: NSObject {
         
         return data.updateVaultSetupToken
     }
->>>>>>> 7660350 (Vault without Purchase (#172))
-           
+       
     /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
     /// After the order has been successfully approved, you will need to handle capturing/authorizing the order in your server.
     /// - Parameters:
@@ -89,7 +88,8 @@ public class CardClient: NSObject {
         analyticsService?.sendEvent("card-payments:3ds:started")
         Task {
             do {
-                let result = try await checkoutOrdersAPI.confirmPaymentSource(cardRequest: request)
+                let confirmPaymentRequest = try ConfirmPaymentSourceRequest(clientID: config.clientID, cardRequest: request)
+                let (result) = try await apiClient.fetch(request: confirmPaymentRequest)
                 
                 if let url: String = result.links?.first(where: { $0.rel == "payer-action" })?.href {
                     analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:challenge-required")
