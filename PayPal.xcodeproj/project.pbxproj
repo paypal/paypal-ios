@@ -115,7 +115,6 @@
 		BE71161C27234B8A00165069 /* PayPalNativePaymentsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71161B27234B8A00165069 /* PayPalNativePaymentsError.swift */; };
 		BE711621272358E200165069 /* Environment+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE711620272358E200165069 /* Environment+Extension.swift */; };
 		BEA100E726EF9EDA0036A6A5 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100E626EF9EDA0036A6A5 /* APIClient.swift */; };
-		BEA100E926EFA1EE0036A6A5 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100E826EFA1EE0036A6A5 /* APIRequest.swift */; };
 		BEA100EC26EFA7790036A6A5 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100EB26EFA7790036A6A5 /* HTTPMethod.swift */; };
 		BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */; };
 		BEA100F026EFA7C20036A6A5 /* APIClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100EF26EFA7C20036A6A5 /* APIClientError.swift */; };
@@ -305,7 +304,6 @@
 		BE9F36E0274859C200AFC7DA /* PaymentButtonImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentButtonImage.swift; sourceTree = "<group>"; };
 		BE9F36E3275520E700AFC7DA /* PayPalCreditButton_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalCreditButton_Tests.swift; sourceTree = "<group>"; };
 		BEA100E626EF9EDA0036A6A5 /* APIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
-		BEA100E826EFA1EE0036A6A5 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		BEA100EB26EFA7790036A6A5 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
 		BEA100EF26EFA7C20036A6A5 /* APIClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientError.swift; sourceTree = "<group>"; };
@@ -710,7 +708,6 @@
 				BC04837327B2FC7300FA7B46 /* URLSession+URLSessionProtocol.swift */,
 				BEA100EA26EFA7670036A6A5 /* Enums */,
 				06E406D126EFE7B3002533B1 /* Models */,
-				BEA100F526EFB4A90036A6A5 /* Protocols */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -723,14 +720,6 @@
 				BEA100F126EFA7DE0036A6A5 /* Environment.swift */,
 			);
 			path = Enums;
-			sourceTree = "<group>";
-		};
-		BEA100F526EFB4A90036A6A5 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				BEA100E826EFA1EE0036A6A5 /* APIRequest.swift */,
-			);
-			path = Protocols;
 			sourceTree = "<group>";
 		};
 		E646231928369B71008AC8E1 /* GraphQL */ = {
@@ -1291,7 +1280,6 @@
 				802EFBD82A9685DF00AB709D /* MockTrackingEventsAPI.swift in Sources */,
 				BEA100F026EFA7C20036A6A5 /* APIClientError.swift in Sources */,
 				804E628629380B04004B9FEF /* AnalyticsService.swift in Sources */,
-				BEA100E926EFA1EE0036A6A5 /* APIRequest.swift in Sources */,
 				BC04837427B2FC7300FA7B46 /* URLSession+URLSessionProtocol.swift in Sources */,
 				80E2FDC32A8354AD0045593D /* RESTRequest.swift in Sources */,
 				3DC42BA927187E8300B71645 /* ErrorResponse.swift in Sources */,
