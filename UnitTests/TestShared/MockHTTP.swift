@@ -2,28 +2,27 @@
 import Foundation
 
 class MockHTTP: HTTP {
-
-    var lastPOSTParameters: [String: Any]?
-    var lastAPIRequest: (any APIRequest)?
-    
+        
     var stubHTTPResponse: HTTPResponse?
     var stubHTTPError: Error?
+    
+    var capturedHTTPRequest: HTTPRequest?
     
     init(coreConfig: CoreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)) {
         super.init(coreConfig: coreConfig)
     }
     
-    override func performRequest(_ request: any APIRequest) async throws -> HTTPResponse {
-        lastAPIRequest = request
-        
-        if let body = request.body {
-            lastPOSTParameters = try JSONSerialization.jsonObject(with: body, options: []) as? [String: Any]
-        }
+    override func performRequest(_ httpRequest: HTTPRequest) async throws -> HTTPResponse {
+        capturedHTTPRequest = httpRequest
         
         if let stubHTTPError {
             throw stubHTTPError
-        } else {
-            return stubHTTPResponse ?? HTTPResponse(status: 200, body: nil)
         }
+        
+        if let stubHTTPResponse {
+            return stubHTTPResponse
+        }
+        
+        throw CoreSDKError(code: 0, domain: "", errorDescription: "Stubbed responses not implemented for this mock.")
     }
 }

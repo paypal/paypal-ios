@@ -10,14 +10,14 @@ class MockAPIClient: APIClient {
     
     var postedAnalyticsEvents: [String] = []
         
-    override func fetch<T: APIRequest>(request: T) async throws -> (T.ResponseType) {
-        if let cannedFetchError {
-            throw cannedFetchError
-        }
-        let cannedData = cannedJSONResponse!.data(using: String.Encoding.utf8)!
-        return try HTTPResponseParser().parse(
-            HTTPResponse(status: 200, body: cannedData),
-            as: T.ResponseType.self
-        )
-    }
+//    override func fetch<T: APIRequest>(request: T) async throws -> (T.ResponseType) {
+//        if let cannedFetchError {
+//            throw cannedFetchError
+//        }
+//        let cannedData = cannedJSONResponse!.data(using: String.Encoding.utf8)!
+//        return try HTTPResponseParser().parse(
+//            HTTPResponse(status: 200, body: cannedData),
+//            as: T.ResponseType.self
+//        )
+//    }
 }
