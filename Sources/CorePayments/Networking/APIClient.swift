@@ -40,7 +40,15 @@ public class APIClient {
             headers[.contentType] = "application/json"
         }
         
-        let httpRequest = HTTPRequest(headers: headers, method: request.method, url: url, body: request.body)
+        // TODO: - Move JSON encoding into custom class, similar to HTTPResponseParser
+        var data: Data?
+        if let postBody = request.postParameters {
+            let encoder = JSONEncoder()
+            encoder.keyEncodingStrategy = .convertToSnakeCase
+            data = try encoder.encode(postBody)
+        }
+        
+        let httpRequest = HTTPRequest(headers: headers, method: request.method, url: url, body: data)
         
         return try await http.performRequest(httpRequest)
     }
@@ -49,6 +57,7 @@ public class APIClient {
     public func fetch(request: GraphQLRequest) async throws -> HTTPResponse {
         let url = try constructGraphQLURL(queryName: request.queryNameForURL)
                 
+        // TODO: - Move JSON encoding into custom class
         let postBody = GraphQLHTTPPostBody(query: request.query, variables: request.variables)
         let postData = try JSONEncoder().encode(postBody)
         

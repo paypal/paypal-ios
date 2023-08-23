@@ -11,16 +11,11 @@ class TrackingEventsAPI {
         // api.sandbox.paypal.com does not currently send FPTI events to BigQuery/Looker
         let apiClient = APIClient(coreConfig: CoreConfig(clientID: analyticsEventData.clientID, environment: .live))
         
-        // TODO: - Move JSON encoding into custom class, similar to HTTPResponseParser
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        let body = try encoder.encode(analyticsEventData)
-        
         let restRequest = RESTRequest(
             path: "v1/tracking/events",
             method: .post,
             queryParameters: nil,
-            body: body
+            postParameters: analyticsEventData
         )
         
         return try await apiClient.fetch(request: restRequest)

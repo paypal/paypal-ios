@@ -25,16 +25,11 @@ class CheckoutOrdersAPI {
         
         let confirmData = ConfirmPaymentSourceRequest(cardRequest: cardRequest)
         
-        // TODO: - Move JSON encoding into custom class, similar to HTTPResponseParser
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        let body = try encoder.encode(confirmData)
-        
         let restRequest = RESTRequest(
             path: "/v2/checkout/orders/\(cardRequest.orderID)/confirm-payment-source",
             method: .post,
             queryParameters: nil,
-            body: body
+            postParameters: confirmData
         )
         
         let httpResponse = try await apiClient.fetch(request: restRequest)

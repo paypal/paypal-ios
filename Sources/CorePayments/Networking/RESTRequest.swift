@@ -6,17 +6,17 @@ public struct RESTRequest {
     var path: String
     var method: HTTPMethod
     var queryParameters: [String: String]?
-    var body: Data?
+    var postParameters: Encodable?
     
     public init(
         path: String,
         method: HTTPMethod,
         queryParameters: [String: String]? = nil,
-        body: Data? = nil
+        postParameters: Encodable? = nil
     ) {
         self.path = path
         self.method = method
         self.queryParameters = queryParameters
-        self.body = body
+        self.postParameters = postParameters
     }
 }
