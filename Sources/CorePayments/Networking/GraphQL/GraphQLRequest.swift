@@ -10,7 +10,7 @@ public struct GraphQLRequest {
     /// Some requests are sent to `https://www.api.paypal.com/graphql?<queryNameForURL>`
     let queryNameForURL: String?
     
-    public init(query: String, variables: Encodable, queryNameForURL: String?) {
+    public init(query: String, variables: Encodable, queryNameForURL: String? = nil) {
         self.query = query
         self.variables = variables
         self.queryNameForURL = queryNameForURL

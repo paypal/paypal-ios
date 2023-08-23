@@ -13,7 +13,7 @@ public struct AnalyticsService {
     
     public init(coreConfig: CoreConfig, orderID: String) {
         self.coreConfig = coreConfig
-        self.trackingEventsAPI = TrackingEventsAPI()
+        self.trackingEventsAPI = TrackingEventsAPI(coreConfig: coreConfig)
         self.orderID = orderID
     }
     
