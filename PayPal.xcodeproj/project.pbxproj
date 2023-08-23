@@ -48,11 +48,7 @@
 		807D56AE2A869064009E591D /* GraphQLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807D56AD2A869064009E591D /* GraphQLRequest.swift */; };
 		807D56B02A869F97009E591D /* GraphQLErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807D56AF2A869F97009E591D /* GraphQLErrorResponse.swift */; };
 		808EEA81291321FE001B6765 /* AnalyticsEventRequest_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808EEA80291321FE001B6765 /* AnalyticsEventRequest_Tests.swift */; };
-<<<<<<< HEAD
 		80B8B2FC2A8EBBFD00AB60CD /* VaultPaymentTokensAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B8B2FB2A8EBBFD00AB60CD /* VaultPaymentTokensAPI.swift */; };
-=======
-		80B8B2FC2A8EBBFD00AB60CD /* VaultAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B8B2FB2A8EBBFD00AB60CD /* VaultAPI.swift */; };
->>>>>>> d7209b9 (WIP - Add VaultPPasSAPI.swift)
 		80D0C1382731CC9B00548A3D /* PayPalNativeCheckoutClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7116152723227200165069 /* PayPalNativeCheckoutClient.swift */; };
 		80DB2F762980795D00CFB86A /* CorePaymentsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DB2F752980795D00CFB86A /* CorePaymentsError.swift */; };
 		80DB6F1726B89DC700277E54 /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; platformFilter = ios; };
@@ -239,11 +235,7 @@
 		807D56AD2A869064009E591D /* GraphQLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLRequest.swift; sourceTree = "<group>"; };
 		807D56AF2A869F97009E591D /* GraphQLErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLErrorResponse.swift; sourceTree = "<group>"; };
 		808EEA80291321FE001B6765 /* AnalyticsEventRequest_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventRequest_Tests.swift; sourceTree = "<group>"; };
-<<<<<<< HEAD
 		80B8B2FB2A8EBBFD00AB60CD /* VaultPaymentTokensAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultPaymentTokensAPI.swift; sourceTree = "<group>"; };
-=======
-		80B8B2FB2A8EBBFD00AB60CD /* VaultAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultAPI.swift; sourceTree = "<group>"; };
->>>>>>> d7209b9 (WIP - Add VaultPPasSAPI.swift)
 		80B9F85126B8750000D67843 /* CorePayments.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CorePayments.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80DB2F752980795D00CFB86A /* CorePaymentsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorePaymentsError.swift; sourceTree = "<group>"; };
 		80DB6F0E26B89D9600277E54 /* PayPalNativePayments.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PayPalNativePayments.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -556,11 +548,7 @@
 				06CE00A226F3E32A0000CC46 /* ConfirmPaymentSourceResponse.swift */,
 				80E2FDBD2A83528B0045593D /* CheckoutOrdersAPI.swift */,
 				3BD82DBA2A835AF900CBE764 /* UpdateSetupTokenResponse.swift */,
-<<<<<<< HEAD
 				80B8B2FB2A8EBBFD00AB60CD /* VaultPaymentTokensAPI.swift */,
-=======
-				80B8B2FB2A8EBBFD00AB60CD /* VaultAPI.swift */,
->>>>>>> d7209b9 (WIP - Add VaultPPasSAPI.swift)
 			);
 			path = APIRequests;
 			sourceTree = "<group>";
@@ -1361,11 +1349,7 @@
 				80DCC59E2719DB6F00EC7C5A /* CardClientError.swift in Sources */,
 				3B22E8B62A840ECF00962E34 /* CardVaultDelegate.swift in Sources */,
 				3BDB34942A80CE6E008100D7 /* CardVaultRequest.swift in Sources */,
-<<<<<<< HEAD
 				80B8B2FC2A8EBBFD00AB60CD /* VaultPaymentTokensAPI.swift in Sources */,
-=======
-				80B8B2FC2A8EBBFD00AB60CD /* VaultAPI.swift in Sources */,
->>>>>>> d7209b9 (WIP - Add VaultPPasSAPI.swift)
 				CB4BE27D2847AF6F00EA2DD1 /* SCA.swift in Sources */,
 				0647E70E2714962800F8E517 /* Address.swift in Sources */,
 				BC7F8123275FC1350011EDC8 /* CardRequest.swift in Sources */,
