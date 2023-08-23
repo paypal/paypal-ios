@@ -25,6 +25,9 @@ enum APIClientError {
 
         /// 6. The server's response body returned an error message.
         case serverResponseError
+        
+        /// 7. Missing expected GraphQL response data key.
+        case noGraphQLDataKey
     }
 
     static let unknownError = CoreSDKError(
@@ -74,4 +77,10 @@ enum APIClientError {
             errorDescription: description
         )
     }
+    
+    static let noGraphQLDataKey = CoreSDKError(
+        code: Code.noResponseData.rawValue,
+        domain: domain,
+        errorDescription: "An error occured due to missing `data` key in GraphQL query response. Contact developer.paypal.com/support."
+    )
 }

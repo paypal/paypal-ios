@@ -53,16 +53,6 @@ class VaultPaymentTokensAPI {
 
         let httpResponse = try await apiClient.fetch(request: graphQLRequest)
         
-        do {
-            // TODO: - Move graphQL specific parsing logic into HTTPResponseParser
-            let parsedResponse = try HTTPResponseParser().parse(httpResponse, as: GraphQLHTTPResponse<UpdateSetupTokenResponse>.self)
-            if let graphQLResponseData = parsedResponse.data {
-                return graphQLResponseData
-            } else {
-                throw CardClientError.encodingError // TODO
-            }
-        } catch {
-            throw error // TODO
-        }
+        return try HTTPResponseParser().parseGraphQL(httpResponse, as: UpdateSetupTokenResponse.self)
     }
 }

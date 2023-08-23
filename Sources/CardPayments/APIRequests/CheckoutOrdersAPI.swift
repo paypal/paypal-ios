@@ -33,6 +33,6 @@ class CheckoutOrdersAPI {
         )
         
         let httpResponse = try await apiClient.fetch(request: restRequest)
-        return try HTTPResponseParser().parse(httpResponse, as: ConfirmPaymentSourceResponse.self)
+        return try HTTPResponseParser().parseREST(httpResponse, as: ConfirmPaymentSourceResponse.self)
     }
 }
