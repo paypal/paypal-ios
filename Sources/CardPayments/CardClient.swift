@@ -58,24 +58,7 @@ public class CardClient: NSObject {
             }
         }
     }
-    
-    func updateSetupToken(vaultSetupTokenID: String, card: Card) async throws -> TokenDetails {
-        guard let graphQLClient else {
-            throw CardClientError.nilGraphQLClientError
-        }
-
-        let clientID = config.clientID
-        let query = UpdateSetupTokenQuery(clientID: clientID, vaultSetupToken: vaultSetupTokenID, card: card)
-        let response: GraphQLQueryResponse<UpdateSetupTokenResponse> = try await graphQLClient.callGraphQL(
-            name: "UpdateVaultSetupToken", query: query
-        )
-        guard let data = response.data else {
-            throw CardClientError.noVaultTokenDataError
-        }
-        
-        return data.updateVaultSetupToken
-    }
-       
+           
     /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
     /// After the order has been successfully approved, you will need to handle capturing/authorizing the order in your server.
     /// - Parameters:
