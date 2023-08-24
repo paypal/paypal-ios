@@ -12,10 +12,10 @@ class TrackingEventsAPI {
 
     // MARK: - Initializer
     
-    init(coreConfig: CoreConfig) {
-        self.coreConfig = CoreConfig(clientID: coreConfig.clientID, environment: .live)
+    init(coreConfig merchantConfig: CoreConfig) {
         // api.sandbox.paypal.com does not currently send FPTI events to BigQuery/Looker
-        self.apiClient = APIClient(coreConfig: CoreConfig(clientID: coreConfig.clientID, environment: .live))
+        self.coreConfig = CoreConfig(clientID: merchantConfig.clientID, environment: .live)
+        self.apiClient = APIClient(coreConfig: coreConfig)
     }
     
     /// Exposed for injecting MockAPIClient in tests
