@@ -4,8 +4,6 @@ import CorePayments
 #endif
 
 /// This class coordinates networking logic for communicating with the /graphql?UpdateVaultSetupToken API.
-///
-/// Details on this PayPal API can be found in PPaaS under Merchant > Data Vault > Payment Method Tokens > v3.
 class VaultPaymentTokensAPI {
     
     // MARK: - Private Propertires
