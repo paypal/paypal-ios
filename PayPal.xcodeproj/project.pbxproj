@@ -48,6 +48,8 @@
 		807D56AC2A869044009E591D /* GraphQLHTTPPostBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807D56AB2A869044009E591D /* GraphQLHTTPPostBody.swift */; };
 		807D56AE2A869064009E591D /* GraphQLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807D56AD2A869064009E591D /* GraphQLRequest.swift */; };
 		807D56B02A869F97009E591D /* GraphQLErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807D56AF2A869F97009E591D /* GraphQLErrorResponse.swift */; };
+		808E3EDD2A981F240017FE46 /* MockCheckoutOrdersAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E3EDC2A981F240017FE46 /* MockCheckoutOrdersAPI.swift */; };
+		808E3EDF2A981F390017FE46 /* MockVaultPaymentTokensAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E3EDE2A981F390017FE46 /* MockVaultPaymentTokensAPI.swift */; };
 		808EEA81291321FE001B6765 /* AnalyticsEventData_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808EEA80291321FE001B6765 /* AnalyticsEventData_Tests.swift */; };
 		80B8B2FC2A8EBBFD00AB60CD /* VaultPaymentTokensAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B8B2FB2A8EBBFD00AB60CD /* VaultPaymentTokensAPI.swift */; };
 		80B96AAE2A980F6B00C62916 /* MockTrackingEventsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802EFBD72A9685DF00AB709D /* MockTrackingEventsAPI.swift */; };
@@ -237,6 +239,8 @@
 		807D56AB2A869044009E591D /* GraphQLHTTPPostBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLHTTPPostBody.swift; sourceTree = "<group>"; };
 		807D56AD2A869064009E591D /* GraphQLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLRequest.swift; sourceTree = "<group>"; };
 		807D56AF2A869F97009E591D /* GraphQLErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLErrorResponse.swift; sourceTree = "<group>"; };
+		808E3EDC2A981F240017FE46 /* MockCheckoutOrdersAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCheckoutOrdersAPI.swift; sourceTree = "<group>"; };
+		808E3EDE2A981F390017FE46 /* MockVaultPaymentTokensAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVaultPaymentTokensAPI.swift; sourceTree = "<group>"; };
 		808EEA80291321FE001B6765 /* AnalyticsEventData_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventData_Tests.swift; sourceTree = "<group>"; };
 		80B8B2FB2A8EBBFD00AB60CD /* VaultPaymentTokensAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultPaymentTokensAPI.swift; sourceTree = "<group>"; };
 		80B9F85126B8750000D67843 /* CorePayments.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CorePayments.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -510,6 +514,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		808E3EDB2A981F130017FE46 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				808E3EDC2A981F240017FE46 /* MockCheckoutOrdersAPI.swift */,
+				808E3EDE2A981F390017FE46 /* MockVaultPaymentTokensAPI.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
 		80B96AAD2A9806B300C62916 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
@@ -597,6 +610,7 @@
 		80E8DAE726B8785D00FAFC3F /* CardPaymentsTests */ = {
 			isa = PBXGroup;
 			children = (
+				808E3EDB2A981F130017FE46 /* Mocks */,
 				065A4DBE26FCDA5B0007014A /* CardClient_Tests.swift */,
 				065A4DC226FCE1D20007014A /* ConfirmPaymentSourceRequest_Tests.swift */,
 				CB16E6D7285B7A2B00FD6F52 /* CardResponses.swift */,
@@ -1368,6 +1382,8 @@
 				CB16E6D8285B7A2B00FD6F52 /* CardResponses.swift in Sources */,
 				CB16E6DA285B7B7300FD6F52 /* MockCardDelegate.swift in Sources */,
 				BC0A82A6270B9954006E9A21 /* ConfirmPaymentSourceRequest_Tests.swift in Sources */,
+				808E3EDD2A981F240017FE46 /* MockCheckoutOrdersAPI.swift in Sources */,
+				808E3EDF2A981F390017FE46 /* MockVaultPaymentTokensAPI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
