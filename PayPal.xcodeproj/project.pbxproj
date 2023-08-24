@@ -28,7 +28,6 @@
 		8021B69029144E6D000FBC54 /* PayPalCoreConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8021B68F29144E6D000FBC54 /* PayPalCoreConstants.swift */; };
 		802C4A742945670400896A5D /* MockHTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C4A732945670400896A5D /* MockHTTP.swift */; };
 		802C4A762945676E00896A5D /* AnalyticsService_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C4A752945676E00896A5D /* AnalyticsService_Tests.swift */; };
-		802EFBD82A9685DF00AB709D /* MockTrackingEventsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802EFBD72A9685DF00AB709D /* MockTrackingEventsAPI.swift */; };
 		802EFBDB2A96B47A00AB709D /* TrackingEventsAPI_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802EFBD92A968BCD00AB709D /* TrackingEventsAPI_Tests.swift */; };
 		8034A9E726B875C90055AF13 /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; };
 		8036C1E4270F9BE700C0F091 /* APIClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036C1E0270F9BE700C0F091 /* APIClient_Tests.swift */; };
@@ -51,6 +50,7 @@
 		807D56B02A869F97009E591D /* GraphQLErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807D56AF2A869F97009E591D /* GraphQLErrorResponse.swift */; };
 		808EEA81291321FE001B6765 /* AnalyticsEventData_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808EEA80291321FE001B6765 /* AnalyticsEventData_Tests.swift */; };
 		80B8B2FC2A8EBBFD00AB60CD /* VaultPaymentTokensAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B8B2FB2A8EBBFD00AB60CD /* VaultPaymentTokensAPI.swift */; };
+		80B96AAE2A980F6B00C62916 /* MockTrackingEventsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802EFBD72A9685DF00AB709D /* MockTrackingEventsAPI.swift */; };
 		80D0C1382731CC9B00548A3D /* PayPalNativeCheckoutClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7116152723227200165069 /* PayPalNativeCheckoutClient.swift */; };
 		80DB2F762980795D00CFB86A /* CorePaymentsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DB2F752980795D00CFB86A /* CorePaymentsError.swift */; };
 		80DB6F1726B89DC700277E54 /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; platformFilter = ios; };
@@ -1260,6 +1260,7 @@
 			files = (
 				808EEA81291321FE001B6765 /* AnalyticsEventData_Tests.swift in Sources */,
 				8036C1E5270F9BE700C0F091 /* Environment_Tests.swift in Sources */,
+				80B96AAE2A980F6B00C62916 /* MockTrackingEventsAPI.swift in Sources */,
 				80FC261D29847AC7008EC841 /* HTTP_Tests.swift in Sources */,
 				802EFBDB2A96B47A00AB709D /* TrackingEventsAPI_Tests.swift in Sources */,
 				802C4A762945676E00896A5D /* AnalyticsService_Tests.swift in Sources */,
@@ -1285,7 +1286,6 @@
 				CB4BE27E2847EA7D00EA2DD1 /* WebAuthenticationSession.swift in Sources */,
 				80E2FDC12A83535A0045593D /* TrackingEventsAPI.swift in Sources */,
 				BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */,
-				802EFBD82A9685DF00AB709D /* MockTrackingEventsAPI.swift in Sources */,
 				BEA100F026EFA7C20036A6A5 /* APIClientError.swift in Sources */,
 				804E628629380B04004B9FEF /* AnalyticsService.swift in Sources */,
 				BC04837427B2FC7300FA7B46 /* URLSession+URLSessionProtocol.swift in Sources */,
