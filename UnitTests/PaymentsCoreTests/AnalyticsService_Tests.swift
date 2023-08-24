@@ -29,7 +29,7 @@ class AnalyticsService_Tests: XCTestCase {
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.orderID, "some-order-id")
     }
     
-    func testSendEvent_whenLive_sendsAppropriateAnalyticsEventData() async {
+    func testSendEvent_whenLive_sendsAppropriateEnvName() async {
         let sut = AnalyticsService(
             coreConfig: CoreConfig(clientID: "some-client-id", environment: .live),
             orderID: "some-order-id",
@@ -41,7 +41,7 @@ class AnalyticsService_Tests: XCTestCase {
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.environment, "live")
     }
     
-    func testSendEvent_whenSandbox_sendsAppropriateAnalyticsEventData() async {
+    func testSendEvent_whenSandbox_sendsAppropriateEnvName() async {
         await sut.performEventRequest("some-event")
         
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.environment, "sandbox")

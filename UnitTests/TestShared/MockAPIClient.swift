@@ -3,13 +3,6 @@ import Foundation
 
 class MockAPIClient: APIClient {
 
-    var cannedClientIDError: CoreSDKError?
-    var cannedClientID = "cannedClientID"
-    var cannedJSONResponse: String?
-    var cannedFetchError: Error?
-    
-    var postedAnalyticsEvents: [String] = []
-    
     var stubHTTPResponse: HTTPResponse?
     var stubHTTPError: Error?
     

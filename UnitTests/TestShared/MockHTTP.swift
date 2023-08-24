@@ -8,10 +8,6 @@ class MockHTTP: HTTP {
     
     var capturedHTTPRequest: HTTPRequest?
     
-    init(coreConfig: CoreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)) {
-        super.init(coreConfig: coreConfig)
-    }
-    
     override func performRequest(_ httpRequest: HTTPRequest) async throws -> HTTPResponse {
         capturedHTTPRequest = httpRequest
         
