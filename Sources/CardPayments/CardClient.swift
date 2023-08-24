@@ -8,8 +8,9 @@ public class CardClient: NSObject {
 
     public weak var delegate: CardDelegate?
     public weak var vaultDelegate: CardVaultDelegate?
-
+    
     private let checkoutOrdersAPI: CheckoutOrdersAPI
+    private let vaultAPI: VaultPaymentTokensAPI
     
     private let config: CoreConfig
     private let webAuthenticationSession: WebAuthenticationSession
@@ -20,54 +21,43 @@ public class CardClient: NSObject {
     public init(config: CoreConfig) {
         self.config = config
         self.checkoutOrdersAPI = CheckoutOrdersAPI(coreConfig: config)
+        self.vaultAPI = VaultPaymentTokensAPI(coreConfig: config)
         self.webAuthenticationSession = WebAuthenticationSession()
     }
 
     /// For internal use for testing/mocking purpose
-    init(config: CoreConfig, checkoutOrdersAPI: CheckoutOrdersAPI, webAuthenticationSession: WebAuthenticationSession) {
+    init(
+        config: CoreConfig,
+        checkoutOrdersAPI: CheckoutOrdersAPI,
+        vaultAPI: VaultPaymentTokensAPI,
+        webAuthenticationSession: WebAuthenticationSession
+    ) {
         self.config = config
         self.checkoutOrdersAPI = checkoutOrdersAPI
+        self.vaultAPI = vaultAPI
         self.webAuthenticationSession = webAuthenticationSession
     }
     
     public func vault(_ vaultRequest: CardVaultRequest) {
-//        Task {
-//            do {
-//                let card = vaultRequest.card
-//                let setupTokenID = vaultRequest.setupTokenID
-//                let result = try await updateSetupToken(vaultSetupTokenID: setupTokenID, card: card)
-//                // TODO: handle 3DS contingency with helios link
-//                if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
-//                    let url = link.href
-//                    print("3DS url \(url)")
-//                } else {
-//                    let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status)
-//                    notifyVaultSuccess(for: vaultResult)
-//                }
-//            } catch let error as CoreSDKError {
-//                notifyVaultFailure(with: error)
-//            } catch {
-//                notifyVaultFailure(with: CardClientError.vaultTokenError)
-//            }
-//        }
+        Task {
+            do {
+                let result = try await vaultAPI.updateSetupToken(cardVaultRequest: vaultRequest).updateVaultSetupToken
+                
+                // TODO: handle 3DS contingency with helios link
+                if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
+                    let url = link.href
+                    print("3DS url \(url)")
+                } else {
+                    let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status)
+                    notifyVaultSuccess(for: vaultResult)
+                }
+            } catch let error as CoreSDKError {
+                notifyVaultFailure(with: error)
+            } catch {
+                notifyVaultFailure(with: CardClientError.vaultTokenError)
+            }
+        }
     }
-    
-//    func updateSetupToken(vaultSetupTokenID: String, card: Card) async throws -> TokenDetails {
-//        guard let graphQLClient else {
-//            throw CardClientError.nilGraphQLClientError
-//        }
-//
-//        let clientID = config.clientID
-//        let query = UpdateSetupTokenQuery(clientID: clientID, vaultSetupToken: vaultSetupTokenID, card: card)
-//        let response: GraphQLQueryResponse<UpdateSetupTokenResponse> = try await graphQLClient.callGraphQL(
-//            name: "UpdateVaultSetupToken", query: query
-//        )
-//        guard let data = response.data else {
-//            throw CardClientError.noVaultTokenDataError
-//        }
-//
-//        return data.updateVaultSetupToken
-//    }
            
     /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
     /// After the order has been successfully approved, you will need to handle capturing/authorizing the order in your server.
@@ -81,7 +71,7 @@ public class CardClient: NSObject {
         analyticsService?.sendEvent("card-payments:3ds:started")
         Task {
             do {
-                let result = try await checkoutOrdersAPI.confirmPaymentSource(clientID: config.clientID, cardRequest: request)
+                let result = try await checkoutOrdersAPI.confirmPaymentSource(cardRequest: request)
                 
                 if let url: String = result.links?.first(where: { $0.rel == "payer-action" })?.href {
                     analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:challenge-required")

@@ -20,24 +20,19 @@ class CheckoutOrdersAPI {
     
     // MARK: - Internal Methods
         
-    func confirmPaymentSource(clientID: String, cardRequest: CardRequest) async throws -> ConfirmPaymentSourceResponse {
+    func confirmPaymentSource(cardRequest: CardRequest) async throws -> ConfirmPaymentSourceResponse {
         let apiClient = APIClient(coreConfig: coreConfig)
         
         let confirmData = ConfirmPaymentSourceRequest(cardRequest: cardRequest)
-        
-        // TODO: - Move JSON encoding into custom class, similar to HTTPResponseParser
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        let body = try encoder.encode(confirmData)
         
         let restRequest = RESTRequest(
             path: "/v2/checkout/orders/\(cardRequest.orderID)/confirm-payment-source",
             method: .post,
             queryParameters: nil,
-            body: body
+            postParameters: confirmData
         )
         
         let httpResponse = try await apiClient.fetch(request: restRequest)
-        return try HTTPResponseParser().parse(httpResponse, as: ConfirmPaymentSourceResponse.self)
+        return try HTTPResponseParser().parseREST(httpResponse, as: ConfirmPaymentSourceResponse.self)
     }
 }
