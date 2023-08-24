@@ -496,8 +496,8 @@
 				80FC261C29847AC7008EC841 /* HTTP_Tests.swift */,
 				8036F87F2A30E492005B6186 /* HTTPResponse_Tests.swift */,
 				807BF5902A2A5D48002F32B3 /* HTTPResponseParser_Tests.swift */,
-				802EFBD72A9685DF00AB709D /* MockTrackingEventsAPI.swift */,
 				802EFBD92A968BCD00AB709D /* TrackingEventsAPI_Tests.swift */,
+				80B96AAD2A9806B300C62916 /* Mocks */,
 			);
 			path = PaymentsCoreTests;
 			sourceTree = "<group>";
@@ -508,6 +508,14 @@
 				BCF735E227D158B400A52E03 /* PPRiskMagnes.xcframework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		80B96AAD2A9806B300C62916 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				802EFBD72A9685DF00AB709D /* MockTrackingEventsAPI.swift */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 		80B9F85226B8750000D67843 /* CorePayments */ = {
@@ -562,12 +570,12 @@
 			children = (
 				3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */,
 				80E743FF270E40F300BACECA /* FakeRequests.swift */,
-				BCE8A7F427EA544000AC301B /* MockViewController.swift */,
-				BCE8A7F627EA54A000AC301B /* MockWebAuthenticationSession.swift */,
-				803C31B8270E4C560067D36E /* MockURLSession.swift */,
-				CB4BE28928512A9800EA2DD1 /* MockQuededURLSession.swift */,
 				E64763702899B60C00074113 /* MockAPIClient.swift */,
 				802C4A732945670400896A5D /* MockHTTP.swift */,
+				CB4BE28928512A9800EA2DD1 /* MockQuededURLSession.swift */,
+				803C31B8270E4C560067D36E /* MockURLSession.swift */,
+				BCE8A7F427EA544000AC301B /* MockViewController.swift */,
+				BCE8A7F627EA54A000AC301B /* MockWebAuthenticationSession.swift */,
 			);
 			path = TestShared;
 			sourceTree = "<group>";
