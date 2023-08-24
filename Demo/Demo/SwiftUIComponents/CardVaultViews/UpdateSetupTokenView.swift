@@ -41,7 +41,7 @@ struct UpdateSetupTokenView: View {
                 Button("Vault Card") {
                     Task {
                         let config = await baseViewModel.getCoreConfig()
-                        if let config, let card = card {
+                        if let config, let card {
                             await cardVaultViewModel.vault(
                                 config: config,
                                 card: card,

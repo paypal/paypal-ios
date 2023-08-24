@@ -28,9 +28,9 @@ struct CardFormView: View {
 
 struct CardFormView_Previews: PreviewProvider {
     
-    @State static var mockCardNumberText: String = ""
-    @State static var mockExpirationDateText: String = ""
-    @State static var mockCvvText: String = ""
+    @State static var mockCardNumberText: String = "41111111111111111"
+    @State static var mockExpirationDateText: String = "01/25"
+    @State static var mockCvvText: String = "123"
 
     static var previews: some View {
         CardFormView(

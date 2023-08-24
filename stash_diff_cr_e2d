@@ -1,0 +1,133 @@
+diff --git a/Demo/Demo.xcodeproj/project.pbxproj b/Demo/Demo.xcodeproj/project.pbxproj
+index 387e242..6ae7892 100644
+--- a/Demo/Demo.xcodeproj/project.pbxproj
++++ b/Demo/Demo.xcodeproj/project.pbxproj
+@@ -20,6 +20,7 @@
+ 		3B80D5102A291CB100D2EAC4 /* ClientIDResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50F2A291CB100D2EAC4 /* ClientIDResponse.swift */; };
+ 		3B8EF4DB2A932DA300A70D0B /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8EF4DA2A932DA300A70D0B /* ErrorView.swift */; };
+ 		3BB7A9772A5CA6FD00C05140 /* MerchantIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB7A9762A5CA6FD00C05140 /* MerchantIntegration.swift */; };
++		3BC622052A95D94C00251B85 /* CreateOrderVaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC622042A95D94C00251B85 /* CreateOrderVaultView.swift */; };
+ 		3BDB348E2A7CB02C008100D7 /* SetupTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB348D2A7CB02C008100D7 /* SetupTokenRequest.swift */; };
+ 		3BDB34922A7CB5DE008100D7 /* SetupTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB34912A7CB5DE008100D7 /* SetupTokenResponse.swift */; };
+ 		3BF999762A8AC093009CBDF2 /* UpdateSetupTokenResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF999752A8AC093009CBDF2 /* UpdateSetupTokenResultView.swift */; };
+@@ -125,6 +126,7 @@
+ 		3B80D50F2A291CB100D2EAC4 /* ClientIDResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientIDResponse.swift; sourceTree = "<group>"; };
+ 		3B8EF4DA2A932DA300A70D0B /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+ 		3BB7A9762A5CA6FD00C05140 /* MerchantIntegration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantIntegration.swift; sourceTree = "<group>"; };
++		3BC622042A95D94C00251B85 /* CreateOrderVaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrderVaultView.swift; sourceTree = "<group>"; };
+ 		3BDB348D2A7CB02C008100D7 /* SetupTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupTokenRequest.swift; sourceTree = "<group>"; };
+ 		3BDB34912A7CB5DE008100D7 /* SetupTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupTokenResponse.swift; sourceTree = "<group>"; };
+ 		3BF999752A8AC093009CBDF2 /* UpdateSetupTokenResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSetupTokenResultView.swift; sourceTree = "<group>"; };
+@@ -222,6 +224,7 @@
+ 				3BF999752A8AC093009CBDF2 /* UpdateSetupTokenResultView.swift */,
+ 				3BF999772A8AD072009CBDF2 /* CreatePaymentTokenView.swift */,
+ 				3BF999792A8AE12C009CBDF2 /* PaymentTokenResultView.swift */,
++				3BC622042A95D94C00251B85 /* CreateOrderVaultView.swift */,
+ 			);
+ 			path = CardVaultViews;
+ 			sourceTree = "<group>";
+@@ -533,6 +536,7 @@
+ 				BE31187E273F02A80021C5A2 /* SwiftUICardDemo.swift in Sources */,
+ 				3B4DD9A02A892A7000F4A716 /* CardVaultView.swift in Sources */,
+ 				3B80D5102A291CB100D2EAC4 /* ClientIDResponse.swift in Sources */,
++				3BC622052A95D94C00251B85 /* CreateOrderVaultView.swift in Sources */,
+ 				CB34B32328BE3A9A001325B9 /* PayPalViewModel.swift in Sources */,
+ 				3B4DD9A22A8982B000F4A716 /* CardFormView.swift in Sources */,
+ 				BED04233271084DF00C80954 /* CardFormatter.swift in Sources */,
+diff --git a/Demo/Demo/SwiftUIComponents/CardVaultViews/CardVaultView.swift b/Demo/Demo/SwiftUIComponents/CardVaultViews/CardVaultView.swift
+index 24d8d6e..3fbeef1 100644
+--- a/Demo/Demo/SwiftUIComponents/CardVaultViews/CardVaultView.swift
++++ b/Demo/Demo/SwiftUIComponents/CardVaultViews/CardVaultView.swift
+@@ -28,6 +28,9 @@ struct CardVaultView: View {
+                         )
+                     }
+                     PaymentTokenResultView(cardVaultViewModel: cardVaultViewModel)
++                    if let paymentToken = cardVaultViewModel.state.paymentToken {
++                        CreateOrderVaultView(cardVaultViewModel: cardVaultViewModel, selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration, setupToken: paymentToken.id)
++                    }
+                     switch cardVaultViewModel.state.paymentTokenResponse {
+                     case .loaded, .error:
+                         VStack {
+diff --git a/Demo/Demo/SwiftUIComponents/CardVaultViews/CreateOrderVaultView.swift b/Demo/Demo/SwiftUIComponents/CardVaultViews/CreateOrderVaultView.swift
+new file mode 100644
+index 0000000..9ce607a
+--- /dev/null
++++ b/Demo/Demo/SwiftUIComponents/CardVaultViews/CreateOrderVaultView.swift
+@@ -0,0 +1,58 @@
++import SwiftUI
++
++struct CreateOrderVaultView: View {
++
++    let selectedMerchantIntegration: MerchantIntegration
++    let setupToken: String
++
++    @ObservedObject var cardVaultViewModel: CardVaultViewModel
++
++    public init(cardVaultViewModel: CardVaultViewModel, selectedMerchantIntegration: MerchantIntegration, setupToken: String) {
++        self.cardVaultViewModel = cardVaultViewModel
++        self.selectedMerchantIntegration = selectedMerchantIntegration
++        self.setupToken = setupToken
++    }
++
++    var body: some View {
++        VStack(spacing: 16) {
++            HStack {
++                Text("Create an Order")
++                    .font(.system(size: 20))
++                Spacer()
++            }
++            .frame(maxWidth: .infinity)
++            .font(.headline)
++            ZStack {
++                // replace with getting order state
++                if case .loading = cardVaultViewModel.state.paymentTokenResponse {
++                    ProgressView()
++                        .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
++                        .background(Color.black.opacity(0.4))
++                        .cornerRadius(10)
++                        .frame(maxWidth: .infinity)
++                }
++                Button("Create an Order") {
++                    Task {
++                        do {
++                            // replace with getting order
++                            try await cardVaultViewModel.getPaymentToken(
++                                setupToken: setupToken,
++                                selectedMerchantIntegration: selectedMerchantIntegration
++                            )
++                        } catch {
++                            print("Error in getting setup token. \(error.localizedDescription)")
++                        }
++                    }
++                }
++            }
++            .foregroundColor(.white)
++            .padding()
++            .frame(maxWidth: .infinity)
++            .background(.blue)
++            .cornerRadius(10)
++        }
++        .padding()
++        .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2))
++        .padding(5)
++    }
++}
+diff --git a/Demo/Demo/ViewModels/CardVaultState.swift b/Demo/Demo/ViewModels/CardVaultState.swift
+index d200476..e0b5436 100644
+--- a/Demo/Demo/ViewModels/CardVaultState.swift
++++ b/Demo/Demo/ViewModels/CardVaultState.swift
+@@ -36,6 +36,14 @@ struct CardVaultState: Equatable {
+             }
+         }
+     }
++
++    var orderResponse: LoadingState<PaymentTokenResponse> = .idle {
++        didSet {
++            if case .loaded(let value) = paymentTokenResponse {
++                paymentToken = value
++            }
++        }
++    }
+ }
+ 
+ enum LoadingState<T: Decodable & Equatable>: Equatable {

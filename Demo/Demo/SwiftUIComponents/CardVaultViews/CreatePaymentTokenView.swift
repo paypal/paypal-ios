@@ -16,7 +16,7 @@ struct CreatePaymentTokenView: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text("Create a Permanent Payment Method Token")
+                Text("Create a Payment Method Token")
                     .font(.system(size: 20))
                 Spacer()
             }

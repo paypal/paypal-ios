@@ -27,7 +27,7 @@ struct CreateSetupTokenView: View {
                     Task {
                         do {
                             try await cardVaultViewModel.getSetupToken(
-                                customerID: vaultCustomerID,
+                                customerID: vaultCustomerID.isEmpty ? nil : vaultCustomerID,
                                 selectedMerchantIntegration: selectedMerchantIntegration
                             )
                         } catch {
