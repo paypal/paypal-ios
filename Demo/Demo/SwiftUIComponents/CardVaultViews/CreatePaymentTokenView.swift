@@ -23,13 +23,6 @@ struct CreatePaymentTokenView: View {
             .frame(maxWidth: .infinity)
             .font(.headline)
             ZStack {
-                if case .loading = cardVaultViewModel.state.paymentTokenResponse {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
-                        .background(Color.black.opacity(0.4))
-                        .cornerRadius(10)
-                        .frame(maxWidth: .infinity)
-                }
                 Button("Create Payment Token") {
                     Task {
                         do {
@@ -42,12 +35,11 @@ struct CreatePaymentTokenView: View {
                         }
                     }
                 }
+                .buttonStyle(RoundedBlueButtonStyle())
+                if case .loading = cardVaultViewModel.state.paymentTokenResponse {
+                    CircularProgressView()
+                }
             }
-            .foregroundColor(.white)
-            .padding()
-            .frame(maxWidth: .infinity)
-            .background(.blue)
-            .cornerRadius(10)
         }
         .padding()
         .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2))

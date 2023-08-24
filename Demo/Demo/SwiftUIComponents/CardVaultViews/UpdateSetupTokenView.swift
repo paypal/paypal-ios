@@ -38,17 +38,10 @@ struct UpdateSetupTokenView: View {
             )
 
             ZStack {
-                if case .loading = cardVaultViewModel.state.updateSetupTokenResponse {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
-                        .background(Color.black.opacity(0.4))
-                        .cornerRadius(10)
-                        .frame(maxWidth: .infinity)
-                }
                 Button("Vault Card") {
                     Task {
                         let config = await baseViewModel.getCoreConfig()
-                        if let config = config, let card = card {
+                        if let config, let card = card {
                             await cardVaultViewModel.vault(
                                 config: config,
                                 card: card,
@@ -62,12 +55,11 @@ struct UpdateSetupTokenView: View {
                         }
                     }
                 }
+                .buttonStyle(RoundedBlueButtonStyle())
+                if case .loading = cardVaultViewModel.state.updateSetupTokenResponse {
+                    CircularProgressView()
+                }
             }
-            .foregroundColor(.white)
-            .padding()
-            .frame(maxWidth: .infinity)
-            .background(.blue)
-            .cornerRadius(10)
         }
         .padding()
         .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2))

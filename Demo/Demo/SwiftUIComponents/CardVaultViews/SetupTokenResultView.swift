@@ -10,8 +10,8 @@ struct SetupTokenResultView: View {
             EmptyView()
         case .loaded(let setupTokenResponse):
             getSuccessView(setupTokenResponse: setupTokenResponse)
-        case .error(let message):
-            ErrorView(errorText: message)
+        case .error(let errorMessage):
+            ErrorView(errorMessage: errorMessage)
         }
     }
 
@@ -22,21 +22,12 @@ struct SetupTokenResultView: View {
                     .font(.system(size: 20))
                 Spacer()
             }
-            Text("ID")
-                .bold()
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text("\(setupTokenResponse.id)")
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text("Customer ID")
-                .bold()
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text("\(setupTokenResponse.customer?.id ?? "")")
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text("Status")
-                .bold()
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text("\(setupTokenResponse.status)")
-                .frame(maxWidth: .infinity, alignment: .leading)
+            LeadingText("ID", weight: .bold)
+            LeadingText("\(setupTokenResponse.id)")
+            LeadingText("Customer ID", weight: .bold)
+            LeadingText("\(setupTokenResponse.customer?.id ?? "")")
+            LeadingText("Status", weight: .bold)
+            LeadingText("\(setupTokenResponse.status)")
         }
         .frame(maxWidth: .infinity)
         .padding()

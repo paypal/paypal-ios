@@ -46,8 +46,8 @@ final class DemoMerchantAPI {
                 paymentTokenRequest: request,
                 environment: DemoSettings.environment,
                 selectedMerchantIntegration: selectedMerchantIntegration
-			)
-			let data = try await data(for: urlRequest)
+            )
+            let data = try await data(for: urlRequest)
             return try parse(from: data)
         } catch {
             print("error with the create payment token request: \(error.localizedDescription)")

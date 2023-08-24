@@ -10,8 +10,8 @@ struct PaymentTokenResultView: View {
             EmptyView()
         case .loaded(let paymentTokenResponse):
             getSucessView(paymentTokenResponse: paymentTokenResponse)
-        case .error(let message):
-            ErrorView(errorText: message)
+        case .error(let errorMessage):
+            ErrorView(errorMessage: errorMessage)
         }
     }
 
@@ -22,26 +22,14 @@ struct PaymentTokenResultView: View {
                     .font(.system(size: 20))
                 Spacer()
             }
-            Text("ID")
-                .bold()
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text("\(paymentTokenResponse.id)")
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text("Customer ID")
-                .bold()
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text("\(paymentTokenResponse.customer.id)")
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text("Card Brand")
-                .bold()
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text("\(paymentTokenResponse.paymentSource.card.brand ?? "")")
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text("Card Last 4")
-                .bold()
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text("\(paymentTokenResponse.paymentSource.card.lastDigits)")
-                .frame(maxWidth: .infinity, alignment: .leading)
+            LeadingText("ID", weight: .bold)
+            LeadingText("\(paymentTokenResponse.id)")
+            LeadingText("Customer ID", weight: .bold)
+            LeadingText("\(paymentTokenResponse.customer.id)")
+            LeadingText("Card Brand", weight: .bold)
+            LeadingText("\(paymentTokenResponse.paymentSource.card.brand ?? "")")
+            LeadingText("Card Last 4", weight: .bold)
+            LeadingText("\(paymentTokenResponse.paymentSource.card.lastDigits)")
         }
         .frame(maxWidth: .infinity)
         .padding()

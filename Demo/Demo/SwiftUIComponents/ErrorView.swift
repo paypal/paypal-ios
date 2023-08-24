@@ -2,11 +2,11 @@ import SwiftUI
 
 struct ErrorView: View {
 
-    let errorText: String
+    let errorMessage: String
 
     var body: some View {
         VStack {
-			Text("\(errorText)")
+            Text("\(errorMessage)")
                 .frame(maxWidth: .infinity)
         }
         .padding()

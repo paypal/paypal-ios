@@ -23,13 +23,6 @@ struct CreateSetupTokenView: View {
             .font(.headline)
             FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $vaultCustomerID)
             ZStack {
-                if case .loading = cardVaultViewModel.state.setupTokenResponse {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
-                        .background(Color.black.opacity(0.4))
-                        .cornerRadius(10)
-                        .frame(maxWidth: .infinity)
-                }
                 Button("Create Setup Token") {
                     Task {
                         do {
@@ -42,12 +35,11 @@ struct CreateSetupTokenView: View {
                         }
                     }
                 }
+                .buttonStyle(RoundedBlueButtonStyle())
+                if case .loading = cardVaultViewModel.state.setupTokenResponse {
+                    CircularProgressView()
+                }
             }
-            .foregroundColor(.white)
-            .padding()
-            .frame(maxWidth: .infinity)
-            .background(.blue)
-            .cornerRadius(10)
         }
         .padding()
         .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2))

@@ -56,11 +56,7 @@ class CardVaultViewModel: ObservableObject, CardVaultDelegate {
         }
     }
 
-    func vault(
-        config: CoreConfig,
-        card: Card,
-        setupToken: String
-    ) async {
+    func vault(config: CoreConfig, card: Card, setupToken: String) async {
         Task {
             DispatchQueue.main.async {
                 self.state.updateSetupTokenResponse = .loading

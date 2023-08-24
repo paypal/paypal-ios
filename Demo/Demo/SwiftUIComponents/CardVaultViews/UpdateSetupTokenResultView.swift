@@ -10,8 +10,8 @@ struct UpdateSetupTokenResultView: View {
             EmptyView()
         case .loaded(let updateSetupTokenResponse):
             getSuccessView(updateSetupTokenResponse: updateSetupTokenResponse)
-        case .error(let message):
-            ErrorView(errorText: message)
+        case .error(let errorMessage):
+            ErrorView(errorMessage: errorMessage)
         }
     }
 
@@ -22,16 +22,10 @@ struct UpdateSetupTokenResultView: View {
                     .font(.system(size: 20))
                 Spacer()
             }
-            Text("ID")
-                .bold()
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text("\(updateSetupTokenResponse.id)")
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text("Status")
-                .bold()
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text("\(updateSetupTokenResponse.status)")
-                .frame(maxWidth: .infinity, alignment: .leading)
+            LeadingText("ID", weight: .bold)
+            LeadingText("\(updateSetupTokenResponse.id)")
+            LeadingText("Status", weight: .bold)
+            LeadingText("\(updateSetupTokenResponse.status)")
         }
         .frame(maxWidth: .infinity)
         .padding()
