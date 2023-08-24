@@ -18,7 +18,7 @@ class AnalyticsEventData_Tests: XCTestCase {
         )
     }
 
-    func test_EncodedJSONFormat() throws {
+    func testEncode_properlyFormatsJSON() throws {
         let data = try JSONEncoder().encode(sut)
         let json = try? JSONSerialization.jsonObject(with: data) as? [String: [String: [String: Any]]]
             
