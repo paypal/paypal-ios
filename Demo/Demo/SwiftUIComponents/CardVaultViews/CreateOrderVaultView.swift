@@ -54,7 +54,6 @@ struct CreateOrderVaultView: View {
                     }
                 }
                 .buttonStyle(RoundedBlueButtonStyle())
-                // replace with getting order state
                 if case .loading = cardVaultViewModel.state.createdOrderResponse {
                     CircularProgressView()
                 }

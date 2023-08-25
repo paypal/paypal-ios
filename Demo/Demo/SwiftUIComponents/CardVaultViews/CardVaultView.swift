@@ -39,36 +39,15 @@ struct CardVaultView: View {
                     }
                     if let order = cardVaultViewModel.state.createdOrder {
                         OrderCreateResultView(cardVaultViewModel: cardVaultViewModel)
-                        Button("\(intent)") {
-                            if intent == "CAPTURE" {
-                                Task {
-                                    do {
-                                        try await cardVaultViewModel.captureOrder(
-                                            orderID: order.id,
-                                            selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration
-                                        )
-                                        print("Order Captured. ID: \(cardVaultViewModel.state.capturedOrder?.id ?? "")")
-                                    } catch {
-                                        print("Error capturing order: \(error.localizedDescription)")
-                                    }
-                                }
-                            } else {
-                                Task {
-                                    do {
-                                        try await cardVaultViewModel.authorizeOrder(
-                                            orderID: order.id,
-                                            selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration
-                                        )
-                                        print("Order Authorized. ID: \(cardVaultViewModel.state.authorizedOrder?.id ?? "")")
-                                    } catch {
-                                        print("Error authorizing order: \(error.localizedDescription)")
-                                    }
-                                }
-                            }
-                        }
-                        .buttonStyle(RoundedBlueButtonStyle())
+                        OrderActionButton(
+                            intent: intent,
+                            order: order,
+                            selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration,
+                            cardVaultViewModel: cardVaultViewModel
+                            )
                     }
-                    switch cardVaultViewModel.state.createdOrderResponse {
+                    // should check for both capture or authorize responses
+                    switch cardVaultViewModel.state.authorizedOrderResponse {
                     case .loaded, .error:
                         VStack {
                             Button("Reset") {
