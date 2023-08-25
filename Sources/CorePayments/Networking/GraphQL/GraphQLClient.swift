@@ -19,7 +19,6 @@ public class GraphQLClient {
             request.addValue(value, forHTTPHeaderField: key)
         }
         let (data, response) = try await urlSession.performRequest(with: request)
-        print("🌸 \(String(data: data, encoding: .utf8))")
         guard response is HTTPURLResponse else {
             return GraphQLQueryResponse(data: nil)
         }
