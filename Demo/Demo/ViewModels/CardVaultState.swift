@@ -63,7 +63,6 @@ struct CardVaultState: Equatable {
             }
         }
     }
-
 }
 
 enum LoadingState<T: Decodable & Equatable>: Equatable {

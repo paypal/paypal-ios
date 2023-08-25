@@ -59,7 +59,7 @@ struct CardVaultView: View {
                                             orderID: order.id,
                                             selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration
                                         )
-                                        print("Order Authorized. ID: \(cardVaultViewModel.state.capturedOrder?.id ?? "")")
+                                        print("Order Authorized. ID: \(cardVaultViewModel.state.authorizedOrder?.id ?? "")")
                                     } catch {
                                         print("Error authorizing order: \(error.localizedDescription)")
                                     }

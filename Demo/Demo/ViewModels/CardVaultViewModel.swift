@@ -57,15 +57,13 @@ class CardVaultViewModel: ObservableObject, CardVaultDelegate {
     }
 
     func vault(config: CoreConfig, card: Card, setupToken: String) async {
-        Task {
-            DispatchQueue.main.async {
+        DispatchQueue.main.async {
                 self.state.updateSetupTokenResponse = .loading
             }
             let cardClient = CardClient(config: config)
             cardClient.vaultDelegate = self
             let cardVaultRequest = CardVaultRequest(card: card, setupTokenID: setupToken)
             cardClient.vault(cardVaultRequest)
-        }
     }
 
     func createOrder(amount: String, selectedMerchantIntegration: MerchantIntegration, intent: String) async throws {
@@ -98,9 +96,8 @@ class CardVaultViewModel: ObservableObject, CardVaultDelegate {
     }
 
     func captureOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws {
-        Task {
-            do {
-                DispatchQueue.main.async {
+        do {
+            DispatchQueue.main.async {
                     self.state.capturedOrderResponse = .loading
                 }
                 let paymentTokenSource = PaymentTokenPaymentSource(
@@ -125,13 +122,11 @@ class CardVaultViewModel: ObservableObject, CardVaultDelegate {
                 }
                 print("Error capturing order: \(error.localizedDescription)")
             }
-        }
     }
 
     func authorizeOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws {
-        Task {
-            do {
-                DispatchQueue.main.async {
+        do {
+            DispatchQueue.main.async {
                     self.state.authorizedOrderResponse = .loading
                 }
                 let paymentTokenSource = PaymentTokenPaymentSource(
@@ -156,7 +151,6 @@ class CardVaultViewModel: ObservableObject, CardVaultDelegate {
                 }
                 print("Error capturing order: \(error.localizedDescription)")
             }
-        }
     }
 
     func isCardFormValid(cardNumber: String, expirationDate: String, cvv: String) -> Bool {
