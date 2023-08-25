@@ -13,41 +13,28 @@ struct CardVaultView: View {
         ScrollView {
             ScrollViewReader { scrollView in
                 VStack(spacing: 16) {
-                    CreateSetupTokenView(
-                        selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration,
-                        cardVaultViewModel: cardVaultViewModel
-                    )
-                    SetupTokenResultView(cardVaultViewModel: cardVaultViewModel)
-                    if let setupToken = cardVaultViewModel.state.setupToken {
-                        UpdateSetupTokenView(baseViewModel: baseViewModel, cardVaultViewModel: cardVaultViewModel, setupToken: setupToken.id)
-                    }
-                    UpdateSetupTokenResultView(cardVaultViewModel: cardVaultViewModel)
-                    if let updateSetupToken = cardVaultViewModel.state.updateSetupToken {
-                        CreatePaymentTokenView(
-                            cardVaultViewModel: cardVaultViewModel,
-                            selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration,
-                            setupToken: updateSetupToken.id
-                        )
-                    }
-                    PaymentTokenResultView(cardVaultViewModel: cardVaultViewModel)
-                    if cardVaultViewModel.state.paymentToken != nil {
-                        CreateOrderVaultView(
-                            cardVaultViewModel: cardVaultViewModel,
-                            selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration,
-                            intent: $intent
-                            )
-                    }
-                    if let order = cardVaultViewModel.state.createdOrder {
-                        OrderCreateResultView(cardVaultViewModel: cardVaultViewModel)
-                        OrderActionButton(
-                            intent: intent,
-                            order: order,
-                            selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration,
-                            cardVaultViewModel: cardVaultViewModel
-                            )
-                    }
-                    // should check for both capture or authorize responses
+                    makeSetupTokenSection
+                    makeUpdateSetupTokenSection
+                    makePaymentTokenSection
+                    makeOrderCreateSection
+                    makeOrderCompletionSection
                     switch cardVaultViewModel.state.authorizedOrderResponse {
+                    case .loaded, .error:
+                        VStack {
+                            Button("Reset") {
+                                cardVaultViewModel.resetState()
+                            }
+                            .foregroundColor(.black)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(.gray)
+                            .cornerRadius(10)
+                        }
+                        .padding(5)
+                    default:
+                        EmptyView()
+                    }
+                    switch cardVaultViewModel.state.capturedOrderResponse {
                     case .loaded, .error:
                         VStack {
                             Button("Reset") {
@@ -75,6 +62,55 @@ struct CardVaultView: View {
                 }
             }
         }
+    }
+
+    @ViewBuilder var makeSetupTokenSection: some View {
+        CreateSetupTokenView(
+            selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration,
+            cardVaultViewModel: cardVaultViewModel
+        )
+        SetupTokenResultView(cardVaultViewModel: cardVaultViewModel)
+    }
+
+    @ViewBuilder var makeUpdateSetupTokenSection: some View {
+        if let setupToken = cardVaultViewModel.state.setupToken {
+            UpdateSetupTokenView(baseViewModel: baseViewModel, cardVaultViewModel: cardVaultViewModel, setupToken: setupToken.id)
+        }
+        UpdateSetupTokenResultView(cardVaultViewModel: cardVaultViewModel)
+    }
+
+    @ViewBuilder var makePaymentTokenSection: some View {
+        if let updateSetupToken = cardVaultViewModel.state.updateSetupToken {
+            CreatePaymentTokenView(
+                cardVaultViewModel: cardVaultViewModel,
+                selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration,
+                setupToken: updateSetupToken.id
+            )
+        }
+        PaymentTokenResultView(cardVaultViewModel: cardVaultViewModel)
+    }
+
+    @ViewBuilder var makeOrderCreateSection: some View {
+        if cardVaultViewModel.state.paymentToken != nil {
+            CreateOrderVaultView(
+                cardVaultViewModel: cardVaultViewModel,
+                selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration,
+                intent: $intent
+                )
+        }
+        OrderCreateResultView(cardVaultViewModel: cardVaultViewModel)
+    }
+
+    @ViewBuilder var makeOrderCompletionSection: some View {
+        if let order = cardVaultViewModel.state.createdOrder {
+            OrderActionButton(
+                intent: intent,
+                order: order,
+                selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration,
+                cardVaultViewModel: cardVaultViewModel
+                )
+        }
+        OrderCompletionResultView(cardVaultViewModel: cardVaultViewModel)
     }
 }
 
