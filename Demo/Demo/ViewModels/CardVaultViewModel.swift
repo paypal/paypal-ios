@@ -58,8 +58,8 @@ class CardVaultViewModel: ObservableObject, CardVaultDelegate {
 
     func vault(config: CoreConfig, card: Card, setupToken: String) async {
         DispatchQueue.main.async {
-                self.state.updateSetupTokenResponse = .loading
-            }
+            self.state.updateSetupTokenResponse = .loading
+        }
             let cardClient = CardClient(config: config)
             cardClient.vaultDelegate = self
             let cardVaultRequest = CardVaultRequest(card: card, setupTokenID: setupToken)
@@ -98,59 +98,59 @@ class CardVaultViewModel: ObservableObject, CardVaultDelegate {
     func captureOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws {
         do {
             DispatchQueue.main.async {
-                    self.state.capturedOrderResponse = .loading
-                }
-                let paymentTokenSource = PaymentTokenPaymentSource(
-                    paymentSource: PaymentTokenPaymentSource.TokenDetails(
-                        token: PaymentTokenPaymentSource.Token(
-                            id: state.paymentToken?.id ?? "",
-                            type: "PAYMENT_METHOD_TOKEN"
-                        )
+                self.state.capturedOrderResponse = .loading
+            }
+            let paymentTokenSource = PaymentTokenPaymentSource(
+                paymentSource: PaymentTokenPaymentSource.TokenDetails(
+                    token: PaymentTokenPaymentSource.Token(
+                        id: state.paymentToken?.id ?? "",
+                        type: "PAYMENT_METHOD_TOKEN"
                     )
                 )
-                let order = try await DemoMerchantAPI.sharedService.captureOrderWithPaymentToken(
-                    orderID: orderID,
-                    selectedMerchantIntegration: selectedMerchantIntegration,
-                    bodyParams: paymentTokenSource
-                )
-                DispatchQueue.main.async {
-                    self.state.capturedOrderResponse = .loaded(order)
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    self.state.capturedOrderResponse = .error(message: error.localizedDescription)
-                }
-                print("Error capturing order: \(error.localizedDescription)")
+            )
+            let order = try await DemoMerchantAPI.sharedService.captureOrderWithPaymentToken(
+                orderID: orderID,
+                selectedMerchantIntegration: selectedMerchantIntegration,
+                bodyParams: paymentTokenSource
+            )
+            DispatchQueue.main.async {
+                self.state.capturedOrderResponse = .loaded(order)
             }
+        } catch {
+            DispatchQueue.main.async {
+                self.state.capturedOrderResponse = .error(message: error.localizedDescription)
+            }
+            print("Error capturing order: \(error.localizedDescription)")
+        }
     }
 
     func authorizeOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws {
         do {
             DispatchQueue.main.async {
-                    self.state.authorizedOrderResponse = .loading
-                }
-                let paymentTokenSource = PaymentTokenPaymentSource(
-                    paymentSource: PaymentTokenPaymentSource.TokenDetails(
-                        token: PaymentTokenPaymentSource.Token(
-                            id: state.paymentToken?.id ?? "",
-                            type: "PAYMENT_METHOD_TOKEN"
-                        )
+                self.state.authorizedOrderResponse = .loading
+            }
+            let paymentTokenSource = PaymentTokenPaymentSource(
+                paymentSource: PaymentTokenPaymentSource.TokenDetails(
+                    token: PaymentTokenPaymentSource.Token(
+                        id: state.paymentToken?.id ?? "",
+                        type: "PAYMENT_METHOD_TOKEN"
                     )
                 )
-                let order = try await DemoMerchantAPI.sharedService.authorizeOrderWithPaymentToken(
-                    orderID: orderID,
-                    selectedMerchantIntegration: selectedMerchantIntegration,
-                    bodyParams: paymentTokenSource
-                )
-                DispatchQueue.main.async {
-                    self.state.authorizedOrderResponse = .loaded(order)
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    self.state.authorizedOrderResponse = .error(message: error.localizedDescription)
-                }
-                print("Error capturing order: \(error.localizedDescription)")
+            )
+            let order = try await DemoMerchantAPI.sharedService.authorizeOrderWithPaymentToken(
+                orderID: orderID,
+                selectedMerchantIntegration: selectedMerchantIntegration,
+                bodyParams: paymentTokenSource
+            )
+            DispatchQueue.main.async {
+                self.state.authorizedOrderResponse = .loaded(order)
             }
+        } catch {
+            DispatchQueue.main.async {
+                self.state.authorizedOrderResponse = .error(message: error.localizedDescription)
+            }
+            print("Error capturing order: \(error.localizedDescription)")
+        }
     }
 
     func isCardFormValid(cardNumber: String, expirationDate: String, cvv: String) -> Bool {
