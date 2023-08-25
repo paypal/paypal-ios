@@ -23,6 +23,9 @@
 		3BC622072A97115700251B85 /* RoundedBlueButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC622062A97115700251B85 /* RoundedBlueButtonStyle.swift */; };
 		3BC622092A97198500251B85 /* LeadingText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC622082A97198500251B85 /* LeadingText.swift */; };
 		3BC6220B2A97204E00251B85 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC6220A2A97204E00251B85 /* CircularProgressView.swift */; };
+		3BC6220D2A9783BB00251B85 /* CreateOrderVaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC6220C2A9783BB00251B85 /* CreateOrderVaultView.swift */; };
+		3BC622112A97CC8700251B85 /* OrderCreateResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC622102A97CC8700251B85 /* OrderCreateResultView.swift */; };
+		3BC622132A985A8D00251B85 /* PaymentTokenPaymentSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC622122A985A8D00251B85 /* PaymentTokenPaymentSource.swift */; };
 		3BDB348E2A7CB02C008100D7 /* SetupTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB348D2A7CB02C008100D7 /* SetupTokenRequest.swift */; };
 		3BDB34922A7CB5DE008100D7 /* SetupTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB34912A7CB5DE008100D7 /* SetupTokenResponse.swift */; };
 		3BF999762A8AC093009CBDF2 /* UpdateSetupTokenResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF999752A8AC093009CBDF2 /* UpdateSetupTokenResultView.swift */; };
@@ -131,6 +134,9 @@
 		3BC622062A97115700251B85 /* RoundedBlueButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedBlueButtonStyle.swift; sourceTree = "<group>"; };
 		3BC622082A97198500251B85 /* LeadingText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeadingText.swift; sourceTree = "<group>"; };
 		3BC6220A2A97204E00251B85 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
+		3BC6220C2A9783BB00251B85 /* CreateOrderVaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrderVaultView.swift; sourceTree = "<group>"; };
+		3BC622102A97CC8700251B85 /* OrderCreateResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCreateResultView.swift; sourceTree = "<group>"; };
+		3BC622122A985A8D00251B85 /* PaymentTokenPaymentSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentTokenPaymentSource.swift; sourceTree = "<group>"; };
 		3BDB348D2A7CB02C008100D7 /* SetupTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupTokenRequest.swift; sourceTree = "<group>"; };
 		3BDB34912A7CB5DE008100D7 /* SetupTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupTokenResponse.swift; sourceTree = "<group>"; };
 		3BF999752A8AC093009CBDF2 /* UpdateSetupTokenResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSetupTokenResultView.swift; sourceTree = "<group>"; };
@@ -228,6 +234,8 @@
 				3BF999752A8AC093009CBDF2 /* UpdateSetupTokenResultView.swift */,
 				3BF999772A8AD072009CBDF2 /* CreatePaymentTokenView.swift */,
 				3BF999792A8AE12C009CBDF2 /* PaymentTokenResultView.swift */,
+				3BC6220C2A9783BB00251B85 /* CreateOrderVaultView.swift */,
+				3BC622102A97CC8700251B85 /* OrderCreateResultView.swift */,
 			);
 			path = CardVaultViews;
 			sourceTree = "<group>";
@@ -317,6 +325,7 @@
 				3B80D50D2A291C0800D2EAC4 /* ClientIDRequest.swift */,
 				3B80D50F2A291CB100D2EAC4 /* ClientIDResponse.swift */,
 				80F33CEE26F8E7CC006811B1 /* CreateOrderParams.swift */,
+				3BC622122A985A8D00251B85 /* PaymentTokenPaymentSource.swift */,
 				BC6460CC2A12A2A0002B974B /* EmptyBodyParams.swift */,
 				80F33CEC26F8E7A9006811B1 /* Order.swift */,
 				80F33CF026F8E7D9006811B1 /* ProcessOrderParams.swift */,
@@ -547,11 +556,13 @@
 				3BC622072A97115700251B85 /* RoundedBlueButtonStyle.swift in Sources */,
 				3B4DD9A22A8982B000F4A716 /* CardFormView.swift in Sources */,
 				BED04233271084DF00C80954 /* CardFormatter.swift in Sources */,
+				3BC6220D2A9783BB00251B85 /* CreateOrderVaultView.swift in Sources */,
 				CB9ED44E28411B120081F4DE /* SwiftUIPaymentButtonDemo.swift in Sources */,
 				3B22E8BC2A84397600962E34 /* PaymentTokenResponse.swift in Sources */,
 				80561B3E26FB72D80023138C /* FeatureBaseViewController.swift in Sources */,
 				BE9F36DC274578D100AFC7DA /* FeatureBaseViewControllerRepresentable.swift in Sources */,
 				3B2027432A8A95EF0007907E /* SetupTokenResultView.swift in Sources */,
+				3BC622132A985A8D00251B85 /* PaymentTokenPaymentSource.swift in Sources */,
 				3BF999762A8AC093009CBDF2 /* UpdateSetupTokenResultView.swift in Sources */,
 				BECD84A027036DC2007CCAE4 /* Environment.swift in Sources */,
 				806F1E3D26B85367007A60E6 /* ViewController.swift in Sources */,
@@ -569,6 +580,7 @@
 				BED041AF270CA0FB00C80954 /* CustomButton.swift in Sources */,
 				3BB7A9772A5CA6FD00C05140 /* MerchantIntegration.swift in Sources */,
 				BE1766B326F911A2007EF438 /* URLResponseError.swift in Sources */,
+				3BC622112A97CC8700251B85 /* OrderCreateResultView.swift in Sources */,
 				3B2027452A8AA78B0007907E /* UpdateSetupTokenView.swift in Sources */,
 				3B8EF4DB2A932DA300A70D0B /* ErrorView.swift in Sources */,
 				3BF9997A2A8AE12C009CBDF2 /* PaymentTokenResultView.swift in Sources */,

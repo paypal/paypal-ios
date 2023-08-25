@@ -12,6 +12,9 @@ struct CardVaultState: Equatable {
     var setupToken: SetUpTokenResponse?
     var updateSetupToken: UpdateSetupTokenResult?
     var paymentToken: PaymentTokenResponse?
+    var createdOrder: Order?
+    var authorizedOrder: Order?
+    var capturedOrder: Order?
 
     var setupTokenResponse: LoadingState<SetUpTokenResponse> = .idle {
         didSet {
@@ -36,6 +39,31 @@ struct CardVaultState: Equatable {
             }
         }
     }
+
+    var createdOrderResponse: LoadingState<Order> = .idle {
+        didSet {
+            if case .loaded(let value) = createdOrderResponse {
+                createdOrder = value
+            }
+        }
+    }
+
+    var capturedOrderResponse: LoadingState<Order> = .idle {
+        didSet {
+            if case .loaded(let value) = capturedOrderResponse {
+                capturedOrder = value
+            }
+        }
+    }
+
+    var authorizedOrderResponse: LoadingState<Order> = .idle {
+        didSet {
+            if case .loaded(let value) = authorizedOrderResponse {
+                authorizedOrder = value
+            }
+        }
+    }
+
 }
 
 enum LoadingState<T: Decodable & Equatable>: Equatable {

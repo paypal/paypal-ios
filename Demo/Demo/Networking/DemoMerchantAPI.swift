@@ -59,8 +59,22 @@ final class DemoMerchantAPI {
         guard let url = buildBaseURL(with: "/orders/\(orderID)/capture", selectedMerchantIntegration: selectedMerchantIntegration) else {
             throw URLResponseError.invalidURL
         }
-        
+
         let urlRequest = buildURLRequest(method: "POST", url: url, body: EmptyBodyParams())
+        let data = try await data(for: urlRequest)
+        return try parse(from: data)
+    }
+
+    func captureOrderWithPaymentToken<T: Encodable>(
+        orderID: String,
+        selectedMerchantIntegration: MerchantIntegration,
+        bodyParams: T
+    ) async throws -> Order {
+        guard let url = buildBaseURL(with: "/orders/\(orderID)/capture", selectedMerchantIntegration: selectedMerchantIntegration) else {
+            throw URLResponseError.invalidURL
+        }
+
+        let urlRequest = buildURLRequest(method: "POST", url: url, body: bodyParams)
         let data = try await data(for: urlRequest)
         return try parse(from: data)
     }
@@ -71,6 +85,20 @@ final class DemoMerchantAPI {
         }
         
         let urlRequest = buildURLRequest(method: "POST", url: url, body: EmptyBodyParams())
+        let data = try await data(for: urlRequest)
+        return try parse(from: data)
+    }
+
+    func authorizeOrderWithPaymentToken<T: Encodable>(
+        orderID: String,
+        selectedMerchantIntegration: MerchantIntegration,
+        bodyParams: T
+    ) async throws -> Order {
+        guard let url = buildBaseURL(with: "/orders/\(orderID)/authorize", selectedMerchantIntegration: selectedMerchantIntegration) else {
+            throw URLResponseError.invalidURL
+        }
+
+        let urlRequest = buildURLRequest(method: "POST", url: url, body: bodyParams)
         let data = try await data(for: urlRequest)
         return try parse(from: data)
     }

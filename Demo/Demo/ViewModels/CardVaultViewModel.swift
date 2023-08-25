@@ -68,6 +68,97 @@ class CardVaultViewModel: ObservableObject, CardVaultDelegate {
         }
     }
 
+    func createOrder(amount: String, selectedMerchantIntegration: MerchantIntegration, intent: String) async throws {
+        // might need to pass in payee as payee object or as auth header
+
+        let amountRequest = Amount(currencyCode: "USD", value: amount)
+        // TODO: might need to pass in payee as payee object or as auth header
+        let orderRequestParams = CreateOrderParams(
+            intent: intent,
+            purchaseUnits: [PurchaseUnit(amount: amountRequest)]
+        )
+
+        do {
+            DispatchQueue.main.async {
+                self.state.createdOrderResponse = .loading
+            }
+            let order = try await DemoMerchantAPI.sharedService.createOrder(
+                orderParams: orderRequestParams, selectedMerchantIntegration: selectedMerchantIntegration
+            )
+            DispatchQueue.main.async {
+                self.state.createdOrderResponse = .loaded(order)
+                print("✅ fetched orderID: \(order.id) with status: \(order.status)")
+            }
+        } catch {
+            DispatchQueue.main.async {
+                self.state.createdOrderResponse = .error(message: error.localizedDescription)
+                print("❌ failed to fetch orderID: \(error)")
+            }
+        }
+    }
+
+    func captureOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws {
+        Task {
+            do {
+                DispatchQueue.main.async {
+                    self.state.capturedOrderResponse = .loading
+                }
+                let paymentTokenSource = PaymentTokenPaymentSource(
+                    paymentSource: PaymentTokenPaymentSource.TokenDetails(
+                        token: PaymentTokenPaymentSource.Token(
+                            id: state.paymentToken?.id ?? "",
+                            type: "PAYMENT_METHOD_TOKEN"
+                        )
+                    )
+                )
+                let order = try await DemoMerchantAPI.sharedService.captureOrderWithPaymentToken(
+                    orderID: orderID,
+                    selectedMerchantIntegration: selectedMerchantIntegration,
+                    bodyParams: paymentTokenSource
+                )
+                DispatchQueue.main.async {
+                    self.state.capturedOrderResponse = .loaded(order)
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    self.state.capturedOrderResponse = .error(message: error.localizedDescription)
+                }
+                print("Error capturing order: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    func authorizeOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws {
+        Task {
+            do {
+                DispatchQueue.main.async {
+                    self.state.authorizedOrderResponse = .loading
+                }
+                let paymentTokenSource = PaymentTokenPaymentSource(
+                    paymentSource: PaymentTokenPaymentSource.TokenDetails(
+                        token: PaymentTokenPaymentSource.Token(
+                            id: state.paymentToken?.id ?? "",
+                            type: "PAYMENT_METHOD_TOKEN"
+                        )
+                    )
+                )
+                let order = try await DemoMerchantAPI.sharedService.authorizeOrderWithPaymentToken(
+                    orderID: orderID,
+                    selectedMerchantIntegration: selectedMerchantIntegration,
+                    bodyParams: paymentTokenSource
+                )
+                DispatchQueue.main.async {
+                    self.state.authorizedOrderResponse = .loaded(order)
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    self.state.authorizedOrderResponse = .error(message: error.localizedDescription)
+                }
+                print("Error capturing order: \(error.localizedDescription)")
+            }
+        }
+    }
+
     func isCardFormValid(cardNumber: String, expirationDate: String, cvv: String) -> Bool {
         let cleanedCardNumber = cardNumber.replacingOccurrences(of: " ", with: "")
         let cleanedExpirationDate = expirationDate.replacingOccurrences(of: " / ", with: "")
