@@ -57,15 +57,13 @@ class CardVaultViewModel: ObservableObject, CardVaultDelegate {
     }
 
     func vault(config: CoreConfig, card: Card, setupToken: String) async {
-        Task {
-            DispatchQueue.main.async {
-                self.state.updateSetupTokenResponse = .loading
-            }
+        DispatchQueue.main.async {
+            self.state.updateSetupTokenResponse = .loading
+        }
             let cardClient = CardClient(config: config)
             cardClient.vaultDelegate = self
             let cardVaultRequest = CardVaultRequest(card: card, setupTokenID: setupToken)
             cardClient.vault(cardVaultRequest)
-        }
     }
 
     func isCardFormValid(cardNumber: String, expirationDate: String, cvv: String) -> Bool {
