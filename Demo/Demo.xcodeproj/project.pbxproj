@@ -570,6 +570,7 @@
 				3BC622152A99238700251B85 /* OrderActionButton.swift in Sources */,
 				3B2027432A8A95EF0007907E /* SetupTokenResultView.swift in Sources */,
 				3BC622132A985A8D00251B85 /* PaymentTokenPaymentSource.swift in Sources */,
+				3B2027432A8A95EF0007907E /* SetupTokenResultView.swift in Sources */,
 				3BF999762A8AC093009CBDF2 /* UpdateSetupTokenResultView.swift in Sources */,
 				BECD84A027036DC2007CCAE4 /* Environment.swift in Sources */,
 				806F1E3D26B85367007A60E6 /* ViewController.swift in Sources */,
@@ -879,7 +880,7 @@
 			repositoryURL = "https://github.com/paypal/paypalcheckout-ios";
 			requirement = {
 				kind = exactVersion;
-				version = 1.0.0;
+				version = 1.1.0;
 			};
 		};
 		BE1766D526FA7AC3007EF438 /* XCRemoteSwiftPackageReference "InAppSettingsKit" */ = {
