@@ -21,6 +21,9 @@ final class DemoMerchantAPI {
     
     func getSetupToken(customerID: String? = nil, selectedMerchantIntegration: MerchantIntegration) async throws -> SetUpTokenResponse {
         do {
+            // TODO: pass in headers depending on integration type
+            // Different request struct or integration type property
+            // in SetUpTokenRequest to conditionally add header
             let request = SetUpTokenRequest(customerID: customerID)
             let urlRequest = try createSetupTokenUrlRequest(
                 setupTokenRequest: request,
@@ -43,8 +46,8 @@ final class DemoMerchantAPI {
                 paymentTokenRequest: request,
                 environment: DemoSettings.environment,
                 selectedMerchantIntegration: selectedMerchantIntegration
-			)
-		let data = try await data(for: urlRequest)
+            )
+            let data = try await data(for: urlRequest)
             return try parse(from: data)
         } catch {
             print("error with the create payment token request: \(error.localizedDescription)")

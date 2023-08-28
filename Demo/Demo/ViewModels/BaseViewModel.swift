@@ -8,7 +8,7 @@ import PayPalCheckout
 
 /// This class is used to share the orderID across shared views, update the text of `bottomStatusLabel` in our `FeatureBaseViewController`
 /// as well as share the logic of `processOrder` across our duplicate (SwiftUI and UIKit) card views.
-class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, CardVaultDelegate {
+class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
 
     /// Weak reference to associated view
     weak var view: FeatureBaseViewController?
@@ -92,22 +92,6 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
         cardClient.delegate = self
         let cardRequest = CardRequest(orderID: orderID, card: card, sca: .scaAlways)
         cardClient.approveOrder(request: cardRequest)
-    }
-    
-    func vaultCard(card: Card, customerID: String? = nil) async {
-        do {
-            guard let config = await getCoreConfig() else { return }
-            let cardClient = CardClient(config: config)
-            cardClient.vaultDelegate = self
-            let tokenResponse = try await DemoMerchantAPI.sharedService.getSetupToken(
-                customerID: customerID, selectedMerchantIntegration: selectedMerchantIntegration
-            )
-            
-            let cardVaultRequest = CardVaultRequest(card: card, setupTokenID: tokenResponse.id)
-            cardClient.vault(cardVaultRequest)
-        } catch {
-            print("Error in getSetupToken: \(error.localizedDescription)")
-        }
     }
 
     func isCardFormValid(cardNumber: String, expirationDate: String, cvv: String) -> Bool {
@@ -231,20 +215,6 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate, 
     func cardThreeDSecureDidFinish(_ cardClient: CardClient) {
         updateTitle("3DS challenge has finished")
         print("3DS challenge has finished")
-    }
-    
-    // MARK: - CardVault Delegate
-    
-    func card(_ cardClient: CardClient, didFinishWithVaultResult vaultResult: CardVaultResult) {
-        updateTitle(
-            "Vault without Purchase has finished. \n SetupTokenID: \(vaultResult.setupTokenID) \nVault Status: \(vaultResult.status)"
-        )
-        print("Vault without purchase has finished: \(vaultResult)")
-    }
-    
-    func card(_ cardClient: CardClient, didFinishWithVaultError vaultError: CoreSDKError) {
-        updateTitle("Vault without purchase has failed: \(vaultError.localizedDescription)")
-        print("❌ There was an error: \(vaultError)")
     }
 
     func getClientID() async -> String? {

@@ -14,6 +14,7 @@ class GraphQLClient_Tests: XCTestCase {
     var mockURLSession: MockURLSession!
     var graphQLClient: GraphQLClient!
     var graphQLQuery: (any GraphQLQuery)?
+
     // TODO: add unit tests in appropriate class after networking & graphQL layer refactor is done
 
     // MARK: - Test lifecycle

@@ -2,7 +2,7 @@
 @testable import CardPayments
 
 class MockCardVaultDelegate: CardVaultDelegate {
-    
+
     private var success: ((CardClient, CardVaultResult) -> Void)?
     private var failure: ((CardClient, CoreSDKError) -> Void)?
     

@@ -3,6 +3,7 @@ import SwiftUI
 
 enum DemoType: String {
     case card
+    case cardVault
     case payPalWebCheckout
     case paymentButtonCustomization
     case payPalNativeCheckout
@@ -11,6 +12,8 @@ enum DemoType: String {
         switch self {
         case .card:
             return AnyView(SwiftUICardDemo())
+        case .cardVault:
+            return AnyView(CardVaultView())
         case .payPalWebCheckout:
             return AnyView(SwiftUIPayPalDemo())
         case .paymentButtonCustomization:

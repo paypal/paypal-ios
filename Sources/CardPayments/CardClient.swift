@@ -36,7 +36,7 @@ public class CardClient: NSObject {
         self.webAuthenticationSession = webAuthenticationSession
         self.graphQLClient = graphQLClient
     }
-    
+
     public func vault(_ vaultRequest: CardVaultRequest) {
         Task {
             do {
@@ -58,7 +58,7 @@ public class CardClient: NSObject {
             }
         }
     }
-    
+
     func updateSetupToken(vaultSetupTokenID: String, card: Card) async throws -> TokenDetails {
         guard let graphQLClient else {
             throw CardClientError.nilGraphQLClientError
@@ -72,7 +72,7 @@ public class CardClient: NSObject {
         guard let data = response.data else {
             throw CardClientError.noVaultTokenDataError
         }
-        
+
         return data.updateVaultSetupToken
     }
            

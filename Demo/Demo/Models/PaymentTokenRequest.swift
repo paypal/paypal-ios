@@ -7,7 +7,7 @@ struct PaymentTokenRequest {
     var path: String {
         "/payment_tokens/"
     }
-    
+
     var method: String {
         "POST"
     }
@@ -25,7 +25,7 @@ struct PaymentTokenRequest {
                 ]
             ]
         ]
-        
+
         return try? JSONSerialization.data(withJSONObject: requestBody)
     }
 }

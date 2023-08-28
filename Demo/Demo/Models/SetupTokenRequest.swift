@@ -7,7 +7,7 @@ struct SetUpTokenRequest {
     var path: String {
         "/setup_tokens/"
     }
-    
+
     var method: String {
         "POST"
     }
@@ -29,7 +29,7 @@ struct SetUpTokenRequest {
                 ]
             ]
         ]
-        
+
         return try? JSONSerialization.data(withJSONObject: requestBody)
     }
 }

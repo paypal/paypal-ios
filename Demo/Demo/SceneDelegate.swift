@@ -57,6 +57,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         if launchArgs.contains("-DemoTypeCard") {
             DemoSettings.demoType = .card
+        } else if launchArgs.contains("-DemoTypeCardVault") {
+            DemoSettings.demoType = .cardVault
         } else if launchArgs.contains("-DemoTypePayPalWebCheckout") {
             DemoSettings.demoType = .payPalWebCheckout
         } else if launchArgs.contains("-DemoTypePaymentButtonCustomization") {

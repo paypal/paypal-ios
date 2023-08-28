@@ -1,6 +1,6 @@
 import Foundation
 
-struct PaymentTokenResponse: Decodable {
+struct PaymentTokenResponse: Decodable, Equatable {
     
     let id: String
     let customer: Customer
@@ -14,17 +14,17 @@ struct PaymentTokenResponse: Decodable {
     }
 }
 
-struct Customer: Decodable {
+struct Customer: Decodable, Equatable {
     
     let id: String
 }
 
-struct PaymentSource: Decodable {
+struct PaymentSource: Decodable, Equatable {
     
     let card: BasicCard
 }
 
-struct BasicCard: Decodable {
+struct BasicCard: Decodable, Equatable {
     
     let brand: String?
     let lastDigits: String
