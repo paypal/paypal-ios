@@ -18,7 +18,7 @@ class TrackingEventsAPI_Tests: XCTestCase {
         orderID: "my-order"
     )
     
-    // MARK: - Test lifecycle
+    // MARK: - Test Lifecycle
     
     override func setUp() {
         super.setUp()

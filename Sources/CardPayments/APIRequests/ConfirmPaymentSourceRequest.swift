@@ -48,11 +48,11 @@ struct ConfirmPaymentSourceRequest: Encodable {
         case method
     }
     
-    // MARK: - Private Properties
+    // MARK: - Internal Properties
     
-    private let returnURL = PayPalCoreConstants.callbackURLScheme + "://card/success"
-    private let cancelURL = PayPalCoreConstants.callbackURLScheme + "://card/cancel"
-    private let cardRequest: CardRequest
+    let returnURL = PayPalCoreConstants.callbackURLScheme + "://card/success"
+    let cancelURL = PayPalCoreConstants.callbackURLScheme + "://card/cancel"
+    let cardRequest: CardRequest
     
     // MARK: - Initializer
     

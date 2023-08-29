@@ -24,6 +24,7 @@
 		3D1763A22720722A00652E1C /* CardResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1763A12720722A00652E1C /* CardResult.swift */; };
 		3DC42BA927187E8300B71645 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC42BA827187E8300B71645 /* ErrorResponse.swift */; };
 		53A2A4E228A182AC0093441C /* NativeCheckoutProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A2A4E128A182AC0093441C /* NativeCheckoutProvider.swift */; };
+		8008D2052A9E54FF0003CAF4 /* CheckoutOrdersAPI_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8008D2042A9E54FF0003CAF4 /* CheckoutOrdersAPI_Tests.swift */; };
 		80132D7229008C000088D30D /* TestShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E743F8270E40CE00BACECA /* TestShared.framework */; };
 		8021B69029144E6D000FBC54 /* PayPalCoreConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8021B68F29144E6D000FBC54 /* PayPalCoreConstants.swift */; };
 		802C4A742945670400896A5D /* MockHTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C4A732945670400896A5D /* MockHTTP.swift */; };
@@ -219,6 +220,7 @@
 		3D25238B273979170099E4EB /* MockNativeCheckoutProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNativeCheckoutProvider.swift; sourceTree = "<group>"; };
 		3DC42BA827187E8300B71645 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		53A2A4E128A182AC0093441C /* NativeCheckoutProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeCheckoutProvider.swift; sourceTree = "<group>"; };
+		8008D2042A9E54FF0003CAF4 /* CheckoutOrdersAPI_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutOrdersAPI_Tests.swift; sourceTree = "<group>"; };
 		8021B68F29144E6D000FBC54 /* PayPalCoreConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalCoreConstants.swift; sourceTree = "<group>"; };
 		802C4A732945670400896A5D /* MockHTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHTTP.swift; sourceTree = "<group>"; };
 		802C4A752945676E00896A5D /* AnalyticsService_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService_Tests.swift; sourceTree = "<group>"; };
@@ -612,6 +614,7 @@
 			children = (
 				808E3EDB2A981F130017FE46 /* Mocks */,
 				065A4DBE26FCDA5B0007014A /* CardClient_Tests.swift */,
+				8008D2042A9E54FF0003CAF4 /* CheckoutOrdersAPI_Tests.swift */,
 				065A4DC226FCE1D20007014A /* ConfirmPaymentSourceRequest_Tests.swift */,
 				CB16E6D7285B7A2B00FD6F52 /* FakeConfirmPaymentResponse.swift */,
 				CB16E6D9285B7B7300FD6F52 /* MockCardDelegate.swift */,
@@ -1378,6 +1381,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				065A4DBF26FCDA5B0007014A /* CardClient_Tests.swift in Sources */,
+				8008D2052A9E54FF0003CAF4 /* CheckoutOrdersAPI_Tests.swift in Sources */,
 				3B109B3C2A85CC6200D8135F /* MockCardVaultDelegate.swift in Sources */,
 				CB16E6D8285B7A2B00FD6F52 /* FakeConfirmPaymentResponse.swift in Sources */,
 				CB16E6DA285B7B7300FD6F52 /* MockCardDelegate.swift in Sources */,
