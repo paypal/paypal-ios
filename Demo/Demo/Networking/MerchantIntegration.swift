@@ -1,6 +1,6 @@
 import Foundation
 
-enum MerchantIntegration {
+enum MerchantIntegration: String, CaseIterable {
     case direct
     case connectedPath
     case managedPath

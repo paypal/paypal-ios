@@ -1,6 +1,6 @@
 import CorePayments
 
-enum Environment: String {
+enum Environment: String, CaseIterable {
     case sandbox
     case live
 

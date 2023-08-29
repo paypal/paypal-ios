@@ -1,4 +1,6 @@
 import SwiftUI
+import CardPayments
+import CorePayments
 
 struct UpdateSetupTokenView: View {
 
@@ -9,11 +11,9 @@ struct UpdateSetupTokenView: View {
     @State private var cvvText: String = "123"
 
     @ObservedObject var cardVaultViewModel: CardVaultViewModel
-    @ObservedObject var baseViewModel: BaseViewModel
 
-    public init(baseViewModel: BaseViewModel, cardVaultViewModel: CardVaultViewModel, setupToken: String) {
+    public init(cardVaultViewModel: CardVaultViewModel, setupToken: String) {
         self.cardVaultViewModel = cardVaultViewModel
-        self.baseViewModel = baseViewModel
         self.setupToken = setupToken
     }
 
@@ -31,7 +31,7 @@ struct UpdateSetupTokenView: View {
                 cvvText: $cvvText
             )
 
-            let card = baseViewModel.createCard(
+            let card = Card.createCard(
                 cardNumber: cardNumberText,
                 expirationDate: expirationDateText,
                 cvv: cvvText
@@ -40,19 +40,12 @@ struct UpdateSetupTokenView: View {
             ZStack {
                 Button("Vault Card") {
                     Task {
-                        let config = await baseViewModel.getCoreConfig()
-                        if let config, let card {
-                            await cardVaultViewModel.vault(
-                                config: config,
-                                card: card,
-                                setupToken: setupToken
-                            )
-                        } else {
-                            DispatchQueue.main.async {
-                                cardVaultViewModel.state.updateSetupTokenResponse = .error(message: "Error getting Config or Card")
-                            }
-                            print("Error getting Config or Card")
-                        }
+                        let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
+                        await cardVaultViewModel.vault(
+                            config: config,
+                            card: card,
+                            setupToken: setupToken
+                        )
                     }
                 }
                 .buttonStyle(RoundedBlueButtonStyle())
