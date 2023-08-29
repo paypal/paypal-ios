@@ -11,7 +11,15 @@ class CheckoutOrdersAPI_Tests: XCTestCase {
     var sut: CheckoutOrdersAPI!
     var mockAPIClient: MockAPIClient!
     let coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
-    let stubHTTPResponse = HTTPResponse(status: 200, body: nil)
+    let fakeCardRequest = CardRequest(
+        orderID: "my-order-id",
+        card: Card(
+            number: "4111",
+            expirationMonth: "01",
+            expirationYear: "1234",
+            securityCode: "123"
+        )
+    )
     
     // MARK: - Test Lifecycle
     
@@ -20,23 +28,13 @@ class CheckoutOrdersAPI_Tests: XCTestCase {
         
         let mockHTTP = MockHTTP(coreConfig: coreConfig)
         mockAPIClient = MockAPIClient(http: mockHTTP)
-        mockAPIClient.stubHTTPResponse = stubHTTPResponse
+        mockAPIClient.stubHTTPResponse = HTTPResponse(status: 200, body: nil)
         sut = CheckoutOrdersAPI(coreConfig: coreConfig, apiClient: mockAPIClient)
     }
     
     // MARK: - confirmPaymentSource()
     
     func testConfirmPaymentSource_constructsRESTRequestForV2CheckoutOrders() async {
-        let fakeCardRequest = CardRequest(
-            orderID: "my-order-id",
-            card: Card(
-                number: "4111",
-                expirationMonth: "01",
-                expirationYear: "1234",
-                securityCode: "123"
-            )
-        )
-        
         _ = try? await sut.confirmPaymentSource(cardRequest: fakeCardRequest)
         
         XCTAssertEqual(mockAPIClient.capturedRESTRequest?.path, "/v2/checkout/orders/my-order-id/confirm-payment-source")
@@ -53,11 +51,63 @@ class CheckoutOrdersAPI_Tests: XCTestCase {
         XCTAssertEqual(postBody.cardRequest.card.securityCode, "123")
     }
     
-    // calls apiClient with expected RESTRequest details
+    func testConfirmPaymentSource_whenAPIClientError_bubblesError() async {
+        mockAPIClient.stubHTTPError = CoreSDKError(code: 123, domain: "api-client-error", errorDescription: "error-desc")
+        
+        do {
+            _ = try await sut.confirmPaymentSource(cardRequest: fakeCardRequest)
+            XCTFail("Expected error throw.")
+        } catch {
+            let error = error as! CoreSDKError
+            XCTAssertEqual(error.domain, "api-client-error")
+            XCTAssertEqual(error.code, 123)
+            XCTAssertEqual(error.localizedDescription, "error-desc")
+        }
+    }
     
-    // bubbles error from apiClient.fetch call if happens
-    
-    // returns parsedConfirmPaymentSource
-    
-    // bubbles parsing Error from responseParser
+    func testConfirmPaymentSource_whenSuccess_returnsParsedConfirmPaymentSourceResponse() async throws {
+        let successsResponseJSON = """
+        {
+            "id": "testOrderId",
+            "status": "CREATED",
+            "intent": "CAPTURE",
+            "payment_source": {
+                "card": {
+                    "last_four_digits": "7321",
+                    "brand": "VISA",
+                    "type": "CREDIT",
+                    "authentication_result": {
+                        "liability_shift": "POSSIBLE",
+                            "three_d_secure": {
+                                "enrollment_status": "Y",
+                                "authentication_status": "Y"
+                            }
+                    }
+                }
+            },
+            "links": [
+                {
+                    "rel": "payer-action",
+                    "href": "some-url"
+                }
+            ]
+        }
+        """
+        
+        let data = successsResponseJSON.data(using: .utf8)
+        let stubbedHTTPResponse = HTTPResponse(status: 200, body: data)
+        mockAPIClient.stubHTTPResponse = stubbedHTTPResponse
+        
+        let response = try await sut.confirmPaymentSource(cardRequest: fakeCardRequest)
+        XCTAssertEqual(response.id, "testOrderId")
+        XCTAssertEqual(response.status, "CREATED")
+        XCTAssertEqual(response.paymentSource?.card.lastFourDigits, "7321")
+        XCTAssertEqual(response.paymentSource?.card.brand, "VISA")
+        XCTAssertEqual(response.paymentSource?.card.type, "CREDIT")
+        XCTAssertEqual(response.paymentSource?.card.authenticationResult?.liabilityShift, "POSSIBLE")
+        XCTAssertEqual(response.paymentSource?.card.authenticationResult?.threeDSecure?.enrollmentStatus, "Y")
+        XCTAssertEqual(response.paymentSource?.card.authenticationResult?.threeDSecure?.authenticationStatus, "Y")
+        XCTAssertEqual(response.links?.first?.rel, "payer-action")
+        XCTAssertEqual(response.links?.first?.href, "some-url")
+    }
 }
