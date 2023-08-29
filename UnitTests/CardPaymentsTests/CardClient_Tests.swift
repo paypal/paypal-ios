@@ -116,7 +116,7 @@ class CardClient_Tests: XCTestCase {
     // MARK: - approveOrder() tests
 
     func testApproveOrder_withInvalid3DSURL_returnsError() {
-        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.jsonWithInvalid3DSURL
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withInvalid3DSURL
         
         let expectation = expectation(description: "approveOrder() completed")
 
@@ -138,7 +138,7 @@ class CardClient_Tests: XCTestCase {
     }
 
     func testApproveOrder_withNoThreeDSecure_returnsOrderData() {
-        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.jsonSuccessWithout3DS
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.without3DS
         
         let expectation = expectation(description: "approveOrder() completed")
 
@@ -206,7 +206,7 @@ class CardClient_Tests: XCTestCase {
     }
 
     func testApproveOrder_withThreeDSecure_browserSwitchLaunches_getOrderReturnsSuccess() {
-        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.jsonSuccessfulGetOrder
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withValid3DSURL
 
         let expectation = expectation(description: "approveOrder() completed")
 
@@ -230,7 +230,7 @@ class CardClient_Tests: XCTestCase {
     }
 
     func testApproveOrder_withThreeDSecure_userCancelsBrowser() {
-        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.jsonWith3DS
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withValid3DSURL
 
         mockWebAuthSession.cannedErrorResponse = ASWebAuthenticationSessionError(
             .canceledLogin,
@@ -262,7 +262,7 @@ class CardClient_Tests: XCTestCase {
     }
 
     func testApproveOrder_withThreeDSecure_browserReturnsError() {
-        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.jsonWith3DS
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withValid3DSURL
 
         mockWebAuthSession.cannedErrorResponse = CoreSDKError(
             code: CardClientError.Code.threeDSecureError.rawValue,
