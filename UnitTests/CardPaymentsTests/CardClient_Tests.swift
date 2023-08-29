@@ -15,14 +15,12 @@ class CardClient_Tests: XCTestCase {
         expirationYear: "2021",
         securityCode: "123"
     )
-    
-    let mockWebAuthSession = MockWebAuthenticationSession()
     let config = CoreConfig(clientID: "mockClientId", environment: .sandbox)
-
-    var mockAPIClient: MockAPIClient!
     var cardRequest: CardRequest!
+
+    let mockWebAuthSession = MockWebAuthenticationSession()
+    var mockAPIClient: MockAPIClient!
     var mockCardVaultDelegate: MockCardVaultDelegate!
-    
     var mockCheckoutOrdersAPI: MockCheckoutOrdersAPI!
     var mockVaultAPI: MockVaultPaymentTokensAPI!
 
