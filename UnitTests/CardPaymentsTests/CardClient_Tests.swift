@@ -112,165 +112,187 @@ class CardClient_Tests: XCTestCase {
 
         waitForExpectations(timeout: 10)
     }
-//
-//    // MARK: - approveOrder() tests
-//
-//    func testApproveOrder_withInvalid3DSURL_returnsError() {
-//        mockAPIClient.cannedJSONResponse = CardResponses.confirmPaymentSourceJsonInvalid3DSURL.rawValue
-//
-//        let expectation = expectation(description: "approveOrder() completed")
-//
-//        let mockCardDelegate = MockCardDelegate(success: {_, _ in
-//            XCTFail("Invoked success() callback. Should invoke error().")
-//        }, error: { _, err in
-//            XCTAssertEqual(err.code, 3)
-//            XCTAssertEqual(err.domain, "CardClientErrorDomain")
-//            XCTAssertEqual(err.errorDescription, "An invalid 3DS URL was returned. Contact developer.paypal.com/support.")
-//            expectation.fulfill()
-//        }, threeDSWillLaunch: { _ in
-//            XCTFail("Invoked willLaunch() callback. Should invoke error().")
-//        })
-//
-//        sut.delegate = mockCardDelegate
-//        sut.approveOrder(request: cardRequest)
-//
-//        waitForExpectations(timeout: 10)
-//    }
-//
-//    func testApproveOrder_withNoThreeDSecure_returnsOrderData() {
-//        mockAPIClient.cannedJSONResponse = CardResponses.confirmPaymentSourceJson.rawValue
-//
-//        let expectation = expectation(description: "approveOrder() completed")
-//
-//        let mockCardDelegate = MockCardDelegate(success: {_, result -> Void in
-//            XCTAssertEqual(result.orderID, "testOrderId")
-//            expectation.fulfill()
-//        }, error: { _, _ in
-//            XCTFail("Invoked error() callback. Should invoke success().")
-//        }, threeDSWillLaunch: { _ in
-//            XCTFail("Invoked willLaunch() callback. Should invoke success().")
-//        })
-//
-//        sut.delegate = mockCardDelegate
-//        sut.approveOrder(request: cardRequest)
-//
-//        waitForExpectations(timeout: 10)
-//    }
-//
-//    func testApproveOrder_whenApiCallFails_returnsError() {
-//        mockAPIClient.cannedJSONResponse = """
-//        {
-//            "some_unexpected_response": "something"
-//        }
-//        """
-//
-//        let expectation = expectation(description: "approveOrder() completed")
-//
-//        let mockCardDelegate = MockCardDelegate(success: {_, _ -> Void in
-//            XCTFail("Invoked success() callback. Should invoke error().")
-//        }, error: { _, error in
-//            XCTAssertEqual(error.domain, APIClientError.domain)
-//            XCTAssertEqual(error.code, APIClientError.Code.jsonDecodingError.rawValue)
-//            XCTAssertNotNil(error.localizedDescription)
-//            expectation.fulfill()
-//        }, threeDSWillLaunch: { _ in
-//            XCTFail("Invoked willLaunch() callback. Should invoke error().")
-//        })
-//
-//        sut.delegate = mockCardDelegate
-//        sut.approveOrder(request: cardRequest)
-//
-//        waitForExpectations(timeout: 10)
-//    }
-//
-//    func testApproveOrder_withThreeDSecure_browserSwitchLaunches_getOrderReturnsSuccess() {
-//        mockAPIClient.cannedJSONResponse = CardResponses.successfullGetOrderJson.rawValue
-//
-//        let expectation = expectation(description: "approveOrder() completed")
-//
-//        let mockCardDelegate = MockCardDelegate(
-//            success: {_, result in
-//                XCTAssertEqual(result.orderID, "testOrderId")
-//                expectation.fulfill()
-//            },
-//            error: { _, error in
-//                XCTFail(error.localizedDescription)
-//                expectation.fulfill()
-//            },
-//            cancel: { _ in XCTFail("Invoked cancel() callback. Should invoke success().") },
-//            threeDSWillLaunch: { _ -> Void in XCTAssert(true) },
-//            threeDSLaunched: { _ -> Void in XCTAssert(true) })
-//
-//        sut.delegate = mockCardDelegate
-//        sut.approveOrder(request: cardRequest)
-//
-//        waitForExpectations(timeout: 10)
-//    }
-//
-//    func testApproveOrder_withThreeDSecure_userCancelsBrowser() {
-//        mockAPIClient.cannedJSONResponse = CardResponses.confirmPaymentSourceJsonWith3DS.rawValue
-//
-//        mockWebAuthSession.cannedErrorResponse = ASWebAuthenticationSessionError(
-//            .canceledLogin,
-//            userInfo: ["Description": "Mock cancellation error description."]
-//        )
-//
-//        let expectation = expectation(description: "approveOrder() completed")
-//
-//        let mockCardDelegate = MockCardDelegate(
-//            success: {_, _ in
-//                XCTFail("Invoked success() callback. Should invoke cancel().")
-//                expectation.fulfill()
-//            },
-//            error: { _, error in
-//                XCTFail(error.localizedDescription)
-//                expectation.fulfill()
-//            },
-//            cancel: { _ in
-//                XCTAssert(true)
-//                expectation.fulfill()
-//            },
-//            threeDSWillLaunch: { _ in XCTAssert(true) },
-//            threeDSLaunched: { _ in XCTAssert(true) })
-//
-//        sut.delegate = mockCardDelegate
-//        sut.approveOrder(request: cardRequest)
-//
-//        waitForExpectations(timeout: 10)
-//    }
-//
-//    func testApproveOrder_withThreeDSecure_browserReturnsError() {
-//        mockAPIClient.cannedJSONResponse = CardResponses.confirmPaymentSourceJsonWith3DS.rawValue
-//
-//        mockWebAuthSession.cannedErrorResponse = CoreSDKError(
-//            code: CardClientError.Code.threeDSecureError.rawValue,
-//            domain: CardClientError.domain,
-//            errorDescription: "Mock web session error description."
-//        )
-//
-//        let expectation = expectation(description: "approveOrder() completed")
-//
-//        let mockCardDelegate = MockCardDelegate(
-//            success: {_, _ in
-//                XCTFail("Invoked success() callback. Should invoke error().")
-//                expectation.fulfill()
-//            },
-//            error: { _, error in
-//                XCTAssertEqual(error.domain, CardClientError.domain)
-//                XCTAssertEqual(error.code, CardClientError.Code.threeDSecureError.rawValue)
-//                XCTAssertEqual(error.localizedDescription, "Mock web session error description.")
-//                expectation.fulfill()
-//            },
-//            cancel: { _ in
-//                XCTFail("Invoked cancel() callback. Should invoke error().")
-//                expectation.fulfill()
-//            },
-//            threeDSWillLaunch: { _ in XCTAssert(true) },
-//            threeDSLaunched: { _ in XCTAssert(true) })
-//
-//        sut.delegate = mockCardDelegate
-//        sut.approveOrder(request: cardRequest)
-//
-//        waitForExpectations(timeout: 10)
-//    }
+
+    // MARK: - approveOrder() tests
+
+    func testApproveOrder_withInvalid3DSURL_returnsError() {
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.jsonWithInvalid3DSURL
+        
+        let expectation = expectation(description: "approveOrder() completed")
+
+        let mockCardDelegate = MockCardDelegate(success: {_, _ in
+            XCTFail("Invoked success() callback. Should invoke error().")
+        }, error: { _, err in
+            XCTAssertEqual(err.code, 3)
+            XCTAssertEqual(err.domain, "CardClientErrorDomain")
+            XCTAssertEqual(err.errorDescription, "An invalid 3DS URL was returned. Contact developer.paypal.com/support.")
+            expectation.fulfill()
+        }, threeDSWillLaunch: { _ in
+            XCTFail("Invoked willLaunch() callback. Should invoke error().")
+        })
+
+        sut.delegate = mockCardDelegate
+        sut.approveOrder(request: cardRequest)
+
+        waitForExpectations(timeout: 10)
+    }
+
+    func testApproveOrder_withNoThreeDSecure_returnsOrderData() {
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.jsonSuccessWithout3DS
+        
+        let expectation = expectation(description: "approveOrder() completed")
+
+        let mockCardDelegate = MockCardDelegate(success: {_, result -> Void in
+            XCTAssertEqual(result.orderID, "testOrderId")
+            expectation.fulfill()
+        }, error: { _, _ in
+            XCTFail("Invoked error() callback. Should invoke success().")
+        }, threeDSWillLaunch: { _ in
+            XCTFail("Invoked willLaunch() callback. Should invoke success().")
+        })
+
+        sut.delegate = mockCardDelegate
+        sut.approveOrder(request: cardRequest)
+
+        waitForExpectations(timeout: 10)
+    }
+
+    func testApproveOrder_whenConfirmPaymentSDKError_bubblesError() {
+        mockCheckoutOrdersAPI.stubError = CoreSDKError(code: 123, domain: "sdk-domain", errorDescription: "sdk-error-desc")
+
+        let expectation = expectation(description: "approveOrder() completed")
+
+        let mockCardDelegate = MockCardDelegate(success: {_, _ -> Void in
+            XCTFail("Invoked success() callback. Should invoke error().")
+        }, error: { _, error in
+            XCTAssertEqual(error.domain, "sdk-domain")
+            XCTAssertEqual(error.code, 123)
+            XCTAssertEqual(error.localizedDescription, "sdk-error-desc")
+            expectation.fulfill()
+        }, threeDSWillLaunch: { _ in
+            XCTFail("Invoked willLaunch() callback. Should invoke error().")
+        })
+
+        sut.delegate = mockCardDelegate
+        sut.approveOrder(request: cardRequest)
+
+        waitForExpectations(timeout: 10)
+    }
+    
+    func testApproveOrder_whenConfirmPaymentGeneralError_returnsUnknownError() {
+        mockCheckoutOrdersAPI.stubError = NSError(
+            domain: "ns-fake-domain",
+            code: 123,
+            userInfo: [NSLocalizedDescriptionKey: "ns-fake-error"]
+        )
+
+        let expectation = expectation(description: "approveOrder() completed")
+
+        let mockCardDelegate = MockCardDelegate(success: {_, _ -> Void in
+            XCTFail("Invoked success() callback. Should invoke error().")
+        }, error: { _, error in
+            XCTAssertEqual(error.domain, CardClientError.domain)
+            XCTAssertEqual(error.code, CardClientError.Code.unknown.rawValue)
+            XCTAssertNotNil(error.localizedDescription)
+            expectation.fulfill()
+        }, threeDSWillLaunch: { _ in
+            XCTFail("Invoked willLaunch() callback. Should invoke error().")
+        })
+
+        sut.delegate = mockCardDelegate
+        sut.approveOrder(request: cardRequest)
+
+        waitForExpectations(timeout: 10)
+    }
+
+    func testApproveOrder_withThreeDSecure_browserSwitchLaunches_getOrderReturnsSuccess() {
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.jsonSuccessfulGetOrder
+
+        let expectation = expectation(description: "approveOrder() completed")
+
+        let mockCardDelegate = MockCardDelegate(
+            success: {_, result in
+                XCTAssertEqual(result.orderID, "testOrderId")
+                expectation.fulfill()
+            },
+            error: { _, error in
+                XCTFail(error.localizedDescription)
+                expectation.fulfill()
+            },
+            cancel: { _ in XCTFail("Invoked cancel() callback. Should invoke success().") },
+            threeDSWillLaunch: { _ -> Void in XCTAssert(true) },
+            threeDSLaunched: { _ -> Void in XCTAssert(true) })
+
+        sut.delegate = mockCardDelegate
+        sut.approveOrder(request: cardRequest)
+
+        waitForExpectations(timeout: 10)
+    }
+
+    func testApproveOrder_withThreeDSecure_userCancelsBrowser() {
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.jsonWith3DS
+
+        mockWebAuthSession.cannedErrorResponse = ASWebAuthenticationSessionError(
+            .canceledLogin,
+            userInfo: ["Description": "Mock cancellation error description."]
+        )
+
+        let expectation = expectation(description: "approveOrder() completed")
+
+        let mockCardDelegate = MockCardDelegate(
+            success: {_, _ in
+                XCTFail("Invoked success() callback. Should invoke cancel().")
+                expectation.fulfill()
+            },
+            error: { _, error in
+                XCTFail(error.localizedDescription)
+                expectation.fulfill()
+            },
+            cancel: { _ in
+                XCTAssert(true)
+                expectation.fulfill()
+            },
+            threeDSWillLaunch: { _ in XCTAssert(true) },
+            threeDSLaunched: { _ in XCTAssert(true) })
+
+        sut.delegate = mockCardDelegate
+        sut.approveOrder(request: cardRequest)
+
+        waitForExpectations(timeout: 10)
+    }
+
+    func testApproveOrder_withThreeDSecure_browserReturnsError() {
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.jsonWith3DS
+
+        mockWebAuthSession.cannedErrorResponse = CoreSDKError(
+            code: CardClientError.Code.threeDSecureError.rawValue,
+            domain: CardClientError.domain,
+            errorDescription: "Mock web session error description."
+        )
+
+        let expectation = expectation(description: "approveOrder() completed")
+
+        let mockCardDelegate = MockCardDelegate(
+            success: {_, _ in
+                XCTFail("Invoked success() callback. Should invoke error().")
+                expectation.fulfill()
+            },
+            error: { _, error in
+                XCTAssertEqual(error.domain, CardClientError.domain)
+                XCTAssertEqual(error.code, CardClientError.Code.threeDSecureError.rawValue)
+                XCTAssertEqual(error.localizedDescription, "Mock web session error description.")
+                expectation.fulfill()
+            },
+            cancel: { _ in
+                XCTFail("Invoked cancel() callback. Should invoke error().")
+                expectation.fulfill()
+            },
+            threeDSWillLaunch: { _ in XCTAssert(true) },
+            threeDSLaunched: { _ in XCTAssert(true) })
+
+        sut.delegate = mockCardDelegate
+        sut.approveOrder(request: cardRequest)
+
+        waitForExpectations(timeout: 10)
+    }
 }
