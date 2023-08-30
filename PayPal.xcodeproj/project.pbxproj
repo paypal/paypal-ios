@@ -521,6 +521,9 @@
 		808E3EDB2A981F130017FE46 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				CB16E6D7285B7A2B00FD6F52 /* FakeConfirmPaymentResponse.swift */,
+				CB16E6D9285B7B7300FD6F52 /* MockCardDelegate.swift */,
+				3B109B3A2A85B54800D8135F /* MockCardVaultDelegate.swift */,
 				808E3EDC2A981F240017FE46 /* MockCheckoutOrdersAPI.swift */,
 				808E3EDE2A981F390017FE46 /* MockVaultPaymentTokensAPI.swift */,
 			);
@@ -614,14 +617,11 @@
 		80E8DAE726B8785D00FAFC3F /* CardPaymentsTests */ = {
 			isa = PBXGroup;
 			children = (
-				808E3EDB2A981F130017FE46 /* Mocks */,
 				065A4DBE26FCDA5B0007014A /* CardClient_Tests.swift */,
 				8008D2042A9E54FF0003CAF4 /* CheckoutOrdersAPI_Tests.swift */,
-				80B27AF02A9E9EE60008EA45 /* VaultPaymentTokensAPI_Tests.swift */,
 				065A4DC226FCE1D20007014A /* ConfirmPaymentSourceRequest_Tests.swift */,
-				CB16E6D7285B7A2B00FD6F52 /* FakeConfirmPaymentResponse.swift */,
-				CB16E6D9285B7B7300FD6F52 /* MockCardDelegate.swift */,
-				3B109B3A2A85B54800D8135F /* MockCardVaultDelegate.swift */,
+				80B27AF02A9E9EE60008EA45 /* VaultPaymentTokensAPI_Tests.swift */,
+				808E3EDB2A981F130017FE46 /* Mocks */,
 			);
 			path = CardPaymentsTests;
 			sourceTree = "<group>";
