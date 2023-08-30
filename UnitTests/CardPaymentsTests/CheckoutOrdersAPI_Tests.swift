@@ -11,7 +11,7 @@ class CheckoutOrdersAPI_Tests: XCTestCase {
     var sut: CheckoutOrdersAPI!
     var mockAPIClient: MockAPIClient!
     let coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
-    let fakeCardRequest = CardRequest(
+    let cardRequest = CardRequest(
         orderID: "my-order-id",
         card: Card(
             number: "4111",
@@ -28,14 +28,13 @@ class CheckoutOrdersAPI_Tests: XCTestCase {
         
         let mockHTTP = MockHTTP(coreConfig: coreConfig)
         mockAPIClient = MockAPIClient(http: mockHTTP)
-        mockAPIClient.stubHTTPResponse = HTTPResponse(status: 200, body: nil)
         sut = CheckoutOrdersAPI(coreConfig: coreConfig, apiClient: mockAPIClient)
     }
     
     // MARK: - confirmPaymentSource()
     
     func testConfirmPaymentSource_constructsRESTRequestForV2CheckoutOrders() async {
-        _ = try? await sut.confirmPaymentSource(cardRequest: fakeCardRequest)
+        _ = try? await sut.confirmPaymentSource(cardRequest: cardRequest)
         
         XCTAssertEqual(mockAPIClient.capturedRESTRequest?.path, "/v2/checkout/orders/my-order-id/confirm-payment-source")
         XCTAssertEqual(mockAPIClient.capturedRESTRequest?.method, .post)
@@ -55,7 +54,7 @@ class CheckoutOrdersAPI_Tests: XCTestCase {
         mockAPIClient.stubHTTPError = CoreSDKError(code: 123, domain: "api-client-error", errorDescription: "error-desc")
         
         do {
-            _ = try await sut.confirmPaymentSource(cardRequest: fakeCardRequest)
+            _ = try await sut.confirmPaymentSource(cardRequest: cardRequest)
             XCTFail("Expected error throw.")
         } catch {
             let error = error as! CoreSDKError
@@ -98,7 +97,7 @@ class CheckoutOrdersAPI_Tests: XCTestCase {
         let stubbedHTTPResponse = HTTPResponse(status: 200, body: data)
         mockAPIClient.stubHTTPResponse = stubbedHTTPResponse
         
-        let response = try await sut.confirmPaymentSource(cardRequest: fakeCardRequest)
+        let response = try await sut.confirmPaymentSource(cardRequest: cardRequest)
         XCTAssertEqual(response.id, "testOrderId")
         XCTAssertEqual(response.status, "CREATED")
         XCTAssertEqual(response.paymentSource?.card.lastFourDigits, "7321")

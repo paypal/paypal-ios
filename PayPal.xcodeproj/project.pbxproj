@@ -52,6 +52,7 @@
 		808E3EDD2A981F240017FE46 /* MockCheckoutOrdersAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E3EDC2A981F240017FE46 /* MockCheckoutOrdersAPI.swift */; };
 		808E3EDF2A981F390017FE46 /* MockVaultPaymentTokensAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E3EDE2A981F390017FE46 /* MockVaultPaymentTokensAPI.swift */; };
 		808EEA81291321FE001B6765 /* AnalyticsEventData_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808EEA80291321FE001B6765 /* AnalyticsEventData_Tests.swift */; };
+		80B27AF12A9E9EE60008EA45 /* VaultPaymentTokensAPI_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B27AF02A9E9EE60008EA45 /* VaultPaymentTokensAPI_Tests.swift */; };
 		80B8B2FC2A8EBBFD00AB60CD /* VaultPaymentTokensAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B8B2FB2A8EBBFD00AB60CD /* VaultPaymentTokensAPI.swift */; };
 		80B96AAE2A980F6B00C62916 /* MockTrackingEventsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802EFBD72A9685DF00AB709D /* MockTrackingEventsAPI.swift */; };
 		80D0C1382731CC9B00548A3D /* PayPalNativeCheckoutClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7116152723227200165069 /* PayPalNativeCheckoutClient.swift */; };
@@ -244,6 +245,7 @@
 		808E3EDC2A981F240017FE46 /* MockCheckoutOrdersAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCheckoutOrdersAPI.swift; sourceTree = "<group>"; };
 		808E3EDE2A981F390017FE46 /* MockVaultPaymentTokensAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVaultPaymentTokensAPI.swift; sourceTree = "<group>"; };
 		808EEA80291321FE001B6765 /* AnalyticsEventData_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventData_Tests.swift; sourceTree = "<group>"; };
+		80B27AF02A9E9EE60008EA45 /* VaultPaymentTokensAPI_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultPaymentTokensAPI_Tests.swift; sourceTree = "<group>"; };
 		80B8B2FB2A8EBBFD00AB60CD /* VaultPaymentTokensAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultPaymentTokensAPI.swift; sourceTree = "<group>"; };
 		80B9F85126B8750000D67843 /* CorePayments.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CorePayments.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80DB2F752980795D00CFB86A /* CorePaymentsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorePaymentsError.swift; sourceTree = "<group>"; };
@@ -615,6 +617,7 @@
 				808E3EDB2A981F130017FE46 /* Mocks */,
 				065A4DBE26FCDA5B0007014A /* CardClient_Tests.swift */,
 				8008D2042A9E54FF0003CAF4 /* CheckoutOrdersAPI_Tests.swift */,
+				80B27AF02A9E9EE60008EA45 /* VaultPaymentTokensAPI_Tests.swift */,
 				065A4DC226FCE1D20007014A /* ConfirmPaymentSourceRequest_Tests.swift */,
 				CB16E6D7285B7A2B00FD6F52 /* FakeConfirmPaymentResponse.swift */,
 				CB16E6D9285B7B7300FD6F52 /* MockCardDelegate.swift */,
@@ -1383,6 +1386,7 @@
 				065A4DBF26FCDA5B0007014A /* CardClient_Tests.swift in Sources */,
 				8008D2052A9E54FF0003CAF4 /* CheckoutOrdersAPI_Tests.swift in Sources */,
 				3B109B3C2A85CC6200D8135F /* MockCardVaultDelegate.swift in Sources */,
+				80B27AF12A9E9EE60008EA45 /* VaultPaymentTokensAPI_Tests.swift in Sources */,
 				CB16E6D8285B7A2B00FD6F52 /* FakeConfirmPaymentResponse.swift in Sources */,
 				CB16E6DA285B7B7300FD6F52 /* MockCardDelegate.swift in Sources */,
 				BC0A82A6270B9954006E9A21 /* ConfirmPaymentSourceRequest_Tests.swift in Sources */,

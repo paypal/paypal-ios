@@ -24,6 +24,7 @@ class HTTP {
         }
         
         let (data, response) = try await urlSession.performRequest(with: urlRequest)
+        let stringVal = String(data: data, encoding: .utf8)?.replacingOccurrences(of: "\\", with: "")
         guard let response = response as? HTTPURLResponse else {
             throw APIClientError.invalidURLResponseError
         }

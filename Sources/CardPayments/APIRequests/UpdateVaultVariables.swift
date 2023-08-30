@@ -21,10 +21,10 @@ struct UpdateVaultVariables: Encodable {
         case name
     }
     
-    // MARK: - Private Properties
+    // MARK: - Internal Properties
     
-    private let vaultRequest: CardVaultRequest
-    private let clientID: String
+    let vaultRequest: CardVaultRequest
+    let clientID: String
  
     // MARK: - Initializer
     
