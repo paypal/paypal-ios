@@ -30,4 +30,20 @@ struct CardPaymentState: Equatable {
             }
         }
     }
+
+    var capturedOrderResponse: LoadingState<Order> = .idle {
+        didSet {
+            if case .loaded(let value) = capturedOrderResponse {
+                capturedOrder = value
+            }
+        }
+    }
+
+    var authorizedOrderResponse: LoadingState<Order> = .idle {
+        didSet {
+            if case .loaded(let value) = authorizedOrderResponse {
+                authorizedOrder = value
+            }
+        }
+    }
 }

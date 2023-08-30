@@ -7,7 +7,7 @@ struct CardOrderApproveView: View {
     @State private var cardNumberText: String = "4111 1111 1111 1111"
     @State private var expirationDateText: String = "01 / 25"
     @State private var cvvText: String = "123"
-    let order: Order
+    let orderID: String
     @ObservedObject var cardPaymentViewModel: CardPaymentViewModel
 
     var body: some View {
@@ -35,7 +35,7 @@ struct CardOrderApproveView: View {
                     Button("Approve Order") {
                         Task {
                             do {
-                                await cardPaymentViewModel.checkoutWith(card: card, orderID: order.id)
+                                await cardPaymentViewModel.checkoutWith(card: card, orderID: orderID)
                             }
                         }
                     }
@@ -51,8 +51,17 @@ struct CardOrderApproveView: View {
                     .stroke(Color.gray, lineWidth: 2)
                     .padding(5)
             )
+            CardApprovalResultView(cardPaymentViewModel: cardPaymentViewModel)
+            Spacer()
         }
-        CardApprovalResultView(cardPaymentViewModel: cardPaymentViewModel)
-        Spacer()
+        if cardPaymentViewModel.state.approveResult != nil {
+            NavigationLink {
+                CardPaymentOrderCompletionView(orderID: orderID, cardPaymentViewModel: cardPaymentViewModel)
+            } label: {
+                Text("Complete Order Transaction")
+            }
+            .buttonStyle(RoundedBlueButtonStyle())
+            .padding()
+        }
     }
 }

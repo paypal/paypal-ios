@@ -26,6 +26,9 @@
 		3BA56FF02A9DCCFD0081D14F /* CardOrderApproveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA56FEF2A9DCCFD0081D14F /* CardOrderApproveView.swift */; };
 		3BA56FF22A9DCD440081D14F /* CardApprovalResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA56FF12A9DCD440081D14F /* CardApprovalResultView.swift */; };
 		3BA56FF42A9DCD790081D14F /* CardPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA56FF32A9DCD790081D14F /* CardPaymentView.swift */; };
+		3BA56FF62A9E9AAB0081D14F /* CardOrderActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA56FF52A9E9AAB0081D14F /* CardOrderActionButton.swift */; };
+		3BA56FF82A9FDB5A0081D14F /* CardPaymentOrderCompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA56FF72A9FDB5A0081D14F /* CardPaymentOrderCompletionView.swift */; };
+		3BA56FFA2A9FE4180081D14F /* CardOrderCompletionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA56FF92A9FE4180081D14F /* CardOrderCompletionResultView.swift */; };
 		3BB7A9772A5CA6FD00C05140 /* MerchantIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB7A9762A5CA6FD00C05140 /* MerchantIntegration.swift */; };
 		3BC622072A97115700251B85 /* RoundedBlueButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC622062A97115700251B85 /* RoundedBlueButtonStyle.swift */; };
 		3BC622092A97198500251B85 /* LeadingText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC622082A97198500251B85 /* LeadingText.swift */; };
@@ -140,6 +143,9 @@
 		3BA56FEF2A9DCCFD0081D14F /* CardOrderApproveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardOrderApproveView.swift; sourceTree = "<group>"; };
 		3BA56FF12A9DCD440081D14F /* CardApprovalResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardApprovalResultView.swift; sourceTree = "<group>"; };
 		3BA56FF32A9DCD790081D14F /* CardPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPaymentView.swift; sourceTree = "<group>"; };
+		3BA56FF52A9E9AAB0081D14F /* CardOrderActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardOrderActionButton.swift; sourceTree = "<group>"; };
+		3BA56FF72A9FDB5A0081D14F /* CardPaymentOrderCompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPaymentOrderCompletionView.swift; sourceTree = "<group>"; };
+		3BA56FF92A9FE4180081D14F /* CardOrderCompletionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardOrderCompletionResultView.swift; sourceTree = "<group>"; };
 		3BB7A9762A5CA6FD00C05140 /* MerchantIntegration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantIntegration.swift; sourceTree = "<group>"; };
 		3BC622062A97115700251B85 /* RoundedBlueButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedBlueButtonStyle.swift; sourceTree = "<group>"; };
 		3BC622082A97198500251B85 /* LeadingText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeadingText.swift; sourceTree = "<group>"; };
@@ -252,6 +258,9 @@
 				3BA56FEF2A9DCCFD0081D14F /* CardOrderApproveView.swift */,
 				3BA56FF12A9DCD440081D14F /* CardApprovalResultView.swift */,
 				3BA56FF32A9DCD790081D14F /* CardPaymentView.swift */,
+				3BA56FF52A9E9AAB0081D14F /* CardOrderActionButton.swift */,
+				3BA56FF72A9FDB5A0081D14F /* CardPaymentOrderCompletionView.swift */,
+				3BA56FF92A9FE4180081D14F /* CardOrderCompletionResultView.swift */,
 			);
 			path = CardPaymentViews;
 			sourceTree = "<group>";
@@ -575,6 +584,7 @@
 				80F33CED26F8E7A9006811B1 /* Order.swift in Sources */,
 				BE31187E273F02A80021C5A2 /* SwiftUICardDemo.swift in Sources */,
 				3B4DD9A02A892A7000F4A716 /* CardVaultView.swift in Sources */,
+				3BA56FF62A9E9AAB0081D14F /* CardOrderActionButton.swift in Sources */,
 				3BC622092A97198500251B85 /* LeadingText.swift in Sources */,
 				3B80D5102A291CB100D2EAC4 /* ClientIDResponse.swift in Sources */,
 				3BCCFE462A9D47AC00C5102F /* CardExtensions.swift in Sources */,
@@ -608,11 +618,13 @@
 				3BA56FEE2A9DCC340081D14F /* OrderCreateCardPaymentResultView.swift in Sources */,
 				BE1766B326F911A2007EF438 /* URLResponseError.swift in Sources */,
 				3B2027452A8AA78B0007907E /* UpdateSetupTokenView.swift in Sources */,
+				3BA56FF82A9FDB5A0081D14F /* CardPaymentOrderCompletionView.swift in Sources */,
 				3B8EF4DB2A932DA300A70D0B /* ErrorView.swift in Sources */,
 				3BF9997A2A8AE12C009CBDF2 /* PaymentTokenResultView.swift in Sources */,
 				3BDB34922A7CB5DE008100D7 /* SetupTokenResponse.swift in Sources */,
 				3BA56FF22A9DCD440081D14F /* CardApprovalResultView.swift in Sources */,
 				CBC16DD929ED90B600307117 /* UpdateOrderParams.swift in Sources */,
+				3BA56FFA2A9FE4180081D14F /* CardOrderCompletionResultView.swift in Sources */,
 				3BA56FF42A9DCD790081D14F /* CardPaymentView.swift in Sources */,
 				BE9F36D82745490400AFC7DA /* FloatingLabelTextField.swift in Sources */,
 				BE9F36E7275548A600AFC7DA /* BaseViewModel.swift in Sources */,

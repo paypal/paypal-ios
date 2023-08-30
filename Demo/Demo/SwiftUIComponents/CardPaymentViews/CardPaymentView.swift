@@ -14,7 +14,7 @@ struct CardPaymentView: View {
                 if let order = cardPaymentViewModel.state.createOrder {
                     OrderCreateCardPaymentResultView(cardPaymentViewModel: cardPaymentViewModel)
                     NavigationLink {
-                        CardOrderApproveView(order: order, cardPaymentViewModel: cardPaymentViewModel)
+                        CardOrderApproveView(orderID: order.id, cardPaymentViewModel: cardPaymentViewModel)
                     } label: {
                         Text("Approve Order with Card")
                     }
