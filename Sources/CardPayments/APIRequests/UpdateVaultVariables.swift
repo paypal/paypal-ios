@@ -22,6 +22,7 @@ struct UpdateVaultVariables: Encodable {
     }
     
     // MARK: - Internal Properties
+    // Exposed for testing
     
     let vaultRequest: CardVaultRequest
     let clientID: String
