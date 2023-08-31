@@ -6,6 +6,8 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
 
     @Published var state = CardPaymentState()
 
+    let configManager = CoreConfigManager(domain: "Card Payments")
+
     func createOrder(amount: String, selectedMerchantIntegration: MerchantIntegration, intent: String) async throws {
         // might need to pass in payee as payee object or as auth header
 
@@ -83,7 +85,7 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
             DispatchQueue.main.async {
                 self.state.approveResultResponse = .loading
             }
-            let config = try await getCoreConfig()
+            let config = try await configManager.getCoreConfig()
             let cardClient = CardClient(config: config)
             cardClient.delegate = self
             // SCA from UI?
@@ -93,21 +95,6 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
             self.state.approveResultResponse = .error(message: error.localizedDescription)
             print("failed in checkout with card. \(error.localizedDescription)")
         }
-    }
-
-    // Two functions below should be in base or core ViewModel that is
-    // inherited by feature ViewControllers
-    func getClientID() async -> String? {
-        await DemoMerchantAPI.sharedService.getClientID(
-            environment: DemoSettings.environment, selectedMerchantIntegration: DemoSettings.merchantIntegration
-        )
-    }
-
-    func getCoreConfig() async throws -> CoreConfig {
-        guard let clientID = await getClientID() else {
-            throw CoreSDKError(code: 0, domain: "Card Payment", errorDescription: "Error getting clientID")
-        }
-        return CoreConfig(clientID: clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
     }
 
     func approveResultSuccessResult(approveResult: CardPaymentState.CardResult) {

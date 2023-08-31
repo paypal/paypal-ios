@@ -8,6 +8,8 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
     var payPalWebCheckoutClient: PayPalWebCheckoutClient?
 
+    let configManager = CoreConfigManager(domain: "PayPalWeb Payments")
+
     func createOrder(amount: String, selectedMerchantIntegration: MerchantIntegration, intent: String) async throws {
         // might need to pass in payee as payee object or as auth header
 
@@ -57,21 +59,22 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
                 client.start(request: payPalRequest)
             } catch {
                 print("Error in starting paypal webcheckout client")
+                state.checkoutResultResponse = .error(message: error.localizedDescription)
             }
         }
     }
 
     func getPayPalClient() async throws -> PayPalWebCheckoutClient {
-        let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
-        let payPalClient = PayPalWebCheckoutClient(config: config)
-        return payPalClient
+        do {
+            let config = try await configManager.getCoreConfig()
+            let payPalClient = PayPalWebCheckoutClient(config: config)
+            return payPalClient
+        }
     }
 
     func paypalWebCheckoutSuccessResult(checkoutResult: PayPalWebState.CheckoutResult) {
         DispatchQueue.main.async {
-            self.state.checkoutResultResponse = .loaded(
-                checkoutResult
-            )
+            self.state.checkoutResultResponse = .loaded(checkoutResult)
         }
     }
 

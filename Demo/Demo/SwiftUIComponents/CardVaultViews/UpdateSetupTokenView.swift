@@ -40,9 +40,7 @@ struct UpdateSetupTokenView: View {
             ZStack {
                 Button("Vault Card") {
                     Task {
-                        let config = CoreConfig(clientID: DemoSettings.clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
                         await cardVaultViewModel.vault(
-                            config: config,
                             card: card,
                             setupToken: setupToken
                         )
