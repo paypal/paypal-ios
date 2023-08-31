@@ -123,6 +123,7 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
             self.state.approveResultResponse = .error(message: vaultError.localizedDescription)
         }
     }
+
     // MARK: - Card Delegate
 
     func card(_ cardClient: CardPayments.CardClient, didFinishWithResult result: CardPayments.CardResult) {
@@ -135,7 +136,9 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
 
     func card(_ cardClient: CardPayments.CardClient, didFinishWithError error: CorePayments.CoreSDKError) {
         print("Error here")
-        self.state.approveResultResponse = .error(message: error.localizedDescription)
+        DispatchQueue.main.async {
+            self.state.approveResultResponse = .error(message: error.localizedDescription)
+        }
     }
 
     func cardDidCancel(_ cardClient: CardPayments.CardClient) {

@@ -8,7 +8,7 @@ import PayPalCheckout
 
 /// This class is used to share the orderID across shared views, update the text of `bottomStatusLabel` in our `FeatureBaseViewController`
 /// as well as share the logic of `processOrder` across our duplicate (SwiftUI and UIKit) card views.
-class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
+class BaseViewModel: ObservableObject {
 
     /// Weak reference to associated view
     weak var view: FeatureBaseViewController?
@@ -81,19 +81,6 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         return Card(number: cleanedCardText, expirationMonth: expirationMonth, expirationYear: expirationYear, securityCode: cvv)
     }
 
-    func checkoutWith(
-        card: Card,
-        orderID: String
-    ) async {
-        guard let config = await getCoreConfig() else {
-            return
-        }
-        let cardClient = CardClient(config: config)
-        cardClient.delegate = self
-        let cardRequest = CardRequest(orderID: orderID, card: card, sca: .scaAlways)
-        cardClient.approveOrder(request: cardRequest)
-    }
-
     func isCardFormValid(cardNumber: String, expirationDate: String, cvv: String) -> Bool {
         guard orderID != nil else {
             updateTitle("Create an order to proceed")
@@ -106,115 +93,6 @@ class BaseViewModel: ObservableObject, PayPalWebCheckoutDelegate, CardDelegate {
         let enabled = cleanedCardNumber.count >= 15 && cleanedCardNumber.count <= 19
         && cleanedExpirationDate.count == 4 && cvv.count >= 3 && cvv.count <= 4
         return enabled
-    }
-
-    // MARK: - PayPal Module Integration
-
-    func paymentButtonTapped(funding: PayPalWebCheckoutFundingSource) {
-        guard let orderID = orderID else {
-            self.updateTitle("Failed: missing orderID.")
-            return
-        }
-
-        checkoutWithPayPal(orderID: orderID, funding: funding)
-    }
-    
-    func checkoutWithPayPal(
-        orderID: String,
-        funding: PayPalWebCheckoutFundingSource
-    ) {
-        Task {
-            do {
-                payPalWebCheckoutClient = try await getPayPalClient()
-                payPalWebCheckoutClient?.delegate = self
-                guard let client = payPalWebCheckoutClient else {
-                    print("Error in initializing paypal webcheckout client")
-                    return
-                }
-                let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding)
-                client.start(request: payPalRequest)
-            } catch {
-                print("Error in starting paypal webcheckout client")
-            }
-        }
-    }
-
-    // MARK: - PayPal Delegate
-
-    func payPal(_ payPalClient: PayPalWebCheckoutClient, didFinishWithResult result: PayPalWebCheckoutResult) {
-        updateTitle("\(DemoSettings.intent.rawValue.capitalized) status: CONFIRMED")
-        print("✅ Order is successfully approved and ready to be captured/authorized with result: \(result)")
-    }
-
-    func payPal(_ payPalClient: PayPalWebCheckoutClient, didFinishWithError error: CoreSDKError) {
-        updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
-        print("❌ There was an error: \(error)")
-    }
-
-    func payPalDidCancel(_ payPalClient: PayPalWebCheckoutClient) {
-        updateTitle("\(DemoSettings.intent) cancelled")
-        print("❌ Buyer has cancelled the PayPal flow")
-    }
-
-    // MARK: - Card Delegate
-
-    func card(_ cardClient: CardClient, didFinishWithResult result: CardResult) {
-        let intent = DemoSettings.intent.rawValue.uppercased()
-        if intent == "CAPTURE" {
-            updateTitle("Capturing Order with ID:\(result.orderID)...")
-            captureOrderOnMerchantServer(result: result)
-        } else if intent == "AUTHORIZE" {
-            updateTitle("Authorizing Order with ID:\(result.orderID)...")
-            authorizeOrderOnMerchantServer(result: result)
-        }
-    }
-    
-    private func captureOrderOnMerchantServer(result: CardResult) {
-        Task {
-            let captureResult = try? await DemoMerchantAPI.sharedService.captureOrder(
-                orderID: result.orderID, selectedMerchantIntegration: selectedMerchantIntegration
-            )
-            displayResult(result, orderResult: captureResult)
-        }
-    }
-    
-    private func authorizeOrderOnMerchantServer(result: CardResult) {
-        Task {
-            let authorizeResult = try? await DemoMerchantAPI.sharedService.authorizeOrder(
-                orderID: result.orderID, selectedMerchantIntegration: selectedMerchantIntegration
-            )
-            displayResult(result, orderResult: authorizeResult)
-        }
-    }
-    
-    private func displayResult(_ cardResult: CardResult, orderResult: Order?) {
-        let status = orderResult?.status ?? ""
-        let vault = orderResult?.paymentSource?.card.attributes?.vault
-        let orderInfo = "Order ID: \(cardResult.orderID) \n Status: \(status)"
-        let vaultInfo = vault != nil ? "Vault Status: \((vault?.status) ?? "") \n Vault ID: \((vault?.id) ?? "")" : ""
-        let customerInfo = vault != nil ? "Customer ID: \((vault?.customer.id ?? ""))" : ""
-                
-        updateTitle("\(orderInfo) \n \(vaultInfo)\n \(customerInfo)")
-    }
-    
-    func card(_ cardClient: CardClient, didFinishWithError error: CoreSDKError) {
-        updateTitle("\(DemoSettings.intent) failed: \(error.localizedDescription)")
-        print("❌ There was an error: \(error)")
-    }
-
-    func cardDidCancel(_ cardClient: CardClient) {
-        updateTitle("\(DemoSettings.intent) cancelled")
-        print("❌ Buyer has cancelled the Card flow")
-    }
-
-    func cardThreeDSecureWillLaunch(_ cardClient: CardClient) {
-        updateTitle("3DS challenge will be launched")
-        print("3DS challenge will be launched")
-    }
-
-    func cardThreeDSecureDidFinish(_ cardClient: CardClient) {
-        updateTitle("3DS challenge has finished")
-        print("3DS challenge has finished")
     }
 
     func getClientID() async -> String? {

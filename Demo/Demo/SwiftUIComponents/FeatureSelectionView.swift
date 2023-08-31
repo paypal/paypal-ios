@@ -38,7 +38,8 @@ struct FeatureSelectionView: View {
                         Text("Card Vaulting")
                     }
                     NavigationLink {
-                        SwiftUIPayPalDemo()
+                        PayPalWebView()
+                            .navigationTitle("PayPalWeb Payment")
                     } label: {
                         Text("PayPalWeb Payment")
                     }

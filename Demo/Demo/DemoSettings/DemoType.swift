@@ -11,11 +11,11 @@ enum DemoType: String {
     var swiftUIView: some View {
         switch self {
         case .card:
-            return AnyView(SwiftUICardDemo())
+            return AnyView(CardPaymentView())
         case .cardVault:
             return AnyView(CardVaultView())
         case .payPalWebCheckout:
-            return AnyView(SwiftUIPayPalDemo())
+            return AnyView(PayPalWebView())
         case .paymentButtonCustomization:
             return AnyView(SwiftUIPaymentButtonDemo())
         case .payPalNativeCheckout:
