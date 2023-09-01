@@ -44,6 +44,14 @@ Each feature module has its own onboarding guide:
 
 To accept a certain payment method in your app, you only need to include that payment-specific submodule.
 
+## Demo
+
+1. Open `PayPal.xcworkspace` in Xcode
+2. Resolve the Swift Package Manager packages if needed: `File` > `Packages` > `Resolve Package Versions` or by running `swift package resolve` in Terminal
+3. Select the `Demo` scheme, and then run
+
+Xcode 14.3+ is required to run the demo app.
+
 ## Testing
 
 This project uses the `XCTest` framework provided by Xcode. Every code path should be unit tested. Unit tests should make up most of the test coverage, with integration, and then UI tests following.
