@@ -83,10 +83,7 @@ public class APIClient {
         var urlComponents = URLComponents(url: urlString, resolvingAgainstBaseURL: false)
         
         if let queryParameters {
-            urlComponents?.queryItems = []
-            queryParameters.forEach {
-                urlComponents?.queryItems?.append(URLQueryItem(name: $0.key, value: $0.value))
-            }
+            urlComponents?.queryItems = queryParameters.map { URLQueryItem(name: $0.key, value: $0.value) }
         }
 
         guard let url = urlComponents?.url else {
