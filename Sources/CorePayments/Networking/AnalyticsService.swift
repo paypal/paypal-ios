@@ -13,7 +13,7 @@ public struct AnalyticsService {
     
     public init(coreConfig: CoreConfig, orderID: String) {
         self.coreConfig = coreConfig
-        self.trackingEventsAPI = TrackingEventsAPI()
+        self.trackingEventsAPI = TrackingEventsAPI(coreConfig: coreConfig)
         self.orderID = orderID
     }
     
@@ -40,6 +40,7 @@ public struct AnalyticsService {
     
     // MARK: - Internal Methods
     
+    /// Exposed to be able to execute this function synchronously in unit tests
     func performEventRequest(_ name: String) async {
         do {
             let clientID = coreConfig.clientID

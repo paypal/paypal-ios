@@ -6,7 +6,8 @@ class HTTP_Tests: XCTestCase {
     
     // MARK: - Helper Properties
     
-    var fakeRequest = FakeRequest()
+    let fakePostData = #"{ "fake": "data" }"#.data(using: .utf8)
+    var fakeHTTPRequest: HTTPRequest!
     
     let config = CoreConfig(clientID: "mockClientID", environment: .sandbox)
     var mockURLSession: MockURLSession!
@@ -17,6 +18,8 @@ class HTTP_Tests: XCTestCase {
     override func setUp() {
         super.setUp()
         
+        fakeHTTPRequest = HTTPRequest(headers: [.appName: "fake-app"], method: .get, url: URL(string: "www.fake.com")!, body: fakePostData)
+
         mockURLSession = MockURLSession()
         mockURLSession.cannedError = nil
         mockURLSession.cannedURLResponse = nil
@@ -27,22 +30,18 @@ class HTTP_Tests: XCTestCase {
             coreConfig: config
         )
     }
-
+    
     // MARK: - performRequest()
 
-    func testPerformRequest_withNoURLRequest_returnsInvalidURLRequestError() async {
-        // Mock request whose API object does not vend a URLRequest
-        let noURLRequest = FakeRequestNoURL()
-
+    func testPerformRequest_configuresURLRequest() async {
         do {
-            _ = try await sut.performRequest(noURLRequest)
-            XCTFail("This should have failed.")
-        } catch let error as CoreSDKError {
-            XCTAssertEqual(error.domain, APIClientError.domain)
-            XCTAssertEqual(error.code, APIClientError.Code.invalidURLRequest.rawValue)
-            XCTAssertEqual(error.localizedDescription, "An error occured constructing an HTTP request. Contact developer.paypal.com/support.")
+            _ = try await sut.performRequest(fakeHTTPRequest)
+            XCTAssertEqual(mockURLSession.capturedURLRequest?.url?.absoluteString, "www.fake.com")
+            XCTAssertEqual(mockURLSession.capturedURLRequest?.httpMethod, "GET")
+            XCTAssertEqual(mockURLSession.capturedURLRequest?.allHTTPHeaderFields, ["x-app-name": "fake-app"])
+            XCTAssertEqual(mockURLSession.capturedURLRequest?.httpBody, fakePostData)
         } catch {
-            XCTFail("Unexpected error type")
+            XCTFail("Unexpected failure.")
         }
     }
 
@@ -56,7 +55,7 @@ class HTTP_Tests: XCTestCase {
         mockURLSession.cannedError = serverError
 
         do {
-            _ = try await sut.performRequest(fakeRequest)
+            _ = try await sut.performRequest(fakeHTTPRequest)
             XCTFail("Request succeeded. Expected error.")
         } catch let error {
             XCTAssertTrue(serverError === (error as AnyObject))
@@ -67,7 +66,7 @@ class HTTP_Tests: XCTestCase {
         mockURLSession.cannedURLResponse = URLResponse()
         
         do {
-            _ = try await sut.performRequest(fakeRequest)
+            _ = try await sut.performRequest(fakeHTTPRequest)
             XCTFail("Request succeeded. Expected error.")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, APIClientError.domain)
@@ -75,6 +74,21 @@ class HTTP_Tests: XCTestCase {
             XCTAssertEqual(error.localizedDescription, "An error occured due to an invalid HTTP response. Contact developer.paypal.com/support.")
         } catch {
             XCTFail("Unexpected error type")
+        }
+    }
+    
+    func testPerformRequest_formatsAndReturnsHTTPResponse() async {
+        let fakeJSONResponseString = #"{ "fake": "response-data" }"#
+        mockURLSession.cannedURLResponse = HTTPURLResponse(url: URL(string: "www.fake.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)
+        mockURLSession.cannedJSONData = fakeJSONResponseString
+        
+        do {
+            let httpResponse = try await sut.performRequest(fakeHTTPRequest)
+            XCTAssertEqual(httpResponse.status, 200)
+            XCTAssertTrue(httpResponse.isSuccessful)
+            XCTAssertEqual(httpResponse.body, fakeJSONResponseString.data(using: .utf8))
+        } catch {
+            XCTFail("Unexpected failure.")
         }
     }
 }

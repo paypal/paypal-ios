@@ -30,7 +30,7 @@ public class APIClient {
     
     /// :nodoc:
     public func fetch(request: RESTRequest) async throws -> HTTPResponse {
-        let url = try constructRESTURL(path: request.path, queryParameters: request.queryParameters ?? [:])
+        let url = try constructRESTURL(path: request.path, queryParameters: request.queryParameters)
         
         let base64EncodedCredentials = Data(coreConfig.clientID.appending(":").utf8).base64EncodedString()
         var headers: [HTTPHeader: String] = [
@@ -78,12 +78,12 @@ public class APIClient {
     
     // MARK: - Private Methods
     
-    private func constructRESTURL(path: String, queryParameters: [String: String]) throws -> URL {
+    private func constructRESTURL(path: String, queryParameters: [String: String]?) throws -> URL {
         let urlString = coreConfig.environment.baseURL.appendingPathComponent(path)
         var urlComponents = URLComponents(url: urlString, resolvingAgainstBaseURL: false)
         
-        queryParameters.forEach {
-            urlComponents?.queryItems?.append(URLQueryItem(name: $0.key, value: $0.value))
+        if let queryParameters {
+            urlComponents?.queryItems = queryParameters.map { URLQueryItem(name: $0.key, value: $0.value) }
         }
 
         guard let url = urlComponents?.url else {

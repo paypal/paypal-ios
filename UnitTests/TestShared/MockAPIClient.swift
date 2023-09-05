@@ -3,21 +3,37 @@ import Foundation
 
 class MockAPIClient: APIClient {
 
-    var cannedClientIDError: CoreSDKError?
-    var cannedClientID = "cannedClientID"
-    var cannedJSONResponse: String?
-    var cannedFetchError: Error?
+    var stubHTTPResponse: HTTPResponse?
+    var stubHTTPError: Error?
     
-    var postedAnalyticsEvents: [String] = []
+    var capturedRESTRequest: RESTRequest?
+    var capturedGraphQLRequest: GraphQLRequest?
+    
+    override func fetch(request: RESTRequest) async throws -> HTTPResponse {
+        capturedRESTRequest = request
         
-    override func fetch<T: APIRequest>(request: T) async throws -> (T.ResponseType) {
-        if let cannedFetchError {
-            throw cannedFetchError
+        if let stubHTTPError {
+            throw stubHTTPError
         }
-        let cannedData = cannedJSONResponse!.data(using: String.Encoding.utf8)!
-        return try HTTPResponseParser().parse(
-            HTTPResponse(status: 200, body: cannedData),
-            as: T.ResponseType.self
-        )
+        
+        if let stubHTTPResponse {
+            return stubHTTPResponse
+        }
+        
+        throw CoreSDKError(code: 0, domain: "", errorDescription: "Stubbed responses not implemented for this mock.")
+    }
+    
+    override func fetch(request: GraphQLRequest) async throws -> HTTPResponse {
+        capturedGraphQLRequest = request
+        
+        if let stubHTTPError {
+            throw stubHTTPError
+        }
+        
+        if let stubHTTPResponse {
+            return stubHTTPResponse
+        }
+        
+        throw CoreSDKError(code: 0, domain: "", errorDescription: "Stubbed responses not implemented for this mock.")
     }
 }
