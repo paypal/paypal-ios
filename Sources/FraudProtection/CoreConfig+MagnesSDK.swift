@@ -1,12 +1,12 @@
 import PPRiskMagnes
+#if canImport(CorePayments)
+import CorePayments
+#endif
 
-/// Enum of environments to use with PayPalDataCollector
-public enum PayPalDataCollectorEnvironment {
-    case sandbox
-    case live
-
+extension CoreConfig {
+    
     var magnesEnvironment: MagnesSDK.Environment {
-        switch self {
+        switch environment {
         case .sandbox:
             return .SANDBOX
         case .live:

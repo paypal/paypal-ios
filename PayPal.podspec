@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "PayPal"
-  s.version          = "0.0.10"
+  s.version          = "0.0.11"
   s.summary          = "The PayPal iOS SDK: Helps you accept card, PayPal, and alternative payment methods in your iOS app."
   s.homepage         = "https://developer.paypal.com/home"
   s.license          = "MIT"
@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   s.subspec "PayPalNativePayments" do |s|
    s.source_files  = "Sources/PayPalNativePayments/**/*.swift"
    s.dependency "PayPal/CorePayments"
-   s.dependency "PayPalCheckout", "1.0.0"
+   s.dependency "PayPalCheckout", "1.1.0"
   end
 
   s.subspec "PaymentButtons" do |s|
@@ -37,6 +37,7 @@ Pod::Spec.new do |s|
 
   s.subspec "FraudProtection" do |s|
     s.source_files = "Sources/FraudProtection/*.swift"
+    s.dependency "PayPal/CorePayments"
     s.vendored_frameworks = "Frameworks/XCFrameworks/PPRiskMagnes.xcframework"
   end
 

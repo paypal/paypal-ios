@@ -44,7 +44,7 @@ public class CardClient: NSObject {
                 let result = try await vaultAPI.updateSetupToken(cardVaultRequest: vaultRequest).updateVaultSetupToken
                 
                 // TODO: handle 3DS contingency with helios link & add unit tests
-                if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
+                    if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
                     let url = link.href
                     print("3DS url \(url)")
                 } else {

@@ -6,9 +6,9 @@ struct SwiftUICardDemo: View {
 
     // MARK: Variables
 
-    @State private var cardNumberText: String = ""
-    @State private var expirationDateText: String = ""
-    @State private var cvvText: String = ""
+    @State private var cardNumberText: String = "4111 1111 1111 1111"
+    @State private var expirationDateText: String = "01 / 25"
+    @State private var cvvText: String = "123"
     @State private var vaultCustomerID: String = ""
     @State var shouldVaultSelected = false
 
@@ -22,18 +22,7 @@ struct SwiftUICardDemo: View {
         ZStack {
             FeatureBaseViewControllerRepresentable(baseViewModel: baseViewModel)
             VStack(spacing: 16) {
-                FloatingLabelTextField(placeholder: "Card Number", text: $cardNumberText)
-                    .onChange(of: cardNumberText) { newValue in
-                        cardNumberText = cardFormatter.formatFieldWith(newValue, field: .cardNumber)
-                    }
-                FloatingLabelTextField(placeholder: "Expiration Date", text: $expirationDateText)
-                    .onChange(of: expirationDateText) { newValue in
-                        expirationDateText = cardFormatter.formatFieldWith(newValue, field: .expirationDate)
-                    }
-                FloatingLabelTextField(placeholder: "CVV", text: $cvvText)
-                    .onChange(of: cvvText) { newValue in
-                        cvvText = cardFormatter.formatFieldWith(newValue, field: .cvv)
-                    }
+                CardFormView(cardNumberText: $cardNumberText, expirationDateText: $expirationDateText, cvvText: $cvvText)
                 HStack {
                     Toggle("Should Vault with Purchase", isOn: $shouldVaultSelected)
                     // TODO: turn on if vault with purchase on sample server is implemented
@@ -69,23 +58,6 @@ struct SwiftUICardDemo: View {
                 )
                 .cornerRadius(10)
                 .disabled(!baseViewModel.isCardFormValid(cardNumber: cardNumberText, expirationDate: expirationDateText, cvv: cvvText))
-                Button("Vault Card without Purchase") {
-                    guard let card = baseViewModel.createCard(
-                        cardNumber: cardNumberText,
-                        expirationDate: expirationDateText,
-                        cvv: cvvText
-                    ) else {
-                        return
-                    }
-                    Task {
-                        await baseViewModel.vaultCard(card: card, customerID: vaultCustomerID.isEmpty ? nil : vaultCustomerID)
-                    }
-                }
-                .foregroundColor(.white)
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(.blue)
-                .cornerRadius(10)
             }
             .padding(.horizontal, 16)
         }
