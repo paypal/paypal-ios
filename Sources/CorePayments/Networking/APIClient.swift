@@ -59,6 +59,7 @@ public class APIClient {
                 
         // TODO: - Move JSON encoding into custom class
         let postBody = GraphQLHTTPPostBody(query: request.query, variables: request.variables)
+        // TODO: - encoding `Data` results in mumbo jumbo string. Why
         let postData = try JSONEncoder().encode(postBody)
         
         let httpRequest = HTTPRequest(

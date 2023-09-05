@@ -11,18 +11,24 @@ class CheckoutOrdersAPI {
     // MARK: - Private Propertires
     
     private let coreConfig: CoreConfig
+    private let apiClient: APIClient
     
     // MARK: - Initializer
     
     init(coreConfig: CoreConfig) {
         self.coreConfig = coreConfig
+        self.apiClient = APIClient(coreConfig: coreConfig)
+    }
+    
+    /// Exposed for injecting MockAPIClient in tests
+    init(coreConfig: CoreConfig, apiClient: APIClient) {
+        self.coreConfig = coreConfig
+        self.apiClient = apiClient
     }
     
     // MARK: - Internal Methods
         
     func confirmPaymentSource(cardRequest: CardRequest) async throws -> ConfirmPaymentSourceResponse {
-        let apiClient = APIClient(coreConfig: coreConfig)
-        
         let confirmData = ConfirmPaymentSourceRequest(cardRequest: cardRequest)
         
         let restRequest = RESTRequest(

@@ -7,8 +7,6 @@ import AuthenticationServices
 
 class CardClient_Tests: XCTestCase {
 
-    let mockClientID = "mockClientId"
-
     // MARK: - Helper Properties
 
     let card = Card(
@@ -17,32 +15,32 @@ class CardClient_Tests: XCTestCase {
         expirationYear: "2021",
         securityCode: "123"
     )
-    
-    let mockWebAuthSession = MockWebAuthenticationSession()
-
-    // swiftlint:disable implicitly_unwrapped_optional
-    var config: CoreConfig!
-    var mockAPIClient: MockAPIClient!
-    var cardClient: CardClient!
+    let config = CoreConfig(clientID: "mockClientId", environment: .sandbox)
     var cardRequest: CardRequest!
-    var mockGraphQLClient: MockGraphQLClient!
-    var mockCardVaultDelegate: MockCardVaultDelegate!
-    // swiftlint:enable implicitly_unwrapped_optional
 
+    let mockWebAuthSession = MockWebAuthenticationSession()
+    var mockAPIClient: MockAPIClient!
+    var mockCardVaultDelegate: MockCardVaultDelegate!
+    var mockCheckoutOrdersAPI: MockCheckoutOrdersAPI!
+    var mockVaultAPI: MockVaultPaymentTokensAPI!
+
+    var sut: CardClient!
+    
     // MARK: - Test lifecycle
 
     override func setUp() {
         super.setUp()
-        config = CoreConfig(clientID: mockClientID, environment: .sandbox)
         mockAPIClient = MockAPIClient(coreConfig: config)
         cardRequest = CardRequest(orderID: "testOrderId", card: card)
-        mockGraphQLClient = MockGraphQLClient(environment: .sandbox)
         
-        cardClient = CardClient(
+        mockCheckoutOrdersAPI = MockCheckoutOrdersAPI(coreConfig: config, apiClient: mockAPIClient)
+        mockVaultAPI = MockVaultPaymentTokensAPI(coreConfig: config, apiClient: mockAPIClient)
+        
+        sut = CardClient(
             config: config,
-            apiClient: mockAPIClient,
-            webAuthenticationSession: mockWebAuthSession,
-            graphQLClient: mockGraphQLClient
+            checkoutOrdersAPI: mockCheckoutOrdersAPI,
+            vaultAPI: mockVaultAPI,
+            webAuthenticationSession: mockWebAuthSession
         )
     }
     
@@ -55,7 +53,7 @@ class CardClient_Tests: XCTestCase {
         let updateSetupTokenResponse = UpdateSetupTokenResponse(
             updateVaultSetupToken: TokenDetails(id: setupTokenID, status: vaultStatus, links: [TokenDetails.Link(rel: "df", href: "h")])
         )
-        mockGraphQLClient.mockSuccessResponse = GraphQLQueryResponse(data: updateSetupTokenResponse)
+        mockVaultAPI.stubSetupTokenResponse = updateSetupTokenResponse
         
         let expectation = expectation(description: "vault completed")
         let cardVaultDelegate = MockCardVaultDelegate(success: {_, result in
@@ -65,40 +63,39 @@ class CardClient_Tests: XCTestCase {
         }, error: {_, _ in
             XCTFail("Invoked error() callback. Should invoke success().")
         })
-        cardClient.vaultDelegate = cardVaultDelegate
-        cardClient.vault(vaultRequest)
+        sut.vaultDelegate = cardVaultDelegate
+        sut.vault(vaultRequest)
         
         waitForExpectations(timeout: 10)
     }
     
-    func testVault_withNoData_ReturnsError() {
+    func testVault_whenVaultAPIError_bubblesError() {
         let setupTokenID = "testToken1"
         let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
-       
-        mockGraphQLClient.mockSuccessResponse = GraphQLQueryResponse(data: nil)
-        
+               
+        mockVaultAPI.stubError = CoreSDKError(code: 123, domain: "fake-domain", errorDescription: "api-error")
+
         let expectation = expectation(description: "vault completed")
         let cardVaultDelegate = MockCardVaultDelegate(success: {_, _ in
             XCTFail("Invoked success() callback. Should invoke error().")
         }, error: {_, error in
-            XCTAssertEqual(error.domain, CardClientError.domain)
-            XCTAssertEqual(error.code, CardClientError.Code.noVaultTokenDataError.rawValue)
-            XCTAssertEqual(error.localizedDescription, "No data was returned from update setup token service.")
+            XCTAssertEqual(error.domain, "fake-domain")
+            XCTAssertEqual(error.code, 123)
+            XCTAssertEqual(error.localizedDescription, "api-error")
             expectation.fulfill()
         })
-        cardClient.vaultDelegate = cardVaultDelegate
-        cardClient.vault(vaultRequest)
-        
+        sut.vaultDelegate = cardVaultDelegate
+        sut.vault(vaultRequest)
+
         waitForExpectations(timeout: 10)
     }
 
-    func testVault_whenGraphQLCallFails_returnsError() {
+    func testVault_whenUnknownError_returnsVaultError() {
         let setupTokenID = "testToken1"
         let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
-       
-        mockGraphQLClient.mockErrorResponse = GraphQLError(
-            message: "thee was an error fetching data from GraphQL endpoint", extensions: nil
-        )
+
+        mockVaultAPI.stubError = NSError(domain: "some-domain", code: 123, userInfo: [NSLocalizedDescriptionKey: "some-description"])
+
         let expectation = expectation(description: "vault completed")
         let cardVaultDelegate = MockCardVaultDelegate(success: {_, _ in
             XCTFail("Invoked success() callback. Should invoke error().")
@@ -108,16 +105,16 @@ class CardClient_Tests: XCTestCase {
             XCTAssertEqual(error.localizedDescription, "An error occurred while vaulting a card.")
             expectation.fulfill()
         })
-        cardClient.vaultDelegate = cardVaultDelegate
-        cardClient.vault(vaultRequest)
-        
+        sut.vaultDelegate = cardVaultDelegate
+        sut.vault(vaultRequest)
+
         waitForExpectations(timeout: 10)
     }
 
     // MARK: - approveOrder() tests
-    
+
     func testApproveOrder_withInvalid3DSURL_returnsError() {
-        mockAPIClient.cannedJSONResponse = CardResponses.confirmPaymentSourceJsonInvalid3DSURL.rawValue
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withInvalid3DSURL
         
         let expectation = expectation(description: "approveOrder() completed")
 
@@ -132,14 +129,14 @@ class CardClient_Tests: XCTestCase {
             XCTFail("Invoked willLaunch() callback. Should invoke error().")
         })
 
-        cardClient.delegate = mockCardDelegate
-        cardClient.approveOrder(request: cardRequest)
+        sut.delegate = mockCardDelegate
+        sut.approveOrder(request: cardRequest)
 
         waitForExpectations(timeout: 10)
     }
 
     func testApproveOrder_withNoThreeDSecure_returnsOrderData() {
-        mockAPIClient.cannedJSONResponse = CardResponses.confirmPaymentSourceJson.rawValue
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.without3DS
         
         let expectation = expectation(description: "approveOrder() completed")
 
@@ -152,43 +149,65 @@ class CardClient_Tests: XCTestCase {
             XCTFail("Invoked willLaunch() callback. Should invoke success().")
         })
 
-        cardClient.delegate = mockCardDelegate
-        cardClient.approveOrder(request: cardRequest)
+        sut.delegate = mockCardDelegate
+        sut.approveOrder(request: cardRequest)
 
         waitForExpectations(timeout: 10)
     }
 
-    func testApproveOrder_whenApiCallFails_returnsError() {
-        mockAPIClient.cannedJSONResponse = """
-        {
-            "some_unexpected_response": "something"
-        }
-        """
-            
+    func testApproveOrder_whenConfirmPaymentSDKError_bubblesError() {
+        mockCheckoutOrdersAPI.stubError = CoreSDKError(code: 123, domain: "sdk-domain", errorDescription: "sdk-error-desc")
+
         let expectation = expectation(description: "approveOrder() completed")
 
         let mockCardDelegate = MockCardDelegate(success: {_, _ -> Void in
             XCTFail("Invoked success() callback. Should invoke error().")
         }, error: { _, error in
-            XCTAssertEqual(error.domain, APIClientError.domain)
-            XCTAssertEqual(error.code, APIClientError.Code.jsonDecodingError.rawValue)
+            XCTAssertEqual(error.domain, "sdk-domain")
+            XCTAssertEqual(error.code, 123)
+            XCTAssertEqual(error.localizedDescription, "sdk-error-desc")
+            expectation.fulfill()
+        }, threeDSWillLaunch: { _ in
+            XCTFail("Invoked willLaunch() callback. Should invoke error().")
+        })
+
+        sut.delegate = mockCardDelegate
+        sut.approveOrder(request: cardRequest)
+
+        waitForExpectations(timeout: 10)
+    }
+    
+    func testApproveOrder_whenConfirmPaymentGeneralError_returnsUnknownError() {
+        mockCheckoutOrdersAPI.stubError = NSError(
+            domain: "ns-fake-domain",
+            code: 123,
+            userInfo: [NSLocalizedDescriptionKey: "ns-fake-error"]
+        )
+
+        let expectation = expectation(description: "approveOrder() completed")
+
+        let mockCardDelegate = MockCardDelegate(success: {_, _ -> Void in
+            XCTFail("Invoked success() callback. Should invoke error().")
+        }, error: { _, error in
+            XCTAssertEqual(error.domain, CardClientError.domain)
+            XCTAssertEqual(error.code, CardClientError.Code.unknown.rawValue)
             XCTAssertNotNil(error.localizedDescription)
             expectation.fulfill()
         }, threeDSWillLaunch: { _ in
             XCTFail("Invoked willLaunch() callback. Should invoke error().")
         })
 
-        cardClient.delegate = mockCardDelegate
-        cardClient.approveOrder(request: cardRequest)
-        
+        sut.delegate = mockCardDelegate
+        sut.approveOrder(request: cardRequest)
+
         waitForExpectations(timeout: 10)
     }
 
     func testApproveOrder_withThreeDSecure_browserSwitchLaunches_getOrderReturnsSuccess() {
-        mockAPIClient.cannedJSONResponse = CardResponses.successfullGetOrderJson.rawValue
-        
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withValid3DSURL
+
         let expectation = expectation(description: "approveOrder() completed")
-                
+
         let mockCardDelegate = MockCardDelegate(
             success: {_, result in
                 XCTAssertEqual(result.orderID, "testOrderId")
@@ -201,21 +220,21 @@ class CardClient_Tests: XCTestCase {
             cancel: { _ in XCTFail("Invoked cancel() callback. Should invoke success().") },
             threeDSWillLaunch: { _ -> Void in XCTAssert(true) },
             threeDSLaunched: { _ -> Void in XCTAssert(true) })
-        
-        cardClient.delegate = mockCardDelegate
-        cardClient.approveOrder(request: cardRequest)
-        
+
+        sut.delegate = mockCardDelegate
+        sut.approveOrder(request: cardRequest)
+
         waitForExpectations(timeout: 10)
     }
 
     func testApproveOrder_withThreeDSecure_userCancelsBrowser() {
-        mockAPIClient.cannedJSONResponse = CardResponses.confirmPaymentSourceJsonWith3DS.rawValue
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withValid3DSURL
 
         mockWebAuthSession.cannedErrorResponse = ASWebAuthenticationSessionError(
             .canceledLogin,
             userInfo: ["Description": "Mock cancellation error description."]
         )
-        
+
         let expectation = expectation(description: "approveOrder() completed")
 
         let mockCardDelegate = MockCardDelegate(
@@ -234,15 +253,15 @@ class CardClient_Tests: XCTestCase {
             threeDSWillLaunch: { _ in XCTAssert(true) },
             threeDSLaunched: { _ in XCTAssert(true) })
 
-        cardClient.delegate = mockCardDelegate
-        cardClient.approveOrder(request: cardRequest)
+        sut.delegate = mockCardDelegate
+        sut.approveOrder(request: cardRequest)
 
         waitForExpectations(timeout: 10)
     }
 
     func testApproveOrder_withThreeDSecure_browserReturnsError() {
-        mockAPIClient.cannedJSONResponse = CardResponses.confirmPaymentSourceJsonWith3DS.rawValue
-        
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withValid3DSURL
+
         mockWebAuthSession.cannedErrorResponse = CoreSDKError(
             code: CardClientError.Code.threeDSecureError.rawValue,
             domain: CardClientError.domain,
@@ -269,8 +288,8 @@ class CardClient_Tests: XCTestCase {
             threeDSWillLaunch: { _ in XCTAssert(true) },
             threeDSLaunched: { _ in XCTAssert(true) })
 
-        cardClient.delegate = mockCardDelegate
-        cardClient.approveOrder(request: cardRequest)
+        sut.delegate = mockCardDelegate
+        sut.approveOrder(request: cardRequest)
 
         waitForExpectations(timeout: 10)
     }

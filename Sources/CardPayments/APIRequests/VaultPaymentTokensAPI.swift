@@ -9,17 +9,24 @@ class VaultPaymentTokensAPI {
     // MARK: - Private Propertires
     
     private let coreConfig: CoreConfig
+    private let apiClient: APIClient
     
     // MARK: - Initializer
     
     init(coreConfig: CoreConfig) {
         self.coreConfig = coreConfig
+        self.apiClient = APIClient(coreConfig: coreConfig)
+    }
+    
+    /// Exposed for injecting MockAPIClient in tests
+    init(coreConfig: CoreConfig, apiClient: APIClient) {
+        self.coreConfig = coreConfig
+        self.apiClient = apiClient
     }
     
     // MARK: - Internal Methods
         
     func updateSetupToken(cardVaultRequest: CardVaultRequest) async throws -> UpdateSetupTokenResponse {
-        let apiClient = APIClient(coreConfig: coreConfig)
         
         let queryString = """
             mutation UpdateVaultSetupToken(

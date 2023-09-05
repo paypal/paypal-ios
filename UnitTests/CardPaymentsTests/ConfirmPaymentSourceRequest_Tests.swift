@@ -5,98 +5,90 @@ import XCTest
 @testable import TestShared
 
 class ConfirmPaymentSourceRequest_Tests: XCTestCase {
-
-    func testEncodingPaymentSource_withValidCard() throws {
-        let mockOrderID = "mockOrderID"
-        let card = Card(
-            number: "4032036247327321",
-            expirationMonth: "11",
-            expirationYear: "2024",
-            securityCode: "222"
-        )
-        let cardRequest = CardRequest(orderID: mockOrderID, card: card)
-        
-        let confirmPaymentSourceRequest = try XCTUnwrap(
-            ConfirmPaymentSourceRequest(clientID: "fake-token", cardRequest: cardRequest)
-        )
-        
-        let paymentSourceBody = try XCTUnwrap(confirmPaymentSourceRequest.body)
-        
-        let expectedPaymentSourceDict: [String: Any?] = [
-            "application_context": [
-                "return_url": "sdk.ios.paypal://card/success",
-                "cancel_url": "sdk.ios.paypal://card/cancel"
-            ],
-            "payment_source": [
-                "card": [
-                    "number": "4032036247327321",
-                    "security_code": "222",
-                    "billing_address": nil,
-                    "name": nil,
-                    "attributes": [
-                        "verification": [
-                            "method": "SCA_WHEN_REQUIRED"
-                        ]
-                    ],
-                    "expiry": "2024-11"
-                ] as [String: Any?]
-            ]
-        ]
-        let paymentSourceDict = try JSONSerialization.jsonObject(with: paymentSourceBody, options: []) as! [String: Any]
-        XCTAssertEqual(paymentSourceDict as NSDictionary, expectedPaymentSourceDict as NSDictionary)
+    
+    // TODO: - Move to SDK wrapper on JSONEncoder for use in tests & APIClient
+    let encoder = JSONEncoder()
+    
+    override func setUp() {
+        super.setUp()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
     }
     
-    func testEncodingPaymentSource_withValidCardDictionary_expectsValidHTTPParams() throws {
-        let mockOrderId = "mockOrderId"
-        let card = Card(
-            number: "4032036247327321",
-            expirationMonth: "11",
-            expirationYear: "2024",
-            securityCode: "222"
+    func testEncode_properlyFormatsJSON() throws {
+        let sut = ConfirmPaymentSourceRequest(
+            cardRequest: CardRequest(
+                orderID: "some-order-id",
+                card: Card(
+                    number: "some-number",
+                    expirationMonth: "some-month",
+                    expirationYear: "some-year",
+                    securityCode: "some-code",
+                    cardholderName: "some-name",
+                    billingAddress: Address(
+                        addressLine1: "some-line-1",
+                        addressLine2: "some-line-2",
+                        locality: "some-locality",
+                        region: "some-region",
+                        postalCode: "some-postal-code",
+                        countryCode: "some-country"
+                    )
+                ),
+                sca: .scaAlways
+            )
         )
-        let cardRequest = CardRequest(orderID: mockOrderId, card: card)
+        
+        let data = try encoder.encode(sut)
+        let json = try? JSONSerialization.jsonObject(with: data) as? [String: [String: Any]]
+            
+        XCTAssertEqual(json?["application_context"]?["return_url"] as! String, "sdk.ios.paypal://card/success")
+        XCTAssertEqual(json?["application_context"]?["cancel_url"] as! String, "sdk.ios.paypal://card/cancel")
+        
+        let cardLevel = json?["payment_source"]?["card"] as! [String: Any]
+        XCTAssertEqual(cardLevel["number"] as! String, "some-number")
+        XCTAssertEqual(cardLevel["expiry"] as! String, "some-year-some-month")
+        XCTAssertEqual(cardLevel["name"] as! String, "some-name")
+        
+        let billingAddressLevel = cardLevel["billing_address"] as! [String: Any]
+        XCTAssertEqual(billingAddressLevel["address_line_1"] as! String, "some-line-1")
+        XCTAssertEqual(billingAddressLevel["address_line_2"] as! String, "some-line-2")
+        XCTAssertEqual(billingAddressLevel["admin_area_1"] as! String, "some-region")
+        XCTAssertEqual(billingAddressLevel["admin_area_2"] as! String, "some-locality")
+        XCTAssertEqual(billingAddressLevel["postal_code"] as! String, "some-postal-code")
+        XCTAssertEqual(billingAddressLevel["country_code"] as! String, "some-country")
 
-        let confirmPaymentSourceRequest = try XCTUnwrap(
-            ConfirmPaymentSourceRequest(clientID: "fake-token", cardRequest: cardRequest)
-        )
-
-        let modifiedClientID = "fake-token" + ":"
-        let expectedBase64EncodedClientID = Data(modifiedClientID.utf8).base64EncodedString()
-        let expectedPath = "/v2/checkout/orders/\(mockOrderId)/confirm-payment-source"
-        let expectedMethod = HTTPMethod.post
-        let expectedHeaders: [HTTPHeader: String] = [
-            .contentType: "application/json", .acceptLanguage: "en_US",
-            .authorization: "Basic \(expectedBase64EncodedClientID)"
-        ]
-
-        XCTAssertEqual(confirmPaymentSourceRequest.path, expectedPath)
-        XCTAssertEqual(confirmPaymentSourceRequest.method, expectedMethod)
-        XCTAssertEqual(confirmPaymentSourceRequest.headers, expectedHeaders)
+        let attributesLevel = cardLevel["attributes"] as! [String: [String: Any]]
+        XCTAssertEqual(attributesLevel["verification"]?["method"] as! String, "SCA_ALWAYS")
     }
-
-    func testEncodingFailure_throws_EncodingError() throws {
-        let mockOrderID = "mockOrderID"
-        let card = Card(
-            number: "4032036247327321",
-            expirationMonth: "11",
-            expirationYear: "2024",
-            securityCode: "222"
+    
+    func testEncode_withoutBillingAddress_properlyFormatsJSON() throws {
+        let sut = ConfirmPaymentSourceRequest(
+            cardRequest: CardRequest(
+                orderID: "some-order-id",
+                card: Card(
+                    number: "some-number",
+                    expirationMonth: "some-month",
+                    expirationYear: "some-year",
+                    securityCode: "some-code",
+                    cardholderName: "some-name"
+                ),
+                sca: .scaAlways
+            )
         )
-        let cardRequest = CardRequest(orderID: mockOrderID, card: card)
         
-        let failingEncoder = FailingJSONEncoder()
+        let data = try encoder.encode(sut)
+        let json = try? JSONSerialization.jsonObject(with: data) as? [String: [String: Any]]
+            
+        XCTAssertEqual(json?["application_context"]?["return_url"] as! String, "sdk.ios.paypal://card/success")
+        XCTAssertEqual(json?["application_context"]?["cancel_url"] as! String, "sdk.ios.paypal://card/cancel")
         
-        XCTAssertThrowsError(
-            try ConfirmPaymentSourceRequest(
-                clientID: "fake-client-id",
-                cardRequest: cardRequest,
-                encoder: failingEncoder)
-        ) { error in
-            guard let coreSDKError = error as? CoreSDKError else {
-                XCTFail("Thrown error should be a CoreSDKError")
-                return
-            }
-            XCTAssertEqual(coreSDKError.code, CardClientError.encodingError.code)
-        }
+        let cardLevel = json?["payment_source"]?["card"] as! [String: Any]
+        XCTAssertEqual(cardLevel["number"] as! String, "some-number")
+        XCTAssertEqual(cardLevel["expiry"] as! String, "some-year-some-month")
+        XCTAssertEqual(cardLevel["name"] as! String, "some-name")
+        
+        XCTAssertNil(cardLevel["billing_address"])
+
+        let attributesLevel = cardLevel["attributes"] as! [String: [String: Any]]
+        XCTAssertEqual(attributesLevel["verification"]?["method"] as! String, "SCA_ALWAYS")
     }
 }
