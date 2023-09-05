@@ -12,6 +12,13 @@ struct UpdateSetupTokenView: View {
 
     @ObservedObject var cardVaultViewModel: CardVaultViewModel
 
+    let cardData: [CardSection] = [
+        CardSection(title: "Step up", numbers: ["5314 6090 4083 0349"]),
+        CardSection(title: "Frictionless - LiabilityShift Possible", numbers: ["4005 5192 0000 0004"]),
+        CardSection(title: "Frictionless - LiabilityShift NO", numbers: ["4020 0278 5185 3235"]),
+        CardSection(title: "No Challenge", numbers: ["4111 1111 1111 1111"])
+    ]
+
     public init(cardVaultViewModel: CardVaultViewModel, setupToken: String) {
         self.cardVaultViewModel = cardVaultViewModel
         self.setupToken = setupToken
@@ -28,7 +35,8 @@ struct UpdateSetupTokenView: View {
             CardFormView(
                 cardNumberText: $cardNumberText,
                 expirationDateText: $expirationDateText,
-                cvvText: $cvvText
+                cvvText: $cvvText,
+                cardSections: cardData
             )
 
             let card = Card.createCard(

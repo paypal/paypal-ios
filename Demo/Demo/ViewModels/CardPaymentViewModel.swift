@@ -8,6 +8,8 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
 
     let configManager = CoreConfigManager(domain: "Card Payments")
 
+    private var cardClient: CardClient?
+
     func createOrder(amount: String, selectedMerchantIntegration: MerchantIntegration, intent: String) async throws {
         // might need to pass in payee as payee object or as auth header
 
@@ -86,11 +88,11 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
                 self.state.approveResultResponse = .loading
             }
             let config = try await configManager.getCoreConfig()
-            let cardClient = CardClient(config: config)
-            cardClient.delegate = self
+            cardClient = CardClient(config: config)
+            cardClient?.delegate = self
             // SCA from UI?
             let cardRequest = CardRequest(orderID: orderID, card: card, sca: .scaAlways)
-            cardClient.approveOrder(request: cardRequest)
+            cardClient?.approveOrder(request: cardRequest)
         } catch {
             self.state.approveResultResponse = .error(message: error.localizedDescription)
             print("failed in checkout with card. \(error.localizedDescription)")
@@ -130,6 +132,10 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
 
     func cardDidCancel(_ cardClient: CardPayments.CardClient) {
         print("Card Payment Canceled")
+        DispatchQueue.main.async {
+            self.state.approveResultResponse = .idle
+            self.state.approveResult = nil
+        }
     }
 
     func cardThreeDSecureWillLaunch(_ cardClient: CardPayments.CardClient) {
