@@ -18,58 +18,69 @@ struct CardOrderApproveView: View {
     ]
 
     var body: some View {
-        VStack {
-            VStack(spacing: 16) {
-                HStack {
-                    Text("Enter Card Information")
-                        .font(.system(size: 20))
-                    Spacer()
-                }
+        ScrollView {
+            ScrollViewReader { scrollView in
+                VStack {
+                    VStack(spacing: 16) {
+                        HStack {
+                            Text("Enter Card Information")
+                                .font(.system(size: 20))
+                            Spacer()
+                        }
 
-                CardFormView(
-                    cardNumberText: $cardNumberText,
-                    expirationDateText: $expirationDateText,
-                    cvvText: $cvvText,
-                    cardSections: cardData
-                )
+                        CardFormView(
+                            cardNumberText: $cardNumberText,
+                            expirationDateText: $expirationDateText,
+                            cvvText: $cvvText,
+                            cardSections: cardData
+                        )
 
-                let card = Card.createCard(
-                    cardNumber: cardNumberText,
-                    expirationDate: expirationDateText,
-                    cvv: cvvText
-                )
+                        let card = Card.createCard(
+                            cardNumber: cardNumberText,
+                            expirationDate: expirationDateText,
+                            cvv: cvvText
+                        )
 
-                ZStack {
-                    Button("Approve Order") {
-                        Task {
-                            do {
-                                await cardPaymentViewModel.checkoutWith(card: card, orderID: orderID)
+                        ZStack {
+                            Button("Approve Order") {
+                                Task {
+                                    do {
+                                        await cardPaymentViewModel.checkoutWith(card: card, orderID: orderID)
+                                    }
+                                }
+                            }
+                            .buttonStyle(RoundedBlueButtonStyle())
+                            if case .loading = cardPaymentViewModel.state.approveResultResponse {
+                                CircularProgressView()
                             }
                         }
                     }
-                    .buttonStyle(RoundedBlueButtonStyle())
-                    if case .loading = cardPaymentViewModel.state.approveResultResponse {
-                        CircularProgressView()
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.gray, lineWidth: 2)
+                            .padding(5)
+                    )
+                    CardApprovalResultView(cardPaymentViewModel: cardPaymentViewModel)
+                    if cardPaymentViewModel.state.approveResult != nil {
+                        NavigationLink {
+                            CardPaymentOrderCompletionView(orderID: orderID, cardPaymentViewModel: cardPaymentViewModel)
+                        } label: {
+                            Text("Complete Order Transaction")
+                        }
+                        .buttonStyle(RoundedBlueButtonStyle())
+                        .padding()
+                    }
+                    Text("")
+                        .id("bottomView")
+                    Spacer()
+                }
+                .onChange(of: cardPaymentViewModel.state) { _ in
+                    withAnimation {
+                        scrollView.scrollTo("bottomView")
                     }
                 }
             }
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.gray, lineWidth: 2)
-                    .padding(5)
-            )
-            CardApprovalResultView(cardPaymentViewModel: cardPaymentViewModel)
-            Spacer()
-        }
-        if cardPaymentViewModel.state.approveResult != nil {
-            NavigationLink {
-                CardPaymentOrderCompletionView(orderID: orderID, cardPaymentViewModel: cardPaymentViewModel)
-            } label: {
-                Text("Complete Order Transaction")
-            }
-            .buttonStyle(RoundedBlueButtonStyle())
-            .padding()
         }
     }
 }
