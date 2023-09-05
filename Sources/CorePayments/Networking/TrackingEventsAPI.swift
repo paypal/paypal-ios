@@ -7,8 +7,8 @@ class TrackingEventsAPI {
         
     // MARK: - Internal Properties
 
-    private var apiClient: APIClient
     var coreConfig: CoreConfig // exposed for testing
+    private var apiClient: APIClient
 
     // MARK: - Initializer
     
