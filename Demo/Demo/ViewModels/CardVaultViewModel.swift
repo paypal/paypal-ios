@@ -138,7 +138,7 @@ class CardVaultViewModel: ObservableObject, CardVaultDelegate {
                     )
                 )
             )
-            let order = try await DemoMerchantAPI.sharedService.authorizeOrderWithPaymentToken(
+            let order = try await DemoMerchantAPI.sharedService.authorizeOrder(
                 orderID: orderID,
                 selectedMerchantIntegration: selectedMerchantIntegration,
                 bodyParams: paymentTokenSource
