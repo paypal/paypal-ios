@@ -1,31 +1,28 @@
 import XCTest
 @testable import CorePayments
 
-class AnalyticsEventRequest_Tests: XCTestCase {
+class AnalyticsEventData_Tests: XCTestCase {
     
-    var fakeAnalyticsEventData: AnalyticsEventData!
-    var sut: AnalyticsEventRequest!
+    var sut: AnalyticsEventData!
     
     let currentTime = String(Date().timeIntervalSince1970 * 1000)
     let oneSecondLater = String((Date().timeIntervalSince1970 * 1000) + 999)
     
     override func setUp() {
         super.setUp()
-        fakeAnalyticsEventData = AnalyticsEventData(
+        sut = AnalyticsEventData(
             environment: "fake-env",
             eventName: "fake-name",
             clientID: "fake-client-id",
             orderID: "fake-order"
         )
-        
-        sut = try! AnalyticsEventRequest(eventData: fakeAnalyticsEventData)
     }
 
-    func test_httpParameters() throws {
-        let bodyData = sut.body
-        let jsonBody = try? JSONSerialization.jsonObject(with: bodyData!) as? [String: [String: [String: Any]]]
+    func testEncode_properlyFormatsJSON() throws {
+        let data = try JSONEncoder().encode(sut)
+        let json = try? JSONSerialization.jsonObject(with: data) as? [String: [String: [String: Any]]]
             
-        guard let eventParams = jsonBody?["events"]?["event_params"] else {
+        guard let eventParams = json?["events"]?["event_params"] else {
             XCTFail("JSON body missing `event_params` key.")
             return
         }
@@ -49,15 +46,6 @@ class AnalyticsEventRequest_Tests: XCTestCase {
         XCTAssertGreaterThanOrEqual(eventParams["t"] as! String, currentTime)
         XCTAssertLessThanOrEqual(eventParams["t"] as! String, oneSecondLater)
         XCTAssertEqual(eventParams["tenant_name"] as? String, "PayPal")
-        
-        XCTAssertEqual(sut.path, "v1/tracking/events")
-        XCTAssertEqual(sut.method, HTTPMethod.post)
-        XCTAssertEqual(sut.headers, [.contentType: "application/json"])
-    }
-    
-    func testToURLRequest_overridesSandboxBaseURL() throws {
-        let urlRequest = sut.toURLRequest(environment: .sandbox)
-        XCTAssertEqual(urlRequest?.url?.absoluteString, "https://api.paypal.com/v1/tracking/events")
     }
 }
 

@@ -1,6 +1,6 @@
 import Foundation
 
-/// `HTTP` interfaces directly with `URLSession` to execute network requests.
+/// `HTTP` constructs `URLRequest`s and interfaces directly with `URLSession` to execute network requests.
 class HTTP {
     
     let coreConfig: CoreConfig
@@ -14,9 +14,13 @@ class HTTP {
         self.coreConfig = coreConfig
     }
     
-    func performRequest(_ request: any APIRequest) async throws -> HTTPResponse {
-        guard let urlRequest = request.toURLRequest(environment: coreConfig.environment) else {
-            throw APIClientError.invalidURLRequestError
+    func performRequest(_ httpRequest: HTTPRequest) async throws -> HTTPResponse {
+        var urlRequest = URLRequest(url: httpRequest.url)
+        urlRequest.httpMethod = httpRequest.method.rawValue
+        urlRequest.httpBody = httpRequest.body
+        
+        httpRequest.headers.forEach { key, value in
+            urlRequest.addValue(value, forHTTPHeaderField: key.rawValue)
         }
         
         let (data, response) = try await urlSession.performRequest(with: urlRequest)
