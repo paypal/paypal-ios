@@ -81,7 +81,8 @@ class CardVaultViewModel: ObservableObject, CardVaultDelegate {
                 self.state.createdOrderResponse = .loading
             }
             let order = try await DemoMerchantAPI.sharedService.createOrder(
-                orderParams: orderRequestParams, selectedMerchantIntegration: selectedMerchantIntegration
+                orderParams: orderRequestParams,
+                selectedMerchantIntegration: selectedMerchantIntegration
             )
             DispatchQueue.main.async {
                 self.state.createdOrderResponse = .loaded(order)

@@ -47,7 +47,8 @@ struct CreateOrderVaultView: View {
                             try await cardVaultViewModel.createOrder(
                                 amount: "10.00",
                                 selectedMerchantIntegration: selectedMerchantIntegration,
-                                intent: intent)
+                                intent: intent
+                            )
                         } catch {
                             print("Error in getting setup token. \(error.localizedDescription)")
                         }
@@ -60,7 +61,9 @@ struct CreateOrderVaultView: View {
             }
         }
         .padding()
-        .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2))
-        .padding(5)
+        .background(
+            RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2)
+                .padding(5)
+        )
     }
 }
