@@ -53,28 +53,24 @@ final class DemoMerchantAPI {
             print("error with the create payment token request: \(error.localizedDescription)")
             throw error
         }
-    }
-    
-    func captureOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws -> Order {
-        guard let url = buildBaseURL(with: "/orders/\(orderID)/capture", selectedMerchantIntegration: selectedMerchantIntegration) else {
-            throw URLResponseError.invalidURL
-        }
+    }    
 
-        let urlRequest = buildURLRequest(method: "POST", url: url, body: EmptyBodyParams())
-        let data = try await data(for: urlRequest)
-        return try parse(from: data)
-    }
-
-    func captureOrderWithPaymentToken<T: Encodable>(
+    func captureOrder(
         orderID: String,
         selectedMerchantIntegration: MerchantIntegration,
-        bodyParams: T
+        bodyParams: Encodable? = nil
     ) async throws -> Order {
         guard let url = buildBaseURL(with: "/orders/\(orderID)/capture", selectedMerchantIntegration: selectedMerchantIntegration) else {
             throw URLResponseError.invalidURL
         }
 
-        let urlRequest = buildURLRequest(method: "POST", url: url, body: bodyParams)
+        let actualBodyParams: Encodable
+        if let bodyParams = bodyParams {
+            actualBodyParams = bodyParams
+        } else {
+            actualBodyParams = EmptyBodyParams()
+        }
+        let urlRequest = buildURLRequest(method: "POST", url: url, body: actualBodyParams)
         let data = try await data(for: urlRequest)
         return try parse(from: data)
     }
