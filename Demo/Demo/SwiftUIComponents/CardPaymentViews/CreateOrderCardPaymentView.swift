@@ -3,13 +3,12 @@ import SwiftUI
 struct CreateOrderCardPaymentView: View {
 
     @ObservedObject var cardPaymentViewModel: CardPaymentViewModel
-    let selectedMerchantIntegration: MerchantIntegration
 
     @State private var selectedIntent: Intent = .authorize
-
     @State private var vaultCustomerID: String = ""
     @State var shouldVaultSelected = false
 
+    let selectedMerchantIntegration: MerchantIntegration
 
     enum Intent: String, CaseIterable, Identifiable {
         case authorize = "AUTHORIZE"
@@ -54,7 +53,8 @@ struct CreateOrderCardPaymentView: View {
                             try await cardPaymentViewModel.createOrder(
                                 amount: "10.00",
                                 selectedMerchantIntegration: DemoSettings.merchantIntegration,
-                                intent: selectedIntent.rawValue)
+                                intent: selectedIntent.rawValue
+                            )
                         } catch {
                             print("Error in getting setup token. \(error.localizedDescription)")
                         }
@@ -67,7 +67,9 @@ struct CreateOrderCardPaymentView: View {
             }
         }
         .padding()
-        .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2))
-        .padding(5)
+        .background(
+            RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2)
+                .padding(5)
+        )
     }
 }

@@ -11,10 +11,11 @@ struct CardPaymentView: View {
                     cardPaymentViewModel: cardPaymentViewModel,
                     selectedMerchantIntegration: DemoSettings.merchantIntegration
                 )
+                
                 if let order = cardPaymentViewModel.state.createOrder {
                     OrderCreateCardPaymentResultView(cardPaymentViewModel: cardPaymentViewModel)
                     NavigationLink {
-                        CardOrderApproveView(orderID: order.id, cardPaymentViewModel: cardPaymentViewModel)
+                        CardOrderApproveView(cardPaymentViewModel: cardPaymentViewModel, orderID: order.id)
                     } label: {
                         Text("Approve Order with Card")
                     }

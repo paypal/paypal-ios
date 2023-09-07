@@ -4,13 +4,13 @@ import CorePayments
 
 struct CardOrderApproveView: View {
 
+    @ObservedObject var cardPaymentViewModel: CardPaymentViewModel
     @State private var cardNumberText: String = "4111 1111 1111 1111"
     @State private var expirationDateText: String = "01 / 25"
     @State private var cvvText: String = "123"
     let orderID: String
-    @ObservedObject var cardPaymentViewModel: CardPaymentViewModel
 
-    let cardData: [CardSection] = [
+    let cardSections: [CardSection] = [
         CardSection(title: "Step up", numbers: ["5314 6090 4083 0349"]),
         CardSection(title: "Frictionless - LiabilityShift Possible", numbers: ["4005 5192 0000 0004"]),
         CardSection(title: "Frictionless - LiabilityShift NO", numbers: ["4020 0278 5185 3235"]),
@@ -32,7 +32,7 @@ struct CardOrderApproveView: View {
                             cardNumberText: $cardNumberText,
                             expirationDateText: $expirationDateText,
                             cvvText: $cvvText,
-                            cardSections: cardData
+                            cardSections: cardSections
                         )
 
                         let card = Card.createCard(

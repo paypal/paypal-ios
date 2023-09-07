@@ -43,10 +43,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         checkoutWithPayPal(orderID: orderID, funding: funding)
     }
 
-    func checkoutWithPayPal(
-        orderID: String,
-        funding: PayPalWebCheckoutFundingSource
-    ) {
+    func checkoutWithPayPal(orderID: String, funding: PayPalWebCheckoutFundingSource) {
         Task {
             do {
                 payPalWebCheckoutClient = try await getPayPalClient()

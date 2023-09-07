@@ -8,14 +8,14 @@ struct CardApprovalResultView: View {
         switch cardPaymentViewModel.state.approveResultResponse {
         case .idle, .loading:
             EmptyView()
-        case .loaded(let approveResultResponse):
-            getSuccessView(approveResultResponse: approveResultResponse)
+        case .loaded(let approvalResult):
+            getSuccessView(approvalResult: approvalResult)
         case .error(let errorMessage):
             ErrorView(errorMessage: errorMessage)
         }
     }
 
-    func getSuccessView(approveResultResponse: CardPaymentState.CardResult) -> some View {
+    func getSuccessView(approvalResult: CardPaymentState.CardResult) -> some View {
         VStack(spacing: 16) {
             HStack {
                 Text("Card Approval Result")
@@ -23,9 +23,9 @@ struct CardApprovalResultView: View {
                 Spacer()
             }
             LeadingText("ID", weight: .bold)
-            LeadingText("\(approveResultResponse.id)")
+            LeadingText("\(approvalResult.id)")
             LeadingText("3DS URL", weight: .bold)
-            LeadingText("\(approveResultResponse.deepLinkURL ?? "")")
+            LeadingText("\(approvalResult.deepLinkURL ?? "")")
         }
         .frame(maxWidth: .infinity)
         .padding()

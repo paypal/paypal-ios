@@ -24,8 +24,10 @@ struct PayPalTransactionButtonsView: View {
             }
             .padding(20)
             .padding()
-            .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2))
-            .padding(5)
+            .background(
+                RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2)
+                    .padding(5)
+            )
             PayPalWebApprovalView(paypalWebViewModel: paypalWebViewModel)
             Spacer()
         }

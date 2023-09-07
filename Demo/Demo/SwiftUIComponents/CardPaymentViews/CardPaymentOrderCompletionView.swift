@@ -8,13 +8,14 @@ struct CardPaymentOrderCompletionView: View {
     var body: some View {
         VStack {
             CardApprovalResultView(cardPaymentViewModel: cardPaymentViewModel)
-            if (cardPaymentViewModel.state.approveResult != nil), let intent = cardPaymentViewModel.state.intent {
+            if cardPaymentViewModel.state.approveResult != nil, let intent = cardPaymentViewModel.state.intent {
                 CardOrderActionButton(
                     intent: intent,
                     orderID: orderID,
                     selectedMerchantIntegration: DemoSettings.merchantIntegration,
                     cardPaymentViewModel: cardPaymentViewModel)
             }
+
             if cardPaymentViewModel.state.authorizedOrder != nil || cardPaymentViewModel.state.capturedOrder != nil {
                 CardOrderCompletionResultView(cardPaymentViewModel: cardPaymentViewModel)
             }

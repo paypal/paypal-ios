@@ -9,21 +9,22 @@ struct CardOrderCompletionResultView: View {
         case .idle, .loading:
             EmptyView()
         case .loaded(let authorizedOrderResponse):
-            getAuthorizeSuccessView(authorizedOrderResponse: authorizedOrderResponse)
+            getAuthorizeSuccessView(orderResponse: authorizedOrderResponse)
         case .error(let errorMessage):
             ErrorView(errorMessage: errorMessage)
         }
+        
         switch cardPaymentViewModel.state.capturedOrderResponse {
         case .idle, .loading:
             EmptyView()
         case .loaded(let capturedOrderResponse):
-            getCaptureSuccessView(capturedOrderResponse: capturedOrderResponse)
+            getCaptureSuccessView(orderResponse: capturedOrderResponse)
         case .error(let errorMessage):
             ErrorView(errorMessage: errorMessage)
         }
     }
 
-    func getAuthorizeSuccessView(authorizedOrderResponse: Order) -> some View {
+    func getAuthorizeSuccessView(orderResponse: Order) -> some View {
         VStack(spacing: 16) {
             HStack {
                 Text("Order Authorized")
@@ -31,17 +32,19 @@ struct CardOrderCompletionResultView: View {
                 Spacer()
             }
             LeadingText("Order ID", weight: .bold)
-            LeadingText("\(authorizedOrderResponse.id)")
+            LeadingText("\(orderResponse.id)")
             LeadingText("Status", weight: .bold)
-            LeadingText("\(authorizedOrderResponse.status)")
+            LeadingText("\(orderResponse.status)")
         }
         .frame(maxWidth: .infinity)
         .padding()
-        .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2))
-        .padding(5)
+        .background(
+            RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2)
+                .padding(5)
+        )
     }
 
-    func getCaptureSuccessView(capturedOrderResponse: Order) -> some View {
+    func getCaptureSuccessView(orderResponse: Order) -> some View {
         VStack(spacing: 16) {
             HStack {
                 Text("Order Captured")
@@ -49,13 +52,15 @@ struct CardOrderCompletionResultView: View {
                 Spacer()
             }
             LeadingText("Order ID", weight: .bold)
-            LeadingText("\(capturedOrderResponse.id)")
+            LeadingText("\(orderResponse.id)")
             LeadingText("Status", weight: .bold)
-            LeadingText("\(capturedOrderResponse.status)")
+            LeadingText("\(orderResponse.status)")
         }
         .frame(maxWidth: .infinity)
         .padding()
-        .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2))
-        .padding(5)
+        .background(
+            RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2)
+                .padding(5)
+        )
     }
 }
