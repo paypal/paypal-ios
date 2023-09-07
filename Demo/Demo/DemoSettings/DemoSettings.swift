@@ -4,7 +4,6 @@ enum DemoSettings {
 
     private static let EnvironmentDefaultsKey = "environment"
     private static let IntentDefaultsKey = "intent"
-    private static let DemoTypeDefaultsKey = "demo_type"
     private static let ClientIDKey = "clientID"
     private static let MerchantIntegrationDefaultKey = "merchantIntegration"
 
@@ -21,16 +20,6 @@ enum DemoSettings {
     static var intent: Intent {
         UserDefaults.standard.string(forKey: IntentDefaultsKey)
             .flatMap { Intent(rawValue: $0) } ?? .capture
-    }
-
-    static var demoType: DemoType {
-        get {
-            UserDefaults.standard.string(forKey: DemoTypeDefaultsKey)
-                .flatMap { DemoType(rawValue: $0) } ?? .card
-        }
-        set {
-            UserDefaults.standard.set(newValue.rawValue, forKey: DemoTypeDefaultsKey)
-        }
     }
 
     static var merchantIntegration: MerchantIntegration {
