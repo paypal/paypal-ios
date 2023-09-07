@@ -11,31 +11,7 @@ struct CardOrderActionButton: View {
     var body: some View {
         ZStack {
             Button("\(intent)") {
-                if intent == "CAPTURE" {
-                    Task {
-                        do {
-                            try await cardPaymentViewModel.captureOrder(
-                                orderID: orderID,
-                                selectedMerchantIntegration: selectedMerchantIntegration
-                            )
-                            print("Order Captured. ID: \(cardPaymentViewModel.state.capturedOrder?.id ?? "")")
-                        } catch {
-                            print("Error capturing order: \(error.localizedDescription)")
-                        }
-                    }
-                } else {
-                    Task {
-                        do {
-                            try await cardPaymentViewModel.authorizeOrder(
-                                orderID: orderID,
-                                selectedMerchantIntegration: selectedMerchantIntegration
-                            )
-                            print("Order Authorized. ID: \(cardPaymentViewModel.state.authorizedOrder?.id ?? "")")
-                        } catch {
-                            print("Error authorizing order: \(error.localizedDescription)")
-                        }
-                    }
-                }
+                completeOrder()
             }
             .buttonStyle(RoundedBlueButtonStyle())
             .padding()
@@ -43,6 +19,34 @@ struct CardOrderActionButton: View {
                 CircularProgressView()
             } else if case .loading = cardPaymentViewModel.state.capturedOrderResponse {
                 CircularProgressView()
+            }
+        }
+    }
+
+    private func completeOrder() {
+        if intent == "CAPTURE" {
+            Task {
+                do {
+                    try await cardPaymentViewModel.captureOrder(
+                        orderID: orderID,
+                        selectedMerchantIntegration: selectedMerchantIntegration
+                    )
+                    print("Order Captured. ID: \(cardPaymentViewModel.state.capturedOrder?.id ?? "")")
+                } catch {
+                    print("Error capturing order: \(error.localizedDescription)")
+                }
+            }
+        } else {
+            Task {
+                do {
+                    try await cardPaymentViewModel.authorizeOrder(
+                        orderID: orderID,
+                        selectedMerchantIntegration: selectedMerchantIntegration
+                    )
+                    print("Order Authorized. ID: \(cardPaymentViewModel.state.authorizedOrder?.id ?? "")")
+                } catch {
+                    print("Error authorizing order: \(error.localizedDescription)")
+                }
             }
         }
     }
