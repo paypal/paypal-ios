@@ -2,7 +2,6 @@ import SwiftUI
 
 struct OrderActionButton: View {
 
-    let intent: String
     let order: Order
     let selectedMerchantIntegration: MerchantIntegration
 
@@ -10,8 +9,8 @@ struct OrderActionButton: View {
 
     var body: some View {
         ZStack {
-            Button("\(intent)") {
-                if intent == "CAPTURE" {
+            Button("\(cardVaultViewModel.state.intent)") {
+                if cardVaultViewModel.state.intent == "CAPTURE" {
                     Task {
                         do {
                             try await cardVaultViewModel.captureOrder(orderID: order.id, selectedMerchantIntegration: selectedMerchantIntegration)

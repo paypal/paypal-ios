@@ -3,7 +3,6 @@ import SwiftUI
 struct CreateOrderVaultView: View {
 
     let selectedMerchantIntegration: MerchantIntegration
-    @Binding var intent: String
 
     @ObservedObject var cardVaultViewModel: CardVaultViewModel
 
@@ -17,12 +16,10 @@ struct CreateOrderVaultView: View {
 
     public init(
         cardVaultViewModel: CardVaultViewModel,
-        selectedMerchantIntegration: MerchantIntegration,
-        intent: Binding<String>
+        selectedMerchantIntegration: MerchantIntegration
     ) {
         self.cardVaultViewModel = cardVaultViewModel
         self.selectedMerchantIntegration = selectedMerchantIntegration
-        self._intent = intent
     }
 
     var body: some View {
@@ -43,11 +40,11 @@ struct CreateOrderVaultView: View {
                 Button("Create an Order") {
                     Task {
                         do {
-                            intent = selectedIntent.rawValue
+                            cardVaultViewModel.state.intent = selectedIntent.rawValue
                             try await cardVaultViewModel.createOrder(
                                 amount: "10.00",
                                 selectedMerchantIntegration: selectedMerchantIntegration,
-                                intent: intent
+                                intent: cardVaultViewModel.state.intent
                             )
                         } catch {
                             print("Error in getting setup token. \(error.localizedDescription)")

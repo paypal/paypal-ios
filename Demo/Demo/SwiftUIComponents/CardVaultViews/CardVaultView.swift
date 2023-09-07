@@ -5,8 +5,6 @@ struct CardVaultView: View {
     @StateObject var baseViewModel = BaseViewModel()
     @StateObject var cardVaultViewModel = CardVaultViewModel()
 
-    @State var intent: String = "AUTHORIZE"
-
     // MARK: Views
 
     var body: some View {
@@ -94,8 +92,7 @@ struct CardVaultView: View {
         if cardVaultViewModel.state.paymentToken != nil {
             CreateOrderVaultView(
                 cardVaultViewModel: cardVaultViewModel,
-                selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration,
-                intent: $intent
+                selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration
             )
         }
         OrderCreateResultView(cardVaultViewModel: cardVaultViewModel)
@@ -104,7 +101,6 @@ struct CardVaultView: View {
     @ViewBuilder var orderCompletionSectionView: some View {
         if let order = cardVaultViewModel.state.createdOrder {
             OrderActionButton(
-                intent: intent,
                 order: order,
                 selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration,
                 cardVaultViewModel: cardVaultViewModel

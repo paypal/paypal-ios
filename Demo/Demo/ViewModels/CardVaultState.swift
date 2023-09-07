@@ -15,6 +15,7 @@ struct CardVaultState: Equatable {
     var createdOrder: Order?
     var authorizedOrder: Order?
     var capturedOrder: Order?
+    var intent: String = "AUTHORIZE"
 
     var setupTokenResponse: LoadingState<SetUpTokenResponse> = .idle {
         didSet {
