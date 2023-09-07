@@ -13,7 +13,6 @@ struct UpdateSetupTokenView: View {
     @ObservedObject var cardVaultViewModel: CardVaultViewModel
 
     let cardSections: [CardSection] = [
-        CardSection(title: "Step up", numbers: ["5314 6090 4083 0349"]),
         CardSection(title: "Frictionless - LiabilityShift Possible", numbers: ["4005 5192 0000 0004"]),
         CardSection(title: "Frictionless - LiabilityShift NO", numbers: ["4020 0278 5185 3235"]),
         CardSection(title: "No Challenge", numbers: ["4111 1111 1111 1111"])
