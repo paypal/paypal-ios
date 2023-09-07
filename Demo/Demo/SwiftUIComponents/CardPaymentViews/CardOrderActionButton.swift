@@ -15,9 +15,9 @@ struct CardOrderActionButton: View {
             }
             .buttonStyle(RoundedBlueButtonStyle())
             .padding()
-            if case .loading = cardPaymentViewModel.state.authorizedOrderResponse {
-                CircularProgressView()
-            } else if case .loading = cardPaymentViewModel.state.capturedOrderResponse {
+
+            if .loading == cardPaymentViewModel.state.authorizedOrderResponse ||
+                .loading == cardPaymentViewModel.state.capturedOrderResponse {
                 CircularProgressView()
             }
         }
