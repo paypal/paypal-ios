@@ -8,9 +8,9 @@ struct CardPaymentOrderCompletionView: View {
     var body: some View {
         VStack {
             CardApprovalResultView(cardPaymentViewModel: cardPaymentViewModel)
-            if cardPaymentViewModel.state.approveResult != nil, let intent = cardPaymentViewModel.state.intent {
+            if cardPaymentViewModel.state.approveResult != nil {
                 CardOrderActionButton(
-                    intent: intent,
+                    intent: cardPaymentViewModel.state.intent,
                     orderID: orderID,
                     selectedMerchantIntegration: DemoSettings.merchantIntegration,
                     cardPaymentViewModel: cardPaymentViewModel)

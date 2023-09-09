@@ -42,11 +42,22 @@ struct CardOrderApproveView: View {
                             cvv: cvvText
                         )
 
+                        Picker("SCA", selection: $cardPaymentViewModel.state.scaSelection) {
+                            Text(SCA.scaWhenRequired.rawValue).tag(SCA.scaWhenRequired)
+                            Text(SCA.scaAlways.rawValue).tag(SCA.scaAlways)
+                        }
+                        .pickerStyle(SegmentedPickerStyle())
+                        .frame(height: 50)
+
                         ZStack {
                             Button("Approve Order") {
                                 Task {
                                     do {
-                                        await cardPaymentViewModel.checkoutWith(card: card, orderID: orderID)
+                                        await cardPaymentViewModel.checkoutWith(
+                                            card: card,
+                                            orderID: orderID,
+                                            sca: cardPaymentViewModel.state.scaSelection
+                                        )
                                     }
                                 }
                             }

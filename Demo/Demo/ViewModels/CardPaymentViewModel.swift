@@ -79,7 +79,7 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
         }
     }
 
-    func checkoutWith(card: Card, orderID: String) async {
+    func checkoutWith(card: Card, orderID: String, sca: SCA) async {
         do {
             DispatchQueue.main.async {
                 self.state.approveResultResponse = .loading
