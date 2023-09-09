@@ -4,7 +4,7 @@ enum MerchantIntegration: String, CaseIterable {
     case direct
     case connectedPath
     case managedPath
-    case unspecified
+    case none
     
     var path: String {
         switch self {
