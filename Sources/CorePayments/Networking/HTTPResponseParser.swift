@@ -1,6 +1,6 @@
 import Foundation
 
-/// :nodoc:
+@_documentation(visibility: private)
 public class HTTPResponseParser {
     
     private let decoder: JSONDecoder

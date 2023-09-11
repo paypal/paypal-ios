@@ -11,5 +11,6 @@ public struct CardResult {
 
     //// :nodoc: This is the deep link url returned from 3DS authentication
     // TODO: parse contents of this URL once we are clear on values returned from 3ds
+    @_documentation(visibility: private)
     public let deepLinkURL: URL?
 }

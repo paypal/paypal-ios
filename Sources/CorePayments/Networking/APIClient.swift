@@ -4,6 +4,7 @@ import Foundation
 /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
 ///
 /// `APIClient` is the entry point for each payment method feature to perform API requests. It also offers convenience methods for API requests used across multiple payment methods / modules.
+@_documentation(visibility: private)
 public class APIClient {
         
     // MARK: - Internal Properties
@@ -27,7 +28,7 @@ public class APIClient {
     }
     
     // MARK: - Public Methods
-    
+
     /// :nodoc:
     public func fetch(request: RESTRequest) async throws -> HTTPResponse {
         let url = try constructRESTURL(path: request.path, queryParameters: request.queryParameters)
@@ -52,7 +53,7 @@ public class APIClient {
         
         return try await http.performRequest(httpRequest)
     }
-    
+
     /// :nodoc:
     public func fetch(request: GraphQLRequest) async throws -> HTTPResponse {
         let url = try constructGraphQLURL(queryName: request.queryNameForURL)

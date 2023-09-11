@@ -1,6 +1,6 @@
 import Foundation
 
-/// :nodoc:
+@_documentation(visibility: private)
 public struct HTTPResponse {
     
     let status: Int
