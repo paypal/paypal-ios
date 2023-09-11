@@ -11,7 +11,8 @@ class CoreConfigManager {
 
     func getClientID() async -> String? {
         await DemoMerchantAPI.sharedService.getClientID(
-            environment: DemoSettings.environment, selectedMerchantIntegration: DemoSettings.merchantIntegration
+            environment: DemoSettings.environment,
+            selectedMerchantIntegration: DemoSettings.merchantIntegration
         )
     }
 
@@ -19,6 +20,7 @@ class CoreConfigManager {
         guard let clientID = await getClientID() else {
             throw CoreSDKError(code: 0, domain: domain, errorDescription: "Error getting clientID")
         }
+        
         return CoreConfig(clientID: clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
     }
 }

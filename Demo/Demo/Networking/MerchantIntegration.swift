@@ -4,7 +4,6 @@ enum MerchantIntegration: String, CaseIterable {
     case direct
     case connectedPath
     case managedPath
-    case none
     
     var path: String {
         switch self {
@@ -14,8 +13,6 @@ enum MerchantIntegration: String, CaseIterable {
             return "/connected_path"
         case .managedPath:
             return "/managed_path"
-        default:
-            return ""
         }
     }
 }

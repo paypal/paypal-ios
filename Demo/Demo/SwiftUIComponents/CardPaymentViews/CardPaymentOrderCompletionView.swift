@@ -13,7 +13,8 @@ struct CardPaymentOrderCompletionView: View {
                     intent: cardPaymentViewModel.state.intent,
                     orderID: orderID,
                     selectedMerchantIntegration: DemoSettings.merchantIntegration,
-                    cardPaymentViewModel: cardPaymentViewModel)
+                    cardPaymentViewModel: cardPaymentViewModel
+                )
             }
 
             if cardPaymentViewModel.state.authorizedOrder != nil || cardPaymentViewModel.state.capturedOrder != nil {

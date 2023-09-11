@@ -47,10 +47,7 @@ struct UpdateSetupTokenView: View {
             ZStack {
                 Button("Vault Card") {
                     Task {
-                        await cardVaultViewModel.vault(
-                            card: card,
-                            setupToken: setupToken
-                        )
+                        await cardVaultViewModel.vault(card: card, setupToken: setupToken)
                     }
                 }
                 .buttonStyle(RoundedBlueButtonStyle())
@@ -62,7 +59,7 @@ struct UpdateSetupTokenView: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 10)
-                .stroke(Color.gray, lineWidth: 2)
+                .stroke(.gray, lineWidth: 2)
                 .padding(5)
         )
     }
