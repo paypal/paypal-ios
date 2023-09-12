@@ -5,18 +5,17 @@ import CorePayments
 struct UpdateSetupTokenView: View {
 
     let setupToken: String
+    let cardSections: [CardSection] = [
+        CardSection(title: "Frictionless - LiabilityShift Possible", numbers: ["4005 5192 0000 0004"]),
+        CardSection(title: "Frictionless - LiabilityShift NO", numbers: ["4020 0278 5185 3235"]),
+        CardSection(title: "No Challenge", numbers: ["4111 1111 1111 1111"])
+    ]
 
     @State private var cardNumberText: String = "4111 1111 1111 1111"
     @State private var expirationDateText: String = "01 / 25"
     @State private var cvvText: String = "123"
 
     @ObservedObject var cardVaultViewModel: CardVaultViewModel
-
-    let cardSections: [CardSection] = [
-        CardSection(title: "Frictionless - LiabilityShift Possible", numbers: ["4005 5192 0000 0004"]),
-        CardSection(title: "Frictionless - LiabilityShift NO", numbers: ["4020 0278 5185 3235"]),
-        CardSection(title: "No Challenge", numbers: ["4111 1111 1111 1111"])
-    ]
 
     public init(cardVaultViewModel: CardVaultViewModel, setupToken: String) {
         self.cardVaultViewModel = cardVaultViewModel
@@ -32,10 +31,10 @@ struct UpdateSetupTokenView: View {
             }
 
             CardFormView(
+                cardSections: cardSections,
                 cardNumberText: $cardNumberText,
                 expirationDateText: $expirationDateText,
-                cvvText: $cvvText,
-                cardSections: cardSections
+                cvvText: $cvvText
             )
 
             let card = Card.createCard(

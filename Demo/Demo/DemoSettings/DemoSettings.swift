@@ -25,7 +25,7 @@ enum DemoSettings {
     static var merchantIntegration: MerchantIntegration {
         get {
             UserDefaults.standard.string(forKey: MerchantIntegrationDefaultKey)
-            .flatMap { MerchantIntegration(rawValue: $0) } ?? .direct
+                .flatMap { MerchantIntegration(rawValue: $0) } ?? .direct
         }
         set {
             UserDefaults.standard.set(newValue.rawValue, forKey: MerchantIntegrationDefaultKey)

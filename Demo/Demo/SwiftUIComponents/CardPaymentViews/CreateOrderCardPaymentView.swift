@@ -2,19 +2,13 @@ import SwiftUI
 
 struct CreateOrderCardPaymentView: View {
 
+    let selectedMerchantIntegration: MerchantIntegration
+
     @ObservedObject var cardPaymentViewModel: CardPaymentViewModel
 
     @State private var selectedIntent: Intent = .authorize
     @State private var vaultCustomerID: String = ""
     @State var shouldVaultSelected = false
-
-    let selectedMerchantIntegration: MerchantIntegration
-
-    enum Intent: String, CaseIterable, Identifiable {
-        case authorize = "AUTHORIZE"
-        case capture = "CAPTURE"
-        var id: Self { self }
-    }
 
     public init(
         cardPaymentViewModel: CardPaymentViewModel,
@@ -49,7 +43,7 @@ struct CreateOrderCardPaymentView: View {
                 Button("Create an Order") {
                     Task {
                         do {
-                            cardPaymentViewModel.state.intent = selectedIntent.rawValue
+                            cardPaymentViewModel.state.intent = selectedIntent
                             try await cardPaymentViewModel.createOrder(
                                 amount: "10.00",
                                 selectedMerchantIntegration: DemoSettings.merchantIntegration,

@@ -9,13 +9,12 @@ struct CardSection: Identifiable {
 
 struct CardFormView: View {
 
+    let cardSections: [CardSection]
+    private let cardFormatter = CardFormatter()
+
     @Binding var cardNumberText: String
     @Binding var expirationDateText: String
     @Binding var cvvText: String
-
-    private let cardFormatter = CardFormatter()
-
-    let cardSections: [CardSection]
 
     var body: some View {
         VStack(spacing: 16) {
@@ -53,7 +52,7 @@ struct CardFormView: View {
 }
 
 struct CardFormView_Previews: PreviewProvider {
-    
+
     @State static var mockCardNumberText: String = "41111111111111111"
     @State static var mockExpirationDateText: String = "01/25"
     @State static var mockCvvText: String = "123"
@@ -64,10 +63,10 @@ struct CardFormView_Previews: PreviewProvider {
 
     static var previews: some View {
         CardFormView(
+            cardSections: cardData,
             cardNumberText: $mockCardNumberText,
             expirationDateText: $mockExpirationDateText,
-            cvvText: $mockCvvText,
-            cardSections: cardData
+            cvvText: $mockCvvText
         )
     }
 }

@@ -10,7 +10,7 @@ struct PayPalWebState: Equatable {
     }
 
     var createOrder: Order?
-    var intent: String? = "AUTHORIZE"
+    var intent: Intent = .authorize
     var checkoutResult: CheckoutResult?
 
     var createdOrderResponse: LoadingState<Order> = .idle {

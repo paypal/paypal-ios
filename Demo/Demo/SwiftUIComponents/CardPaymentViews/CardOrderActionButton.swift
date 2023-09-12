@@ -2,7 +2,7 @@ import SwiftUI
 
 struct CardOrderActionButton: View {
 
-    let intent: String
+    let intent: Intent
     let orderID: String
     let selectedMerchantIntegration: MerchantIntegration
 
@@ -10,7 +10,7 @@ struct CardOrderActionButton: View {
 
     var body: some View {
         ZStack {
-            Button("\(intent)") {
+            Button("\(intent.rawValue)") {
                 completeOrder()
             }
             .buttonStyle(RoundedBlueButtonStyle())
@@ -24,7 +24,7 @@ struct CardOrderActionButton: View {
     }
 
     private func completeOrder() {
-        if intent == "CAPTURE" {
+        if intent == .capture {
             Task {
                 do {
                     try await cardPaymentViewModel.captureOrder(

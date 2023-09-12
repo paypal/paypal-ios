@@ -23,7 +23,7 @@ struct PayPalWebApprovalView: View {
                 Spacer()
             }
             LeadingText("Intent", weight: .bold)
-            LeadingText("\(paypalWebViewModel.state.intent ?? "")")
+            LeadingText("\(paypalWebViewModel.state.intent)")
             LeadingText("Order ID", weight: .bold)
             LeadingText("\(checkoutResult.id)")
             LeadingText("Payer ID", weight: .bold)

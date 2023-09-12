@@ -12,7 +12,7 @@ struct CardPaymentState: Equatable {
     var createOrder: Order?
     var authorizedOrder: Order?
     var capturedOrder: Order?
-    var intent: String = "AUTHORIZE"
+    var intent: Intent = .authorize
     var scaSelection: SCA = .scaWhenRequired
     var approveResult: CardResult?
 

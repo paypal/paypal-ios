@@ -116,7 +116,8 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
         approveResultSuccessResult(
             approveResult: CardPaymentState.CardResult(
                 id: result.orderID,
-                deepLinkURL: result.deepLinkURL?.absoluteString ?? "")
+                deepLinkURL: result.deepLinkURL?.absoluteString ?? ""
+            )
         )
     }
 

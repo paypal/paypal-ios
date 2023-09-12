@@ -8,12 +8,6 @@ struct CreateOrderPayPalWebView: View {
 
     let selectedMerchantIntegration: MerchantIntegration
 
-    enum Intent: String, CaseIterable, Identifiable {
-        case authorize = "AUTHORIZE"
-        case capture = "CAPTURE"
-        var id: Self { self }
-    }
-
     var body: some View {
         VStack(spacing: 16) {
             HStack {
@@ -32,7 +26,7 @@ struct CreateOrderPayPalWebView: View {
                 Button("Create an Order") {
                     Task {
                         do {
-                            paypalWebViewModel.state.intent = selectedIntent.rawValue
+                            paypalWebViewModel.state.intent = selectedIntent
                             try await paypalWebViewModel.createOrder(
                                 amount: "10.00",
                                 selectedMerchantIntegration: DemoSettings.merchantIntegration,

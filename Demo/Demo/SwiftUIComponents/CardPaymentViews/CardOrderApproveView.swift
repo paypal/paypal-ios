@@ -4,12 +4,6 @@ import CorePayments
 
 struct CardOrderApproveView: View {
 
-    @ObservedObject var cardPaymentViewModel: CardPaymentViewModel
-    @State private var cardNumberText: String = "4111 1111 1111 1111"
-    @State private var expirationDateText: String = "01 / 25"
-    @State private var cvvText: String = "123"
-    let orderID: String
-
     let cardSections: [CardSection] = [
         CardSection(title: "Successful Authentication Visa", numbers: ["4868 7194 6070 7704"]),
         CardSection(title: "Step up", numbers: ["5314 6090 4083 0349"]),
@@ -17,6 +11,12 @@ struct CardOrderApproveView: View {
         CardSection(title: "Frictionless - LiabilityShift NO", numbers: ["4020 0278 5185 3235"]),
         CardSection(title: "No Challenge", numbers: ["4111 1111 1111 1111"])
     ]
+    let orderID: String
+
+    @ObservedObject var cardPaymentViewModel: CardPaymentViewModel
+    @State private var cardNumberText: String = "4111 1111 1111 1111"
+    @State private var expirationDateText: String = "01 / 25"
+    @State private var cvvText: String = "123"
 
     var body: some View {
         ScrollView {
@@ -30,10 +30,10 @@ struct CardOrderApproveView: View {
                         }
 
                         CardFormView(
+                            cardSections: cardSections,
                             cardNumberText: $cardNumberText,
                             expirationDateText: $expirationDateText,
-                            cvvText: $cvvText,
-                            cardSections: cardSections
+                            cvvText: $cvvText
                         )
 
                         let card = Card.createCard(
