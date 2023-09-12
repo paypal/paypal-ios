@@ -33,7 +33,7 @@ struct SetupTokenResultView: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 10)
-                .stroke(Color.gray, lineWidth: 2)
+                .stroke(.gray, lineWidth: 2)
                 .padding(5)
         )
     }

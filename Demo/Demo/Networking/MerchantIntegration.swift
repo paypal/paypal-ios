@@ -1,10 +1,9 @@
 import Foundation
 
-enum MerchantIntegration {
+enum MerchantIntegration: String, CaseIterable {
     case direct
     case connectedPath
     case managedPath
-    case unspecified
     
     var path: String {
         switch self {
@@ -14,8 +13,6 @@ enum MerchantIntegration {
             return "/connected_path"
         case .managedPath:
             return "/managed_path"
-        default:
-            return ""
         }
     }
 }

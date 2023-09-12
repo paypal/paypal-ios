@@ -1,4 +1,4 @@
-struct Order: Codable {
+struct Order: Codable, Equatable {
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -10,29 +10,29 @@ struct Order: Codable {
     let status: String
     var paymentSource: PaymentSource?
     
-    struct PaymentSource: Codable {
+    struct PaymentSource: Codable, Equatable {
         
         let card: Card
     }
 
-    struct Card: Codable {
+    struct Card: Codable, Equatable {
         
         let attributes: Attributes?
     }
 
-    struct Attributes: Codable {
+    struct Attributes: Codable, Equatable {
         
         let vault: Vault
     }
 
-    struct Vault: Codable {
+    struct Vault: Codable, Equatable {
         
         let id: String
         let status: String
         let customer: Customer
     }
 
-    struct Customer: Codable {
+    struct Customer: Codable, Equatable {
         
         let id: String
     }
