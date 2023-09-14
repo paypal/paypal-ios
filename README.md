@@ -3,13 +3,9 @@
 Welcome to PayPal's iOS SDK. This library will help you accept card, PayPal, Venmo, and alternative payment methods in your iOS app.
 
 ## FAQ
-### Availability
-This product is fully open source. We welcome any and all feedback.
-
 ### Contribution
-We will be adding a contribution guide for developers that would like to contribute to the SDK. If you have suggestions for features that you 
-would like to see in future iterations of the SDK, please feel free to open an issue, PR, or discussion with suggestions. 
-If you want to open a PR but are unsure about our testing strategy, we are more than happy to work with you to add tests to any PRs before work is merged.
+If you have suggestions for features that you would like to see in future iterations of the SDK, please feel free to open an issue, PR, or discussion with suggestions. 
+This product is fully open source. We welcome any and all feedback.
 
 ## Support
 
