@@ -50,7 +50,7 @@ let package = Package(
         ),
         .target(
            name: "PayPalNativePayments",
-           dependencies: ["CorePayments", "paypalcheckout-ios"]
+           dependencies: ["CorePayments", "PayPalCheckout"]
         ),
         .target(
             name: "PaymentButtons",
