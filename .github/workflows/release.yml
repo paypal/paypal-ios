@@ -15,7 +15,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Use Xcode 14
-        run: sudo xcode-select -switch /Applications/Xcode_14.3.1.app
+        run: sudo xcode-select -switch /Applications/Xcode_14.2.app
       - name: Check for unreleased section in changelog
         run: grep "## unreleased" CHANGELOG.md || (echo "::error::No unreleased section found in CHANGELOG" && exit 1)
       - name: Set git username and email
