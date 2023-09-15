@@ -20,6 +20,11 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
+      - name: Clear SPM cache
+	run: |
+	   rm -rf ~/.swiftpm/cache
+	   rm -rf ~/Library/Caches/org.swift.swfitpm/repositories
+	   rm -rf ~/Library/Caches/org.swift.swfitpm/manifests
       - name: Use Xcode 14
         run: sudo xcode-select -switch /Applications/Xcode_14.3.app
       - name: Use current branch
