@@ -50,7 +50,7 @@ let package = Package(
         ),
         .target(
            name: "PayPalNativePayments",
-           dependencies: ["CorePayments", "PayPalCheckoutrm -f ~/Library/Caches/org.swift.swfitpm/repositories"]
+           dependencies: ["CorePayments", "PayPalCheckout"]
         ),
         .target(
             name: "PaymentButtons",
