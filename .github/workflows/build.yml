@@ -21,7 +21,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
       - name: Clear SPM cache
-	run: |
+        run: |
 	   rm -rf ~/.swiftpm/cache
 	   rm -rf ~/Library/Caches/org.swift.swfitpm/repositories
 	   rm -rf ~/Library/Caches/org.swift.swfitpm/manifests
