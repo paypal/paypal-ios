@@ -3,6 +3,8 @@
 
 import PackageDescription
 
+let paypalCheckout = Target.product(name: "PayPalCheckout", package: "paypalcheckout-ios")
+
 let package = Package(
     name: "PayPal",
     platforms: [.iOS(.v14)],
@@ -35,7 +37,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(name: "PayPalCheckout", url: "https://github.com/paypal/paypalcheckout-ios", .exact("1.1.0"))
+        .package(url: "https://github.com/paypal/paypalcheckout-ios", from: "1.1.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -50,7 +52,7 @@ let package = Package(
         ),
         .target(
            name: "PayPalNativePayments",
-           dependencies: ["CorePayments", "PayPalCheckout"]
+           dependencies: ["CorePayments", paypalCheckout]
         ),
         .target(
             name: "PaymentButtons",
