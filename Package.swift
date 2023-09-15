@@ -3,8 +3,6 @@
 
 import PackageDescription
 
-let paypalCheckout = Target.product(name: "PayPalCheckout", package: "paypalcheckout-ios")
-
 let package = Package(
     name: "PayPal",
     platforms: [.iOS(.v14)],
@@ -52,7 +50,7 @@ let package = Package(
         ),
         .target(
            name: "PayPalNativePayments",
-           dependencies: ["CorePayments", paypalCheckout]
+           dependencies: ["CorePayments", .product(name: "PayPalCheckout", package: "paypalcheckout-ios")]
         ),
         .target(
             name: "PaymentButtons",
