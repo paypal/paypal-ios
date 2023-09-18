@@ -1,6 +1,10 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+* Breaking Changes
+  * Require Xcode 14.3+ and Swift 5.8+
+  
 ## 0.0.11 (2023-08-22)
 * PayPalNativePayments
   * Bump `PayPalCheckout` to `1.1.0`
