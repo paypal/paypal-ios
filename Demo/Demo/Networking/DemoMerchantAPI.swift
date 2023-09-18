@@ -173,7 +173,7 @@ final class DemoMerchantAPI {
         }
     }
 
-    private func buildBaseURL(with endpoint: String, selectedMerchantIntegration: MerchantIntegration = .unspecified) -> URL? {
+    private func buildBaseURL(with endpoint: String, selectedMerchantIntegration: MerchantIntegration = .direct) -> URL? {
         return URL(string: DemoSettings.environment.baseURL + selectedMerchantIntegration.path + endpoint)
     }
 

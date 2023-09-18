@@ -1,31 +1,31 @@
 import SwiftUI
 
-struct UpdateSetupTokenResultView: View {
+struct OrderCreatePayPalWebResultView: View {
 
-    @ObservedObject var cardVaultViewModel: CardVaultViewModel
+    @ObservedObject var paypalWebViewModel: PayPalWebViewModel
 
     var body: some View {
-        switch cardVaultViewModel.state.updateSetupTokenResponse {
+        switch paypalWebViewModel.state.createdOrderResponse {
         case .idle, .loading:
             EmptyView()
-        case .loaded(let updateSetupTokenResponse):
-            getSuccessView(updateSetupTokenResponse: updateSetupTokenResponse)
+        case .loaded(let createOrderResponse):
+            getSuccessView(createOrderResponse: createOrderResponse)
         case .error(let errorMessage):
             ErrorView(errorMessage: errorMessage)
         }
     }
 
-    func getSuccessView(updateSetupTokenResponse: CardVaultState.UpdateSetupTokenResult) -> some View {
+    func getSuccessView(createOrderResponse: Order) -> some View {
         VStack(spacing: 16) {
             HStack {
-                Text("Vault Success")
+                Text("Order")
                     .font(.system(size: 20))
                 Spacer()
             }
-            LeadingText("ID", weight: .bold)
-            LeadingText("\(updateSetupTokenResponse.id)")
+            LeadingText("Order ID", weight: .bold)
+            LeadingText("\(createOrderResponse.id)")
             LeadingText("Status", weight: .bold)
-            LeadingText("\(updateSetupTokenResponse.status)")
+            LeadingText("\(createOrderResponse.status)")
         }
         .frame(maxWidth: .infinity)
         .padding()

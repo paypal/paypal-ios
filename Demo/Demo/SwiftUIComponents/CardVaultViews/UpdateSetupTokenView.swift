@@ -1,19 +1,24 @@
 import SwiftUI
+import CardPayments
+import CorePayments
 
 struct UpdateSetupTokenView: View {
 
     let setupToken: String
+    let cardSections: [CardSection] = [
+        CardSection(title: "Frictionless - LiabilityShift Possible", numbers: ["4005 5192 0000 0004"]),
+        CardSection(title: "Frictionless - LiabilityShift NO", numbers: ["4020 0278 5185 3235"]),
+        CardSection(title: "No Challenge", numbers: ["4111 1111 1111 1111"])
+    ]
 
     @State private var cardNumberText: String = "4111 1111 1111 1111"
     @State private var expirationDateText: String = "01 / 25"
     @State private var cvvText: String = "123"
 
     @ObservedObject var cardVaultViewModel: CardVaultViewModel
-    @ObservedObject var baseViewModel: BaseViewModel
 
-    public init(baseViewModel: BaseViewModel, cardVaultViewModel: CardVaultViewModel, setupToken: String) {
+    public init(cardVaultViewModel: CardVaultViewModel, setupToken: String) {
         self.cardVaultViewModel = cardVaultViewModel
-        self.baseViewModel = baseViewModel
         self.setupToken = setupToken
     }
 
@@ -26,12 +31,13 @@ struct UpdateSetupTokenView: View {
             }
 
             CardFormView(
+                cardSections: cardSections,
                 cardNumberText: $cardNumberText,
                 expirationDateText: $expirationDateText,
                 cvvText: $cvvText
             )
 
-            let card = baseViewModel.createCard(
+            let card = Card.createCard(
                 cardNumber: cardNumberText,
                 expirationDate: expirationDateText,
                 cvv: cvvText
@@ -40,19 +46,7 @@ struct UpdateSetupTokenView: View {
             ZStack {
                 Button("Vault Card") {
                     Task {
-                        let config = await baseViewModel.getCoreConfig()
-                        if let config, let card {
-                            await cardVaultViewModel.vault(
-                                config: config,
-                                card: card,
-                                setupToken: setupToken
-                            )
-                        } else {
-                            DispatchQueue.main.async {
-                                cardVaultViewModel.state.updateSetupTokenResponse = .error(message: "Error getting Config or Card")
-                            }
-                            print("Error getting Config or Card")
-                        }
+                        await cardVaultViewModel.vault(card: card, setupToken: setupToken)
                     }
                 }
                 .buttonStyle(RoundedBlueButtonStyle())
@@ -64,7 +58,7 @@ struct UpdateSetupTokenView: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 10)
-                .stroke(Color.gray, lineWidth: 2)
+                .stroke(.gray, lineWidth: 2)
                 .padding(5)
         )
     }
