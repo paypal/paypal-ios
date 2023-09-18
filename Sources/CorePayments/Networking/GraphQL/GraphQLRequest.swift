@@ -1,6 +1,6 @@
 import Foundation
 
-/// :nodoc: Values needed to initiate a GraphQL network request
+/// Values needed to initiate a GraphQL network request
 @_documentation(visibility: private)
 public struct GraphQLRequest {
     

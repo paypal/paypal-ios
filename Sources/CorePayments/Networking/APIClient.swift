@@ -1,7 +1,7 @@
 import Foundation
 
 // TODO: - Rename to `NetworkingClient`. Now that we have `<PPaaS>API.swift` classes, ths responsibility of this class really is to coordinate networking. It transforms REST & GraphQL into HTTP requests.
-/// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
+/// This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
 ///
 /// `APIClient` is the entry point for each payment method feature to perform API requests. It also offers convenience methods for API requests used across multiple payment methods / modules.
 @_documentation(visibility: private)
@@ -29,7 +29,9 @@ public class APIClient {
     
     // MARK: - Public Methods
 
-    /// :nodoc:
+    /// This function makes a urlRequest from RESTRequest and returns HTTPResponse
+    /// which contains status (Int type) and body (optional Data type)
+    @_documentation(visibility: private)
     public func fetch(request: RESTRequest) async throws -> HTTPResponse {
         let url = try constructRESTURL(path: request.path, queryParameters: request.queryParameters)
         
@@ -54,7 +56,9 @@ public class APIClient {
         return try await http.performRequest(httpRequest)
     }
 
-    /// :nodoc:
+    /// This function makes a urlRequest from GraphQLRequest and returns HTTPResponse
+    /// which contains status (Int type) and body (optional Data type)
+    @_documentation(visibility: private)
     public func fetch(request: GraphQLRequest) async throws -> HTTPResponse {
         let url = try constructGraphQLURL(queryName: request.queryNameForURL)
                 

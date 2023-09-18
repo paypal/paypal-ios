@@ -1,6 +1,6 @@
 import Foundation
 
-/// :nodoc: Constructs `AnalyticsEventData` models and sends FPTI analytics events.
+/// Constructs `AnalyticsEventData` models and sends FPTI analytics events.
 @_documentation(visibility: private)
 public struct AnalyticsService {
     
@@ -29,7 +29,7 @@ public struct AnalyticsService {
     
     // MARK: - Public Methods
         
-    /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
+    /// This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
     ///
     /// Sends analytics event to https://api.paypal.com/v1/tracking/events/ via a background task.
     /// - Parameter name: Event name string used to identify this unique event in FPTI.
