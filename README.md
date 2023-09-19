@@ -73,7 +73,7 @@ GitHub Actions CI will run all tests and build commands per package manager on e
 
 ### Local Testing
 
-We use Rake, Fastlane, or some other tool for easy command-line build tasks.
+We use [Fastlane](https://docs.fastlane.tools/getting-started/ios/setup/) for command-line build tasks.
 
 ## Release Process
 
