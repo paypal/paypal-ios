@@ -22,7 +22,11 @@ struct SetUpTokenRequest {
                 "id": customerID
             ],
             "payment_source": [
-                "card": [:]
+                "card": [:],
+                "experience_context": [
+                    "returnUrl": "https://example.com/returnUrl",
+                    "cancelUrl": "https://example.com/returnUrl"
+                ]
             ]
         ]
 
