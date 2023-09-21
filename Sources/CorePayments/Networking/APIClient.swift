@@ -29,7 +29,7 @@ public class APIClient {
     
     // MARK: - Public Methods
 
-    /// This function makes a urlRequest from RESTRequest and returns HTTPResponse
+    /// This function makes a network request from a RESTRequest and returns HTTPResponse
     /// which contains status (Int type) and body (optional Data type)
     @_documentation(visibility: private)
     public func fetch(request: RESTRequest) async throws -> HTTPResponse {
@@ -56,7 +56,7 @@ public class APIClient {
         return try await http.performRequest(httpRequest)
     }
 
-    /// This function makes a urlRequest from GraphQLRequest and returns HTTPResponse
+    /// This function executes a network request from a GraphQLRequest and returns HTTPResponse
     /// which contains status (Int type) and body (optional Data type)
     @_documentation(visibility: private)
     public func fetch(request: GraphQLRequest) async throws -> HTTPResponse {
