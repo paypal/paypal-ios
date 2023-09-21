@@ -21,8 +21,9 @@ public struct Card: Encodable {
     /// Optional. The billing address
     public var billingAddress: Address?
 
-    //// :nodoc: This is exposed for convenience in copying card contents to UpdateSetupTokenQuery
+    /// This is exposed for convenience in copying card contents to UpdateSetupTokenQuery
     /// The expiration year and month, in ISO-8601 `YYYY-MM` date format.
+    @_documentation(visibility: private)
     public var expiry: String {
         "\(expirationYear)-\(expirationMonth)"
     }
