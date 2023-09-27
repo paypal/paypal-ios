@@ -38,6 +38,7 @@ public class CardClient: NSObject {
         self.webAuthenticationSession = webAuthenticationSession
     }
     
+    @_documentation(visibility: private)
     public func vault(_ vaultRequest: CardVaultRequest) {
         Task {
             do {
