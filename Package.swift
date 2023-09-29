@@ -33,10 +33,6 @@ let package = Package(
             targets: ["FraudProtection", "PPRiskMagnes"]
         )
     ],
-    dependencies: [
-        // Dependencies declare other packages that this package depends on.
-        .package(name: "PayPalCheckout", url: "https://github.com/paypal/paypalcheckout-ios", .exact("1.1.0"))
-    ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
@@ -67,6 +63,11 @@ let package = Package(
         .binaryTarget(
             name: "PPRiskMagnes",
             path: "Frameworks/XCFrameworks/PPRiskMagnes.xcframework"
+        ),
+        .binaryTarget(
+            name: "PayPalCheckout",
+            url: "https://github.com/paypal/paypalcheckout-ios/releases/download/1.1.0/PayPalCheckout.xcframework.zip",
+            checksum: "e9e8d7ed4c48de1323bed5be81ddbc4fc82107506a6d23edc55689214f75f7ea"
         )
     ]
 )
