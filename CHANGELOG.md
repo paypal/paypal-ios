@@ -4,7 +4,8 @@
 ## unreleased
 * Breaking Changes
   * Require Xcode 14.3+ and Swift 5.8+
-  
+* Update Package.swift to include `PayPalCheckout` via a binary target. This works around an SPM bug that included `PayPalCheckout` even for integrations that did not include the `PayPalNativePayments` module.
+
 ## 0.0.11 (2023-08-22)
 * PayPalNativePayments
   * Bump `PayPalCheckout` to `1.1.0`
