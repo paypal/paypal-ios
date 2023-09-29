@@ -13,7 +13,7 @@ class PayPalViewModel: ObservableObject {
     }
 
     @Published private(set) var state = State.initial
-    @Published var selectedMerchantIntegration: MerchantIntegration = .unspecified
+    @Published var selectedMerchantIntegration: MerchantIntegration = .direct
     private var payPalClient: PayPalNativeCheckoutClient?
     private var shippingPreference: OrderApplicationContext.ShippingPreference = .noShipping
     private var orderID = ""

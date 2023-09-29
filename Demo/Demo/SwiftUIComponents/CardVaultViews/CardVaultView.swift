@@ -2,7 +2,6 @@ import SwiftUI
 
 struct CardVaultView: View {
 
-    @StateObject var baseViewModel = BaseViewModel()
     @StateObject var cardVaultViewModel = CardVaultViewModel()
 
     // MARK: Views
@@ -12,18 +11,18 @@ struct CardVaultView: View {
             ScrollViewReader { scrollView in
                 VStack(spacing: 16) {
                     CreateSetupTokenView(
-                        selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration,
+                        selectedMerchantIntegration: DemoSettings.merchantIntegration,
                         cardVaultViewModel: cardVaultViewModel
                     )
                     SetupTokenResultView(cardVaultViewModel: cardVaultViewModel)
                     if let setupToken = cardVaultViewModel.state.setupToken {
-                        UpdateSetupTokenView(baseViewModel: baseViewModel, cardVaultViewModel: cardVaultViewModel, setupToken: setupToken.id)
+                        UpdateSetupTokenView(cardVaultViewModel: cardVaultViewModel, setupToken: setupToken.id)
                     }
                     UpdateSetupTokenResultView(cardVaultViewModel: cardVaultViewModel)
                     if let updateSetupToken = cardVaultViewModel.state.updateSetupToken {
                         CreatePaymentTokenView(
                             cardVaultViewModel: cardVaultViewModel,
-                            selectedMerchantIntegration: baseViewModel.selectedMerchantIntegration,
+                            selectedMerchantIntegration: DemoSettings.merchantIntegration,
                             setupToken: updateSetupToken.id
                         )
                     }

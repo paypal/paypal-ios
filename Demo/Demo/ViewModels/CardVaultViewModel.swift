@@ -6,6 +6,8 @@ class CardVaultViewModel: ObservableObject, CardVaultDelegate {
 
     @Published var state = CardVaultState()
 
+    let configManager = CoreConfigManager(domain: "Card Vault")
+
     func getSetupToken(
         customerID: String? = nil,
         selectedMerchantIntegration: MerchantIntegration
@@ -56,14 +58,20 @@ class CardVaultViewModel: ObservableObject, CardVaultDelegate {
         }
     }
 
-    func vault(config: CoreConfig, card: Card, setupToken: String) async {
+    func vault(card: Card, setupToken: String) async {
         DispatchQueue.main.async {
             self.state.updateSetupTokenResponse = .loading
         }
+        do {
+            let config = try await configManager.getCoreConfig()
             let cardClient = CardClient(config: config)
             cardClient.vaultDelegate = self
             let cardVaultRequest = CardVaultRequest(card: card, setupTokenID: setupToken)
             cardClient.vault(cardVaultRequest)
+        } catch {
+            state.updateSetupTokenResponse = .error(message: error.localizedDescription)
+            print("failed in updating setup token. \(error.localizedDescription)")
+        }
     }
 
     func isCardFormValid(cardNumber: String, expirationDate: String, cvv: String) -> Bool {

@@ -1,15 +1,6 @@
 {
   "pins" : [
     {
-      "identity" : "inappsettingskit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/futuretap/InAppSettingsKit",
-      "state" : {
-        "branch" : "master",
-        "revision" : "6fb230172c69427aeaf92aef1a8f5188cbd2583d"
-      }
-    },
-    {
       "identity" : "paypalcheckout-ios",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/paypal/paypalcheckout-ios",

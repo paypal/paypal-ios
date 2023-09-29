@@ -6,12 +6,12 @@ concurrency:
 jobs:
   unit_test_job:
     name: Unit
-    runs-on: macOS-latest
+    runs-on: macOS-13
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Use Xcode 14
-        run: sudo xcode-select -switch /Applications/Xcode_14.2.app
+        run: sudo xcode-select -switch /Applications/Xcode_14.3.app
       - name: Install Dependencies
         run: bundle install
       - name: Run Unit Tests
