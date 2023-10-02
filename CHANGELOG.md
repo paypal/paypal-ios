@@ -1,7 +1,7 @@
 
 # PayPal iOS SDK Release Notes
 
-## unreleased
+## 1.0.0 (2023-10-02)
 * Breaking Changes
   * Require Xcode 14.3+ and Swift 5.8+
 * Update Package.swift to include `PayPalCheckout` via a binary target. This works around an SPM bug that included `PayPalCheckout` even for integrations that did not include the `PayPalNativePayments` module.
