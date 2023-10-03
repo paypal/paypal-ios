@@ -53,6 +53,15 @@ class MyViewController: ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(payPalButton)
+
+        // example constraints to absolutely center the button with a 20 pt. horizontal margin
+        let safeArea = view.safeAreaLayoutGuide
+        NSLayoutConstraing.activate([
+            view.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20)
+            view.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20)
+            view.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)
+            view.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor)
+        ])
     }
 }
 ```
