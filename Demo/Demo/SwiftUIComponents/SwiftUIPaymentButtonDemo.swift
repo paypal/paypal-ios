@@ -96,6 +96,7 @@ struct SwiftUIPaymentButtonDemo: View {
                         label: selectedLabel
                     )
                     .id(buttonId)
+                    .frame(maxWidth: .infinity)
 
                 case .payLater:
                     PayPalPayLaterButton.Representable(
@@ -113,8 +114,11 @@ struct SwiftUIPaymentButtonDemo: View {
                     )
                     .id(buttonId)
                 }
-            }.padding()
+            }
+            .padding()
+            .frame(maxWidth: .infinity)
         }
+        .frame(maxWidth: .infinity)
     }
 
     private func getColorFunding(with funding: PaymentButtonFundingSource) -> [String] {

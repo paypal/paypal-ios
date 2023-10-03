@@ -56,7 +56,7 @@ class MyViewController: ViewController {
 
         // example constraints to absolutely center the button with a 20 pt. horizontal margin
         let safeArea = view.safeAreaLayoutGuide
-        NSLayoutConstraing.activate([
+        NSLayoutConstraint.activate([
             view.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20)
             view.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20)
             view.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)
