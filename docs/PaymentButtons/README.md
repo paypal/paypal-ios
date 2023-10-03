@@ -36,6 +36,8 @@ Each button as a `UKit` and `SwiftUI` implementation as follows:
 #### UKit
 
 ```swift
+import PaymentButtons
+
 class MyViewController: ViewController {
 
     lazy var payPalButton: PayPalButton = {
@@ -44,7 +46,7 @@ class MyViewController: ViewController {
         return payPalButton
     }()
     
-    @objc func paymentButtonTapped() {
+    @objc func payPalButtonTapped() {
         // Insert your code here
     }
     
@@ -58,6 +60,8 @@ class MyViewController: ViewController {
 #### SwiftUI
 
 ```swift
+import PaymentButtons
+
 struct MyApp: View {
     @ViewBuilder
     var body: some View {
