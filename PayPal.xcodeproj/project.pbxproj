@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -500,7 +500,6 @@
 			isa = PBXGroup;
 			children = (
 				808EEA80291321FE001B6765 /* AnalyticsEventData_Tests.swift */,
-				8036C1E0270F9BE700C0F091 /* APIClient_Tests.swift */,
 				802C4A752945676E00896A5D /* AnalyticsService_Tests.swift */,
 				8036C1E0270F9BE700C0F091 /* APIClient_Tests.swift */,
 				8036C1E1270F9BE700C0F091 /* Environment_Tests.swift */,
@@ -1365,7 +1364,6 @@
 				80E2FDBE2A83528B0045593D /* CheckoutOrdersAPI.swift in Sources */,
 				3B79E4F72A8503CA00C01D06 /* UpdateVaultVariables.swift in Sources */,
 				8048D28C270B9DE00072214A /* ConfirmPaymentSourceResponse.swift in Sources */,
-				3B109B3D2A85D1CA00D8135F /* MockGraphQLClient.swift in Sources */,
 				3D1763A22720722A00652E1C /* CardResult.swift in Sources */,
 				BC0A82A5270B9533006E9A21 /* ConfirmPaymentSourceRequest.swift in Sources */,
 				CB4BE2802847F01000EA2DD1 /* CardDelegate.swift in Sources */,
@@ -3174,7 +3172,6 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
-					"SWIFT_PACKAGE=1",
 					"DEBUG=1",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -3185,7 +3182,7 @@
 				SDKROOT = macosx;
 				SUPPORTED_PLATFORMS = "$(AVAILABLE_PLATFORMS)";
 				SUPPORTS_MACCATALYST = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				USE_HEADERMAP = NO;
 			};
@@ -3260,10 +3257,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_OPTIMIZATION_LEVEL = s;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"SWIFT_PACKAGE=1",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_SWIFT_FLAGS = "$(inherited) -DXcode";
@@ -3271,7 +3265,7 @@
 				SDKROOT = macosx;
 				SUPPORTED_PLATFORMS = "$(AVAILABLE_PLATFORMS)";
 				SUPPORTS_MACCATALYST = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				USE_HEADERMAP = NO;

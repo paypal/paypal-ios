@@ -56,7 +56,6 @@
 		8052E2A629B684BA00B33FBC /* PPRiskMagnes.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8052E2A229B684A600B33FBC /* PPRiskMagnes.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		806F1E4226B85369007A60E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 806F1E4126B85369007A60E6 /* Assets.xcassets */; };
 		80921C1D2710A0720040D76F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80921C1C2710A0720040D76F /* LaunchScreen.storyboard */; };
-		80DACC282911ADC6009214C5 /* PayPalCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = 80DACC272911ADC6009214C5 /* PayPalCheckout */; };
 		80F33CE826F8DE29006811B1 /* DemoMerchantAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CE726F8DE29006811B1 /* DemoMerchantAPI.swift */; };
 		80F33CED26F8E7A9006811B1 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CEC26F8E7A9006811B1 /* Order.swift */; };
 		80F33CEF26F8E7CC006811B1 /* CreateOrderParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CEE26F8E7CC006811B1 /* CreateOrderParams.swift */; };
@@ -222,7 +221,6 @@
 				CB1AC3BB2982BB130081AED6 /* PaymentButtons.framework in Frameworks */,
 				CBDEEA222989990200A460A6 /* CorePayments.framework in Frameworks */,
 				8052E2A529B684BA00B33FBC /* PPRiskMagnes.xcframework in Frameworks */,
-				80DACC282911ADC6009214C5 /* PayPalCheckout in Frameworks */,
 				CB1AC3C72982E32D0081AED6 /* FraudProtection.framework in Frameworks */,
 				CB1AC3C42982DBA10081AED6 /* PayPalNativePayments.framework in Frameworks */,
 			);
@@ -491,7 +489,6 @@
 			);
 			name = Demo;
 			packageProductDependencies = (
-				80DACC272911ADC6009214C5 /* PayPalCheckout */,
 			);
 			productName = Demo;
 			productReference = 806F1E3526B85367007A60E6 /* Demo.app */;
@@ -544,7 +541,6 @@
 			);
 			mainGroup = 806F1E2C26B85367007A60E6;
 			packageReferences = (
-				80DACC262911ADC6009214C5 /* XCRemoteSwiftPackageReference "paypalcheckout-ios" */,
 			);
 			productRefGroup = 806F1E3626B85367007A60E6 /* Products */;
 			projectDirPath = "";
@@ -908,25 +904,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		80DACC262911ADC6009214C5 /* XCRemoteSwiftPackageReference "paypalcheckout-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/paypal/paypalcheckout-ios";
-			requirement = {
-				kind = exactVersion;
-				version = 1.1.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		80DACC272911ADC6009214C5 /* PayPalCheckout */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 80DACC262911ADC6009214C5 /* XCRemoteSwiftPackageReference "paypalcheckout-ios" */;
-			productName = PayPalCheckout;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 806F1E2D26B85367007A60E6 /* Project object */;
 }
