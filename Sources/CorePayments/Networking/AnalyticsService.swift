@@ -33,16 +33,16 @@ public struct AnalyticsService {
     ///
     /// Sends analytics event to https://api.paypal.com/v1/tracking/events/ via a background task.
     /// - Parameter name: Event name string used to identify this unique event in FPTI.
-    public func sendEvent(_ name: String) {
+    public func sendEvent(_ name: String, correlationID: String? = nil) {
         Task(priority: .background) {
-            await performEventRequest(name)
+            await performEventRequest(name, correlationID: correlationID)
         }
     }
     
     // MARK: - Internal Methods
     
     /// Exposed to be able to execute this function synchronously in unit tests
-    func performEventRequest(_ name: String) async {
+    func performEventRequest(_ name: String, correlationID: String?) async {
         do {
             let clientID = coreConfig.clientID
             
@@ -50,7 +50,8 @@ public struct AnalyticsService {
                 environment: coreConfig.environment.toString,
                 eventName: name,
                 clientID: clientID,
-                orderID: orderID
+                orderID: orderID,
+                correlationID: correlationID
             )
             
             let (_) = try await trackingEventsAPI.sendEvent(with: eventData)
