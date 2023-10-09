@@ -59,7 +59,6 @@ class MyViewController: ViewController {
         NSLayoutConstraint.activate([
             view.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20)
             view.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20)
-            view.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)
             view.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor)
         ])
     }
