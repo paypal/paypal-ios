@@ -41,7 +41,7 @@ struct AnalyticsEventData: Encodable {
 
     let clientOS: String = UIDevice.current.systemName + " " + UIDevice.current.systemVersion
 
-    let component = "ppcpmobilesdk"
+    let component = "ppcpclientsdk"
 
     let deviceManufacturer = "Apple"
 

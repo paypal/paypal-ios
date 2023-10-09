@@ -1,6 +1,11 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+* CorePayments
+  * Analytics
+    * Update `component` from `ppcpmobilesdk` to `ppcpclientsdk` for PayPal's analytics service (FPTI)
+
 ## 1.0.0 (2023-10-02)
 * Breaking Changes
   * Require Xcode 14.3+ and Swift 5.8+
