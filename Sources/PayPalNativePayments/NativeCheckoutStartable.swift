@@ -7,7 +7,7 @@ import CorePayments
 
 protocol NativeCheckoutStartable {
     
-    typealias StartableApproveCallback = (String, String) -> Void
+    typealias StartableApproveCallback = (PayPalCheckout.Approval) -> Void
     typealias StartableShippingCallback = (
         ShippingChangeType,
         PayPalNativePaysheetActions,
@@ -15,7 +15,7 @@ protocol NativeCheckoutStartable {
         PayPalNativeShippingMethod?
     ) -> Void
     typealias StartableCancelCallback = () -> Void
-    typealias StartableErrorCallback = (String) -> Void
+    typealias StartableErrorCallback = (PayPalCheckout.ErrorInfo) -> Void
 
 
     // swiftlint:disable:next function_parameter_count
