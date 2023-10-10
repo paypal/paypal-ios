@@ -14,7 +14,8 @@ class AnalyticsEventData_Tests: XCTestCase {
             environment: "fake-env",
             eventName: "fake-name",
             clientID: "fake-client-id",
-            orderID: "fake-order"
+            orderID: "fake-order",
+            correlationID: "fake-correlation-id"
         )
     }
 
@@ -31,7 +32,8 @@ class AnalyticsEventData_Tests: XCTestCase {
         XCTAssertEqual(eventParams["app_name"] as? String, "xctest")
         XCTAssertTrue((eventParams["c_sdk_ver"] as! String).matches("^\\d+\\.\\d+\\.\\d+(-[0-9a-zA-Z-]+)?$"))
         XCTAssertTrue((eventParams["client_os"] as! String).matches("iOS \\d+\\.\\d+|iPadOS \\d+\\.\\d+"))
-        XCTAssertEqual(eventParams["comp"] as? String, "ppcpmobilesdk")
+        XCTAssertEqual(eventParams["comp"] as? String, "ppcpclientsdk")
+        XCTAssertEqual(eventParams["correlation_id"] as! String, "fake-correlation-id")
         XCTAssertEqual(eventParams["device_manufacturer"] as? String, "Apple")
         XCTAssertEqual(eventParams["merchant_sdk_env"] as? String, "fake-env")
         XCTAssertEqual(eventParams["event_name"] as? String, "fake-name")

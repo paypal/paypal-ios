@@ -42,7 +42,7 @@ public struct AnalyticsService {
     // MARK: - Internal Methods
     
     /// Exposed to be able to execute this function synchronously in unit tests
-    func performEventRequest(_ name: String, correlationID: String?) async {
+    func performEventRequest(_ name: String, correlationID: String? = nil) async {
         do {
             let clientID = coreConfig.clientID
             
