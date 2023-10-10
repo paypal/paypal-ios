@@ -9,7 +9,7 @@ public class CardClient: NSObject {
     public weak var delegate: CardDelegate?
     public weak var vaultDelegate: CardVaultDelegate?
     
-    private let checkoutOrdersAPI: CheckoutOrdersAPI
+    private let checkoutOrdersAPI:                    CheckoutOrdersAPI
     private let vaultAPI: VaultPaymentTokensAPI
     
     private let config: CoreConfig
