@@ -28,7 +28,7 @@ class CheckoutOrdersAPI_Tests: XCTestCase {
         
         let mockHTTP = MockHTTP(coreConfig: coreConfig)
         mockNetworkingClient = MockNetworkingClient(http: mockHTTP)
-        sut = CheckoutOrdersAPI(coreConfig: coreConfig, mockNetworkingClient: mockNetworkingClient)
+        sut = CheckoutOrdersAPI(coreConfig: coreConfig, networkingClient: mockNetworkingClient)
     }
     
     // MARK: - confirmPaymentSource()

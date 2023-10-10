@@ -25,7 +25,7 @@ class PayPalClient_Tests: XCTestCase {
     lazy var payPalClient = PayPalNativeCheckoutClient(
         config: config,
         nativeCheckoutProvider: mockNativeCheckoutProvider,
-        mockNetworkingClient: mockNetworkingClient
+        networkingClient: mockNetworkingClient
     )
 
     func testStart_whenNativeSDKOnApproveCalled_returnsPayPalResult() async {
