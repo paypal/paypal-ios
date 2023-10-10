@@ -10,14 +10,22 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
 
     private var cardClient: CardClient?
 
-    func createOrder(amount: String, selectedMerchantIntegration: MerchantIntegration, intent: String) async throws {
+    func createOrder(
+        amount: String,
+        selectedMerchantIntegration: MerchantIntegration,
+        intent: String,
+        isVaulting: Bool,
+        customerID: String? = nil
+    ) async throws {
         // might need to pass in payee as payee object or as auth header
 
         let amountRequest = Amount(currencyCode: "USD", value: amount)
         // TODO: might need to pass in payee as payee object or as auth header
         let orderRequestParams = CreateOrderParams(
             intent: intent,
-            purchaseUnits: [PurchaseUnit(amount: amountRequest)]
+            purchaseUnits: [PurchaseUnit(amount: amountRequest)],
+            isVaulting: isVaulting,
+            customerID: customerID
         )
 
         do {
