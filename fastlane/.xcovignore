@@ -1,9 +1,0 @@
-# Exclude classes under test shared
-- UnitTests/TestShared/MockURLSession.swift
-- UnitTests/TestShared/MockViewController.swift
-- UnitTests/TestShared/MockWebAuthenticationSession.swift
-- UnitTests/TestShared/MockQuededURLSession.swift
-# Exclude UrlSession class
-- Sources/PaymentsCore/Networking/URLSession+URLSessionProtocol.swift
-# Exclude WebAuthSession for now
-- Sources/PaymentsCore/WebAuthenticationSession.swift
