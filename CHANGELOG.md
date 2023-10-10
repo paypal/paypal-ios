@@ -4,7 +4,8 @@
 ## unreleased
 * CorePayments
   * Analytics
-    * Update `component` from `ppcpmobilesdk` to `ppcpclientsdk` for PayPal's analytics service (FPTI)
+    * Update `component` from `ppcpmobilesdk` to `ppcpclientsdk`
+    * Send `correlation_id`, when possible, in PayPal Native Checkout analytic events
 
 ## 1.0.0 (2023-10-02)
 * Breaking Changes
