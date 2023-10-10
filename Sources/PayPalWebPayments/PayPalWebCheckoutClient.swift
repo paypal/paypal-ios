@@ -9,7 +9,7 @@ public class PayPalWebCheckoutClient: NSObject {
     public weak var delegate: PayPalWebCheckoutDelegate?
     let config: CoreConfig
     private let webAuthenticationSession: WebAuthenticationSession
-    private let apiClient: APIClient
+    private let networkingClient: NetworkingClient
     private var analyticsService: AnalyticsService?
 
     /// Initialize a PayPalNativeCheckoutClient to process PayPal transaction
@@ -18,14 +18,14 @@ public class PayPalWebCheckoutClient: NSObject {
     public init(config: CoreConfig) {
         self.config = config
         self.webAuthenticationSession = WebAuthenticationSession()
-        self.apiClient = APIClient(coreConfig: config)
+        self.networkingClient = NetworkingClient(coreConfig: config)
     }
     
     /// For internal use for testing/mocking purpose
-    init(config: CoreConfig, apiClient: APIClient, webAuthenticationSession: WebAuthenticationSession) {
+    init(config: CoreConfig, networkingClient: NetworkingClient, webAuthenticationSession: WebAuthenticationSession) {
         self.config = config
         self.webAuthenticationSession = webAuthenticationSession
-        self.apiClient = apiClient
+        self.networkingClient = networkingClient
     }
 
     /// Launch the PayPal web flow

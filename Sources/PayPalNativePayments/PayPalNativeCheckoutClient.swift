@@ -11,7 +11,7 @@ public class PayPalNativeCheckoutClient {
     public weak var delegate: PayPalNativeCheckoutDelegate?
     public weak var shippingDelegate: PayPalNativeShippingDelegate?
     private let nativeCheckoutProvider: NativeCheckoutStartable
-    private let apiClient: APIClient
+    private let networkingClient: NetworkingClient
     private let config: CoreConfig
     private var analyticsService: AnalyticsService?
 
@@ -22,14 +22,14 @@ public class PayPalNativeCheckoutClient {
         self.init(
             config: config,
             nativeCheckoutProvider: NativeCheckoutProvider(),
-            apiClient: APIClient(coreConfig: config)
+            networkingClient: NetworkingClient(coreConfig: config)
         )
     }
 
-    init(config: CoreConfig, nativeCheckoutProvider: NativeCheckoutStartable, apiClient: APIClient) {
+    init(config: CoreConfig, nativeCheckoutProvider: NativeCheckoutStartable, networkingClient: NetworkingClient) {
         self.config = config
         self.nativeCheckoutProvider = nativeCheckoutProvider
-        self.apiClient = apiClient
+        self.networkingClient = networkingClient
     }
 
     /// Present PayPal Paysheet and start a PayPal transaction

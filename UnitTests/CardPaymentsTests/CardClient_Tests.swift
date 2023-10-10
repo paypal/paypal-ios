@@ -19,7 +19,7 @@ class CardClient_Tests: XCTestCase {
     var cardRequest: CardRequest!
 
     let mockWebAuthSession = MockWebAuthenticationSession()
-    var mockAPIClient: MockAPIClient!
+    var mockNetworkingClient: MockNetworkingClient!
     var mockCardVaultDelegate: MockCardVaultDelegate!
     var mockCheckoutOrdersAPI: MockCheckoutOrdersAPI!
     var mockVaultAPI: MockVaultPaymentTokensAPI!
@@ -30,11 +30,11 @@ class CardClient_Tests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        mockAPIClient = MockAPIClient(coreConfig: config)
+        mockNetworkingClient = MockNetworkingClient(coreConfig: config)
         cardRequest = CardRequest(orderID: "testOrderId", card: card)
         
-        mockCheckoutOrdersAPI = MockCheckoutOrdersAPI(coreConfig: config, apiClient: mockAPIClient)
-        mockVaultAPI = MockVaultPaymentTokensAPI(coreConfig: config, apiClient: mockAPIClient)
+        mockCheckoutOrdersAPI = MockCheckoutOrdersAPI(coreConfig: config, networkingClient: mockNetworkingClient)
+        mockVaultAPI = MockVaultPaymentTokensAPI(coreConfig: config, networkingClient: mockNetworkingClient)
         
         sut = CardClient(
             config: config,

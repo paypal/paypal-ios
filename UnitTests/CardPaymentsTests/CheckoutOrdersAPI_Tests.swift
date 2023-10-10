@@ -9,7 +9,7 @@ class CheckoutOrdersAPI_Tests: XCTestCase {
     // MARK: - Helper Properties
     
     var sut: CheckoutOrdersAPI!
-    var mockAPIClient: MockAPIClient!
+    var mockNetworkingClient: MockNetworkingClient!
     let coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
     let cardRequest = CardRequest(
         orderID: "my-order-id",
@@ -27,8 +27,8 @@ class CheckoutOrdersAPI_Tests: XCTestCase {
         super.setUp()
         
         let mockHTTP = MockHTTP(coreConfig: coreConfig)
-        mockAPIClient = MockAPIClient(http: mockHTTP)
-        sut = CheckoutOrdersAPI(coreConfig: coreConfig, apiClient: mockAPIClient)
+        mockNetworkingClient = MockNetworkingClient(http: mockHTTP)
+        sut = CheckoutOrdersAPI(coreConfig: coreConfig, mockNetworkingClient: mockNetworkingClient)
     }
     
     // MARK: - confirmPaymentSource()
@@ -36,11 +36,11 @@ class CheckoutOrdersAPI_Tests: XCTestCase {
     func testConfirmPaymentSource_constructsRESTRequestForV2CheckoutOrders() async {
         _ = try? await sut.confirmPaymentSource(cardRequest: cardRequest)
         
-        XCTAssertEqual(mockAPIClient.capturedRESTRequest?.path, "/v2/checkout/orders/my-order-id/confirm-payment-source")
-        XCTAssertEqual(mockAPIClient.capturedRESTRequest?.method, .post)
-        XCTAssertEqual(mockAPIClient.capturedRESTRequest?.queryParameters, nil)
+        XCTAssertEqual(mockNetworkingClient.capturedRESTRequest?.path, "/v2/checkout/orders/my-order-id/confirm-payment-source")
+        XCTAssertEqual(mockNetworkingClient.capturedRESTRequest?.method, .post)
+        XCTAssertEqual(mockNetworkingClient.capturedRESTRequest?.queryParameters, nil)
         
-        let postBody = mockAPIClient.capturedRESTRequest?.postParameters as! ConfirmPaymentSourceRequest
+        let postBody = mockNetworkingClient.capturedRESTRequest?.postParameters as! ConfirmPaymentSourceRequest
         XCTAssertEqual(postBody.returnURL, "sdk.ios.paypal://card/success")
         XCTAssertEqual(postBody.cancelURL, "sdk.ios.paypal://card/cancel")
         XCTAssertEqual(postBody.cardRequest.orderID, "my-order-id")
@@ -50,8 +50,8 @@ class CheckoutOrdersAPI_Tests: XCTestCase {
         XCTAssertEqual(postBody.cardRequest.card.securityCode, "123")
     }
     
-    func testConfirmPaymentSource_whenAPIClientError_bubblesError() async {
-        mockAPIClient.stubHTTPError = CoreSDKError(code: 123, domain: "api-client-error", errorDescription: "error-desc")
+    func testConfirmPaymentSource_whenNetworkingClientError_bubblesError() async {
+        mockNetworkingClient.stubHTTPError = CoreSDKError(code: 123, domain: "api-client-error", errorDescription: "error-desc")
         
         do {
             _ = try await sut.confirmPaymentSource(cardRequest: cardRequest)
@@ -95,7 +95,7 @@ class CheckoutOrdersAPI_Tests: XCTestCase {
         
         let data = successsResponseJSON.data(using: .utf8)
         let stubbedHTTPResponse = HTTPResponse(status: 200, body: data)
-        mockAPIClient.stubHTTPResponse = stubbedHTTPResponse
+        mockNetworkingClient.stubHTTPResponse = stubbedHTTPResponse
         
         let response = try await sut.confirmPaymentSource(cardRequest: cardRequest)
         XCTAssertEqual(response.id, "testOrderId")

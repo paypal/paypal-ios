@@ -7,7 +7,7 @@ import PayPalCheckout
 class PayPalClient_Tests: XCTestCase {
 
     let config = CoreConfig(clientID: "testClientID", environment: .sandbox)
-    lazy var apiClient = MockAPIClient(coreConfig: config)
+    lazy var mockNetworkingClient = MockNetworkingClient(coreConfig: config)
 
     let nxoConfig = CheckoutConfig(
         clientID: "testClientID",
@@ -25,7 +25,7 @@ class PayPalClient_Tests: XCTestCase {
     lazy var payPalClient = PayPalNativeCheckoutClient(
         config: config,
         nativeCheckoutProvider: mockNativeCheckoutProvider,
-        apiClient: apiClient
+        mockNetworkingClient: mockNetworkingClient
     )
 
     func testStart_whenNativeSDKOnApproveCalled_returnsPayPalResult() async {

@@ -25,7 +25,7 @@ class HTTP {
         
         let (data, response) = try await urlSession.performRequest(with: urlRequest)
         guard let response = response as? HTTPURLResponse else {
-            throw APIClientError.invalidURLResponseError
+            throw NetworkingClientError.invalidURLResponseError
         }
         
         return HTTPResponse(status: response.statusCode, body: data)
