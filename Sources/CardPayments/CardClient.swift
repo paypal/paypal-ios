@@ -139,7 +139,7 @@ public class CardClient: NSObject {
     }
 
     private func notifyFailure(with error: CoreSDKError) {
-        analyticsService?.sendEvent("card-payments:3ds:failed")
+        analyticsService?.sendEvent("card-payments:3ds:failed", correlationID: checkoutOrdersAPI.correlationID)
         delegate?.card(self, didFinishWithError: error)
     }
     
