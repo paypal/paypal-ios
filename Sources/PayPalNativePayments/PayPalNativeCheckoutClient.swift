@@ -61,13 +61,12 @@ public class PayPalNativeCheckoutClient {
         self.nativeCheckoutProvider.start(
             presentingViewController: presentingViewController,
             orderID: request.orderID,
-            onStartableApprove: { approval in
+            onStartableApprove: { ecToken, payerID in
                 let result = PayPalNativeCheckoutResult(
-                    orderID: approval.data.ecToken,
-                    payerID: approval.data.payerID
+                    orderID: ecToken,
+                    payerID: payerID
                 )
 
-                self.correlationID = approval.data.correlationIDs.riskCorrelationID
                 self.notifySuccess(for: result)
             },
             onStartableShippingChange: { shippingType, shippingAction, shippingAddress, shippingMethod in
@@ -89,21 +88,20 @@ public class PayPalNativeCheckoutClient {
             onStartableCancel: {
                 self.notifyCancellation()
             },
-            onStartableError: { error in
-                self.correlationID = error.correlationIDs.riskCorrelationID
-                self.notifyFailure(with: error.description)
+            onStartableError: { errorReason in
+                self.notifyFailure(with: errorReason)
             },
             nxoConfig: nxoConfig
         )
     }
     
     private func notifySuccess(for result: PayPalNativeCheckoutResult) {
-        analyticsService?.sendEvent("paypal-native-payments:succeeded", correlationID: correlationID)
+        analyticsService?.sendEvent("paypal-native-payments:succeeded", correlationID: nativeCheckoutProvider.correlationID)
         delegate?.paypal(self, didFinishWithResult: result)
     }
 
     private func notifyFailure(with errorDescription: String) {
-        analyticsService?.sendEvent("paypal-native-payments:failed", correlationID: correlationID)
+        analyticsService?.sendEvent("paypal-native-payments:failed", correlationID: nativeCheckoutProvider.correlationID)
 
         let error = PayPalNativePaymentsError.nativeCheckoutSDKError(errorDescription)
         delegate?.paypal(self, didFinishWithError: error)
