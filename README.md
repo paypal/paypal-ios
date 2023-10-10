@@ -44,8 +44,8 @@ To accept a certain payment method in your app, you only need to include that pa
 ## Demo
 
 1. Open `PayPal.xcworkspace` in Xcode
-2. Resolve the Swift Package Manager packages if needed: `File` > `Packages` > `Resolve Package Versions` or by running `swift package resolve` in Terminal
-3. Select the `Demo` scheme, and then run
+1. Resolve the Swift Package Manager packages if needed: `File` > `Packages` > `Resolve Package Versions` or by running `swift package resolve` in Terminal
+1. Select the `Demo` scheme, and then run
 
 Xcode 14.3+ is required to run the demo app.
 
@@ -53,26 +53,13 @@ Xcode 14.3+ is required to run the demo app.
 
 This project uses the `XCTest` framework provided by Xcode. Every code path should be unit tested. Unit tests should make up most of the test coverage, with integration, and then UI tests following.
 
-This project also takes advantage of `Fastlane` to run tests through our CI and from terminal.
-In order to invoke our unit tests through terminal, run the following commands from the root level directory of the repository:
-```
-bundle install
-bundle exec fastlane unit_tests
-```
-
-If you would like to get the code coverage for all of the modules within the workspace, run the following:
-```
-bundle install
-bundle exec fastlane coverage
-```
-
 ### CI
 
 GitHub Actions CI will run all tests and build commands per package manager on each PR.
 
 ### Local Testing
 
-We use [Fastlane](https://docs.fastlane.tools/getting-started/ios/setup/) for command-line build tasks.
+Our Xcode project uses [SwiftLint](https://github.com/realm/SwiftLint#installation).
 
 ## Release Process
 
