@@ -4,7 +4,7 @@ import Foundation
 public struct HTTPResponse {
     
     let status: Int
-    public let body: Data?
+    let body: Data?
 
     var isSuccessful: Bool { (200..<300).contains(status) }
 }
