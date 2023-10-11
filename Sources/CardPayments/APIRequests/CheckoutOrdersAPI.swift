@@ -42,7 +42,7 @@ class CheckoutOrdersAPI {
             postParameters: confirmData
         )
         
-        let httpResponse = try await apiClient.fetch(request: restRequest)
+        let httpResponse = try await networkingClient.fetch(request: restRequest)
         let httpResponseBodyJSON = try? JSONSerialization.jsonObject(with: httpResponse.body ?? Data()) as? [String: Any]
         correlationID = httpResponseBodyJSON?["debug_id"] as? String
 
