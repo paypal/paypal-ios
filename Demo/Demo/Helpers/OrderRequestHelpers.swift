@@ -35,6 +35,35 @@ enum OrderRequestHelpers {
         )
     }
     
+    static func getOrderRequest(_ shippingPreference: ShippingPreference) -> CreateOrderParams {
+        return CreateOrderParams(
+            applicationContext: ApplicationContext(
+                userAction: "PAY_NOW",
+                shippingPreference: "NO_SHIPPING"
+            ),
+            intent: "AUTHORIZE",
+            purchaseUnits: [
+                PurchaseUnit(
+                    shipping: Shipping(
+                        address: Shipping.Address(
+                            addressLine1: "345 Sesame Street",
+                            addressLine2: "Apt 9",
+                            adminArea2: "New York City",
+                            adminArea1: "NY",
+                            countryCode: "US",
+                            postalCode: "32422"
+                        ),
+                        name: Shipping.Name(
+                            fullName: "Cookie Monster"
+                        )
+                    ),
+                    payee: Payee(merchantID: "X5XAHHCG636FA", emailAddress: "merchant@email.com"),
+                    amount: Amount(currencyCode: "USD", value: "10.00")
+                )
+            ]
+        )
+    }
+
     static func getAmount(value: Double = orderAmount, shipping: Double = 3.99) -> PayPalCheckout.PurchaseUnit.Amount {
         return PayPalCheckout.PurchaseUnit.Amount(
             currencyCode: .usd,

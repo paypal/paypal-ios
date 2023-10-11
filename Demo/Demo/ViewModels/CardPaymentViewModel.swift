@@ -16,6 +16,7 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
         let amountRequest = Amount(currencyCode: "USD", value: amount)
         // TODO: might need to pass in payee as payee object or as auth header
         let orderRequestParams = CreateOrderParams(
+            applicationContext: nil,
             intent: intent,
             purchaseUnits: [PurchaseUnit(amount: amountRequest)]
         )
