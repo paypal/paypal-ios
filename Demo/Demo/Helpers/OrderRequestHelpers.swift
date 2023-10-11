@@ -4,36 +4,6 @@ import PayPalCheckout
 enum OrderRequestHelpers {
 
     static var orderAmount = 100.0
-
-    static func getOrderRequest(_ shippingPreference: OrderApplicationContext.ShippingPreference) -> OrderRequest {
-        return OrderRequest(
-            intent: .authorize,
-            purchaseUnits: [
-                PayPalCheckout.PurchaseUnit(
-                    amount: getAmount(value: orderAmount),
-                    payee: PayPalCheckout.PurchaseUnit.Payee(emailAddress: "merchant@email.com", merchantId: "X5XAHHCG636FA"),
-                    shipping: PayPalCheckout.PurchaseUnit.Shipping(
-                        shippingName: PayPalCheckout.PurchaseUnit.ShippingName(fullName: "Cookie Monster"),
-                        address: OrderAddress(
-                            countryCode: "US",
-                            addressLine1: "345 Sesame Street",
-                            addressLine2: "Apt 9",
-                            adminArea1: "NY",
-                            adminArea2: "New York City",
-                            postalCode: "32422"
-                        ),
-                        options: shippingPreference == .getFromFile ? getShippingMethods() : nil
-                    )
-                )
-            ],
-            applicationContext: OrderApplicationContext(
-                shippingPreference: shippingPreference,
-                userAction: .payNow,
-                returnUrl: "https://example.com/return",
-                cancelUrl: "https://example.com/cancel"
-            )
-        )
-    }
     
     static func getOrderRequest(_ shippingPreference: ShippingPreference) -> CreateOrderParams {
         return CreateOrderParams(
@@ -41,6 +11,7 @@ enum OrderRequestHelpers {
                 userAction: "PAY_NOW",
                 shippingPreference: "NO_SHIPPING"
             ),
+            // TODO: - All demo features should support both AUTHORIZE & CAPTURE testing
             intent: "AUTHORIZE",
             purchaseUnits: [
                 PurchaseUnit(
@@ -58,7 +29,7 @@ enum OrderRequestHelpers {
                         )
                     ),
                     payee: Payee(merchantID: "X5XAHHCG636FA", emailAddress: "merchant@email.com"),
-                    amount: Amount(currencyCode: "USD", value: "10.00")
+                    amount: Amount(currencyCode: "USD", value: String(orderAmount))
                 )
             ]
         )
