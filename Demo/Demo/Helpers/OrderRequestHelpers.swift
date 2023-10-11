@@ -4,13 +4,11 @@ import PayPalCheckout
 enum OrderRequestHelpers {
 
     static var orderAmount = 100.0
+    static var currencyCode = "USD"
     
     static func getOrderRequest(_ shippingPreference: ShippingPreference) -> CreateOrderParams {
         return CreateOrderParams(
-            applicationContext: ApplicationContext(
-                userAction: "PAY_NOW",
-                shippingPreference: "NO_SHIPPING"
-            ),
+            applicationContext: ApplicationContext(userAction: "PAY_NOW", shippingPreference: shippingPreference.rawValue),
             // TODO: - All demo features should support both AUTHORIZE & CAPTURE testing
             intent: "AUTHORIZE",
             purchaseUnits: [
@@ -29,19 +27,23 @@ enum OrderRequestHelpers {
                         )
                     ),
                     payee: Payee(merchantID: "X5XAHHCG636FA", emailAddress: "merchant@email.com"),
-                    amount: Amount(currencyCode: "USD", value: String(orderAmount))
+                    amount: Amount(currencyCode: "USD", value: String(orderAmount), breakdown: nil)
                 )
             ]
         )
     }
 
-    static func getAmount(value: Double = orderAmount, shipping: Double = 3.99) -> PayPalCheckout.PurchaseUnit.Amount {
-        return PayPalCheckout.PurchaseUnit.Amount(
-            currencyCode: .usd,
+    static func getAmount(value: Double = orderAmount, shipping: Double = 3.99) -> Amount {
+        Amount(
+            currencyCode: currencyCode,
             value: String(value + shipping),
-            breakdown: PayPalCheckout.PurchaseUnit.Breakdown(
-                itemTotal: UnitAmount(currencyCode: .usd, value: String(value)),
-                shipping: UnitAmount(currencyCode: .usd, value: String(shipping))
+            breakdown: Amount.Breakdown(
+                shipping: String(shipping),
+                itemTotal: Amount.ItemTotal(
+                    value: String(value),
+                    currencyValue: String(value),
+                    currencyCode: currencyCode
+                )
             )
         )
     }

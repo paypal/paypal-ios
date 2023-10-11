@@ -5,7 +5,7 @@ class UpdateOrderParams {
     let orderID: String
     let updateOperations: [UpdateOrderOperation]
     
-    init(orderID: String, shippingMethods: [ShippingMethod], amount: PayPalCheckout.PurchaseUnit.Amount) {
+    init(orderID: String, shippingMethods: [ShippingMethod], amount: Amount) {
         self.orderID = orderID
         self.updateOperations = [
             UpdateOrderOperation(

@@ -18,8 +18,8 @@ struct ApplicationContext: Codable {
 
 struct PurchaseUnit: Codable {
 
-    var shipping: Shipping? = nil
-    var payee: Payee? = nil
+    var shipping: Shipping?
+    var payee: Payee?
     let amount: Amount
 }
 
@@ -57,6 +57,20 @@ struct Amount: Codable {
 
     let currencyCode: String
     let value: String
+    var breakdown: Breakdown?
+    
+    struct Breakdown: Codable {
+        
+        let shipping: String
+        let itemTotal: ItemTotal
+    }
+    
+    struct ItemTotal: Codable {
+        
+        let value: String
+        let currencyValue: String
+        let currencyCode: String
+    }
 }
 
 struct Payee: Codable {
