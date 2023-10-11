@@ -15,7 +15,8 @@ class TrackingEventsAPI_Tests: XCTestCase {
         environment: "my-env",
         eventName: "my-event-name",
         clientID: "my-id",
-        orderID: "my-order"
+        orderID: "my-order",
+        correlationID: nil
     )
     
     // MARK: - Test Lifecycle
@@ -41,7 +42,8 @@ class TrackingEventsAPI_Tests: XCTestCase {
             environment: "my-env",
             eventName: "my-event-name",
             clientID: "my-id",
-            orderID: "my-order"
+            orderID: "my-order",
+            correlationID: "fake-correlation-id"
         )
         _ = try await sut.sendEvent(with: fakeAnalyticsEventData)
         
@@ -54,6 +56,7 @@ class TrackingEventsAPI_Tests: XCTestCase {
         XCTAssertEqual(postData.eventName, "my-event-name")
         XCTAssertEqual(postData.clientID, "my-id")
         XCTAssertEqual(postData.orderID, "my-order")
+        XCTAssertEqual(postData.correlationID, "fake-correlation-id")
     }
     
     func testSendEvent_whenSuccess_bubblesHTTPResponse() async throws {

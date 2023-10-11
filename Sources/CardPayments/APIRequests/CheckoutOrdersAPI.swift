@@ -7,9 +7,9 @@ import CorePayments
 ///
 /// Details on this PayPal API can be found in PPaaS under Merchant > Checkout > Orders > v2.
 class CheckoutOrdersAPI {
-    
-    // MARK: - Private Propertires
-    
+
+    // MARK: - Private Properties
+
     private let coreConfig: CoreConfig
     private let networkingClient: NetworkingClient
     

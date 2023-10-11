@@ -17,6 +17,7 @@ struct AnalyticsEventData: Encodable {
         case clientSDKVersion = "c_sdk_ver"
         case clientOS = "client_os"
         case component = "comp"
+        case correlationID = "correlation_id"
         case deviceManufacturer = "device_manufacturer"
         case environment = "merchant_sdk_env"
         case eventName = "event_name"
@@ -41,7 +42,9 @@ struct AnalyticsEventData: Encodable {
 
     let clientOS: String = UIDevice.current.systemName + " " + UIDevice.current.systemVersion
 
-    let component = "ppcpmobilesdk"
+    let component = "ppcpclientsdk"
+
+    let correlationID: String?
 
     let deviceManufacturer = "Apple"
 
@@ -90,11 +93,12 @@ struct AnalyticsEventData: Encodable {
 
     let tenantName = "PayPal"
     
-    init(environment: String, eventName: String, clientID: String, orderID: String) {
+    init(environment: String, eventName: String, clientID: String, orderID: String, correlationID: String?) {
         self.environment = environment
         self.eventName = eventName
         self.clientID = clientID
         self.orderID = orderID
+        self.correlationID = correlationID
     }
     
     func encode(to encoder: Encoder) throws {
@@ -108,6 +112,7 @@ struct AnalyticsEventData: Encodable {
         try eventParameters.encode(clientSDKVersion, forKey: .clientSDKVersion)
         try eventParameters.encode(clientOS, forKey: .clientOS)
         try eventParameters.encode(component, forKey: .component)
+        try eventParameters.encode(correlationID, forKey: .correlationID)
         try eventParameters.encode(deviceManufacturer, forKey: .deviceManufacturer)
         try eventParameters.encode(environment, forKey: .environment)
         try eventParameters.encode(eventName, forKey: .eventName)
