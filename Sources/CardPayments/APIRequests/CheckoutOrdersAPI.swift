@@ -15,19 +15,19 @@ class CheckoutOrdersAPI {
     // MARK: - Private Properties
 
     private let coreConfig: CoreConfig
-    private let apiClient: APIClient
+    private let networkingClient: NetworkingClient
     
     // MARK: - Initializer
     
     init(coreConfig: CoreConfig) {
         self.coreConfig = coreConfig
-        self.apiClient = APIClient(coreConfig: coreConfig)
+        self.networkingClient = NetworkingClient(coreConfig: coreConfig)
     }
     
-    /// Exposed for injecting MockAPIClient in tests
-    init(coreConfig: CoreConfig, apiClient: APIClient) {
+    /// Exposed for injecting MockNetworkingClient in tests
+    init(coreConfig: CoreConfig, networkingClient: NetworkingClient) {
         self.coreConfig = coreConfig
-        self.apiClient = apiClient
+        self.networkingClient = networkingClient
     }
     
     // MARK: - Internal Methods

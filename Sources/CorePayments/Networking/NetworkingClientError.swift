@@ -1,7 +1,8 @@
 import Foundation
 
-enum APIClientError {
+enum NetworkingClientError {
 
+    // NEXT_MAJOR_VERSION: - Change to "NetworkingClientErrorDomain"
     static let domain = "APIClientErrorDomain"
 
     enum Code: Int {
