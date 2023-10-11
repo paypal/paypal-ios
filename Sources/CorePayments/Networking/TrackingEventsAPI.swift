@@ -8,20 +8,20 @@ class TrackingEventsAPI {
     // MARK: - Internal Properties
 
     var coreConfig: CoreConfig // exposed for testing
-    private var apiClient: APIClient
+    private var networkingClient: NetworkingClient
 
     // MARK: - Initializer
     
     init(coreConfig merchantConfig: CoreConfig) {
         // api.sandbox.paypal.com does not currently send FPTI events to BigQuery/Looker
         self.coreConfig = CoreConfig(clientID: merchantConfig.clientID, environment: .live)
-        self.apiClient = APIClient(coreConfig: coreConfig)
+        self.networkingClient = NetworkingClient(coreConfig: coreConfig)
     }
     
-    /// Exposed for injecting MockAPIClient in tests
-    init(coreConfig: CoreConfig, apiClient: APIClient) {
+    /// Exposed for injecting MockNetworkingClient in tests
+    init(coreConfig: CoreConfig, networkingClient: NetworkingClient) {
         self.coreConfig = coreConfig
-        self.apiClient = apiClient
+        self.networkingClient = networkingClient
     }
     
     // MARK: - Internal Functions
@@ -34,6 +34,6 @@ class TrackingEventsAPI {
             postParameters: analyticsEventData
         )
         
-        return try await apiClient.fetch(request: restRequest)
+        return try await networkingClient.fetch(request: restRequest)
     }
 }

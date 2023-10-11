@@ -9,7 +9,7 @@ class VaultPaymentTokensAPI_Tests: XCTestCase {
     // MARK: - Helper Properties
     
     var sut: VaultPaymentTokensAPI!
-    var mockAPIClient: MockAPIClient!
+    var mockNetworkingClient: MockNetworkingClient!
     let coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
     let cardVaultRequest = CardVaultRequest(
         card: Card(
@@ -28,8 +28,8 @@ class VaultPaymentTokensAPI_Tests: XCTestCase {
         super.setUp()
         
         let mockHTTP = MockHTTP(coreConfig: coreConfig)
-        mockAPIClient = MockAPIClient(http: mockHTTP)
-        sut = VaultPaymentTokensAPI(coreConfig: coreConfig, apiClient: mockAPIClient)
+        mockNetworkingClient = MockNetworkingClient(http: mockHTTP)
+        sut = VaultPaymentTokensAPI(coreConfig: coreConfig, networkingClient: mockNetworkingClient)
     }
     
     // MARK: - updateSetupToken()
@@ -58,10 +58,10 @@ class VaultPaymentTokensAPI_Tests: XCTestCase {
         
         _ = try? await sut.updateSetupToken(cardVaultRequest: cardVaultRequest)
         
-        XCTAssertEqual(mockAPIClient.capturedGraphQLRequest?.query, expectedQueryString)
-        XCTAssertEqual(mockAPIClient.capturedGraphQLRequest?.queryNameForURL, "UpdateVaultSetupToken")
+        XCTAssertEqual(mockNetworkingClient.capturedGraphQLRequest?.query, expectedQueryString)
+        XCTAssertEqual(mockNetworkingClient.capturedGraphQLRequest?.queryNameForURL, "UpdateVaultSetupToken")
         
-        let variables = mockAPIClient.capturedGraphQLRequest?.variables as! UpdateVaultVariables
+        let variables = mockNetworkingClient.capturedGraphQLRequest?.variables as! UpdateVaultVariables
         XCTAssertEqual(variables.clientID, "fake-client-id")
         XCTAssertEqual(variables.vaultRequest.setupTokenID, "some-token")
         XCTAssertEqual(variables.vaultRequest.card.number, "fake-number")
@@ -70,8 +70,8 @@ class VaultPaymentTokensAPI_Tests: XCTestCase {
         XCTAssertEqual(variables.vaultRequest.card.cardholderName, "fake-name")
     }
     
-    func testUpdateSetupToken_whenAPIClientError_bubblesError() async {
-        mockAPIClient.stubHTTPError = CoreSDKError(code: 123, domain: "api-client-error", errorDescription: "error-desc")
+    func testUpdateSetupToken_whenNetworkingClientError_bubblesError() async {
+        mockNetworkingClient.stubHTTPError = CoreSDKError(code: 123, domain: "api-client-error", errorDescription: "error-desc")
         
         do {
             _ = try await sut.updateSetupToken(cardVaultRequest: cardVaultRequest)
@@ -108,7 +108,7 @@ class VaultPaymentTokensAPI_Tests: XCTestCase {
         
         let data = successsResponseJSON.data(using: .utf8)
         let stubbedHTTPResponse = HTTPResponse(status: 200, body: data)
-        mockAPIClient.stubHTTPResponse = stubbedHTTPResponse
+        mockNetworkingClient.stubHTTPResponse = stubbedHTTPResponse
         
         let response = try await sut.updateSetupToken(cardVaultRequest: cardVaultRequest)
         XCTAssertEqual(response.updateVaultSetupToken.id, "some-id")
