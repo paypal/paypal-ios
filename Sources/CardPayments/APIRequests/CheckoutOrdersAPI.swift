@@ -7,10 +7,6 @@ import CorePayments
 ///
 /// Details on this PayPal API can be found in PPaaS under Merchant > Checkout > Orders > v2.
 class CheckoutOrdersAPI {
-    
-    // MARK: - Internal Properties
-
-    var correlationID: String?
 
     // MARK: - Private Properties
 
@@ -43,9 +39,6 @@ class CheckoutOrdersAPI {
         )
         
         let httpResponse = try await networkingClient.fetch(request: restRequest)
-        let httpResponseBodyJSON = try? JSONSerialization.jsonObject(with: httpResponse.body ?? Data()) as? [String: Any]
-        correlationID = httpResponseBodyJSON?["debug_id"] as? String
-
         return try HTTPResponseParser().parseREST(httpResponse, as: ConfirmPaymentSourceResponse.self)
     }
 }
