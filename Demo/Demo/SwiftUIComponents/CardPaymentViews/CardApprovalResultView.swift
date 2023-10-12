@@ -25,7 +25,7 @@ struct CardApprovalResultView: View {
             LeadingText("ID", weight: .bold)
             LeadingText("\(approvalResult.id)")
             LeadingText("3DS URL", weight: .bold)
-            LeadingText("\(approvalResult.deepLinkURL ?? "")")
+            LeadingText("\(approvalResult.deepLinkURL ?? "NOT SET")")
         }
         .frame(maxWidth: .infinity)
         .padding()

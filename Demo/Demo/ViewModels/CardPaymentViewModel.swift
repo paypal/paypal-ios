@@ -95,7 +95,6 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
             let config = try await configManager.getCoreConfig()
             cardClient = CardClient(config: config)
             cardClient?.delegate = self
-            // SCA from UI?
             let cardRequest = CardRequest(orderID: orderID, card: card, sca: sca)
             cardClient?.approveOrder(request: cardRequest)
         } catch {
@@ -124,7 +123,7 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
         approveResultSuccessResult(
             approveResult: CardPaymentState.CardResult(
                 id: result.orderID,
-                deepLinkURL: result.deepLinkURL?.absoluteString ?? ""
+                deepLinkURL: result.deepLinkURL?.absoluteString
             )
         )
     }
