@@ -1,6 +1,6 @@
 struct Order: Codable, Equatable {
 
-    enum CodingKeys: String, CodingKey {
+    enum OrderCodingKeys: String, CodingKey {
         case id
         case status
         case paymentSource = "payment_source"
@@ -15,8 +15,16 @@ struct Order: Codable, Equatable {
         let card: Card
     }
 
+    enum CardCodingKeys: String, CodingKey {
+        case lastDigits = "last_digits"
+        case brand
+        case attributes
+    }
+
     struct Card: Codable, Equatable {
-        
+
+        let lastDigits: String
+        let brand: String
         let attributes: Attributes?
     }
 
