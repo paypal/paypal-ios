@@ -13,7 +13,7 @@ struct CardOrderCompletionResultView: View {
         case .error(let errorMessage):
             ErrorView(errorMessage: errorMessage)
         }
-        
+
         switch cardPaymentViewModel.state.capturedOrderResponse {
         case .idle, .loading:
             EmptyView()
@@ -35,6 +35,24 @@ struct CardOrderCompletionResultView: View {
             LeadingText("\(orderResponse.id)")
             LeadingText("Status", weight: .bold)
             LeadingText("\(orderResponse.status)")
+            if let lastDigits = orderResponse.paymentSource?.card.lastDigits {
+                LeadingText("Card Last Digits", weight: .bold)
+                LeadingText("\(lastDigits)")
+            }
+            if let brand = orderResponse.paymentSource?.card.brand {
+                LeadingText("Brand", weight: .bold)
+                LeadingText("\(brand)")
+            }
+            if let vaultID = orderResponse.paymentSource?.card.attributes?.vault.id {
+                LeadingText("Vault ID / Payment Token", weight: .bold)
+                LeadingText("\(vaultID)")
+            }
+            if let customerID = orderResponse.paymentSource?.card.attributes?.vault.customer.id {
+                LeadingText("Customer ID", weight: .bold)
+                LeadingText("\(customerID)")
+            }
+            Text("")
+                .id("bottomView")
         }
         .frame(maxWidth: .infinity)
         .padding()
@@ -56,6 +74,22 @@ struct CardOrderCompletionResultView: View {
             LeadingText("\(orderResponse.id)")
             LeadingText("Status", weight: .bold)
             LeadingText("\(orderResponse.status)")
+            if let lastDigits = orderResponse.paymentSource?.card.lastDigits {
+                LeadingText("Card Last Digits", weight: .bold)
+                LeadingText("\(lastDigits)")
+            }
+            if let brand = orderResponse.paymentSource?.card.brand {
+                LeadingText("Brand", weight: .bold)
+                LeadingText("\(brand)")
+            }
+            if let vaultID = orderResponse.paymentSource?.card.attributes?.vault.id {
+                LeadingText("Vault ID / Payment Token", weight: .bold)
+                LeadingText("\(vaultID)")
+            }
+            if let customerID = orderResponse.paymentSource?.card.attributes?.vault.customer.id {
+                LeadingText("Customer ID", weight: .bold)
+                LeadingText("\(customerID)")
+            }
         }
         .frame(maxWidth: .infinity)
         .padding()
