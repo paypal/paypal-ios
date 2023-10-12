@@ -1,6 +1,5 @@
 import Foundation
 import CorePayments
-import PayPalCheckout
 
 /// API Client used to create and process orders on sample merchant server
 final class DemoMerchantAPI {

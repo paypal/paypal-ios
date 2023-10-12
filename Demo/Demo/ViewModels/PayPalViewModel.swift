@@ -1,6 +1,5 @@
 import UIKit
 import PayPalNativePayments
-import PayPalCheckout
 import CorePayments
 
 enum ShippingPreference: String, CaseIterable, Identifiable {
