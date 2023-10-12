@@ -57,6 +57,7 @@
 		806F1E4226B85369007A60E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 806F1E4126B85369007A60E6 /* Assets.xcassets */; };
 		80921C1D2710A0720040D76F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80921C1C2710A0720040D76F /* LaunchScreen.storyboard */; };
 		80DACC282911ADC6009214C5 /* PayPalCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = 80DACC272911ADC6009214C5 /* PayPalCheckout */; };
+		80E4300C2AD82C8D003CA748 /* ShippingPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E4300B2AD82C8D003CA748 /* ShippingPreference.swift */; };
 		80F33CE826F8DE29006811B1 /* DemoMerchantAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CE726F8DE29006811B1 /* DemoMerchantAPI.swift */; };
 		80F33CED26F8E7A9006811B1 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CEC26F8E7A9006811B1 /* Order.swift */; };
 		80F33CEF26F8E7CC006811B1 /* CreateOrderParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CEE26F8E7CC006811B1 /* CreateOrderParams.swift */; };
@@ -178,6 +179,7 @@
 		806F1E4626B85369007A60E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		80921C1C2710A0720040D76F /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		80DB6F1C26B89DDA00277E54 /* PayPal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PayPal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		80E4300B2AD82C8D003CA748 /* ShippingPreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShippingPreference.swift; sourceTree = "<group>"; };
 		80F33CE726F8DE29006811B1 /* DemoMerchantAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoMerchantAPI.swift; sourceTree = "<group>"; };
 		80F33CEC26F8E7A9006811B1 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		80F33CEE26F8E7CC006811B1 /* CreateOrderParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrderParams.swift; sourceTree = "<group>"; };
@@ -417,6 +419,7 @@
 				3BA56FE82A9DCA520081D14F /* CardPaymentState.swift */,
 				3BA56FFB2A9FEFE90081D14F /* PayPalWebViewModel.swift */,
 				3BA56FFD2A9FF4DA0081D14F /* PayPalWebState.swift */,
+				80E4300B2AD82C8D003CA748 /* ShippingPreference.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -612,6 +615,7 @@
 				80F33CF326F8EA50006811B1 /* DemoSettings.swift in Sources */,
 				3BA56FE72A9DC9D70081D14F /* CardPaymentViewModel.swift in Sources */,
 				3BA5700B2AA13C1C0081D14F /* CoreConfigManager.swift in Sources */,
+				80E4300C2AD82C8D003CA748 /* ShippingPreference.swift in Sources */,
 				BEDE304A275EA33500D275FD /* UIViewController+Extension.swift in Sources */,
 				80F33CE826F8DE29006811B1 /* DemoMerchantAPI.swift in Sources */,
 				80F33CEF26F8E7CC006811B1 /* CreateOrderParams.swift in Sources */,

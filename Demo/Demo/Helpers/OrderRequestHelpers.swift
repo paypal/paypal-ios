@@ -2,8 +2,8 @@ import Foundation
 
 enum OrderRequestHelpers {
 
-    static var orderAmount = 100.0
-    static var currencyCode = "USD"
+    static let orderAmount = 100.0
+    static let currencyCode = "USD"
     
     static func getOrderRequest(_ shippingPreference: ShippingPreference) -> CreateOrderParams {
         return CreateOrderParams(
@@ -33,10 +33,10 @@ enum OrderRequestHelpers {
         )
     }
 
-    static func getAmount(value: Double = orderAmount, shipping: Double = 3.99) -> Amount {
+    static func getAmount(shipping: Double = 3.99) -> Amount {
         Amount(
             currencyCode: currencyCode,
-            value: String(value + shipping),
+            value: String(orderAmount + shipping),
             breakdown: Amount.Breakdown(
                 shipping: ItemTotal(
                     value: String(shipping),
@@ -44,22 +44,22 @@ enum OrderRequestHelpers {
                     currencyCode: currencyCode
                 ),
                 itemTotal: ItemTotal(
-                    value: String(value),
-                    currencyValue: String(value),
+                    value: String(orderAmount),
+                    currencyValue: String(orderAmount),
                     currencyCode: currencyCode
                 )
             )
         )
     }
     
-    static func getShippingMethods(baseValue: Int = 0, selectedID: String = "ShipTest1") -> [ShippingOption]? {
+    static func getShippingMethods(selectedID: String = "ShipTest1") -> [ShippingOption]? {
         let shipOption1 = ShippingOption(
             selected: false,
             id: "ShipTest1",
             amount: ItemTotal(
-                value: String(3.99 + Double(baseValue)),
-                currencyValue: String(3.99 + Double(baseValue)),
-                currencyCode: "USD"
+                value: "3.99",
+                currencyValue: "3.99",
+                currencyCode: currencyCode
             ),
             label: "Standard Shipping",
             type: "SHIPPING"
@@ -69,9 +69,9 @@ enum OrderRequestHelpers {
             selected: false,
             id: "ShipTest2",
             amount: ItemTotal(
-                value: String(0.99 + Double(baseValue)),
-                currencyValue: String(0.99 + Double(baseValue)),
-                currencyCode: "USD"
+                value: "0.99",
+                currencyValue: "0.99",
+                currencyCode: currencyCode
             ),
             label: "Cheap Shipping",
             type: "SHIPPING"
@@ -81,9 +81,9 @@ enum OrderRequestHelpers {
             selected: false,
             id: "ShipTest3",
             amount: ItemTotal(
-                value: String(7.99 + Double(baseValue)),
-                currencyValue: String(7.99 + Double(baseValue)),
-                currencyCode: "USD"
+                value: "7.99",
+                currencyValue: "7.99",
+                currencyCode: currencyCode
             ),
             label: "Express Shipping",
             type: "SHIPPING"
@@ -95,7 +95,7 @@ enum OrderRequestHelpers {
             amount: ItemTotal(
                 value: "0",
                 currencyValue: "0",
-                currencyCode: "USD"
+                currencyCode: currencyCode
             ),
             label: "Pick up from store",
             type: "PICKUP"
@@ -107,7 +107,7 @@ enum OrderRequestHelpers {
             amount: ItemTotal(
                 value: "0",
                 currencyValue: "0",
-                currencyCode: "USD"
+                currencyCode: currencyCode
             ),
             label: "Pick up from warehouse",
             type: "PICKUP"
@@ -126,62 +126,4 @@ enum OrderRequestHelpers {
         }
         return shippingOptions
     }
-
-//    static func getShippingMethods(baseValue: Int = 0, selectedID: String = "ShipTest1") -> [PayPalCheckout.ShippingMethod] {
-//        let currency = CurrencyCode.usd
-//        let ship1 = PayPalCheckout.ShippingMethod(
-//            id: "ShipTest1",
-//            label: "standard shipping",
-//            selected: false,
-//            type: .shipping,
-//            amount: UnitAmount(currencyCode: currency, value: String(3.99 + Double(baseValue)))
-//        )
-//        let ship2 = PayPalCheckout.ShippingMethod(
-//            id: "ShipTest2",
-//            label: "cheap shipping",
-//            selected: false,
-//            type: .shipping,
-//            amount: UnitAmount(currencyCode: currency, value: String(0.99 + Double(baseValue)))
-//        )
-//        let ship3 = PayPalCheckout.ShippingMethod(
-//            id: "ShipTest3",
-//            label: "express shipping",
-//            selected: false,
-//            type: .shipping,
-//            amount: UnitAmount(currencyCode: currency, value: String(7.99 + Double(baseValue)))
-//        )
-//        let pick1 = PayPalCheckout.ShippingMethod(
-//            id: "PickTest1",
-//            label: "please pick it up from store",
-//            selected: false,
-//            type: .pickup,
-//            amount: UnitAmount(currencyCode: currency, value: "0")
-//        )
-//        let pick2 = PayPalCheckout.ShippingMethod(
-//            id: "PickTest2",
-//            label: "pick it up from warehouse",
-//            selected: false,
-//            type: .pickup,
-//            amount: UnitAmount(currencyCode: currency, value: "0")
-//        )
-//        let pick3 = PayPalCheckout.ShippingMethod(
-//            id: "PickTest3",
-//            label: "pick it from HQ",
-//            selected: false,
-//            type: .pickup,
-//            amount: UnitAmount(currencyCode: currency, value: "0")
-//        )
-//        var shippingOptions = [ship1, ship2, ship3, pick1, pick2, pick3]
-//        if let index = shippingOptions.firstIndex(where: { $0.id == selectedID }) {
-//            let shippingMethod = shippingOptions[index]
-//            shippingOptions[index] = PayPalCheckout.ShippingMethod(
-//                id: selectedID,
-//                label: shippingMethod.label,
-//                selected: true,
-//                type: shippingMethod.type,
-//                amount: shippingMethod.amount
-//            )
-//        }
-//        return shippingOptions
-//    }
 }
