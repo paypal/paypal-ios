@@ -138,8 +138,8 @@ extension PayPalViewModel: PayPalNativeShippingDelegate {
             do {
                 let shippingMethods = OrderRequestHelpers.getShippingMethods(selectedID: shippingMethod.id)
                 let amount = OrderRequestHelpers.getAmount(shipping: Double(shippingMethod.value ?? "0.0") ?? 0.0)
-                let params = UpdateOrderParams(orderID: orderID, shippingMethods: shippingMethods, amount: amount)
-                try await DemoMerchantAPI.sharedService.updateOrder(params, selectedMerchantIntegration: selectedMerchantIntegration)
+//                let params = UpdateOrderParams(orderID: orderID, shippingMethods: shippingMethods, amount: amount)
+//                try await DemoMerchantAPI.sharedService.updateOrder(params, selectedMerchantIntegration: selectedMerchantIntegration)
                 shippingActions.approve()
             } catch let error {
                 shippingActions.reject()

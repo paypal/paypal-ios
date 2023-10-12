@@ -27,6 +27,7 @@ struct Shipping: Codable {
     
     let address: Address
     let name: Name
+    let options: [ShippingOption]?
     
     struct Address: Codable {
         
@@ -64,17 +65,25 @@ struct Amount: Codable {
         let shipping: String
         let itemTotal: ItemTotal
     }
+}
+
+struct ItemTotal: Codable {
     
-    struct ItemTotal: Codable {
-        
-        let value: String
-        let currencyValue: String
-        let currencyCode: String
-    }
+    let value: String
+    let currencyValue: String
+    let currencyCode: String
 }
 
 struct Payee: Codable {
     
     let merchantID: String
     let emailAddress: String
+}
+
+struct ShippingOption: Codable {
+    
+    let selected: Bool
+    let id: String
+    let amount: ItemTotal
+    let label, type: String
 }

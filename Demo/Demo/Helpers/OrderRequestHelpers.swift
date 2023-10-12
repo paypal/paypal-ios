@@ -24,7 +24,8 @@ enum OrderRequestHelpers {
                         ),
                         name: Shipping.Name(
                             fullName: "Cookie Monster"
-                        )
+                        ),
+                        options: shippingPreference == .getFromFile ? getShippingMethods() : nil
                     ),
                     payee: Payee(merchantID: "X5XAHHCG636FA", emailAddress: "merchant@email.com"),
                     amount: Amount(currencyCode: "USD", value: String(orderAmount), breakdown: nil)
@@ -39,7 +40,7 @@ enum OrderRequestHelpers {
             value: String(value + shipping),
             breakdown: Amount.Breakdown(
                 shipping: String(shipping),
-                itemTotal: Amount.ItemTotal(
+                itemTotal: ItemTotal(
                     value: String(value),
                     currencyValue: String(value),
                     currencyCode: currencyCode
@@ -47,62 +48,137 @@ enum OrderRequestHelpers {
             )
         )
     }
-
-    static func getShippingMethods(baseValue: Int = 0, selectedID: String = "ShipTest1") -> [PayPalCheckout.ShippingMethod] {
-        let currency = CurrencyCode.usd
-        let ship1 = PayPalCheckout.ShippingMethod(
+    
+    static func getShippingMethods(baseValue: Int = 0, selectedID: String = "ShipTest1") -> [ShippingOption]? {
+        let shipOption1 = ShippingOption(
+            selected: false,
             id: "ShipTest1",
-            label: "standard shipping",
-            selected: false,
-            type: .shipping,
-            amount: UnitAmount(currencyCode: currency, value: String(3.99 + Double(baseValue)))
+            amount: ItemTotal(
+                value: String(3.99 + Double(baseValue)),
+                currencyValue: String(3.99 + Double(baseValue)),
+                currencyCode: "USD"
+            ),
+            label: "Standard Shipping",
+            type: "SHIPPING"
         )
-        let ship2 = PayPalCheckout.ShippingMethod(
+        
+        let shipOption2 = ShippingOption(
+            selected: false,
             id: "ShipTest2",
-            label: "cheap shipping",
-            selected: false,
-            type: .shipping,
-            amount: UnitAmount(currencyCode: currency, value: String(0.99 + Double(baseValue)))
+            amount: ItemTotal(
+                value: String(0.99 + Double(baseValue)),
+                currencyValue: String(0.99 + Double(baseValue)),
+                currencyCode: "USD"
+            ),
+            label: "Cheap Shipping",
+            type: "SHIPPING"
         )
-        let ship3 = PayPalCheckout.ShippingMethod(
+        
+        let shipOption3 = ShippingOption(
+            selected: false,
             id: "ShipTest3",
-            label: "express shipping",
-            selected: false,
-            type: .shipping,
-            amount: UnitAmount(currencyCode: currency, value: String(7.99 + Double(baseValue)))
+            amount: ItemTotal(
+                value: String(7.99 + Double(baseValue)),
+                currencyValue: String(7.99 + Double(baseValue)),
+                currencyCode: "USD"
+            ),
+            label: "Express Shipping",
+            type: "SHIPPING"
         )
-        let pick1 = PayPalCheckout.ShippingMethod(
+        
+        let shipOption4 = ShippingOption(
+            selected: false,
             id: "PickTest1",
-            label: "please pick it up from store",
-            selected: false,
-            type: .pickup,
-            amount: UnitAmount(currencyCode: currency, value: "0")
+            amount: ItemTotal(
+                value: "0",
+                currencyValue: "0",
+                currencyCode: "USD"
+            ),
+            label: "Pick up from store",
+            type: "PICKUP"
         )
-        let pick2 = PayPalCheckout.ShippingMethod(
+        
+        let shipOption5 = ShippingOption(
+            selected: false,
             id: "PickTest2",
-            label: "pick it up from warehouse",
-            selected: false,
-            type: .pickup,
-            amount: UnitAmount(currencyCode: currency, value: "0")
+            amount: ItemTotal(
+                value: "0",
+                currencyValue: "0",
+                currencyCode: "USD"
+            ),
+            label: "Pick up from warehouse",
+            type: "PICKUP"
         )
-        let pick3 = PayPalCheckout.ShippingMethod(
-            id: "PickTest3",
-            label: "pick it from HQ",
-            selected: false,
-            type: .pickup,
-            amount: UnitAmount(currencyCode: currency, value: "0")
-        )
-        var shippingOptions = [ship1, ship2, ship3, pick1, pick2, pick3]
+        
+        var shippingOptions = [shipOption1, shipOption2, shipOption3, shipOption4, shipOption5]
         if let index = shippingOptions.firstIndex(where: { $0.id == selectedID }) {
             let shippingMethod = shippingOptions[index]
-            shippingOptions[index] = PayPalCheckout.ShippingMethod(
-                id: selectedID,
-                label: shippingMethod.label,
+            shippingOptions[index] = ShippingOption(
                 selected: true,
-                type: shippingMethod.type,
-                amount: shippingMethod.amount
+                id: selectedID,
+                amount: shippingMethod.amount,
+                label: shippingMethod.label,
+                type: shippingMethod.type
             )
         }
         return shippingOptions
     }
+
+//    static func getShippingMethods(baseValue: Int = 0, selectedID: String = "ShipTest1") -> [PayPalCheckout.ShippingMethod] {
+//        let currency = CurrencyCode.usd
+//        let ship1 = PayPalCheckout.ShippingMethod(
+//            id: "ShipTest1",
+//            label: "standard shipping",
+//            selected: false,
+//            type: .shipping,
+//            amount: UnitAmount(currencyCode: currency, value: String(3.99 + Double(baseValue)))
+//        )
+//        let ship2 = PayPalCheckout.ShippingMethod(
+//            id: "ShipTest2",
+//            label: "cheap shipping",
+//            selected: false,
+//            type: .shipping,
+//            amount: UnitAmount(currencyCode: currency, value: String(0.99 + Double(baseValue)))
+//        )
+//        let ship3 = PayPalCheckout.ShippingMethod(
+//            id: "ShipTest3",
+//            label: "express shipping",
+//            selected: false,
+//            type: .shipping,
+//            amount: UnitAmount(currencyCode: currency, value: String(7.99 + Double(baseValue)))
+//        )
+//        let pick1 = PayPalCheckout.ShippingMethod(
+//            id: "PickTest1",
+//            label: "please pick it up from store",
+//            selected: false,
+//            type: .pickup,
+//            amount: UnitAmount(currencyCode: currency, value: "0")
+//        )
+//        let pick2 = PayPalCheckout.ShippingMethod(
+//            id: "PickTest2",
+//            label: "pick it up from warehouse",
+//            selected: false,
+//            type: .pickup,
+//            amount: UnitAmount(currencyCode: currency, value: "0")
+//        )
+//        let pick3 = PayPalCheckout.ShippingMethod(
+//            id: "PickTest3",
+//            label: "pick it from HQ",
+//            selected: false,
+//            type: .pickup,
+//            amount: UnitAmount(currencyCode: currency, value: "0")
+//        )
+//        var shippingOptions = [ship1, ship2, ship3, pick1, pick2, pick3]
+//        if let index = shippingOptions.firstIndex(where: { $0.id == selectedID }) {
+//            let shippingMethod = shippingOptions[index]
+//            shippingOptions[index] = PayPalCheckout.ShippingMethod(
+//                id: selectedID,
+//                label: shippingMethod.label,
+//                selected: true,
+//                type: shippingMethod.type,
+//                amount: shippingMethod.amount
+//            )
+//        }
+//        return shippingOptions
+//    }
 }
