@@ -96,7 +96,7 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
             cardClient = CardClient(config: config)
             cardClient?.delegate = self
             // SCA from UI?
-            let cardRequest = CardRequest(orderID: orderID, card: card, sca: .scaAlways)
+            let cardRequest = CardRequest(orderID: orderID, card: card, sca: sca)
             cardClient?.approveOrder(request: cardRequest)
         } catch {
             self.state.approveResultResponse = .error(message: error.localizedDescription)
