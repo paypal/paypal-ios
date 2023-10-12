@@ -38,6 +38,7 @@ struct Shipping: Codable {
         let countryCode: String
         let postalCode: String
         
+        // swiftlint:disable nesting
         enum CodingKeys: String, CodingKey {
             case adminArea2 = "admin_area_2"
             case adminArea1 = "admin_area_1"
