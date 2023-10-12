@@ -1,11 +1,9 @@
-import PayPalCheckout
-
 class UpdateOrderParams {
     
     let orderID: String
     let updateOperations: [UpdateOrderOperation]
     
-    init(orderID: String, shippingMethods: [ShippingMethod], amount: Amount) {
+    init(orderID: String, shippingMethods: [ShippingOption]?, amount: Amount) {
         self.orderID = orderID
         self.updateOperations = [
             UpdateOrderOperation(

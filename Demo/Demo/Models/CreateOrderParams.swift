@@ -62,7 +62,7 @@ struct Amount: Codable {
     
     struct Breakdown: Codable {
         
-        let shipping: String
+        let shipping: ItemTotal
         let itemTotal: ItemTotal
     }
 }
@@ -70,8 +70,8 @@ struct Amount: Codable {
 struct ItemTotal: Codable {
     
     let value: String
-    let currencyValue: String
-    let currencyCode: String
+    let currencyValue: String?
+    let currencyCode: String?
 }
 
 struct Payee: Codable {
@@ -85,5 +85,6 @@ struct ShippingOption: Codable {
     let selected: Bool
     let id: String
     let amount: ItemTotal
-    let label, type: String
+    let label: String
+    let type: String
 }

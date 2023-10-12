@@ -1,5 +1,4 @@
 import Foundation
-import PayPalCheckout
 
 enum OrderRequestHelpers {
 
@@ -39,7 +38,11 @@ enum OrderRequestHelpers {
             currencyCode: currencyCode,
             value: String(value + shipping),
             breakdown: Amount.Breakdown(
-                shipping: String(shipping),
+                shipping: ItemTotal(
+                    value: String(shipping),
+                    currencyValue: String(shipping),
+                    currencyCode: currencyCode
+                ),
                 itemTotal: ItemTotal(
                     value: String(value),
                     currencyValue: String(value),
