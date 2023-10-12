@@ -375,6 +375,7 @@
 				CBC16DD829ED90B600307117 /* UpdateOrderParams.swift */,
 				3BDB348D2A7CB02C008100D7 /* SetupTokenRequest.swift */,
 				3BDB34912A7CB5DE008100D7 /* SetupTokenResponse.swift */,
+				80E4300B2AD82C8D003CA748 /* ShippingPreference.swift */,
 				3B22E8B92A842D8900962E34 /* PaymentTokenRequest.swift */,
 				3B22E8BB2A84397600962E34 /* PaymentTokenResponse.swift */,
 			);
@@ -419,7 +420,6 @@
 				3BA56FE82A9DCA520081D14F /* CardPaymentState.swift */,
 				3BA56FFB2A9FEFE90081D14F /* PayPalWebViewModel.swift */,
 				3BA56FFD2A9FF4DA0081D14F /* PayPalWebState.swift */,
-				80E4300B2AD82C8D003CA748 /* ShippingPreference.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
