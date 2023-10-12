@@ -21,9 +21,7 @@ enum OrderRequestHelpers {
                             countryCode: "US",
                             postalCode: "32422"
                         ),
-                        name: Shipping.Name(
-                            fullName: "Cookie Monster"
-                        ),
+                        name: Shipping.Name(fullName: "Cookie Monster"),
                         options: shippingPreference == .getFromFile ? getShippingMethods() : nil
                     ),
                     payee: Payee(merchantID: "X5XAHHCG636FA", emailAddress: "merchant@email.com"),
@@ -38,16 +36,8 @@ enum OrderRequestHelpers {
             currencyCode: currencyCode,
             value: String(orderAmount + shipping),
             breakdown: Amount.Breakdown(
-                shipping: ItemTotal(
-                    value: String(shipping),
-                    currencyValue: String(shipping),
-                    currencyCode: currencyCode
-                ),
-                itemTotal: ItemTotal(
-                    value: String(orderAmount),
-                    currencyValue: String(orderAmount),
-                    currencyCode: currencyCode
-                )
+                shipping: ItemTotal(value: String(shipping), currencyValue: String(shipping), currencyCode: currencyCode),
+                itemTotal: ItemTotal( value: String(orderAmount), currencyValue: String(orderAmount), currencyCode: currencyCode)
             )
         )
     }
@@ -56,11 +46,7 @@ enum OrderRequestHelpers {
         let shipOption1 = ShippingOption(
             selected: false,
             id: "ShipTest1",
-            amount: ItemTotal(
-                value: "3.99",
-                currencyValue: "3.99",
-                currencyCode: currencyCode
-            ),
+            amount: ItemTotal(value: "3.99", currencyValue: "3.99", currencyCode: currencyCode),
             label: "Standard Shipping",
             type: "SHIPPING"
         )
@@ -68,11 +54,7 @@ enum OrderRequestHelpers {
         let shipOption2 = ShippingOption(
             selected: false,
             id: "ShipTest2",
-            amount: ItemTotal(
-                value: "0.99",
-                currencyValue: "0.99",
-                currencyCode: currencyCode
-            ),
+            amount: ItemTotal(value: "0.99", currencyValue: "0.99", currencyCode: currencyCode),
             label: "Cheap Shipping",
             type: "SHIPPING"
         )
@@ -80,11 +62,7 @@ enum OrderRequestHelpers {
         let shipOption3 = ShippingOption(
             selected: false,
             id: "ShipTest3",
-            amount: ItemTotal(
-                value: "7.99",
-                currencyValue: "7.99",
-                currencyCode: currencyCode
-            ),
+            amount: ItemTotal(value: "7.99", currencyValue: "7.99", currencyCode: currencyCode),
             label: "Express Shipping",
             type: "SHIPPING"
         )
@@ -92,11 +70,7 @@ enum OrderRequestHelpers {
         let shipOption4 = ShippingOption(
             selected: false,
             id: "PickTest1",
-            amount: ItemTotal(
-                value: "0",
-                currencyValue: "0",
-                currencyCode: currencyCode
-            ),
+            amount: ItemTotal(value: "0", currencyValue: "0", currencyCode: currencyCode),
             label: "Pick up from store",
             type: "PICKUP"
         )
@@ -104,11 +78,7 @@ enum OrderRequestHelpers {
         let shipOption5 = ShippingOption(
             selected: false,
             id: "PickTest2",
-            amount: ItemTotal(
-                value: "0",
-                currencyValue: "0",
-                currencyCode: currencyCode
-            ),
+            amount: ItemTotal(value: "0", currencyValue: "0", currencyCode: currencyCode),
             label: "Pick up from warehouse",
             type: "PICKUP"
         )
