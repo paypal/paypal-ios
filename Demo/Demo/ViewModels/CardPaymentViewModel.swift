@@ -21,12 +21,20 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
 
         let amountRequest = Amount(currencyCode: "USD", value: amount)
         // TODO: might need to pass in payee as payee object or as auth header
-        let orderRequestParams = CreateOrderParams(
+        var orderRequestParams = CreateOrderParams(
             intent: intent,
-            purchaseUnits: [PurchaseUnit(amount: amountRequest)],
-            shouldVault: shouldVault,
-            customerID: customerID
+            purchaseUnits: [PurchaseUnit(amount: amountRequest)]
         )
+
+        if shouldVault {
+            var customer: CardVaultCustomer?
+            if let customerID {
+                customer = CardVaultCustomer(id: customerID)
+            }
+            let attributes = Attributes(vault: Vault(storeInVault: "ON_SUCCESS"), customer: customer)
+            let card = VaultCard(attributes: attributes)
+            orderRequestParams.paymentSource = VaultCardPaymentSource(card: card)
+        }
 
         do {
             DispatchQueue.main.async {
