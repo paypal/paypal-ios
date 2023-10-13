@@ -167,7 +167,9 @@ final class DemoMerchantAPI {
 
     private func parse<T: Decodable>(from data: Data) throws -> T {
         do {
-            return try JSONDecoder().decode(T.self, from: data)
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            return try decoder.decode(T.self, from: data)
         } catch {
             throw URLResponseError.dataParsingError
         }

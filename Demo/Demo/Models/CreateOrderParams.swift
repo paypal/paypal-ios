@@ -4,10 +4,10 @@ struct CreateOrderParams: Codable {
     var purchaseUnits: [PurchaseUnit]?
     var paymentSource: VaultCardPaymentSource?
 
-    init(intent: String, purchaseUnits: [PurchaseUnit]?, isVaulting: Bool = false, customerID: String? = nil) {
+    init(intent: String, purchaseUnits: [PurchaseUnit]?, shouldVault: Bool = false, customerID: String? = nil) {
         self.intent = intent
         self.purchaseUnits = purchaseUnits
-        if isVaulting {
+        if shouldVault {
             var customer: CardVaultCustomer?
             if let customerID {
                 customer = CardVaultCustomer(id: customerID)

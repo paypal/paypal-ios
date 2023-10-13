@@ -46,7 +46,7 @@ struct CreateOrderCardPaymentView: View {
                                 amount: "10.00",
                                 selectedMerchantIntegration: DemoSettings.merchantIntegration,
                                 intent: selectedIntent.rawValue,
-                                isVaulting: shouldVaultSelected,
+                                shouldVault: shouldVaultSelected,
                                 customerID: vaultCustomerID.isEmpty ? nil : vaultCustomerID
                             )
                         } catch {

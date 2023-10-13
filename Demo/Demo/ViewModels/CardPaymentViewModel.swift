@@ -14,7 +14,7 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
         amount: String,
         selectedMerchantIntegration: MerchantIntegration,
         intent: String,
-        isVaulting: Bool,
+        shouldVault: Bool,
         customerID: String? = nil
     ) async throws {
         // might need to pass in payee as payee object or as auth header
@@ -24,7 +24,7 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
         let orderRequestParams = CreateOrderParams(
             intent: intent,
             purchaseUnits: [PurchaseUnit(amount: amountRequest)],
-            isVaulting: isVaulting,
+            shouldVault: shouldVault,
             customerID: customerID
         )
 
