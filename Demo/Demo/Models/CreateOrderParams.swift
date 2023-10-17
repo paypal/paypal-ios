@@ -1,45 +1,44 @@
-struct CreateOrderParams: Codable {
+struct CreateOrderParams: Encodable {
 
     let intent: String
     var purchaseUnits: [PurchaseUnit]?
     var paymentSource: VaultCardPaymentSource?
 }
 
-struct PurchaseUnit: Codable {
+struct VaultCardPaymentSource: Encodable {
 
-    let amount: Amount
-    // TODO: payee information for connected_partner
+    let card: VaultCard
 }
 
-struct Amount: Codable {
+struct VaultCard: Encodable {
 
-    let currencyCode: String
-    let value: String
+    let attributes: Attributes
 }
 
-struct Vault: Codable {
-
-    let storeInVault: String
-}
-
-
-struct Attributes: Codable {
+struct Attributes: Encodable {
 
     let vault: Vault
     let customer: CardVaultCustomer?
 }
 
-struct CardVaultCustomer: Codable {
+struct Vault: Encodable {
+
+    let storeInVault: String
+}
+
+struct CardVaultCustomer: Encodable {
 
     let id: String
 }
 
-struct VaultCard: Codable {
+struct PurchaseUnit: Encodable {
 
-    let attributes: Attributes
+    let amount: Amount
+    // TODO: payee information for connected_partner
 }
 
-struct VaultCardPaymentSource: Codable {
+struct Amount: Encodable {
 
-    let card: VaultCard
+    let currencyCode: String
+    let value: String
 }
