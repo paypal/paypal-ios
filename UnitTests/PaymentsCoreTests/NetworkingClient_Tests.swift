@@ -2,11 +2,11 @@ import XCTest
 @testable import CorePayments
 @testable import TestShared
 
-class APIClient_Tests: XCTestCase {
+class NetworkingClient_Tests: XCTestCase {
     
     // MARK: - Helper Properties
     
-    var sut: APIClient!
+    var sut: NetworkingClient!
     var mockHTTP: MockHTTP!
     var coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
     let base64EncodedFakeClientID = "ZmFrZS1jbGllbnQtaWQ6" // "fake-client-id" encoded
@@ -19,7 +19,7 @@ class APIClient_Tests: XCTestCase {
         
         mockHTTP = MockHTTP(coreConfig: coreConfig)
         mockHTTP.stubHTTPResponse = stubHTTPResponse
-        sut = APIClient(http: mockHTTP)
+        sut = NetworkingClient(http: mockHTTP)
     }
     
     // MARK: - fetch() REST
@@ -27,7 +27,7 @@ class APIClient_Tests: XCTestCase {
     func testFetchREST_whenLive_usesProperPayPalURL() async throws {
         let mockHTTP = MockHTTP(coreConfig: CoreConfig(clientID: "123", environment: .live))
         mockHTTP.stubHTTPResponse = HTTPResponse(status: 200, body: nil)
-        let sut = APIClient(http: mockHTTP)
+        let sut = NetworkingClient(http: mockHTTP)
         
         let fakeGETRequest = RESTRequest(path: "", method: .get)
         
@@ -104,7 +104,7 @@ class APIClient_Tests: XCTestCase {
     func testFetchGraphQL_whenLive_usesProperPayPalURL() async throws {
         let mockHTTP = MockHTTP(coreConfig: CoreConfig(clientID: "123", environment: .live))
         mockHTTP.stubHTTPResponse = HTTPResponse(status: 200, body: nil)
-        let sut = APIClient(http: mockHTTP)
+        let sut = NetworkingClient(http: mockHTTP)
         
         let fakeGraphQLRequest = GraphQLRequest(query: "fake-query", variables: FakeRequest(fakeParam: "fake-param"))
         

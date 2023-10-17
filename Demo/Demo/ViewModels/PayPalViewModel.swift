@@ -1,6 +1,5 @@
 import UIKit
 import PayPalNativePayments
-import PayPalCheckout
 import CorePayments
 
 class PayPalViewModel: ObservableObject {
@@ -15,7 +14,7 @@ class PayPalViewModel: ObservableObject {
     @Published private(set) var state = State.initial
     @Published var selectedMerchantIntegration: MerchantIntegration = .direct
     private var payPalClient: PayPalNativeCheckoutClient?
-    private var shippingPreference: OrderApplicationContext.ShippingPreference = .noShipping
+    private var shippingPreference: ShippingPreference = .noShipping
     private var orderID = ""
 
     func getClientID() {
@@ -39,18 +38,18 @@ class PayPalViewModel: ObservableObject {
     }
 
     func checkoutWithNoShipping() {
-        checkout(.noShipping)
+        checkout(ShippingPreference.noShipping)
     }
 
     func checkoutWithProvidedAddress() {
-        checkout(.setProvidedAddress)
+        checkout(ShippingPreference.providedAddress)
     }
 
     func checkoutWithGetFromFile() {
-        checkout(.getFromFile)
+        checkout(ShippingPreference.getFromFile)
     }
 
-    private func checkout(_ shippingPreference: OrderApplicationContext.ShippingPreference) {
+    private func checkout(_ shippingPreference: ShippingPreference) {
         state = .loading(content: "Initializing checkout")
         Task {
             do {
@@ -65,9 +64,10 @@ class PayPalViewModel: ObservableObject {
         }
     }
 
-    private func getOrderID(_ shippingPreference: OrderApplicationContext.ShippingPreference) async throws -> String {
+    private func getOrderID(_ shippingPreference: ShippingPreference) async throws -> String {
         let order = try await DemoMerchantAPI.sharedService.createOrder(
-            orderRequest: OrderRequestHelpers.getOrderRequest(shippingPreference), selectedMerchantIntegration: selectedMerchantIntegration
+            orderParams: OrderRequestHelpers.getOrderRequest(shippingPreference),
+            selectedMerchantIntegration: selectedMerchantIntegration
         )
         return order.id
     }

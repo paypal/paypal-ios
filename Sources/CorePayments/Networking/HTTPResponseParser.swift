@@ -16,7 +16,7 @@ public class HTTPResponseParser {
 
     public func parseREST<T: Decodable>(_ httpResponse: HTTPResponse, as type: T.Type) throws -> T {
         guard let data = httpResponse.body else {
-            throw APIClientError.noResponseDataError
+            throw NetworkingClientError.noResponseDataError
         }
         
         if httpResponse.isSuccessful {
@@ -28,7 +28,7 @@ public class HTTPResponseParser {
     
     public func parseGraphQL<T: Decodable>(_ httpResponse: HTTPResponse, as type: T.Type) throws -> T {
         guard let data = httpResponse.body else {
-            throw APIClientError.noResponseDataError
+            throw NetworkingClientError.noResponseDataError
         }
         
         if httpResponse.isSuccessful {
@@ -44,14 +44,14 @@ public class HTTPResponseParser {
         do {
             if isGraphQL {
                 guard let data = try decoder.decode(GraphQLHTTPResponse<T>.self, from: data).data else {
-                    throw APIClientError.noGraphQLDataKey
+                    throw NetworkingClientError.noGraphQLDataKey
                 }
                 return data
             } else {
                 return try decoder.decode(T.self, from: data)
             }
         } catch {
-            throw APIClientError.jsonDecodingError(error.localizedDescription)
+            throw NetworkingClientError.jsonDecodingError(error.localizedDescription)
         }
     }
     
@@ -59,13 +59,13 @@ public class HTTPResponseParser {
         do {
             if isGraphQL {
                 let errorData = try decoder.decode(GraphQLErrorResponse.self, from: data)
-                throw APIClientError.serverResponseError(errorData.error)
+                throw NetworkingClientError.serverResponseError(errorData.error)
             } else {
                 let errorData = try decoder.decode(ErrorResponse.self, from: data)
-                throw APIClientError.serverResponseError(errorData.readableDescription)
+                throw NetworkingClientError.serverResponseError(errorData.readableDescription)
             }
         } catch {
-            throw APIClientError.jsonDecodingError(error.localizedDescription)
+            throw NetworkingClientError.jsonDecodingError(error.localizedDescription)
         }
     }
 }

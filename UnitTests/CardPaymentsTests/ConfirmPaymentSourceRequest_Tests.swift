@@ -6,7 +6,7 @@ import XCTest
 
 class ConfirmPaymentSourceRequest_Tests: XCTestCase {
     
-    // TODO: - Move to SDK wrapper on JSONEncoder for use in tests & APIClient
+    // TODO: - Move to SDK wrapper on JSONEncoder for use in tests & NetworkingClient
     let encoder = JSONEncoder()
     
     override func setUp() {

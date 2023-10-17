@@ -34,6 +34,7 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
         }
 
         let orderRequestParams = CreateOrderParams(
+            applicationContext: nil,
             intent: intent,
             purchaseUnits: [PurchaseUnit(amount: amountRequest)],
             paymentSource: vaultPaymentSource

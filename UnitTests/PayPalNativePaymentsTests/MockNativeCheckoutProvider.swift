@@ -7,14 +7,14 @@ import PayPalCheckout
 import XCTest
 
 class MockNativeCheckoutProvider: NativeCheckoutStartable {
-
-    required init(nxoConfig: CheckoutConfig) {
-    }
-
+    
+    var correlationID: String?
     var onCancel: StartableCancelCallback?
     var onError: StartableErrorCallback?
     var onApprove: StartableApproveCallback?
     var onShippingChange: StartableShippingCallback?
+
+    required init(nxoConfig: CheckoutConfig) { }
 
     // todo: implemenet cases for other callbacks
     func start(
