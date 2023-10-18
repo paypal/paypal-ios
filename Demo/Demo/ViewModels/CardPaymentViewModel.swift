@@ -17,7 +17,6 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
         shouldVault: Bool,
         customerID: String? = nil
     ) async throws {
-        // might need to pass in payee as payee object or as auth header
 
         let amountRequest = Amount(currencyCode: "USD", value: amount)
         // TODO: might need to pass in payee as payee object or as auth header
