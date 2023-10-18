@@ -1,10 +1,4 @@
 struct Order: Codable, Equatable {
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case status
-        case paymentSource = "payment_source"
-    }
     
     let id: String
     let status: String
@@ -15,8 +9,16 @@ struct Order: Codable, Equatable {
         let card: Card
     }
 
+    init(id: String, status: String, paymentSource: PaymentSource? = nil) {
+        self.id = id
+        self.status = status
+        self.paymentSource = paymentSource
+    }
+
     struct Card: Codable, Equatable {
-        
+
+        let lastDigits: String?
+        let brand: String?
         let attributes: Attributes?
     }
 

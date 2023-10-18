@@ -6,21 +6,33 @@ struct CardPaymentOrderCompletionView: View {
     @ObservedObject var cardPaymentViewModel: CardPaymentViewModel
 
     var body: some View {
-        VStack {
-            CardApprovalResultView(cardPaymentViewModel: cardPaymentViewModel)
-            if cardPaymentViewModel.state.approveResult != nil {
-                CardOrderActionButton(
-                    intent: cardPaymentViewModel.state.intent,
-                    orderID: orderID,
-                    selectedMerchantIntegration: DemoSettings.merchantIntegration,
-                    cardPaymentViewModel: cardPaymentViewModel
-                )
-            }
+        let state = cardPaymentViewModel.state
+        ScrollView {
+            ScrollViewReader { scrollView in
+                VStack {
+                    CardApprovalResultView(cardPaymentViewModel: cardPaymentViewModel)
+                    if state.approveResult != nil {
+                        CardOrderActionButton(
+                            intent: state.intent,
+                            orderID: orderID,
+                            selectedMerchantIntegration: DemoSettings.merchantIntegration,
+                            cardPaymentViewModel: cardPaymentViewModel
+                        )
+                    }
 
-            if cardPaymentViewModel.state.authorizedOrder != nil || cardPaymentViewModel.state.capturedOrder != nil {
-                CardOrderCompletionResultView(cardPaymentViewModel: cardPaymentViewModel)
+                    if state.authorizedOrder != nil || state.capturedOrder != nil {
+                        CardOrderCompletionResultView(cardPaymentViewModel: cardPaymentViewModel)
+                    }
+                    Text("")
+                        .id("bottomView")
+                    Spacer()
+                }
+                .onChange(of: state) { _ in
+                    withAnimation {
+                        scrollView.scrollTo("bottomView")
+                    }
+                }
             }
-            Spacer()
         }
     }
 }

@@ -10,15 +10,33 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
 
     private var cardClient: CardClient?
 
-    func createOrder(amount: String, selectedMerchantIntegration: MerchantIntegration, intent: String) async throws {
-        // might need to pass in payee as payee object or as auth header
+    func createOrder(
+        amount: String,
+        selectedMerchantIntegration: MerchantIntegration,
+        intent: String,
+        shouldVault: Bool,
+        customerID: String? = nil
+    ) async throws {
 
         let amountRequest = Amount(currencyCode: "USD", value: amount)
         // TODO: might need to pass in payee as payee object or as auth header
+
+        var vaultPaymentSource: VaultCardPaymentSource?
+        if shouldVault {
+            var customer: CardVaultCustomer?
+            if let customerID {
+                customer = CardVaultCustomer(id: customerID)
+            }
+            let attributes = Attributes(vault: Vault(storeInVault: "ON_SUCCESS"), customer: customer)
+            let card = VaultCard(attributes: attributes)
+            vaultPaymentSource = VaultCardPaymentSource(card: card)
+        }
+
         let orderRequestParams = CreateOrderParams(
             applicationContext: nil,
             intent: intent,
-            purchaseUnits: [PurchaseUnit(amount: amountRequest)]
+            purchaseUnits: [PurchaseUnit(amount: amountRequest)],
+            paymentSource: vaultPaymentSource
         )
 
         do {
@@ -88,8 +106,7 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
             let config = try await configManager.getCoreConfig()
             cardClient = CardClient(config: config)
             cardClient?.delegate = self
-            // SCA from UI?
-            let cardRequest = CardRequest(orderID: orderID, card: card, sca: .scaAlways)
+            let cardRequest = CardRequest(orderID: orderID, card: card, sca: sca)
             cardClient?.approveOrder(request: cardRequest)
         } catch {
             self.state.approveResultResponse = .error(message: error.localizedDescription)
@@ -117,7 +134,7 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
         approveResultSuccessResult(
             approveResult: CardPaymentState.CardResult(
                 id: result.orderID,
-                deepLinkURL: result.deepLinkURL?.absoluteString ?? ""
+                deepLinkURL: result.deepLinkURL?.absoluteString
             )
         )
     }
