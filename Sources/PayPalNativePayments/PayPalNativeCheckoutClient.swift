@@ -42,7 +42,7 @@ public class PayPalNativeCheckoutClient {
     public func start(
         request: PayPalNativeCheckoutRequest,
         presentingViewController: UIViewController? = nil
-    ) async {
+    ) {
         correlationID = State.correlationIDs.riskCorrelationID
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         

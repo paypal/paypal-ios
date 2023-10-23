@@ -57,7 +57,7 @@ class PayPalViewModel: ObservableObject {
                 self.shippingPreference = shippingPreference
 
                 let request = PayPalNativeCheckoutRequest(orderID: orderID)
-                await self.payPalClient?.start(request: request)
+                self.payPalClient?.start(request: request)
             } catch let error {
                 publishStateToMainThread(.mainContent(title: "Error", content: "\(error.localizedDescription)", flowComplete: true))
             }

@@ -34,7 +34,7 @@ class PayPalClient_Tests: XCTestCase {
         let mockPayerID = "mock_payer_id"
         let mockPayPalDelegate = MockPayPalDelegate()
         payPalClient.delegate = mockPayPalDelegate
-        await payPalClient.start(request: request)
+        payPalClient.start(request: request)
         mockNativeCheckoutProvider.triggerApprove(orderdID: mockOrderID, payerID: mockPayerID)
         let result = mockPayPalDelegate.capturedResult
         XCTAssertEqual(result?.orderID, mockOrderID)
@@ -45,7 +45,7 @@ class PayPalClient_Tests: XCTestCase {
 
         let mockPayPalDelegate = MockPayPalDelegate()
         payPalClient.delegate = mockPayPalDelegate
-        await payPalClient.start(request: request)
+        payPalClient.start(request: request)
         mockNativeCheckoutProvider.triggerCancel()
         XCTAssert(mockPayPalDelegate.paypalDidCancel)
     }
@@ -54,7 +54,7 @@ class PayPalClient_Tests: XCTestCase {
 
         let mockPayPalDelegate = MockPayPalDelegate()
         payPalClient.delegate = mockPayPalDelegate
-        await payPalClient.start(request: request)
+        payPalClient.start(request: request)
         XCTAssert(mockPayPalDelegate.paypalDidStart)
     }
 
@@ -63,7 +63,7 @@ class PayPalClient_Tests: XCTestCase {
         let errorMessage = "error_message"
         let mockPayPalDelegate = MockPayPalDelegate()
         payPalClient.delegate = mockPayPalDelegate
-        await payPalClient.start(request: request)
+        payPalClient.start(request: request)
         mockNativeCheckoutProvider.triggerError(errorReason: errorMessage)
         XCTAssertEqual(mockPayPalDelegate.capturedError?.errorDescription, errorMessage)
     }
@@ -79,7 +79,7 @@ class PayPalClient_Tests: XCTestCase {
         )
            
         payPalClient.shippingDelegate = mockShippingDelegate
-        await payPalClient.start(request: request)
+        payPalClient.start(request: request)
         mockNativeCheckoutProvider.triggerShippingChange(
             type: .shippingAddress,
             actions: PayPalNativePaysheetActions(MockShippingChangeActions()),
@@ -106,7 +106,7 @@ class PayPalClient_Tests: XCTestCase {
             currencyCode: "usd"
         )
         payPalClient.shippingDelegate = mockShippingDelegate
-        await payPalClient.start(request: request)
+        payPalClient.start(request: request)
         mockNativeCheckoutProvider.triggerShippingChange(
             type: .shippingMethod,
             actions: PayPalNativePaysheetActions(MockShippingChangeActions()),
