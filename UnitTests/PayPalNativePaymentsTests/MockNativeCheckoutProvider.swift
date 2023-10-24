@@ -11,6 +11,7 @@ class MockNativeCheckoutProvider: NativeCheckoutStartable {
     required init(nxoConfig: CheckoutConfig) {
     }
 
+    var userAuthenticationEmail: String? = nil
     var onCancel: StartableCancelCallback?
     var onError: StartableErrorCallback?
     var onApprove: StartableApproveCallback?
@@ -30,6 +31,7 @@ class MockNativeCheckoutProvider: NativeCheckoutStartable {
         self.onError = onStartableError
         self.onApprove = onStartableApprove
         self.onShippingChange = onStartableShippingChange
+        self.userAuthenticationEmail = nxoConfig.authConfig.userEmail
     }
 
     func triggerCancel() {
