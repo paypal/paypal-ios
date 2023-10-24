@@ -1,7 +1,7 @@
 import Foundation
 @testable import CorePayments
 
-class MockAPIClient: APIClient {
+class MockNetworkingClient: NetworkingClient {
 
     var stubHTTPResponse: HTTPResponse?
     var stubHTTPError: Error?

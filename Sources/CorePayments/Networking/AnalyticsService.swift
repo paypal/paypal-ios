@@ -1,6 +1,7 @@
 import Foundation
 
-/// :nodoc: Constructs `AnalyticsEventData` models and sends FPTI analytics events.
+/// Constructs `AnalyticsEventData` models and sends FPTI analytics events.
+@_documentation(visibility: private)
 public struct AnalyticsService {
     
     // MARK: - Internal Properties
@@ -28,20 +29,23 @@ public struct AnalyticsService {
     
     // MARK: - Public Methods
         
-    /// :nodoc: This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
-    ///
+    /// This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
     /// Sends analytics event to https://api.paypal.com/v1/tracking/events/ via a background task.
     /// - Parameter name: Event name string used to identify this unique event in FPTI.
-    public func sendEvent(_ name: String) {
+    /// - Parameter correlationID: correlation ID associated with the request
+    public func sendEvent(_ name: String, correlationID: String? = nil) {
         Task(priority: .background) {
-            await performEventRequest(name)
+            await performEventRequest(name, correlationID: correlationID)
         }
     }
     
     // MARK: - Internal Methods
     
     /// Exposed to be able to execute this function synchronously in unit tests
-    func performEventRequest(_ name: String) async {
+    /// - Parameters:
+    ///   - name: Event name string used to identify this unique event in FPTI
+    ///   - correlationID: correlation ID associated with the request
+    func performEventRequest(_ name: String, correlationID: String? = nil) async {
         do {
             let clientID = coreConfig.clientID
             
@@ -49,7 +53,8 @@ public struct AnalyticsService {
                 environment: coreConfig.environment.toString,
                 eventName: name,
                 clientID: clientID,
-                orderID: orderID
+                orderID: orderID,
+                correlationID: correlationID
             )
             
             let (_) = try await trackingEventsAPI.sendEvent(with: eventData)

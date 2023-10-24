@@ -6,7 +6,10 @@ import CorePayments
 #endif
 
 protocol NativeCheckoutStartable {
-    
+
+    /// Used in POST body for FPTI analytics.
+    var correlationID: String? { get set }
+
     typealias StartableApproveCallback = (String, String) -> Void
     typealias StartableShippingCallback = (
         ShippingChangeType,
@@ -16,7 +19,6 @@ protocol NativeCheckoutStartable {
     ) -> Void
     typealias StartableCancelCallback = () -> Void
     typealias StartableErrorCallback = (String) -> Void
-
 
     // swiftlint:disable:next function_parameter_count
     func start(

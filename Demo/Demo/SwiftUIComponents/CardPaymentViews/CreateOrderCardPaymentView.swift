@@ -34,8 +34,6 @@ struct CreateOrderCardPaymentView: View {
             .pickerStyle(SegmentedPickerStyle())
             HStack {
                 Toggle("Should Vault with Purchase", isOn: $shouldVaultSelected)
-                // TODO: turn on if vault with purchase on sample server is implemented
-                    .disabled(true)
                 Spacer()
             }
             FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $vaultCustomerID)
@@ -47,7 +45,9 @@ struct CreateOrderCardPaymentView: View {
                             try await cardPaymentViewModel.createOrder(
                                 amount: "10.00",
                                 selectedMerchantIntegration: DemoSettings.merchantIntegration,
-                                intent: selectedIntent.rawValue
+                                intent: selectedIntent.rawValue,
+                                shouldVault: shouldVaultSelected,
+                                customerID: vaultCustomerID.isEmpty ? nil : vaultCustomerID
                             )
                         } catch {
                             print("Error in getting setup token. \(error.localizedDescription)")

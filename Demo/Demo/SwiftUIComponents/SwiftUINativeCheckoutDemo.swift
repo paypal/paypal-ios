@@ -6,15 +6,7 @@ struct SwiftUINativeCheckoutDemo: View {
 
     @StateObject var viewModel = PayPalViewModel()
 
-    @State var shippingTypeSelection = ShippingType.noShipping
-
-    enum ShippingType: String, CaseIterable, Identifiable {
-        case noShipping = "No shipping"
-        case providedAddress = "Set provided address"
-        case getFromFile = "Get from file"
-
-        var id: ShippingType { self }
-    }
+    @State var shippingTypeSelection = ShippingPreference.noShipping
 
     var body: some View {
         switch viewModel.state {
@@ -35,7 +27,7 @@ struct SwiftUINativeCheckoutDemo: View {
                 Text("Shipping type selection:")
                 Spacer()
                 Picker("", selection: $shippingTypeSelection) {
-                    ForEach(ShippingType.allCases, id: \.self) { type in
+                    ForEach(ShippingPreference.allCases, id: \.self) { type in
                         Text(type.rawValue)
                     }
                 }

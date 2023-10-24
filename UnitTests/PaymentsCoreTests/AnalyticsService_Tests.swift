@@ -22,11 +22,12 @@ class AnalyticsService_Tests: XCTestCase {
     // MARK: - sendEvent()
         
     func testSendEvent_sendsAppropriateAnalyticsEventData() async {
-        await sut.performEventRequest("some-event")
-        
+        await sut.performEventRequest("some-event", correlationID: "fake-correlation-id")
+
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.eventName, "some-event")
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.clientID, "some-client-id")
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.orderID, "some-order-id")
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.correlationID, "fake-correlation-id")
     }
     
     func testSendEvent_whenLive_sendsAppropriateEnvName() async {

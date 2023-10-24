@@ -7,6 +7,9 @@ import CorePayments
 
 class NativeCheckoutProvider: NativeCheckoutStartable {
 
+    /// Used in POST body for FPTI analytics.
+    var correlationID: String?
+
     private let checkout: CheckoutProtocol.Type
     
     init(_ mxo: CheckoutProtocol.Type = Checkout.self) {
@@ -32,6 +35,7 @@ class NativeCheckoutProvider: NativeCheckoutStartable {
                     createOrderAction.set(orderId: orderID)
                 },
                 onApprove: { approval in
+                    self.correlationID = approval.data.correlationIDs.riskCorrelationID
                     onStartableApprove(approval.data.ecToken, approval.data.payerID)
                 },
                 onShippingChange: { shippingChangeData, shippingChangeActions in
@@ -46,6 +50,7 @@ class NativeCheckoutProvider: NativeCheckoutStartable {
                 },
                 onCancel: { onStartableCancel() },
                 onError: { error in
+                    self.correlationID = error.correlationIDs.riskCorrelationID
                     onStartableError(error.reason)
                 }
             )

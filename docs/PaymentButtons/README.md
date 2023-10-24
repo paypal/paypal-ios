@@ -36,6 +36,8 @@ Each button as a `UKit` and `SwiftUI` implementation as follows:
 #### UKit
 
 ```swift
+import PaymentButtons
+
 class MyViewController: ViewController {
 
     lazy var payPalButton: PayPalButton = {
@@ -44,13 +46,21 @@ class MyViewController: ViewController {
         return payPalButton
     }()
     
-    @objc func paymentButtonTapped() {
+    @objc func payPalButtonTapped() {
         // Insert your code here
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(payPalButton)
+
+        // example constraints to absolutely center the button with a 20 pt. horizontal margin
+        let safeArea = view.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            view.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20)
+            view.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20)
+            view.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor)
+        ])
     }
 }
 ```
@@ -58,6 +68,8 @@ class MyViewController: ViewController {
 #### SwiftUI
 
 ```swift
+import PaymentButtons
+
 struct MyApp: View {
     @ViewBuilder
     var body: some View {

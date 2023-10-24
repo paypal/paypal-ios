@@ -1,6 +1,5 @@
 import Foundation
 import CorePayments
-import PayPalCheckout
 
 /// API Client used to create and process orders on sample merchant server
 final class DemoMerchantAPI {
@@ -92,24 +91,6 @@ final class DemoMerchantAPI {
         return try parse(from: data)
     }
 
-    /// This function replicates a way a merchant may go about creating an order on their server using PayPalNative order request object
-    /// - Parameter orderRequest: the order request to create an order
-    /// - Returns: an order
-    /// - Throws: an error explaining why create order failed
-    func createOrder(orderRequest: PayPalCheckout.OrderRequest, selectedMerchantIntegration: MerchantIntegration) async throws -> Order {
-        if let injectedOrderID = InjectedValues.orderID {
-            return Order(id: injectedOrderID, status: "CREATED")
-        }
-
-        guard let url = buildBaseURL(with: "/orders", selectedMerchantIntegration: selectedMerchantIntegration) else {
-            throw URLResponseError.invalidURL
-        }
-
-        let urlRequest = buildURLRequest(method: "POST", url: url, body: orderRequest)
-        let data = try await data(for: urlRequest)
-        return try parse(from: data)
-    }
-
     /// This function replicates a way a merchant may go about patching an order on their server and is not part of the SDK flow.
     /// - Parameters:
     ///   - updateOrderParams: the parameters to update the order with
@@ -167,7 +148,9 @@ final class DemoMerchantAPI {
 
     private func parse<T: Decodable>(from data: Data) throws -> T {
         do {
-            return try JSONDecoder().decode(T.self, from: data)
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            return try decoder.decode(T.self, from: data)
         } catch {
             throw URLResponseError.dataParsingError
         }

@@ -10,8 +10,11 @@ public class PayPalNativeCheckoutClient {
 
     public weak var delegate: PayPalNativeCheckoutDelegate?
     public weak var shippingDelegate: PayPalNativeShippingDelegate?
+
+    /// Used in POST body for FPTI analytics.
+    private var correlationID: String?
     private let nativeCheckoutProvider: NativeCheckoutStartable
-    private let apiClient: APIClient
+    private let networkingClient: NetworkingClient
     private let config: CoreConfig
     private var analyticsService: AnalyticsService?
 
@@ -22,14 +25,14 @@ public class PayPalNativeCheckoutClient {
         self.init(
             config: config,
             nativeCheckoutProvider: NativeCheckoutProvider(),
-            apiClient: APIClient(coreConfig: config)
+            networkingClient: NetworkingClient(coreConfig: config)
         )
     }
 
-    init(config: CoreConfig, nativeCheckoutProvider: NativeCheckoutStartable, apiClient: APIClient) {
+    init(config: CoreConfig, nativeCheckoutProvider: NativeCheckoutStartable, networkingClient: NetworkingClient) {
         self.config = config
         self.nativeCheckoutProvider = nativeCheckoutProvider
-        self.apiClient = apiClient
+        self.networkingClient = networkingClient
     }
 
     /// Present PayPal Paysheet and start a PayPal transaction
@@ -40,6 +43,7 @@ public class PayPalNativeCheckoutClient {
         request: PayPalNativeCheckoutRequest,
         presentingViewController: UIViewController? = nil
     ) async {
+        correlationID = State.correlationIDs.riskCorrelationID
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         
         let nxoConfig = CheckoutConfig(
@@ -63,6 +67,7 @@ public class PayPalNativeCheckoutClient {
                     orderID: ecToken,
                     payerID: payerID
                 )
+
                 self.notifySuccess(for: result)
             },
             onStartableShippingChange: { shippingType, shippingAction, shippingAddress, shippingMethod in
@@ -92,19 +97,19 @@ public class PayPalNativeCheckoutClient {
     }
     
     private func notifySuccess(for result: PayPalNativeCheckoutResult) {
-        analyticsService?.sendEvent("paypal-native-payments:succeeded")
+        analyticsService?.sendEvent("paypal-native-payments:succeeded", correlationID: nativeCheckoutProvider.correlationID)
         delegate?.paypal(self, didFinishWithResult: result)
     }
 
     private func notifyFailure(with errorDescription: String) {
-        analyticsService?.sendEvent("paypal-native-payments:failed")
-        
+        analyticsService?.sendEvent("paypal-native-payments:failed", correlationID: nativeCheckoutProvider.correlationID)
+
         let error = PayPalNativePaymentsError.nativeCheckoutSDKError(errorDescription)
         delegate?.paypal(self, didFinishWithError: error)
     }
 
     private func notifyCancellation() {
-        analyticsService?.sendEvent("paypal-native-payments:canceled")
+        analyticsService?.sendEvent("paypal-native-payments:canceled", correlationID: correlationID)
         delegate?.paypalDidCancel(self)
     }
     

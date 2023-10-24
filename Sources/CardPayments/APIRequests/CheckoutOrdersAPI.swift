@@ -7,23 +7,23 @@ import CorePayments
 ///
 /// Details on this PayPal API can be found in PPaaS under Merchant > Checkout > Orders > v2.
 class CheckoutOrdersAPI {
-    
-    // MARK: - Private Propertires
-    
+
+    // MARK: - Private Properties
+
     private let coreConfig: CoreConfig
-    private let apiClient: APIClient
+    private let networkingClient: NetworkingClient
     
     // MARK: - Initializer
     
     init(coreConfig: CoreConfig) {
         self.coreConfig = coreConfig
-        self.apiClient = APIClient(coreConfig: coreConfig)
+        self.networkingClient = NetworkingClient(coreConfig: coreConfig)
     }
     
-    /// Exposed for injecting MockAPIClient in tests
-    init(coreConfig: CoreConfig, apiClient: APIClient) {
+    /// Exposed for injecting MockNetworkingClient in tests
+    init(coreConfig: CoreConfig, networkingClient: NetworkingClient) {
         self.coreConfig = coreConfig
-        self.apiClient = apiClient
+        self.networkingClient = networkingClient
     }
     
     // MARK: - Internal Methods
@@ -38,7 +38,7 @@ class CheckoutOrdersAPI {
             postParameters: confirmData
         )
         
-        let httpResponse = try await apiClient.fetch(request: restRequest)
+        let httpResponse = try await networkingClient.fetch(request: restRequest)
         return try HTTPResponseParser().parseREST(httpResponse, as: ConfirmPaymentSourceResponse.self)
     }
 }

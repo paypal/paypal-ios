@@ -1,104 +1,97 @@
 import Foundation
-import PayPalCheckout
 
 enum OrderRequestHelpers {
 
-    static var orderAmount = 100.0
-
-    static func getOrderRequest(_ shippingPreference: OrderApplicationContext.ShippingPreference) -> OrderRequest {
-        return OrderRequest(
-            intent: .authorize,
+    static let orderAmount = 100.0
+    static let currencyCode = "USD"
+    
+    static func getOrderRequest(_ shippingPreference: ShippingPreference) -> CreateOrderParams {
+        return CreateOrderParams(
+            applicationContext: ApplicationContext(userAction: "PAY_NOW", shippingPreference: shippingPreference.rawValue),
+            // TODO: - All demo features should support both AUTHORIZE & CAPTURE testing
+            intent: "AUTHORIZE",
             purchaseUnits: [
-                PayPalCheckout.PurchaseUnit(
-                    amount: getAmount(value: orderAmount),
-                    payee: PayPalCheckout.PurchaseUnit.Payee(emailAddress: "merchant@email.com", merchantId: "X5XAHHCG636FA"),
-                    shipping: PayPalCheckout.PurchaseUnit.Shipping(
-                        shippingName: PayPalCheckout.PurchaseUnit.ShippingName(fullName: "Cookie Monster"),
-                        address: OrderAddress(
-                            countryCode: "US",
+                PurchaseUnit(
+                    shipping: Shipping(
+                        address: Shipping.Address(
                             addressLine1: "345 Sesame Street",
                             addressLine2: "Apt 9",
-                            adminArea1: "NY",
                             adminArea2: "New York City",
+                            adminArea1: "NY",
+                            countryCode: "US",
                             postalCode: "32422"
                         ),
+                        name: Shipping.Name(fullName: "Cookie Monster"),
                         options: shippingPreference == .getFromFile ? getShippingMethods() : nil
-                    )
+                    ),
+                    payee: Payee(merchantID: "X5XAHHCG636FA", emailAddress: "merchant@email.com"),
+                    amount: Amount(currencyCode: "USD", value: String(orderAmount), breakdown: nil)
                 )
-            ],
-            applicationContext: OrderApplicationContext(
-                shippingPreference: shippingPreference,
-                userAction: .payNow,
-                returnUrl: "https://example.com/return",
-                cancelUrl: "https://example.com/cancel"
+            ]
+        )
+    }
+
+    static func getAmount(shipping: Double = 3.99) -> Amount {
+        Amount(
+            currencyCode: currencyCode,
+            value: String(orderAmount + shipping),
+            breakdown: Amount.Breakdown(
+                shipping: ItemTotal(value: String(shipping), currencyValue: String(shipping), currencyCode: currencyCode),
+                itemTotal: ItemTotal( value: String(orderAmount), currencyValue: String(orderAmount), currencyCode: currencyCode)
             )
         )
     }
     
-    static func getAmount(value: Double = orderAmount, shipping: Double = 3.99) -> PayPalCheckout.PurchaseUnit.Amount {
-        return PayPalCheckout.PurchaseUnit.Amount(
-            currencyCode: .usd,
-            value: String(value + shipping),
-            breakdown: PayPalCheckout.PurchaseUnit.Breakdown(
-                itemTotal: UnitAmount(currencyCode: .usd, value: String(value)),
-                shipping: UnitAmount(currencyCode: .usd, value: String(shipping))
-            )
-        )
-    }
-
-    static func getShippingMethods(baseValue: Int = 0, selectedID: String = "ShipTest1") -> [PayPalCheckout.ShippingMethod] {
-        let currency = CurrencyCode.usd
-        let ship1 = PayPalCheckout.ShippingMethod(
+    static func getShippingMethods(selectedID: String = "ShipTest1") -> [ShippingOption]? {
+        let shipOption1 = ShippingOption(
+            selected: false,
             id: "ShipTest1",
-            label: "standard shipping",
-            selected: false,
-            type: .shipping,
-            amount: UnitAmount(currencyCode: currency, value: String(3.99 + Double(baseValue)))
+            amount: ItemTotal(value: "3.99", currencyValue: "3.99", currencyCode: currencyCode),
+            label: "Standard Shipping",
+            type: "SHIPPING"
         )
-        let ship2 = PayPalCheckout.ShippingMethod(
+        
+        let shipOption2 = ShippingOption(
+            selected: false,
             id: "ShipTest2",
-            label: "cheap shipping",
-            selected: false,
-            type: .shipping,
-            amount: UnitAmount(currencyCode: currency, value: String(0.99 + Double(baseValue)))
+            amount: ItemTotal(value: "0.99", currencyValue: "0.99", currencyCode: currencyCode),
+            label: "Cheap Shipping",
+            type: "SHIPPING"
         )
-        let ship3 = PayPalCheckout.ShippingMethod(
+        
+        let shipOption3 = ShippingOption(
+            selected: false,
             id: "ShipTest3",
-            label: "express shipping",
-            selected: false,
-            type: .shipping,
-            amount: UnitAmount(currencyCode: currency, value: String(7.99 + Double(baseValue)))
+            amount: ItemTotal(value: "7.99", currencyValue: "7.99", currencyCode: currencyCode),
+            label: "Express Shipping",
+            type: "SHIPPING"
         )
-        let pick1 = PayPalCheckout.ShippingMethod(
+        
+        let shipOption4 = ShippingOption(
+            selected: false,
             id: "PickTest1",
-            label: "please pick it up from store",
-            selected: false,
-            type: .pickup,
-            amount: UnitAmount(currencyCode: currency, value: "0")
+            amount: ItemTotal(value: "0", currencyValue: "0", currencyCode: currencyCode),
+            label: "Pick up from store",
+            type: "PICKUP"
         )
-        let pick2 = PayPalCheckout.ShippingMethod(
+        
+        let shipOption5 = ShippingOption(
+            selected: false,
             id: "PickTest2",
-            label: "pick it up from warehouse",
-            selected: false,
-            type: .pickup,
-            amount: UnitAmount(currencyCode: currency, value: "0")
+            amount: ItemTotal(value: "0", currencyValue: "0", currencyCode: currencyCode),
+            label: "Pick up from warehouse",
+            type: "PICKUP"
         )
-        let pick3 = PayPalCheckout.ShippingMethod(
-            id: "PickTest3",
-            label: "pick it from HQ",
-            selected: false,
-            type: .pickup,
-            amount: UnitAmount(currencyCode: currency, value: "0")
-        )
-        var shippingOptions = [ship1, ship2, ship3, pick1, pick2, pick3]
+        
+        var shippingOptions = [shipOption1, shipOption2, shipOption3, shipOption4, shipOption5]
         if let index = shippingOptions.firstIndex(where: { $0.id == selectedID }) {
             let shippingMethod = shippingOptions[index]
-            shippingOptions[index] = PayPalCheckout.ShippingMethod(
-                id: selectedID,
-                label: shippingMethod.label,
+            shippingOptions[index] = ShippingOption(
                 selected: true,
-                type: shippingMethod.type,
-                amount: shippingMethod.amount
+                id: selectedID,
+                amount: shippingMethod.amount,
+                label: shippingMethod.label,
+                type: shippingMethod.type
             )
         }
         return shippingOptions
