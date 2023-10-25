@@ -39,6 +39,7 @@ public class PayPalNativeCheckoutClient {
     /// - Parameters:
     ///   - request: The PayPalNativeCheckoutRequest for the transaction
     ///   - presentingViewController: the ViewController to present PayPalPaysheet on, if not provided, the Paysheet will be presented on your top-most ViewController
+    // NEXT_MAJOR_VERSION: - Change to non-async
     public func start(
         request: PayPalNativeCheckoutRequest,
         presentingViewController: UIViewController? = nil
