@@ -35,13 +35,17 @@ public class PayPalNativeCheckoutClient {
         self.networkingClient = networkingClient
     }
 
-    private func startPayPalNativeCheckout(
+    /// Present PayPal Paysheet and start a PayPal transaction
+    /// - Parameters:
+    ///   - request: The PayPalNativeCheckoutRequest for the transaction
+    ///   - presentingViewController: the ViewController to present PayPalPaysheet on, if not provided, the Paysheet will be presented on your top-most ViewController
+    public func start(
         request: PayPalNativeCheckoutRequest,
         presentingViewController: UIViewController? = nil
-    ) {
+    ) async {
         correlationID = State.correlationIDs.riskCorrelationID
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
-
+        
         let nxoConfig = CheckoutConfig(
             clientID: config.clientID,
             createOrder: nil,
@@ -52,7 +56,7 @@ public class PayPalNativeCheckoutClient {
             environment: config.environment.toNativeCheckoutSDKEnvironment()
         )
         delegate?.paypalWillStart(self)
-
+        
         analyticsService?.sendEvent("paypal-native-payments:started")
         self.nativeCheckoutProvider.start(
             presentingViewController: presentingViewController,
@@ -90,30 +94,7 @@ public class PayPalNativeCheckoutClient {
             nxoConfig: nxoConfig
         )
     }
-
-    /// Present PayPal Paysheet and start a PayPal transaction
-    /// - Parameters:
-    ///   - request: The PayPalNativeCheckoutRequest for the transaction
-    ///   - presentingViewController: the ViewController to present PayPalPaysheet on, if not provided, the Paysheet will be presented on your top-most ViewController
-    public func startNativeCheckout(
-        request: PayPalNativeCheckoutRequest,
-        presentingViewController: UIViewController? = nil
-    ) {
-        startPayPalNativeCheckout(request: request, presentingViewController: presentingViewController)
-    }
-
-    /// Present PayPal Paysheet and start a PayPal transaction
-    /// - Parameters:
-    ///   - request: The PayPalNativeCheckoutRequest for the transaction
-    ///   - presentingViewController: the ViewController to present PayPalPaysheet on, if not provided, the Paysheet will be presented on your top-most ViewController
-    @available(*, deprecated, message: "Async function is deprecated. Use the non-async start function")
-    public func start(
-        request: PayPalNativeCheckoutRequest,
-        presentingViewController: UIViewController? = nil
-    ) async {
-        startPayPalNativeCheckout(request: request, presentingViewController: presentingViewController)
-    }
-
+    
     private func notifySuccess(for result: PayPalNativeCheckoutResult) {
         analyticsService?.sendEvent("paypal-native-payments:succeeded", correlationID: nativeCheckoutProvider.correlationID)
         delegate?.paypal(self, didFinishWithResult: result)

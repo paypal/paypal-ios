@@ -2,9 +2,6 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
-* Breaking Changes
-  * PayPalNativePayments
-    * `start` async function deprecated and replaced with `startNativeCheckout` function
 * CorePayments
   * Analytics
     * Update `component` from `ppcpmobilesdk` to `ppcpclientsdk`

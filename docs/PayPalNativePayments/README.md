@@ -84,7 +84,7 @@ To start the PayPal Native checkout flow, call the `start` function on `PayPalNa
 
 ```swift
 let request = PayPalNativeCheckoutRequest(orderID: "<ORDER_ID>")
-paypalNativeClient.startNativeCheckout(request: request)
+await paypalNativeClient.start(request: request)
 ```
 
 Implement `PayPalNativeCheckoutDelegate` to listen for result notifications from the SDK. In this example, we implement it in a view model:
