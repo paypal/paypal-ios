@@ -35,6 +35,7 @@ public class PayPalNativeCheckoutClient {
         self.networkingClient = networkingClient
     }
 
+    // NEXT_MAJOR_VERSION: - Change to non-async
     /// Present PayPal Paysheet and start a PayPal transaction
     /// - Parameters:
     ///   - request: The PayPalNativeCheckoutRequest for the transaction
