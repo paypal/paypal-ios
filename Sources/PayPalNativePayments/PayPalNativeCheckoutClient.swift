@@ -35,6 +35,7 @@ public class PayPalNativeCheckoutClient {
         self.networkingClient = networkingClient
     }
 
+    // NEXT_MAJOR_VERSION: - Change to non-async
     /// Present PayPal Paysheet and start a PayPal transaction
     /// - Parameters:
     ///   - request: The PayPalNativeCheckoutRequest for the transaction
@@ -43,7 +44,6 @@ public class PayPalNativeCheckoutClient {
         request: PayPalNativeCheckoutRequest,
         presentingViewController: UIViewController? = nil
     ) async {
-        // NEXT_MAJOR_VERSION: - Change to non-async
         correlationID = State.correlationIDs.riskCorrelationID
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         
