@@ -5,6 +5,7 @@ import AuthenticationServices
 @testable import CardPayments
 @testable import TestShared
 
+@MainActor
 class CardClient_Tests: XCTestCase {
 
     // MARK: - Helper Properties

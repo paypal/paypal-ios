@@ -1,6 +1,7 @@
 import XCTest
 @testable import PaymentButtons
 
+@MainActor
 class PayPalButton_Tests: XCTestCase {
 
     // MARK: - PayPalButton for UIKit

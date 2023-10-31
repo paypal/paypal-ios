@@ -102,7 +102,7 @@ struct AnalyticsEventData: Encodable {
         self.correlationID = correlationID
     }
     
-    func encode(to encoder: Encoder) throws {
+    nonisolated func encode(to encoder: Encoder) throws {
         var topLevel = encoder.container(keyedBy: TopLevelKeys.self)
         var events = topLevel.nestedContainer(keyedBy: EventKeys.self, forKey: .events)
         var eventParameters = events.nestedContainer(keyedBy: EventParameterKeys.self, forKey: .eventParameters)

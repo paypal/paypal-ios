@@ -2,6 +2,7 @@ import XCTest
 @testable import CorePayments
 @testable import TestShared
 
+@MainActor
 class AnalyticsService_Tests: XCTestCase {
 
     // MARK: - Helper properties

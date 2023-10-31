@@ -8,6 +8,7 @@ class AnalyticsEventData_Tests: XCTestCase {
     let currentTime = String(Date().timeIntervalSince1970 * 1000)
     let oneSecondLater = String((Date().timeIntervalSince1970 * 1000) + 999)
     
+    @MainActor
     override func setUp() {
         super.setUp()
         sut = AnalyticsEventData(

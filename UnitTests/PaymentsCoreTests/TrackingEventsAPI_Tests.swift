@@ -3,6 +3,7 @@ import XCTest
 @testable import TestShared
 @testable import CorePayments
 
+@MainActor
 class TrackingEventsAPI_Tests: XCTestCase {
     
     // MARK: - Helper Properties
