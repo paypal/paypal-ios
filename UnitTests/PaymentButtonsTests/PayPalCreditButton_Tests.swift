@@ -21,6 +21,7 @@ class PayPalCreditButton_Tests: XCTestCase {
 
     // MARK: - PayPalPayCreditButton.Representable for SwiftUI
     
+    @MainActor
     func testMakeCoordinator_whenOnActionIsCalled_executesActionPassedInInitializer() {
         let expectation = expectation(description: "Action is called")
         let sut = PayPalCreditButton.Representable {

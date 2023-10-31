@@ -16,6 +16,7 @@ class PayPalPayLaterButton_Tests: XCTestCase {
 
     // MARK: - PayPalPayLaterButton.Representable for SwiftUI
     
+    @MainActor
     func testMakeCoordinator_whenOnActionIsCalled_executesActionPassedInInitializer() {
         let expectation = expectation(description: "Action is called")
         let sut = PayPalPayLaterButton.Representable {
