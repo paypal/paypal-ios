@@ -79,6 +79,7 @@ public extension PayPalButton {
         ///   - edges: Edges of the button. Default to softEdges if not provided.
         ///   - size: Size of the button. Default to collapsed if not provided.
         ///   - label: Label displayed next to the button's logo. Default to no label.
+        @MainActor
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
             color: PayPalButton.Color = .gold,

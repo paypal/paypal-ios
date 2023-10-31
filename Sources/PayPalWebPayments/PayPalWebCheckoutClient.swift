@@ -121,7 +121,8 @@ public class PayPalWebCheckoutClient: NSObject {
 // MARK: - ASWebAuthenticationPresentationContextProviding conformance
 
 extension PayPalWebCheckoutClient: ASWebAuthenticationPresentationContextProviding {
-    
+  
+    @MainActor
     public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         if #available(iOS 15, *) {
             let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene

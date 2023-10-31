@@ -49,7 +49,7 @@ public struct AnalyticsService {
         do {
             let clientID = coreConfig.clientID
             
-            let eventData = AnalyticsEventData(
+            let eventData = await AnalyticsEventData(
                 environment: coreConfig.environment.toString,
                 eventName: name,
                 clientID: clientID,

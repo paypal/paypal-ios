@@ -1,5 +1,6 @@
 import UIKit
 
+@MainActor
 struct AnalyticsEventData: Encodable {
     
     enum TopLevelKeys: String, CodingKey {

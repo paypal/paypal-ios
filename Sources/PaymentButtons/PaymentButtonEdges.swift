@@ -12,6 +12,7 @@ public enum PaymentButtonEdges: Int {
     /// Pill shaped corner radius.
     case rounded
 
+    @MainActor
     func cornerRadius(for view: UIView) -> CGFloat {
         switch self {
         case .hardEdges:

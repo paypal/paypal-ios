@@ -1,5 +1,6 @@
 import UIKit
 
+@MainActor
 enum ImageAsset {
     static func paymentButtonLogo(for button: PaymentButton) -> UIImage? {
         var imageAssetString = ""
