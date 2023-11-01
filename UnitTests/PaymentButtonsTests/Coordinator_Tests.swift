@@ -5,6 +5,7 @@ class Coordinator_Tests: XCTestCase {
 
     var actionString: String = ""
 
+    @MainActor
     func testCoordinator_init() {
         let action = { self.actionTest() }
         let coordinator = Coordinator(action: action)

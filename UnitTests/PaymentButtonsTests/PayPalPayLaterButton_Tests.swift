@@ -5,6 +5,7 @@ class PayPalPayLaterButton_Tests: XCTestCase {
     
     // MARK: - PayPalPayLaterButton for UIKit
     
+    @MainActor
     func testInit_whenPayPalPayLaterButtonCreated_hasDefaultUIValues() {
         let sut = PayPalPayLaterButton()
         XCTAssertEqual(sut.edges, PaymentButtonEdges.softEdges)
