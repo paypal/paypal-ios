@@ -2,8 +2,8 @@ import Foundation
 
 /// A vault request to attach payment method to setup token
 @_documentation(visibility: private)
-public struct CardVaultRequest {
-    
+public struct CardVaultRequest: Sendable {
+
     /// The card for payment source to attach to the setup token
     public let card: Card
     

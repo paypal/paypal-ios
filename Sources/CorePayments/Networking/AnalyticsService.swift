@@ -2,8 +2,8 @@ import Foundation
 
 /// Constructs `AnalyticsEventData` models and sends FPTI analytics events.
 @_documentation(visibility: private)
-public struct AnalyticsService {
-    
+public struct AnalyticsService: @unchecked Sendable {
+
     // MARK: - Internal Properties
     
     private let coreConfig: CoreConfig

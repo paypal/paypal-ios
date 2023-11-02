@@ -1,7 +1,7 @@
 import Foundation
 
 /// The postal address.
-public struct Address: Codable, Equatable {
+public struct Address: Codable, Equatable, Sendable {
 
     enum CodingKeys: String, CodingKey {
         case addressLine1

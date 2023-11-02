@@ -1,7 +1,7 @@
 import UIKit
 
 /// Strong Customer Authentication launching options
-public enum SCA: String {
+public enum SCA: String, Sendable {
     
     /// Launch SCA challenge for every transaction
     case scaAlways = "SCA_ALWAYS"

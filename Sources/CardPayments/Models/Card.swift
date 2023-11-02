@@ -1,7 +1,7 @@
 import Foundation
 
 /// Represents raw credit or debit card data provided by the customer.
-public struct Card: Encodable {
+public struct Card: Encodable, Sendable {
 
     /// The primary account number (PAN) for the payment card.
     public var number: String
