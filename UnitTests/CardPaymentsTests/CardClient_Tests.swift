@@ -5,7 +5,6 @@ import AuthenticationServices
 @testable import CardPayments
 @testable import TestShared
 
-@MainActor
 class CardClient_Tests: XCTestCase {
 
     // MARK: - Helper Properties
@@ -47,7 +46,7 @@ class CardClient_Tests: XCTestCase {
     
     // MARK: - vault() tests
 
-    func testVault_withValidResponse_returnsSuccess() {
+    func testVault_withValidResponse_returnsSuccess() async throws {
         let setupTokenID = "testToken1"
         let vaultStatus = "APPROVED"
         let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
@@ -67,10 +66,10 @@ class CardClient_Tests: XCTestCase {
         sut.vaultDelegate = cardVaultDelegate
         sut.vault(vaultRequest)
         
-        waitForExpectations(timeout: 10)
+        await self.fulfillment(of: [expectation], timeout: 10)
     }
-    
-    func testVault_whenVaultAPIError_bubblesError() {
+
+    func testVault_whenVaultAPIError_bubblesError() async throws {
         let setupTokenID = "testToken1"
         let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
                
@@ -88,10 +87,10 @@ class CardClient_Tests: XCTestCase {
         sut.vaultDelegate = cardVaultDelegate
         sut.vault(vaultRequest)
 
-        waitForExpectations(timeout: 10)
+        await self.fulfillment(of: [expectation], timeout: 10)
     }
 
-    func testVault_whenUnknownError_returnsVaultError() {
+    func testVault_whenUnknownError_returnsVaultError() async throws {
         let setupTokenID = "testToken1"
         let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
 
@@ -109,12 +108,12 @@ class CardClient_Tests: XCTestCase {
         sut.vaultDelegate = cardVaultDelegate
         sut.vault(vaultRequest)
 
-        waitForExpectations(timeout: 10)
+        await self.fulfillment(of: [expectation], timeout: 10)
     }
 
     // MARK: - approveOrder() tests
 
-    func testApproveOrder_withInvalid3DSURL_returnsError() {
+    func testApproveOrder_withInvalid3DSURL_returnsError() async throws {
         mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withInvalid3DSURL
         
         let expectation = expectation(description: "approveOrder() completed")
@@ -133,10 +132,10 @@ class CardClient_Tests: XCTestCase {
         sut.delegate = mockCardDelegate
         sut.approveOrder(request: cardRequest)
 
-        waitForExpectations(timeout: 10)
+        await self.fulfillment(of: [expectation], timeout: 10)
     }
 
-    func testApproveOrder_withNoThreeDSecure_returnsOrderData() {
+    func testApproveOrder_withNoThreeDSecure_returnsOrderData() async throws {
         mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.without3DS
         
         let expectation = expectation(description: "approveOrder() completed")
@@ -153,10 +152,10 @@ class CardClient_Tests: XCTestCase {
         sut.delegate = mockCardDelegate
         sut.approveOrder(request: cardRequest)
 
-        waitForExpectations(timeout: 10)
+        await self.fulfillment(of: [expectation], timeout: 10)
     }
 
-    func testApproveOrder_whenConfirmPaymentSDKError_bubblesError() {
+    func testApproveOrder_whenConfirmPaymentSDKError_bubblesError() async throws {
         mockCheckoutOrdersAPI.stubError = CoreSDKError(code: 123, domain: "sdk-domain", errorDescription: "sdk-error-desc")
 
         let expectation = expectation(description: "approveOrder() completed")
@@ -175,10 +174,10 @@ class CardClient_Tests: XCTestCase {
         sut.delegate = mockCardDelegate
         sut.approveOrder(request: cardRequest)
 
-        waitForExpectations(timeout: 10)
+        await self.fulfillment(of: [expectation], timeout: 10)
     }
     
-    func testApproveOrder_whenConfirmPaymentGeneralError_returnsUnknownError() {
+    func testApproveOrder_whenConfirmPaymentGeneralError_returnsUnknownError() async throws {
         mockCheckoutOrdersAPI.stubError = NSError(
             domain: "ns-fake-domain",
             code: 123,
@@ -201,10 +200,10 @@ class CardClient_Tests: XCTestCase {
         sut.delegate = mockCardDelegate
         sut.approveOrder(request: cardRequest)
 
-        waitForExpectations(timeout: 10)
+        await self.fulfillment(of: [expectation], timeout: 10)
     }
 
-    func testApproveOrder_withThreeDSecure_browserSwitchLaunches_getOrderReturnsSuccess() {
+    func testApproveOrder_withThreeDSecure_browserSwitchLaunches_getOrderReturnsSuccess() async throws {
         mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withValid3DSURL
 
         let expectation = expectation(description: "approveOrder() completed")
@@ -225,10 +224,10 @@ class CardClient_Tests: XCTestCase {
         sut.delegate = mockCardDelegate
         sut.approveOrder(request: cardRequest)
 
-        waitForExpectations(timeout: 10)
+        await self.fulfillment(of: [expectation], timeout: 10)
     }
 
-    func testApproveOrder_withThreeDSecure_userCancelsBrowser() {
+    func testApproveOrder_withThreeDSecure_userCancelsBrowser() async throws {
         mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withValid3DSURL
 
         mockWebAuthSession.cannedErrorResponse = ASWebAuthenticationSessionError(
@@ -257,10 +256,10 @@ class CardClient_Tests: XCTestCase {
         sut.delegate = mockCardDelegate
         sut.approveOrder(request: cardRequest)
 
-        waitForExpectations(timeout: 10)
+        await self.fulfillment(of: [expectation], timeout: 10)
     }
 
-    func testApproveOrder_withThreeDSecure_browserReturnsError() {
+    func testApproveOrder_withThreeDSecure_browserReturnsError() async throws {
         mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withValid3DSURL
 
         mockWebAuthSession.cannedErrorResponse = CoreSDKError(
@@ -292,6 +291,6 @@ class CardClient_Tests: XCTestCase {
         sut.delegate = mockCardDelegate
         sut.approveOrder(request: cardRequest)
 
-        waitForExpectations(timeout: 10)
+        await self.fulfillment(of: [expectation], timeout: 10)
     }
 }
