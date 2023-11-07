@@ -12,6 +12,8 @@ struct PayPalWebState: Equatable {
     var createOrder: Order?
     var intent: Intent = .authorize
     var checkoutResult: CheckoutResult?
+    var authorizedOrder: Order?
+    var capturedOrder: Order?
 
     var createdOrderResponse: LoadingState<Order> = .idle {
         didSet {
@@ -25,6 +27,22 @@ struct PayPalWebState: Equatable {
         didSet {
             if case .loaded(let value) = checkoutResultResponse {
                 checkoutResult = value
+            }
+        }
+    }
+
+    var capturedOrderResponse: LoadingState<Order> = .idle {
+        didSet {
+            if case .loaded(let value) = capturedOrderResponse {
+                capturedOrder = value
+            }
+        }
+    }
+
+    var authorizedOrderResponse: LoadingState<Order> = .idle {
+        didSet {
+            if case .loaded(let value) = authorizedOrderResponse {
+                authorizedOrder = value
             }
         }
     }

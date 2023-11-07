@@ -82,6 +82,45 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         }
     }
 
+    func captureOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws {
+        do {
+            DispatchQueue.main.async {
+                self.state.capturedOrderResponse = .loading
+            }
+            let order = try await DemoMerchantAPI.sharedService.captureOrder(
+                orderID: orderID,
+                selectedMerchantIntegration: selectedMerchantIntegration
+            )
+            DispatchQueue.main.async {
+                self.state.capturedOrderResponse = .loaded(order)
+            }
+        } catch {
+            DispatchQueue.main.async {
+                self.state.capturedOrderResponse = .error(message: error.localizedDescription)
+            }
+            print("Error capturing order: \(error.localizedDescription)")
+        }
+    }
+
+    func authorizeOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws {
+        do {
+            DispatchQueue.main.async {
+                self.state.authorizedOrderResponse = .loading
+            }
+            let order = try await DemoMerchantAPI.sharedService.authorizeOrder(
+                orderID: orderID,
+                selectedMerchantIntegration: selectedMerchantIntegration
+            )
+            DispatchQueue.main.async {
+                self.state.authorizedOrderResponse = .loaded(order)
+            }
+        } catch {
+            DispatchQueue.main.async {
+                self.state.authorizedOrderResponse = .error(message: error.localizedDescription)
+            }
+            print("Error authorizing order: \(error.localizedDescription)")
+        }
+    }
 
     // MARK: - PayPalWeb Checkout Delegate
 

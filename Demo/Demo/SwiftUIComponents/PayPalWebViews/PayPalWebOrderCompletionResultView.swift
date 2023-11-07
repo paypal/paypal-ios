@@ -1,11 +1,11 @@
 import SwiftUI
 
-struct CardOrderCompletionResultView: View {
+struct PayPalWebOrderCompletionResultView: View {
 
-    @ObservedObject var cardPaymentViewModel: CardPaymentViewModel
+    @ObservedObject var paypalWebViewModel: PayPalWebViewModel
 
     var body: some View {
-        switch cardPaymentViewModel.state.authorizedOrderResponse {
+        switch paypalWebViewModel.state.authorizedOrderResponse {
         case .idle, .loading:
             EmptyView()
         case .loaded(let authorizedOrderResponse):
@@ -14,7 +14,7 @@ struct CardOrderCompletionResultView: View {
             ErrorView(errorMessage: errorMessage)
         }
 
-        switch cardPaymentViewModel.state.capturedOrderResponse {
+        switch paypalWebViewModel.state.capturedOrderResponse {
         case .idle, .loading:
             EmptyView()
         case .loaded(let capturedOrderResponse):
@@ -35,22 +35,7 @@ struct CardOrderCompletionResultView: View {
             LeadingText("\(orderResponse.id)")
             LeadingText("Status", weight: .bold)
             LeadingText("\(orderResponse.status)")
-            if let lastDigits = orderResponse.paymentSource?.card?.lastDigits {
-                LeadingText("Card Last Digits", weight: .bold)
-                LeadingText("\(lastDigits)")
-            }
-            if let brand = orderResponse.paymentSource?.card?.brand {
-                LeadingText("Brand", weight: .bold)
-                LeadingText("\(brand)")
-            }
-            if let vaultID = orderResponse.paymentSource?.card?.attributes?.vault.id {
-                LeadingText("Vault ID / Payment Token", weight: .bold)
-                LeadingText("\(vaultID)")
-            }
-            if let customerID = orderResponse.paymentSource?.card?.attributes?.vault.customer.id {
-                LeadingText("Customer ID", weight: .bold)
-                LeadingText("\(customerID)")
-            }
+            
             Text("")
                 .id("bottomView")
         }
