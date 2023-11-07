@@ -1,10 +1,3 @@
-//
-//  PayPalOrderActionButton.swift
-//  Demo
-//
-//  Created by Victoria Park on 11/7/23.
-//
-
 import SwiftUI
 
 struct PayPalOrderActionButton: View {
