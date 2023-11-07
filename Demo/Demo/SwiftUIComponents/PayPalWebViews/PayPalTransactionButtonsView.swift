@@ -37,7 +37,7 @@ struct PayPalTransactionButtonsView: View {
                     Text("Complete Order Transaction")
                 }
                 .buttonStyle(RoundedBlueButtonStyle())
-                    .padding()
+                .padding()
             }
             Spacer()
         }
