@@ -35,7 +35,10 @@ struct PayPalWebOrderCompletionResultView: View {
             LeadingText("\(orderResponse.id)")
             LeadingText("Status", weight: .bold)
             LeadingText("\(orderResponse.status)")
-            
+            if let email = orderResponse.paymentSource?.paypal?.emailAddress {
+                LeadingText("Email", weight: .bold)
+                LeadingText("\(email)")
+            }
             Text("")
                 .id("bottomView")
         }

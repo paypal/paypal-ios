@@ -26,8 +26,6 @@ struct Order: Codable, Equatable {
     struct PayPal: Codable, Equatable {
 
         let emailAddress: String
-        let accountId: String
-        let accountStatus: String
     }
 
     struct Attributes: Codable, Equatable {
