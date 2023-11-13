@@ -19,7 +19,7 @@ public enum Environment {
         case .sandbox:
             return URL(string: "https://www.sandbox.paypal.com/graphql")!
         case .live:
-            return URL(string: "https://paypal.com/graphql")!
+            return URL(string: "https://www.paypal.com/graphql")!
         }
     }
     
