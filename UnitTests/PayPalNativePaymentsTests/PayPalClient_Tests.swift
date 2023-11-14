@@ -29,19 +29,19 @@ class PayPalClient_Tests: XCTestCase {
     )
 
     func testUserAuthenticationIsPassed_returnsRequestEmail() async {
-      let modifiedRequest = PayPalNativeCheckoutRequest(orderID: "fake-order-id", userAuthenticationEmail: "fake_user_email@mock.paypal.com")
-      let mockPayPalDelegate = MockPayPalDelegate()
-      payPalClient.delegate = mockPayPalDelegate
-      await payPalClient.start(request: modifiedRequest)
-      XCTAssertEqual(mockNativeCheckoutProvider.userAuthenticationEmail, "fake_user_email@mock.paypal.com")
+        let modifiedRequest = PayPalNativeCheckoutRequest(orderID: "fake-order-id", userAuthenticationEmail: "fake_user_email@mock.paypal.com")
+        let mockPayPalDelegate = MockPayPalDelegate()
+        payPalClient.delegate = mockPayPalDelegate
+        await payPalClient.start(request: modifiedRequest)
+        XCTAssertEqual(mockNativeCheckoutProvider.userAuthenticationEmail, "fake_user_email@mock.paypal.com")
     }
 
     func testUserAuthenticationIsNil_returnsNilForEmail() async {
-      let modifiedRequest = PayPalNativeCheckoutRequest(orderID: "fake-order-id")
-      let mockPayPalDelegate = MockPayPalDelegate()
-      payPalClient.delegate = mockPayPalDelegate
-      await payPalClient.start(request: request)
-      XCTAssertNil(mockNativeCheckoutProvider.userAuthenticationEmail)
+        let modifiedRequest = PayPalNativeCheckoutRequest(orderID: "fake-order-id")
+        let mockPayPalDelegate = MockPayPalDelegate()
+        payPalClient.delegate = mockPayPalDelegate
+        await payPalClient.start(request: request)
+        XCTAssertNil(mockNativeCheckoutProvider.userAuthenticationEmail)
     }
 
     func testStart_whenNativeSDKOnApproveCalled_returnsPayPalResult() async {

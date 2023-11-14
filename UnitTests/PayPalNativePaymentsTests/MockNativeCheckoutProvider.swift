@@ -9,7 +9,7 @@ import XCTest
 class MockNativeCheckoutProvider: NativeCheckoutStartable {
 
     var correlationID: String?
-    var userAuthenticationEmail: String? = nil
+    var userAuthenticationEmail: String?
     var onCancel: StartableCancelCallback?
     var onError: StartableErrorCallback?
     var onApprove: StartableApproveCallback?
