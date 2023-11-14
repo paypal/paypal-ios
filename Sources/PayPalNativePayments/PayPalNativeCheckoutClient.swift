@@ -56,6 +56,7 @@ public class PayPalNativeCheckoutClient {
             onError: nil,
             environment: config.environment.toNativeCheckoutSDKEnvironment()
         )
+        nxoConfig.authConfig.userEmail = request.userAuthenticationEmail
         delegate?.paypalWillStart(self)
         
         analyticsService?.sendEvent("paypal-native-payments:started")

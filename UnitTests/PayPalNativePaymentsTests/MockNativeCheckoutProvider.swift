@@ -7,8 +7,9 @@ import PayPalCheckout
 import XCTest
 
 class MockNativeCheckoutProvider: NativeCheckoutStartable {
-    
+
     var correlationID: String?
+    var userAuthenticationEmail: String?
     var onCancel: StartableCancelCallback?
     var onError: StartableErrorCallback?
     var onApprove: StartableApproveCallback?
@@ -30,6 +31,7 @@ class MockNativeCheckoutProvider: NativeCheckoutStartable {
         self.onError = onStartableError
         self.onApprove = onStartableApprove
         self.onShippingChange = onStartableShippingChange
+        self.userAuthenticationEmail = nxoConfig.authConfig.userEmail
     }
 
     func triggerCancel() {
