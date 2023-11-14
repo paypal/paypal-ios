@@ -2,6 +2,9 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
+* PayPalNativePayments
+  * Bump `PayPalCheckout` to `1.2.0`
+  * Update `PayPalNativeCheckoutRequest` initalizer to accept optional param `userAuthenticationEmail`
 * CorePayments
   * Analytics
     * Update `component` from `ppcpmobilesdk` to `ppcpclientsdk`
