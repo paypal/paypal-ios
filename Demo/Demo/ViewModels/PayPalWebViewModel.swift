@@ -82,6 +82,18 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         }
     }
 
+    func completeOrder(with intent: Intent, orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws {
+
+        switch intent {
+        case .capture:
+            try await captureOrder(orderID: orderID, selectedMerchantIntegration: selectedMerchantIntegration)
+            print("Order Captured. ID: \(state.capturedOrder?.id ?? "")")
+        case .authorize:
+            try await authorizeOrder(orderID: orderID, selectedMerchantIntegration: selectedMerchantIntegration)
+            print("Order Authorized. ID: \(state.authorizedOrder?.id ?? "")")
+        }
+    }
+
     func captureOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws {
         do {
             DispatchQueue.main.async {

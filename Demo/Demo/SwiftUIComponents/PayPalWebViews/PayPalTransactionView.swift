@@ -1,7 +1,7 @@
 import SwiftUI
 import PaymentButtons
 
-struct PayPalTransactionsView: View {
+struct PayPalTransactionView: View {
 
     @ObservedObject var paypalWebViewModel: PayPalWebViewModel
     let orderID: String
