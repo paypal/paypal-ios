@@ -15,7 +15,7 @@ struct PayPalWebView: View {
                 if let order = paypalWebViewModel.state.createOrder {
                     OrderCreatePayPalWebResultView(paypalWebViewModel: paypalWebViewModel)
                     NavigationLink {
-                        PayPalTransactionButtonsView(paypalWebViewModel: paypalWebViewModel, orderID: order.id)
+                        PayPalTransactionView(paypalWebViewModel: paypalWebViewModel, orderID: order.id)
                             .navigationTitle("PayPal Transactions")
                     } label: {
                         Text("PayPal Transactions")

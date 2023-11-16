@@ -13,7 +13,7 @@ struct CardPaymentView: View {
                 )
                 
                 if let order = cardPaymentViewModel.state.createOrder {
-                    OrderCreateCardPaymentResultView(cardPaymentViewModel: cardPaymentViewModel)
+                    OrderCreateCardResultView(cardPaymentViewModel: cardPaymentViewModel)
                     NavigationLink {
                         CardOrderApproveView(orderID: order.id, cardPaymentViewModel: cardPaymentViewModel)
                     } label: {

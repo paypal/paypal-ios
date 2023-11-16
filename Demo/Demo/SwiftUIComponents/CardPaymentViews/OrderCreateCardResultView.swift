@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct OrderCreateCardPaymentResultView: View {
+struct OrderCreateCardResultView: View {
 
     @ObservedObject var cardPaymentViewModel: CardPaymentViewModel
 

@@ -1,7 +1,7 @@
 import SwiftUI
 import PaymentButtons
 
-struct PayPalTransactionButtonsView: View {
+struct PayPalTransactionView: View {
 
     @ObservedObject var paypalWebViewModel: PayPalWebViewModel
     let orderID: String
@@ -29,7 +29,16 @@ struct PayPalTransactionButtonsView: View {
                     .stroke(.gray, lineWidth: 2)
                     .padding(5)
             )
-            PayPalWebApprovalView(paypalWebViewModel: paypalWebViewModel)
+            PayPalWebApprovalResultView(paypalWebViewModel: paypalWebViewModel)
+            if paypalWebViewModel.state.checkoutResult != nil {
+                NavigationLink {
+                    PayPalWebOrderCompletionView(orderID: orderID, payPalWebViewModel: paypalWebViewModel)
+                } label: {
+                    Text("Complete Order Transaction")
+                }
+                .buttonStyle(RoundedBlueButtonStyle())
+                .padding()
+            }
             Spacer()
         }
     }

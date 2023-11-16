@@ -6,7 +6,8 @@ struct Order: Codable, Equatable {
     
     struct PaymentSource: Codable, Equatable {
         
-        let card: Card
+        let card: Card?
+        let paypal: PayPal?
     }
 
     init(id: String, status: String, paymentSource: PaymentSource? = nil) {
@@ -20,6 +21,11 @@ struct Order: Codable, Equatable {
         let lastDigits: String?
         let brand: String?
         let attributes: Attributes?
+    }
+
+    struct PayPal: Codable, Equatable {
+
+        let emailAddress: String
     }
 
     struct Attributes: Codable, Equatable {
