@@ -83,7 +83,6 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
     }
 
     func completeOrder(with intent: Intent, orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws {
-
         switch intent {
         case .capture:
             try await captureOrder(orderID: orderID, selectedMerchantIntegration: selectedMerchantIntegration)
