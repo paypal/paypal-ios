@@ -3,7 +3,7 @@ struct CreateOrderParams: Encodable {
     let applicationContext: ApplicationContext?
     let intent: String
     var purchaseUnits: [PurchaseUnit]?
-    var paymentSource: VaultCardPaymentSource?
+    var paymentSource: VaultPaymentSource?
 }
 
 struct ApplicationContext: Codable {
@@ -15,6 +15,38 @@ struct ApplicationContext: Codable {
         case userAction
         case shippingPreference
     }
+}
+
+enum VaultPaymentSource: Encodable {
+    case card(VaultCardPaymentSource)
+    case paypal(VaultPayPalPaymentSource)
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .card(let cardSource):
+            try container.encode(cardSource)
+        case .paypal(let paypalSource):
+            try container.encode(paypalSource)
+        }
+    }
+}
+
+struct VaultPayPalPaymentSource: Encodable {
+
+    let paypal: VaultPayPal
+}
+
+struct VaultPayPal: Encodable {
+
+    let attributes: Attributes
+    let experienceContext: ExperienceContext
+}
+
+struct ExperienceContext: Encodable {
+
+    let returnURL: String
+    let cancelURL: String
 }
 
 struct VaultCardPaymentSource: Encodable {
@@ -30,15 +62,17 @@ struct VaultCard: Encodable {
 struct Attributes: Encodable {
 
     let vault: Vault
-    let customer: CardVaultCustomer?
+    let customer: VaultCustomer?
 }
 
 struct Vault: Encodable {
 
     let storeInVault: String
+    let usageType: String?
+    let customerType: String?
 }
 
-struct CardVaultCustomer: Encodable {
+struct VaultCustomer: Encodable {
 
     let id: String
 }

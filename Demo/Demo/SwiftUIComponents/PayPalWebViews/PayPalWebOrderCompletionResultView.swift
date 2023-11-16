@@ -39,6 +39,14 @@ struct PayPalWebOrderCompletionResultView: View {
                 LeadingText("Email", weight: .bold)
                 LeadingText("\(email)")
             }
+            if let vaultID = orderResponse.paymentSource?.paypal?.attributes?.vault.id {
+                LeadingText("Vault ID / Payment Token", weight: .bold)
+                LeadingText("\(vaultID)")
+            }
+            if let customerID = orderResponse.paymentSource?.paypal?.attributes?.vault.customer.id {
+                LeadingText("Customer ID", weight: .bold)
+                LeadingText("\(customerID)")
+            }
             Text("")
                 .id("bottomView")
         }
