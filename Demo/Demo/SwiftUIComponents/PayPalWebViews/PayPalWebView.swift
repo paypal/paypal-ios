@@ -3,19 +3,19 @@ import PaymentButtons
 
 struct PayPalWebView: View {
 
-    @StateObject var paypalWebViewModel = PayPalWebViewModel()
+    @StateObject var payPalWebViewModel = PayPalWebViewModel()
 
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
                 CreateOrderPayPalWebView(
-                    paypalWebViewModel: paypalWebViewModel,
+                    paypalWebViewModel: payPalWebViewModel,
                     selectedMerchantIntegration: DemoSettings.merchantIntegration
                 )
-                if let order = paypalWebViewModel.state.order {
-                    OrderCreatePayPalWebResultView(paypalWebViewModel: paypalWebViewModel)
+                if let order = payPalWebViewModel.state.order {
+                    PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .started)
                     NavigationLink {
-                        PayPalTransactionView(paypalWebViewModel: paypalWebViewModel, orderID: order.id)
+                        PayPalTransactionView(paypalWebViewModel: payPalWebViewModel, orderID: order.id)
                             .navigationTitle("PayPal Transactions")
                     } label: {
                         Text("PayPal Transactions")

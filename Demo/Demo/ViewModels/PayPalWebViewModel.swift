@@ -140,8 +140,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         _ payPalClient: PayPalWebPayments.PayPalWebCheckoutClient,
         didFinishWithResult result: PayPalWebPayments.PayPalWebCheckoutResult
     ) {
-        // TODO: fix force unwrap
-        PayPalWebResultView(payPalWebViewModel: self, status: .completed, order: state.order!)
+        PayPalWebResultView(payPalWebViewModel: self, status: .started)
     }
 
     func payPal(_ payPalClient: PayPalWebPayments.PayPalWebCheckoutClient, didFinishWithError error: CorePayments.CoreSDKError) {

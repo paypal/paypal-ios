@@ -17,7 +17,6 @@
 		3B4DD9A02A892A7000F4A716 /* CardVaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DD99F2A892A7000F4A716 /* CardVaultView.swift */; };
 		3B4DD9A22A8982B000F4A716 /* CardFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DD9A12A8982B000F4A716 /* CardFormView.swift */; };
 		3B6472A32AFAE5E3004745C4 /* PayPalWebOrderCompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6472A22AFAE5E3004745C4 /* PayPalWebOrderCompletionView.swift */; };
-		3B6472A52AFAEB1E004745C4 /* PayPalWebOrderCompletionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6472A42AFAEB1E004745C4 /* PayPalWebOrderCompletionResultView.swift */; };
 		3B6472A72AFAEB3A004745C4 /* PayPalOrderActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6472A62AFAEB3A004745C4 /* PayPalOrderActionButton.swift */; };
 		3B80D50E2A291C0800D2EAC4 /* ClientIDRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50D2A291C0800D2EAC4 /* ClientIDRequest.swift */; };
 		3B80D5102A291CB100D2EAC4 /* ClientIDResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50F2A291CB100D2EAC4 /* ClientIDResponse.swift */; };
@@ -36,9 +35,7 @@
 		3BA56FFE2A9FF4DA0081D14F /* PayPalWebState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA56FFD2A9FF4DA0081D14F /* PayPalWebState.swift */; };
 		3BA570012AA052E80081D14F /* PayPalWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA570002AA052E80081D14F /* PayPalWebView.swift */; };
 		3BA570032AA053AE0081D14F /* CreateOrderPayPalWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA570022AA053AE0081D14F /* CreateOrderPayPalWebView.swift */; };
-		3BA570052AA0BBF10081D14F /* OrderCreatePayPalWebResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA570042AA0BBF10081D14F /* OrderCreatePayPalWebResultView.swift */; };
 		3BA570072AA0DF330081D14F /* PayPalTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA570062AA0DF330081D14F /* PayPalTransactionView.swift */; };
-		3BA570092AA0E8340081D14F /* PayPalWebApprovalResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA570082AA0E8340081D14F /* PayPalWebApprovalResultView.swift */; };
 		3BA5700B2AA13C1C0081D14F /* CoreConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA5700A2AA13C1C0081D14F /* CoreConfigManager.swift */; };
 		3BB7A9772A5CA6FD00C05140 /* MerchantIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB7A9762A5CA6FD00C05140 /* MerchantIntegration.swift */; };
 		3BC622072A97115700251B85 /* RoundedBlueButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC622062A97115700251B85 /* RoundedBlueButtonStyle.swift */; };
@@ -140,7 +137,6 @@
 		3B4DD99F2A892A7000F4A716 /* CardVaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultView.swift; sourceTree = "<group>"; };
 		3B4DD9A12A8982B000F4A716 /* CardFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardFormView.swift; sourceTree = "<group>"; };
 		3B6472A22AFAE5E3004745C4 /* PayPalWebOrderCompletionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayPalWebOrderCompletionView.swift; sourceTree = "<group>"; };
-		3B6472A42AFAEB1E004745C4 /* PayPalWebOrderCompletionResultView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayPalWebOrderCompletionResultView.swift; sourceTree = "<group>"; };
 		3B6472A62AFAEB3A004745C4 /* PayPalOrderActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayPalOrderActionButton.swift; sourceTree = "<group>"; };
 		3B80D50D2A291C0800D2EAC4 /* ClientIDRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientIDRequest.swift; sourceTree = "<group>"; };
 		3B80D50F2A291CB100D2EAC4 /* ClientIDResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientIDResponse.swift; sourceTree = "<group>"; };
@@ -159,9 +155,7 @@
 		3BA56FFD2A9FF4DA0081D14F /* PayPalWebState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebState.swift; sourceTree = "<group>"; };
 		3BA570002AA052E80081D14F /* PayPalWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebView.swift; sourceTree = "<group>"; };
 		3BA570022AA053AE0081D14F /* CreateOrderPayPalWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrderPayPalWebView.swift; sourceTree = "<group>"; };
-		3BA570042AA0BBF10081D14F /* OrderCreatePayPalWebResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCreatePayPalWebResultView.swift; sourceTree = "<group>"; };
 		3BA570062AA0DF330081D14F /* PayPalTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalTransactionView.swift; sourceTree = "<group>"; };
-		3BA570082AA0E8340081D14F /* PayPalWebApprovalResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebApprovalResultView.swift; sourceTree = "<group>"; };
 		3BA5700A2AA13C1C0081D14F /* CoreConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreConfigManager.swift; sourceTree = "<group>"; };
 		3BB7A9762A5CA6FD00C05140 /* MerchantIntegration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantIntegration.swift; sourceTree = "<group>"; };
 		3BC622062A97115700251B85 /* RoundedBlueButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedBlueButtonStyle.swift; sourceTree = "<group>"; };
@@ -281,13 +275,10 @@
 			isa = PBXGroup;
 			children = (
 				3B6472A62AFAEB3A004745C4 /* PayPalOrderActionButton.swift */,
-				3B6472A42AFAEB1E004745C4 /* PayPalWebOrderCompletionResultView.swift */,
 				3B6472A22AFAE5E3004745C4 /* PayPalWebOrderCompletionView.swift */,
 				3BA570002AA052E80081D14F /* PayPalWebView.swift */,
 				3BA570022AA053AE0081D14F /* CreateOrderPayPalWebView.swift */,
-				3BA570042AA0BBF10081D14F /* OrderCreatePayPalWebResultView.swift */,
 				3BA570062AA0DF330081D14F /* PayPalTransactionView.swift */,
-				3BA570082AA0E8340081D14F /* PayPalWebApprovalResultView.swift */,
 				BE8117632B07E778009867B9 /* PayPalWebResultView.swift */,
 			);
 			path = PayPalWebViews;
@@ -597,7 +588,6 @@
 			files = (
 				3BA56FE92A9DCA520081D14F /* CardPaymentState.swift in Sources */,
 				3B2027412A8A72050007907E /* CardVaultState.swift in Sources */,
-				3BA570092AA0E8340081D14F /* PayPalWebApprovalResultView.swift in Sources */,
 				80F33CED26F8E7A9006811B1 /* Order.swift in Sources */,
 				3B4DD9A02A892A7000F4A716 /* CardVaultView.swift in Sources */,
 				BE8117642B07E778009867B9 /* PayPalWebResultView.swift in Sources */,
@@ -651,9 +641,7 @@
 				3BA56FF42A9DCD790081D14F /* CardPaymentView.swift in Sources */,
 				BE9F36D82745490400AFC7DA /* FloatingLabelTextField.swift in Sources */,
 				3B20273D2A89E3F00007907E /* CreateSetupTokenView.swift in Sources */,
-				3BA570052AA0BBF10081D14F /* OrderCreatePayPalWebResultView.swift in Sources */,
 				3B22E8BA2A842D8900962E34 /* PaymentTokenRequest.swift in Sources */,
-				3B6472A52AFAEB1E004745C4 /* PayPalWebOrderCompletionResultView.swift in Sources */,
 				3BA570072AA0DF330081D14F /* PayPalTransactionView.swift in Sources */,
 				3BCCFE492A9D96CA00C5102F /* DemoApp.swift in Sources */,
 				3BA56FEC2A9DCBF30081D14F /* CreateOrderCardPaymentView.swift in Sources */,
