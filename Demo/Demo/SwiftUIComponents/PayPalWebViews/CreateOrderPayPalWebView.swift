@@ -26,7 +26,7 @@ struct CreateOrderPayPalWebView: View {
                 Button("Create an Order") {
                     Task {
                         do {
-                            paypalWebViewModel.state.intent = selectedIntent
+                            paypalWebViewModel.intent = selectedIntent
                             try await paypalWebViewModel.createOrder(
                                 amount: "10.00",
                                 selectedMerchantIntegration: DemoSettings.merchantIntegration,
@@ -37,7 +37,7 @@ struct CreateOrderPayPalWebView: View {
                     }
                 }
                 .buttonStyle(RoundedBlueButtonStyle())
-                if case .loading = paypalWebViewModel.state.orderResponse {
+                if case .loading = paypalWebViewModel.state {
                     CircularProgressView()
                 }
             }

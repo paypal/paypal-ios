@@ -12,17 +12,16 @@ struct PayPalWebView: View {
                     paypalWebViewModel: payPalWebViewModel,
                     selectedMerchantIntegration: DemoSettings.merchantIntegration
                 )
-                if let order = payPalWebViewModel.state.order {
-                    PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .started)
-                    NavigationLink {
-                        PayPalTransactionView(paypalWebViewModel: payPalWebViewModel, orderID: order.id)
-                            .navigationTitle("PayPal Transactions")
-                    } label: {
-                        Text("PayPal Transactions")
-                    }
-                    .buttonStyle(RoundedBlueButtonStyle())
-                    .padding()
+                PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .started)
+                NavigationLink {
+                    // TODO: figure this out
+//                    PayPalTransactionView(paypalWebViewModel: payPalWebViewModel, orderID: payPalWebViewModel.id)
+//                        .navigationTitle("PayPal Transactions")
+                } label: {
+                    Text("PayPal Transactions")
                 }
+                .buttonStyle(RoundedBlueButtonStyle())
+                .padding()
             }
         }
     }

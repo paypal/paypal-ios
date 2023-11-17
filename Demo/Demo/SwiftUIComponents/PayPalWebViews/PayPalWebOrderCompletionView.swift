@@ -10,19 +10,15 @@ struct PayPalWebOrderCompletionView: View {
         ScrollView {
             ScrollViewReader { scrollView in
                 VStack {
-                    PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .started)
-                    if state.orderResponse != nil {
-                        PayPalOrderActionButton(
-                            intent: state.intent,
-                            orderID: orderID,
-                            selectedMerchantIntegration: DemoSettings.merchantIntegration,
-                            paypalWebViewModel: payPalWebViewModel
-                        )
-                    }
+                    // TODO: figure out sending intent - maybe in VM?
+                    PayPalOrderActionButton(
+                        intent: .authorize,
+                        orderID: orderID,
+                        selectedMerchantIntegration: DemoSettings.merchantIntegration,
+                        paypalWebViewModel: payPalWebViewModel
+                    )
 
-                    if state.order != nil {
-                        PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .started)
-                    }
+                    PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .started)
                     Text("")
                         .id("bottomView")
                     Spacer()

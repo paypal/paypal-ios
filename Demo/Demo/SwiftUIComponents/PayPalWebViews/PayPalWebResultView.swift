@@ -13,54 +13,12 @@ struct PayPalWebResultView: View {
     var status: Status
 
     var body: some View {
-        switch payPalWebViewModel.state.orderResponse {
+        switch payPalWebViewModel.state {
         case .idle, .loading:
             EmptyView()
         case .loaded(let order):
-            VStack(spacing: 16) {
-                switch status {
-                case .started:
-                    HStack {
-                        Text("Order")
-                            .font(.system(size: 20))
-                        Spacer()
-                    }
-                    LeadingText("Order ID", weight: .bold)
-                    LeadingText("\(order.id)")
-                    LeadingText("Status", weight: .bold)
-                    LeadingText("\(order.status)")
-                case .approved:
-                    HStack {
-                        Text("Order Approved")
-                            .font(.system(size: 20))
-                        Spacer()
-                    }
-                    LeadingText("Intent", weight: .bold)
-                    LeadingText("\(payPalWebViewModel.state.intent)")
-                    LeadingText("Order ID", weight: .bold)
-                    LeadingText("\(order.id)")
-                    LeadingText("Payer ID", weight: .bold)
-                    //                LeadingText("\(order.payerID)") // TODO: find out where to get this
-                case .completed:
-                    HStack {
-                        Text("Order \(payPalWebViewModel.state.intent.rawValue)")
-                            .font(.system(size: 20))
-                        Spacer()
-                    }
-                    LeadingText("Order ID", weight: .bold)
-                    LeadingText("\(order.id)")
-                    LeadingText("Status", weight: .bold)
-                    LeadingText("\(order.status)")
-
-                }
-            }
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(.gray, lineWidth: 2)
-                    .padding(5)
-            )
+            // TODO: figure out sending intent
+            PayPalWebStatusView(status: status, order: order, intent: .authorize)
         case .error(let errorMessage):
             ErrorView(errorMessage: errorMessage)
         }

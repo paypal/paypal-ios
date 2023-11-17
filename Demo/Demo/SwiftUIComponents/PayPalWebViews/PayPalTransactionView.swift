@@ -29,8 +29,7 @@ struct PayPalTransactionView: View {
                     .stroke(.gray, lineWidth: 2)
                     .padding(5)
             )
-            PayPalWebResultView(payPalWebViewModel: paypalWebViewModel, status: .approved)
-            if paypalWebViewModel.state.orderResponse != nil {
+            PayPalWebResultView(payPalWebViewModel: paypalWebViewModel, status: .completed)
                 NavigationLink {
                     PayPalWebOrderCompletionView(orderID: orderID, payPalWebViewModel: paypalWebViewModel)
                 } label: {
@@ -38,7 +37,6 @@ struct PayPalTransactionView: View {
                 }
                 .buttonStyle(RoundedBlueButtonStyle())
                 .padding()
-            }
             Spacer()
         }
     }
