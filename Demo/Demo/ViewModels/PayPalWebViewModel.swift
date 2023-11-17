@@ -57,7 +57,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
                 client.start(request: payPalRequest)
             } catch {
                 print("Error in starting paypal webcheckout client")
-                state.checkoutResultResponse = .error(message: error.localizedDescription)
+                state.orderResponse = .error(message: error.localizedDescription)
             }
         }
     }
@@ -70,15 +70,16 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         }
     }
 
-    func paypalWebCheckoutSuccessResult(checkoutResult: PayPalWebState.CheckoutResult) {
+    func paypalWebCheckoutSuccessResult() {
         DispatchQueue.main.async {
-            self.state.checkoutResultResponse = .loaded(checkoutResult)
+            // TODO: fix force unwrap
+            self.state.orderResponse = .loaded(self.state.order!)
         }
     }
 
     func paypalWebCheckoutFailureResult(checkoutError: CorePayments.CoreSDKError) {
         DispatchQueue.main.async {
-            self.state.checkoutResultResponse = .error(message: checkoutError.localizedDescription)
+            self.state.orderResponse = .error(message: checkoutError.localizedDescription)
         }
     }
 
@@ -139,7 +140,8 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         _ payPalClient: PayPalWebPayments.PayPalWebCheckoutClient,
         didFinishWithResult result: PayPalWebPayments.PayPalWebCheckoutResult
     ) {
-        paypalWebCheckoutSuccessResult(checkoutResult: PayPalWebState.CheckoutResult(id: result.orderID, payerID: result.payerID))
+        // TODO: fix force unwrap
+        PayPalWebResultView(payPalWebViewModel: self, status: .completed, order: state.order!)
     }
 
     func payPal(_ payPalClient: PayPalWebPayments.PayPalWebCheckoutClient, didFinishWithError error: CorePayments.CoreSDKError) {

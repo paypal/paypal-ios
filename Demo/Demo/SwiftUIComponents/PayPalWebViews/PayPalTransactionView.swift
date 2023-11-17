@@ -29,8 +29,9 @@ struct PayPalTransactionView: View {
                     .stroke(.gray, lineWidth: 2)
                     .padding(5)
             )
-            PayPalWebApprovalResultView(paypalWebViewModel: paypalWebViewModel)
-            if paypalWebViewModel.state.checkoutResult != nil {
+            // TODO: fix force unwrap
+            PayPalWebResultView(payPalWebViewModel: paypalWebViewModel, status: .approved, order: paypalWebViewModel.state.order!)
+            if paypalWebViewModel.state.orderResponse != nil {
                 NavigationLink {
                     PayPalWebOrderCompletionView(orderID: orderID, payPalWebViewModel: paypalWebViewModel)
                 } label: {

@@ -13,7 +13,7 @@ struct SuccessView: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text("Order \(intent.rawValue)")
+                Text("Order \(intent.rawValue.lowercased())")
                     .font(.system(size: 20))
                 Spacer()
             }
@@ -21,9 +21,8 @@ struct SuccessView: View {
             LeadingText("\(order.id)")
             LeadingText("Status", weight: .bold)
             LeadingText("\(order.status)")
-            if let email = order.paymentSource?.paypal?.emailAddress {
-                LeadingText("Email", weight: .bold)
-                LeadingText("\(email)")
+            if order.paymentSource?.paypal != nil {
+                appendPayPalDetails()
             }
             Text("")
                 .id("bottomView")
@@ -35,5 +34,14 @@ struct SuccessView: View {
                 .stroke(.gray, lineWidth: 2)
                 .padding(5)
         )
+    }
+
+    func appendPayPalDetails() -> some View {
+        VStack(spacing: 16) {
+            if let email = order.paymentSource?.paypal?.emailAddress {
+                LeadingText("Email", weight: .bold)
+                LeadingText("\(email)")
+            }
+        }
     }
 }
