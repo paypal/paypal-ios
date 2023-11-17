@@ -12,7 +12,7 @@ struct PayPalWebView: View {
                     paypalWebViewModel: paypalWebViewModel,
                     selectedMerchantIntegration: DemoSettings.merchantIntegration
                 )
-                if let order = paypalWebViewModel.state.createOrder {
+                if let order = paypalWebViewModel.state.order {
                     OrderCreatePayPalWebResultView(paypalWebViewModel: paypalWebViewModel)
                     NavigationLink {
                         PayPalTransactionView(paypalWebViewModel: paypalWebViewModel, orderID: order.id)

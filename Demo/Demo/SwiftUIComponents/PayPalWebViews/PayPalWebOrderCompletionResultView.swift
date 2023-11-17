@@ -5,20 +5,11 @@ struct PayPalWebOrderCompletionResultView: View {
     @ObservedObject var paypalWebViewModel: PayPalWebViewModel
 
     var body: some View {
-        switch paypalWebViewModel.state.authorizedOrderResponse {
+        switch paypalWebViewModel.state.orderResponse {
         case .idle, .loading:
             EmptyView()
-        case .loaded(let authorizedOrderResponse):
-            getOrderSuccessView(orderResponse: authorizedOrderResponse, intent: "Authorized")
-        case .error(let errorMessage):
-            ErrorView(errorMessage: errorMessage)
-        }
-
-        switch paypalWebViewModel.state.capturedOrderResponse {
-        case .idle, .loading:
-            EmptyView()
-        case .loaded(let capturedOrderResponse):
-            getOrderSuccessView(orderResponse: capturedOrderResponse, intent: "Captured")
+        case .loaded(let orderResponse):
+            getOrderSuccessView(orderResponse: orderResponse, intent: paypalWebViewModel.state.intent.rawValue)
         case .error(let errorMessage):
             ErrorView(errorMessage: errorMessage)
         }

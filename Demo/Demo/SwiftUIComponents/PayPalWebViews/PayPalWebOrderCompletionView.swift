@@ -20,7 +20,7 @@ struct PayPalWebOrderCompletionView: View {
                         )
                     }
 
-                    if state.authorizedOrder != nil || state.capturedOrder != nil {
+                    if state.order != nil {
                         PayPalWebOrderCompletionResultView(paypalWebViewModel: payPalWebViewModel)
                     }
                     Text("")

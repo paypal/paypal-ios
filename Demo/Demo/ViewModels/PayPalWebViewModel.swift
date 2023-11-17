@@ -23,18 +23,18 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
         do {
             DispatchQueue.main.async {
-                self.state.createdOrderResponse = .loading
+                self.state.orderResponse = .loading
             }
             let order = try await DemoMerchantAPI.sharedService.createOrder(
                 orderParams: orderRequestParams, selectedMerchantIntegration: selectedMerchantIntegration
             )
             DispatchQueue.main.async {
-                self.state.createdOrderResponse = .loaded(order)
+                self.state.orderResponse = .loaded(order)
                 print("✅ fetched orderID: \(order.id) with status: \(order.status)")
             }
         } catch {
             DispatchQueue.main.async {
-                self.state.createdOrderResponse = .error(message: error.localizedDescription)
+                self.state.orderResponse = .error(message: error.localizedDescription)
                 print("❌ failed to fetch orderID: \(error)")
             }
         }
@@ -86,28 +86,28 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         switch intent {
         case .capture:
             try await captureOrder(orderID: orderID, selectedMerchantIntegration: selectedMerchantIntegration)
-            print("Order Captured. ID: \(state.capturedOrder?.id ?? "")")
+            print("Order Captured. ID: \(state.order?.id ?? "")")
         case .authorize:
             try await authorizeOrder(orderID: orderID, selectedMerchantIntegration: selectedMerchantIntegration)
-            print("Order Authorized. ID: \(state.authorizedOrder?.id ?? "")")
+            print("Order Authorized. ID: \(state.order?.id ?? "")")
         }
     }
 
     func captureOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws {
         do {
             DispatchQueue.main.async {
-                self.state.capturedOrderResponse = .loading
+                self.state.orderResponse = .loading
             }
             let order = try await DemoMerchantAPI.sharedService.captureOrder(
                 orderID: orderID,
                 selectedMerchantIntegration: selectedMerchantIntegration
             )
             DispatchQueue.main.async {
-                self.state.capturedOrderResponse = .loaded(order)
+                self.state.orderResponse = .loaded(order)
             }
         } catch {
             DispatchQueue.main.async {
-                self.state.capturedOrderResponse = .error(message: error.localizedDescription)
+                self.state.orderResponse = .error(message: error.localizedDescription)
             }
             print("Error capturing order: \(error.localizedDescription)")
         }
@@ -116,18 +116,18 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
     func authorizeOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws {
         do {
             DispatchQueue.main.async {
-                self.state.authorizedOrderResponse = .loading
+                self.state.orderResponse = .loading
             }
             let order = try await DemoMerchantAPI.sharedService.authorizeOrder(
                 orderID: orderID,
                 selectedMerchantIntegration: selectedMerchantIntegration
             )
             DispatchQueue.main.async {
-                self.state.authorizedOrderResponse = .loaded(order)
+                self.state.orderResponse = .loaded(order)
             }
         } catch {
             DispatchQueue.main.async {
-                self.state.authorizedOrderResponse = .error(message: error.localizedDescription)
+                self.state.orderResponse = .error(message: error.localizedDescription)
             }
             print("Error authorizing order: \(error.localizedDescription)")
         }

@@ -37,7 +37,7 @@ struct CreateOrderPayPalWebView: View {
                     }
                 }
                 .buttonStyle(RoundedBlueButtonStyle())
-                if case .loading = paypalWebViewModel.state.createdOrderResponse {
+                if case .loading = paypalWebViewModel.state.orderResponse {
                     CircularProgressView()
                 }
             }
