@@ -3,8 +3,8 @@ import SwiftUI
 struct PayPalWebStatusView: View {
 
     var status: Status
-    var order: Order
     var intent: Intent
+    var payPalViewModel: PayPalWebViewModel
 
     var body: some View {
         VStack(spacing: 16) {
@@ -15,32 +15,38 @@ struct PayPalWebStatusView: View {
                         .font(.system(size: 20))
                     Spacer()
                 }
-                LeadingText("Order ID", weight: .bold)
-                LeadingText("\(order.id)")
-                LeadingText("Status", weight: .bold)
-                LeadingText("\(order.status)")
+                if let order = payPalViewModel.order {
+                    LeadingText("Order ID", weight: .bold)
+                    LeadingText("\(order.id)")
+                    LeadingText("Status", weight: .bold)
+                    LeadingText("\(order.status)")
+                }
             case .approved:
                 HStack {
                     Text("Order Approved")
                         .font(.system(size: 20))
                     Spacer()
                 }
-                LeadingText("Intent", weight: .bold)
-                LeadingText("\(intent)")
-                LeadingText("Order ID", weight: .bold)
-                LeadingText("\(order.id)")
-                LeadingText("Payer ID", weight: .bold)
-                //                LeadingText("\(order.payerID)") // TODO: find out where to get this
-            case .completed:
-                HStack {
-                    Text("Order \(intent.rawValue)")
-                        .font(.system(size: 20))
-                    Spacer()
+                if let order = payPalViewModel.order {
+                    LeadingText("Intent", weight: .bold)
+                    LeadingText("\(intent)")
+                    LeadingText("Order ID", weight: .bold)
+                    LeadingText("\(order.id)")
+                    LeadingText("Payer ID", weight: .bold)
+                    LeadingText("\(payPalViewModel.checkoutResult?.payerID ?? "")")
                 }
-                LeadingText("Order ID", weight: .bold)
-                LeadingText("\(order.id)")
-                LeadingText("Status", weight: .bold)
-                LeadingText("\(order.status)")
+            case .completed:
+                if let order = payPalViewModel.order {
+                    HStack {
+                        Text("Order \(intent.rawValue)")
+                            .font(.system(size: 20))
+                        Spacer()
+                    }
+                    LeadingText("Order ID", weight: .bold)
+                    LeadingText("\(order.id)")
+                    LeadingText("Status", weight: .bold)
+                    LeadingText("\(order.status)")
+                }
             }
         }
         .frame(maxWidth: .infinity)

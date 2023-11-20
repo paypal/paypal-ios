@@ -6,14 +6,14 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
     @Published var state: CurrentState = .idle
     @Published var intent: Intent = .authorize
+    @Published var order: Order?
+    @Published var checkoutResult: PayPalWebCheckoutResult?
 
     var payPalWebCheckoutClient: PayPalWebCheckoutClient?
 
     let configManager = CoreConfigManager(domain: "PayPalWeb Payments")
 
     func createOrder(amount: String, selectedMerchantIntegration: MerchantIntegration, intent: String) async throws {
-        // might need to pass in payee as payee object or as auth header
-
         let amountRequest = Amount(currencyCode: "USD", value: amount)
         // TODO: might need to pass in payee as payee object or as auth header
         let orderRequestParams = CreateOrderParams(
@@ -30,7 +30,8 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
                 orderParams: orderRequestParams, selectedMerchantIntegration: selectedMerchantIntegration
             )
             DispatchQueue.main.async {
-                self.state = .loaded(order)
+                self.state = .loaded
+                self.order = order
                 print("✅ fetched orderID: \(order.id) with status: \(order.status)")
             }
         } catch {
@@ -41,8 +42,10 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         }
     }
 
-    func paymentButtonTapped(orderID: String, funding: PayPalWebCheckoutFundingSource) {
-        checkoutWithPayPal(orderID: orderID, funding: funding)
+    func paymentButtonTapped(funding: PayPalWebCheckoutFundingSource) {
+        if let orderID = order?.id {
+            checkoutWithPayPal(orderID: orderID, funding: funding)
+        }
     }
 
     func checkoutWithPayPal(orderID: String, funding: PayPalWebCheckoutFundingSource) {
@@ -71,13 +74,6 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         }
     }
 
-    func paypalWebCheckoutSuccessResult() {
-        DispatchQueue.main.async {
-            // TODO: fix this
-            self.state = .loaded(Order(id: "1111", status: "yes"))
-        }
-    }
-
     func paypalWebCheckoutFailureResult(checkoutError: CorePayments.CoreSDKError) {
         DispatchQueue.main.async {
             self.state = .error(message: checkoutError.localizedDescription)
@@ -103,7 +99,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
                 selectedMerchantIntegration: selectedMerchantIntegration
             )
             DispatchQueue.main.async {
-                self.state = .loaded(order)
+                self.state = .loaded
             }
         } catch {
             DispatchQueue.main.async {
@@ -123,7 +119,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
                 selectedMerchantIntegration: selectedMerchantIntegration
             )
             DispatchQueue.main.async {
-                self.state = .loaded(order)
+                self.state = .loaded
             }
         } catch {
             DispatchQueue.main.async {
@@ -136,10 +132,10 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
     // MARK: - PayPalWeb Checkout Delegate
 
     func payPal(
-        _ payPalClient: PayPalWebPayments.PayPalWebCheckoutClient,
-        didFinishWithResult result: PayPalWebPayments.PayPalWebCheckoutResult
+        _ payPalClient: PayPalWebCheckoutClient,
+        didFinishWithResult result: PayPalWebCheckoutResult
     ) {
-        paypalWebCheckoutSuccessResult()
+        checkoutResult = result
     }
 
     func payPal(_ payPalClient: PayPalWebPayments.PayPalWebCheckoutClient, didFinishWithError error: CorePayments.CoreSDKError) {

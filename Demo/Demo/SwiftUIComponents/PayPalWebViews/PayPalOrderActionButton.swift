@@ -6,26 +6,28 @@ struct PayPalOrderActionButton: View {
     let orderID: String
     let selectedMerchantIntegration: MerchantIntegration
 
-    @ObservedObject var paypalWebViewModel: PayPalWebViewModel
+    @ObservedObject var payPalWebViewModel: PayPalWebViewModel
 
     var body: some View {
-        ZStack {
+        VStack {
+            if payPalWebViewModel.state == .loading {
+                CircularProgressView()
+            } else if payPalWebViewModel.state == .loaded {
+                PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .approved)
+            }
+
             Button("\(intent.rawValue)") {
                 completeOrder()
             }
             .buttonStyle(RoundedBlueButtonStyle())
             .padding()
-
-            if paypalWebViewModel.state == .loading {
-                CircularProgressView()
-            }
         }
     }
 
     private func completeOrder() {
         Task {
             do {
-                try await paypalWebViewModel.completeOrder(
+                try await payPalWebViewModel.completeOrder(
                     with: intent,
                     orderID: orderID,
                     selectedMerchantIntegration: selectedMerchantIntegration

@@ -2,7 +2,6 @@ import SwiftUI
 
 struct PayPalWebOrderCompletionView: View {
 
-    let orderID: String
     @ObservedObject var payPalWebViewModel: PayPalWebViewModel
 
     var body: some View {
@@ -10,22 +9,21 @@ struct PayPalWebOrderCompletionView: View {
         ScrollView {
             ScrollViewReader { scrollView in
                 VStack {
-                    // TODO: figure out sending intent - maybe in VM?
-                    PayPalOrderActionButton(
-                        intent: .authorize,
-                        orderID: orderID,
-                        selectedMerchantIntegration: DemoSettings.merchantIntegration,
-                        paypalWebViewModel: payPalWebViewModel
-                    )
-
-                    PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .started)
-                    Text("")
-                        .id("bottomView")
-                    Spacer()
-                }
-                .onChange(of: state) { _ in
-                    withAnimation {
-                        scrollView.scrollTo("bottomView")
+                    if let orderID = payPalWebViewModel.order?.id {
+                        PayPalOrderActionButton(
+                            intent: payPalWebViewModel.intent,
+                            orderID: orderID,
+                            selectedMerchantIntegration: DemoSettings.merchantIntegration,
+                            payPalWebViewModel: payPalWebViewModel
+                        )
+                        Text("")
+                            .id("bottomView")
+                        Spacer()
+                        .onChange(of: state) { _ in
+                            withAnimation {
+                                scrollView.scrollTo("bottomView")
+                            }
+                        }
                     }
                 }
             }

@@ -3,22 +3,21 @@ import PaymentButtons
 
 struct PayPalTransactionView: View {
 
-    @ObservedObject var paypalWebViewModel: PayPalWebViewModel
-    let orderID: String
+    @ObservedObject var payPalWebViewModel: PayPalWebViewModel
 
     var body: some View {
         VStack {
             VStack(alignment: .center, spacing: 40) {
                 PayPalButton.Representable(color: .blue, size: .mini) {
-                    paypalWebViewModel.paymentButtonTapped(orderID: orderID, funding: .paypal)
+                    payPalWebViewModel.paymentButtonTapped(funding: .paypal)
                 }
                 .frame(maxWidth: .infinity, maxHeight: 40)
                 PayPalCreditButton.Representable(color: .black, edges: .softEdges, size: .expanded) {
-                    paypalWebViewModel.paymentButtonTapped(orderID: orderID, funding: .paypalCredit)
+                    payPalWebViewModel.paymentButtonTapped(funding: .paypalCredit)
                 }
                 .frame(maxWidth: .infinity, maxHeight: 40)
                 PayPalPayLaterButton.Representable(color: .silver, edges: .rounded, size: .full) {
-                    paypalWebViewModel.paymentButtonTapped(orderID: orderID, funding: .paylater)
+                    payPalWebViewModel.paymentButtonTapped(funding: .paylater)
                 }
                 .frame(maxWidth: .infinity, maxHeight: 40)
             }
@@ -29,14 +28,17 @@ struct PayPalTransactionView: View {
                     .stroke(.gray, lineWidth: 2)
                     .padding(5)
             )
-            PayPalWebResultView(payPalWebViewModel: paypalWebViewModel, status: .completed)
+
+            if payPalWebViewModel.checkoutResult != nil {
+                PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .approved)
                 NavigationLink {
-                    PayPalWebOrderCompletionView(orderID: orderID, payPalWebViewModel: paypalWebViewModel)
+                    PayPalWebOrderCompletionView(payPalWebViewModel: payPalWebViewModel)
                 } label: {
                     Text("Complete Order Transaction")
                 }
                 .buttonStyle(RoundedBlueButtonStyle())
                 .padding()
+            }
             Spacer()
         }
     }
