@@ -80,12 +80,14 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         }
     }
 
-    func completeOrder(with intent: Intent, orderID: String) async throws {
-        switch intent {
-        case .capture:
-            try await captureOrder(orderID: orderID)
-        case .authorize:
-            try await authorizeOrder(orderID: orderID)
+    func completeOrder() async throws {
+        if let orderID = order?.id {
+            switch intent {
+            case .capture:
+                try await captureOrder(orderID: orderID)
+            case .authorize:
+                try await authorizeOrder(orderID: orderID)
+            }
         }
     }
 

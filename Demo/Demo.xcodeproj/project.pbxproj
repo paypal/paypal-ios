@@ -274,11 +274,11 @@
 		3BA56FFF2A9FF6630081D14F /* PayPalWeb */ = {
 			isa = PBXGroup;
 			children = (
-				3B6472A62AFAEB3A004745C4 /* PayPalWebCompleteTransactionView.swift */,
-				3B6472A22AFAE5E3004745C4 /* PayPalWebOrderCompletionView.swift */,
-				3BA570002AA052E80081D14F /* PayPalWebDemoView.swift */,
-				3BA570022AA053AE0081D14F /* PayPalWebCreateOrderView.swift */,
 				3BA570062AA0DF330081D14F /* PayPalWebButtonsView.swift */,
+				3B6472A62AFAEB3A004745C4 /* PayPalWebCompleteTransactionView.swift */,
+				3BA570022AA053AE0081D14F /* PayPalWebCreateOrderView.swift */,
+				3BA570002AA052E80081D14F /* PayPalWebDemoView.swift */,
+				3B6472A22AFAE5E3004745C4 /* PayPalWebOrderCompletionView.swift */,
 				BE8117632B07E778009867B9 /* PayPalWebResultView.swift */,
 				BE8117652B080202009867B9 /* PayPalWebStatusView.swift */,
 			);

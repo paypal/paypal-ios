@@ -8,21 +8,15 @@ struct PayPalWebOrderCompletionView: View {
         ScrollView {
             ScrollViewReader { scrollView in
                 VStack {
-                    if let orderID = payPalWebViewModel.order?.id {
-                        PayPalWebCompleteTransactionView(
-                            intent: payPalWebViewModel.intent,
-                            orderID: orderID,
-                            payPalWebViewModel: payPalWebViewModel
-                        )
-                        Text("")
-                            .id("bottomView")
-                        Spacer()
-                            .onChange(of: payPalWebViewModel.state) { _ in
-                                withAnimation {
-                                    scrollView.scrollTo("bottomView")
-                                }
+                    PayPalWebCompleteTransactionView(payPalWebViewModel: payPalWebViewModel)
+                    Text("")
+                        .id("bottomView")
+                    Spacer()
+                        .onChange(of: payPalWebViewModel.state) { _ in
+                            withAnimation {
+                                scrollView.scrollTo("bottomView")
                             }
-                    }
+                        }
                 }
             }
         }

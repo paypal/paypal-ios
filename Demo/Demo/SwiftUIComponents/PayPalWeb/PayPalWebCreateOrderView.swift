@@ -6,8 +6,6 @@ struct PayPalWebCreateOrderView: View {
 
     @State private var selectedIntent: Intent = .authorize
 
-    let selectedMerchantIntegration: MerchantIntegration
-
     var body: some View {
         VStack(spacing: 16) {
             HStack {

@@ -2,15 +2,12 @@ import SwiftUI
 
 struct PayPalWebCompleteTransactionView: View {
 
-    let intent: Intent
-    let orderID: String
-
     @ObservedObject var payPalWebViewModel: PayPalWebViewModel
 
     var body: some View {
         VStack {
             PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .approved)
-            Button("\(intent.rawValue)") {
+            Button("\(payPalWebViewModel.intent.rawValue)") {
                 completeTransaction()
             }
             .buttonStyle(RoundedBlueButtonStyle())
@@ -24,7 +21,7 @@ struct PayPalWebCompleteTransactionView: View {
     private func completeTransaction() {
         Task {
             do {
-                try await payPalWebViewModel.completeOrder(with: intent, orderID: orderID)
+                try await payPalWebViewModel.completeOrder()
             } catch {
                 print("Error capturing order: \(error.localizedDescription)")
             }

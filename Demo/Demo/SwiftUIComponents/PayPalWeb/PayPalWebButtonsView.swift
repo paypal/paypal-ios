@@ -3,7 +3,7 @@ import PaymentButtons
 
 struct PayPalWebButtonsView: View {
 
-    @ObservedObject var payPalWebViewModel: PayPalWebViewModel
+    @ObservedObject var payPalWebViewModel = PayPalWebViewModel()
 
     var body: some View {
         VStack {
