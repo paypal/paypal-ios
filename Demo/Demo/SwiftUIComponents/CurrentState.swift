@@ -4,6 +4,7 @@ enum CurrentState: Equatable {
 
     case idle
     case loading
-    case error(message: String)
     case loaded
+    case success
+    case error(message: String)
 }

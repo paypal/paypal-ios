@@ -38,7 +38,7 @@ struct PayPalWebStatusView: View {
             case .completed:
                 if let order = payPalViewModel.order {
                     HStack {
-                        Text("Order \(intent.rawValue.lowercased())")
+                        Text("Order \(intent.rawValue.capitalized)d")
                             .font(.system(size: 20))
                         Spacer()
                     }
@@ -46,6 +46,11 @@ struct PayPalWebStatusView: View {
                     LeadingText("\(order.id)")
                     LeadingText("Status", weight: .bold)
                     LeadingText("\(order.status)")
+
+                    if let emailAddress = payPalViewModel.order?.paymentSource?.paypal?.emailAddress {
+                        LeadingText("Email", weight: .bold)
+                        LeadingText("\(emailAddress)")
+                    }
                 }
             }
         }

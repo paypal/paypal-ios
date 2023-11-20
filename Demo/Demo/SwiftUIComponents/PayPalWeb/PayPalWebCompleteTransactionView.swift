@@ -5,15 +5,21 @@ struct PayPalWebCompleteTransactionView: View {
     @ObservedObject var payPalWebViewModel: PayPalWebViewModel
 
     var body: some View {
-        VStack {
+        VStack(spacing: 16) {
             PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .approved)
-            Button("\(payPalWebViewModel.intent.rawValue)") {
-                completeTransaction()
+            ZStack {
+                Button("\(payPalWebViewModel.intent.rawValue)") {
+                    completeTransaction()
+                }
+                .buttonStyle(RoundedBlueButtonStyle())
+                if payPalWebViewModel.state == .loading {
+                    CircularProgressView()
+                }
             }
-            .buttonStyle(RoundedBlueButtonStyle())
             .padding()
-            if payPalWebViewModel.state == .loading {
-                CircularProgressView()
+
+            if payPalWebViewModel.state == .success {
+                PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .completed)
             }
         }
     }

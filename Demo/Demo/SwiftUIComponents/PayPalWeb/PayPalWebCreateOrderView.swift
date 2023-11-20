@@ -25,7 +25,7 @@ struct PayPalWebCreateOrderView: View {
                     Task {
                         do {
                             paypalWebViewModel.intent = selectedIntent
-                            try await paypalWebViewModel.createOrder(amount: "10.00", intent: selectedIntent.rawValue)
+                            try await paypalWebViewModel.createOrder()
                         } catch {
                             print("Error in getting setup token. \(error.localizedDescription)")
                         }
