@@ -3,18 +3,11 @@ struct Order: Codable, Equatable {
     let id: String
     let status: String
     var paymentSource: PaymentSource?
-    var links: [Link]?
 
     struct PaymentSource: Codable, Equatable {
         
         let card: Card?
         let paypal: PayPal?
-    }
-
-    struct Link: Codable, Equatable {
-
-        let href: String?
-        let rel, method: String?
     }
 
     init(id: String, status: String, paymentSource: PaymentSource? = nil) {
