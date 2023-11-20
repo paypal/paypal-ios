@@ -17,7 +17,7 @@ struct PayPalWebButtonsView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: 40)
                 PayPalPayLaterButton.Representable(color: .silver, edges: .rounded, size: .full) {
-                    payPalWebViewModel.paymentButtonTapped(funding: .paylater)
+                    payPalWebViewModel.paymentButtonTapped(funding: .payLater)
                 }
                 .frame(maxWidth: .infinity, maxHeight: 40)
             }

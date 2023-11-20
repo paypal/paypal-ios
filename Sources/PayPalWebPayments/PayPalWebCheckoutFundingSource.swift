@@ -8,7 +8,7 @@ public enum PayPalWebCheckoutFundingSource: String {
 
     /// PayLater will launch the web checkout flow and display Pay Later offers to eligible customers,
     /// which include short-term, interest-free payments and other special financing options
-    case paylater = "paylater"
+    case payLater = "paylater"
 
     /// PayPal will launch the web checkout for a one-time PayPal Checkout flow
     case paypal = "paypal"

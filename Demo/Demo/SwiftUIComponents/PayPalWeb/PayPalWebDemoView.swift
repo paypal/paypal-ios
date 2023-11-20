@@ -8,7 +8,7 @@ struct PayPalWebDemoView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                PayPalWebCreateOrderView(paypalWebViewModel: payPalWebViewModel)
+                PayPalWebCreateOrderView(payPalWebViewModel: payPalWebViewModel)
                 if payPalWebViewModel.order != nil {
                     PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .started)
                     NavigationLink {

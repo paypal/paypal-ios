@@ -1,25 +1,20 @@
 import SwiftUI
 
+// TODO: maybe button view?
 struct PayPalWebCompleteTransactionView: View {
 
     @ObservedObject var payPalWebViewModel: PayPalWebViewModel
 
     var body: some View {
-        VStack(spacing: 16) {
-            PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .approved)
-            ZStack {
-                Button("\(payPalWebViewModel.intent.rawValue)") {
-                    completeTransaction()
-                }
-                .buttonStyle(RoundedBlueButtonStyle())
-                if payPalWebViewModel.state == .loading {
-                    CircularProgressView()
-                }
+        ZStack {
+            Button("\(payPalWebViewModel.intent.rawValue)") {
+                completeTransaction()
             }
+            .buttonStyle(RoundedBlueButtonStyle())
             .padding()
 
-            if payPalWebViewModel.state == .success {
-                PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .completed)
+            if payPalWebViewModel.state == .loading {
+                CircularProgressView()
             }
         }
     }
