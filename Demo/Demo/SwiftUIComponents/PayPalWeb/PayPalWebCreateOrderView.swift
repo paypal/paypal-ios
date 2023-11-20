@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct CreateOrderPayPalWebView: View {
+struct PayPalWebCreateOrderView: View {
 
     @ObservedObject var paypalWebViewModel: PayPalWebViewModel
 
@@ -27,10 +27,7 @@ struct CreateOrderPayPalWebView: View {
                     Task {
                         do {
                             paypalWebViewModel.intent = selectedIntent
-                            try await paypalWebViewModel.createOrder(
-                                amount: "10.00",
-                                selectedMerchantIntegration: DemoSettings.merchantIntegration,
-                                intent: selectedIntent.rawValue)
+                            try await paypalWebViewModel.createOrder(amount: "10.00", intent: selectedIntent.rawValue)
                         } catch {
                             print("Error in getting setup token. \(error.localizedDescription)")
                         }

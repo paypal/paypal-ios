@@ -13,7 +13,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
     let configManager = CoreConfigManager(domain: "PayPalWeb Payments")
 
-    func createOrder(amount: String, selectedMerchantIntegration: MerchantIntegration, intent: String) async throws {
+    func createOrder(amount: String, intent: String) async throws {
         let amountRequest = Amount(currencyCode: "USD", value: amount)
         // TODO: might need to pass in payee as payee object or as auth header
         let orderRequestParams = CreateOrderParams(
@@ -27,7 +27,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
                 self.state = .loading
             }
             let order = try await DemoMerchantAPI.sharedService.createOrder(
-                orderParams: orderRequestParams, selectedMerchantIntegration: selectedMerchantIntegration
+                orderParams: orderRequestParams, selectedMerchantIntegration: DemoSettings.merchantIntegration
             )
             DispatchQueue.main.async {
                 self.state = .loaded
@@ -80,23 +80,23 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         }
     }
 
-    func completeOrder(with intent: Intent, orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws {
+    func completeOrder(with intent: Intent, orderID: String) async throws {
         switch intent {
         case .capture:
-            try await captureOrder(orderID: orderID, selectedMerchantIntegration: selectedMerchantIntegration)
+            try await captureOrder(orderID: orderID)
         case .authorize:
-            try await authorizeOrder(orderID: orderID, selectedMerchantIntegration: selectedMerchantIntegration)
+            try await authorizeOrder(orderID: orderID)
         }
     }
 
-    func captureOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws {
+    func captureOrder(orderID: String) async throws {
         do {
             DispatchQueue.main.async {
                 self.state = .loading
             }
-            let order = try await DemoMerchantAPI.sharedService.captureOrder(
+            try await DemoMerchantAPI.sharedService.captureOrder(
                 orderID: orderID,
-                selectedMerchantIntegration: selectedMerchantIntegration
+                selectedMerchantIntegration: DemoSettings.merchantIntegration
             )
             DispatchQueue.main.async {
                 self.state = .loaded
@@ -109,14 +109,14 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         }
     }
 
-    func authorizeOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws {
+    func authorizeOrder(orderID: String) async throws {
         do {
             DispatchQueue.main.async {
                 self.state = .loading
             }
-            let order = try await DemoMerchantAPI.sharedService.authorizeOrder(
+            try await DemoMerchantAPI.sharedService.authorizeOrder(
                 orderID: orderID,
-                selectedMerchantIntegration: selectedMerchantIntegration
+                selectedMerchantIntegration: DemoSettings.merchantIntegration
             )
             DispatchQueue.main.async {
                 self.state = .loaded

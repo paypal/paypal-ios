@@ -11,7 +11,7 @@ struct PayPalWebStatusView: View {
             switch status {
             case .started:
                 HStack {
-                    Text("Order")
+                    Text("Order Created")
                         .font(.system(size: 20))
                     Spacer()
                 }
@@ -38,7 +38,7 @@ struct PayPalWebStatusView: View {
             case .completed:
                 if let order = payPalViewModel.order {
                     HStack {
-                        Text("Order \(intent.rawValue)")
+                        Text("Order \(intent.rawValue.lowercased())")
                             .font(.system(size: 20))
                         Spacer()
                     }

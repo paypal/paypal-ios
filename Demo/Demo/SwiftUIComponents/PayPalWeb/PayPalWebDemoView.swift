@@ -1,24 +1,24 @@
 import SwiftUI
 import PaymentButtons
 
-struct PayPalWebView: View {
+struct PayPalWebDemoView: View {
 
     @StateObject var payPalWebViewModel = PayPalWebViewModel()
 
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                CreateOrderPayPalWebView(
+                PayPalWebCreateOrderView(
                     paypalWebViewModel: payPalWebViewModel,
                     selectedMerchantIntegration: DemoSettings.merchantIntegration
                 )
                 if let order = payPalWebViewModel.order {
                     PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .started)
                     NavigationLink {
-                        PayPalTransactionView(payPalWebViewModel: payPalWebViewModel)
-                            .navigationTitle("PayPal Transactions")
+                        PayPalWebButtonsView(payPalWebViewModel: payPalWebViewModel)
+                            .navigationTitle("Checkout with PayPal")
                     } label: {
-                        Text("PayPal Transactions")
+                        Text("Checkout with PayPal")
                     }
                     .buttonStyle(RoundedBlueButtonStyle())
                     .padding()
