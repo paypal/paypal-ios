@@ -100,7 +100,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
             DispatchQueue.main.async {
                 self.state = .error(message: error.localizedDescription)
             }
-            print("Error capturing order with error: \(error.localizedDescription)")
+            print("Error capturing order: \(error.localizedDescription)")
         }
     }
 

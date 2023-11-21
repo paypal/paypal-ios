@@ -8,7 +8,7 @@ struct PayPalWebTransactionView: View {
         VStack {
             PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .approved)
             ZStack {
-                Button("\(payPalWebViewModel.intent.rawValue)") {
+                Button("\(payPalWebViewModel.intent.rawValue.capitalized) Order") {
                     Task {
                         do {
                             try await payPalWebViewModel.completeOrder()

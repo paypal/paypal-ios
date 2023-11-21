@@ -3,7 +3,6 @@ import SwiftUI
 struct PayPalWebStatusView: View {
 
     var status: Status
-    var intent: Intent
     var payPalViewModel: PayPalWebViewModel
 
     var body: some View {
@@ -29,7 +28,7 @@ struct PayPalWebStatusView: View {
                 }
                 if let order = payPalViewModel.order {
                     LeadingText("Intent", weight: .bold)
-                    LeadingText("\(intent)")
+                    LeadingText("\(payPalViewModel.intent)")
                     LeadingText("Order ID", weight: .bold)
                     LeadingText("\(order.id)")
                     LeadingText("Payer ID", weight: .bold)
@@ -38,7 +37,7 @@ struct PayPalWebStatusView: View {
             case .completed:
                 if let order = payPalViewModel.order {
                     HStack {
-                        Text("Order \(intent.rawValue.capitalized)d")
+                        Text("Order \(payPalViewModel.intent.rawValue.capitalized)d")
                             .font(.system(size: 20))
                         Spacer()
                     }
