@@ -2,7 +2,6 @@ struct Order: Codable, Equatable {
     
     let id: String
     let status: String
-    let payerID: String?
     let paymentSource: PaymentSource?
 
     struct PaymentSource: Codable, Equatable {
@@ -11,11 +10,10 @@ struct Order: Codable, Equatable {
         let paypal: PayPal?
     }
 
-    init(id: String, status: String, paymentSource: PaymentSource? = nil, payerID: String? = nil) {
+    init(id: String, status: String, paymentSource: PaymentSource? = nil) {
         self.id = id
         self.status = status
         self.paymentSource = paymentSource
-        self.payerID = payerID
     }
 
     struct Card: Codable, Equatable {

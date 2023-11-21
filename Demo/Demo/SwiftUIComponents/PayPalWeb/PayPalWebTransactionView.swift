@@ -6,7 +6,7 @@ struct PayPalWebTransactionView: View {
 
     var body: some View {
         VStack {
-            PayPalWebStatusView(status: .approved, intent: payPalWebViewModel.intent, payPalViewModel: payPalWebViewModel)
+            PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .approved)
             ZStack {
                 Button("\(payPalWebViewModel.intent.rawValue)") {
                     Task {
@@ -25,7 +25,7 @@ struct PayPalWebTransactionView: View {
             }
 
             if payPalWebViewModel.state == .success {
-                PayPalWebStatusView(status: .completed, intent: payPalWebViewModel.intent, payPalViewModel: payPalWebViewModel)
+                PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .completed)
             }
         }
         Spacer()
