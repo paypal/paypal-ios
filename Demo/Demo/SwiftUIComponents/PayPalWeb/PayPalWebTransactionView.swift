@@ -11,7 +11,7 @@ struct PayPalWebTransactionView: View {
                 Button("\(payPalWebViewModel.intent.rawValue.capitalized) Order") {
                     Task {
                         do {
-                            try await payPalWebViewModel.completeOrder()
+                            try await payPalWebViewModel.completeTransaction()
                         } catch {
                             print("Error capturing order: \(error.localizedDescription)")
                         }

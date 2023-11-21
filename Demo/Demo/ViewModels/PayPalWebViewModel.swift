@@ -72,56 +72,25 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         }
     }
 
-    func completeOrder() async throws {
-        if let orderID = order?.id {
-            switch intent {
-            case .capture:
-                try await captureOrder(orderID: orderID)
-            case .authorize:
-                try await authorizeOrder(orderID: orderID)
-            }
-        }
-    }
-
-    func captureOrder(orderID: String) async throws {
+    func completeTransaction() async throws {
         do {
             DispatchQueue.main.async {
                 self.state = .loading
             }
-            let order = try await DemoMerchantAPI.sharedService.captureOrder(
-                orderID: orderID,
-                selectedMerchantIntegration: DemoSettings.merchantIntegration
-            )
-            DispatchQueue.main.async {
-                self.order = order
-                self.state = .success
+
+            if let orderID = order?.id {
+                let order = try await DemoMerchantAPI.sharedService.completeOrder(intent: intent, orderID: orderID)
+                
+                DispatchQueue.main.async {
+                    self.order = order
+                    self.state = .success
+                }
             }
         } catch {
             DispatchQueue.main.async {
                 self.state = .error(message: error.localizedDescription)
             }
-            print("Error capturing order: \(error.localizedDescription)")
-        }
-    }
-
-    func authorizeOrder(orderID: String) async throws {
-        do {
-            DispatchQueue.main.async {
-                self.state = .loading
-            }
-            let order = try await DemoMerchantAPI.sharedService.authorizeOrder(
-                orderID: orderID,
-                selectedMerchantIntegration: DemoSettings.merchantIntegration
-            )
-            DispatchQueue.main.async {
-                self.order = order
-                self.state = .success
-            }
-        } catch {
-            DispatchQueue.main.async {
-                self.state = .error(message: error.localizedDescription)
-            }
-            print("Error authorizing order: \(error.localizedDescription)")
+            print("Error with \(intent) order: \(error.localizedDescription)")
         }
     }
 
