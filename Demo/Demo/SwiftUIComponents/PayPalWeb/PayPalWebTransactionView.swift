@@ -1,12 +1,12 @@
 import SwiftUI
 
-struct PayPalWebCompleteTransactionView: View {
+struct PayPalWebTransactionView: View {
 
     @ObservedObject var payPalWebViewModel: PayPalWebViewModel
 
     var body: some View {
         VStack {
-            PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .approved)
+            PayPalWebStatusView(status: .approved, intent: payPalWebViewModel.intent, payPalViewModel: payPalWebViewModel)
             ZStack {
                 Button("\(payPalWebViewModel.intent.rawValue)") {
                     Task {
@@ -25,8 +25,9 @@ struct PayPalWebCompleteTransactionView: View {
             }
 
             if payPalWebViewModel.state == .success {
-                PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .completed)
+                PayPalWebStatusView(status: .completed, intent: payPalWebViewModel.intent, payPalViewModel: payPalWebViewModel)
             }
         }
+        Spacer()
     }
 }
