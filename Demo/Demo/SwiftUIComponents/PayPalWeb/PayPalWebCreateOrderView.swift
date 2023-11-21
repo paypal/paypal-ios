@@ -7,7 +7,7 @@ struct PayPalWebCreateOrderView: View {
     @State private var selectedIntent: Intent = .authorize
 
     var body: some View {
-        VStack {
+        VStack(spacing: 16) {
             HStack {
                 Text("Create an Order")
                     .font(.system(size: 20))

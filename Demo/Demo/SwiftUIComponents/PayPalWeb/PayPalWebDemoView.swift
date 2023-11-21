@@ -1,5 +1,4 @@
 import SwiftUI
-import PaymentButtons
 
 struct PayPalWebDemoView: View {
 

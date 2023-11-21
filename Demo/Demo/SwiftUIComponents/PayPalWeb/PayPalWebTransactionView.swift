@@ -6,7 +6,7 @@ struct PayPalWebTransactionView: View {
 
     var body: some View {
         VStack {
-            PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .approved)
+            PayPalWebStatusView(status: .approved, payPalViewModel: payPalWebViewModel)
             ZStack {
                 Button("\(payPalWebViewModel.intent.rawValue.capitalized) Order") {
                     Task {
@@ -19,6 +19,7 @@ struct PayPalWebTransactionView: View {
                 }
                 .buttonStyle(RoundedBlueButtonStyle())
                 .padding()
+
                 if payPalWebViewModel.state == .loading {
                     CircularProgressView()
                 }
