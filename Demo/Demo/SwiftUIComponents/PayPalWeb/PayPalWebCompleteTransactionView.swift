@@ -1,30 +1,31 @@
 import SwiftUI
 
-// TODO: maybe button view?
 struct PayPalWebCompleteTransactionView: View {
 
     @ObservedObject var payPalWebViewModel: PayPalWebViewModel
 
     var body: some View {
-        ZStack {
-            Button("\(payPalWebViewModel.intent.rawValue)") {
-                completeTransaction()
+        VStack {
+            PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .approved)
+            ZStack {
+                Button("\(payPalWebViewModel.intent.rawValue)") {
+                    Task {
+                        do {
+                            try await payPalWebViewModel.completeOrder()
+                        } catch {
+                            print("Error capturing order: \(error.localizedDescription)")
+                        }
+                    }
+                }
+                .buttonStyle(RoundedBlueButtonStyle())
+                .padding()
+                if payPalWebViewModel.state == .loading {
+                    CircularProgressView()
+                }
             }
-            .buttonStyle(RoundedBlueButtonStyle())
-            .padding()
 
-            if payPalWebViewModel.state == .loading {
-                CircularProgressView()
-            }
-        }
-    }
-
-    private func completeTransaction() {
-        Task {
-            do {
-                try await payPalWebViewModel.completeOrder()
-            } catch {
-                print("Error capturing order: \(error.localizedDescription)")
+            if payPalWebViewModel.state == .success {
+                PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .completed)
             }
         }
     }
