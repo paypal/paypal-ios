@@ -62,9 +62,9 @@ struct VaultCard: Encodable {
 struct Attributes: Encodable {
 
     let vault: Vault
-    let customer: VaultCustomer?
+    let customer: Customer?
 
-    init(vault: Vault, customer: VaultCustomer? = nil) {
+    init(vault: Vault, customer: Customer? = nil) {
         self.vault = vault
         self.customer = customer
     }
@@ -76,12 +76,6 @@ struct Vault: Encodable {
     let usageType: String?
     let customerType: String?
 }
-
-struct VaultCustomer: Encodable {
-
-    let id: String
-}
-
 
 struct PurchaseUnit: Encodable {
 
