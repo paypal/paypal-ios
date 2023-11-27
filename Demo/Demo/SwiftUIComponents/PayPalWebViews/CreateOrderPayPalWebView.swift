@@ -5,7 +5,6 @@ struct CreateOrderPayPalWebView: View {
     @ObservedObject var paypalWebViewModel: PayPalWebViewModel
 
     @State private var selectedIntent: Intent = .authorize
-    @State private var vaultCustomerID: String = ""
     @State var shouldVaultSelected = false
 
     let selectedMerchantIntegration: MerchantIntegration
@@ -28,7 +27,6 @@ struct CreateOrderPayPalWebView: View {
                 Toggle("Should Vault with Purchase", isOn: $shouldVaultSelected)
                 Spacer()
             }
-            FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $vaultCustomerID)
             ZStack {
                 Button("Create an Order") {
                     Task {
@@ -38,8 +36,7 @@ struct CreateOrderPayPalWebView: View {
                                 amount: "10.00",
                                 selectedMerchantIntegration: DemoSettings.merchantIntegration,
                                 intent: selectedIntent.rawValue,
-                                shouldVault: shouldVaultSelected,
-                                customerID: vaultCustomerID.isEmpty ? nil : vaultCustomerID
+                                shouldVault: shouldVaultSelected
                             )
                         } catch {
                             print("Error in getting setup token. \(error.localizedDescription)")

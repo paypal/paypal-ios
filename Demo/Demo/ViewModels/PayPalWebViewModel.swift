@@ -14,8 +14,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         amount: String,
         selectedMerchantIntegration: MerchantIntegration,
         intent: String,
-        shouldVault: Bool,
-        customerID: String? = nil
+        shouldVault: Bool
     ) async throws {
         // might need to pass in payee as payee object or as auth header
 
@@ -24,17 +23,13 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
         var vaultPayPalPaymentSource: VaultPayPalPaymentSource?
         if shouldVault {
-            var customer: VaultCustomer?
-            if let customerID {
-                customer = VaultCustomer(id: customerID)
-            }
             let attributes = Attributes(
                 vault: Vault(
                     storeInVault: "ON_SUCCESS",
                     usageType: "MERCHANT",
                     customerType: "CONSUMER"
                 ),
-                customer: customer
+                customer: nil as VaultCustomer?
             )
             let paypal = VaultPayPal(attributes: attributes, experienceContext: ExperienceContext(returnURL: "https://example.com/returnUrl", cancelURL: "https://example.com/cancelUrl"))
             vaultPayPalPaymentSource = VaultPayPalPaymentSource(paypal: paypal)
