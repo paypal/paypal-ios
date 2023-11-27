@@ -63,6 +63,11 @@ struct Attributes: Encodable {
 
     let vault: Vault
     let customer: VaultCustomer?
+
+    init(vault: Vault, customer: VaultCustomer? = nil) {
+        self.vault = vault
+        self.customer = customer
+    }
 }
 
 struct Vault: Encodable {

@@ -28,8 +28,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
                     storeInVault: "ON_SUCCESS",
                     usageType: "MERCHANT",
                     customerType: "CONSUMER"
-                ),
-                customer: nil as VaultCustomer?
+                )
             )
             let paypal = VaultPayPal(attributes: attributes, experienceContext: ExperienceContext(returnURL: "https://example.com/returnUrl", cancelURL: "https://example.com/cancelUrl"))
             vaultPayPalPaymentSource = VaultPayPalPaymentSource(paypal: paypal)
