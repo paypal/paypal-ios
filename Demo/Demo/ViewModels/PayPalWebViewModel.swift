@@ -30,6 +30,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
                     customerType: "CONSUMER"
                 )
             )
+            // The returnURL is not used in our mobile SDK, but a required field for create order with PayPal payment source.
             let paypal = VaultPayPal(attributes: attributes, experienceContext: ExperienceContext(returnURL: "https://example.com/returnUrl", cancelURL: "https://example.com/cancelUrl"))
             vaultPayPalPaymentSource = VaultPayPalPaymentSource(paypal: paypal)
         }

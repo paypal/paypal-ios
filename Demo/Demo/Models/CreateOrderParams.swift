@@ -45,6 +45,7 @@ struct VaultPayPal: Encodable {
 
 struct ExperienceContext: Encodable {
 
+    // these fields are not encoded for our SDK but are required for create order with PayPal vault option
     let returnURL: String
     let cancelURL: String
 }
