@@ -8,9 +8,15 @@ struct SetUpTokenResponse: Decodable, Equatable {
     
     let id, status: String
     let customer: Customer?
+    let links: [Link]
 
     struct Customer: Decodable {
         
         let id: String
+    }
+
+    struct Link: Decodable {
+
+        let href, rel, method: String
     }
 }
