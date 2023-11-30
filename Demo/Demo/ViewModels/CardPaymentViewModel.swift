@@ -27,7 +27,7 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
             if let customerID {
                 customer = Customer(id: customerID)
             }
-            let attributes = Attributes(vault: Vault(storeInVault: "ON_SUCCESS", usageType: nil, customerType: nil), customer: customer)
+            let attributes = Attributes(vault: Vault(storeInVault: "ON_SUCCESS"), customer: customer)
             let card = VaultCard(attributes: attributes)
             vaultCardPaymentSource = VaultCardPaymentSource(card: card)
         }

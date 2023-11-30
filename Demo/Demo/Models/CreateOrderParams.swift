@@ -76,6 +76,12 @@ struct Vault: Encodable {
     let storeInVault: String
     let usageType: String?
     let customerType: String?
+
+    init(storeInVault: String, usageType: String? = nil, customerType: String? = nil) {
+        self.storeInVault = storeInVault
+        self.usageType = usageType
+        self.customerType = customerType
+    }
 }
 
 struct PurchaseUnit: Encodable {
