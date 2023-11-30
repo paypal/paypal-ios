@@ -21,15 +21,20 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
         let amountRequest = Amount(currencyCode: "USD", value: amount)
         // TODO: might need to pass in payee as payee object or as auth header
 
-        var vaultPaymentSource: VaultCardPaymentSource?
+        var vaultCardPaymentSource: VaultCardPaymentSource?
         if shouldVault {
-            var customer: CardVaultCustomer?
+            var customer: Customer?
             if let customerID {
-                customer = CardVaultCustomer(id: customerID)
+                customer = Customer(id: customerID)
             }
             let attributes = Attributes(vault: Vault(storeInVault: "ON_SUCCESS"), customer: customer)
             let card = VaultCard(attributes: attributes)
-            vaultPaymentSource = VaultCardPaymentSource(card: card)
+            vaultCardPaymentSource = VaultCardPaymentSource(card: card)
+        }
+
+        var vaultPaymentSource: VaultPaymentSource?
+        if let vaultCardPaymentSource {
+            vaultPaymentSource = .card(vaultCardPaymentSource)
         }
 
         let orderRequestParams = CreateOrderParams(
