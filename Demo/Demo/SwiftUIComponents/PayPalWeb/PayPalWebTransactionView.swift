@@ -20,18 +20,15 @@ struct PayPalWebTransactionView: View {
                     }
                     .buttonStyle(RoundedBlueButtonStyle())
                     .padding()
-                    
+
                     if payPalWebViewModel.state == .loading {
                         CircularProgressView()
                     }
                 }
-                
-                if payPalWebViewModel.state == .success {
+
+                if payPalWebViewModel.state == .success && payPalWebViewModel.order?.status == "COMPLETED" {
                     PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .completed)
                 }
-            }
-            .onAppear {
-                payPalWebViewModel.resetState()
             }
             Spacer()
         }

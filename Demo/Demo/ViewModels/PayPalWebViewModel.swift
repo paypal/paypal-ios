@@ -97,10 +97,6 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         }
     }
 
-    func resetState() {
-        updateState(.idle)
-    }
-
     private func updateOrder(_ order: Order) {
         DispatchQueue.main.async {
             self.order = order

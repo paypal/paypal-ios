@@ -42,8 +42,5 @@ struct PayPalWebButtonsView: View {
             }
             Spacer()
         }
-        .onAppear {
-            payPalWebViewModel.resetState()
-        }
     }
 }
