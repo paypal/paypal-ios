@@ -29,6 +29,9 @@ struct PayPalWebTransactionView: View {
                 PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .completed)
             }
         }
+        .onAppear {
+            payPalWebViewModel.resetState()
+        }
         Spacer()
     }
 }
