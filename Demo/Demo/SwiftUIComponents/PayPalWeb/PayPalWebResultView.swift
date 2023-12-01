@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum Status {
+enum OrderStatus {
     case started
     case approved
     case completed
@@ -10,7 +10,7 @@ struct PayPalWebResultView: View {
 
     @ObservedObject var payPalWebViewModel: PayPalWebViewModel
 
-    var status: Status
+    var status: OrderStatus
 
     var body: some View {
         switch payPalWebViewModel.state {

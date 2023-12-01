@@ -2,7 +2,7 @@ import SwiftUI
 
 struct PayPalWebStatusView: View {
 
-    var status: Status
+    var status: OrderStatus
     var payPalViewModel: PayPalWebViewModel
 
     var body: some View {
