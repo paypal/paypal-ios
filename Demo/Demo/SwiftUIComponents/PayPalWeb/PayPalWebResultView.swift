@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum OrderStatus {
-    case started
+    case created
     case approved
     case completed
 }

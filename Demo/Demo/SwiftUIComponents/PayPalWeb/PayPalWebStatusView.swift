@@ -8,7 +8,7 @@ struct PayPalWebStatusView: View {
     var body: some View {
         VStack(spacing: 16) {
             switch status {
-            case .started:
+            case .created:
                 HStack {
                     Text("Order Created")
                         .font(.system(size: 20))

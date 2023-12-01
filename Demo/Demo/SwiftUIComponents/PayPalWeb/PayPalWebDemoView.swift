@@ -9,7 +9,7 @@ struct PayPalWebDemoView: View {
             VStack(spacing: 16) {
                 PayPalWebCreateOrderView(payPalWebViewModel: payPalWebViewModel)
                 if payPalWebViewModel.order != nil {
-                    PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .started)
+                    PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .created)
                     NavigationLink {
                         PayPalWebButtonsView(payPalWebViewModel: payPalWebViewModel)
                             .navigationTitle("Checkout with PayPal")
