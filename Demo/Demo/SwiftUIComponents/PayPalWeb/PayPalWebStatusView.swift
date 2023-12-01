@@ -3,7 +3,7 @@ import SwiftUI
 struct PayPalWebStatusView: View {
 
     var status: OrderStatus
-    var payPalViewModel: PayPalWebViewModel
+    var payPalWebViewModel: PayPalWebViewModel
 
     var body: some View {
         VStack(spacing: 16) {
@@ -14,7 +14,7 @@ struct PayPalWebStatusView: View {
                         .font(.system(size: 20))
                     Spacer()
                 }
-                if let order = payPalViewModel.order {
+                if let order = payPalWebViewModel.order {
                     LeadingText("Order ID", weight: .bold)
                     LeadingText("\(order.id)")
                     LeadingText("Status", weight: .bold)
@@ -26,18 +26,18 @@ struct PayPalWebStatusView: View {
                         .font(.system(size: 20))
                     Spacer()
                 }
-                if let order = payPalViewModel.order {
+                if let order = payPalWebViewModel.order {
                     LeadingText("Intent", weight: .bold)
-                    LeadingText("\(payPalViewModel.intent)")
+                    LeadingText("\(payPalWebViewModel.intent)")
                     LeadingText("Order ID", weight: .bold)
                     LeadingText("\(order.id)")
                     LeadingText("Payer ID", weight: .bold)
-                    LeadingText("\(payPalViewModel.checkoutResult?.payerID ?? "")")
+                    LeadingText("\(payPalWebViewModel.checkoutResult?.payerID ?? "")")
                 }
             case .completed:
-                if let order = payPalViewModel.order {
+                if let order = payPalWebViewModel.order {
                     HStack {
-                        Text("Order \(payPalViewModel.intent.rawValue.capitalized)d")
+                        Text("Order \(payPalWebViewModel.intent.rawValue.capitalized)d")
                             .font(.system(size: 20))
                         Spacer()
                     }
@@ -46,17 +46,17 @@ struct PayPalWebStatusView: View {
                     LeadingText("Status", weight: .bold)
                     LeadingText("\(order.status)")
 
-                    if let emailAddress = payPalViewModel.order?.paymentSource?.paypal?.emailAddress {
+                    if let emailAddress = payPalWebViewModel.order?.paymentSource?.paypal?.emailAddress {
                         LeadingText("Email", weight: .bold)
                         LeadingText("\(emailAddress)")
                     }
 
-                    if let vaultID = payPalViewModel.order?.paymentSource?.paypal?.attributes?.vault.id {
+                    if let vaultID = payPalWebViewModel.order?.paymentSource?.paypal?.attributes?.vault.id {
                         LeadingText("Vault ID / Payment Token", weight: .bold)
                         LeadingText("\(vaultID)")
                     }
 
-                    if let customerID = payPalViewModel.order?.paymentSource?.paypal?.attributes?.vault.customer.id {
+                    if let customerID = payPalWebViewModel.order?.paymentSource?.paypal?.attributes?.vault.customer.id {
                         LeadingText("Customer ID", weight: .bold)
                         LeadingText("\(customerID)")
                     }

@@ -17,7 +17,7 @@ struct PayPalWebResultView: View {
         case .idle, .loading:
             EmptyView()
         case .success:
-            PayPalWebStatusView(status: status, payPalViewModel: payPalWebViewModel)
+            PayPalWebStatusView(status: status, payPalWebViewModel: payPalWebViewModel)
         case .error(let errorMessage):
             ErrorView(errorMessage: errorMessage)
         }
