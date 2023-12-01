@@ -278,6 +278,7 @@
 				BE8117632B07E778009867B9 /* PayPalWebResultView.swift */,
 				BE8117652B080202009867B9 /* PayPalWebStatusView.swift */,
 				3B6472A62AFAEB3A004745C4 /* PayPalWebTransactionView.swift */,
+				3BA56FFB2A9FEFE90081D14F /* PayPalWebViewModel.swift */,
 			);
 			path = PayPalWebPayments;
 			sourceTree = "<group>";
@@ -419,7 +420,6 @@
 				3B2027402A8A72050007907E /* CardVaultState.swift */,
 				3BA56FE62A9DC9D70081D14F /* CardPaymentViewModel.swift */,
 				3BA56FE82A9DCA520081D14F /* CardPaymentState.swift */,
-				3BA56FFB2A9FEFE90081D14F /* PayPalWebViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
