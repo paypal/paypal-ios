@@ -37,6 +37,7 @@ struct PayPalWebButtonsView: View {
                 } label: {
                     Text("Complete Transaction")
                 }
+                .navigationViewStyle(StackNavigationViewStyle())
                 .buttonStyle(RoundedBlueButtonStyle())
                 .padding()
             }
