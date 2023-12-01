@@ -7,8 +7,8 @@ struct PaymentTokenResponse: Decodable, Equatable {
     let paymentSource: PaymentSource
 }
 
-struct Customer: Decodable, Equatable {
-    
+struct Customer: Codable, Equatable {
+
     let id: String
 }
 

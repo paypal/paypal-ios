@@ -13,13 +13,28 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
     let configManager = CoreConfigManager(domain: "PayPalWeb Payments")
 
-    func createOrder() async throws {
+    func createOrder(shouldVault: Bool) async throws {
         let amountRequest = Amount(currencyCode: "USD", value: "10.00")
+
         // TODO: might need to pass in payee as payee object or as auth header
+        var vaultPayPalPaymentSource: VaultPayPalPaymentSource?
+        if shouldVault {
+            let attributes = Attributes(vault: Vault(storeInVault: "ON_SUCCESS", usageType: "MERCHANT", customerType: "CONSUMER"))
+            // The returnURL is not used in our mobile SDK, but a required field for create order with PayPal payment source. DTPPCPSDK-1492 to track this issue
+            let paypal = VaultPayPal(attributes: attributes, experienceContext: ExperienceContext(returnURL: "https://example.com/returnUrl", cancelURL: "https://example.com/cancelUrl"))
+            vaultPayPalPaymentSource = VaultPayPalPaymentSource(paypal: paypal)
+        }
+
+        var vaultPaymentSource: VaultPaymentSource?
+        if let vaultPayPalPaymentSource {
+            vaultPaymentSource = .paypal(vaultPayPalPaymentSource)
+        }
+
         let orderRequestParams = CreateOrderParams(
             applicationContext: nil,
             intent: intent.rawValue,
-            purchaseUnits: [PurchaseUnit(amount: amountRequest)]
+            purchaseUnits: [PurchaseUnit(amount: amountRequest)],
+            paymentSource: vaultPaymentSource
         )
 
         do {
