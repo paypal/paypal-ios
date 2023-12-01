@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct PayPalWebDemoView: View {
+struct PayPalWebPaymentsView: View {
 
     @StateObject var payPalWebViewModel = PayPalWebViewModel()
 
