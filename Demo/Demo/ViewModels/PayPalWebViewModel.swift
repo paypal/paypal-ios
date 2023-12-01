@@ -120,9 +120,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
     }
 
     func payPal(_ payPalClient: PayPalWebCheckoutClient, didFinishWithError error: CoreSDKError) {
-        DispatchQueue.main.async {
-            self.state = .error(message: error.localizedDescription)
-        }
+        updateState(.error(message: error.localizedDescription))
     }
 
     func payPalDidCancel(_ payPalClient: PayPalWebCheckoutClient) {
