@@ -50,6 +50,16 @@ struct PayPalWebStatusView: View {
                         LeadingText("Email", weight: .bold)
                         LeadingText("\(emailAddress)")
                     }
+
+                    if let vaultID = payPalViewModel.order?.paymentSource?.paypal?.attributes?.vault.id {
+                        LeadingText("Vault ID / Payment Token", weight: .bold)
+                        LeadingText("\(vaultID)")
+                    }
+
+                    if let customerID = payPalViewModel.order?.paymentSource?.paypal?.attributes?.vault.customer.id {
+                        LeadingText("Customer ID", weight: .bold)
+                        LeadingText("\(customerID)")
+                    }
                 }
             }
         }
