@@ -3,6 +3,8 @@ import Foundation
 enum CurrentState: Equatable {
     case idle
     case loading
-    case success
+    case orderSuccess
+    case orderApproved
+    case transactionSuccess
     case error(message: String)
 }

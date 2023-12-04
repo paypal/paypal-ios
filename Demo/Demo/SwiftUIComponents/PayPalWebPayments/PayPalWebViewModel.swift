@@ -45,7 +45,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
             )
 
             updateOrder(order)
-            updateState(.success)
+            updateState(.orderSuccess)
             print("✅ fetched orderID: \(order.id) with status: \(order.status)")
         } catch {
             updateState(.error(message: error.localizedDescription))
@@ -89,7 +89,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
             if let orderID = order?.id {
                 let order = try await DemoMerchantAPI.sharedService.completeOrder(intent: intent, orderID: orderID)
                 updateOrder(order)
-                updateState(.success)
+                updateState(.transactionSuccess)
             }
         } catch {
             updateState(.error(message: error.localizedDescription))
@@ -115,7 +115,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         _ payPalClient: PayPalWebCheckoutClient,
         didFinishWithResult result: PayPalWebCheckoutResult
     ) {
-        updateState(.success)
+        updateState(.orderApproved)
         checkoutResult = result
     }
 

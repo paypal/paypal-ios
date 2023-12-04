@@ -2,13 +2,12 @@ import SwiftUI
 
 struct PayPalWebStatusView: View {
 
-    var status: OrderStatus
     var payPalWebViewModel: PayPalWebViewModel
 
     var body: some View {
         VStack(spacing: 16) {
-            switch status {
-            case .created:
+            switch payPalWebViewModel.state {
+            case .orderSuccess:
                 HStack {
                     Text("Order Created")
                         .font(.system(size: 20))
@@ -20,7 +19,7 @@ struct PayPalWebStatusView: View {
                     LeadingText("Status", weight: .bold)
                     LeadingText("\(order.status)")
                 }
-            case .approved:
+            case .orderApproved:
                 HStack {
                     Text("Order Approved")
                         .font(.system(size: 20))
@@ -34,7 +33,7 @@ struct PayPalWebStatusView: View {
                     LeadingText("Payer ID", weight: .bold)
                     LeadingText("\(payPalWebViewModel.checkoutResult?.payerID ?? "")")
                 }
-            case .completed:
+            case .transactionSuccess:
                 if let order = payPalWebViewModel.order {
                     HStack {
                         Text("Order \(payPalWebViewModel.intent.rawValue.capitalized)d")
@@ -61,6 +60,8 @@ struct PayPalWebStatusView: View {
                         LeadingText("\(customerID)")
                     }
                 }
+            default:
+                Text("")
             }
         }
         .frame(maxWidth: .infinity)

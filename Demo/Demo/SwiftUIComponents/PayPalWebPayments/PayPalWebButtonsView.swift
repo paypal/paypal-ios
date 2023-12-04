@@ -29,8 +29,8 @@ struct PayPalWebButtonsView: View {
                     .padding(5)
             )
 
-            if payPalWebViewModel.state == .success && payPalWebViewModel.checkoutResult != nil {
-                PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .approved)
+            if payPalWebViewModel.checkoutResult != nil {
+                PayPalWebResultView(payPalWebViewModel: payPalWebViewModel)
                 NavigationLink {
                     PayPalWebTransactionView(payPalWebViewModel: payPalWebViewModel)
                         .navigationTitle("Complete Transaction")
