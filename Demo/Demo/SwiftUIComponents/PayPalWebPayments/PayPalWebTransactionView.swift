@@ -22,15 +22,13 @@ struct PayPalWebTransactionView: View {
                         .buttonStyle(RoundedBlueButtonStyle())
                         .padding()
 
-                        if payPalWebViewModel.state == .loading {
+                        if payPalWebViewModel.authorizeCpatureOrderState == .loading {
                             CircularProgressView()
                         }
                     }
 
-                    if payPalWebViewModel.state == .success && payPalWebViewModel.order?.status == "COMPLETED" {
-                        PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .completed)
-                            .id("bottomView")
-                    }
+                    PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .completed)
+                        .id("bottomView")
                 }
                 .onChange(of: payPalWebViewModel.order) { _ in
                     withAnimation {

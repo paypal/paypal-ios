@@ -11,9 +11,19 @@ struct PayPalWebResultView: View {
     @ObservedObject var payPalWebViewModel: PayPalWebViewModel
 
     var status: OrderStatus
+    var state: CurrentState {
+        switch status {
+        case .approved:
+            return payPalWebViewModel.approveOrderState
+        case .created:
+            return payPalWebViewModel.createOrderState
+        case .completed:
+            return payPalWebViewModel.authorizeCpatureOrderState
+        }
+    }
 
     var body: some View {
-        switch payPalWebViewModel.state {
+        switch state {
         case .idle, .loading:
             EmptyView()
         case .success:
