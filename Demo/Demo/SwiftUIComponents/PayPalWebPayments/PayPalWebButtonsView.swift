@@ -29,8 +29,8 @@ struct PayPalWebButtonsView: View {
                     .padding(5)
             )
 
-            if payPalWebViewModel.checkoutResult != nil {
-                PayPalWebResultView(payPalWebViewModel: payPalWebViewModel)
+            if payPalWebViewModel.checkoutResult != nil && payPalWebViewModel.state == .success {
+                PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .approved)
                 NavigationLink {
                     PayPalWebTransactionView(payPalWebViewModel: payPalWebViewModel)
                         .navigationTitle("Complete Transaction")
@@ -40,6 +40,8 @@ struct PayPalWebButtonsView: View {
                 .navigationViewStyle(StackNavigationViewStyle())
                 .buttonStyle(RoundedBlueButtonStyle())
                 .padding()
+            } else if case .error = payPalWebViewModel.state {
+                PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .error)
             }
             Spacer()
         }

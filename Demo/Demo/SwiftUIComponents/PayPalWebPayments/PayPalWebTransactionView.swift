@@ -8,7 +8,7 @@ struct PayPalWebTransactionView: View {
         ScrollView {
             ScrollViewReader { scrollView in
                 VStack {
-                    PayPalWebStatusView(payPalWebViewModel: payPalWebViewModel)
+                    PayPalWebStatusView(status: .approved, payPalWebViewModel: payPalWebViewModel)
                     ZStack {
                         Button("\(payPalWebViewModel.intent.rawValue.capitalized) Order") {
                             Task {
@@ -27,12 +27,14 @@ struct PayPalWebTransactionView: View {
                         }
                     }
 
-                    if payPalWebViewModel.state == .transactionSuccess {
-                        PayPalWebResultView(payPalWebViewModel: payPalWebViewModel)
+                    if payPalWebViewModel.transactionResult != nil && payPalWebViewModel.state == .success {
+                        PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .completed)
                             .id("bottomView")
+                    } else if case .error = payPalWebViewModel.state {
+                        PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .error)
                     }
                 }
-                .onChange(of: payPalWebViewModel.order) { _ in
+                .onChange(of: payPalWebViewModel.transactionResult) { _ in
                     withAnimation {
                         scrollView.scrollTo("bottomView")
                     }

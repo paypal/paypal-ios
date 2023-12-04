@@ -8,8 +8,8 @@ struct PayPalWebPaymentsView: View {
         ScrollView {
             VStack(spacing: 16) {
                 PayPalWebCreateOrderView(payPalWebViewModel: payPalWebViewModel)
-                if payPalWebViewModel.order != nil {
-                    PayPalWebResultView(payPalWebViewModel: payPalWebViewModel)
+                if payPalWebViewModel.createOrderResult != nil && payPalWebViewModel.state == .success {
+                    PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .created)
                     NavigationLink {
                         PayPalWebButtonsView(payPalWebViewModel: payPalWebViewModel)
                             .navigationTitle("Checkout with PayPal")
@@ -18,6 +18,8 @@ struct PayPalWebPaymentsView: View {
                     }
                     .buttonStyle(RoundedBlueButtonStyle())
                     .padding()
+                } else if case .error = payPalWebViewModel.state {
+                    PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .error)
                 }
             }
         }

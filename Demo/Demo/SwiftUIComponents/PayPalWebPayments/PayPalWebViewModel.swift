@@ -6,10 +6,12 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
     @Published var state: CurrentState = .idle
     @Published var intent: Intent = .authorize
-    @Published var order: Order?
+    @Published var createOrderResult: Order?
+    @Published var transactionResult: Order?
     @Published var checkoutResult: PayPalWebCheckoutResult?
 
     var payPalWebCheckoutClient: PayPalWebCheckoutClient?
+    var orderID: String?
 
     let configManager = CoreConfigManager(domain: "PayPalWeb Payments")
 
@@ -44,8 +46,12 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
                 selectedMerchantIntegration: DemoSettings.merchantIntegration
             )
 
-            updateOrder(order)
-            updateState(.orderSuccess)
+            self.orderID = order.id
+
+            DispatchQueue.main.async {
+                self.createOrderResult = order
+            }
+            updateState(.success)
             print("✅ fetched orderID: \(order.id) with status: \(order.status)")
         } catch {
             updateState(.error(message: error.localizedDescription))
@@ -63,7 +69,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
                     return
                 }
 
-                if let orderID = order?.id {
+                if let orderID {
                     let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding)
                     payPalWebCheckoutClient.start(request: payPalRequest)
                 }
@@ -86,20 +92,16 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         do {
             updateState(.loading)
 
-            if let orderID = order?.id {
+            if let orderID {
                 let order = try await DemoMerchantAPI.sharedService.completeOrder(intent: intent, orderID: orderID)
-                updateOrder(order)
-                updateState(.transactionSuccess)
+                DispatchQueue.main.async {
+                    self.transactionResult = order
+                }
+                updateState(.success)
             }
         } catch {
             updateState(.error(message: error.localizedDescription))
             print("Error with \(intent) order: \(error.localizedDescription)")
-        }
-    }
-
-    private func updateOrder(_ order: Order) {
-        DispatchQueue.main.async {
-            self.order = order
         }
     }
 
@@ -115,7 +117,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         _ payPalClient: PayPalWebCheckoutClient,
         didFinishWithResult result: PayPalWebCheckoutResult
     ) {
-        updateState(.orderApproved)
+        updateState(.success)
         checkoutResult = result
     }
 
