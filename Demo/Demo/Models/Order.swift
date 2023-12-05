@@ -2,7 +2,7 @@ struct Order: Codable, Equatable {
     
     let id: String
     let status: String
-    var paymentSource: PaymentSource?
+    let paymentSource: PaymentSource?
 
     struct PaymentSource: Codable, Equatable {
         

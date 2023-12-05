@@ -6,6 +6,7 @@ public enum PayPalWebCheckoutFundingSource: String {
     /// Eligible costumers receive a revolving line of credit that they can use to pay over time.
     case paypalCredit = "credit"
 
+    // NEXT_MAJOR_VERSION: rename to `payLater`
     /// PayLater will launch the web checkout flow and display Pay Later offers to eligible customers,
     /// which include short-term, interest-free payments and other special financing options
     case paylater = "paylater"

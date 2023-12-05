@@ -53,7 +53,21 @@ final class DemoMerchantAPI {
             throw error
         }
     }
-    
+
+    func completeOrder(intent: Intent, orderID: String) async throws -> Order {
+        let intent = intent == .authorize ? "authorize" : "capture"
+        guard let url = buildBaseURL(
+            with: "/orders/\(orderID)/\(intent)",
+            selectedMerchantIntegration: DemoSettings.merchantIntegration
+        ) else {
+            throw URLResponseError.invalidURL
+        }
+
+        let urlRequest = buildURLRequest(method: "POST", url: url, body: EmptyBodyParams())
+        let data = try await data(for: urlRequest)
+        return try parse(from: data)
+    }
+
     func captureOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws -> Order {
         guard let url = buildBaseURL(with: "/orders/\(orderID)/capture", selectedMerchantIntegration: selectedMerchantIntegration) else {
             throw URLResponseError.invalidURL
