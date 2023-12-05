@@ -5,11 +5,14 @@ struct CreateSetupTokenView: View {
     let selectedMerchantIntegration: MerchantIntegration
 
     @State private var vaultCustomerID: String = ""
-    @ObservedObject var cardVaultViewModel: CardVaultViewModel
+    @ObservedObject var vaultViewModel: VaultViewModel
 
-    public init(selectedMerchantIntegration: MerchantIntegration, cardVaultViewModel: CardVaultViewModel) {
+    let paymentSourceType: PaymentSourceType
+
+    public init(selectedMerchantIntegration: MerchantIntegration, vaultViewModel: VaultViewModel, paymentSourceType: PaymentSourceType) {
         self.selectedMerchantIntegration = selectedMerchantIntegration
-        self.cardVaultViewModel = cardVaultViewModel
+        self.vaultViewModel = vaultViewModel
+        self.paymentSourceType = paymentSourceType
     }
 
     var body: some View {
@@ -26,17 +29,19 @@ struct CreateSetupTokenView: View {
                 Button("Create Setup Token") {
                     Task {
                         do {
-                            try await cardVaultViewModel.getSetupToken(
+                            try await vaultViewModel.getSetupToken(
                                 customerID: vaultCustomerID.isEmpty ? nil : vaultCustomerID,
-                                selectedMerchantIntegration: selectedMerchantIntegration
+                                selectedMerchantIntegration: selectedMerchantIntegration,
+                                paymentSourceType: paymentSourceType
                             )
                         } catch {
                             print("Error in getting setup token. \(error.localizedDescription)")
+                            // handle error
                         }
                     }
                 }
                 .buttonStyle(RoundedBlueButtonStyle())
-                if case .loading = cardVaultViewModel.state.setupTokenResponse {
+                if case .loading = vaultViewModel.state.setupTokenResponse {
                     CircularProgressView()
                 }
             }

@@ -17,13 +17,17 @@ final class DemoMerchantAPI {
     private init() {}
 
     // MARK: Public Methods
-    
-    func getSetupToken(customerID: String? = nil, selectedMerchantIntegration: MerchantIntegration) async throws -> SetUpTokenResponse {
+    // take parameter for paymentSource
+    func getSetupToken(
+        customerID: String? = nil,
+        selectedMerchantIntegration: MerchantIntegration,
+        paymentSourceType: PaymentSourceType
+    ) async throws -> SetUpTokenResponse {
         do {
             // TODO: pass in headers depending on integration type
             // Different request struct or integration type property
             // in SetUpTokenRequest to conditionally add header
-            let request = SetUpTokenRequest(customerID: customerID, paymentSource: .card)
+            let request = SetUpTokenRequest(customerID: customerID, paymentSource: paymentSourceType)
             let urlRequest = try createSetupTokenUrlRequest(
                 setupTokenRequest: request,
                 environment: DemoSettings.environment,

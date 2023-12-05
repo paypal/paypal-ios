@@ -12,9 +12,10 @@ struct CardVaultView: View {
                 VStack(spacing: 16) {
                     CreateSetupTokenView(
                         selectedMerchantIntegration: DemoSettings.merchantIntegration,
-                        cardVaultViewModel: cardVaultViewModel
+                        vaultViewModel: cardVaultViewModel,
+                        paymentSourceType: PaymentSourceType.card
                     )
-                    SetupTokenResultView(cardVaultViewModel: cardVaultViewModel)
+                    SetupTokenResultView(vaultViewModel: cardVaultViewModel)
                     if let setupToken = cardVaultViewModel.state.setupToken {
                         UpdateSetupTokenView(cardVaultViewModel: cardVaultViewModel, setupToken: setupToken.id)
                     }

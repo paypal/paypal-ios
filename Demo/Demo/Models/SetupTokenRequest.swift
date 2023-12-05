@@ -29,8 +29,13 @@ struct SetUpTokenRequest {
         case .card:
             paymentSourceDict["card"] = [:]
         case .paypal(let usageType):
-            paymentSourceDict["paypal"] = ["usage_type": usageType]
-            paymentSourceDict["experience_context"] = ["return_url": "https://example.com/returnUrl", "cance_url": "https://example.com/cancelUrl"]
+            paymentSourceDict["paypal"] = [
+                "usage_type": usageType,
+                "experience_context": [
+                    "return_url": "https://example.com/returnUrl",
+                    "cancel_url": "https://example.com/cancelUrl"
+                ]
+            ]
         }
 
         let requestBody: [String: Any] = [

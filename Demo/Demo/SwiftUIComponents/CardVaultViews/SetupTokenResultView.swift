@@ -2,10 +2,10 @@ import SwiftUI
 
 struct SetupTokenResultView: View {
 
-    @ObservedObject var cardVaultViewModel: CardVaultViewModel
+    @ObservedObject var vaultViewModel: VaultViewModel
 
     var body: some View {
-        switch cardVaultViewModel.state.setupTokenResponse {
+        switch vaultViewModel.state.setupTokenResponse {
         case .idle, .loading:
             EmptyView()
         case .loaded(let setupTokenResponse):

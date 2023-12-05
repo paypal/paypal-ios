@@ -5,7 +5,7 @@ struct CreatePaymentTokenView: View {
     let selectedMerchantIntegration: MerchantIntegration
     let setupToken: String
 
-    @ObservedObject var cardVaultViewModel: CardVaultViewModel
+    @ObservedObject var cardVaultViewModel: VaultViewModel
 
     public init(cardVaultViewModel: CardVaultViewModel, selectedMerchantIntegration: MerchantIntegration, setupToken: String) {
         self.cardVaultViewModel = cardVaultViewModel

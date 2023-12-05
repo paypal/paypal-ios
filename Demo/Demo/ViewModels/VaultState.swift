@@ -1,7 +1,7 @@
 import Foundation
 import CardPayments
 
-struct CardVaultState: Equatable {
+struct VaultState: Equatable {
 
     struct UpdateSetupTokenResult: Decodable, Equatable {
 

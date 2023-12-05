@@ -15,7 +15,7 @@ struct UpdateSetupTokenResultView: View {
         }
     }
 
-    func getSuccessView(updateSetupTokenResponse: CardVaultState.UpdateSetupTokenResult) -> some View {
+    func getSuccessView(updateSetupTokenResponse: VaultState.UpdateSetupTokenResult) -> some View {
         VStack(spacing: 16) {
             HStack {
                 Text("Vault Success")

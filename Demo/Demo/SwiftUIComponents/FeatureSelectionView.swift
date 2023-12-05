@@ -44,6 +44,12 @@ struct FeatureSelectionView: View {
                         Text("PayPalWeb Payment")
                     }
                     NavigationLink {
+                        PayPalVaultView()
+                            .navigationTitle("PayPal Vaulting")
+                    } label: {
+                        Text("PayPal Vaulting")
+                    }
+                    NavigationLink {
                         SwiftUINativeCheckoutDemo()
                     } label: {
                         Text("Native Checkout")
