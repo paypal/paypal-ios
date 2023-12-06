@@ -601,7 +601,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BA56FE92A9DCA520081D14F /* CardPaymentState.swift in Sources */,
-				3B2027412A8A72050007907E /* VaultState.swift in Sources */
+				3B2027412A8A72050007907E /* VaultState.swift in Sources */,
 				80F33CED26F8E7A9006811B1 /* Order.swift in Sources */,
 				3B4DD9A02A892A7000F4A716 /* CardVaultView.swift in Sources */,
 				BE8117642B07E778009867B9 /* PayPalWebResultView.swift in Sources */,
