@@ -28,6 +28,10 @@ struct SetupTokenResultView: View {
             LeadingText("\(setupTokenResponse.customer?.id ?? "")")
             LeadingText("Status", weight: .bold)
             LeadingText("\(setupTokenResponse.status)")
+            if let url = setupTokenResponse.paypalURL {
+                LeadingText("PayPalURL", weight: .bold)
+                LeadingText("\(setupTokenResponse.paypalURL ?? "No url")")
+            }
         }
         .frame(maxWidth: .infinity)
         .padding()

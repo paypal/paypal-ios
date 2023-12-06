@@ -36,7 +36,6 @@ struct CreateSetupTokenView: View {
                             )
                         } catch {
                             print("Error in getting setup token. \(error.localizedDescription)")
-                            // handle error
                         }
                     }
                 }

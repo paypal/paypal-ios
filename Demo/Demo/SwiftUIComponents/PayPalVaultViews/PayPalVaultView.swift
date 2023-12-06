@@ -14,6 +14,18 @@ struct PayPalVaultView: View {
                         paymentSourceType: PaymentSourceType.paypal(usageType: "MERCHANT")
                     )
                     SetupTokenResultView(vaultViewModel: paypalVaultViewModel)
+                    if let url = paypalVaultViewModel.state.setupToken?.paypalURL {
+                        ZStack {
+                            Button("Vault Card") {
+                                Task {
+                                    await paypalVaultViewModel.vault(url: url)
+                                }
+                            }
+                            .buttonStyle(RoundedBlueButtonStyle())
+                            // handling loading view
+                        }
+                        .padding()
+                    }
                     Text("")
                         .id("bottomView")
                         .frame(maxWidth: .infinity, alignment: .top)

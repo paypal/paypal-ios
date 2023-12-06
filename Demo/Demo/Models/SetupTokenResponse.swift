@@ -9,6 +9,13 @@ struct SetUpTokenResponse: Decodable, Equatable {
     let id, status: String
     let customer: Customer?
     let links: [Link]
+    var paypalURL: String? {
+        if let link = links.first(where: { $0.rel == "approve" }) {
+            let url = link.href
+            return url
+        }
+        return nil
+    }
 
     struct Customer: Decodable {
         

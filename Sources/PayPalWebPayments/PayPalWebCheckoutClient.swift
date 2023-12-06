@@ -96,6 +96,39 @@ public class PayPalWebCheckoutClient: NSObject {
         return checkoutURLComponents?.url
     }
 
+    public func vault(url: URL) {
+        webAuthenticationSession.start(
+            url: url,
+            context: self,
+            sessionDidDisplay: { [weak self] didDisplay in
+                if didDisplay {
+                    self?.analyticsService?.sendEvent("paypal-vault:browser-presentation:succeeded")
+                } else {
+                    self?.analyticsService?.sendEvent("paypal-vault:browser-presentation:failed")
+                }
+            },
+            sessionDidComplete: { url, error in
+                if let error = error {
+                    switch error {
+                    case ASWebAuthenticationSessionError.canceledLogin:
+                        // should be separate vault cancel
+                        self.notifyCancellation()
+                        return
+                    default:
+                        // should be separate vault cancel
+                        self.notifyFailure(with: PayPalWebCheckoutClientError.webSessionError(error))
+                        return
+                    }
+                }
+
+                if let url = url {
+                    // return vault delegate method success
+                    print("🚨url: \(url)")
+                }
+            }
+            )
+    }
+
     private func getQueryStringParameter(url: String, param: String) -> String? {
         guard let url = URLComponents(string: url) else { return nil }
         return url.queryItems?.first { $0.name == param }?.value

@@ -17,7 +17,7 @@ final class DemoMerchantAPI {
     private init() {}
 
     // MARK: Public Methods
-    // take parameter for paymentSource
+
     func getSetupToken(
         customerID: String? = nil,
         selectedMerchantIntegration: MerchantIntegration,

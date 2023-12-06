@@ -32,8 +32,8 @@ struct SetUpTokenRequest {
             paymentSourceDict["paypal"] = [
                 "usage_type": usageType,
                 "experience_context": [
-                    "return_url": "https://example.com/returnUrl",
-                    "cancel_url": "https://example.com/cancelUrl"
+                    "return_url": "sdk.ios.paypal://vault/success",
+                    "cancel_url": "sdk.ios.paypal://vault/cancel"
                 ]
             ]
         }
