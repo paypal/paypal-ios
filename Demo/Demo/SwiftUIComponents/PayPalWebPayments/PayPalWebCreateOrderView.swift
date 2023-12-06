@@ -1,12 +1,11 @@
 import SwiftUI
 
-struct CreateOrderPayPalWebView: View {
+struct PayPalWebCreateOrderView: View {
 
-    @ObservedObject var paypalWebViewModel: PayPalWebViewModel
+    @ObservedObject var payPalWebViewModel: PayPalWebViewModel
 
     @State private var selectedIntent: Intent = .authorize
-
-    let selectedMerchantIntegration: MerchantIntegration
+    @State var shouldVaultSelected = false
 
     var body: some View {
         VStack(spacing: 16) {
@@ -22,22 +21,23 @@ struct CreateOrderPayPalWebView: View {
                 Text("CAPTURE").tag(Intent.capture)
             }
             .pickerStyle(SegmentedPickerStyle())
+            HStack {
+                Toggle("Should Vault with Purchase", isOn: $shouldVaultSelected)
+                Spacer()
+            }
             ZStack {
                 Button("Create an Order") {
                     Task {
                         do {
-                            paypalWebViewModel.state.intent = selectedIntent
-                            try await paypalWebViewModel.createOrder(
-                                amount: "10.00",
-                                selectedMerchantIntegration: DemoSettings.merchantIntegration,
-                                intent: selectedIntent.rawValue)
+                            payPalWebViewModel.intent = selectedIntent
+                            try await payPalWebViewModel.createOrder(shouldVault: shouldVaultSelected)
                         } catch {
                             print("Error in getting setup token. \(error.localizedDescription)")
                         }
                     }
                 }
                 .buttonStyle(RoundedBlueButtonStyle())
-                if case .loading = paypalWebViewModel.state.createdOrderResponse {
+                if payPalWebViewModel.state == .loading {
                     CircularProgressView()
                 }
             }
