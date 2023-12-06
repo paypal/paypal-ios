@@ -15,16 +15,30 @@ struct PayPalVaultView: View {
                     )
                     SetupTokenResultView(vaultViewModel: paypalVaultViewModel)
                     if let url = paypalVaultViewModel.state.setupToken?.paypalURL {
-                        ZStack {
-                            Button("Vault Card") {
-                                Task {
-                                    await paypalVaultViewModel.vault(url: url)
-                                }
+                        Button("Vault Card") {
+                            Task {
+                                await paypalVaultViewModel.vault(url: url)
                             }
-                            .buttonStyle(RoundedBlueButtonStyle())
-                            // handling loading view
                         }
+                        .buttonStyle(RoundedBlueButtonStyle())
                         .padding()
+                    }
+                    PayPalVaultResultView(vaultViewModel: paypalVaultViewModel)
+                    switch paypalVaultViewModel.state.paypalVaultTokenResponse {
+                    case .loaded, .error:
+                        VStack {
+                            Button("Reset") {
+                                paypalVaultViewModel.resetState()
+                            }
+                            .foregroundColor(.black)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(.gray)
+                            .cornerRadius(10)
+                        }
+                        .padding(5)
+                    default:
+                        EmptyView()
                     }
                     Text("")
                         .id("bottomView")

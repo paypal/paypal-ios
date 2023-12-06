@@ -6,6 +6,7 @@ import CorePayments
 
 public class PayPalWebCheckoutClient: NSObject {
 
+    public weak var vaultDelegate: PayPalVaultDelegate?
     public weak var delegate: PayPalWebCheckoutDelegate?
     let config: CoreConfig
     private let webAuthenticationSession: WebAuthenticationSession
@@ -121,12 +122,11 @@ public class PayPalWebCheckoutClient: NSObject {
                     }
                 }
 
-                if let url = url {
-                    // return vault delegate method success
-                    print("🚨url: \(url)")
+                if let url, let tokenID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_token_id") {
+                    self.notifyVaultSuccess(for: tokenID)
                 }
             }
-            )
+        )
     }
 
     private func getQueryStringParameter(url: String, param: String) -> String? {
@@ -148,6 +148,19 @@ public class PayPalWebCheckoutClient: NSObject {
     private func notifyCancellation() {
         analyticsService?.sendEvent("paypal-web-payments:browser-login:canceled")
         delegate?.payPalDidCancel(self)
+    }
+
+    private func notifyVaultSuccess(for result: String) {
+        vaultDelegate?.paypal(self, didFinishWithVaultResult: result)
+    }
+
+    private func notifyVaultFailure(with error: CoreSDKError) {
+        analyticsService?.sendEvent("paypal-web-payments:failed")
+        vaultDelegate?.paypal(self, didFinishWithVaultError: error)
+    }
+
+    private func notifyVaultCancellation() {
+        print("PayPal Vault Cancelled.")
     }
 }
 
