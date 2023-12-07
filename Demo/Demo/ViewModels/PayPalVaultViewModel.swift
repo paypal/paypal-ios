@@ -43,4 +43,8 @@ class PayPalVaultViewModel: VaultViewModel, PayPalVaultDelegate {
             self.state.paypalVaultTokenResponse = .error(message: vaultError.localizedDescription)
         }
     }
+
+    func paypalDidCancel(_ payPalWebClient: PayPalWebCheckoutClient) {
+        print("PayPal Checkout Canceled")
+    }
 }
