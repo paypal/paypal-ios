@@ -5,10 +5,10 @@ struct CreatePaymentTokenView: View {
     let selectedMerchantIntegration: MerchantIntegration
     let setupToken: String
 
-    @ObservedObject var cardVaultViewModel: VaultViewModel
+    @ObservedObject var vaultViewModel: VaultViewModel
 
-    public init(cardVaultViewModel: CardVaultViewModel, selectedMerchantIntegration: MerchantIntegration, setupToken: String) {
-        self.cardVaultViewModel = cardVaultViewModel
+    public init(vaultViewModel: VaultViewModel, selectedMerchantIntegration: MerchantIntegration, setupToken: String) {
+        self.vaultViewModel = vaultViewModel
         self.selectedMerchantIntegration = selectedMerchantIntegration
         self.setupToken = setupToken
     }
@@ -26,17 +26,17 @@ struct CreatePaymentTokenView: View {
                 Button("Create Payment Token") {
                     Task {
                         do {
-                            try await cardVaultViewModel.getPaymentToken(
+                            try await vaultViewModel.getPaymentToken(
                                 setupToken: setupToken,
                                 selectedMerchantIntegration: selectedMerchantIntegration
                             )
                         } catch {
-                            print("Error in getting setup token. \(error.localizedDescription)")
+                            print("Error in getting payment token. \(error.localizedDescription)")
                         }
                     }
                 }
                 .buttonStyle(RoundedBlueButtonStyle())
-                if case .loading = cardVaultViewModel.state.paymentTokenResponse {
+                if case .loading = vaultViewModel.state.paymentTokenResponse {
                     CircularProgressView()
                 }
             }

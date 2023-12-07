@@ -14,7 +14,8 @@ struct Customer: Codable, Equatable {
 
 struct PaymentSource: Decodable, Equatable {
     
-    let card: BasicCard
+    var card: BasicCard?
+    var paypal: BasicPayPal?
 }
 
 struct BasicCard: Decodable, Equatable {
@@ -22,4 +23,9 @@ struct BasicCard: Decodable, Equatable {
     let brand: String?
     let lastDigits: String
     let expiry: String
+}
+
+struct BasicPayPal: Decodable, Equatable {
+
+    let emailAddress: String
 }

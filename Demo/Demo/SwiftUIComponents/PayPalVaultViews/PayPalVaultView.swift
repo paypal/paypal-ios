@@ -15,7 +15,7 @@ struct PayPalVaultView: View {
                     )
                     SetupTokenResultView(vaultViewModel: paypalVaultViewModel)
                     if let url = paypalVaultViewModel.state.setupToken?.paypalURL {
-                        Button("Vault Card") {
+                        Button("Vault PayPal") {
                             Task {
                                 await paypalVaultViewModel.vault(url: url)
                             }
@@ -24,7 +24,15 @@ struct PayPalVaultView: View {
                         .padding()
                     }
                     PayPalVaultResultView(vaultViewModel: paypalVaultViewModel)
-                    switch paypalVaultViewModel.state.paypalVaultTokenResponse {
+                    if let tokenID = paypalVaultViewModel.state.paypalVaultToken {
+                        CreatePaymentTokenView(
+                            vaultViewModel: paypalVaultViewModel,
+                            selectedMerchantIntegration: DemoSettings.merchantIntegration,
+                            setupToken: tokenID
+                        )
+                    }
+                    PaymentTokenResultView(vaultViewModel: paypalVaultViewModel)
+                    switch paypalVaultViewModel.state.paymentTokenResponse {
                     case .loaded, .error:
                         VStack {
                             Button("Reset") {

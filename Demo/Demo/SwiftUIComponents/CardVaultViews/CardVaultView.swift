@@ -22,12 +22,12 @@ struct CardVaultView: View {
                     UpdateSetupTokenResultView(cardVaultViewModel: cardVaultViewModel)
                     if let updateSetupToken = cardVaultViewModel.state.updateSetupToken {
                         CreatePaymentTokenView(
-                            cardVaultViewModel: cardVaultViewModel,
+                            vaultViewModel: cardVaultViewModel,
                             selectedMerchantIntegration: DemoSettings.merchantIntegration,
                             setupToken: updateSetupToken.id
                         )
                     }
-                    PaymentTokenResultView(cardVaultViewModel: cardVaultViewModel)
+                    PaymentTokenResultView(vaultViewModel: cardVaultViewModel)
                     switch cardVaultViewModel.state.paymentTokenResponse {
                     case .loaded, .error:
                         VStack {
