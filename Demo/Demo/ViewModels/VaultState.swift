@@ -1,5 +1,6 @@
 import Foundation
 import CardPayments
+import PayPalWebPayments
 
 struct VaultState: Equatable {
 
@@ -12,7 +13,7 @@ struct VaultState: Equatable {
     var setupToken: SetUpTokenResponse?
     var updateSetupToken: UpdateSetupTokenResult?
     var paymentToken: PaymentTokenResponse?
-    var paypalVaultToken: String?
+    var paypalVaultToken: PayPalVaultResult?
 
     var setupTokenResponse: LoadingState<SetUpTokenResponse> = .idle {
         didSet {
@@ -22,7 +23,7 @@ struct VaultState: Equatable {
         }
     }
 
-    var paypalVaultTokenResponse: LoadingState<String> = .idle {
+    var paypalVaultTokenResponse: LoadingState<PayPalVaultResult> = .idle {
         didSet {
             if case .loaded(let value) = paypalVaultTokenResponse {
                 paypalVaultToken = value

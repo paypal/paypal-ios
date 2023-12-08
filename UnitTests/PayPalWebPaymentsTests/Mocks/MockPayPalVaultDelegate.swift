@@ -3,12 +3,12 @@
 
 class MockPayPalVaultDelegate: PayPalVaultDelegate {
 
-    private var success: ((PayPalWebCheckoutClient, String) -> Void)?
+    private var success: ((PayPalWebCheckoutClient, PayPalVaultResult) -> Void)?
     private var failure: ((PayPalWebCheckoutClient, CoreSDKError) -> Void)?
     private var cancel: ((PayPalWebCheckoutClient) -> Void)?
 
     required init(
-        success: ((PayPalWebCheckoutClient, String) -> Void)? = nil,
+        success: ((PayPalWebCheckoutClient, PayPalVaultResult) -> Void)? = nil,
         error: ((PayPalWebCheckoutClient, CoreSDKError) -> Void)? = nil,
         cancel: ((PayPalWebCheckoutClient) -> Void)? = nil
     ) {
@@ -17,8 +17,11 @@ class MockPayPalVaultDelegate: PayPalVaultDelegate {
         self.cancel = cancel
     }
 
-    func paypal(_ paypalWebClient: PayPalWebPayments.PayPalWebCheckoutClient, didFinishWithVaultResult vaultTokenID: String) {
-        success?(paypalWebClient, vaultTokenID)
+    func paypal(
+        _ paypalWebClient: PayPalWebPayments.PayPalWebCheckoutClient,
+        didFinishWithVaultResult paypalVaultResult: PayPalVaultResult
+    ) {
+        success?(paypalWebClient, paypalVaultResult)
     }
 
     func paypal(

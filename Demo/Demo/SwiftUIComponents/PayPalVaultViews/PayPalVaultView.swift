@@ -24,11 +24,11 @@ struct PayPalVaultView: View {
                         .padding()
                     }
                     PayPalVaultResultView(vaultViewModel: paypalVaultViewModel)
-                    if let tokenID = paypalVaultViewModel.state.paypalVaultToken {
+                    if let paypalVaultResult = paypalVaultViewModel.state.paypalVaultToken {
                         CreatePaymentTokenView(
                             vaultViewModel: paypalVaultViewModel,
                             selectedMerchantIntegration: DemoSettings.merchantIntegration,
-                            setupToken: tokenID
+                            setupToken: paypalVaultResult.tokenID
                         )
                     }
                     PaymentTokenResultView(vaultViewModel: paypalVaultViewModel)

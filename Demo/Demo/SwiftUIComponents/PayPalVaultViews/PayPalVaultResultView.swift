@@ -1,4 +1,5 @@
 import SwiftUI
+import PayPalWebPayments
 
 struct PayPalVaultResultView: View {
 
@@ -8,22 +9,24 @@ struct PayPalVaultResultView: View {
         switch vaultViewModel.state.paypalVaultTokenResponse {
         case .idle, .loading:
             EmptyView()
-        case .loaded(let vaultToken):
-            getSuccessView(vaultToken: vaultToken)
+        case .loaded(let vaultResult):
+            getSuccessView(result: vaultResult)
         case .error(let errorMessage):
             ErrorView(errorMessage: errorMessage)
         }
     }
 
-    func getSuccessView(vaultToken: String) -> some View {
+    func getSuccessView(result: PayPalVaultResult) -> some View {
         VStack(spacing: 16) {
             HStack {
                 Text("Vault Token")
                     .font(.system(size: 20))
                 Spacer()
             }
-            LeadingText("ID", weight: .bold)
-            LeadingText("\(vaultToken)")
+            LeadingText("Vault Token ID", weight: .bold)
+            LeadingText("\(result.tokenID)")
+            LeadingText("Approval Session ID", weight: .bold)
+            LeadingText("\(result.approvalSessionID)")
             LeadingText("Status", weight: .bold)
             LeadingText("APPROVED")
         }

@@ -120,15 +120,17 @@ public class PayPalWebCheckoutClient: NSObject {
                     }
                 }
 
-                if let url,
-                    let tokenID = self.getQueryStringParameter(
-                    url: url.absoluteString,
-                    param: "approval_token_id"
-                    ),
-                !tokenID.isEmpty {
-                    self.notifyVaultSuccess(for: tokenID)
-                } else {
-                    self.notifyVaultFailure(with: PayPalWebCheckoutClientError.payPalVaultResponseError)
+                if let url = url {
+                    guard let tokenID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_token_id"),
+                    let approvalSessionID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_session_id"),
+                        !tokenID.isEmpty, !approvalSessionID.isEmpty
+                    else {
+                        self.notifyVaultFailure(with: PayPalWebCheckoutClientError.payPalVaultResponseError)
+                        return
+                    }
+
+                    let paypalVaultResult = PayPalVaultResult(tokenID: tokenID, approvalSessionID: approvalSessionID)
+                    self.notifyVaultSuccess(for: paypalVaultResult)
                 }
             }
         )
@@ -155,7 +157,7 @@ public class PayPalWebCheckoutClient: NSObject {
         delegate?.payPalDidCancel(self)
     }
 
-    private func notifyVaultSuccess(for result: String) {
+    private func notifyVaultSuccess(for result: PayPalVaultResult) {
         vaultDelegate?.paypal(self, didFinishWithVaultResult: result)
     }
 

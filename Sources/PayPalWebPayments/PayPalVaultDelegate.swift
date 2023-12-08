@@ -10,7 +10,7 @@ public protocol PayPalVaultDelegate: AnyObject {
     /// - Parameters:
     ///   - client: the PayPalWebCheckoutClient associated with delegate
     ///   - didFinishWithResult: the successful result from the flow
-    func paypal(_ paypalWebClient: PayPalWebCheckoutClient, didFinishWithVaultResult vaultTokenID: String)
+    func paypal(_ paypalWebClient: PayPalWebCheckoutClient, didFinishWithVaultResult paypalVaultResult: PayPalVaultResult)
 
     /// Notify that an error occurred in the PayPal vault flow
     /// - Parameters:

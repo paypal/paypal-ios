@@ -10,7 +10,6 @@ class PayPalClient_Tests: XCTestCase {
     var mockWebAuthenticationSession: MockWebAuthenticationSession!
     var payPalClient: PayPalWebCheckoutClient!
     var mockNetworkingClient: MockNetworkingClient!
-    var mockPayPalVaultDelegate: MockPayPalVaultDelegate!
 
     override func setUp() {
         super.setUp()
@@ -32,9 +31,11 @@ class PayPalClient_Tests: XCTestCase {
         let expectation = expectation(description: "vault(url:) completed")
 
         let url = URL(string: "https://sandbox.paypal.com/vault")
-        let expectedResult = "fakeTokenID"
-        let mockVaultDelegate = MockPayPalVaultDelegate(success: {_, token in
-            XCTAssertEqual(expectedResult, token)
+        let expectedTokenIDResult = "fakeTokenID"
+        let expectedSessionIDResult = "fakeSessionID"
+        let mockVaultDelegate = MockPayPalVaultDelegate(success: {_, result in
+            XCTAssertEqual(expectedTokenIDResult, result.tokenID)
+            XCTAssertEqual(expectedSessionIDResult, result.approvalSessionID)
             expectation.fulfill()
         }, error: {_, _ in
             XCTFail("Invoked error() callback. Should invoke success().")

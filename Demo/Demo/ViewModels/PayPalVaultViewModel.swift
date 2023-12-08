@@ -27,10 +27,10 @@ class PayPalVaultViewModel: VaultViewModel, PayPalVaultDelegate {
 
     func paypal(
         _ paypalWebClient: PayPalWebPayments.PayPalWebCheckoutClient,
-        didFinishWithVaultResult vaultTokenID: String
+        didFinishWithVaultResult paypalVaultResult: PayPalVaultResult
     ) {
         DispatchQueue.main.async {
-            self.state.paypalVaultTokenResponse = .loaded(vaultTokenID)
+            self.state.paypalVaultTokenResponse = .loaded(paypalVaultResult)
         }
     }
 
