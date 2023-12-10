@@ -11,30 +11,12 @@ struct VaultState: Equatable {
     }
 
     var setupToken: SetUpTokenResponse?
-    var updateSetupToken: UpdateSetupTokenResult?
     var paymentToken: PaymentTokenResponse?
-    var paypalVaultToken: PayPalVaultResult?
 
     var setupTokenResponse: LoadingState<SetUpTokenResponse> = .idle {
         didSet {
             if case .loaded(let value) = setupTokenResponse {
                 setupToken = value
-            }
-        }
-    }
-
-    var paypalVaultTokenResponse: LoadingState<PayPalVaultResult> = .idle {
-        didSet {
-            if case .loaded(let value) = paypalVaultTokenResponse {
-                paypalVaultToken = value
-            }
-        }
-    }
-
-    var updateSetupTokenResponse: LoadingState<UpdateSetupTokenResult> = .idle {
-        didSet {
-            if case .loaded(let value) = updateSetupTokenResponse {
-                updateSetupToken = value
             }
         }
     }

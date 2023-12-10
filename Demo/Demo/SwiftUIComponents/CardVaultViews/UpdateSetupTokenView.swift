@@ -50,7 +50,7 @@ struct UpdateSetupTokenView: View {
                     }
                 }
                 .buttonStyle(RoundedBlueButtonStyle())
-                if case .loading = cardVaultViewModel.state.updateSetupTokenResponse {
+                if case .loading = cardVaultViewModel.updateSetupTokenResponse {
                     CircularProgressView()
                 }
             }

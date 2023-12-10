@@ -20,7 +20,7 @@ struct CardVaultView: View {
                         UpdateSetupTokenView(cardVaultViewModel: cardVaultViewModel, setupToken: setupToken.id)
                     }
                     UpdateSetupTokenResultView(cardVaultViewModel: cardVaultViewModel)
-                    if let updateSetupToken = cardVaultViewModel.state.updateSetupToken {
+                    if let updateSetupToken = cardVaultViewModel.updateSetupToken {
                         CreatePaymentTokenView(
                             vaultViewModel: cardVaultViewModel,
                             selectedMerchantIntegration: DemoSettings.merchantIntegration,
@@ -49,6 +49,11 @@ struct CardVaultView: View {
                         .frame(maxWidth: .infinity, alignment: .top)
                         .padding(.horizontal, 10)
                         .onChange(of: cardVaultViewModel.state) { _ in
+                            withAnimation {
+                                scrollView.scrollTo("bottomView")
+                            }
+                        }
+                        .onChange(of: cardVaultViewModel.updateSetupToken) { _ in
                             withAnimation {
                                 scrollView.scrollTo("bottomView")
                             }
