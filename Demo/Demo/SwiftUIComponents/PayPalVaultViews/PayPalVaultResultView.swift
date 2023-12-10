@@ -19,16 +19,16 @@ struct PayPalVaultResultView: View {
     func getSuccessView(result: PayPalVaultResult) -> some View {
         VStack(spacing: 16) {
             HStack {
-                Text("Vault Token")
+                Text("Vault Success")
                     .font(.system(size: 20))
                 Spacer()
             }
-            LeadingText("Vault Token ID", weight: .bold)
+            LeadingText("ID", weight: .bold)
             LeadingText("\(result.tokenID)")
-            LeadingText("Approval Session ID", weight: .bold)
-            LeadingText("\(result.approvalSessionID)")
             LeadingText("Status", weight: .bold)
             LeadingText("APPROVED")
+            LeadingText("Approval Session ID", weight: .bold)
+            LeadingText("\(result.approvalSessionID)")
         }
         .frame(maxWidth: .infinity)
         .padding()
