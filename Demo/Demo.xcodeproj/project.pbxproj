@@ -244,16 +244,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B2501052B2679F000903EAB /* VaultViews */ = {
+			isa = PBXGroup;
+			children = (
+				3B20273C2A89E3F00007907E /* CreateSetupTokenView.swift */,
+				3B2027422A8A95EF0007907E /* SetupTokenResultView.swift */,
+				3BF999772A8AD072009CBDF2 /* CreatePaymentTokenView.swift */,
+				3BF999792A8AE12C009CBDF2 /* PaymentTokenResultView.swift */,
+			);
+			path = VaultViews;
+			sourceTree = "<group>";
+		};
 		3B43290F2A8FD7FD00C5441A /* CardVaultViews */ = {
 			isa = PBXGroup;
 			children = (
 				3B4DD99F2A892A7000F4A716 /* CardVaultView.swift */,
-				3B20273C2A89E3F00007907E /* CreateSetupTokenView.swift */,
-				3B2027422A8A95EF0007907E /* SetupTokenResultView.swift */,
 				3B2027442A8AA78B0007907E /* UpdateSetupTokenView.swift */,
 				3BF999752A8AC093009CBDF2 /* UpdateSetupTokenResultView.swift */,
-				3BF999772A8AD072009CBDF2 /* CreatePaymentTokenView.swift */,
-				3BF999792A8AE12C009CBDF2 /* PaymentTokenResultView.swift */,
 			);
 			path = CardVaultViews;
 			sourceTree = "<group>";
@@ -460,6 +467,7 @@
 		BEDE3047275E998700D275FD /* SwiftUIComponents */ = {
 			isa = PBXGroup;
 			children = (
+				3B2501052B2679F000903EAB /* VaultViews */,
 				3BB60B512B1F9EE400A298CF /* PayPalVaultViews */,
 				3BA56FFF2A9FF6630081D14F /* PayPalWebPayments */,
 				3BA56FEA2A9DCBB30081D14F /* CardPaymentViews */,
