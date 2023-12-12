@@ -18,6 +18,10 @@ struct PayPalWebTransactionView: View {
                 }
                 .buttonStyle(RoundedBlueButtonStyle())
                 .padding()
+
+                if payPalWebViewModel.state == .loading {
+                    CircularProgressView()
+                }
             }
         }
     }

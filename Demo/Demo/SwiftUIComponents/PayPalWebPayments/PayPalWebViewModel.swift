@@ -45,13 +45,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
                 selectedMerchantIntegration: DemoSettings.merchantIntegration
             )
 
-            self.orderID = order.id
-
-            // TODO: move back into update method
-
-            DispatchQueue.main.async {
-                self.order = order
-            }
+            updateOrder(order)
             updateState(.success)
             print("✅ fetched orderID: \(order.id) with status: \(order.status)")
         } catch {
@@ -81,11 +75,15 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         }
     }
 
-    func getPayPalClient() async throws -> PayPalWebCheckoutClient {
+    func getPayPalClient() async throws -> PayPalWebCheckoutClient? {
         do {
             let config = try await configManager.getCoreConfig()
             let payPalClient = PayPalWebCheckoutClient(config: config)
             return payPalClient
+        } catch {
+            updateState(.error(message: error.localizedDescription))
+            print("❌ failed to create PayPalWebCheckoutClient with error: \(error.localizedDescription)")
+            return nil
         }
     }
 
@@ -95,15 +93,19 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
             if let orderID {
                 let order = try await DemoMerchantAPI.sharedService.completeOrder(intent: intent, orderID: orderID)
-                // TODO: move back into update method
-                DispatchQueue.main.async {
-                    self.order = order
-                }
+                updateOrder(order)
                 updateState(.success)
             }
         } catch {
             updateState(.error(message: error.localizedDescription))
             print("Error with \(intent) order: \(error.localizedDescription)")
+        }
+    }
+
+    private func updateOrder(_ order: Order) {
+        DispatchQueue.main.async {
+            self.orderID = order.id
+            self.order = order
         }
     }
 

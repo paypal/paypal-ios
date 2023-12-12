@@ -11,6 +11,13 @@ struct PayPalWebButtonsView: View {
     var body: some View {
         VStack {
             VStack(alignment: .center, spacing: 16) {
+                HStack {
+                    Text("Checkout with PayPal")
+                        .font(.system(size: 20))
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity)
+                .font(.headline)
                 Picker("Funding Source", selection: $selectedFundingSource) {
                     Text("PayPal").tag(PayPalWebCheckoutFundingSource.paypal)
                     Text("PayPal Credit").tag(PayPalWebCheckoutFundingSource.paylater)
@@ -33,7 +40,7 @@ struct PayPalWebButtonsView: View {
                     }
                 }
             }
-            .frame(height: 100)
+            .frame(height: 150)
             .padding(20)
             .background(
                 RoundedRectangle(cornerRadius: 10)

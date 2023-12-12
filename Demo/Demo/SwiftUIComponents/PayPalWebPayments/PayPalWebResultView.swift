@@ -24,7 +24,7 @@ struct PayPalWebResultView: View {
             }
             if let orderID = payPalWebViewModel.orderID {
                 LeadingText("Order ID", weight: .bold)
-                LeadingText("\(payPalWebViewModel.order?.id ?? "")")
+                LeadingText("\(orderID)")
             }
 
             if let status = payPalWebViewModel.order?.status {
