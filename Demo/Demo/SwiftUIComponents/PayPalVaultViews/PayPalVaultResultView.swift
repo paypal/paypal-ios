@@ -6,7 +6,7 @@ struct PayPalVaultResultView: View {
     @ObservedObject var paypalVaultViewModel: PayPalVaultViewModel
 
     var body: some View {
-        switch paypalVaultViewModel.paypalVaultTokenResponse {
+        switch paypalVaultViewModel.state.paypalVaultTokenResponse {
         case .idle, .loading:
             EmptyView()
         case .loaded(let vaultResult):

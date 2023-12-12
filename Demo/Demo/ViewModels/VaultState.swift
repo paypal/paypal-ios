@@ -2,16 +2,20 @@ import Foundation
 import CardPayments
 import PayPalWebPayments
 
+struct UpdateSetupTokenResult: Decodable, Equatable {
+
+    var id: String
+    var status: String
+}
+
 struct VaultState: Equatable {
-
-    struct UpdateSetupTokenResult: Decodable, Equatable {
-
-        var id: String
-        var status: String
-    }
 
     var setupToken: SetUpTokenResponse?
     var paymentToken: PaymentTokenResponse?
+    // result for card vault
+    var updateSetupToken: UpdateSetupTokenResult?
+    // result for paypal vault
+    var paypalVaultToken: PayPalVaultResult?
 
     var setupTokenResponse: LoadingState<SetUpTokenResponse> = .idle {
         didSet {
@@ -25,6 +29,24 @@ struct VaultState: Equatable {
         didSet {
             if case .loaded(let value) = paymentTokenResponse {
                 paymentToken = value
+            }
+        }
+    }
+
+    // response from Card Vault
+    var updateSetupTokenResponse: LoadingState<UpdateSetupTokenResult> = .idle {
+        didSet {
+            if case .loaded(let value) = updateSetupTokenResponse {
+                updateSetupToken = value
+            }
+        }
+    }
+    
+    // response from PayPal Vault
+    var paypalVaultTokenResponse: LoadingState<PayPalVaultResult> = .idle {
+        didSet {
+            if case .loaded(let value) = paypalVaultTokenResponse {
+                paypalVaultToken = value
             }
         }
     }

@@ -5,7 +5,7 @@ struct UpdateSetupTokenResultView: View {
     @ObservedObject var cardVaultViewModel: CardVaultViewModel
 
     var body: some View {
-        switch cardVaultViewModel.updateSetupTokenResponse {
+        switch cardVaultViewModel.state.updateSetupTokenResponse {
         case .idle, .loading:
             EmptyView()
         case .loaded(let updateSetupTokenResponse):
@@ -15,7 +15,7 @@ struct UpdateSetupTokenResultView: View {
         }
     }
 
-    func getSuccessView(updateSetupTokenResponse: CardVaultViewModel.UpdateSetupTokenResult) -> some View {
+    func getSuccessView(updateSetupTokenResponse: UpdateSetupTokenResult) -> some View {
         VStack(spacing: 16) {
             HStack {
                 Text("Vault Success")

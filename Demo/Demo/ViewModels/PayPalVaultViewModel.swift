@@ -4,16 +4,6 @@ import CorePayments
 
 class PayPalVaultViewModel: VaultViewModel, PayPalVaultDelegate {
 
-    @Published var paypalVaultToken: PayPalVaultResult?
-
-    @Published var paypalVaultTokenResponse: LoadingState<PayPalVaultResult> = .idle {
-        didSet {
-            if case .loaded(let value) = paypalVaultTokenResponse {
-                paypalVaultToken = value
-            }
-        }
-    }
-
     let configManager = CoreConfigManager(domain: "PayPal Vault")
 
     func vault(url: String) async {
@@ -21,7 +11,7 @@ class PayPalVaultViewModel: VaultViewModel, PayPalVaultDelegate {
             return
         }
         DispatchQueue.main.async {
-            self.paypalVaultTokenResponse = .loading
+            self.state.paypalVaultTokenResponse = .loading
         }
         do {
             let config = try await configManager.getCoreConfig()
@@ -33,12 +23,6 @@ class PayPalVaultViewModel: VaultViewModel, PayPalVaultDelegate {
         }
     }
 
-    override func resetState() {
-        super.resetState()
-        paypalVaultToken = nil
-        paypalVaultTokenResponse = .idle
-    }
-
     // MARK: - PayPalVault Delegate
 
     func paypal(
@@ -46,7 +30,7 @@ class PayPalVaultViewModel: VaultViewModel, PayPalVaultDelegate {
         didFinishWithVaultResult paypalVaultResult: PayPalVaultResult
     ) {
         DispatchQueue.main.async {
-            self.paypalVaultTokenResponse = .loaded(paypalVaultResult)
+            self.state.paypalVaultTokenResponse = .loaded(paypalVaultResult)
         }
     }
 
@@ -56,7 +40,7 @@ class PayPalVaultViewModel: VaultViewModel, PayPalVaultDelegate {
     ) {
 
         DispatchQueue.main.async {
-            self.paypalVaultTokenResponse = .error(message: vaultError.localizedDescription)
+            self.state.paypalVaultTokenResponse = .error(message: vaultError.localizedDescription)
         }
     }
 

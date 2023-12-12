@@ -24,7 +24,7 @@ struct PayPalVaultView: View {
                         .padding()
                     }
                     PayPalVaultResultView(paypalVaultViewModel: paypalVaultViewModel)
-                    if let paypalVaultResult = paypalVaultViewModel.paypalVaultToken {
+                    if let paypalVaultResult = paypalVaultViewModel.state.paypalVaultToken {
                         CreatePaymentTokenView(
                             vaultViewModel: paypalVaultViewModel,
                             selectedMerchantIntegration: DemoSettings.merchantIntegration,
@@ -53,11 +53,6 @@ struct PayPalVaultView: View {
                         .frame(maxWidth: .infinity, alignment: .top)
                         .padding(.horizontal, 10)
                         .onChange(of: paypalVaultViewModel.state) { _ in
-                            withAnimation {
-                                scrollView.scrollTo("bottomView")
-                            }
-                        }
-                        .onChange(of: paypalVaultViewModel.paypalVaultToken) { _ in
                             withAnimation {
                                 scrollView.scrollTo("bottomView")
                             }

@@ -4,27 +4,11 @@ import CorePayments
 
 class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
 
-    struct UpdateSetupTokenResult: Decodable, Equatable {
-
-        var id: String
-        var status: String
-    }
-
-    @Published var updateSetupToken: UpdateSetupTokenResult?
-
-    @Published var updateSetupTokenResponse: LoadingState<UpdateSetupTokenResult> = .idle {
-        didSet {
-            if case .loaded(let value) = updateSetupTokenResponse {
-                updateSetupToken = value
-            }
-        }
-    }
-
     let configManager = CoreConfigManager(domain: "Card Vault")
 
     func vault(card: Card, setupToken: String) async {
         DispatchQueue.main.async {
-            self.updateSetupTokenResponse = .loading
+            self.state.updateSetupTokenResponse = .loading
         }
         do {
             let config = try await configManager.getCoreConfig()
@@ -33,7 +17,7 @@ class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
             let cardVaultRequest = CardVaultRequest(card: card, setupTokenID: setupToken)
             cardClient.vault(cardVaultRequest)
         } catch {
-            updateSetupTokenResponse = .error(message: error.localizedDescription)
+            self.state.updateSetupTokenResponse = .error(message: error.localizedDescription)
             print("failed in updating setup token. \(error.localizedDescription)")
         }
     }
@@ -49,7 +33,7 @@ class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
 
     func setUpTokenSuccessResult(vaultResult: CardPayments.CardVaultResult) {
         DispatchQueue.main.async {
-            self.updateSetupTokenResponse = .loaded(
+            self.state.updateSetupTokenResponse = .loaded(
                 UpdateSetupTokenResult(id: vaultResult.setupTokenID, status: vaultResult.status)
             )
         }
@@ -57,16 +41,10 @@ class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
 
     func setUpdateSetupTokenFailureResult(vaultError: CorePayments.CoreSDKError) {
         DispatchQueue.main.async {
-            self.updateSetupTokenResponse = .error(message: vaultError.localizedDescription)
+            self.state.updateSetupTokenResponse = .error(message: vaultError.localizedDescription)
         }
     }
 
-    override func resetState() {
-        super.resetState()
-        updateSetupToken = nil
-        updateSetupTokenResponse = .idle
-    }
-    
     // MARK: - CardVault Delegate
 
     func card(_ cardClient: CardPayments.CardClient, didFinishWithVaultResult vaultResult: CardPayments.CardVaultResult) {
