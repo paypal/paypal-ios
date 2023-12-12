@@ -23,7 +23,7 @@ struct PayPalVaultView: View {
                         .buttonStyle(RoundedBlueButtonStyle())
                         .padding()
                     }
-                    PayPalVaultResultView(paypalVaultViewModel: paypalVaultViewModel)
+                    PayPalVaultResultView(viewModel: paypalVaultViewModel)
                     if let paypalVaultResult = paypalVaultViewModel.state.paypalVaultToken {
                         CreatePaymentTokenView(
                             vaultViewModel: paypalVaultViewModel,

@@ -3,10 +3,10 @@ import PayPalWebPayments
 
 struct PayPalVaultResultView: View {
 
-    @ObservedObject var paypalVaultViewModel: PayPalVaultViewModel
+    @ObservedObject var viewModel: PayPalVaultViewModel
 
     var body: some View {
-        switch paypalVaultViewModel.state.paypalVaultTokenResponse {
+        switch viewModel.state.paypalVaultTokenResponse {
         case .idle, .loading:
             EmptyView()
         case .loaded(let vaultResult):
