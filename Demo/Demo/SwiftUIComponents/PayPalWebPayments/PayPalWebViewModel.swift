@@ -7,8 +7,6 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
     @Published var state: CurrentState = .idle
     @Published var intent: Intent = .authorize
     @Published var order: Order?
-    @Published var createOrderResult: Order?
-    @Published var transactionResult: Order?
     @Published var checkoutResult: PayPalWebCheckoutResult?
 
     var payPalWebCheckoutClient: PayPalWebCheckoutClient?
@@ -49,8 +47,10 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
             self.orderID = order.id
 
+            // TODO: move back into update method
+
             DispatchQueue.main.async {
-                self.createOrderResult = order
+                self.order = order
             }
             updateState(.success)
             print("✅ fetched orderID: \(order.id) with status: \(order.status)")
@@ -95,8 +95,9 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
             if let orderID {
                 let order = try await DemoMerchantAPI.sharedService.completeOrder(intent: intent, orderID: orderID)
+                // TODO: move back into update method
                 DispatchQueue.main.async {
-                    self.transactionResult = order
+                    self.order = order
                 }
                 updateState(.success)
             }
