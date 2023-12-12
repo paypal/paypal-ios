@@ -1,5 +1,11 @@
 import SwiftUI
 
+enum OrderStatusButton: String {
+    case created = "Create an Order"
+    case approved = "Checkout with PayPal"
+    case completed = "Complete Transaction"
+}
+
 struct PayPalWebPaymentsView: View {
 
     @StateObject var payPalWebViewModel = PayPalWebViewModel()
@@ -9,7 +15,7 @@ struct PayPalWebPaymentsView: View {
             VStack(spacing: 16) {
                 PayPalWebCreateOrderView(payPalWebViewModel: payPalWebViewModel)
                 if payPalWebViewModel.createOrderResult != nil && payPalWebViewModel.state == .success {
-                    PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .created)
+                    PayPalWebResultView(payPalWebViewModel: payPalWebViewModel)
                     NavigationLink {
                         PayPalWebButtonsView(payPalWebViewModel: payPalWebViewModel)
                             .navigationTitle("Checkout with PayPal")
@@ -19,7 +25,7 @@ struct PayPalWebPaymentsView: View {
                     .buttonStyle(RoundedBlueButtonStyle())
                     .padding()
                 } else if case .error = payPalWebViewModel.state {
-                    PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .error)
+                    PayPalWebResultView(payPalWebViewModel: payPalWebViewModel)
                 }
             }
         }

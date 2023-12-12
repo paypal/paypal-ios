@@ -6,6 +6,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
     @Published var state: CurrentState = .idle
     @Published var intent: Intent = .authorize
+    @Published var order: Order?
     @Published var createOrderResult: Order?
     @Published var transactionResult: Order?
     @Published var checkoutResult: PayPalWebCheckoutResult?

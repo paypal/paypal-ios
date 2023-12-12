@@ -1,17 +1,8 @@
 import SwiftUI
 
-enum OrderStatus {
-    case created
-    case approved
-    case completed
-    case error
-}
-
 struct PayPalWebResultView: View {
 
     @ObservedObject var payPalWebViewModel: PayPalWebViewModel
-
-    var status: OrderStatus
 
     var body: some View {
         switch payPalWebViewModel.state {

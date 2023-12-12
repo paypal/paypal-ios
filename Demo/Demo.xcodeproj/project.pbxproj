@@ -67,7 +67,6 @@
 		BE1766B326F911A2007EF438 /* URLResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1766B226F911A2007EF438 /* URLResponseError.swift */; };
 		BE1766D926FA7BC8007EF438 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BE1766D826FA7BC8007EF438 /* Settings.bundle */; };
 		BE8117642B07E778009867B9 /* PayPalWebResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8117632B07E778009867B9 /* PayPalWebResultView.swift */; };
-		BE8117662B080202009867B9 /* PayPalWebStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8117652B080202009867B9 /* PayPalWebStatusView.swift */; };
 		BE8117682B080472009867B9 /* CurrentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8117672B080472009867B9 /* CurrentState.swift */; };
 		BE9F36D82745490400AFC7DA /* FloatingLabelTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36D72745490400AFC7DA /* FloatingLabelTextField.swift */; };
 		BECD84A027036DC2007CCAE4 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECD849F27036DC2007CCAE4 /* Environment.swift */; };
@@ -191,7 +190,6 @@
 		BE1766D826FA7BC8007EF438 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		BE420F3628189A7A00D8D66A /* PayPalUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PayPalUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE8117632B07E778009867B9 /* PayPalWebResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebResultView.swift; sourceTree = "<group>"; };
-		BE8117652B080202009867B9 /* PayPalWebStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebStatusView.swift; sourceTree = "<group>"; };
 		BE8117672B080472009867B9 /* CurrentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentState.swift; sourceTree = "<group>"; };
 		BE9F36D72745490400AFC7DA /* FloatingLabelTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingLabelTextField.swift; sourceTree = "<group>"; };
 		BECD849F27036DC2007CCAE4 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
@@ -272,7 +270,6 @@
 				3BA570022AA053AE0081D14F /* PayPalWebCreateOrderView.swift */,
 				3BA570002AA052E80081D14F /* PayPalWebPaymentsView.swift */,
 				BE8117632B07E778009867B9 /* PayPalWebResultView.swift */,
-				BE8117652B080202009867B9 /* PayPalWebStatusView.swift */,
 				3B6472A62AFAEB3A004745C4 /* PayPalWebTransactionView.swift */,
 				3BA56FFB2A9FEFE90081D14F /* PayPalWebViewModel.swift */,
 			);
@@ -598,7 +595,6 @@
 				3BDB348E2A7CB02C008100D7 /* SetupTokenRequest.swift in Sources */,
 				80F33CF326F8EA50006811B1 /* DemoSettings.swift in Sources */,
 				3BA56FE72A9DC9D70081D14F /* CardPaymentViewModel.swift in Sources */,
-				BE8117662B080202009867B9 /* PayPalWebStatusView.swift in Sources */,
 				3BA5700B2AA13C1C0081D14F /* CoreConfigManager.swift in Sources */,
 				80E4300C2AD82C8D003CA748 /* ShippingPreference.swift in Sources */,
 				BEDE304A275EA33500D275FD /* UIViewController+Extension.swift in Sources */,
