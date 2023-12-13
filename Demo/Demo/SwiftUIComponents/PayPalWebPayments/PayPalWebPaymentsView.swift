@@ -1,8 +1,5 @@
 import SwiftUI
 
-// TODO: pin result view to bottom
-// TODO: hide create order or disable button until reset
-// TODO: fix duplicate spinners
 // TODO: scrollview not working as expected
 
 struct PayPalWebPaymentsView: View {
