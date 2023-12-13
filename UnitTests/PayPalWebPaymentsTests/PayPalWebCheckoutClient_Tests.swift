@@ -88,7 +88,7 @@ class PayPalClient_Tests: XCTestCase {
             XCTAssertEqual(vaultError.code, expectedError.code)
             expectation.fulfill()
         }, cancel: { _ in
-            expectation.fulfill()
+            XCTFail("Invoked cancel callback. Should invoke error().")
         })
         payPalClient.vaultDelegate = mockVaultDelegate
         payPalClient.vault(url: url!)
@@ -111,7 +111,6 @@ class PayPalClient_Tests: XCTestCase {
 
         let mockVaultDelegate = MockPayPalVaultDelegate(success: {_, _ in
             XCTFail("Invoked success() callback. Should invoke error().")
-            expectation.fulfill()
         }, error: {_, vaultError in
             XCTAssertEqual(vaultError.code, expectedError.code)
             expectation.fulfill()
