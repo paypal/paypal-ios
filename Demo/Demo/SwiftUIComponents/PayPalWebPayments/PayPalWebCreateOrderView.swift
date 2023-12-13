@@ -13,6 +13,9 @@ struct PayPalWebCreateOrderView: View {
                 Text("Create an Order")
                     .font(.system(size: 20))
                 Spacer()
+                Button("Reset") {
+                    payPalWebViewModel.resetState()
+                }
             }
             .frame(maxWidth: .infinity)
             .font(.headline)

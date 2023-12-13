@@ -1,9 +1,9 @@
 import SwiftUI
 
 // TODO: pin result view to bottom
-// TODO: hide order create view after order created
+// TODO: hide create order or disable button until reset
+// TODO: fix duplicate spinners
 // TODO: scrollview not working as expected
-// TODO: add reset button
 
 struct PayPalWebPaymentsView: View {
 
@@ -19,14 +19,14 @@ struct PayPalWebPaymentsView: View {
                         PayPalWebButtonsView(payPalWebViewModel: payPalWebViewModel)
                     }
 
+                    PayPalWebResultView(payPalWebViewModel: payPalWebViewModel)
+
                     if payPalWebViewModel.checkoutResult != nil {
                         PayPalWebTransactionView(payPalWebViewModel: payPalWebViewModel)
+                            .id("bottomView")
                     }
-
-                    PayPalWebResultView(payPalWebViewModel: payPalWebViewModel)
-                        .id("bottomView")
                 }
-                .onChange(of: payPalWebViewModel.order) { _ in
+                .onChange(of: payPalWebViewModel.state) { _ in
                     withAnimation {
                         scrollView.scrollTo("bottomView")
                     }

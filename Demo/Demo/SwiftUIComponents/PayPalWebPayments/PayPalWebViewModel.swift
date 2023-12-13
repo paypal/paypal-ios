@@ -68,9 +68,10 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
                     let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding)
                     payPalWebCheckoutClient.start(request: payPalRequest)
                 }
+                updateState(.success)
             } catch {
                 print("Error starting PayPalWebCheckoutClient")
-                state = .error(message: error.localizedDescription)
+                updateState(.error(message: error.localizedDescription))
             }
         }
     }
@@ -100,6 +101,13 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
             updateState(.error(message: error.localizedDescription))
             print("Error with \(intent) order: \(error.localizedDescription)")
         }
+    }
+
+    func resetState() {
+        updateState(.idle)
+        order = nil
+        checkoutResult = nil
+        orderID = nil
     }
 
     private func updateOrder(_ order: Order) {
