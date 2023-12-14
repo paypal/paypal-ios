@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 import PaymentButtons
 
 struct SwiftUIPaymentButtonDemo: View {
@@ -16,6 +17,7 @@ struct SwiftUIPaymentButtonDemo: View {
     @State private var edgesIndex = 0
     private var edges = PaymentButtonEdges.allCasesAsString()
     @State private var selectedEdge = PaymentButtonEdges.allCases[0]
+    @State private var customEdge: Int = 10
 
     @State private var sizesIndex = 1
     private var sizes = PaymentButtonSize.allCasesAsString()
@@ -63,7 +65,12 @@ struct SwiftUIPaymentButtonDemo: View {
                     selectedEdge = PaymentButtonEdges.allCases[edgesIndex]
                     buttonId += 1
                 }
-
+                Stepper("Custom Corner Radius: \(customEdge)", value: $customEdge, in: 0...100).onChange(of: customEdge) { _ in
+                    if selectedEdge.description == "custom" {
+                        selectedEdge = PaymentButtonEdges.custom(CGFloat(customEdge))
+                        buttonId += 1
+                    }
+                }
                 Picker("sizes", selection: $sizesIndex) {
                     ForEach(sizes.indices, id: \.self) { index in
                         Text(sizes[index])
