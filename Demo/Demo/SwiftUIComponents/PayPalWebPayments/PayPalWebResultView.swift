@@ -16,40 +16,34 @@ struct PayPalWebResultView: View {
     }
 
     var successView: some View {
-        VStack(spacing: 16) {
+        VStack(alignment: .leading, spacing: 16) {
             HStack {
                 Text("Order Details")
                     .font(.system(size: 20))
                 Spacer()
             }
             if let orderID = payPalWebViewModel.orderID {
-                LeadingText("Order ID", weight: .bold)
-                LeadingText("\(orderID)")
+                SuccessViewText("Order ID:", bodyText: orderID)
             }
 
             if let status = payPalWebViewModel.order?.status {
-                LeadingText("Status", weight: .bold)
-                LeadingText("\(status)")
+                SuccessViewText("Status:", bodyText: status)
             }
 
             if let payerID = payPalWebViewModel.checkoutResult?.payerID {
-                LeadingText("Payer ID", weight: .bold)
-                LeadingText("\(payerID)")
+                SuccessViewText("Payer ID:", bodyText: payerID)
             }
 
             if let emailAddress = payPalWebViewModel.order?.paymentSource?.paypal?.emailAddress {
-                LeadingText("Email", weight: .bold)
-                LeadingText("\(emailAddress)")
+                SuccessViewText("Email:", bodyText: emailAddress)
             }
 
             if let vaultID = payPalWebViewModel.order?.paymentSource?.paypal?.attributes?.vault.id {
-                LeadingText("Vault ID / Payment Token", weight: .bold)
-                LeadingText("\(vaultID)")
+                SuccessViewText("Vault ID / Payment Token:", bodyText: vaultID)
             }
 
             if let customerID = payPalWebViewModel.order?.paymentSource?.paypal?.attributes?.vault.customer.id {
-                LeadingText("Customer ID", weight: .bold)
-                LeadingText("\(customerID)")
+                SuccessViewText("Customer ID:", bodyText: customerID)
             }
         }
         .frame(maxWidth: .infinity)
