@@ -274,7 +274,6 @@
 				BE8117632B07E778009867B9 /* PayPalWebResultView.swift */,
 				3B6472A62AFAEB3A004745C4 /* PayPalWebTransactionView.swift */,
 				3BA56FFB2A9FEFE90081D14F /* PayPalWebViewModel.swift */,
-				BE5898942B2B91F800AA196E /* SuccessViewText.swift */,
 			);
 			path = PayPalWebPayments;
 			sourceTree = "<group>";
@@ -289,6 +288,7 @@
 				3BC6220A2A97204E00251B85 /* CircularProgressView.swift */,
 				3BC622082A97198500251B85 /* LeadingText.swift */,
 				3BA5700A2AA13C1C0081D14F /* CoreConfigManager.swift */,
+				BE5898942B2B91F800AA196E /* SuccessViewText.swift */,
 			);
 			path = CommonComponents;
 			sourceTree = "<group>";

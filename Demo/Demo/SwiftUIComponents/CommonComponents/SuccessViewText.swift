@@ -1,7 +1,5 @@
 import SwiftUI
 
-// TODO: Move this to a shared space once all modules are converted
-
 struct SuccessViewText: View {
 
     var titleText: String
