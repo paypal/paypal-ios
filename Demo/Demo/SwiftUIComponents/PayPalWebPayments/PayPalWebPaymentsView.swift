@@ -1,7 +1,5 @@
 import SwiftUI
 
-// TODO: scrollview not working as expected
-
 struct PayPalWebPaymentsView: View {
 
     @StateObject var payPalWebViewModel = PayPalWebViewModel()
@@ -21,6 +19,11 @@ struct PayPalWebPaymentsView: View {
                     if payPalWebViewModel.checkoutResult != nil {
                         PayPalWebTransactionView(payPalWebViewModel: payPalWebViewModel)
                             .id("bottomView")
+                            .onAppear {
+                                withAnimation {
+                                    scrollView.scrollTo("bottomView")
+                                }
+                            }
                     }
                 }
                 .onChange(of: payPalWebViewModel.state) { _ in
