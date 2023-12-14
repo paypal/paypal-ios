@@ -5,19 +5,19 @@ public enum PaymentButtonColor: String {
     /// The gold background and blue wordmark, monogram, and black text.
     case gold
 
-    /// The white background and blue wordmark, monogram, and black text.
+    /// The white background and blue wordmark, blue border, monogram, and black text.
     case white
 
-    /// The black background and monochrome wordmark, monogram, and white text.
+	@available(*, deprecated, message: "Deprecated color. Replace with `white` button color.")
     case black
 
-    /// The silver background and blue wordmark, monogram, and black text.
+	@available(*, deprecated, message: "Deprecated color. Replace with `white` button color.")
     case silver
 
-    /// The blue background and white wordmark, blue monogram, and white text.
+	@available(*, deprecated, message: "Deprecated color. Replace with `white` button color.")
     case blue
 
-    /// The dark blue background with PayPal Credit wordmark and monogram.
+	@available(*, deprecated, message: "Deprecated color. Replace with `white` button color.")
     case darkBlue
 
     var color: UIColor {
@@ -29,30 +29,37 @@ public enum PaymentButtonColor: String {
             return UIColor(hexString: "#FFFFFF")
 
         case .black:
-            return UIColor(hexString: "#000000")
+            return UIColor(hexString: "#FFFFFF")
 
         case .silver:
-            return UIColor(hexString: "#EEEEEE")
+            return UIColor(hexString: "#FFFFFF")
 
         case .blue:
-            return UIColor(hexString: "#0070BA")
+            return UIColor(hexString: "#FFFFFF")
 
         case .darkBlue:
-            return UIColor(hexString: "#073990")
+            return UIColor(hexString: "#FFFFFF")
         }
     }
 
     var fontColor: UIColor {
-        switch self {
-        case .gold, .white, .silver:
-            return .black
+		switch self {
+		case .gold, .white, .silver, .blue, .black, .darkBlue:
+			return UIColor(hexString: "#001435")
+		}
+	}
+	
+	var borderColor: UIColor {
+		switch self {
+		case .gold:
+			return .clear
+			
+		case .white, .silver, .blue, .black, .darkBlue:
+			return UIColor(hexString: "#001435")
+		}
+	}
 
-        case .blue, .black, .darkBlue:
-            return .white
-        }
-    }
-
-    public var description: String {
+	public var description: String {
         switch self {
         case .gold:
             return "Gold"
