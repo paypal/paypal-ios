@@ -39,7 +39,7 @@ struct PayPalWebResultView: View {
             }
 
             if let vaultID = payPalWebViewModel.order?.paymentSource?.paypal?.attributes?.vault.id {
-                SuccessViewText("Vault ID / Payment Token:", bodyText: vaultID)
+                SuccessViewText("Payment Token:", bodyText: vaultID)
             }
 
             if let customerID = payPalWebViewModel.order?.paymentSource?.paypal?.attributes?.vault.customer.id {
