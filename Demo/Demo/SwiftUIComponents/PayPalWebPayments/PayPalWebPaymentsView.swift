@@ -18,6 +18,7 @@ struct PayPalWebPaymentsView: View {
 
                     if payPalWebViewModel.checkoutResult != nil {
                         PayPalWebTransactionView(payPalWebViewModel: payPalWebViewModel)
+                            .padding(.bottom, 20)
                             .id("bottomView")
                             .onAppear {
                                 withAnimation {
