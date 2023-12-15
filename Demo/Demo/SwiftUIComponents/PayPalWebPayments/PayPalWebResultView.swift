@@ -23,27 +23,27 @@ struct PayPalWebResultView: View {
                 Spacer()
             }
             if let orderID = payPalWebViewModel.orderID {
-                SuccessViewText("Order ID:", bodyText: orderID)
+                LabelViewText("Order ID:", bodyText: orderID)
             }
 
             if let status = payPalWebViewModel.order?.status {
-                SuccessViewText("Status:", bodyText: status)
+                LabelViewText("Status:", bodyText: status)
             }
 
             if let payerID = payPalWebViewModel.checkoutResult?.payerID {
-                SuccessViewText("Payer ID:", bodyText: payerID)
+                LabelViewText("Payer ID:", bodyText: payerID)
             }
 
             if let emailAddress = payPalWebViewModel.order?.paymentSource?.paypal?.emailAddress {
-                SuccessViewText("Email:", bodyText: emailAddress)
+                LabelViewText("Email:", bodyText: emailAddress)
             }
 
             if let vaultID = payPalWebViewModel.order?.paymentSource?.paypal?.attributes?.vault.id {
-                SuccessViewText("Payment Token:", bodyText: vaultID)
+                LabelViewText("Payment Token:", bodyText: vaultID)
             }
 
             if let customerID = payPalWebViewModel.order?.paymentSource?.paypal?.attributes?.vault.customer.id {
-                SuccessViewText("Customer ID:", bodyText: customerID)
+                LabelViewText("Customer ID:", bodyText: customerID)
             }
         }
         .frame(maxWidth: .infinity)

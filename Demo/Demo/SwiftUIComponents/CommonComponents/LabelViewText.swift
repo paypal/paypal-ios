@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct SuccessViewText: View {
+struct LabelViewText: View {
 
     var titleText: String
     var bodyText: String
