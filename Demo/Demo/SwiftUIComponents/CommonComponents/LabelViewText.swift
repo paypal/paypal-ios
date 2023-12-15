@@ -9,7 +9,8 @@ struct LabelViewText: View {
         HStack {
             Text(titleText).fontWeight(.bold)
             Text(bodyText)
-        }    }
+        }
+    }
 
     init(_ titleText: String, bodyText: String) {
         self.titleText = titleText
