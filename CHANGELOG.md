@@ -1,6 +1,10 @@
 
 # PayPal iOS SDK Release Notes
 
+## Unreleased
+* PaymentButtons
+  * Add `custom` case for `PaymentButtonEdges`
+
 ## 1.1.0 (2023-11-16)
 * PayPalNativePayments
   * Bump `PayPalCheckout` to `1.2.0`
