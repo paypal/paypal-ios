@@ -14,12 +14,18 @@ struct Customer: Codable, Equatable {
 
 struct PaymentSource: Decodable, Equatable {
     
-    let card: BasicCard
+    var card: CardPaymentSource?
+    var paypal: PayPalPaymentSource?
 }
 
-struct BasicCard: Decodable, Equatable {
-    
+struct CardPaymentSource: Decodable, Equatable {
+
     let brand: String?
     let lastDigits: String
     let expiry: String
+}
+
+struct PayPalPaymentSource: Decodable, Equatable {
+
+    let emailAddress: String
 }

@@ -2,61 +2,9 @@ import UIKit
 import CardPayments
 import CorePayments
 
-class CardVaultViewModel: ObservableObject, CardVaultDelegate {
-
-    @Published var state = CardVaultState()
+class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
 
     let configManager = CoreConfigManager(domain: "Card Vault")
-
-    func getSetupToken(
-        customerID: String? = nil,
-        selectedMerchantIntegration: MerchantIntegration
-    ) async throws {
-        do {
-            DispatchQueue.main.async {
-                self.state.setupTokenResponse = .loading
-            }
-            let setupTokenResult = try await DemoMerchantAPI.sharedService.getSetupToken(
-                customerID: customerID,
-                selectedMerchantIntegration: selectedMerchantIntegration
-            )
-            DispatchQueue.main.async {
-                self.state.setupTokenResponse = .loaded(setupTokenResult)
-            }
-        } catch {
-            DispatchQueue.main.async {
-                self.state.setupTokenResponse = .error(message: error.localizedDescription)
-            }
-            throw error
-        }
-    }
-
-    func resetState() {
-        state = CardVaultState()
-    }
-
-    func getPaymentToken(
-        setupToken: String,
-        selectedMerchantIntegration: MerchantIntegration
-    ) async throws {
-        do {
-            DispatchQueue.main.async {
-                self.state.paymentTokenResponse = .loading
-            }
-            let paymentTokenResult = try await DemoMerchantAPI.sharedService.getPaymentToken(
-                setupToken: setupToken,
-                selectedMerchantIntegration: selectedMerchantIntegration
-            )
-            DispatchQueue.main.async {
-                self.state.paymentTokenResponse = .loaded(paymentTokenResult)
-            }
-        } catch {
-            DispatchQueue.main.async {
-                self.state.paymentTokenResponse = .error(message: error.localizedDescription)
-            }
-            throw error
-        }
-    }
 
     func vault(card: Card, setupToken: String) async {
         DispatchQueue.main.async {
@@ -69,7 +17,7 @@ class CardVaultViewModel: ObservableObject, CardVaultDelegate {
             let cardVaultRequest = CardVaultRequest(card: card, setupTokenID: setupToken)
             cardClient.vault(cardVaultRequest)
         } catch {
-            state.updateSetupTokenResponse = .error(message: error.localizedDescription)
+            self.state.updateSetupTokenResponse = .error(message: error.localizedDescription)
             print("failed in updating setup token. \(error.localizedDescription)")
         }
     }
@@ -86,7 +34,7 @@ class CardVaultViewModel: ObservableObject, CardVaultDelegate {
     func setUpTokenSuccessResult(vaultResult: CardPayments.CardVaultResult) {
         DispatchQueue.main.async {
             self.state.updateSetupTokenResponse = .loaded(
-                CardVaultState.UpdateSetupTokenResult(id: vaultResult.setupTokenID, status: vaultResult.status)
+                UpdateSetupTokenResult(id: vaultResult.setupTokenID, status: vaultResult.status)
             )
         }
     }
