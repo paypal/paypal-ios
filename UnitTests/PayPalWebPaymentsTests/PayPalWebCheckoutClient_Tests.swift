@@ -10,7 +10,7 @@ class PayPalClient_Tests: XCTestCase {
     var mockWebAuthenticationSession: MockWebAuthenticationSession!
     var payPalClient: PayPalWebCheckoutClient!
     var mockNetworkingClient: MockNetworkingClient!
-    
+
     override func setUp() {
         super.setUp()
         config = CoreConfig(clientID: "testClientID", environment: .sandbox)
@@ -24,6 +24,103 @@ class PayPalClient_Tests: XCTestCase {
         )
     }
     
+    func testVault_whenSuccessUrl_ReturnsVaultToken() {
+
+        mockWebAuthenticationSession.cannedResponseURL = URL(string: "sdk.ios.paypal://vault/success?approval_token_id=fakeTokenID&approval_session_id=fakeSessionID")
+
+        let expectation = expectation(description: "vault(url:) completed")
+
+        let url = URL(string: "https://sandbox.paypal.com/vault")
+        let expectedTokenIDResult = "fakeTokenID"
+        let expectedSessionIDResult = "fakeSessionID"
+        let mockVaultDelegate = MockPayPalVaultDelegate(success: {_, result in
+            XCTAssertEqual(expectedTokenIDResult, result.tokenID)
+            XCTAssertEqual(expectedSessionIDResult, result.approvalSessionID)
+            expectation.fulfill()
+        }, error: {_, _ in
+            XCTFail("Invoked error() callback. Should invoke success().")
+        })
+        payPalClient.vaultDelegate = mockVaultDelegate
+        payPalClient.vault(url: url!)
+
+        waitForExpectations(timeout: 10)
+    }
+
+    func testVault_whenWebSession_cancelled() {
+
+        mockWebAuthenticationSession.cannedErrorResponse = ASWebAuthenticationSessionError(
+            .canceledLogin,
+            userInfo: ["Description": "Mock cancellation error description."]
+        )
+
+        let expectation = expectation(description: "vault(url:) completed")
+
+        let url = URL(string: "https://sandbox.paypal.com/vault")
+        let mockVaultDelegate = MockPayPalVaultDelegate(success: {_, _ in
+            XCTFail("Invoked success callback. Should invoke cancel().")
+        }, error: {_, _ in
+            XCTFail("Invoked error() callback. Should invoke success().")
+        }, cancel: { _ in
+            XCTAssert(true)
+            expectation.fulfill()
+        })
+        payPalClient.vaultDelegate = mockVaultDelegate
+        payPalClient.vault(url: url!)
+
+        waitForExpectations(timeout: 10)
+    }
+
+    func testVault_whenWebSession_returnsDefaultError() {
+
+        let expectedError = CoreSDKError(
+            code: PayPalWebCheckoutClientError.Code.webSessionError.rawValue,
+            domain: PayPalWebCheckoutClientError.domain,
+            errorDescription: PayPalWebCheckoutClientError.payPalVaultResponseError.errorDescription
+        )
+        mockWebAuthenticationSession.cannedErrorResponse = expectedError
+
+        let expectation = expectation(description: "vault(url:) completed")
+
+        let url = URL(string: "https://sandbox.paypal.com/vault")
+        let mockVaultDelegate = MockPayPalVaultDelegate(success: {_, _ in
+            XCTFail("Invoked success callback. Should invoke error().")
+        }, error: {_, vaultError in
+            XCTAssertEqual(vaultError.code, expectedError.code)
+            expectation.fulfill()
+        }, cancel: { _ in
+            XCTFail("Invoked cancel callback. Should invoke error().")
+        })
+        payPalClient.vaultDelegate = mockVaultDelegate
+        payPalClient.vault(url: url!)
+
+        waitForExpectations(timeout: 10)
+    }
+
+    func testVault_whenSuccessUrl_missingToken_returnsError() {
+
+        mockWebAuthenticationSession.cannedResponseURL = URL(string: "sdk.ios.paypal://vault/success?approval_token_id=&approval_session_id=fakeSessionID")
+
+        let expectation = expectation(description: "vault(url:) completed")
+
+        let url = URL(string: "https://sandbox.paypal.com/vault")
+        let expectedError = CoreSDKError(
+            code: PayPalWebCheckoutClientError.payPalVaultResponseError.code,
+            domain: PayPalWebCheckoutClientError.domain,
+            errorDescription: PayPalWebCheckoutClientError.payPalVaultResponseError.errorDescription
+        )
+
+        let mockVaultDelegate = MockPayPalVaultDelegate(success: {_, _ in
+            XCTFail("Invoked success() callback. Should invoke error().")
+        }, error: {_, vaultError in
+            XCTAssertEqual(vaultError.code, expectedError.code)
+            expectation.fulfill()
+        })
+        payPalClient.vaultDelegate = mockVaultDelegate
+        payPalClient.vault(url: url!)
+
+        waitForExpectations(timeout: 10)
+    }
+
     func testStart_whenNativeSDKOnCancelCalled_returnsCancellationError() {
         let request = PayPalWebCheckoutRequest(orderID: "1234")
         let delegate = MockPayPalWebDelegate()
