@@ -25,10 +25,9 @@ jobs:
       - name: Update version
         run: |
           today=$(date +'%Y-%m-%d')
-          
           sed -i '' 's/## unreleased.*/## '"${{ github.event.inputs.version }}"' ('"$today"')/' CHANGELOG.md
           sed -i '' 's/\(s\.version *= *\).*/\1"'"${{ github.event.inputs.version }}"'\"/' PayPal.podspec
-
+          sed -i '' 's/payPalSDKVersion: String =.*/payPalSDKVersion: String = "${{ github.event.inputs.version }}"/' Sources/CorePayments/PayPalCoreConstants.swift
           plutil -replace CFBundleShortVersionString -string ${{ github.event.inputs.version }} -- 'Demo/Demo/Info.plist'
 
           git add .
