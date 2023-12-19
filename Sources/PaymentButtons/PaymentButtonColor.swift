@@ -43,23 +43,23 @@ public enum PaymentButtonColor: String {
     }
 
     var fontColor: UIColor {
-		switch self {
-		case .gold, .white, .silver, .blue, .black, .darkBlue:
-			return UIColor(hexString: "#001435")
-		}
-	}
-	
-	var borderColor: UIColor {
-		switch self {
-		case .gold:
-			return .clear
-			
-		case .white, .silver, .blue, .black, .darkBlue:
-			return UIColor(hexString: "#001435")
-		}
+	switch self {
+	case .gold, .white, .silver, .blue, .black, .darkBlue:
+	    return UIColor(hexString: "#001435")
+	    }
 	}
 
-	public var description: String {
+    var borderColor: UIColor {
+	switch self {
+	case .gold:
+	    return .clear
+
+	case .white, .silver, .blue, .black, .darkBlue:
+	    return UIColor(hexString: "#001435")
+	    }
+	}
+
+    public var description: String {
         switch self {
         case .gold:
             return "Gold"
