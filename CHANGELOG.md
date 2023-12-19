@@ -1,7 +1,7 @@
 
 # PayPal iOS SDK Release Notes
 
-## Unreleased
+## unreleased
 * PaymentButtons
 	* Change deprecated colors `black`, `silver`, `blue`, and `darkBlue` colors to `white`.
 
