@@ -18,10 +18,10 @@ enum ImageAsset {
             imageAssetString += "credit_"
         }
 
-		switch button.color {
-		case .gold, .white, .silver, .black, .blue, .darkBlue:
-			imageAssetString += "color"
-		}
+	switch button.color {
+	case .gold, .white, .silver, .black, .blue, .darkBlue:
+	    imageAssetString += "color"
+	}
 
         return UIImage(named: imageAssetString, in: PaymentButton.bundle, compatibleWith: nil)
     }
