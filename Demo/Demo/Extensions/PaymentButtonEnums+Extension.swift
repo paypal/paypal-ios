@@ -25,7 +25,7 @@ extension PayPalButton.Color: CaseIterable {
 extension PayPalCreditButton.Color: CaseIterable {
 
     public static var allCases: [PayPalCreditButton.Color] {
-        [.white, .black, .darkBlue]
+        [.gold, .white]
     }
 
     static func allCasesAsString() -> [String] {

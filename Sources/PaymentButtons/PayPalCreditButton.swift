@@ -8,12 +8,12 @@ public final class PayPalCreditButton: PaymentButton {
     Available colors for PayPalCreditButton.
     */
     public enum Color: String {
+        case gold
         case white
-        case black
-        case darkBlue
+
 
         var color: PaymentButtonColor {
-            PaymentButtonColor(rawValue: rawValue) ?? .darkBlue
+            PaymentButtonColor(rawValue: rawValue) ?? .gold
         }
     }
 
@@ -25,7 +25,7 @@ public final class PayPalCreditButton: PaymentButton {
     ///   - size: Size of the button. Default to collapsed if not provided.
     public convenience init(
         insets: NSDirectionalEdgeInsets? = nil,
-        color: Color = .darkBlue,
+        color: Color = .gold,
         edges: PaymentButtonEdges = .softEdges,
         size: PaymentButtonSize = .collapsed
     ) {
@@ -58,7 +58,7 @@ public extension PayPalCreditButton {
         ///   - size: Size of the button. Default to collapsed if not provided.
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
-            color: PayPalCreditButton.Color = .darkBlue,
+            color: PayPalCreditButton.Color = .gold,
             edges: PaymentButtonEdges = .softEdges,
             size: PaymentButtonSize = .collapsed,
             _ action: @escaping () -> Void = { }

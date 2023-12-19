@@ -243,10 +243,10 @@ public class PaymentButton: UIButton {
             containerView.layer.cornerRadius = edges.cornerRadius(for: containerView)
         }
 
-	if color != .gold {
-	    containerView.layer.borderWidth = 1
-	    containerView.layer.borderColor = color.borderColor.cgColor
-	}
+        if color != .gold {
+            containerView.layer.borderWidth = 1
+            containerView.layer.borderColor = color.borderColor.cgColor
+        }
     }
 
     // MARK: - Utility
