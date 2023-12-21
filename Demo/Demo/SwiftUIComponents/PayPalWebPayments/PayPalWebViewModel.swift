@@ -10,7 +10,10 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
     @Published var checkoutResult: PayPalWebCheckoutResult?
 
     var payPalWebCheckoutClient: PayPalWebCheckoutClient?
-    var orderID: String?
+
+    var orderID: String? {
+        order?.id
+    }
 
     let configManager = CoreConfigManager(domain: "PayPalWeb Payments")
 
@@ -107,12 +110,10 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         updateState(.idle)
         order = nil
         checkoutResult = nil
-        orderID = nil
     }
 
     private func updateOrder(_ order: Order) {
         DispatchQueue.main.async {
-            self.orderID = order.id
             self.order = order
         }
     }
