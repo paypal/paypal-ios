@@ -17,7 +17,6 @@ enum ImageAsset {
         case .credit:
             imageAssetString += "credit_"
         }
-
         imageAssetString += "color"
 
         return UIImage(named: imageAssetString, in: PaymentButton.bundle, compatibleWith: nil)

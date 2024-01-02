@@ -25,38 +25,17 @@ public enum PaymentButtonColor: String {
         case .gold:
             return UIColor(hexString: "#FFC439")
 
-        case .white:
-            return UIColor(hexString: "#FFFFFF")
-
-        case .black:
-            return UIColor(hexString: "#FFFFFF")
-
-        case .silver:
-            return UIColor(hexString: "#FFFFFF")
-
-        case .blue:
-            return UIColor(hexString: "#FFFFFF")
-
-        case .darkBlue:
+        default:
             return UIColor(hexString: "#FFFFFF")
         }
     }
 
     var fontColor: UIColor {
-        switch self {
-        case .gold, .white, .silver, .blue, .black, .darkBlue:
-            return UIColor(hexString: "#001435")
-        }
+        UIColor(hexString: "#001435")
     }
 
     var borderColor: UIColor {
-        switch self {
-        case .gold:
-            return .clear
-
-        case .white, .silver, .blue, .black, .darkBlue:
-            return UIColor(hexString: "#001435")
-        }
+        UIColor(hexString: "#001435")
     }
 
     public var description: String {
