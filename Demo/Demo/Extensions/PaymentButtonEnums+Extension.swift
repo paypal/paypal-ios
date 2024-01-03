@@ -69,7 +69,27 @@ extension PaymentButtonFundingSource: CaseIterable {
 extension PayPalButton.Label: CaseIterable {
     
     public static var allCases: [PayPalButton.Label] {
-        [.none, .checkout, .buyNow, .payWith]
+        [
+            .addMoneyWith,
+            .bookWith,
+            .buyNowWith,
+            .buyWith,
+            .checkoutWith,
+            .continueWith,
+            .contributeWith,
+            .none,
+            .orderWith,
+            .payWith,
+            .payLater,
+            .payLaterWith,
+            .reloadWith,
+            .rentWith,
+            .reserveWith,
+            .subscribeWith,
+            .supportWith,
+            .tipWith,
+            .topUpWith
+        ]
     }
     
     static func allCasesAsString() -> [String] {
