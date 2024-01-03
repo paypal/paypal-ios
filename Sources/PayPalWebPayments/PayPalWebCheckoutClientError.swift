@@ -20,6 +20,9 @@ enum PayPalWebCheckoutClientError {
 
         /// 3. Result did not contain the expected data.
         case malformedResultError
+
+        /// 4. Vault result did not return a token id
+        case paypalVaultResponseError
     }
 
     static let webSessionError: (Error) -> CoreSDKError = { error in
@@ -40,5 +43,11 @@ enum PayPalWebCheckoutClientError {
         code: Code.malformedResultError.rawValue,
         domain: domain,
         errorDescription: "Result did not contain the expected data."
+    )
+
+    static let payPalVaultResponseError = CoreSDKError(
+        code: Code.paypalVaultResponseError.rawValue,
+        domain: domain,
+        errorDescription: "Error parsing paypal vault response"
     )
 }

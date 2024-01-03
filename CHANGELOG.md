@@ -6,6 +6,12 @@
   * PaymentButtons
     * Remove deprecated colors `black`, `silver`, `blue`, and `darkBlue`
 
+* PayPalWebPayments
+  * Add `vault(url:)` method to `PayPalWebCheckoutClient`
+  * Add `PayPalVaultResult` type to return vault result
+  * Add `PayPalVaultDelegate` to handle results from vault flow
+  * Add `PayPalWebCheckoutClientError.paypalVaultResponseError` for missing or invalid response from vaulting
+  
 ## 1.1.0 (2023-11-16)
 * PayPalNativePayments
   * Bump `PayPalCheckout` to `1.2.0`

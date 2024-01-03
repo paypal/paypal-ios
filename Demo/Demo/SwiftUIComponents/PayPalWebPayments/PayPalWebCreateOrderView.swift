@@ -13,6 +13,9 @@ struct PayPalWebCreateOrderView: View {
                 Text("Create an Order")
                     .font(.system(size: 20))
                 Spacer()
+                Button("Reset") {
+                    payPalWebViewModel.resetState()
+                }
             }
             .frame(maxWidth: .infinity)
             .font(.headline)
@@ -37,7 +40,7 @@ struct PayPalWebCreateOrderView: View {
                     }
                 }
                 .buttonStyle(RoundedBlueButtonStyle())
-                if payPalWebViewModel.state == .loading {
+                if payPalWebViewModel.state == .loading && payPalWebViewModel.checkoutResult == nil {
                     CircularProgressView()
                 }
             }
