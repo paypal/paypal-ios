@@ -45,7 +45,7 @@ public class CardClient: NSObject {
                 let result = try await vaultAPI.updateSetupToken(cardVaultRequest: vaultRequest).updateVaultSetupToken
                 
                 // TODO: handle 3DS contingency with helios link & add unit tests
-                    if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
+                if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
                     let url = link.href
                     print("3DS url \(url)")
                 } else {
@@ -74,7 +74,9 @@ public class CardClient: NSObject {
             do {
                 let result = try await checkoutOrdersAPI.confirmPaymentSource(cardRequest: request)
                 
-                if let url: String = result.links?.first(where: { $0.rel == "payer-action" })?.href {
+                if let url = result.links?.first(where: { $0.rel == "payer-action" })?.href,
+                    url.contains("flow=3ds"),
+                    url.contains("helios") {
                     analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:challenge-required")
                     startThreeDSecureChallenge(url: url, orderId: result.id)
                 } else {
@@ -127,8 +129,12 @@ public class CardClient: NSObject {
                     }
                 }
                 
-                let cardResult = CardResult(orderID: orderId, deepLinkURL: url)
-                self.notifySuccess(for: cardResult)
+                if let url = url, url.absoluteString.contains("error=error") {
+                    self.notifyFailure(with: CardClientError.threeDSVerificationError)
+                } else {    
+                    let cardResult = CardResult(orderID: orderId, deepLinkURL: url)
+                    self.notifySuccess(for: cardResult)
+                }
             }
         )
     }
