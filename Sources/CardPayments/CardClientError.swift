@@ -28,6 +28,9 @@ enum CardClientError {
 
         /// 6. GraphQLClient is unexpectedly nil
         case nilGraphQLClientError
+        
+        /// 7. An error from 3DS verification
+        case threeDSVerificationError
     }
 
     static let unknownError = CoreSDKError(
@@ -72,5 +75,11 @@ enum CardClientError {
         code: Code.nilGraphQLClientError.rawValue,
         domain: domain,
         errorDescription: "GraphQLClient is unexpectedly nil."
+    )
+    
+    static let threeDSVerificationError = CoreSDKError(
+        code: Code.threeDSVerificationError.rawValue,
+        domain: domain,
+        errorDescription: "3DS Verification is returning an error."
     )
 }
