@@ -4,7 +4,7 @@ enum FakeConfirmPaymentResponse {
     
     static let withValid3DSURL = ConfirmPaymentSourceResponse(
         id: "testOrderId",
-        status: "APPROVED",
+        status: "PAYER_ACTION_REQUIRED",
         paymentSource: PaymentSource(
             card: PaymentSource.Card(
                 lastFourDigits: "7321",
@@ -15,7 +15,7 @@ enum FakeConfirmPaymentResponse {
         ),
         links: [
             Link(
-                href: "https://fakeURL?PayerID=98765",
+                href: "https://fakeURL?helios?flow=3ds",
                 rel: "payer-action",
                 method: nil
             )
@@ -24,7 +24,7 @@ enum FakeConfirmPaymentResponse {
     
     static let withInvalid3DSURL = ConfirmPaymentSourceResponse(
         id: "testOrderId",
-        status: "APPROVED",
+        status: "PAYER_ACTION_REQUIRED",
         paymentSource: PaymentSource(
             card: PaymentSource.Card(
                 lastFourDigits: "7321",
@@ -35,7 +35,7 @@ enum FakeConfirmPaymentResponse {
         ),
         links: [
             Link(
-                href: "",
+                href: "https://sandbox.paypal.com",
                 rel: "payer-action",
                 method: nil
             )
