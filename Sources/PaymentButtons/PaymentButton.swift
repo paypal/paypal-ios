@@ -115,7 +115,10 @@ public class PaymentButton: UIButton {
         // For pay later or paypal credit return different image height
         switch size {
         case .mini:
-            return fundingSource == .payLater || fundingSource == .credit ? 12 : 24
+            return 20.0
+
+        case .miniWithWordmark:
+            return 24.0
 
         case .collapsed:
             return 15.0
@@ -130,7 +133,7 @@ public class PaymentButton: UIButton {
 
     private var supportsPrefixLabel: Bool {
         switch size {
-        case .mini, .collapsed:
+        case .mini, .miniWithWordmark, .collapsed:
             return false
 
         case .expanded, .full:
@@ -142,13 +145,13 @@ public class PaymentButton: UIButton {
     }
 
     private var supportsSuffixLabel: Bool {
-        if fundingSource == .payLater {
-            return true
-        }
 
         switch size {
-        case .mini, .collapsed:
+        case .mini, .miniWithWordmark:
             return false
+
+        case .collapsed:
+            return fundingSource == .payLater
 
         case .expanded, .full:
             if let label = label {
@@ -236,7 +239,7 @@ public class PaymentButton: UIButton {
     // MARK: - Override Function
     override public func layoutSubviews() {
         super.layoutSubviews()
-        if size == .mini {
+        if size == .mini || size == .miniWithWordmark {
             let minValue = min(containerView.bounds.width, containerView.bounds.height)
             containerView.layer.cornerRadius = minValue / 2
         } else {
@@ -257,7 +260,7 @@ public class PaymentButton: UIButton {
 
         // Size to fit
         switch size {
-        case .mini:
+        case .mini, .miniWithWordmark:
             let maxValue = max(image.size.width, image.size.height)
             imageView.bounds = CGRect(
                 x: 0,

@@ -12,6 +12,10 @@ struct PayPalWebButtonsView: View {
                     payPalWebViewModel.paymentButtonTapped(funding: .paypal)
                 }
                 .frame(maxWidth: .infinity, maxHeight: 40)
+                PayPalButton.Representable(color: .gold, size: .miniWithWordmark) {
+                    payPalWebViewModel.paymentButtonTapped(funding: .paypal)
+                }
+                .frame(maxWidth: .infinity, maxHeight: 40)
                 PayPalCreditButton.Representable(color: .gold, edges: .softEdges, size: .expanded) {
                     payPalWebViewModel.paymentButtonTapped(funding: .paypalCredit)
                 }

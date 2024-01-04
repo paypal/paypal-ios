@@ -20,12 +20,15 @@ enum ImageAsset {
             if button.size == .collapsed {
                 imageAssetString += "_monogram_credit"
             }
-            else if button.size != .mini {
+            else if button.size != .miniWithWordmark && button.size != .mini {
                 imageAssetString += "_credit"
             }
         }
 
         if button.size == .mini {
+            imageAssetString += "_monogram"
+        }
+        else if button.size == .miniWithWordmark {
             imageAssetString += "_vertical"
         }
 
