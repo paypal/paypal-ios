@@ -18,7 +18,6 @@ public enum PaymentButtonLabel: String {
     /// Add label to the left of the PayPal logo.
     case buyNowWith = "Buy Now with"
 
-
     /// Recommended for use on cart and checkout pages, where there is a purchasing context. Add label to the left of the PayPal logo.
     case checkoutWith = "Checkout with"
 
