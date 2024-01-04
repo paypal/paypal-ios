@@ -1,49 +1,52 @@
 import SwiftUI
 import PaymentButtons
+import PayPalWebPayments
 
 struct PayPalWebButtonsView: View {
 
     @ObservedObject var payPalWebViewModel: PayPalWebViewModel
 
+    @State private var selectedFundingSource: PayPalWebCheckoutFundingSource = .paypal
+
     var body: some View {
         VStack {
-            VStack(alignment: .center, spacing: 40) {
-                PayPalButton.Representable(color: .blue, size: .mini) {
-                    payPalWebViewModel.paymentButtonTapped(funding: .paypal)
+            VStack(alignment: .center, spacing: 16) {
+                HStack {
+                    Text("Checkout with PayPal")
+                        .font(.system(size: 20))
+                    Spacer()
                 }
-                .frame(maxWidth: .infinity, maxHeight: 40)
-                PayPalCreditButton.Representable(color: .black, edges: .softEdges, size: .expanded) {
-                    payPalWebViewModel.paymentButtonTapped(funding: .paypalCredit)
+                .frame(maxWidth: .infinity)
+                .font(.headline)
+                Picker("Funding Source", selection: $selectedFundingSource) {
+                    Text("PayPal").tag(PayPalWebCheckoutFundingSource.paypal)
+                    Text("PayPal Credit").tag(PayPalWebCheckoutFundingSource.paylater)
+                    Text("Pay Later").tag(PayPalWebCheckoutFundingSource.paypalCredit)
                 }
-                .frame(maxWidth: .infinity, maxHeight: 40)
-                PayPalPayLaterButton.Representable(color: .silver, edges: .rounded, size: .full) {
-                    payPalWebViewModel.paymentButtonTapped(funding: .paylater)
+                .pickerStyle(SegmentedPickerStyle())
+
+                switch selectedFundingSource {
+                case .paypalCredit:
+                    PayPalCreditButton.Representable(color: .black, size: .full) {
+                        payPalWebViewModel.paymentButtonTapped(funding: .paypalCredit)
+                    }
+                case .paylater:
+                    PayPalPayLaterButton.Representable(color: .silver, edges: .softEdges, size: .full) {
+                        payPalWebViewModel.paymentButtonTapped(funding: .paylater)
+                    }
+                case .paypal:
+                    PayPalButton.Representable(color: .blue, size: .full) {
+                        payPalWebViewModel.paymentButtonTapped(funding: .paypal)
+                    }
                 }
-                .frame(maxWidth: .infinity, maxHeight: 40)
             }
+            .frame(height: 150)
             .padding(20)
-            .padding()
             .background(
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(.gray, lineWidth: 2)
                     .padding(5)
             )
-
-            if payPalWebViewModel.checkoutResult != nil && payPalWebViewModel.state == .success {
-                PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .approved)
-                NavigationLink {
-                    PayPalWebTransactionView(payPalWebViewModel: payPalWebViewModel)
-                        .navigationTitle("Complete Transaction")
-                } label: {
-                    Text("Complete Transaction")
-                }
-                .navigationViewStyle(StackNavigationViewStyle())
-                .buttonStyle(RoundedBlueButtonStyle())
-                .padding()
-            } else if case .error = payPalWebViewModel.state {
-                PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .error)
-            }
-            Spacer()
         }
     }
 }
