@@ -1,6 +1,11 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+* PaymentButtons
+  * Add new size `.miniWithWordmark`
+  * Add new labels, such as `.addMoneyWith`, `.bookWith`, and `buyNowWith` for `PayPalButton.Label`
+
 ## 1.1.0 (2023-11-16)
 * PayPalNativePayments
   * Bump `PayPalCheckout` to `1.2.0`
