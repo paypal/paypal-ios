@@ -1,7 +1,7 @@
 
 # PayPal iOS SDK Release Notes
 
-## Unreleased
+## unreleased
 * PaymentButtons
   * Add `custom` case for `PaymentButtonEdges`
 
