@@ -7,6 +7,8 @@
   * Add `PayPalVaultResult` type to return vault result
   * Add `PayPalVaultDelegate` to handle results from vault flow
   * Add `PayPalWebCheckoutClientError.paypalVaultResponseError` for missing or invalid response from vaulting
+* PaymentButtons
+  * Support VoiceOver by adding button accessibility labels
   
 ## 1.1.0 (2023-11-16)
 * PayPalNativePayments
