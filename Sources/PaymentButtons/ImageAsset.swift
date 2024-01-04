@@ -9,6 +9,7 @@ class ImageAsset {
     }
     
     var accessibilityLabel: String {
+        // NEXT_MAJOR_VERSION: - To be replaced with translation strings.
         if fileName.starts(with: "credit") {
             return "PayPal Credit"
         } else {
