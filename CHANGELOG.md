@@ -7,7 +7,9 @@
   * Add `PayPalVaultResult` type to return vault result
   * Add `PayPalVaultDelegate` to handle results from vault flow
   * Add `PayPalWebCheckoutClientError.paypalVaultResponseError` for missing or invalid response from vaulting
-  
+* PaymentButtons
+  * Add `custom` case for `PaymentButtonEdges`
+
 ## 1.1.0 (2023-11-16)
 * PayPalNativePayments
   * Bump `PayPalCheckout` to `1.2.0`
