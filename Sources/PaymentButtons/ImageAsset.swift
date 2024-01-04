@@ -17,16 +17,14 @@ enum ImageAsset {
         case .credit:
             if button.size == .collapsed {
                 imageAssetString = "credit_monogram"
-            }
-            else if button.size != .miniWithWordmark && button.size != .mini {
+            } else if button.size != .miniWithWordmark && button.size != .mini {
                 imageAssetString = "credit"
             }
         }
 
         if button.size == .mini {
             imageAssetString = "paypal_monogram"
-        }
-        else if button.size == .miniWithWordmark {
+        } else if button.size == .miniWithWordmark {
             imageAssetString = "paypal_vertical"
         }
 
