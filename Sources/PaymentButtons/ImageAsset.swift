@@ -1,7 +1,25 @@
 import UIKit
 
-enum ImageAsset {
-    static func paymentButtonLogo(for button: PaymentButton) -> UIImage? {
+class ImageAsset {
+
+    // MARK: - Internal Properties
+    
+    var image: UIImage? {
+        UIImage(named: fileName, in: PaymentButton.bundle, compatibleWith: nil)
+    }
+    
+    var accessibilityLabel: String {
+        if fileName.starts(with: "credit") {
+            return "PayPal Credit"
+        } else {
+            return "PayPal"
+        }
+    }
+    
+    // MARK: - Private Properties
+    
+    /// Name of the sized `.imageset` assets within `Assets.xcassets` directory
+    private var fileName: String {
         var imageAssetString = ""
         switch button.fundingSource {
         case .payPal:
@@ -28,7 +46,15 @@ enum ImageAsset {
         case .blue:
             imageAssetString += "blue"
         }
-
-        return UIImage(named: imageAssetString, in: PaymentButton.bundle, compatibleWith: nil)
+        
+        return imageAssetString
+    }
+    
+    private let button: PaymentButton
+    
+    // MARK: - Initializer
+        
+    init(button: PaymentButton) {
+        self.button = button
     }
 }

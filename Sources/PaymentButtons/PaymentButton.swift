@@ -168,6 +168,7 @@ public class PaymentButton: UIButton {
         configureSuffix()
         configureSubviews()
         configureConstraints()
+        configureAccessibilityLabel()
     }
 
     private func configureStackView() {
@@ -181,7 +182,7 @@ public class PaymentButton: UIButton {
     }
 
     private func configureLogo() -> UIImageView {
-        let logo = resize(with: ImageAsset.paymentButtonLogo(for: self))
+        let logo = resize(with: ImageAsset(button: self).image)
         let logoImageView = UIImageView(image: logo)
         sizeToImage(on: logoImageView, with: size)
         logoImageView.contentMode = .scaleAspectFit
@@ -204,6 +205,18 @@ public class PaymentButton: UIButton {
         }
         suffixLabel.font = size.font
         suffixLabel.isHidden = !supportsSuffixLabel
+    }
+    
+    private func configureAccessibilityLabel() {
+        let logoLabel = ImageAsset(button: self).accessibilityLabel
+        
+        if let prefixText = prefixLabel.text, supportsPrefixLabel {
+            accessibilityLabel = "\(prefixText) \(logoLabel)"
+        } else if let suffixText = suffixLabel.text, supportsSuffixLabel {
+            accessibilityLabel = "\(logoLabel) \(suffixText)"
+        } else {
+            accessibilityLabel = logoLabel
+        }
     }
 
     private func configureSubviews() {
