@@ -72,23 +72,23 @@ public enum PaymentButtonLabel: String {
 
     var position: Position {
         switch self {
-        case .addMoneyWith, 
-                .bookWith,
-                .buyWith,
-                .buyNowWith,
-                .checkoutWith,
-                .continueWith,
-                .contributeWith,
-                .orderWith,
-                .payLaterWith,
-                .payWith,
-                .reloadWith,
-                .rentWith,
-                .reserveWith,
-                .subscribeWith,
-                .supportWith,
-                .tipWith,
-                .topUpWith:
+        case .addMoneyWith,
+            .bookWith,
+            .buyWith,
+            .buyNowWith,
+            .checkoutWith,
+            .continueWith,
+            .contributeWith,
+            .orderWith,
+            .payLaterWith,
+            .payWith,
+            .reloadWith,
+            .rentWith,
+            .reserveWith,
+            .subscribeWith,
+            .supportWith,
+            .tipWith,
+            .topUpWith:
             return .prefix
 
         case .payLater:
