@@ -14,7 +14,7 @@ public final class PayPalCreditButton: PaymentButton {
         case darkBlue
 
         var color: PaymentButtonColor {
-            PaymentButtonColor(rawValue: rawValue) ?? .darkBlue
+            PaymentButtonColor(rawValue: rawValue) ?? .white
         }
     }
 
