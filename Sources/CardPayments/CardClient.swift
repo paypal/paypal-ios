@@ -77,7 +77,9 @@ public class CardClient: NSObject {
                 if result.status == "PAYER_ACTION_REQUIRED",
                 let url = result.links?.first(where: { $0.rel == "payer-action" })?.href {
                     
-                    guard let url = URL(string: url), url.absoluteString.contains("flow=3ds"), url.absoluteString.contains("helios") else {
+                    guard getQueryStringParameter(url: url, param: "flow") == "3ds",
+                    url.contains("helios"),
+                    let url = URL(string: url) else {
                         self.notifyFailure(with: CardClientError.threeDSecureURLError)
                         return
                     }
@@ -134,11 +136,12 @@ public class CardClient: NSObject {
                     return
                 }
                 
-                if url.absoluteString.contains("state=undefined") && url.absoluteString.contains("code=undefined") {
+                if self.getQueryStringParameter(url: url.absoluteString, param: "state") != nil
+                && self.getQueryStringParameter(url: url.absoluteString, param: "code") != nil {
                     let liabilityShift = self.getQueryStringParameter(url: url.absoluteString, param: "liability_shift")
                     let cardResult = CardResult(orderID: orderId, deepLinkURL: url, liabilityShift: liabilityShift)
                     self.notifySuccess(for: cardResult)
-                } else if url.absoluteString.contains("error=error") {
+                } else if self.getQueryStringParameter(url: url.absoluteString, param: "error") != nil {
                     self.notifyFailure(with: CardClientError.threeDSVerificationError)
                 } else {
                     self.notifyFailure(with: CardClientError.malformedDeeplinkURLError)

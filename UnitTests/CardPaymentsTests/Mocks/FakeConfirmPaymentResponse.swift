@@ -15,7 +15,7 @@ enum FakeConfirmPaymentResponse {
         ),
         links: [
             Link(
-                href: "https://fakeURL?helios?flow=3ds",
+                href: "https://fakeURL/helios?flow=3ds",
                 rel: "payer-action",
                 method: nil
             )
