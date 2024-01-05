@@ -5,28 +5,27 @@ enum ImageAsset {
         var imageAssetString = ""
         switch button.fundingSource {
         case .payPal:
-            imageAssetString += "paypal_"
-
-            if button.size == .mini {
-                imageAssetString += "monogram_"
-            }
+            imageAssetString = "paypal"
 
         case .payLater:
-            imageAssetString += "paypal_monogram_"
+            imageAssetString = "paypal"
+
+            if button.size == .collapsed {
+                imageAssetString = "paypal_monogram"
+            }
 
         case .credit:
-            imageAssetString += "credit_"
+            if button.size == .collapsed {
+                imageAssetString = "credit_monogram"
+            } else if button.size != .miniWithWordmark && button.size != .mini {
+                imageAssetString = "credit"
+            }
         }
 
-        switch button.color {
-        case .gold, .white, .silver:
-            imageAssetString += "color"
-
-        case .black, .darkBlue:
-            imageAssetString += "monochrome"
-
-        case .blue:
-            imageAssetString += "blue"
+        if button.size == .mini {
+            imageAssetString = "paypal_monogram"
+        } else if button.size == .miniWithWordmark {
+            imageAssetString = "paypal_vertical"
         }
 
         return UIImage(named: imageAssetString, in: PaymentButton.bundle, compatibleWith: nil)

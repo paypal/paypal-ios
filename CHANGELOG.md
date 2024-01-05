@@ -1,6 +1,16 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+* PaymentButtons
+  * Add new `PaymentButtonSize` case `.miniWithWordmark`
+  * Add new `PayPalButton.Labels` cases: `.addMoneyWith`, `.bookWith`, `.buyWith`, `.buyNowWith`,
+  `.checkoutWith`, `.continueWith`, `.contributeWith`, `.orderWith`, `.payLaterWith`, `.payWith`,
+  `.reloadWith`, `.rentWith`, `.reserveWith`, `.subscribeWith`, `.supportWith`, `.tipWith`,
+  `.topUpWith`
+* Breaking Changes
+  * Remove `PayPalButton.Labels` cases: `.checkout`, `.buyNow`, `.payLater`
+
 ## 1.1.0 (2023-11-16)
 * PayPalNativePayments
   * Bump `PayPalCheckout` to `1.2.0`

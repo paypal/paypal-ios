@@ -8,7 +8,11 @@ struct PayPalWebButtonsView: View {
     var body: some View {
         VStack {
             VStack(alignment: .center, spacing: 40) {
-                PayPalButton.Representable(color: .blue, size: .mini) {
+                PayPalButton.Representable(color: .gold, size: .mini) {
+                    payPalWebViewModel.paymentButtonTapped(funding: .paypal)
+                }
+                .frame(maxWidth: .infinity, maxHeight: 40)
+                PayPalButton.Representable(color: .gold, size: .miniWithWordmark) {
                     payPalWebViewModel.paymentButtonTapped(funding: .paypal)
                 }
                 .frame(maxWidth: .infinity, maxHeight: 40)
