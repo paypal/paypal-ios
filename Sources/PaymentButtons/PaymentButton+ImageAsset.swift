@@ -1,6 +1,6 @@
 import UIKit
 
-class ImageAsset {
+extension PaymentButton {
 
     // MARK: - Internal Properties
     
@@ -8,7 +8,7 @@ class ImageAsset {
         UIImage(named: fileName, in: PaymentButton.bundle, compatibleWith: nil)
     }
     
-    var accessibilityLabel: String {
+    var imageAccessibilityLabel: String {
         // NEXT_MAJOR_VERSION: - To be replaced with translation strings.
         if fileName.starts(with: "credit") {
             return "PayPal Credit"
@@ -22,11 +22,11 @@ class ImageAsset {
     /// Name of the sized `.imageset` assets within `Assets.xcassets` directory
     private var fileName: String {
         var imageAssetString = ""
-        switch button.fundingSource {
+        switch fundingSource {
         case .payPal:
             imageAssetString += "paypal_"
 
-            if button.size == .mini {
+            if size == .mini {
                 imageAssetString += "monogram_"
             }
 
@@ -37,7 +37,7 @@ class ImageAsset {
             imageAssetString += "credit_"
         }
 
-        switch button.color {
+        switch color {
         case .gold, .white, .silver:
             imageAssetString += "color"
 
@@ -49,13 +49,5 @@ class ImageAsset {
         }
         
         return imageAssetString
-    }
-    
-    private let button: PaymentButton
-    
-    // MARK: - Initializer
-        
-    init(button: PaymentButton) {
-        self.button = button
     }
 }

@@ -182,7 +182,7 @@ public class PaymentButton: UIButton {
     }
 
     private func configureLogo() -> UIImageView {
-        let logo = resize(with: ImageAsset(button: self).image)
+        let logo = resize(with: image)
         let logoImageView = UIImageView(image: logo)
         sizeToImage(on: logoImageView, with: size)
         logoImageView.contentMode = .scaleAspectFit
@@ -208,14 +208,12 @@ public class PaymentButton: UIButton {
     }
     
     private func configureAccessibilityLabel() {
-        let logoLabel = ImageAsset(button: self).accessibilityLabel
-        
         if let prefixText = prefixLabel.text, supportsPrefixLabel {
-            accessibilityLabel = "\(prefixText) \(logoLabel)"
+            accessibilityLabel = "\(prefixText) \(imageAccessibilityLabel)"
         } else if let suffixText = suffixLabel.text, supportsSuffixLabel {
-            accessibilityLabel = "\(logoLabel) \(suffixText)"
+            accessibilityLabel = "\(imageAccessibilityLabel) \(suffixText)"
         } else {
-            accessibilityLabel = logoLabel
+            accessibilityLabel = imageAccessibilityLabel
         }
     }
 
