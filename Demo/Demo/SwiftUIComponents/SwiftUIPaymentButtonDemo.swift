@@ -53,9 +53,6 @@ struct SwiftUIPaymentButtonDemo: View {
                 }
                 .id(pickerId)
 
-                Text("Note: Button colors have been consolidated and deprecated to gold and white.")
-                    .font(.footnote)
-
                 Picker("Edges", selection: $edgesIndex) {
                     ForEach(edges.indices, id: \.self) { index in
                         Text(edges[index])
