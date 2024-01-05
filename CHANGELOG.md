@@ -4,7 +4,9 @@
 ## unreleased
 * PaymentButtons
   * Add new size `.miniWithWordmark`
-  * Add new labels, such as `.addMoneyWith`, `.bookWith`, and `buyNowWith` for `PayPalButton.Label`
+  * Add new `PayPalButton` labels: `.addMoneyWith`, `.bookWith`, `.buyWith`, `.buyNowWith`, `.checkoutWith`, `.continueWith`, `.contributeWith`, `.orderWith`, `.payLaterWith`, `.payWith`, `.reloadWith`, `.rentWith`, `.reserveWith`, `.subscribeWith`, `.supportWith`, `.tipWith`, `.topUpWith`
+* Breaking Changes
+  * Remove `.checkout`, `.buyNow`, `.payLater`
 
 ## 1.1.0 (2023-11-16)
 * PayPalNativePayments
