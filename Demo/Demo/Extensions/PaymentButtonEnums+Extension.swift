@@ -70,6 +70,7 @@ extension PayPalButton.Label: CaseIterable {
     
     public static var allCases: [PayPalButton.Label] {
         [
+            .none,
             .addMoneyWith,
             .bookWith,
             .buyNowWith,
@@ -77,7 +78,6 @@ extension PayPalButton.Label: CaseIterable {
             .checkoutWith,
             .continueWith,
             .contributeWith,
-            .none,
             .orderWith,
             .payWith,
             .payLater,
