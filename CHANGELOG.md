@@ -8,10 +8,10 @@
   * Add `PayPalVaultDelegate` to handle results from vault flow
   * Add `PayPalWebCheckoutClientError.paypalVaultResponseError` for missing or invalid response from vaulting
 * CardPayments
-  * Add `liabilityShift` property from `CardResult`
+  * Add `liabilityShift` property to `CardResult`
   * Add `CardClientError.threeDSVerificationError` for invalid verification
-  * Add `CardClientError.missingDeeplinkgURLError` for missing deeplink URL from 3DS
-  * Add `CardClientError.malformedDeeplinkURLError` for malformed or invalid deeplink from 3DS
+  * Add `CardClientError.missingDeeplinkURLError` for missing deeplink URL
+  * Add `CardClientError.malformedDeeplinkURLError` for malformed or invalid deeplink
   
 ## 1.1.0 (2023-11-16)
 * PayPalNativePayments

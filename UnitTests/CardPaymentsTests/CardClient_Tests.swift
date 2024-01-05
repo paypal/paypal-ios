@@ -343,7 +343,7 @@ class CardClient_Tests: XCTestCase {
             },
             error: { _, error in
                 XCTAssertEqual(error.domain, CardClientError.domain)
-                XCTAssertEqual(error.code, CardClientError.Code.missingDeeplinkgURLError.rawValue)
+                XCTAssertEqual(error.code, CardClientError.Code.missingDeeplinkURLError.rawValue)
                 XCTAssertEqual(error.errorDescription, "Missing deeplink URL from 3DS.")
                 expectation.fulfill()
             },

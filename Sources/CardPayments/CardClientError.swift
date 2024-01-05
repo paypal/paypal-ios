@@ -33,7 +33,7 @@ enum CardClientError {
         case threeDSVerificationError
         
         /// 8. Missing Deeplink URL from 3DS
-        case missingDeeplinkgURLError
+        case missingDeeplinkURLError
         
         /// 9. Missing Deeplink URL from 3DS
         case malformedDeeplinkURLError
@@ -89,8 +89,8 @@ enum CardClientError {
         errorDescription: "3DS Verification is returning an error."
     )
     
-    static let missingDeeplinkgURLError = CoreSDKError(
-        code: Code.missingDeeplinkgURLError.rawValue,
+    static let missingDeeplinkURLError = CoreSDKError(
+        code: Code.missingDeeplinkURLError.rawValue,
         domain: domain,
         errorDescription: "Missing deeplink URL from 3DS."
     )
