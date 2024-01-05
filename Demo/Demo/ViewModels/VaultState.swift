@@ -5,7 +5,7 @@ import PayPalWebPayments
 struct UpdateSetupTokenResult: Decodable, Equatable {
 
     var id: String
-    var status: String
+    var deepLinkURL: URL?
 }
 
 struct VaultState: Equatable {

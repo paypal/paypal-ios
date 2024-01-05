@@ -34,7 +34,7 @@ class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
     func setUpTokenSuccessResult(vaultResult: CardPayments.CardVaultResult) {
         DispatchQueue.main.async {
             self.state.updateSetupTokenResponse = .loaded(
-                UpdateSetupTokenResult(id: vaultResult.setupTokenID, status: vaultResult.status)
+                UpdateSetupTokenResult(id: vaultResult.setupTokenID, deepLinkURL: vaultResult.deepLinkURL)
             )
         }
     }
@@ -55,5 +55,12 @@ class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
     func card(_ cardClient: CardPayments.CardClient, didFinishWithVaultError vaultError: CorePayments.CoreSDKError) {
         print("error: \(vaultError.errorDescription ?? "")")
         setUpdateSetupTokenFailureResult(vaultError: vaultError)
+    }
+
+    func cardVaultDidCancel(_ cardClient: CardClient) {
+        DispatchQueue.main.async {
+            self.state.updateSetupTokenResponse = .idle
+            self.state.updateSetupToken = nil
+        }
     }
 }

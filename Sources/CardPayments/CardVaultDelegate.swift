@@ -17,4 +17,9 @@ public protocol CardVaultDelegate: AnyObject {
     ///   - client: the CardClient associated with delegate
     ///   - didFinishWithError: the error returned by the Card vault flow
     func card(_ cardClient: CardClient, didFinishWithVaultError vaultError: CoreSDKError)
+
+    /// Notify that the Card vault flow has been cancelled
+    /// - Parameters:
+    ///   - client: the CardClient associated with delegate
+    func cardVaultDidCancel(_ cardClient: CardClient)
 }

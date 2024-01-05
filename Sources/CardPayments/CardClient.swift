@@ -48,8 +48,9 @@ public class CardClient: NSObject {
                     if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
                     let url = link.href
                     print("3DS url \(url)")
+                        startVaultThreeDSecureChallenge(url: url, setupTokenID: vaultRequest.setupTokenID)
                 } else {
-                    let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status)
+                    let vaultResult = CardVaultResult(setupTokenID: result.id, deepLinkURL: nil)
                     notifyVaultSuccess(for: vaultResult)
                 }
             } catch let error as CoreSDKError {
@@ -133,6 +134,49 @@ public class CardClient: NSObject {
         )
     }
 
+    private func startVaultThreeDSecureChallenge(
+        url: String,
+        setupTokenID: String
+    ) {
+        guard let threeDSURL = URL(string: url) else {
+            self.notifyVaultFailure(with: CardClientError.threeDSecureURLError)
+            return
+        }
+
+        // replace with same in VaultDelegate
+        delegate?.cardThreeDSecureWillLaunch(self)
+
+        webAuthenticationSession.start(
+            url: threeDSURL,
+            context: self,
+            sessionDidDisplay: { [weak self] didDisplay in
+                if didDisplay {
+                    // should we send different analytics for vault 3DS?
+                    self?.analyticsService?.sendEvent("card-payments:3ds:challenge-presentation:succeeded")
+                } else {
+                    self?.analyticsService?.sendEvent("card-payments:3ds:challenge-presentation:failed")
+                }
+            },
+            sessionDidComplete: { url, error in
+                // replace with same in VaultDelegate
+                self.delegate?.cardThreeDSecureDidFinish(self)
+                if let error = error {
+                    switch error {
+                    case ASWebAuthenticationSessionError.canceledLogin:
+                        self.notifyVaultCancellation()
+                        return
+                    default:
+                        self.notifyVaultFailure(with: CardClientError.threeDSecureError(error))
+                        return
+                    }
+                }
+
+                let cardVaultResult = CardVaultResult(setupTokenID: setupTokenID, deepLinkURL: url)
+                self.notifyVaultSuccess(for: cardVaultResult)
+            }
+        )
+    }
+
     private func notifySuccess(for result: CardResult) {
         analyticsService?.sendEvent("card-payments:3ds:succeeded")
         delegate?.card(self, didFinishWithResult: result)
@@ -154,6 +198,10 @@ public class CardClient: NSObject {
     private func notifyCancellation() {
         analyticsService?.sendEvent("card-payments:3ds:challenge:user-canceled")
         delegate?.cardDidCancel(self)
+    }
+
+    private func notifyVaultCancellation() {
+        vaultDelegate?.cardVaultDidCancel(self)
     }
 }
 
