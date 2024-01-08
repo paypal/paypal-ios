@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>PayPalOpen-Regular.otf</string>
+		<string>PayPalOpen-Medium.otf</string>
+		<string>PayPalOpen-Bold.otf</string>
+	</array>
 	<key>CFBundleShortVersionString</key>
 	<string>1.1.0</string>
 	<key>UIApplicationSceneManifest</key>
