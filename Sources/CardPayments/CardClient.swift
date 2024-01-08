@@ -131,7 +131,7 @@ public class CardClient: NSObject {
                     }
                 }
                 
-                guard let url = url else {
+                guard let url else {
                     self.notifyFailure(with: CardClientError.missingDeeplinkURLError)
                     return
                 }

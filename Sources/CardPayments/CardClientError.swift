@@ -98,6 +98,6 @@ enum CardClientError {
     static let malformedDeeplinkURLError = CoreSDKError(
         code: Code.malformedDeeplinkURLError.rawValue,
         domain: domain,
-        errorDescription: "Malformed deeplink url."
+        errorDescription: "Malformed deeplink URL."
     )
 }
