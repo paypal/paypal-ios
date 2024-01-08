@@ -372,7 +372,7 @@ class CardClient_Tests: XCTestCase {
             error: { _, error in
                 XCTAssertEqual(error.domain, CardClientError.domain)
                 XCTAssertEqual(error.code, CardClientError.Code.malformedDeeplinkURLError.rawValue)
-                XCTAssertEqual(error.errorDescription, "Malformed deeplink url.")
+                XCTAssertEqual(error.errorDescription, "Malformed deeplink URL.")
                 expectation.fulfill()
             },
             cancel: { _ in XCTFail("Invoked cancel() callback. Should invoke success().") },
