@@ -50,7 +50,7 @@ public class CardClient: NSObject {
                     print("3DS url \(url)")
                         startVaultThreeDSecureChallenge(url: url, setupTokenID: vaultRequest.setupTokenID)
                 } else {
-                    let vaultResult = CardVaultResult(setupTokenID: result.id, deepLinkURL: nil)
+                    let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status, deepLinkURL: nil)
                     notifyVaultSuccess(for: vaultResult)
                 }
             } catch let error as CoreSDKError {
@@ -171,7 +171,7 @@ public class CardClient: NSObject {
                     }
                 }
 
-                let cardVaultResult = CardVaultResult(setupTokenID: setupTokenID, deepLinkURL: url)
+                let cardVaultResult = CardVaultResult(setupTokenID: setupTokenID, status: nil, deepLinkURL: url)
                 self.notifyVaultSuccess(for: cardVaultResult)
             }
         )

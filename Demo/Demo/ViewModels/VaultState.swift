@@ -6,6 +6,7 @@ struct UpdateSetupTokenResult: Decodable, Equatable {
 
     var id: String
     var deepLinkURL: URL?
+    var status: String?
 }
 
 struct VaultState: Equatable {

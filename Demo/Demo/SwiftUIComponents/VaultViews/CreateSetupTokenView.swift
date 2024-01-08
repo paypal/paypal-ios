@@ -6,9 +6,9 @@ struct CreateSetupTokenView: View {
 
     @State private var vaultCustomerID: String = ""
     @State private var sca: String = "SCA_WHEN_REQUIRED"
-    @ObservedObject var vaultViewModel: VaultViewModel
-
     @State var paymentSourceType: PaymentSourceType
+
+    @ObservedObject var vaultViewModel: VaultViewModel
 
     public init(selectedMerchantIntegration: MerchantIntegration, vaultViewModel: VaultViewModel, paymentSourceType: PaymentSourceType) {
         self.selectedMerchantIntegration = selectedMerchantIntegration
@@ -44,8 +44,8 @@ struct CreateSetupTokenView: View {
                                 selectedMerchantIntegration: selectedMerchantIntegration,
                                 paymentSourceType: paymentSourceType
                             )
-                        } catch {
-                            print("Error in getting setup token. \(error.localizedDescription)")
+                    } catch {
+                        print("Error in getting setup token. \(error.localizedDescription)")
                         }
                     }
                 }

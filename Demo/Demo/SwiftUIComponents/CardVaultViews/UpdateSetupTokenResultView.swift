@@ -24,8 +24,14 @@ struct UpdateSetupTokenResultView: View {
             }
             LeadingText("ID", weight: .bold)
             LeadingText("\(updateSetupTokenResponse.id)")
-            LeadingText("DeepLinkURL", weight: .bold)
-            LeadingText("\(updateSetupTokenResponse.deepLinkURL?.absoluteString ?? "")")
+            if let status = updateSetupTokenResponse.status {
+                LeadingText("status", weight: .bold)
+                LeadingText("\(status)")
+            }
+            if let deepLinkURL = updateSetupTokenResponse.deepLinkURL {
+                LeadingText("DeepLinkURL", weight: .bold)
+                LeadingText("\(deepLinkURL.absoluteString )")
+            }
         }
         .frame(maxWidth: .infinity)
         .padding()
