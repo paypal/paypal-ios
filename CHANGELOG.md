@@ -3,7 +3,8 @@
 
 ## unreleased
 * PaymentButtons
-    * Deprecate `black`, `silver`, `blue`, and `darkBlue` button colors
+    * Deprecate `PaymentButtonColor` `.black`, `.silver`, `.blue`, and `.darkBlue`
+    * Add new `PaymentButtonColor` for `PayPalCreditButton`: `.gold`
 
 * PayPalWebPayments
   * Add `vault(url:)` method to `PayPalWebCheckoutClient`
