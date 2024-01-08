@@ -9,6 +9,7 @@
   * Add `PayPalWebCheckoutClientError.paypalVaultResponseError` for missing or invalid response from vaulting
 * PaymentButtons
   * Add `custom` case for `PaymentButtonEdges`
+  * Support VoiceOver by adding button accessibility labels
 * CardPayments
   * Add `liabilityShift` property to `CardResult`
   * Add `CardClientError.threeDSVerificationError` for invalid verification
