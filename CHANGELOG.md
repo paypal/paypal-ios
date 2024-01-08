@@ -9,6 +9,7 @@
   * Add `PayPalWebCheckoutClientError.paypalVaultResponseError` for missing or invalid response from vaulting
 * PaymentButtons
   * Add `custom` case for `PaymentButtonEdges`
+  * Support VoiceOver by adding button accessibility labels
 
 ## 1.1.0 (2023-11-16)
 * PayPalNativePayments
