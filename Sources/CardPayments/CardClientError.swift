@@ -35,7 +35,7 @@ enum CardClientError {
         /// 8. Missing Deeplink URL from 3DS
         case missingDeeplinkURLError
         
-        /// 9. Missing Deeplink URL from 3DS
+        /// 9. Malformed Deeplink URL from 3DS
         case malformedDeeplinkURLError
     }
 
