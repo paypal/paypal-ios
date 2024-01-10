@@ -75,10 +75,10 @@ public class CardClient: NSObject {
                 let result = try await checkoutOrdersAPI.confirmPaymentSource(cardRequest: request)
                 
                 if result.status == "PAYER_ACTION_REQUIRED",
-                   let url = result.links?.first(where: { $0.rel == "payer-action" })?.href {
+                let url = result.links?.first(where: { $0.rel == "payer-action" })?.href {
                     guard getQueryStringParameter(url: url, param: "flow") == "3ds",
-                          url.contains("helios"),
-                          let url = URL(string: url) else {
+                        url.contains("helios"),
+                        let url = URL(string: url) else {
                         self.notifyFailure(with: CardClientError.threeDSecureURLError)
                         return
                     }
