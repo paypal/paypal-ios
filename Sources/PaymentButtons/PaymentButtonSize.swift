@@ -17,14 +17,9 @@ public enum PaymentButtonSize: Int, CustomStringConvertible {
 
     var font: UIFont {
         switch self {
-        case .mini, .collapsed:
-            return PaymentButtonFont.paypalSecondaryFont
-
-        case .expanded:
-            return PaymentButtonFont.paypalPrimaryFont
-
-        case .full:
-            return PaymentButtonFont.paypalSize18Font
+        case .mini, .collapsed, .expanded, .full:
+            return UIFont(name: "PayPalOpen-Regular", size: 14) ??
+                .systemFont(ofSize: UIFont.systemFontSize)
         }
     }
 
