@@ -2,15 +2,21 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
+* PaymentButtons
+    * Deprecate `PaymentButtonColor` `.black`, `.silver`, `.blue`, and `.darkBlue`
+    * Add `PaymentButtonColor.gold` for `PayPalCreditButton`
+    * Add `custom` case for `PaymentButtonEdges`
+    * Support VoiceOver by adding button accessibility labels
+
 * PayPalWebPayments
   * Add `vault(url:)` method to `PayPalWebCheckoutClient`
   * Add `PayPalVaultResult` type to return vault result
   * Add `PayPalVaultDelegate` to handle results from vault flow
   * Add `PayPalWebCheckoutClientError.paypalVaultResponseError` for missing or invalid response from vaulting
-* PaymentButtons
-  * Add `custom` case for `PaymentButtonEdges`
+
 * Breaking Changes
-  * Font typeface changed to "PayPalOpen" to meet brand guidelines
+  * PaymentButtons
+    * Font typeface changed to "PayPalOpen" to meet brand guidelines
 
 ## 1.1.0 (2023-11-16)
 * PayPalNativePayments

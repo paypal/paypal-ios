@@ -135,7 +135,7 @@
 		CB1A47F82820BCE200BD8184 /* PaymentButtonSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1A47F72820BCE200BD8184 /* PaymentButtonSize.swift */; };
 		CB1A47FA2820BF6B00BD8184 /* PaymentButtonFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1A47F92820BF6B00BD8184 /* PaymentButtonFont.swift */; };
 		CB1A47FE2820C10700BD8184 /* PaymentButtonFundingSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1A47FD2820C10700BD8184 /* PaymentButtonFundingSource.swift */; };
-		CB1A48052822BCED00BD8184 /* ImageAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1A48042822BCED00BD8184 /* ImageAsset.swift */; };
+		CB1A48052822BCED00BD8184 /* PaymentButton+ImageAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1A48042822BCED00BD8184 /* PaymentButton+ImageAsset.swift */; };
 		CB1AC3C22982CDB10081AED6 /* MockNativeCheckoutProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25238B273979170099E4EB /* MockNativeCheckoutProvider.swift */; };
 		CB22C018291049500097E592 /* PayPalPayLaterButton_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB22C017291049500097E592 /* PayPalPayLaterButton_Tests.swift */; };
 		CB4BE27D2847AF6F00EA2DD1 /* SCA.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4BE27C2847AF6F00EA2DD1 /* SCA.swift */; };
@@ -336,7 +336,7 @@
 		CB1A47F72820BCE200BD8184 /* PaymentButtonSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentButtonSize.swift; sourceTree = "<group>"; };
 		CB1A47F92820BF6B00BD8184 /* PaymentButtonFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentButtonFont.swift; sourceTree = "<group>"; };
 		CB1A47FD2820C10700BD8184 /* PaymentButtonFundingSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentButtonFundingSource.swift; sourceTree = "<group>"; };
-		CB1A48042822BCED00BD8184 /* ImageAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAsset.swift; sourceTree = "<group>"; };
+		CB1A48042822BCED00BD8184 /* PaymentButton+ImageAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PaymentButton+ImageAsset.swift"; sourceTree = "<group>"; };
 		CB22C017291049500097E592 /* PayPalPayLaterButton_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalPayLaterButton_Tests.swift; sourceTree = "<group>"; };
 		CB4BE27C2847AF6F00EA2DD1 /* SCA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCA.swift; sourceTree = "<group>"; };
 		CB4BE27F2847F01000EA2DD1 /* CardDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDelegate.swift; sourceTree = "<group>"; };
@@ -717,7 +717,7 @@
 				CB1A47F72820BCE200BD8184 /* PaymentButtonSize.swift */,
 				CB1A47F92820BF6B00BD8184 /* PaymentButtonFont.swift */,
 				CB1A47FD2820C10700BD8184 /* PaymentButtonFundingSource.swift */,
-				CB1A48042822BCED00BD8184 /* ImageAsset.swift */,
+				CB1A48042822BCED00BD8184 /* PaymentButton+ImageAsset.swift */,
 			);
 			name = PaymentButtons;
 			path = Sources/PaymentButtons;
@@ -1489,7 +1489,7 @@
 				BCFAC71E27ED04C500C3AF00 /* PayPalCreditButton.swift in Sources */,
 				CB1A47FE2820C10700BD8184 /* PaymentButtonFundingSource.swift in Sources */,
 				CB1A47FA2820BF6B00BD8184 /* PaymentButtonFont.swift in Sources */,
-				CB1A48052822BCED00BD8184 /* ImageAsset.swift in Sources */,
+				CB1A48052822BCED00BD8184 /* PaymentButton+ImageAsset.swift in Sources */,
 				BCFAC71D27ED04C300C3AF00 /* PayPalButton.swift in Sources */,
 				CB1A47F82820BCE200BD8184 /* PaymentButtonSize.swift in Sources */,
 				BCFAC71F27ED04C800C3AF00 /* Coordinator.swift in Sources */,
