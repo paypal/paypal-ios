@@ -20,8 +20,8 @@ struct PayPalWebButtonsView: View {
                 .font(.headline)
                 Picker("Funding Source", selection: $selectedFundingSource) {
                     Text("PayPal").tag(PayPalWebCheckoutFundingSource.paypal)
-                    Text("PayPal Credit").tag(PayPalWebCheckoutFundingSource.paylater)
-                    Text("Pay Later").tag(PayPalWebCheckoutFundingSource.paypalCredit)
+                    Text("PayPal Credit").tag(PayPalWebCheckoutFundingSource.paypalCredit)
+                    Text("Pay Later").tag(PayPalWebCheckoutFundingSource.paylater)
                 }
                 .pickerStyle(SegmentedPickerStyle())
 
