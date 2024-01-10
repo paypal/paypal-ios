@@ -4,23 +4,6 @@
    <FileRef
       location = "group:PayPal.xcodeproj">
    </FileRef>
-   <Group
-      location = "group:Demo/Resources"
-      name = "Resources">
-      <Group
-         location = "group:../../../ios-native-checkout/Sources/PayPalCheckoutUI/Sources/Resources/Fonts"
-         name = "Fonts">
-         <FileRef
-            location = "group:PayPalOpen-Regular.otf">
-         </FileRef>
-         <FileRef
-            location = "group:PayPalOpen-Medium.otf">
-         </FileRef>
-         <FileRef
-            location = "group:PayPalOpen-Bold.otf">
-         </FileRef>
-      </Group>
-   </Group>
    <FileRef
       location = "group:Demo/Demo.xcodeproj">
    </FileRef>
