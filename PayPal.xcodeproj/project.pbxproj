@@ -202,6 +202,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04F5AA5B2B4F1EC50033547B /* PayPalOpen-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PayPalOpen-Regular.otf"; sourceTree = "<group>"; };
+		04F5AA5C2B4F1EC50033547B /* PayPalOpen-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PayPalOpen-Medium.otf"; sourceTree = "<group>"; };
+		04F5AA5D2B4F1EC50033547B /* PayPalOpen-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PayPalOpen-Bold.otf"; sourceTree = "<group>"; };
+		04F5AA5E2B4F1EC60033547B /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = text; name = Fonts; path = Demo/Resources/Fonts; sourceTree = "<group>"; };
 		0647E70D2714962800F8E517 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		065A4DBB26FCD8080007014A /* CoreSDKError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreSDKError.swift; sourceTree = "<group>"; };
 		065A4DBE26FCDA5B0007014A /* CardClient_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardClient_Tests.swift; sourceTree = "<group>"; };
@@ -463,6 +467,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04F5AA592B4F1EC50033547B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				04F5AA5E2B4F1EC60033547B /* Fonts */,
+				04F5AA5A2B4F1EC50033547B /* Fonts */,
+			);
+			name = Resources;
+			path = Demo/Resources;
+			sourceTree = "<group>";
+		};
+		04F5AA5A2B4F1EC50033547B /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				04F5AA5B2B4F1EC50033547B /* PayPalOpen-Regular.otf */,
+				04F5AA5C2B4F1EC50033547B /* PayPalOpen-Medium.otf */,
+				04F5AA5D2B4F1EC50033547B /* PayPalOpen-Bold.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		061A32A826FA3C330003A736 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -813,6 +837,7 @@
 			children = (
 				OBJ_6 /* Package.swift */,
 				OBJ_16 /* README.md */,
+				04F5AA592B4F1EC50033547B /* Resources */,
 				OBJ_7 /* Sources */,
 				061A32A826FA3C330003A736 /* UnitTests */,
 				OBJ_13 /* Products */,
