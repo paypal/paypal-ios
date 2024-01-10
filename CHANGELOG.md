@@ -2,6 +2,10 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
+* PaymentButtons
+    * Deprecate `PaymentButtonColor` `.black`, `.silver`, `.blue`, and `.darkBlue`
+    * Add `PaymentButtonColor.gold` for `PayPalCreditButton`
+
 * PayPalWebPayments
   * Add `vault(url:)` method to `PayPalWebCheckoutClient`
   * Add `PayPalVaultResult` type to return vault result
