@@ -9,6 +9,8 @@
   * Add `PayPalWebCheckoutClientError.paypalVaultResponseError` for missing or invalid response from vaulting
 * PaymentButtons
   * Add `custom` case for `PaymentButtonEdges`
+* Breaking Changes
+  * Font typeface changed to "PayPalOpen" to meet brand guidelines
 
 ## 1.1.0 (2023-11-16)
 * PayPalNativePayments
