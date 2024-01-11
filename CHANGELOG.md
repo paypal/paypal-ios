@@ -3,13 +3,15 @@
 
 ## unreleased
 * PaymentButtons
-  * Add new `PaymentButtonSize` case `.miniWithWordmark`
+  * Add new `PaymentButtonSize` case `.regular`
   * Add new `PayPalButton.Labels` cases: `.addMoneyWith`, `.bookWith`, `.buyWith`, `.buyNowWith`,
   `.checkoutWith`, `.continueWith`, `.contributeWith`, `.orderWith`, `.payLaterWith`, `.payWith`,
   `.reloadWith`, `.rentWith`, `.reserveWith`, `.subscribeWith`, `.supportWith`, `.tipWith`,
   `.topUpWith`
+  * `PayPalButtonSize` `.mini` changed to rectangular button to meet brand guidelines
 * Breaking Changes
   * Remove `PayPalButton.Labels` cases: `.checkout`, `.buyNow`, `.payLater`
+  * Remove `PaymentButtonSize` cases: `.miniWithWordmark`, `.collapsed`, `.expanded`, `.full`
 
 ## 1.1.0 (2023-11-16)
 * PayPalNativePayments
