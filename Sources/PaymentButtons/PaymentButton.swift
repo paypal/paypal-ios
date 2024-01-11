@@ -120,7 +120,6 @@ public class PaymentButton: UIButton {
 
         case .regular:
             return 20.0
-
         }
     }
 
@@ -138,17 +137,12 @@ public class PaymentButton: UIButton {
     }
 
     private var supportsSuffixLabel: Bool {
-
         switch size {
         case .mini:
             return false
 
-//        case .collapsed:
-//            return fundingSource == .payLater
-
         case .regular:
             if let label = label {
-                fundingSource == .payLater
                 return label.position == .suffix
             }
             return false
