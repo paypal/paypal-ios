@@ -4,36 +4,36 @@ import UIKit
 public enum PaymentButtonEdges: Int {
 
     /// Hard edges on button with 0 corner radius.
-    case sharp
+    case hardEdges
 
     /// Soft edges with a corner radius of 4 pts.
-    case rounded
+    case softEdges
 
     /// Pill shaped corner radius.
-    case pill
+    case rounded
 
     func cornerRadius(for view: UIView) -> CGFloat {
         switch self {
-        case .sharp:
+        case .hardEdges:
             return 0.0
 
-        case .rounded:
+        case .softEdges:
             return 4.0
 
-        case .pill:
+        case .rounded:
             return view.frame.size.height / 2
         }
     }
     public var description: String {
         switch self {
-        case .sharp:
-            return "sharp"
+        case .hardEdges:
+            return "hardEdges"
+
+        case .softEdges:
+            return "softEdges"
 
         case .rounded:
             return "rounded"
-
-        case .pill:
-            return "pill"
         }
     }
 }

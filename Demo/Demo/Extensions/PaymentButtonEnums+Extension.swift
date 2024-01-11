@@ -36,7 +36,7 @@ extension PayPalCreditButton.Color: CaseIterable {
 extension PaymentButtonEdges: CaseIterable {
 
     public static var allCases: [PaymentButtonEdges] {
-        [.pill, .rounded, .sharp]
+        [.hardEdges, .softEdges, .rounded]
     }
 
     static func allCasesAsString() -> [String] {
