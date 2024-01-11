@@ -12,15 +12,15 @@ struct PayPalWebButtonsView: View {
                     payPalWebViewModel.paymentButtonTapped(funding: .paypal)
                 }
                 .frame(maxWidth: .infinity, maxHeight: 40)
-                PayPalButton.Representable(color: .gold, size: .miniWithWordmark) {
+                PayPalButton.Representable(color: .gold, size: .mini) {
                     payPalWebViewModel.paymentButtonTapped(funding: .paypal)
                 }
                 .frame(maxWidth: .infinity, maxHeight: 40)
-                PayPalCreditButton.Representable(color: .black, edges: .softEdges, size: .expanded) {
+                PayPalCreditButton.Representable(color: .black, edges: .pill, size: .regular) {
                     payPalWebViewModel.paymentButtonTapped(funding: .paypalCredit)
                 }
                 .frame(maxWidth: .infinity, maxHeight: 40)
-                PayPalPayLaterButton.Representable(color: .silver, edges: .rounded, size: .full) {
+                PayPalPayLaterButton.Representable(color: .silver, edges: .pill, size: .regular) {
                     payPalWebViewModel.paymentButtonTapped(funding: .paylater)
                 }
                 .frame(maxWidth: .infinity, maxHeight: 40)

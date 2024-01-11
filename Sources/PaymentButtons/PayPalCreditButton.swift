@@ -26,8 +26,8 @@ public final class PayPalCreditButton: PaymentButton {
     public convenience init(
         insets: NSDirectionalEdgeInsets? = nil,
         color: Color = .darkBlue,
-        edges: PaymentButtonEdges = .softEdges,
-        size: PaymentButtonSize = .collapsed
+        edges: PaymentButtonEdges = .rounded,
+        size: PaymentButtonSize = .regular
     ) {
         self.init(
             fundingSource: PaymentButtonFundingSource.credit,
@@ -59,8 +59,8 @@ public extension PayPalCreditButton {
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
             color: PayPalCreditButton.Color = .darkBlue,
-            edges: PaymentButtonEdges = .softEdges,
-            size: PaymentButtonSize = .collapsed,
+            edges: PaymentButtonEdges = .rounded,
+            size: PaymentButtonSize = .regular,
             _ action: @escaping () -> Void = { }
         ) {
             self.button = PayPalCreditButton(

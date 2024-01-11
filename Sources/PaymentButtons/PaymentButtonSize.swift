@@ -3,107 +3,61 @@ import UIKit
 /// The size category which determines how the button is shown.
 public enum PaymentButtonSize: Int, CustomStringConvertible {
 
-    /// Smallest button size that will show the PayPal monogram only. Use this for screens where space is limited. The recommended size when displaying on screens with limited space `.miniWithWordmark`
+    /// Smallest button size uses the primary mark, vertically stacked. This is the recommended size when displaying on screens with limited space.
     case mini
 
-    /// Smallest button size that will show the primary mark (PayPal monogram and wordmark). This is the recommended size when displaying on screens with limited space.
-    case miniWithWordmark
-
-    /// Collapsed shows the primary mark (PayPal monogram and wordmark) along with the prefix or suffix.
-    case collapsed
-
-    /// Expanded shows the primary mark (PayPal monogram and wordmark along with the prefix or suffix
-    case expanded
-
-    /// Full will show the primary mark (PayPal monogram and wordmark along with the prefix or suffix.
-    case full
+    /// Regular size shows the primary mark along with the prefix or suffix
+    case regular
 
     var font: UIFont {
         switch self {
-        case .mini, .miniWithWordmark, .collapsed:
+        case .mini:
             return PaymentButtonFont.secondaryFont
 
-        case .expanded:
+        case .regular:
             return PaymentButtonFont.primaryFont
-
-        case .full:
-            return PaymentButtonFont.systemFont18
         }
     }
 
     var elementSpacing: CGFloat {
         switch self {
-        case .mini, .miniWithWordmark, .collapsed:
+        case .mini:
             return 4.0
 
-        case .expanded:
+        case .regular:
             return 4.5
-
-        case .full:
-            return 6.0
         }
     }
 
     var elementPadding: NSDirectionalEdgeInsets {
         switch self {
+
         case .mini:
             return NSDirectionalEdgeInsets(
-                top: 14.0,
-                leading: 14.0,
-                bottom: 14.0,
-                trailing: 14.0
-            )
-
-        case .miniWithWordmark:
-            return NSDirectionalEdgeInsets(
-                top: 14.0,
-                leading: 14.0,
-                bottom: 14.0,
-                trailing: 14.0
-            )
-
-        case .collapsed:
-            return NSDirectionalEdgeInsets(
-                top: 15.0,
+                top: 9.0,
                 leading: 20.0,
-                bottom: 15.0,
+                bottom: 9.0,
                 trailing: 20.0
             )
 
-        case .expanded:
+        case .regular:
             return NSDirectionalEdgeInsets(
-                top: 13.0,
-                leading: 24.0,
-                bottom: 13.0,
-                trailing: 24.0
-            )
-
-        case .full:
-            return NSDirectionalEdgeInsets(
-                top: 15.0,
-                leading: 44.0,
-                bottom: 15.0,
-                trailing: 44.0
+                top: 10.0,
+                leading: 80.0,
+                bottom: 10.0,
+                trailing: 80.0
             )
         }
     }
 
     public var description: String {
         switch self {
+
         case .mini:
             return "mini"
 
-        case .miniWithWordmark:
-            return "mini with wordmark"
-
-        case .collapsed:
-            return "collapsed"
-
-        case .expanded:
-            return "expanded"
-
-        case .full:
-            return "full"
+        case .regular:
+            return "regular"
         }
     }
 }

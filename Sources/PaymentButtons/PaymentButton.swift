@@ -114,29 +114,22 @@ public class PaymentButton: UIButton {
     private var imageHeight: CGFloat {
         // For pay later or paypal credit return different image height
         switch size {
-        case .mini:
-            return 20.0
 
-        case .miniWithWordmark:
+        case .mini:
             return 24.0
 
-        case .collapsed:
-            return 15.0
-
-        case .expanded:
+        case .regular:
             return 20.0
 
-        case .full:
-            return 26.0
         }
     }
 
     private var supportsPrefixLabel: Bool {
         switch size {
-        case .mini, .miniWithWordmark, .collapsed:
+        case .mini:
             return false
 
-        case .expanded, .full:
+        case .regular:
             if let label = label {
                 return label.position == .prefix
             }
@@ -147,14 +140,15 @@ public class PaymentButton: UIButton {
     private var supportsSuffixLabel: Bool {
 
         switch size {
-        case .mini, .miniWithWordmark:
+        case .mini:
             return false
 
-        case .collapsed:
-            return fundingSource == .payLater
+//        case .collapsed:
+//            return fundingSource == .payLater
 
-        case .expanded, .full:
+        case .regular:
             if let label = label {
+                fundingSource == .payLater
                 return label.position == .suffix
             }
             return false
@@ -239,9 +233,8 @@ public class PaymentButton: UIButton {
     // MARK: - Override Function
     override public func layoutSubviews() {
         super.layoutSubviews()
-        if size == .mini || size == .miniWithWordmark {
-            let minValue = min(containerView.bounds.width, containerView.bounds.height)
-            containerView.layer.cornerRadius = minValue / 2
+        if size == .mini {
+            containerView.layer.cornerRadius = 4.0
         } else {
             containerView.layer.cornerRadius = edges.cornerRadius(for: containerView)
         }
@@ -255,7 +248,7 @@ public class PaymentButton: UIButton {
 
         // Size to fit
         switch size {
-        case .mini, .miniWithWordmark:
+        case .mini:
             let maxValue = max(image.size.width, image.size.height)
             imageView.bounds = CGRect(
                 x: 0,

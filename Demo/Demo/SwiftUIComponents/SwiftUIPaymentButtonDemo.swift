@@ -56,17 +56,6 @@ struct SwiftUIPaymentButtonDemo: View {
                 }
                 .id(pickerId)
 
-                Picker("Edges", selection: $edgesIndex) {
-                    ForEach(edges.indices, id: \.self) { index in
-                        Text(edges[index])
-                    }
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .onChange(of: edgesIndex) { _ in
-                    selectedEdge = PaymentButtonEdges.allCases[edgesIndex]
-                    buttonId += 1
-                }
-
                 Picker("sizes", selection: $sizesIndex) {
                     ForEach(sizes.indices, id: \.self) { index in
                         Text(sizes[index])
@@ -80,7 +69,18 @@ struct SwiftUIPaymentButtonDemo: View {
 
                 switch selectedFunding {
                 case .payPal:
-                    if selectedSize == .expanded || selectedSize == .full {
+                    if selectedSize == .regular {
+                        Picker("Edges", selection: $edgesIndex) {
+                            ForEach(edges.indices, id: \.self) { index in
+                                Text(edges[index])
+                            }
+                        }
+                        .pickerStyle(SegmentedPickerStyle())
+                        .onChange(of: edgesIndex) { _ in
+                            selectedEdge = PaymentButtonEdges.allCases[edgesIndex]
+                            buttonId += 1
+                        }
+
                         Picker("label", selection: $labelIndex) {
                             ForEach(labels.indices, id: \.self) { index in
                                 Text(labels[index])
