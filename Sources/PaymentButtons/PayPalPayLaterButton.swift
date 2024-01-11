@@ -26,7 +26,7 @@ public final class PayPalPayLaterButton: PaymentButton {
     public convenience init(
         insets: NSDirectionalEdgeInsets? = nil,
         color: Color = .gold,
-        edges: PaymentButtonEdges = .rounded,
+        edges: PaymentButtonEdges = .softEdges,
         size: PaymentButtonSize = .regular,
         _ action: @escaping () -> Void = { }
     ) {
