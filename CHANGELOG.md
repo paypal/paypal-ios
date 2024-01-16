@@ -14,6 +14,16 @@
 * PaymentButtons
   * Add `custom` case for `PaymentButtonEdges`
   * Support VoiceOver by adding button accessibility labels
+  * Add new `PaymentButtonSize` case `.miniWithWordmark`
+  * Add new `PayPalButton.Labels` cases: `.addMoneyWith`, `.bookWith`, `.buyWith`, `.buyNowWith`,
+  `.checkoutWith`, `.continueWith`, `.contributeWith`, `.orderWith`, `.payLaterWith`, `.payWith`,
+  `.reloadWith`, `.rentWith`, `.reserveWith`, `.subscribeWith`, `.supportWith`, `.tipWith`,
+  `.topUpWith`
+* Breaking Changes
+  * PaymentButtons
+    * Remove `PayPalButton.Labels` cases: `.checkout`, `.buyNow`, `.payLater`
+    * Remove `PaymentButtonColor` `.black`, `.silver`, `.blue`, and `.darkBlue`
+    * Add `PaymentButtonColor.gold` for `PayPalCreditButton`
 
 ## 1.1.0 (2023-11-16)
 * PayPalNativePayments
