@@ -6,12 +6,14 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
     @Published var state: CurrentState = .idle
     @Published var intent: Intent = .authorize
-    @Published var createOrderResult: Order?
-    @Published var transactionResult: Order?
+    @Published var order: Order?
     @Published var checkoutResult: PayPalWebCheckoutResult?
 
     var payPalWebCheckoutClient: PayPalWebCheckoutClient?
-    var orderID: String?
+
+    var orderID: String? {
+        order?.id
+    }
 
     let configManager = CoreConfigManager(domain: "PayPalWeb Payments")
 
@@ -46,11 +48,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
                 selectedMerchantIntegration: DemoSettings.merchantIntegration
             )
 
-            self.orderID = order.id
-
-            DispatchQueue.main.async {
-                self.createOrderResult = order
-            }
+            updateOrder(order)
             updateState(.success)
             print("✅ fetched orderID: \(order.id) with status: \(order.status)")
         } catch {
@@ -73,18 +71,23 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
                     let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding)
                     payPalWebCheckoutClient.start(request: payPalRequest)
                 }
+                updateState(.success)
             } catch {
                 print("Error starting PayPalWebCheckoutClient")
-                state = .error(message: error.localizedDescription)
+                updateState(.error(message: error.localizedDescription))
             }
         }
     }
 
-    func getPayPalClient() async throws -> PayPalWebCheckoutClient {
+    func getPayPalClient() async throws -> PayPalWebCheckoutClient? {
         do {
             let config = try await configManager.getCoreConfig()
             let payPalClient = PayPalWebCheckoutClient(config: config)
             return payPalClient
+        } catch {
+            updateState(.error(message: error.localizedDescription))
+            print("❌ failed to create PayPalWebCheckoutClient with error: \(error.localizedDescription)")
+            return nil
         }
     }
 
@@ -94,14 +97,24 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
             if let orderID {
                 let order = try await DemoMerchantAPI.sharedService.completeOrder(intent: intent, orderID: orderID)
-                DispatchQueue.main.async {
-                    self.transactionResult = order
-                }
+                updateOrder(order)
                 updateState(.success)
             }
         } catch {
             updateState(.error(message: error.localizedDescription))
             print("Error with \(intent) order: \(error.localizedDescription)")
+        }
+    }
+
+    func resetState() {
+        updateState(.idle)
+        order = nil
+        checkoutResult = nil
+    }
+
+    private func updateOrder(_ order: Order) {
+        DispatchQueue.main.async {
+            self.order = order
         }
     }
 

@@ -6,20 +6,31 @@ struct PayPalWebPaymentsView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 16) {
-                PayPalWebCreateOrderView(payPalWebViewModel: payPalWebViewModel)
-                if payPalWebViewModel.createOrderResult != nil && payPalWebViewModel.state == .success {
-                    PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .created)
-                    NavigationLink {
+            ScrollViewReader { scrollView in
+                VStack(spacing: 16) {
+                    PayPalWebCreateOrderView(payPalWebViewModel: payPalWebViewModel)
+
+                    if payPalWebViewModel.orderID != nil {
                         PayPalWebButtonsView(payPalWebViewModel: payPalWebViewModel)
-                            .navigationTitle("Checkout with PayPal")
-                    } label: {
-                        Text("Checkout with PayPal")
                     }
-                    .buttonStyle(RoundedBlueButtonStyle())
-                    .padding()
-                } else if case .error = payPalWebViewModel.state {
-                    PayPalWebResultView(payPalWebViewModel: payPalWebViewModel, status: .error)
+
+                    PayPalWebResultView(payPalWebViewModel: payPalWebViewModel)
+
+                    if payPalWebViewModel.checkoutResult != nil {
+                        PayPalWebTransactionView(payPalWebViewModel: payPalWebViewModel)
+                            .padding(.bottom, 20)
+                            .id("bottomView")
+                            .onAppear {
+                                withAnimation {
+                                    scrollView.scrollTo("bottomView")
+                                }
+                            }
+                    }
+                }
+                .onChange(of: payPalWebViewModel.state) { _ in
+                    withAnimation {
+                        scrollView.scrollTo("bottomView")
+                    }
                 }
             }
         }

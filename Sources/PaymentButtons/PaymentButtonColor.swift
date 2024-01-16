@@ -5,19 +5,19 @@ public enum PaymentButtonColor: String {
     /// The gold background and blue wordmark, monogram, and black text.
     case gold
 
-    /// The white background and blue wordmark, monogram, and black text.
+    /// The white background and blue wordmark, blue border, monogram, and black text.
     case white
 
-    /// The black background and monochrome wordmark, monogram, and white text.
+	@available(*, deprecated, message: "Deprecated color. Replace with `white` button color.")
     case black
 
-    /// The silver background and blue wordmark, monogram, and black text.
+	@available(*, deprecated, message: "Deprecated color. Replace with `white` button color.")
     case silver
 
-    /// The blue background and white wordmark, blue monogram, and white text.
+	@available(*, deprecated, message: "Deprecated color. Replace with `white` button color.")
     case blue
 
-    /// The dark blue background with PayPal Credit wordmark and monogram.
+	@available(*, deprecated, message: "Deprecated color. Replace with `white` button color.")
     case darkBlue
 
     var color: UIColor {
