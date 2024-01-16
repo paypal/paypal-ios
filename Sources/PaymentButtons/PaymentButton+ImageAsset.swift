@@ -34,14 +34,8 @@ extension PaymentButton {
         }
 
         switch color {
-        case .gold, .white, .silver:
+        case .gold, .white:
             imageAssetString += "color"
-
-        case .black, .darkBlue:
-            imageAssetString += "monochrome"
-
-        case .blue:
-            imageAssetString += "blue"
         }
         
         return imageAssetString
