@@ -32,7 +32,7 @@ The PayPal SDK uses a client ID for authentication. This can be found in your [P
 
 ## Documentation
 
-Documentation for the project can be found [here](https://developer.paypal.com/docs/checkout/advanced/ios/).
+Documentation for the PayPal iOS SDK can be found [here](https://developer.paypal.com/docs/checkout/advanced/ios/).
 
 ## Demo
 
