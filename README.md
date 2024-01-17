@@ -30,16 +30,9 @@ This SDK supports:
 
 The PayPal SDK uses a client ID for authentication. This can be found in your [PayPal Developer Dashboard](https://developer.paypal.com/api/rest/#link-getstarted).
 
-## Modules
+## Documentation
 
-Each feature module has its own onboarding guide:
-
-- [CardPayments](docs/CardPayments)
-- [PaymentButtons](docs/PaymentButtons)
-- [PayPal Native Payments](docs/PayPalNativePayments)
-- [PayPal Web Payments](docs/PayPalWebPayments)
-
-To accept a certain payment method in your app, you only need to include that payment-specific submodule.
+Documentation for the PayPal iOS SDK can be found [here](https://developer.paypal.com/docs/checkout/advanced/ios/).
 
 ## Demo
 
