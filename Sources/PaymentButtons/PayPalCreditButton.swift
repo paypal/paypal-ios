@@ -22,7 +22,7 @@ public final class PayPalCreditButton: PaymentButton {
     ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
     ///   - color: Color of the button. Default to dark blue if not provided.
     ///   - edges: Edges of the button. Default to softEdges if not provided.
-    ///   - size: Size of the button. Default to collapsed if not provided.
+    ///   - size: Size of the button. Default to regular if not provided.
     public convenience init(
         insets: NSDirectionalEdgeInsets? = nil,
         color: Color = .darkBlue,
@@ -55,7 +55,7 @@ public extension PayPalCreditButton {
         ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
         ///   - color: Color of the button. Default to dark blue if not provided.
         ///   - edges: Edges of the button. Default to softEdges if not provided.
-        ///   - size: Size of the button. Default to collapsed if not provided.
+        ///   - size: Size of the button. Default to regular if not provided.
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
             color: PayPalCreditButton.Color = .darkBlue,

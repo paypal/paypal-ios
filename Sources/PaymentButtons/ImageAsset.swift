@@ -6,7 +6,7 @@ enum ImageAsset {
         switch button.fundingSource {
         case .payPal:
             imageAssetString = "paypal"
-            
+
         case .payLater:
             imageAssetString = "paypal"
             
