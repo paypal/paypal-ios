@@ -14,6 +14,11 @@
 * PaymentButtons
   * Add `custom` case for `PaymentButtonEdges`
   * Support VoiceOver by adding button accessibility labels
+* CardPayments
+  * Add `liabilityShift` property to `CardResult`
+  * Add `CardClientError.threeDSVerificationError` for invalid verification
+  * Add `CardClientError.missingDeeplinkURLError` for missing deeplink URL
+  * Add `CardClientError.malformedDeeplinkURLError` for malformed or invalid deeplink
 
 ## 1.1.0 (2023-11-16)
 * PayPalNativePayments
