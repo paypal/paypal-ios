@@ -1,10 +1,8 @@
 import SwiftUI
 
-struct CardVaultView: View {
+struct PayPalVaultView: View {
 
-    @StateObject var cardVaultViewModel = CardVaultViewModel()
-
-    // MARK: Views
+    @StateObject var paypalVaultViewModel = PayPalVaultViewModel()
 
     var body: some View {
         ScrollView {
@@ -12,27 +10,33 @@ struct CardVaultView: View {
                 VStack(spacing: 16) {
                     CreateSetupTokenView(
                         selectedMerchantIntegration: DemoSettings.merchantIntegration,
-                        vaultViewModel: cardVaultViewModel,
-                        paymentSourceType: PaymentSourceType.card
+                        vaultViewModel: paypalVaultViewModel,
+                        paymentSourceType: PaymentSourceType.paypal(usageType: "MERCHANT")
                     )
-                    SetupTokenResultView(vaultViewModel: cardVaultViewModel)
-                    if let setupToken = cardVaultViewModel.state.setupToken {
-                        UpdateSetupTokenView(cardVaultViewModel: cardVaultViewModel, setupToken: setupToken.id)
+                    SetupTokenResultView(vaultViewModel: paypalVaultViewModel)
+                    if let url = paypalVaultViewModel.state.setupToken?.paypalURL {
+                        Button("Vault PayPal") {
+                            Task {
+                                await paypalVaultViewModel.vault(url: url)
+                            }
+                        }
+                        .buttonStyle(RoundedBlueButtonStyle())
+                        .padding()
                     }
-                    UpdateSetupTokenResultView(cardVaultViewModel: cardVaultViewModel)
-                    if let updateSetupToken = cardVaultViewModel.state.updateSetupToken {
+                    PayPalVaultResultView(viewModel: paypalVaultViewModel)
+                    if let paypalVaultResult = paypalVaultViewModel.state.paypalVaultToken {
                         CreatePaymentTokenView(
-                            vaultViewModel: cardVaultViewModel,
+                            vaultViewModel: paypalVaultViewModel,
                             selectedMerchantIntegration: DemoSettings.merchantIntegration,
-                            setupToken: updateSetupToken.id
+                            setupToken: paypalVaultResult.tokenID
                         )
                     }
-                    PaymentTokenResultView(vaultViewModel: cardVaultViewModel)
-                    switch cardVaultViewModel.state.paymentTokenResponse {
+                    PaymentTokenResultView(vaultViewModel: paypalVaultViewModel)
+                    switch paypalVaultViewModel.state.paymentTokenResponse {
                     case .loaded, .error:
                         VStack {
                             Button("Reset") {
-                                cardVaultViewModel.resetState()
+                                paypalVaultViewModel.resetState()
                             }
                             .foregroundColor(.black)
                             .padding()
@@ -48,7 +52,7 @@ struct CardVaultView: View {
                         .id("bottomView")
                         .frame(maxWidth: .infinity, alignment: .top)
                         .padding(.horizontal, 10)
-                        .onChange(of: cardVaultViewModel.state) { _ in
+                        .onChange(of: paypalVaultViewModel.state) { _ in
                             withAnimation {
                                 scrollView.scrollTo("bottomView")
                             }
@@ -56,12 +60,5 @@ struct CardVaultView: View {
                 }
             }
         }
-    }
-}
-
-struct CardVault_Previews: PreviewProvider {
-
-    static var previews: some View {
-        CardVaultView()
     }
 }
