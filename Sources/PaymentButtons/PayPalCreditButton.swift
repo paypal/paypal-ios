@@ -8,6 +8,7 @@ public final class PayPalCreditButton: PaymentButton {
     Available colors for PayPalCreditButton.
     */
     public enum Color: String {
+        case gold
         case white
         case black
         case darkBlue

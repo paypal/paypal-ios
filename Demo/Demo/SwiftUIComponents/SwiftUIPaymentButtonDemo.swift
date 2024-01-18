@@ -3,8 +3,8 @@ import PaymentButtons
 
 struct SwiftUIPaymentButtonDemo: View {
 
-    @State private var pickerId = 0
-    @State private var buttonId = 0
+    @State private var pickerID = 0
+    @State private var buttonID = 0
 
     @State private var fundingIndex = 0
     private var fundingSources = PaymentButtonFundingSource.allCasesAsString()
@@ -16,6 +16,7 @@ struct SwiftUIPaymentButtonDemo: View {
     @State private var edgesIndex = 0
     private var edges = PaymentButtonEdges.allCasesAsString()
     @State private var selectedEdge = PaymentButtonEdges.allCases[0]
+    @State private var customEdge: Int = 10
 
     @State private var sizesIndex = 1
     private var sizes = PaymentButtonSize.allCasesAsString()
@@ -41,8 +42,8 @@ struct SwiftUIPaymentButtonDemo: View {
                     selectedFunding = PaymentButtonFundingSource.allCases[fundingIndex]
                     colors = getColorFunding(with: selectedFunding)
                     colorsIndex = 0
-                    pickerId += 1 // Workaround to change ID of picker. ID is updated to force refresh, https://developer.apple.com/forums/thread/127560
-                    buttonId += 1
+                    pickerID += 1 // Workaround to change ID of picker. ID is updated to force refresh, https://developer.apple.com/forums/thread/127560
+                    buttonID += 1
                 }
 
                 Picker("Colors", selection: $colorsIndex) {
@@ -52,10 +53,26 @@ struct SwiftUIPaymentButtonDemo: View {
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .onChange(of: colorsIndex) { _ in
-                    buttonId += 1
+                    buttonID += 1
                 }
-                .id(pickerId)
+                .id(pickerID)
 
+                Picker("Edges", selection: $edgesIndex) {
+                    ForEach(edges.indices, id: \.self) { index in
+                        Text(edges[index])
+                    }
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .onChange(of: edgesIndex) { _ in
+                    selectedEdge = PaymentButtonEdges.allCases[edgesIndex]
+                    buttonID += 1
+                }
+                Stepper("Custom Corner Radius: \(customEdge)", value: $customEdge, in: 0...100).onChange(of: customEdge) { _ in
+                    if selectedEdge.description == "custom" {
+                        selectedEdge = PaymentButtonEdges.custom(CGFloat(customEdge))
+                        buttonID += 1
+                    }
+                }
                 Picker("sizes", selection: $sizesIndex) {
                     ForEach(sizes.indices, id: \.self) { index in
                         Text(sizes[index])
@@ -64,7 +81,7 @@ struct SwiftUIPaymentButtonDemo: View {
                 .pickerStyle(SegmentedPickerStyle())
                 .onChange(of: sizesIndex) { _ in
                     selectedSize = PaymentButtonSize.allCases[sizesIndex]
-                    buttonId += 1
+                    buttonID += 1
                 }
 
                 switch selectedFunding {
@@ -89,7 +106,7 @@ struct SwiftUIPaymentButtonDemo: View {
                         .pickerStyle(WheelPickerStyle())
                         .onChange(of: labelIndex) { _ in
                             selectedLabel = PayPalButton.Label.allCases[labelIndex]
-                            buttonId += 1
+                            buttonID += 1
                         }
                     }
                     PayPalButton.Representable(
@@ -98,7 +115,7 @@ struct SwiftUIPaymentButtonDemo: View {
                         size: selectedSize,
                         label: selectedLabel
                     )
-                    .id(buttonId)
+                    .id(buttonID)
                     .frame(maxWidth: .infinity)
 
                 case .payLater:
@@ -107,7 +124,7 @@ struct SwiftUIPaymentButtonDemo: View {
                         edges: selectedEdge,
                         size: selectedSize
                     )
-                    .id(buttonId)
+                    .id(buttonID)
 
                 case .credit:
                     PayPalCreditButton.Representable(
@@ -115,7 +132,7 @@ struct SwiftUIPaymentButtonDemo: View {
                         edges: selectedEdge,
                         size: selectedSize
                     )
-                    .id(buttonId)
+                    .id(buttonID)
                 }
             }
             .padding()

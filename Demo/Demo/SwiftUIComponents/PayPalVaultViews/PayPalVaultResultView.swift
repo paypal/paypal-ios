@@ -1,33 +1,34 @@
 import SwiftUI
+import PayPalWebPayments
 
-struct SetupTokenResultView: View {
+struct PayPalVaultResultView: View {
 
-    @ObservedObject var cardVaultViewModel: CardVaultViewModel
+    @ObservedObject var viewModel: PayPalVaultViewModel
 
     var body: some View {
-        switch cardVaultViewModel.state.setupTokenResponse {
+        switch viewModel.state.paypalVaultTokenResponse {
         case .idle, .loading:
             EmptyView()
-        case .loaded(let setupTokenResponse):
-            getSuccessView(setupTokenResponse: setupTokenResponse)
+        case .loaded(let vaultResult):
+            getSuccessView(result: vaultResult)
         case .error(let errorMessage):
             ErrorView(errorMessage: errorMessage)
         }
     }
 
-    func getSuccessView(setupTokenResponse: SetUpTokenResponse) -> some View {
+    func getSuccessView(result: PayPalVaultResult) -> some View {
         VStack(spacing: 16) {
             HStack {
-                Text("Setup Token")
+                Text("Vault Success")
                     .font(.system(size: 20))
                 Spacer()
             }
             LeadingText("ID", weight: .bold)
-            LeadingText("\(setupTokenResponse.id)")
-            LeadingText("Customer ID", weight: .bold)
-            LeadingText("\(setupTokenResponse.customer?.id ?? "")")
+            LeadingText("\(result.tokenID)")
             LeadingText("Status", weight: .bold)
-            LeadingText("\(setupTokenResponse.status)")
+            LeadingText("APPROVED")
+            LeadingText("Approval Session ID", weight: .bold)
+            LeadingText("\(result.approvalSessionID)")
         }
         .frame(maxWidth: .infinity)
         .padding()

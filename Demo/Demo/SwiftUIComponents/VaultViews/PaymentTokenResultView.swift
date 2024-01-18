@@ -2,10 +2,10 @@ import SwiftUI
 
 struct PaymentTokenResultView: View {
 
-    @ObservedObject var cardVaultViewModel: CardVaultViewModel
+    @ObservedObject var vaultViewModel: VaultViewModel
 
     var body: some View {
-        switch cardVaultViewModel.state.paymentTokenResponse {
+        switch vaultViewModel.state.paymentTokenResponse {
         case .idle, .loading:
             EmptyView()
         case .loaded(let paymentTokenResponse):
@@ -26,10 +26,15 @@ struct PaymentTokenResultView: View {
             LeadingText("\(paymentTokenResponse.id)")
             LeadingText("Customer ID", weight: .bold)
             LeadingText("\(paymentTokenResponse.customer.id)")
-            LeadingText("Card Brand", weight: .bold)
-            LeadingText("\(paymentTokenResponse.paymentSource.card.brand ?? "")")
-            LeadingText("Card Last 4", weight: .bold)
-            LeadingText("\(paymentTokenResponse.paymentSource.card.lastDigits)")
+            if let card = paymentTokenResponse.paymentSource.card {
+                LeadingText("Card Brand", weight: .bold)
+                LeadingText("\(card.brand ?? "")")
+                LeadingText("Card Last 4", weight: .bold)
+                LeadingText("\(card.lastDigits)")
+            } else if let paypal = paymentTokenResponse.paymentSource.paypal {
+                LeadingText("Email", weight: .bold)
+                LeadingText("\(paypal.emailAddress)")
+            }
         }
         .frame(maxWidth: .infinity)
         .padding()

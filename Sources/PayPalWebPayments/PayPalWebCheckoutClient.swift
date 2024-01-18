@@ -6,6 +6,7 @@ import CorePayments
 
 public class PayPalWebCheckoutClient: NSObject {
 
+    public weak var vaultDelegate: PayPalVaultDelegate?
     public weak var delegate: PayPalWebCheckoutDelegate?
     let config: CoreConfig
     private let webAuthenticationSession: WebAuthenticationSession
@@ -96,6 +97,51 @@ public class PayPalWebCheckoutClient: NSObject {
         return checkoutURLComponents?.url
     }
 
+    /// Starts a web session for vaulting PayPal Payment Method
+    /// After setupToken successfullly attaches a payment method, you will need to create a payment token with the setup token
+    /// - Parameters:
+    ///   - url: URL created from string value from setupToken API
+    /// - Returns: PayPalVaultResult
+    /// - Throws: PayPalSDK error if vaulting could not complete successfully
+    public func vault(url: URL) {
+        webAuthenticationSession.start(
+            url: url,
+            context: self,
+            sessionDidDisplay: { [weak self] didDisplay in
+                if didDisplay {
+                    self?.analyticsService?.sendEvent("paypal-vault:browser-presentation:succeeded")
+                } else {
+                    self?.analyticsService?.sendEvent("paypal-vault:browser-presentation:failed")
+                }
+            },
+            sessionDidComplete: { url, error in
+                if let error = error {
+                    switch error {
+                    case ASWebAuthenticationSessionError.canceledLogin:
+                        self.notifyVaultCancellation()
+                        return
+                    default:
+                        self.notifyVaultFailure(with: PayPalWebCheckoutClientError.webSessionError(error))
+                        return
+                    }
+                }
+
+                if let url = url {
+                    guard let tokenID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_token_id"),
+                    let approvalSessionID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_session_id"),
+                        !tokenID.isEmpty, !approvalSessionID.isEmpty
+                    else {
+                        self.notifyVaultFailure(with: PayPalWebCheckoutClientError.payPalVaultResponseError)
+                        return
+                    }
+
+                    let paypalVaultResult = PayPalVaultResult(tokenID: tokenID, approvalSessionID: approvalSessionID)
+                    self.notifyVaultSuccess(for: paypalVaultResult)
+                }
+            }
+        )
+    }
+
     private func getQueryStringParameter(url: String, param: String) -> String? {
         guard let url = URLComponents(string: url) else { return nil }
         return url.queryItems?.first { $0.name == param }?.value
@@ -115,6 +161,19 @@ public class PayPalWebCheckoutClient: NSObject {
     private func notifyCancellation() {
         analyticsService?.sendEvent("paypal-web-payments:browser-login:canceled")
         delegate?.payPalDidCancel(self)
+    }
+
+    private func notifyVaultSuccess(for result: PayPalVaultResult) {
+        vaultDelegate?.paypal(self, didFinishWithVaultResult: result)
+    }
+
+    private func notifyVaultFailure(with error: CoreSDKError) {
+        analyticsService?.sendEvent("paypal-web-payments:failed")
+        vaultDelegate?.paypal(self, didFinishWithVaultError: error)
+    }
+
+    private func notifyVaultCancellation() {
+        vaultDelegate?.paypalDidCancel(self)
     }
 }
 
