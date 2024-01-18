@@ -67,4 +67,12 @@ class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
             self.state.updateSetupToken = nil
         }
     }
+
+    func cardThreeDSecureWillLaunch(_ cardClient: CardPayments.CardClient) {
+        print("About to launch 3DS")
+    }
+
+    func cardThreeDSecureDidFinish(_ cardClient: CardPayments.CardClient) {
+        print("Finished 3DS")
+    }
 }

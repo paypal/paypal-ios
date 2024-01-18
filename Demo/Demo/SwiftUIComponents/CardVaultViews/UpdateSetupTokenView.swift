@@ -6,8 +6,10 @@ struct UpdateSetupTokenView: View {
 
     let setupToken: String
     let cardSections: [CardSection] = [
-        CardSection(title: "Successful Step Up Authentication - Mastercard", numbers: ["5131 0160 3965 2943"]),
-        CardSection(title: "Successful Step Up Authentication - Visa", numbers: ["4973 73005 8309 094"]),
+        // source: https://developer.paypal.com/api/rest/sandbox/card-testing/#link-testcardnumbers
+        CardSection(title: "Successful Step Up Authentication, LiabilityShift NO  - American Express", numbers: ["371449635398431"]),
+        // source: https://developer.paypal.com/api/rest/sandbox/card-testing/#link-testcardnumbers
+        CardSection(title: "Successful Step Up Authentication - Visa", numbers: ["4005 5192 0000 0004"]),
         CardSection(title: "Failed Step Up Authentication - Matercard", numbers: ["5131 0160 7884 5457"]),
         CardSection(title: "Frictionless - LiabilityShift Possible", numbers: ["4005 5192 0000 0004"]),
         CardSection(title: "Frictionless - LiabilityShift NO", numbers: ["4020 0278 5185 3235"]),

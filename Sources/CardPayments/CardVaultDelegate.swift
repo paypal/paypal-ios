@@ -22,4 +22,14 @@ public protocol CardVaultDelegate: AnyObject {
     /// - Parameters:
     ///   - client: the CardClient associated with delegate
     func cardVaultDidCancel(_ cardClient: CardClient)
+
+    /// Notify that the 3DS challenge will be launched
+    /// - Parameters:
+    ///   - client: the CardClient associated with delegate
+    func cardThreeDSecureWillLaunch(_ cardClient: CardClient)
+
+    /// Notify that the 3DS challenge has finished
+    /// - Parameters:
+    ///   - client: the CardClient associated with delegate
+    func cardThreeDSecureDidFinish(_ cardClient: CardClient)
 }

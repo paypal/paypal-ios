@@ -37,18 +37,21 @@ public class CardClient: NSObject {
         self.vaultAPI = vaultAPI
         self.webAuthenticationSession = webAuthenticationSession
     }
-    
-    @_documentation(visibility: private)
+
     public func vault(_ vaultRequest: CardVaultRequest) {
         Task {
             do {
                 let result = try await vaultAPI.updateSetupToken(cardVaultRequest: vaultRequest).updateVaultSetupToken
-                
-                // TODO: handle 3DS contingency with helios link & add unit tests
-                    if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
-                    let url = link.href
+
+                if result.status == "PAYER_ACTION_REQUIRED",
+                let url = result.links.first(where: { $0.rel == "approve" })?.href {
+                    guard url.contains("helios"),
+                        let url = URL(string: url) else {
+                        self.notifyFailure(with: CardClientError.threeDSecureURLError)
+                        return
+                    }
                     print("3DS url \(url)")
-                        startVaultThreeDSecureChallenge(url: url, setupTokenID: vaultRequest.setupTokenID)
+                    startVaultThreeDSecureChallenge(url: url, setupTokenID: vaultRequest.setupTokenID)
                 } else {
                     let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status, deepLinkURL: nil)
                     notifyVaultSuccess(for: vaultResult)
@@ -135,19 +138,14 @@ public class CardClient: NSObject {
     }
 
     private func startVaultThreeDSecureChallenge(
-        url: String,
+        url: URL,
         setupTokenID: String
     ) {
-        guard let threeDSURL = URL(string: url) else {
-            self.notifyVaultFailure(with: CardClientError.threeDSecureURLError)
-            return
-        }
 
-        // replace with same in VaultDelegate
-        delegate?.cardThreeDSecureWillLaunch(self)
+        vaultDelegate?.cardThreeDSecureWillLaunch(self)
 
         webAuthenticationSession.start(
-            url: threeDSURL,
+            url: url,
             context: self,
             sessionDidDisplay: { [weak self] didDisplay in
                 if didDisplay {
@@ -158,8 +156,7 @@ public class CardClient: NSObject {
                 }
             },
             sessionDidComplete: { url, error in
-                // replace with same in VaultDelegate
-                self.delegate?.cardThreeDSecureDidFinish(self)
+                self.vaultDelegate?.cardThreeDSecureDidFinish(self)
                 if let error = error {
                     switch error {
                     case ASWebAuthenticationSessionError.canceledLogin:
