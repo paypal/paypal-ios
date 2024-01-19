@@ -19,7 +19,7 @@ public final class PayPalCreditButton: PaymentButton {
     /// Initialize a PayPalCreditButton
     /// - Parameters:
     ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
-    ///   - color: Color of the button. Default to dark blue if not provided.
+    ///   - color: Color of the button. Default to gold if not provided.
     ///   - edges: Edges of the button. Default to softEdges if not provided.
     ///   - size: Size of the button. Default to collapsed if not provided.
     public convenience init(
@@ -52,7 +52,7 @@ public extension PayPalCreditButton {
         /// Initialize a PayPalCreditButton
         /// - Parameters:
         ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
-        ///   - color: Color of the button. Default to dark blue if not provided.
+        ///   - color: Color of the button. Default to gold if not provided.
         ///   - edges: Edges of the button. Default to softEdges if not provided.
         ///   - size: Size of the button. Default to collapsed if not provided.
         public init(
