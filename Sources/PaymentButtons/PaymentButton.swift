@@ -158,14 +158,11 @@ public class PaymentButton: UIButton {
         }
     }
 
-//    private static var registerFonts: () = {
-//        UIFont.register(path:"PayPal/Resources/Fonts", fileName: "PayPalOpen-Regular", type: ".otf")
-//    }()
-
     // MARK: - Configuration
 
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
+        UIFont.loadFonts()
         configureStackView()
         configureBackgroundColor()
         configurePrefix()
@@ -173,7 +170,6 @@ public class PaymentButton: UIButton {
         configureSubviews()
         configureConstraints()
         configureAccessibilityLabel()
-        UIFont.loadFonts()
     }
 
     private func configureStackView() {

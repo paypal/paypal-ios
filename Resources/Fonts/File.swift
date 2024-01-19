@@ -7,34 +7,21 @@
 
 import UIKit
 
-enum RegisterFontError: Error {
-    case invalidFontFile
-    case fontPathNotFound
-    case initFontError
-    case registerFailed
-}
-
-class GetBundle {}
-
 extension UIFont {
-    static func register(path: String, fileNameString: String, type: String) throws {
-        let frameworkBundle = Bundle(for: GetBundle.self)
-
-        guard let resourceBundleURL = frameworkBundle.path(forResource: path + "/" + fileNameString, ofType: type) else {
-            throw RegisterFontError.fontPathNotFound
-        }
-
-        guard let fontData = NSData(contentsOfFile: resourceBundleURL),
-              let dataProvider = CGDataProvider.init(data: fontData) else {
-            throw RegisterFontError.invalidFontFile
-        }
-
-        guard let fontRef = CGFont.init(dataProvider) else {
-            throw RegisterFontError.initFontError
-        }
+    private static func registerFont(withName name: String, fileExtension: String) {
+        let frameworkBundle = Bundle(for: PaymentButton.self)
+        let pathForResourceString = frameworkBundle.path(forResource: name, ofType: fileExtension)
+        let fontData = NSData(contentsOfFile: pathForResourceString!)
+        let dataProvider = CGDataProvider(data: fontData!)
+        let fontRef = CGFont(dataProvider!)
         var errorRef: Unmanaged<CFError>? = nil
 
-        guard CTFontManagerRegisterGraphicsFont(fontRef, &errorRef) else {
-            throw RegisterFontError.registerFailed
+        if (CTFontManagerRegisterGraphicsFont(fontRef!, &errorRef) == false) {
+            print("Error registering font")
         }
-    }}
+    }
+
+    public static func loadFonts() {
+        registerFont(withName: "PayPalOpen-Regular", fileExtension: "otf")
+    }
+}
