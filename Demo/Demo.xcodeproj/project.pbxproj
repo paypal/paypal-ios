@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		047AF8642B51F3020011303B /* PayPalOpen-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 047AF8632B51F3020011303B /* PayPalOpen-Regular.otf */; };
 		3B20273D2A89E3F00007907E /* CreateSetupTokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20273C2A89E3F00007907E /* CreateSetupTokenView.swift */; };
 		3B20273F2A89F24E0007907E /* CardVaultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20273E2A89F24E0007907E /* CardVaultViewModel.swift */; };
 		3B2027412A8A72050007907E /* VaultState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2027402A8A72050007907E /* VaultState.swift */; };
@@ -129,7 +128,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		047AF8632B51F3020011303B /* PayPalOpen-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PayPalOpen-Regular.otf"; sourceTree = "<group>"; };
 		3B20273C2A89E3F00007907E /* CreateSetupTokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSetupTokenView.swift; sourceTree = "<group>"; };
 		3B20273E2A89F24E0007907E /* CardVaultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultViewModel.swift; sourceTree = "<group>"; };
 		3B2027402A8A72050007907E /* VaultState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultState.swift; sourceTree = "<group>"; };
@@ -246,22 +244,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		047AF8612B51F3020011303B /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				047AF8622B51F3020011303B /* Fonts */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		047AF8622B51F3020011303B /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				047AF8632B51F3020011303B /* PayPalOpen-Regular.otf */,
-			);
-			path = Fonts;
-			sourceTree = "<group>";
-		};
 		3B2501052B2679F000903EAB /* VaultViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -385,7 +367,6 @@
 		806F1E3726B85367007A60E6 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
-				047AF8612B51F3020011303B /* Resources */,
 				53B9E8E828C93B2B00719239 /* Helpers */,
 				806F1E4126B85369007A60E6 /* Assets.xcassets */,
 				BED0422F2710833100C80954 /* Card */,
@@ -598,7 +579,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				80921C1D2710A0720040D76F /* LaunchScreen.storyboard in Resources */,
-				047AF8642B51F3020011303B /* PayPalOpen-Regular.otf in Resources */,
 				BE1766D926FA7BC8007EF438 /* Settings.bundle in Resources */,
 				806F1E4226B85369007A60E6 /* Assets.xcassets in Resources */,
 			);
