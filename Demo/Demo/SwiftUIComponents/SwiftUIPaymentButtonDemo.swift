@@ -95,7 +95,7 @@ struct SwiftUIPaymentButtonDemo: View {
                         .pickerStyle(SegmentedPickerStyle())
                         .onChange(of: edgesIndex) { _ in
                             selectedEdge = PaymentButtonEdges.allCases[edgesIndex]
-                            buttonId += 1
+                            buttonID += 1
                         }
 
                         Picker("label", selection: $labelIndex) {

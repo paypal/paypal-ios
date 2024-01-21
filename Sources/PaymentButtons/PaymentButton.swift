@@ -112,7 +112,6 @@ public class PaymentButton: UIButton {
     public private(set) var label: PaymentButtonLabel?
 
     private var imageHeight: CGFloat {
-        // For pay later or paypal credit return different image height
         switch size {
 
         case .mini:
