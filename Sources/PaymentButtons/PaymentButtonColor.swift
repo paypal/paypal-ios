@@ -11,7 +11,7 @@ public enum PaymentButtonColor: String {
     var color: UIColor {
         switch self {
         case .gold:
-            return UIColor(hexString: "#FFC439")
+            return UIColor(hexString: "#FFD140")
 
         case .white:
             return UIColor(hexString: "#FFFFFF")
