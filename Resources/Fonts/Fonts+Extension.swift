@@ -21,7 +21,7 @@ extension UIFont {
         }
     }
 
-    public static func loadFonts() {
+    public static func registerFont() {
         registerFont(withName: "PayPalOpen-Regular", fileExtension: "otf")
     }
 }

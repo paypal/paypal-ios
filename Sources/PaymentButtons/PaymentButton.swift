@@ -162,7 +162,7 @@ public class PaymentButton: UIButton {
 
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
-        UIFont.loadFonts()
+        UIFont.registerFont()
         configureStackView()
         configureBackgroundColor()
         configurePrefix()
