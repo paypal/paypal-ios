@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		047AF8602B4F47BD0011303B /* PayPalOpen-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 047AF85F2B4F47BD0011303B /* PayPalOpen-Regular.otf */; };
+		045386092B5CB9AA0057AFDA /* PayPalOpen-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 045386082B5CB9AA0057AFDA /* PayPalOpen-Regular.otf */; };
 		047AF8662B58BA030011303B /* Fonts+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047AF8652B58BA030011303B /* Fonts+Extension.swift */; };
 		047AF8672B58BA030011303B /* Fonts+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047AF8652B58BA030011303B /* Fonts+Extension.swift */; };
 		0647E70E2714962800F8E517 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0647E70D2714962800F8E517 /* Address.swift */; };
@@ -205,7 +205,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		047AF85F2B4F47BD0011303B /* PayPalOpen-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PayPalOpen-Regular.otf"; sourceTree = "<group>"; };
+		045386082B5CB9AA0057AFDA /* PayPalOpen-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PayPalOpen-Regular.otf"; sourceTree = "<group>"; };
 		047AF8652B58BA030011303B /* Fonts+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Fonts+Extension.swift"; sourceTree = "<group>"; };
 		0647E70D2714962800F8E517 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		065A4DBB26FCD8080007014A /* CoreSDKError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreSDKError.swift; sourceTree = "<group>"; };
@@ -471,6 +471,7 @@
 		047AF85D2B4F47BD0011303B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				047AF8652B58BA030011303B /* Fonts+Extension.swift */,
 				047AF85E2B4F47BD0011303B /* Fonts */,
 			);
 			path = Resources;
@@ -479,8 +480,7 @@
 		047AF85E2B4F47BD0011303B /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				047AF85F2B4F47BD0011303B /* PayPalOpen-Regular.otf */,
-				047AF8652B58BA030011303B /* Fonts+Extension.swift */,
+				045386082B5CB9AA0057AFDA /* PayPalOpen-Regular.otf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -1278,7 +1278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCFAC70527ED042500C3AF00 /* Assets.xcassets in Resources */,
-				047AF8602B4F47BD0011303B /* PayPalOpen-Regular.otf in Resources */,
+				045386092B5CB9AA0057AFDA /* PayPalOpen-Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
