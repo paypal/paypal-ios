@@ -19,7 +19,6 @@ extension UIFont {
         print("Font file path:", pathForResourceString)
 
         var errorRef: Unmanaged<CFError>? = nil
-        guard let fontRef = CGFont(dataProvider) else { return}
 
         if (CTFontManagerRegisterGraphicsFont(fontRef, &errorRef) == false) {
             print("Error registering font")
