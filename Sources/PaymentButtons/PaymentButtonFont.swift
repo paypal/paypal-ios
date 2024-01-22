@@ -7,8 +7,11 @@ enum PaymentButtonFont {
 }
 
 extension UIFont {
+
     private static func registerFont(withName name: String, fileExtension: String) {
+        var errorRef: Unmanaged<CFError>?
         let frameworkBundle = Bundle(for: PaymentButton.self)
+
         guard
             let pathForResourceString = frameworkBundle.path(forResource: name, ofType: fileExtension),
             let fontData = NSData(contentsOfFile: pathForResourceString),
@@ -16,9 +19,7 @@ extension UIFont {
             let fontRef = CGFont(dataProvider) else { return }
         print("Font file path:", pathForResourceString)
 
-        var errorRef: Unmanaged<CFError>? = nil
-
-        if (CTFontManagerRegisterGraphicsFont(fontRef, &errorRef) == false) {
+        if CTFontManagerRegisterGraphicsFont(fontRef, &errorRef) == false {
             print("Error registering font")
         }
     }
