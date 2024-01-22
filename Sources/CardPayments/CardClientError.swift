@@ -28,6 +28,15 @@ enum CardClientError {
 
         /// 6. GraphQLClient is unexpectedly nil
         case nilGraphQLClientError
+        
+        /// 7. An error from 3DS verification
+        case threeDSVerificationError
+        
+        /// 8. Missing Deeplink URL from 3DS
+        case missingDeeplinkURLError
+        
+        /// 9. Malformed Deeplink URL from 3DS
+        case malformedDeeplinkURLError
     }
 
     static let unknownError = CoreSDKError(
@@ -72,5 +81,23 @@ enum CardClientError {
         code: Code.nilGraphQLClientError.rawValue,
         domain: domain,
         errorDescription: "GraphQLClient is unexpectedly nil."
+    )
+    
+    static let threeDSVerificationError = CoreSDKError(
+        code: Code.threeDSVerificationError.rawValue,
+        domain: domain,
+        errorDescription: "3DS Verification is returning an error."
+    )
+    
+    static let missingDeeplinkURLError = CoreSDKError(
+        code: Code.missingDeeplinkURLError.rawValue,
+        domain: domain,
+        errorDescription: "Missing deeplink URL from 3DS."
+    )
+    
+    static let malformedDeeplinkURLError = CoreSDKError(
+        code: Code.malformedDeeplinkURLError.rawValue,
+        domain: domain,
+        errorDescription: "Malformed deeplink URL."
     )
 }

@@ -5,6 +5,7 @@ import AuthenticationServices
 @testable import CardPayments
 @testable import TestShared
 
+// swiftlint:disable type_body_length
 class CardClient_Tests: XCTestCase {
 
     // MARK: - Helper Properties
@@ -34,6 +35,7 @@ class CardClient_Tests: XCTestCase {
         cardRequest = CardRequest(orderID: "testOrderId", card: card)
         
         mockCheckoutOrdersAPI = MockCheckoutOrdersAPI(coreConfig: config, networkingClient: mockNetworkingClient)
+        
         mockVaultAPI = MockVaultPaymentTokensAPI(coreConfig: config, networkingClient: mockNetworkingClient)
         
         sut = CardClient(
@@ -206,11 +208,14 @@ class CardClient_Tests: XCTestCase {
     func testApproveOrder_withThreeDSecure_browserSwitchLaunches_getOrderReturnsSuccess() {
         mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withValid3DSURL
 
+        mockWebAuthSession.cannedResponseURL = .init(string: "sdk.ios.paypal://card/success?state=undefined&code=undefined&liability_shift=POSSIBLE")
+        
         let expectation = expectation(description: "approveOrder() completed")
 
         let mockCardDelegate = MockCardDelegate(
             success: {_, result in
                 XCTAssertEqual(result.orderID, "testOrderId")
+                XCTAssertEqual(result.liabilityShift, "POSSIBLE")
                 expectation.fulfill()
             },
             error: { _, error in
@@ -287,6 +292,93 @@ class CardClient_Tests: XCTestCase {
             },
             threeDSWillLaunch: { _ in XCTAssert(true) },
             threeDSLaunched: { _ in XCTAssert(true) })
+
+        sut.delegate = mockCardDelegate
+        sut.approveOrder(request: cardRequest)
+
+        waitForExpectations(timeout: 10)
+    }
+    
+    func testApproveOrder_withThreeDSecure_returns3DSVerificationError() {
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withValid3DSURL
+
+        mockWebAuthSession.cannedResponseURL = .init(string: "sdk.ios.paypal://card/success?error=error&error_description=error&liability_shift=NO")
+
+        let expectation = expectation(description: "approveOrder() completed")
+
+        let mockCardDelegate = MockCardDelegate(
+            success: {_, _ in
+                XCTFail("Invoked success() callback. Should invoke error().")
+                expectation.fulfill()
+            },
+            error: { _, error in
+                XCTAssertEqual(error.domain, CardClientError.domain)
+                XCTAssertEqual(error.code, CardClientError.Code.threeDSVerificationError.rawValue)
+                XCTAssertEqual(error.errorDescription, "3DS Verification is returning an error.")
+                expectation.fulfill()
+            },
+            cancel: { _ in
+                XCTFail("Invoked cancel() callback. Should invoke error().")
+                expectation.fulfill()
+            },
+            threeDSWillLaunch: { _ in XCTAssert(true) },
+            threeDSLaunched: { _ in XCTAssert(true) })
+
+        sut.delegate = mockCardDelegate
+        sut.approveOrder(request: cardRequest)
+
+        waitForExpectations(timeout: 10)
+    }
+    
+    func testApproveOrder_withThreeDSecure_returnsMissingDeeplinkError() {
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withValid3DSURL
+        
+        mockWebAuthSession.cannedResponseURL = nil
+        
+        let expectation = expectation(description: "approveOrder() completed")
+
+        let mockCardDelegate = MockCardDelegate(
+            success: {_, _ in
+                XCTFail("Invoked success() callback. Should invoke error().")
+                expectation.fulfill()
+            },
+            error: { _, error in
+                XCTAssertEqual(error.domain, CardClientError.domain)
+                XCTAssertEqual(error.code, CardClientError.Code.missingDeeplinkURLError.rawValue)
+                XCTAssertEqual(error.errorDescription, "Missing deeplink URL from 3DS.")
+                expectation.fulfill()
+            },
+            cancel: { _ in XCTFail("Invoked cancel() callback. Should invoke success().") },
+            threeDSWillLaunch: { _ -> Void in XCTAssert(true) },
+            threeDSLaunched: { _ -> Void in XCTAssert(true) })
+
+        sut.delegate = mockCardDelegate
+        sut.approveOrder(request: cardRequest)
+
+        waitForExpectations(timeout: 10)
+    }
+    
+    func testApproveOrder_withThreeDSecure_returnsMalformedDeeplinkError() {
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withValid3DSURL
+        
+        mockWebAuthSession.cannedResponseURL = .init(string: "https://fakeURL")
+        
+        let expectation = expectation(description: "approveOrder() completed")
+
+        let mockCardDelegate = MockCardDelegate(
+            success: {_, _ in
+                XCTFail("Invoked success() callback. Should invoke error().")
+                expectation.fulfill()
+            },
+            error: { _, error in
+                XCTAssertEqual(error.domain, CardClientError.domain)
+                XCTAssertEqual(error.code, CardClientError.Code.malformedDeeplinkURLError.rawValue)
+                XCTAssertEqual(error.errorDescription, "Malformed deeplink URL.")
+                expectation.fulfill()
+            },
+            cancel: { _ in XCTFail("Invoked cancel() callback. Should invoke success().") },
+            threeDSWillLaunch: { _ -> Void in XCTAssert(true) },
+            threeDSLaunched: { _ -> Void in XCTAssert(true) })
 
         sut.delegate = mockCardDelegate
         sut.approveOrder(request: cardRequest)

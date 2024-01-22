@@ -22,6 +22,12 @@ struct CardFormView: View {
                 FloatingLabelTextField(placeholder: "Card Number", text: $cardNumberText)
                     .onChange(of: cardNumberText) { newValue in
                         cardNumberText = cardFormatter.formatFieldWith(newValue, field: .cardNumber)
+                        // 4 digit cvv for amex
+                        if newValue.starts(with: "34") || newValue.starts(with: "37") {
+                            cvvText = "1234"
+                        } else {
+                            cvvText = "123"
+                        }
                     }
                 if !cardSections.isEmpty {
                     Menu {
