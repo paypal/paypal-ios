@@ -19,7 +19,7 @@ public enum PaymentButtonColor: String {
     }
 
     var fontColor: UIColor {
-        return .black
+        .black
     }
 
     public var description: String {
