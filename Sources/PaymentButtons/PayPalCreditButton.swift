@@ -10,8 +10,6 @@ public final class PayPalCreditButton: PaymentButton {
     public enum Color: String {
         case gold
         case white
-        case black
-        case darkBlue
 
         var color: PaymentButtonColor {
             PaymentButtonColor(rawValue: rawValue) ?? .white
@@ -21,12 +19,12 @@ public final class PayPalCreditButton: PaymentButton {
     /// Initialize a PayPalCreditButton
     /// - Parameters:
     ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
-    ///   - color: Color of the button. Default to dark blue if not provided.
+    ///   - color: Color of the button. Default to gold if not provided.
     ///   - edges: Edges of the button. Default to softEdges if not provided.
     ///   - size: Size of the button. Default to regular if not provided.
     public convenience init(
         insets: NSDirectionalEdgeInsets? = nil,
-        color: Color = .darkBlue,
+        color: Color = .gold,
         edges: PaymentButtonEdges = .softEdges,
         size: PaymentButtonSize = .regular
     ) {
@@ -54,12 +52,12 @@ public extension PayPalCreditButton {
         /// Initialize a PayPalCreditButton
         /// - Parameters:
         ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
-        ///   - color: Color of the button. Default to dark blue if not provided.
+        ///   - color: Color of the button. Default to gold if not provided.
         ///   - edges: Edges of the button. Default to softEdges if not provided.
         ///   - size: Size of the button. Default to regular if not provided.
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
-            color: PayPalCreditButton.Color = .darkBlue,
+            color: PayPalCreditButton.Color = .gold,
             edges: PaymentButtonEdges = .softEdges,
             size: PaymentButtonSize = .regular,
             _ action: @escaping () -> Void = { }
