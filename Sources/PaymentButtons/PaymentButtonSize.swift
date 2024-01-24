@@ -16,16 +16,7 @@ public enum PaymentButtonSize: Int, CustomStringConvertible {
     case full
 
     var font: UIFont {
-        switch self {
-        case .mini, .collapsed:
-            return PaymentButtonFont.secondaryFont
-
-        case .expanded:
-            return PaymentButtonFont.primaryFont
-
-        case .full:
-            return PaymentButtonFont.systemFont18
-        }
+        PaymentButtonFont.paypalPrimaryFont
     }
 
     var elementSpacing: CGFloat {
