@@ -19,7 +19,7 @@ extension UIFont {
             let fontRef = CGFont(dataProvider) else { return }
         print("Font file path:", pathForResourceString)
 
-        if CTFontManagerRegisterGraphicsFont(fontRef, &errorRef) == false {
+        if !CTFontManagerRegisterGraphicsFont(fontRef, &errorRef) {
             print("Error registering font")
         }
     }
