@@ -22,7 +22,6 @@
     * Remove `PayPalButton.Labels` cases: `.checkout`, `.buyNow`, `.payLater`
     * Remove `PaymentButtonColor` `.black`, `.silver`, `.blue`, and `.darkBlue`
     * Add `PaymentButtonColor.gold` for `PayPalCreditButton`
-    * Remove `PayPalButton.Labels` cases: `.checkout`, `.buyNow`, `.payLater`
     * Remove `PaymentButtonSize` cases: `.miniWithWordmark`, `.collapsed`, `.expanded`, `.full`
 
 ## 1.1.0 (2023-11-16)

@@ -31,7 +31,6 @@ public enum PaymentButtonSize: Int, CustomStringConvertible {
 
     var elementPadding: NSDirectionalEdgeInsets {
         switch self {
-
         case .mini:
             return NSDirectionalEdgeInsets(
                 top: 9.0,
@@ -52,7 +51,6 @@ public enum PaymentButtonSize: Int, CustomStringConvertible {
 
     public var description: String {
         switch self {
-
         case .mini:
             return "mini"
 
