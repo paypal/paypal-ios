@@ -3,37 +3,25 @@ import UIKit
 /// The size category which determines how the button is shown.
 public enum PaymentButtonSize: Int, CustomStringConvertible {
 
-    /// Smallest button size that will show the PayPal monogram only. Use this for screens where space is limited. The recommended size when displaying on screens with limited space `.miniWithWordmark`
+    /// Circle shaped button similar to a floating action button will show the monogram, if `.venmo` then will show `Venmo` logo.
     case mini
 
-    /// Smallest button size that will show the primary mark (PayPal monogram and wordmark). This is the recommended size when displaying on screens with limited space.
-    case miniWithWordmark
-
-    /// Collapsed shows the primary mark (PayPal monogram and wordmark) along with the prefix or suffix.
+    /// Collapsed will only show the wordmark.
     case collapsed
 
-    /// Expanded shows the primary mark (PayPal monogram and wordmark along with the prefix or suffix
+    /// Expanded shows the wordmark along with the suffix.
     case expanded
 
-    /// Full will show the primary mark (PayPal monogram and wordmark along with the prefix or suffix.
+    /// Full will show the wordmark along with the prefix and suffix.
     case full
 
     var font: UIFont {
-        switch self {
-        case .mini, .miniWithWordmark, .collapsed:
-            return PaymentButtonFont.secondaryFont
-
-        case .expanded:
-            return PaymentButtonFont.primaryFont
-
-        case .full:
-            return PaymentButtonFont.systemFont18
-        }
+        PaymentButtonFont.paypalPrimaryFont
     }
 
     var elementSpacing: CGFloat {
         switch self {
-        case .mini, .miniWithWordmark, .collapsed:
+        case .mini, .collapsed:
             return 4.0
 
         case .expanded:
@@ -47,14 +35,6 @@ public enum PaymentButtonSize: Int, CustomStringConvertible {
     var elementPadding: NSDirectionalEdgeInsets {
         switch self {
         case .mini:
-            return NSDirectionalEdgeInsets(
-                top: 14.0,
-                leading: 14.0,
-                bottom: 14.0,
-                trailing: 14.0
-            )
-
-        case .miniWithWordmark:
             return NSDirectionalEdgeInsets(
                 top: 14.0,
                 leading: 14.0,
@@ -92,9 +72,6 @@ public enum PaymentButtonSize: Int, CustomStringConvertible {
         switch self {
         case .mini:
             return "mini"
-
-        case .miniWithWordmark:
-            return "mini with wordmark"
 
         case .collapsed:
             return "collapsed"

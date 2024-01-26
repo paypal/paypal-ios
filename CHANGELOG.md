@@ -2,11 +2,17 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
+* CardPayments
+  * Add `liabilityShift` property to `CardResult`
+  * Add `CardClientError.threeDSVerificationError` for invalid verification
+  * Add `CardClientError.missingDeeplinkURLError` for missing deeplink URL
+  * Add `CardClientError.malformedDeeplinkURLError` for malformed or invalid deeplink
 * PayPalWebPayments
   * Add `vault(url:)` method to `PayPalWebCheckoutClient`
   * Add `PayPalVaultResult` type to return vault result
   * Add `PayPalVaultDelegate` to handle results from vault flow
   * Add `PayPalWebCheckoutClientError.paypalVaultResponseError` for missing or invalid response from vaulting
+<<<<<<< HEAD
 * PaymentButtons
   * Add `custom` case for `PaymentButtonEdges`
   * Support VoiceOver by adding button accessibility labels
@@ -15,6 +21,7 @@
   `.checkoutWith`, `.continueWith`, `.contributeWith`, `.orderWith`, `.payLaterWith`, `.payWith`,
   `.reloadWith`, `.rentWith`, `.reserveWith`, `.subscribeWith`, `.supportWith`, `.tipWith`,
   `.topUpWith`
+  * Font typeface changed to "PayPalOpen" to meet brand guidelines
 * Breaking Changes
   * PaymentButtons
     * Remove `PayPalButton.Labels` cases: `.checkout`, `.buyNow`, `.payLater`

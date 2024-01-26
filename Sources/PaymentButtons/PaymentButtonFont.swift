@@ -1,12 +1,30 @@
 import UIKit
 
 enum PaymentButtonFont {
-    /// The primary font to be employed in the UI for non special circumstances
-    public static let primaryFont: UIFont = .systemFont(ofSize: UIFont.systemFontSize)
+    /// The primary font
+    public static let paypalPrimaryFont = UIFont(name: "PayPalOpen-Regular", size: 14) ??
+        .systemFont(ofSize: UIFont.systemFontSize)
+}
 
-    /// Usually a sub-heading or alternative text font that is used in some scenarios
-    public static let secondaryFont: UIFont = .systemFont(ofSize: UIFont.smallSystemFontSize)
+extension UIFont {
 
-    /// Large font of size 18
-    public static let systemFont18: UIFont = .systemFont(ofSize: UIFont.systemFontSize + 4)
+    private static func registerFont(withName name: String, fileExtension: String) {
+        var errorRef: Unmanaged<CFError>?
+        let frameworkBundle = Bundle(for: PaymentButton.self)
+
+        guard
+            let pathForResourceString = frameworkBundle.path(forResource: name, ofType: fileExtension),
+            let fontData = NSData(contentsOfFile: pathForResourceString),
+            let dataProvider = CGDataProvider(data: fontData),
+            let fontRef = CGFont(dataProvider) else { return }
+        print("Font file path:", pathForResourceString)
+
+        if !CTFontManagerRegisterGraphicsFont(fontRef, &errorRef) {
+            print("Error registering font")
+        }
+    }
+
+    static func registerFont() {
+        registerFont(withName: "PayPalOpen-Regular", fileExtension: "otf")
+    }
 }

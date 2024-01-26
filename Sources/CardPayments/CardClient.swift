@@ -45,7 +45,7 @@ public class CardClient: NSObject {
                 let result = try await vaultAPI.updateSetupToken(cardVaultRequest: vaultRequest).updateVaultSetupToken
                 
                 // TODO: handle 3DS contingency with helios link & add unit tests
-                    if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
+                if let link = result.links.first(where: { $0.rel == "approve" && $0.href.contains("helios") }) {
                     let url = link.href
                     print("3DS url \(url)")
                 } else {
@@ -74,13 +74,21 @@ public class CardClient: NSObject {
             do {
                 let result = try await checkoutOrdersAPI.confirmPaymentSource(cardRequest: request)
                 
-                if let url: String = result.links?.first(where: { $0.rel == "payer-action" })?.href {
+                if result.status == "PAYER_ACTION_REQUIRED",
+                let url = result.links?.first(where: { $0.rel == "payer-action" })?.href {
+                    guard getQueryStringParameter(url: url, param: "flow") == "3ds",
+                        url.contains("helios"),
+                        let url = URL(string: url) else {
+                        self.notifyFailure(with: CardClientError.threeDSecureURLError)
+                        return
+                    }
+                
                     analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:challenge-required")
                     startThreeDSecureChallenge(url: url, orderId: result.id)
                 } else {
                     analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:succeeded")
                     
-                    let cardResult = CardResult(orderID: result.id, deepLinkURL: nil)
+                    let cardResult = CardResult(orderID: result.id, deepLinkURL: nil, liabilityShift: nil)
                     notifySuccess(for: cardResult)
                 }
             } catch let error as CoreSDKError {
@@ -94,18 +102,13 @@ public class CardClient: NSObject {
     }
 
     private func startThreeDSecureChallenge(
-        url: String,
+        url: URL,
         orderId: String
     ) {
-        guard let threeDSURL = URL(string: url) else {
-            self.notifyFailure(with: CardClientError.threeDSecureURLError)
-            return
-        }
-        
         delegate?.cardThreeDSecureWillLaunch(self)
         
         webAuthenticationSession.start(
-            url: threeDSURL,
+            url: url,
             context: self,
             sessionDidDisplay: { [weak self] didDisplay in
                 if didDisplay {
@@ -127,10 +130,28 @@ public class CardClient: NSObject {
                     }
                 }
                 
-                let cardResult = CardResult(orderID: orderId, deepLinkURL: url)
-                self.notifySuccess(for: cardResult)
+                guard let url else {
+                    self.notifyFailure(with: CardClientError.missingDeeplinkURLError)
+                    return
+                }
+                
+                if self.getQueryStringParameter(url: url.absoluteString, param: "state") != nil
+                    && self.getQueryStringParameter(url: url.absoluteString, param: "code") != nil {
+                    let liabilityShift = self.getQueryStringParameter(url: url.absoluteString, param: "liability_shift")
+                    let cardResult = CardResult(orderID: orderId, deepLinkURL: url, liabilityShift: liabilityShift)
+                    self.notifySuccess(for: cardResult)
+                } else if self.getQueryStringParameter(url: url.absoluteString, param: "error") != nil {
+                    self.notifyFailure(with: CardClientError.threeDSVerificationError)
+                } else {
+                    self.notifyFailure(with: CardClientError.malformedDeeplinkURLError)
+                }
             }
         )
+    }
+    
+    private func getQueryStringParameter(url: String, param: String) -> String? {
+        guard let url = URLComponents(string: url) else { return nil }
+        return url.queryItems?.first { $0.name == param }?.value
     }
 
     private func notifySuccess(for result: CardResult) {
