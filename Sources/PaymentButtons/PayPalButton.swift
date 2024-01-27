@@ -97,7 +97,7 @@ public final class PayPalButton: PaymentButton {
         insets: NSDirectionalEdgeInsets? = nil,
         color: Color = .gold,
         edges: PaymentButtonEdges = .softEdges,
-        size: PaymentButtonSize = .collapsed,
+        size: PaymentButtonSize = .regular,
         label: Label? = nil
     ) {
         self.init(
@@ -133,7 +133,7 @@ public extension PayPalButton {
             insets: NSDirectionalEdgeInsets? = nil,
             color: PayPalButton.Color = .gold,
             edges: PaymentButtonEdges = .softEdges,
-            size: PaymentButtonSize = .collapsed,
+            size: PaymentButtonSize = .regular,
             label: PayPalButton.Label? = nil,
             _ action: @escaping () -> Void = { }
         ) {
@@ -175,7 +175,10 @@ public extension PayPalButton {
 struct PayPalButtonView: View {
 
     var body: some View {
-        PayPalButton.Representable()
+        HStack {
+            Button("Tap") {}
+//            PayPalButton.Representable()
+        }
     }
 }
 

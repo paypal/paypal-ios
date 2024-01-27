@@ -26,7 +26,7 @@ public final class PayPalCreditButton: PaymentButton {
         insets: NSDirectionalEdgeInsets? = nil,
         color: Color = .gold,
         edges: PaymentButtonEdges = .softEdges,
-        size: PaymentButtonSize = .collapsed
+        size: PaymentButtonSize = .regular
     ) {
         self.init(
             fundingSource: PaymentButtonFundingSource.credit,
@@ -59,7 +59,7 @@ public extension PayPalCreditButton {
             insets: NSDirectionalEdgeInsets? = nil,
             color: PayPalCreditButton.Color = .gold,
             edges: PaymentButtonEdges = .softEdges,
-            size: PaymentButtonSize = .collapsed,
+            size: PaymentButtonSize = .regular,
             _ action: @escaping () -> Void = { }
         ) {
             self.button = PayPalCreditButton(

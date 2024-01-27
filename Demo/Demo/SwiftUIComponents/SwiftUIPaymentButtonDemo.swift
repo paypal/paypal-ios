@@ -29,6 +29,19 @@ struct SwiftUIPaymentButtonDemo: View {
     @ViewBuilder var body: some View {
         ZStack {
             VStack {
+                Form {
+                    Section {
+                        HStack {
+//                            Spacer()
+                            PayPalButton.Representable()
+                            Spacer()
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .background(.red)
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
+
                 Text("Note: Button colors have been consolidated and deprecated to gold and white. Other colors will be removed in v2.")
                     .font(.footnote)
 
@@ -86,7 +99,7 @@ struct SwiftUIPaymentButtonDemo: View {
 
                 switch selectedFunding {
                 case .payPal:
-                    if selectedSize == .expanded || selectedSize == .full {
+                    if selectedSize == .regular {
                         Picker("label", selection: $labelIndex) {
                             ForEach(labels.indices, id: \.self) { index in
                                 Text(labels[index])
@@ -125,7 +138,7 @@ struct SwiftUIPaymentButtonDemo: View {
                 }
             }
             .padding()
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: .infinity, alignment: .center)
         }
         .frame(maxWidth: .infinity)
     }
