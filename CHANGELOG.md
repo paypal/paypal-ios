@@ -2,6 +2,11 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
+* CardPayments
+  * Add `liabilityShift` property to `CardResult`
+  * Add `CardClientError.threeDSVerificationError` for invalid verification
+  * Add `CardClientError.missingDeeplinkURLError` for missing deeplink URL
+  * Add `CardClientError.malformedDeeplinkURLError` for malformed or invalid deeplink
 * PayPalWebPayments
   * Add `vault(url:)` method to `PayPalWebCheckoutClient`
   * Add `PayPalVaultResult` type to return vault result
