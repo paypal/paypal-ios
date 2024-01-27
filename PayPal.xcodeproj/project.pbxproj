@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		045386092B5CB9AA0057AFDA /* PayPalOpen-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 045386082B5CB9AA0057AFDA /* PayPalOpen-Regular.otf */; };
 		0647E70E2714962800F8E517 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0647E70D2714962800F8E517 /* Address.swift */; };
 		065A4DBC26FCD8090007014A /* CoreSDKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DBB26FCD8080007014A /* CoreSDKError.swift */; };
 		065A4DBF26FCDA5B0007014A /* CardClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DBE26FCDA5B0007014A /* CardClient_Tests.swift */; };
@@ -202,6 +203,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		045386082B5CB9AA0057AFDA /* PayPalOpen-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PayPalOpen-Regular.otf"; sourceTree = "<group>"; };
 		0647E70D2714962800F8E517 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		065A4DBB26FCD8080007014A /* CoreSDKError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreSDKError.swift; sourceTree = "<group>"; };
 		065A4DBE26FCDA5B0007014A /* CardClient_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardClient_Tests.swift; sourceTree = "<group>"; };
@@ -463,6 +465,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		047AF85D2B4F47BD0011303B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				047AF85E2B4F47BD0011303B /* Fonts */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		047AF85E2B4F47BD0011303B /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				045386082B5CB9AA0057AFDA /* PayPalOpen-Regular.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		061A32A826FA3C330003A736 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -817,6 +835,7 @@
 				061A32A826FA3C330003A736 /* UnitTests */,
 				OBJ_13 /* Products */,
 				805AB85726B8887D003BEE0D /* Frameworks */,
+				047AF85D2B4F47BD0011303B /* Resources */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1255,6 +1274,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCFAC70527ED042500C3AF00 /* Assets.xcassets in Resources */,
+				045386092B5CB9AA0057AFDA /* PayPalOpen-Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
