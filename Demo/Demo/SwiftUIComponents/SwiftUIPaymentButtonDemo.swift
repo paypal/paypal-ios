@@ -99,7 +99,17 @@ struct SwiftUIPaymentButtonDemo: View {
 
                 switch selectedFunding {
                 case .payPal:
-                    if selectedSize == .regular {
+                    if selectedSize == .standard {
+                        Picker("Edges", selection: $edgesIndex) {
+                            ForEach(edges.indices, id: \.self) { index in
+                                Text(edges[index])
+                            }
+                        }
+                        .pickerStyle(SegmentedPickerStyle())
+                        .onChange(of: edgesIndex) { _ in
+                            selectedEdge = PaymentButtonEdges.allCases[edgesIndex]
+                            buttonID += 1
+                        }
                         Picker("label", selection: $labelIndex) {
                             ForEach(labels.indices, id: \.self) { index in
                                 Text(labels[index])

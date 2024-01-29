@@ -1,7 +1,5 @@
 import UIKit
 
-public typealias ContentConstrainer = (UIView) -> [NSLayoutConstraint]
-
 /// Handles functionality shared across payment buttons
 public class PaymentButton: UIButton {
 
@@ -44,7 +42,7 @@ public class PaymentButton: UIButton {
 
     // MARK: - Views
 
-    let buttonView: UIView = {
+    let containerView: UIView = {
         let view = UIView(frame: .zero)
         view.layer.masksToBounds = true
         view.isUserInteractionEnabled = false
@@ -119,7 +117,7 @@ public class PaymentButton: UIButton {
         case .mini:
             return 24.0
 
-        case .regular:
+        case .standard:
             return 20.0
         }
     }
@@ -129,7 +127,7 @@ public class PaymentButton: UIButton {
         case .mini:
             return false
 
-        case .regular:
+        case .standard:
             if let label = label {
                 return label.position == .prefix
             }
@@ -142,7 +140,7 @@ public class PaymentButton: UIButton {
         case .mini:
             return false
 
-        case .regular:
+        case .standard:
             if let label = label {
                 return label.position == .suffix
             }
@@ -165,14 +163,13 @@ public class PaymentButton: UIButton {
     }
 
     private func configureStackView() {
-//        buttonView.frame.size = size.elementConstraints
         stackView.directionalLayoutMargins = insets ?? size.elementPadding
         stackView.spacing = size.elementSpacing
     }
 
     private func configureBackgroundColor() {
         backgroundColor = .clear
-        buttonView.backgroundColor = color.color
+        containerView.backgroundColor = color.color
     }
 
     private func configureLogo() -> UIImageView {
@@ -212,33 +209,28 @@ public class PaymentButton: UIButton {
     }
 
     private func configureSubviews() {
-        buttonView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        buttonView.addSubview(containerStackView)
-//        buttonView.setContentCompressionResistancePriority(.required, for: .horizontal)
-        addSubview(buttonView)
+        containerView.addSubview(containerStackView)
+        addSubview(containerView)
     }
 
     private func configureConstraints() {
 
         NSLayoutConstraint.activate(
             [
-                buttonView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-                buttonView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-//                buttonView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-                buttonView.topAnchor.constraint(equalTo: self.topAnchor),
-                buttonView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-                buttonView.widthAnchor.constraint(equalTo: self.widthAnchor)
-//                buttonView.heightAnchor.constraint(equalToConstant: 48),
+                containerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+                containerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+                containerView.topAnchor.constraint(equalTo: topAnchor),
+                containerView.bottomAnchor.constraint(equalTo: bottomAnchor)
             ]
         )
 
         // Center stack view
         NSLayoutConstraint.activate(
             [
-                containerStackView.leadingAnchor.constraint(equalTo: buttonView.leadingAnchor),
-                containerStackView.trailingAnchor.constraint(equalTo: buttonView.trailingAnchor),
-                containerStackView.topAnchor.constraint(equalTo: buttonView.topAnchor),
-                containerStackView.bottomAnchor.constraint(equalTo: buttonView.bottomAnchor)
+                containerStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+                containerStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+                containerStackView.topAnchor.constraint(equalTo: containerView.topAnchor),
+                containerStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
             ]
         )
     }
@@ -247,9 +239,9 @@ public class PaymentButton: UIButton {
     override public func layoutSubviews() {
         super.layoutSubviews()
         if size == .mini {
-            buttonView.layer.cornerRadius = 4.0
+            containerView.layer.cornerRadius = 4.0
         } else {
-            buttonView.layer.cornerRadius = edges.cornerRadius(for: buttonView)
+            containerView.layer.cornerRadius = edges.cornerRadius(for: containerView)
         }
     }
 
