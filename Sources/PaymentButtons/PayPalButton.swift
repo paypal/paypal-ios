@@ -91,13 +91,13 @@ public final class PayPalButton: PaymentButton {
     ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
     ///   - color: Color of the button. Default to gold if not provided.
     ///   - edges: Edges of the button. Default to softEdges if not provided.
-    ///   - size: Size of the button. Default to collapsed if not provided.
+    ///   - size: Size of the button. Default to standard if not provided.
     ///   - label: Label displayed next to the button's logo. Default to no label.
     public convenience init(
         insets: NSDirectionalEdgeInsets? = nil,
         color: Color = .gold,
         edges: PaymentButtonEdges = .softEdges,
-        size: PaymentButtonSize = .collapsed,
+        size: PaymentButtonSize = .standard,
         label: Label? = nil
     ) {
         self.init(
@@ -127,13 +127,13 @@ public extension PayPalButton {
         ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
         ///   - color: Color of the button. Default to gold if not provided.
         ///   - edges: Edges of the button. Default to softEdges if not provided.
-        ///   - size: Size of the button. Default to collapsed if not provided.
+        ///   - size: Size of the button. Default to standard if not provided.
         ///   - label: Label displayed next to the button's logo. Default to no label.
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
             color: PayPalButton.Color = .gold,
             edges: PaymentButtonEdges = .softEdges,
-            size: PaymentButtonSize = .collapsed,
+            size: PaymentButtonSize = .standard,
             label: PayPalButton.Label? = nil,
             _ action: @escaping () -> Void = { }
         ) {

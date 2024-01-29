@@ -13,7 +13,7 @@ class PayPalButton_Tests: XCTestCase {
     func testInit_whenPayPalButtonCreated_hasDefaultUIValuess() {
         let sut = PayPalButton()
         XCTAssertEqual(sut.edges, PaymentButtonEdges.softEdges)
-        XCTAssertEqual(sut.size, PaymentButtonSize.collapsed)
+        XCTAssertEqual(sut.size, PaymentButtonSize.standard)
         XCTAssertEqual(sut.color, PaymentButtonColor.gold)
         XCTAssertNil(sut.label)
         XCTAssertNil(sut.insets)

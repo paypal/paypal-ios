@@ -19,12 +19,12 @@ public final class PayPalPayLaterButton: PaymentButton {
     ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
     ///   - color: Color of the button. Default to gold if not provided.
     ///   - edges: Edges of the button. Default to softEdges if not provided.
-    ///   - size: Size of the button. Default to collapsed if not provided.
+    ///   - size: Size of the button. Default to standard if not provided.
     public convenience init(
         insets: NSDirectionalEdgeInsets? = nil,
         color: Color = .gold,
         edges: PaymentButtonEdges = .softEdges,
-        size: PaymentButtonSize = .collapsed,
+        size: PaymentButtonSize = .standard,
         _ action: @escaping () -> Void = { }
     ) {
         self.init(
@@ -51,12 +51,12 @@ public extension PayPalPayLaterButton {
         ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
         ///   - color: Color of the button. Default to gold if not provided.
         ///   - edges: Edges of the button. Default to softEdges if not provided.
-        ///   - size: Size of the button. Default to collapsed if not provided.
+        ///   - size: Size of the button. Default to standard if not provided.
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
             color: PayPalPayLaterButton.Color = .gold,
             edges: PaymentButtonEdges = .softEdges,
-            size: PaymentButtonSize = .collapsed,
+            size: PaymentButtonSize = .standard,
             _ action: @escaping () -> Void = { }
         ) {
             self.button = PayPalPayLaterButton(

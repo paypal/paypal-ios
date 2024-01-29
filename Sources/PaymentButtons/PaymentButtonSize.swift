@@ -3,17 +3,11 @@ import UIKit
 /// The size category which determines how the button is shown.
 public enum PaymentButtonSize: Int, CustomStringConvertible {
 
-    /// Circle shaped button similar to a floating action button will show the monogram, if `.venmo` then will show `Venmo` logo.
+    /// Smallest button size uses the primary mark, vertically stacked. This is the recommended size when displaying on screens with limited space.
     case mini
 
-    /// Collapsed will only show the wordmark.
-    case collapsed
-
-    /// Expanded shows the wordmark along with the suffix.
-    case expanded
-
-    /// Full will show the wordmark along with the prefix and suffix.
-    case full
+    /// Standard size shows the primary mark along with the prefix or suffix
+    case standard
 
     var font: UIFont {
         PaymentButtonFont.paypalPrimaryFont
@@ -21,14 +15,11 @@ public enum PaymentButtonSize: Int, CustomStringConvertible {
 
     var elementSpacing: CGFloat {
         switch self {
-        case .mini, .collapsed:
+        case .mini:
             return 4.0
 
-        case .expanded:
+        case .standard:
             return 4.5
-
-        case .full:
-            return 6.0
         }
     }
 
@@ -36,34 +27,18 @@ public enum PaymentButtonSize: Int, CustomStringConvertible {
         switch self {
         case .mini:
             return NSDirectionalEdgeInsets(
-                top: 14.0,
-                leading: 14.0,
-                bottom: 14.0,
-                trailing: 14.0
-            )
-
-        case .collapsed:
-            return NSDirectionalEdgeInsets(
-                top: 15.0,
+                top: 9.0,
                 leading: 20.0,
-                bottom: 15.0,
+                bottom: 9.0,
                 trailing: 20.0
             )
 
-        case .expanded:
+        case .standard:
             return NSDirectionalEdgeInsets(
-                top: 13.0,
-                leading: 24.0,
-                bottom: 13.0,
-                trailing: 24.0
-            )
-
-        case .full:
-            return NSDirectionalEdgeInsets(
-                top: 15.0,
-                leading: 44.0,
-                bottom: 15.0,
-                trailing: 44.0
+                top: 10.0,
+                leading: 80.0,
+                bottom: 10.0,
+                trailing: 80.0
             )
         }
     }
@@ -73,14 +48,8 @@ public enum PaymentButtonSize: Int, CustomStringConvertible {
         case .mini:
             return "mini"
 
-        case .collapsed:
-            return "collapsed"
-
-        case .expanded:
-            return "expanded"
-
-        case .full:
-            return "full"
+        case .standard:
+            return "standard"
         }
     }
 }

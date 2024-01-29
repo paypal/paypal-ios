@@ -12,8 +12,8 @@
   * Add `PayPalVaultResult` type to return vault result
   * Add `PayPalVaultDelegate` to handle results from vault flow
   * Add `PayPalWebCheckoutClientError.paypalVaultResponseError` for missing or invalid response from vaulting
-<<<<<<< HEAD
 * PaymentButtons
+  * Add new `PaymentButtonSize` case `.standard`
   * Add `custom` case for `PaymentButtonEdges`
   * Support VoiceOver by adding button accessibility labels
   * Add new `PaymentButtonSize` case `.miniWithWordmark`
@@ -21,12 +21,14 @@
   `.checkoutWith`, `.continueWith`, `.contributeWith`, `.orderWith`, `.payLaterWith`, `.payWith`,
   `.reloadWith`, `.rentWith`, `.reserveWith`, `.subscribeWith`, `.supportWith`, `.tipWith`,
   `.topUpWith`
+  * `PayPalButtonSize` `.mini` changed to rectangular button to meet brand guidelines
   * Font typeface changed to "PayPalOpen" to meet brand guidelines
 * Breaking Changes
   * PaymentButtons
     * Remove `PayPalButton.Labels` cases: `.checkout`, `.buyNow`, `.payLater`
     * Remove `PaymentButtonColor` `.black`, `.silver`, `.blue`, and `.darkBlue`
     * Add `PaymentButtonColor.gold` for `PayPalCreditButton`
+    * Remove `PaymentButtonSize` cases: `.miniWithWordmark`, `.collapsed`, `.expanded`, `.full`
 
 ## 1.1.0 (2023-11-16)
 * PayPalNativePayments
