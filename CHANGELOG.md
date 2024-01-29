@@ -13,7 +13,7 @@
   * Add `PayPalVaultDelegate` to handle results from vault flow
   * Add `PayPalWebCheckoutClientError.paypalVaultResponseError` for missing or invalid response from vaulting
 * PaymentButtons
-  * Add new `PaymentButtonSize` case `.regular`
+  * Add new `PaymentButtonSize` case `.standard`
   * Add `custom` case for `PaymentButtonEdges`
   * Support VoiceOver by adding button accessibility labels
   * Add new `PaymentButtonSize` case `.miniWithWordmark`

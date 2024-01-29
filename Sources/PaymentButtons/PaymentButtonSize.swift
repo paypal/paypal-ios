@@ -6,17 +6,11 @@ public enum PaymentButtonSize: Int, CustomStringConvertible {
     /// Smallest button size uses the primary mark, vertically stacked. This is the recommended size when displaying on screens with limited space.
     case mini
 
-    /// Regular size shows the primary mark along with the prefix or suffix
-    case regular
+    /// Standard size shows the primary mark along with the prefix or suffix
+    case standard
 
     var font: UIFont {
-        switch self {
-        case .mini:
-            return PaymentButtonFont.secondaryFont
-
-        case .regular:
-            return PaymentButtonFont.primaryFont
-        }
+        PaymentButtonFont.paypalPrimaryFont
     }
 
     var elementSpacing: CGFloat {
@@ -24,7 +18,7 @@ public enum PaymentButtonSize: Int, CustomStringConvertible {
         case .mini:
             return 4.0
 
-        case .regular:
+        case .standard:
             return 4.5
         }
     }
@@ -39,7 +33,7 @@ public enum PaymentButtonSize: Int, CustomStringConvertible {
                 trailing: 20.0
             )
 
-        case .regular:
+        case .standard:
             return NSDirectionalEdgeInsets(
                 top: 10.0,
                 leading: 80.0,
@@ -54,8 +48,8 @@ public enum PaymentButtonSize: Int, CustomStringConvertible {
         case .mini:
             return "mini"
 
-        case .regular:
-            return "regular"
+        case .standard:
+            return "standard"
         }
     }
 }

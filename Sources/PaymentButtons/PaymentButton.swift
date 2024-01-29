@@ -117,7 +117,7 @@ public class PaymentButton: UIButton {
         case .mini:
             return 24.0
 
-        case .regular:
+        case .standard:
             return 20.0
         }
     }
@@ -127,7 +127,7 @@ public class PaymentButton: UIButton {
         case .mini:
             return false
 
-        case .regular:
+        case .standard:
             if let label = label {
                 return label.position == .prefix
             }
@@ -140,7 +140,7 @@ public class PaymentButton: UIButton {
         case .mini:
             return false
 
-        case .regular:
+        case .standard:
             if let label = label {
                 return label.position == .suffix
             }
