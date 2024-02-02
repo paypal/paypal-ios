@@ -248,7 +248,7 @@ public class PaymentButton: UIButton {
     public override var intrinsicContentSize: CGSize {
         switch size {
         case .mini:
-           return CGSize(width: 36, height: 24)
+            return CGSize(width: 36, height: 24)
 
         case .standard:
             return CGSize(width: frame.size.width, height: imageHeight + size.elementPadding.top * 2)
