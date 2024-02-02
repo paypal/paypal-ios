@@ -96,7 +96,7 @@ public final class PayPalButton: PaymentButton {
     public convenience init(
         insets: NSDirectionalEdgeInsets? = nil,
         color: Color = .gold,
-        edges: PaymentButtonEdges = .softEdges,
+        edges: PaymentButtonEdges = .rounded,
         size: PaymentButtonSize = .standard,
         label: Label? = nil
     ) {
@@ -113,69 +113,65 @@ public final class PayPalButton: PaymentButton {
     deinit {}
 }
 
-public extension PayPalButton {
-    
-    /// PayPalButton for SwiftUI
-    struct Representable: UIViewRepresentable {
-        
-        private var action: () -> Void = { }
-    
-        private let button: PayPalButton
-        
-        /// Initialize a PayPalButton
-        /// - Parameters:
-        ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
-        ///   - color: Color of the button. Default to gold if not provided.
-        ///   - edges: Edges of the button. Default to softEdges if not provided.
-        ///   - size: Size of the button. Default to standard if not provided.
-        ///   - label: Label displayed next to the button's logo. Default to no label.
-        public init(
-            insets: NSDirectionalEdgeInsets? = nil,
-            color: PayPalButton.Color = .gold,
-            edges: PaymentButtonEdges = .softEdges,
-            size: PaymentButtonSize = .standard,
-            label: PayPalButton.Label? = nil,
-            _ action: @escaping () -> Void = { }
-        ) {
-            button = PayPalButton(
-                fundingSource: .payPal,
-                color: color.color,
-                edges: edges,
-                size: size,
-                insets: insets,
-                label: label?.label
-            )
-            self.action = action
-        }
-       
-        // MARK: - UIViewRepresentable methods
-        // TODO: Make unit test for UIVRepresentable methods: https://engineering.paypalcorp.com/jira/browse/DTNOR-623
+/// PayPalButton for SwiftUI
+public struct PayPalButtonView: UIViewRepresentable {
 
-        public func makeCoordinator() -> Coordinator {
-            Coordinator(action: action)
-        }
+    private var action: () -> Void = { }
 
-        public func makeUIView(context: Context) -> UIView {
-            let view = UIView()
+    private var button: PayPalButton
 
-            view.addSubview(button)
-            button.addTarget(context.coordinator, action: #selector(Coordinator.onAction(_:)), for: .touchUpInside)
+    /// Initialize a PayPalButton
+    /// - Parameters:
+    ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
+    ///   - color: Color of the button. Default to gold if not provided.
+    ///   - edges: Edges of the button. Default to softEdges if not provided.
+    ///   - size: Size of the button. Default to standard if not provided.
+    ///   - label: Label displayed next to the button's logo. Default to no label.
+    public init(
+        insets: NSDirectionalEdgeInsets? = nil,
+        color: PayPalButton.Color = .gold,
+        edges: PaymentButtonEdges = .rounded,
+        size: PaymentButtonSize = .standard,
+        label: PayPalButton.Label? = nil,
+        _ action: @escaping () -> Void = { }
+    ) {
+        button = PayPalButton(
+            fundingSource: .payPal,
+            color: color.color,
+            edges: edges,
+            size: size,
+            insets: insets,
+            label: label?.label
+        )
+        self.action = action
+    }
 
-            return view
-        }
+    // MARK: - UIViewRepresentable methods
+    // TODO: Make unit test for UIVRepresentable methods: https://engineering.paypalcorp.com/jira/browse/DTNOR-623
 
-        public func updateUIView(_ uiView: UIView, context: Context) {
-            context.coordinator.action = action
-        }
+    public func makeCoordinator() -> Coordinator {
+        Coordinator(action: action)
+    }
+
+    public func makeUIView(context: Context) -> PaymentButton {
+
+        let button = button
+        button.addTarget(context.coordinator, action: #selector(Coordinator.onAction(_:)), for: .touchUpInside)
+        return button
+    }
+
+    public func updateUIView(_ uiView: PaymentButton, context: Context) {
+        context.coordinator.action = action
     }
 }
 
 // MARK: PayPalButton Preview
 
-struct PayPalButtonView: View {
+struct PayPalButtonUIView: View {
 
     var body: some View {
-        PayPalButton.Representable()
+        PayPalButtonView()
+            .fixedSize(horizontal: false, vertical: true)
     }
 }
 
