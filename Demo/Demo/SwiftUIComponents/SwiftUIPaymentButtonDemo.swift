@@ -29,19 +29,6 @@ struct SwiftUIPaymentButtonDemo: View {
     @ViewBuilder var body: some View {
         ZStack {
             VStack {
-                Form {
-                    Section {
-                        HStack {
-//                            Spacer()
-                            PayPalButton.Representable()
-                            Spacer()
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .background(.red)
-                }
-                .frame(maxWidth: .infinity, alignment: .center)
-
                 Text("Note: Button colors have been consolidated and deprecated to gold and white. Other colors will be removed in v2.")
                     .font(.footnote)
 
@@ -121,17 +108,17 @@ struct SwiftUIPaymentButtonDemo: View {
                             buttonID += 1
                         }
                     }
-                    PayPalButton.Representable(
+                    PayPalButtonView(
                         color: PayPalButton.Color.allCases[colorsIndex],
                         edges: selectedEdge,
                         size: selectedSize,
                         label: selectedLabel
                     )
                     .id(buttonID)
-                    .frame(maxWidth: .infinity)
+                    .frame(maxWidth: 300)
 
                 case .payLater:
-                    PayPalPayLaterButton.Representable(
+                    PayPalPayLaterButtonView(
                         color: PayPalPayLaterButton.Color.allCases[colorsIndex],
                         edges: selectedEdge,
                         size: selectedSize
@@ -139,7 +126,7 @@ struct SwiftUIPaymentButtonDemo: View {
                     .id(buttonID)
 
                 case .credit:
-                    PayPalCreditButton.Representable(
+                    PayPalCreditButtonView(
                         color: PayPalCreditButton.Color.allCases[colorsIndex],
                         edges: selectedEdge,
                         size: selectedSize

@@ -18,7 +18,7 @@ class PayPalPayLaterButton_Tests: XCTestCase {
     
     func testMakeCoordinator_whenOnActionIsCalled_executesActionPassedInInitializer() {
         let expectation = expectation(description: "Action is called")
-        let sut = PayPalPayLaterButton.Representable {
+        let sut = PayPalPayLaterButtonView {
             expectation.fulfill()
         }
         let coordinator = sut.makeCoordinator()

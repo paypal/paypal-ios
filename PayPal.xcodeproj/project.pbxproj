@@ -856,9 +856,6 @@
 				BCD5C49427E9201400B074D5 /* PayPalWebCheckoutTests.xctest */,
 				BCFAC70927ED042500C3AF00 /* PaymentButtons.framework */,
 				BCFAC71827ED043200C3AF00 /* PayPalUITests.xctest */,
-				04BDE4912B64700900CF935E /* Demo_UIKit.app */,
-				04BDE4A62B64700C00CF935E /* Demo_UIKitTests.xctest */,
-				04BDE4B02B64700D00CF935E /* Demo_UIKitUITests.xctest */,
 			);
 			name = Products;
 			path = ..;
@@ -938,7 +935,6 @@
 			);
 			name = Demo_UIKit;
 			productName = Demo_UIKit;
-			productReference = 04BDE4912B64700900CF935E /* Demo_UIKit.app */;
 			productType = "com.apple.product-type.application";
 		};
 		04BDE4A52B64700C00CF935E /* Demo_UIKitTests */ = {
@@ -956,7 +952,6 @@
 			);
 			name = Demo_UIKitTests;
 			productName = Demo_UIKitTests;
-			productReference = 04BDE4A62B64700C00CF935E /* Demo_UIKitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		04BDE4AF2B64700D00CF935E /* Demo_UIKitUITests */ = {
@@ -974,7 +969,6 @@
 			);
 			name = Demo_UIKitUITests;
 			productName = Demo_UIKitUITests;
-			productReference = 04BDE4B02B64700D00CF935E /* Demo_UIKitUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 		8034A9E226B875C90055AF13 /* CorePaymentsTests */ = {

@@ -27,10 +27,10 @@ public enum PaymentButtonSize: Int, CustomStringConvertible {
         switch self {
         case .mini:
             return NSDirectionalEdgeInsets(
-                top: 9.0,
-                leading: 20.0,
-                bottom: 9.0,
-                trailing: 20.0
+                top: 4.0,
+                leading: 9.0,
+                bottom: 4.0,
+                trailing: 9.0
             )
 
         case .standard:
