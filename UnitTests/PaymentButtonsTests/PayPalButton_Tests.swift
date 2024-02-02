@@ -19,11 +19,11 @@ class PayPalButton_Tests: XCTestCase {
         XCTAssertNil(sut.insets)
     }
 
-    // MARK: - PayPalButton.Representable for SwiftUI
+    // MARK: - PayPalButtonView for SwiftUI
     
     func testMakeCoordinator_whenOnActionIsCalled_executesActionPassedInInitializer() {
         let expectation = expectation(description: "Action is called")
-        let sut = PayPalButton.Representable {
+        let sut = PayPalButtonView {
             expectation.fulfill()
         }
         let coordinator = sut.makeCoordinator()
@@ -31,7 +31,7 @@ class PayPalButton_Tests: XCTestCase {
         coordinator.onAction(self)
         waitForExpectations(timeout: 1) { error  in
             if error != nil {
-                XCTFail("Action passed in PayPalButton.Representable was never called.")
+                XCTFail("Action passed in PayPalButton was never called.")
             }
         }
     }

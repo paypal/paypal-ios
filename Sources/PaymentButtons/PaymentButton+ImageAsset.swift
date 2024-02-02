@@ -20,19 +20,18 @@ extension PaymentButton {
         var imageAssetString = ""
         switch fundingSource {
         case .payPal:
-            imageAssetString += "paypal_"
+            imageAssetString += "paypal"
 
             if size == .mini {
-                imageAssetString += "monogram_"
+                imageAssetString += "_monogram"
             }
 
         case .payLater:
-            imageAssetString += "paypal_monogram_"
+            imageAssetString += "paypal_monogram"
 
         case .credit:
             imageAssetString += "credit_"
         }
-        imageAssetString += "color"
         
         return imageAssetString
     }
