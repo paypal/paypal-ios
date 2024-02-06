@@ -116,7 +116,7 @@ struct SwiftUIPaymentButtonDemo: View {
                         label: selectedLabel
                     )
                     .id(buttonID)
-                    .frame(maxWidth: .infinity)
+                    .frame(width: 300)
 
                 case .payLater:
                     PayPalPayLaterButtonView(

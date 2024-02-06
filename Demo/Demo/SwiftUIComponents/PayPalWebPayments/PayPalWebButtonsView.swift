@@ -28,7 +28,7 @@ struct PayPalWebButtonsView: View {
                 switch selectedFundingSource {
                 case .paypalCredit:
                     PayPalCreditButtonView(color: .gold, edges: .rounded, size: .standard) {
-                        payPalWebViewModel.paymentButtonTapped(funding: .paylater)
+                        payPalWebViewModel.paymentButtonTapped(funding: .paypalCredit)
                     }
                 case .paylater:
                     PayPalPayLaterButtonView(color: .gold, edges: .rounded, size: .standard) {

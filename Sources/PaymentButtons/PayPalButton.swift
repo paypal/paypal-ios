@@ -171,7 +171,6 @@ struct PayPalButtonUIView: View {
 
     var body: some View {
         PayPalButtonView()
-            .fixedSize(horizontal: false, vertical: true)
     }
 }
 
