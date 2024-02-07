@@ -5,19 +5,15 @@ public enum PaymentButtonColor: String {
     /// The gold background and blue wordmark, monogram, and black text.
     case gold
 
-    /// The white background and blue wordmark, blue border, monogram, and black text.
+    /// The white background and blue wordmark, monogram, and black text.
     case white
 
-	@available(*, deprecated, message: "Deprecated color. Replace with `white` button color.")
     case black
 
-	@available(*, deprecated, message: "Deprecated color. Replace with `white` button color.")
     case silver
 
-	@available(*, deprecated, message: "Deprecated color. Replace with `white` button color.")
     case blue
 
-	@available(*, deprecated, message: "Deprecated color. Replace with `white` button color.")
     case darkBlue
 
     var color: UIColor {

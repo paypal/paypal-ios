@@ -3,8 +3,8 @@
 
 ## unreleased
 * PaymentButtons
-  * Deprecate `PaymentButtonColor` `.black`, `.silver`, `.blue`, and `.darkBlue`
-  * Add `PaymentButtonColor.gold` for `PayPalCreditButton`
+  * Undeprecate `PaymentButtonColor` `.black`, `.silver`, `.blue`, and `.darkBlue`
+  * Remove `PayPalCreditButton` enum case `gold`
   * Add `custom` case for `PaymentButtonEdges`
   * Support VoiceOver by adding button accessibility labels
   * Add `custom` case for `PaymentButtonEdges`
