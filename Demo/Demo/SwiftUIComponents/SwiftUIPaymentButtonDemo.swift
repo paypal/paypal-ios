@@ -125,6 +125,7 @@ struct SwiftUIPaymentButtonDemo: View {
                         size: selectedSize
                     )
                     .id(buttonID)
+                    .frame(width: 300)
 
                 case .credit:
                     PayPalCreditButtonView(
@@ -133,6 +134,7 @@ struct SwiftUIPaymentButtonDemo: View {
                         size: selectedSize
                     )
                     .id(buttonID)
+                    .frame(width: 300)
                 }
             }
             .padding()

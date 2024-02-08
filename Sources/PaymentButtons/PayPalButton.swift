@@ -146,9 +146,6 @@ public struct PayPalButtonView: UIViewRepresentable {
         self.action = action
     }
 
-    // MARK: - UIViewRepresentable methods
-    // TODO: Make unit test for UIVRepresentable methods: https://engineering.paypalcorp.com/jira/browse/DTNOR-623
-
     public func makeCoordinator() -> Coordinator {
         Coordinator(action: action)
     }
