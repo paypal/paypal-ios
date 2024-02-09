@@ -17,10 +17,6 @@
   * Add `custom` case for `PaymentButtonEdges`
   * Support VoiceOver by adding button accessibility labels
   * Add new `PaymentButtonSize` case `.miniWithWordmark`
-  * Add new `PayPalButton.Labels` cases: `.addMoneyWith`, `.bookWith`, `.buyWith`, `.buyNowWith`,
-  `.checkoutWith`, `.continueWith`, `.contributeWith`, `.orderWith`, `.payLaterWith`, `.payWith`,
-  `.reloadWith`, `.rentWith`, `.reserveWith`, `.subscribeWith`, `.supportWith`, `.tipWith`,
-  `.topUpWith`
   * `PayPalButtonSize` `.mini` changed to rectangular button to meet brand guidelines
   * Font typeface changed to "PayPalOpen" to meet brand guidelines
 * Breaking Changes
