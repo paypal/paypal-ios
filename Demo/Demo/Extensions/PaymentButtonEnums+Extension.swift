@@ -73,7 +73,7 @@ extension PayPalButton.Label: CaseIterable {
             .none,
             .checkout,
             .buyNow,
-            .payWith,
+            .payWith
         ]
     }
     
