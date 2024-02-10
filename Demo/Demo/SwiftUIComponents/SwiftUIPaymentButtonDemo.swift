@@ -13,9 +13,9 @@ struct SwiftUIPaymentButtonDemo: View {
     @State private var colorsIndex = 0
     @State private var colors = PayPalButton.Color.allCasesAsString()
 
-    @State private var edgesIndex = 0
-    private var edges = PaymentButtonEdges.allCasesAsString()
-    @State private var selectedEdge = PaymentButtonEdges.allCases[0]
+    @State private var shapeIndex = 0
+    private var shape = PaymentButtonShape.allCasesAsString()
+    @State private var selectedShape = PaymentButtonShape.allCases[0]
     @State private var customEdge: Int = 10
 
     @State private var sizesIndex = 1
@@ -54,19 +54,19 @@ struct SwiftUIPaymentButtonDemo: View {
                 }
                 .id(pickerID)
 
-                Picker("Edges", selection: $edgesIndex) {
-                    ForEach(edges.indices, id: \.self) { index in
-                        Text(edges[index])
+                Picker("Shape", selection: $shapeIndex) {
+                    ForEach(shape.indices, id: \.self) { index in
+                        Text(shape[index])
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
-                .onChange(of: edgesIndex) { _ in
-                    selectedEdge = PaymentButtonEdges.allCases[edgesIndex]
+                .onChange(of: shapeIndex) { _ in
+                    selectedShape = PaymentButtonShape.allCases[shapeIndex]
                     buttonID += 1
                 }
                 Stepper("Custom Corner Radius: \(customEdge)", value: $customEdge, in: 0...100).onChange(of: customEdge) { _ in
-                    if selectedEdge.description == "custom" {
-                        selectedEdge = PaymentButtonEdges.custom(CGFloat(customEdge))
+                    if selectedShape.description == "custom" {
+                        selectedShape = PaymentButtonShape.custom(CGFloat(customEdge))
                         buttonID += 1
                     }
                 }
@@ -97,7 +97,7 @@ struct SwiftUIPaymentButtonDemo: View {
                     }
                     PayPalButton.Representable(
                         color: PayPalButton.Color.allCases[colorsIndex],
-                        edges: selectedEdge,
+                        shape: selectedShape,
                         size: selectedSize,
                         label: selectedLabel
                     )
@@ -107,7 +107,7 @@ struct SwiftUIPaymentButtonDemo: View {
                 case .payLater:
                     PayPalPayLaterButton.Representable(
                         color: PayPalPayLaterButton.Color.allCases[colorsIndex],
-                        edges: selectedEdge,
+                        shape: selectedShape,
                         size: selectedSize
                     )
                     .id(buttonID)
@@ -115,7 +115,7 @@ struct SwiftUIPaymentButtonDemo: View {
                 case .credit:
                     PayPalCreditButton.Representable(
                         color: PayPalCreditButton.Color.allCases[colorsIndex],
-                        edges: selectedEdge,
+                        shape: selectedShape,
                         size: selectedSize
                     )
                     .id(buttonID)

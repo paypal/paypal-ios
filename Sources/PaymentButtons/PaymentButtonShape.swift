@@ -1,29 +1,29 @@
 import UIKit
 
 /// Edges for the smart payment button, these affect the corner radius.
-public enum PaymentButtonEdges: Equatable {
+public enum PaymentButtonShape: Equatable {
 
-    /// Hard edges on button with 0 corner radius.
-    case hardEdges
+    /// Sharp corners with 0 corner radius.
+    case rectangle
 
-    /// Soft edges with a corner radius of 4 pts.
-    case softEdges
+    /// Rounded with a corner radius of 4 pts.
+    case rounded
 
     /// Pill shaped corner radius.
-    case rounded
+    case pill
 
     /// Custom corner radius.
     case custom(CGFloat)
 
     func cornerRadius(for view: UIView) -> CGFloat {
         switch self {
-        case .hardEdges:
+        case .rectangle:
             return 0.0
 
-        case .softEdges:
+        case .rounded:
             return 4.0
 
-        case .rounded:
+        case .pill:
             return view.frame.size.height / 2
 
         case .custom(let cornerRadius):
@@ -32,14 +32,14 @@ public enum PaymentButtonEdges: Equatable {
     }
     public var description: String {
         switch self {
-        case .hardEdges:
+        case .rectangle:
             return "hardEdges"
-
-        case .softEdges:
-            return "softEdges"
 
         case .rounded:
             return "rounded"
+
+        case .pill:
+            return "pill"
 
         case .custom:
             return "custom"

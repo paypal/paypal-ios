@@ -25,14 +25,14 @@ public class PaymentButton: UIButton {
     required init(
         fundingSource: PaymentButtonFundingSource,
         color: PaymentButtonColor,
-        edges: PaymentButtonEdges,
+        shape: PaymentButtonShape,
         size: PaymentButtonSize,
         insets: NSDirectionalEdgeInsets?,
         label: PaymentButtonLabel?
     ) {
         self.fundingSource = fundingSource
         self.color = color
-        self.edges = edges
+        self.shape = shape
         self.size = size
         self.insets = insets
         self.label = label
@@ -100,7 +100,7 @@ public class PaymentButton: UIButton {
     public private(set) var color: PaymentButtonColor
 
     /// The corners of the button and how they should be shaped.
-    public private(set) var edges: PaymentButtonEdges
+    public private(set) var shape: PaymentButtonShape
 
     /// The size enum determines how the button will be shown.
     public private(set) var size: PaymentButtonSize
@@ -252,7 +252,7 @@ public class PaymentButton: UIButton {
             let minValue = min(containerView.bounds.width, containerView.bounds.height)
             containerView.layer.cornerRadius = minValue / 2
         } else {
-            containerView.layer.cornerRadius = edges.cornerRadius(for: containerView)
+            containerView.layer.cornerRadius = shape.cornerRadius(for: containerView)
         }
     }
 

@@ -21,19 +21,19 @@ public final class PayPalPayLaterButton: PaymentButton {
     /// - Parameters:
     ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
     ///   - color: Color of the button. Default to gold if not provided.
-    ///   - edges: Edges of the button. Default to softEdges if not provided.
+    ///   - shape: Shape of the button. Default to `.rounded` if not provided.
     ///   - size: Size of the button. Default to collapsed if not provided.
     public convenience init(
         insets: NSDirectionalEdgeInsets? = nil,
         color: Color = .gold,
-        edges: PaymentButtonEdges = .softEdges,
+        shape: PaymentButtonShape = .rounded,
         size: PaymentButtonSize = .collapsed,
         _ action: @escaping () -> Void = { }
     ) {
         self.init(
             fundingSource: .payLater,
             color: color.color,
-            edges: edges,
+            shape: shape,
             size: size,
             insets: insets,
             label: .payLater
@@ -53,19 +53,19 @@ public extension PayPalPayLaterButton {
         /// - Parameters:
         ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
         ///   - color: Color of the button. Default to gold if not provided.
-        ///   - edges: Edges of the button. Default to softEdges if not provided.
+        ///   - shape: Shape of the button. Default to `.rounded` if not provided.
         ///   - size: Size of the button. Default to collapsed if not provided.
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
             color: PayPalPayLaterButton.Color = .gold,
-            edges: PaymentButtonEdges = .softEdges,
+            shape: PaymentButtonShape = .rounded,
             size: PaymentButtonSize = .collapsed,
             _ action: @escaping () -> Void = { }
         ) {
             self.button = PayPalPayLaterButton(
                 fundingSource: .payLater,
                 color: color.color,
-                edges: edges,
+                shape: shape,
                 size: size,
                 insets: insets,
                 label: .payLater
