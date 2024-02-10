@@ -5,9 +5,8 @@
 * PaymentButtons
   * Deprecate `PaymentButtonColor` `.black`, `.silver`, `.blue`, and `.darkBlue`
   * Add `PaymentButtonColor.gold` for `PayPalCreditButton`
-  * Add `custom` case for `PaymentButtonEdges`
+  * Add `custom` case for `PaymentButtonShape`
   * Support VoiceOver by adding button accessibility labels
-  * Add `custom` case for `PaymentButtonEdges`
   * Support VoiceOver by adding button accessibility labels
   * Font typeface changed to "PayPalOpen" to meet brand guidelines
 * CardPayments
@@ -20,6 +19,9 @@
   * Add `PayPalVaultResult` type to return vault result
   * Add `PayPalVaultDelegate` to handle results from vault flow
   * Add `PayPalWebCheckoutClientError.paypalVaultResponseError` for missing or invalid response from vaulting
+* Breaking Changes
+  * Change `PaymentButtonEdges` to `PaymentButtonShape`
+  * Update `PaymentButtonShape` from `.hardEdges` to `.rectangle`, `.softEdges` to `.rounded`, and `.rounded` to `.pill`
 
 ## 1.1.0 (2023-11-16)
 * PayPalNativePayments
