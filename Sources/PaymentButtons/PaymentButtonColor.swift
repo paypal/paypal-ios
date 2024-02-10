@@ -8,12 +8,16 @@ public enum PaymentButtonColor: String {
     /// The white background and blue wordmark, monogram, and black text.
     case white
 
+    /// The black background and monochrome wordmark, monogram, and white text.
     case black
 
+    /// The silver background and blue wordmark, monogram, and black text.
     case silver
 
+    /// The blue background and white wordmark, blue monogram, and white text.
     case blue
 
+    /// The dark blue background with PayPal Credit wordmark and monogram.
     case darkBlue
 
     var color: UIColor {
