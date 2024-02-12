@@ -64,7 +64,10 @@ struct SwiftUIPaymentButtonDemo: View {
                     selectedShape = PaymentButtonShape.allCases[shapeIndex]
                     buttonID += 1
                 }
-                Stepper("Custom Corner Radius: \(customCornerRadius)", value: $customCornerRadius, in: 0...100).onChange(of: customCornerRadius) { _ in
+                Stepper(
+                    "Custom Corner Radius: \(customCornerRadius)",
+                    value: $customCornerRadius,
+                    in: 0...100).onChange(of: customCornerRadius) { _ in
                     if selectedShape.description == "custom" {
                         selectedShape = PaymentButtonShape.custom(CGFloat(customCornerRadius))
                         buttonID += 1
