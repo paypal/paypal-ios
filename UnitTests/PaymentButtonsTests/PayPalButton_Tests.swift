@@ -23,7 +23,7 @@ class PayPalButton_Tests: XCTestCase {
     
     func testMakeCoordinator_whenOnActionIsCalled_executesActionPassedInInitializer() {
         let expectation = expectation(description: "Action is called")
-        let sut = Representable {
+        let sut = PayPalButton.Representable {
             expectation.fulfill()
         }
         let coordinator = sut.makeCoordinator()
