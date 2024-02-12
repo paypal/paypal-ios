@@ -43,11 +43,15 @@ struct CardOrderCompletionResultView: View {
                 LeadingText("Brand", weight: .bold)
                 LeadingText("\(brand)")
             }
+            if let vaultStatus = orderResponse.paymentSource?.card?.attributes?.vault.status {
+                LeadingText("Vault Status", weight: .bold)
+                LeadingText("\(vaultStatus)")
+            }
             if let vaultID = orderResponse.paymentSource?.card?.attributes?.vault.id {
                 LeadingText("Vault ID / Payment Token", weight: .bold)
                 LeadingText("\(vaultID)")
             }
-            if let customerID = orderResponse.paymentSource?.card?.attributes?.vault.customer.id {
+            if let customerID = orderResponse.paymentSource?.card?.attributes?.vault.customer?.id {
                 LeadingText("Customer ID", weight: .bold)
                 LeadingText("\(customerID)")
             }

@@ -36,9 +36,9 @@ struct Order: Codable, Equatable {
 
     struct Vault: Codable, Equatable {
         
-        let id: String
+        let id: String?
         let status: String
-        let customer: Customer
+        let customer: Customer?
     }
 
     struct Customer: Codable, Equatable {
