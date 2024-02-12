@@ -3,7 +3,7 @@ import PaymentButtons
 extension PayPalPayLaterButton.Color {
 
     public static var allCases: [PayPalPayLaterButton.Color] {
-        [.gold, .white, .black, .silver, .blue]
+        [.gold, .white]
     }
 
     static func allCasesAsString() -> [String] {
@@ -14,7 +14,7 @@ extension PayPalPayLaterButton.Color {
 extension PayPalButton.Color: CaseIterable {
 
     public static var allCases: [PayPalButton.Color] {
-        [.gold, .white, .black, .silver, .blue]
+        [.gold, .white]
     }
 
     static func allCasesAsString() -> [String] {
@@ -25,7 +25,7 @@ extension PayPalButton.Color: CaseIterable {
 extension PayPalCreditButton.Color: CaseIterable {
 
     public static var allCases: [PayPalCreditButton.Color] {
-        [.gold, .white, .black, .darkBlue]
+        [.gold, .white]
     }
 
     static func allCasesAsString() -> [String] {
@@ -47,7 +47,7 @@ extension PaymentButtonShape: CaseIterable {
 extension PaymentButtonSize: CaseIterable {
 
     public static var allCases: [PaymentButtonSize] {
-        [.mini, .collapsed, .expanded, .full]
+        [.mini, .standard]
     }
 
     static func allCasesAsString() -> [String] {
@@ -69,7 +69,27 @@ extension PaymentButtonFundingSource: CaseIterable {
 extension PayPalButton.Label: CaseIterable {
     
     public static var allCases: [PayPalButton.Label] {
-        [.none, .checkout, .buyNow, .payWith]
+        [
+            .none,
+            .addMoneyWith,
+            .bookWith,
+            .buyNowWith,
+            .buyWith,
+            .checkoutWith,
+            .continueWith,
+            .contributeWith,
+            .orderWith,
+            .payWith,
+            .payLater,
+            .payLaterWith,
+            .reloadWith,
+            .rentWith,
+            .reserveWith,
+            .subscribeWith,
+            .supportWith,
+            .tipWith,
+            .topUpWith
+        ]
     }
     
     static func allCasesAsString() -> [String] {

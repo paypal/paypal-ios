@@ -112,28 +112,22 @@ public class PaymentButton: UIButton {
     public private(set) var label: PaymentButtonLabel?
 
     private var imageHeight: CGFloat {
-        // For pay later or paypal credit return different image height
         switch size {
+
         case .mini:
-            return fundingSource == .payLater || fundingSource == .credit ? 12 : 24
+            return 24.0
 
-        case .collapsed:
-            return 15.0
-
-        case .expanded:
+        case .standard:
             return 20.0
-
-        case .full:
-            return 26.0
         }
     }
 
     private var supportsPrefixLabel: Bool {
         switch size {
-        case .mini, .collapsed:
+        case .mini:
             return false
 
-        case .expanded, .full:
+        case .standard:
             if let label = label {
                 return label.position == .prefix
             }
@@ -142,15 +136,11 @@ public class PaymentButton: UIButton {
     }
 
     private var supportsSuffixLabel: Bool {
-        if fundingSource == .payLater {
-            return true
-        }
-
         switch size {
-        case .mini, .collapsed:
+        case .mini:
             return false
 
-        case .expanded, .full:
+        case .standard:
             if let label = label {
                 return label.position == .suffix
             }
@@ -249,8 +239,7 @@ public class PaymentButton: UIButton {
     override public func layoutSubviews() {
         super.layoutSubviews()
         if size == .mini {
-            let minValue = min(containerView.bounds.width, containerView.bounds.height)
-            containerView.layer.cornerRadius = minValue / 2
+            containerView.layer.cornerRadius = 4.0
         } else {
             containerView.layer.cornerRadius = shape.cornerRadius(for: containerView)
         }

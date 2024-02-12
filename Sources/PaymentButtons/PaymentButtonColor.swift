@@ -8,48 +8,18 @@ public enum PaymentButtonColor: String {
     /// The white background and blue wordmark, blue border, monogram, and black text.
     case white
 
-	@available(*, deprecated, message: "Deprecated color. Replace with `white` button color.")
-    case black
-
-	@available(*, deprecated, message: "Deprecated color. Replace with `white` button color.")
-    case silver
-
-	@available(*, deprecated, message: "Deprecated color. Replace with `white` button color.")
-    case blue
-
-	@available(*, deprecated, message: "Deprecated color. Replace with `white` button color.")
-    case darkBlue
-
     var color: UIColor {
         switch self {
         case .gold:
-            return UIColor(hexString: "#FFC439")
+            return UIColor(hexString: "#FFD140")
 
         case .white:
             return UIColor(hexString: "#FFFFFF")
-
-        case .black:
-            return UIColor(hexString: "#000000")
-
-        case .silver:
-            return UIColor(hexString: "#EEEEEE")
-
-        case .blue:
-            return UIColor(hexString: "#0070BA")
-
-        case .darkBlue:
-            return UIColor(hexString: "#073990")
         }
     }
 
     var fontColor: UIColor {
-        switch self {
-        case .gold, .white, .silver:
-            return .black
-
-        case .blue, .black, .darkBlue:
-            return .white
-        }
+        .black
     }
 
     public var description: String {
@@ -59,18 +29,6 @@ public enum PaymentButtonColor: String {
 
         case .white:
             return "White"
-
-        case .black:
-            return "Black"
-
-        case .silver:
-            return "Silver"
-
-        case .blue:
-            return "Blue"
-
-        case .darkBlue:
-            return "Dark blue"
         }
     }
 }

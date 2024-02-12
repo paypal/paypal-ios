@@ -29,6 +29,9 @@ struct SwiftUIPaymentButtonDemo: View {
     @ViewBuilder var body: some View {
         ZStack {
             VStack {
+                Text("Note: Button colors have been consolidated and deprecated to gold and white. Other colors will be removed in v2.")
+                    .font(.footnote)
+
                 Picker("Funding Source", selection: $fundingIndex) {
                     ForEach(fundingSources.indices, id: \.self) { index in
                         Text(fundingSources[index])
@@ -86,13 +89,24 @@ struct SwiftUIPaymentButtonDemo: View {
 
                 switch selectedFunding {
                 case .payPal:
-                    if selectedSize == .expanded || selectedSize == .full {
+                    if selectedSize == .standard {
+                        Picker("Edges", selection: $edgesIndex) {
+                            ForEach(edges.indices, id: \.self) { index in
+                                Text(edges[index])
+                            }
+                        }
+                        .pickerStyle(SegmentedPickerStyle())
+                        .onChange(of: edgesIndex) { _ in
+                            selectedEdge = PaymentButtonEdges.allCases[edgesIndex]
+                            buttonID += 1
+                        }
+
                         Picker("label", selection: $labelIndex) {
                             ForEach(labels.indices, id: \.self) { index in
                                 Text(labels[index])
                             }
                         }
-                        .pickerStyle(SegmentedPickerStyle())
+                        .pickerStyle(WheelPickerStyle())
                         .onChange(of: labelIndex) { _ in
                             selectedLabel = PayPalButton.Label.allCases[labelIndex]
                             buttonID += 1
