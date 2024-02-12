@@ -47,7 +47,7 @@ public final class PayPalButton: PaymentButton {
         insets: NSDirectionalEdgeInsets? = nil,
         color: Color = .gold,
         shape: PaymentButtonShape = .rounded,
-        size: PaymentButtonSize = .collapsed,
+        size: PaymentButtonSize = .standard,
         label: Label? = nil
     ) {
         self.init(
@@ -83,7 +83,7 @@ public extension PayPalButton {
             insets: NSDirectionalEdgeInsets? = nil,
             color: PayPalButton.Color = .gold,
             shape: PaymentButtonShape = .rounded,
-            size: PaymentButtonSize = .collapsed,
+            size: PaymentButtonSize = .standard,
             label: PayPalButton.Label? = nil,
             _ action: @escaping () -> Void = { }
         ) {
