@@ -39,63 +39,65 @@ public final class PayPalPayLaterButton: PaymentButton {
 }
 
 /// PayPalPayLaterButton for SwiftUI
-public struct PayPalPayLaterButtonView: UIViewRepresentable {
+public extension PayPalPayLaterButton {
 
-    private let button: PayPalPayLaterButton
-    private var action: () -> Void = { }
+    struct Representable: UIViewRepresentable {
 
-    /// Initialize a PayPalPayLaterButton
-    /// - Parameters:
-    ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
-    ///   - color: Color of the button. Default to gold if not provided.
-    ///   - edges: Edges of the button. Default to softEdges if not provided.
-    ///   - size: Size of the button. Default to standard if not provided.
-    public init(
-        insets: NSDirectionalEdgeInsets? = nil,
-        color: PayPalPayLaterButton.Color = .gold,
-        edges: PaymentButtonEdges = .rounded,
-        size: PaymentButtonSize = .standard,
-        _ action: @escaping () -> Void = { }
-    ) {
-        self.button = PayPalPayLaterButton(
-            fundingSource: .payLater,
-            color: color.color,
-            edges: edges,
-            size: size,
-            insets: insets,
-            label: .payLater
-        )
-        self.action = action
-    }
+        private let button: PayPalPayLaterButton
+        private var action: () -> Void = { }
 
-    public func makeCoordinator() -> Coordinator {
-        Coordinator(action: action)
-    }
+        /// Initialize a PayPalPayLaterButton
+        /// - Parameters:
+        ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
+        ///   - color: Color of the button. Default to gold if not provided.
+        ///   - edges: Edges of the button. Default to softEdges if not provided.
+        ///   - size: Size of the button. Default to standard if not provided.
+        public init(
+            insets: NSDirectionalEdgeInsets? = nil,
+            color: PayPalPayLaterButton.Color = .gold,
+            edges: PaymentButtonEdges = .rounded,
+            size: PaymentButtonSize = .standard,
+            _ action: @escaping () -> Void = { }
+        ) {
+            self.button = PayPalPayLaterButton(
+                fundingSource: .payLater,
+                color: color.color,
+                edges: edges,
+                size: size,
+                insets: insets,
+                label: .payLater
+            )
+            self.action = action
+        }
 
-    public func makeUIView(context: Context) -> PaymentButton {
-        let button = button
-        button.addTarget(context.coordinator, action: #selector(Coordinator.onAction(_:)), for: .touchUpInside)
-        return button
-    }
+        public func makeCoordinator() -> Coordinator {
+            Coordinator(action: action)
+        }
 
-    public func updateUIView(_ uiView: PaymentButton, context: Context) {
-        context.coordinator.action = action
+        public func makeUIView(context: Context) -> PaymentButton {
+            let button = button
+            button.addTarget(context.coordinator, action: #selector(Coordinator.onAction(_:)), for: .touchUpInside)
+            return button
+        }
+
+        public func updateUIView(_ uiView: PaymentButton, context: Context) {
+            context.coordinator.action = action
+        }
     }
 }
-
 
 // MARK: PayLaterButton Preview
 
 struct PayPalPayLaterButtonUIView: View {
 
     var body: some View {
-        PayPalPayLaterButtonView()
+        PayPalPayLaterButton.Representable()
     }
 }
 
 struct PayPalPayLaterButtonView_Preview: PreviewProvider {
 
     static var previews: some View {
-        PayPalPayLaterButtonView()
+        PayPalPayLaterButton.Representable()
     }
 }

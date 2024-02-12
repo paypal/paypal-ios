@@ -109,7 +109,7 @@ struct SwiftUIPaymentButtonDemo: View {
                             buttonID += 1
                         }
                     }
-                    PayPalButtonView(
+                    PayPalButton.Representable(
                         color: PayPalButton.Color.allCases[colorsIndex],
                         edges: selectedEdge,
                         size: selectedSize,
@@ -119,7 +119,7 @@ struct SwiftUIPaymentButtonDemo: View {
                     .frame(width: 300)
 
                 case .payLater:
-                    PayPalPayLaterButtonView(
+                    PayPalPayLaterButton.Representable(
                         color: PayPalPayLaterButton.Color.allCases[colorsIndex],
                         edges: selectedEdge,
                         size: selectedSize
@@ -128,7 +128,7 @@ struct SwiftUIPaymentButtonDemo: View {
                     .frame(width: 300)
 
                 case .credit:
-                    PayPalCreditButtonView(
+                    PayPalCreditButton.Representable(
                         color: PayPalCreditButton.Color.allCases[colorsIndex],
                         edges: selectedEdge,
                         size: selectedSize

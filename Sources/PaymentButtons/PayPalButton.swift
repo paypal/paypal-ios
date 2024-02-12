@@ -114,51 +114,54 @@ public final class PayPalButton: PaymentButton {
 }
 
 /// PayPalButton for SwiftUI
-public struct PayPalButtonView: UIViewRepresentable {
+public extension PayPalButton {
 
-    private var action: () -> Void = { }
+    struct Representable: UIViewRepresentable {
 
-    private var button: PayPalButton
+        private var action: () -> Void = { }
 
-    /// Initialize a PayPalButton
-    /// - Parameters:
-    ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
-    ///   - color: Color of the button. Default to gold if not provided.
-    ///   - edges: Edges of the button. Default to softEdges if not provided.
-    ///   - size: Size of the button. Default to standard if not provided.
-    ///   - label: Label displayed next to the button's logo. Default to no label.
-    public init(
-        insets: NSDirectionalEdgeInsets? = nil,
-        color: PayPalButton.Color = .gold,
-        edges: PaymentButtonEdges = .rounded,
-        size: PaymentButtonSize = .standard,
-        label: PayPalButton.Label? = nil,
-        _ action: @escaping () -> Void = { }
-    ) {
-        button = PayPalButton(
-            fundingSource: .payPal,
-            color: color.color,
-            edges: edges,
-            size: size,
-            insets: insets,
-            label: label?.label
-        )
-        self.action = action
-    }
+        private var button: PayPalButton
 
-    public func makeCoordinator() -> Coordinator {
-        Coordinator(action: action)
-    }
+        /// Initialize a PayPalButton
+        /// - Parameters:
+        ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
+        ///   - color: Color of the button. Default to gold if not provided.
+        ///   - edges: Edges of the button. Default to softEdges if not provided.
+        ///   - size: Size of the button. Default to standard if not provided.
+        ///   - label: Label displayed next to the button's logo. Default to no label.
+        public init(
+            insets: NSDirectionalEdgeInsets? = nil,
+            color: PayPalButton.Color = .gold,
+            edges: PaymentButtonEdges = .rounded,
+            size: PaymentButtonSize = .standard,
+            label: PayPalButton.Label? = nil,
+            _ action: @escaping () -> Void = { }
+        ) {
+            button = PayPalButton(
+                fundingSource: .payPal,
+                color: color.color,
+                edges: edges,
+                size: size,
+                insets: insets,
+                label: label?.label
+            )
+            self.action = action
+        }
 
-    public func makeUIView(context: Context) -> PaymentButton {
+        public func makeCoordinator() -> Coordinator {
+            Coordinator(action: action)
+        }
 
-        let button = button
-        button.addTarget(context.coordinator, action: #selector(Coordinator.onAction(_:)), for: .touchUpInside)
-        return button
-    }
+        public func makeUIView(context: Context) -> PaymentButton {
 
-    public func updateUIView(_ uiView: PaymentButton, context: Context) {
-        context.coordinator.action = action
+            let button = button
+            button.addTarget(context.coordinator, action: #selector(Coordinator.onAction(_:)), for: .touchUpInside)
+            return button
+        }
+
+        public func updateUIView(_ uiView: PaymentButton, context: Context) {
+            context.coordinator.action = action
+        }
     }
 }
 
@@ -167,13 +170,13 @@ public struct PayPalButtonView: UIViewRepresentable {
 struct PayPalButtonUIView: View {
 
     var body: some View {
-        PayPalButtonView()
+        PayPalButton.Representable()
     }
 }
 
 struct PayPalButtonView_Preview: PreviewProvider {
 
     static var previews: some View {
-        PayPalButtonView()
+        PayPalButton.Representable()
     }
 }

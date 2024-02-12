@@ -29,7 +29,6 @@
     * Remove `PaymentButtonColor` `.black`, `.silver`, `.blue`, and `.darkBlue`
     * Add `PaymentButtonColor.gold` for `PayPalCreditButton`
     * Remove `PaymentButtonSize` cases: `.miniWithWordmark`, `.collapsed`, `.expanded`, `.full`
-    * Rename `PayPalButton.Representable` to `PayPalButtonView`, `PayPalPayLaterButton.Representable` to `PayPalPayLaterButtonView`, and `PayPalCreditButton.Representable` to `PayPalCreditButtonView` for SwiftUI
 
 ## 1.1.0 (2023-11-16)
 * PayPalNativePayments
