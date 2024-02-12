@@ -20,8 +20,9 @@
   * Add `PayPalVaultDelegate` to handle results from vault flow
   * Add `PayPalWebCheckoutClientError.paypalVaultResponseError` for missing or invalid response from vaulting
 * Breaking Changes
-  * Change `PaymentButtonEdges` to `PaymentButtonShape`
-  * Update `PaymentButtonShape` from `.hardEdges` to `.rectangle`, `.softEdges` to `.rounded`, and `.rounded` to `.pill`
+  * PaymentButton
+    * Change `PaymentButtonEdges` to `PaymentButtonShape`
+    * Update `PaymentButtonShape` from `.hardEdges` to `.rectangle`, `.softEdges` to `.rounded`, and `.rounded` to `.pill`
 
 ## 1.1.0 (2023-11-16)
 * PayPalNativePayments
