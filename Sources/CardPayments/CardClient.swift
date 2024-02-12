@@ -38,6 +38,12 @@ public class CardClient: NSObject {
         self.webAuthenticationSession = webAuthenticationSession
     }
 
+    /// Updates a setup token with a payment method. Performs
+    /// 3DS verification if required. Check verification status with  /v3/vault/setup-token/{id} in your server.
+    /// - Parameters:
+    ///   - cardVaultRequest: The request containing setupTokenID and card
+    /// - Returns: Card vault result
+    /// - Throws: PayPalSDK error if approve order could not complete successfully
     public func vault(_ vaultRequest: CardVaultRequest) {
         Task {
             do {
@@ -189,7 +195,7 @@ public class CardClient: NSObject {
                     }
                 }
 
-                let cardVaultResult = CardVaultResult(setupTokenID: setupTokenID, status: nil, deepLinkURL: url)
+                let cardVaultResult = CardVaultResult(setupTokenID: setupTokenID, status: "3dsVerificationAttempted", deepLinkURL: url)
                 self.notifyVaultSuccess(for: cardVaultResult)
             }
         )

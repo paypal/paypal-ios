@@ -31,7 +31,7 @@ class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
         return enabled
     }
 
-    func setUpTokenSuccessResult(vaultResult: CardPayments.CardVaultResult) {
+    func setUpdateTokenSuccessResult(vaultResult: CardPayments.CardVaultResult) {
         DispatchQueue.main.async {
             self.state.updateSetupTokenResponse = .loaded(
                 UpdateSetupTokenResult(
@@ -53,7 +53,7 @@ class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
 
     func card(_ cardClient: CardPayments.CardClient, didFinishWithVaultResult vaultResult: CardPayments.CardVaultResult) {
         print("vaultResult: \(vaultResult)")
-        setUpTokenSuccessResult(vaultResult: vaultResult)
+        setUpdateTokenSuccessResult(vaultResult: vaultResult)
     }
 
     func card(_ cardClient: CardPayments.CardClient, didFinishWithVaultError vaultError: CorePayments.CoreSDKError) {
