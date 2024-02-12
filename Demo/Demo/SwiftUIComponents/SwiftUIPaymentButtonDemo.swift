@@ -16,7 +16,7 @@ struct SwiftUIPaymentButtonDemo: View {
     @State private var shapeIndex = 0
     private var shape = PaymentButtonShape.allCasesAsString()
     @State private var selectedShape = PaymentButtonShape.allCases[0]
-    @State private var customEdge: Int = 10
+    @State private var customCornerRadius: Int = 10
 
     @State private var sizesIndex = 1
     private var sizes = PaymentButtonSize.allCasesAsString()
@@ -64,9 +64,9 @@ struct SwiftUIPaymentButtonDemo: View {
                     selectedShape = PaymentButtonShape.allCases[shapeIndex]
                     buttonID += 1
                 }
-                Stepper("Custom Corner Radius: \(customEdge)", value: $customEdge, in: 0...100).onChange(of: customEdge) { _ in
+                Stepper("Custom Corner Radius: \(customCornerRadius)", value: $customCornerRadius, in: 0...100).onChange(of: customCornerRadius) { _ in
                     if selectedShape.description == "custom" {
-                        selectedShape = PaymentButtonShape.custom(CGFloat(customEdge))
+                        selectedShape = PaymentButtonShape.custom(CGFloat(customCornerRadius))
                         buttonID += 1
                     }
                 }
