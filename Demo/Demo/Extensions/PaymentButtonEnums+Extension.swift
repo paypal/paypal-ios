@@ -3,7 +3,7 @@ import PaymentButtons
 extension PayPalPayLaterButton.Color {
 
     public static var allCases: [PayPalPayLaterButton.Color] {
-        [.gold, .white]
+        [.gold, .white, .black, .silver, .blue]
     }
 
     static func allCasesAsString() -> [String] {
@@ -14,7 +14,7 @@ extension PayPalPayLaterButton.Color {
 extension PayPalButton.Color: CaseIterable {
 
     public static var allCases: [PayPalButton.Color] {
-        [.gold, .white]
+        [.gold, .white, .black, .silver, .blue]
     }
 
     static func allCasesAsString() -> [String] {
@@ -25,7 +25,7 @@ extension PayPalButton.Color: CaseIterable {
 extension PayPalCreditButton.Color: CaseIterable {
 
     public static var allCases: [PayPalCreditButton.Color] {
-        [.gold, .white]
+        [.white, .black, .darkBlue]
     }
 
     static func allCasesAsString() -> [String] {
@@ -47,7 +47,7 @@ extension PaymentButtonEdges: CaseIterable {
 extension PaymentButtonSize: CaseIterable {
 
     public static var allCases: [PaymentButtonSize] {
-        [.mini, .standard]
+        [.mini, .collapsed, .expanded, .full]
     }
 
     static func allCasesAsString() -> [String] {
@@ -69,12 +69,7 @@ extension PaymentButtonFundingSource: CaseIterable {
 extension PayPalButton.Label: CaseIterable {
     
     public static var allCases: [PayPalButton.Label] {
-        [
-            .none,
-            .checkout,
-            .buyNow,
-            .payWith
-        ]
+        [.none, .checkout, .buyNow, .payWith]
     }
     
     static func allCasesAsString() -> [String] {
