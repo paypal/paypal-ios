@@ -27,7 +27,7 @@ struct PayPalWebButtonsView: View {
 
                 switch selectedFundingSource {
                 case .paypalCredit:
-                    PayPalCreditButton.Representable(color: .gold, size: .standard) {
+                    PayPalCreditButton.Representable(color: .black, size: .standard) {
                         payPalWebViewModel.paymentButtonTapped(funding: .paypalCredit)
                     }
                 case .paylater:

@@ -3,9 +3,7 @@
 
 ## unreleased
 * PaymentButtons
-  * Deprecate `PaymentButtonColor` `.black`, `.silver`, `.blue`, and `.darkBlue`
-  * Add `PaymentButtonColor.gold` for `PayPalCreditButton`
-  * Add `custom` case for `PaymentButtonShape`
+  * Add `custom` case for `PaymentButtonEdges`
   * Support VoiceOver by adding button accessibility labels
   * Support VoiceOver by adding button accessibility labels
   * Font typeface changed to "PayPalOpen" to meet brand guidelines
