@@ -42,7 +42,7 @@ struct PayPalWebResultView: View {
                 LabelViewText("Payment Token:", bodyText: vaultID)
             }
 
-            if let customerID = payPalWebViewModel.order?.paymentSource?.paypal?.attributes?.vault.customer.id {
+            if let customerID = payPalWebViewModel.order?.paymentSource?.paypal?.attributes?.vault.customer?.id {
                 LabelViewText("Customer ID:", bodyText: customerID)
             }
         }
