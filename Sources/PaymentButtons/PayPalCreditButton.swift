@@ -23,7 +23,7 @@ public final class PayPalCreditButton: PaymentButton {
     ///   - size: Size of the button. Default to standard if not provided.
     public convenience init(
         insets: NSDirectionalEdgeInsets? = nil,
-        color: Color = .gold,
+        color: Color = .white,
         edges: PaymentButtonEdges = .rounded,
         size: PaymentButtonSize = .standard
     ) {
@@ -56,7 +56,7 @@ public extension PayPalCreditButton {
         ///   - size: Size of the button. Default to standard if not provided.
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
-            color: PayPalCreditButton.Color = .gold,
+            color: PayPalCreditButton.Color = .white,
             edges: PaymentButtonEdges = .rounded,
             size: PaymentButtonSize = .standard,
             _ action: @escaping () -> Void = { }
