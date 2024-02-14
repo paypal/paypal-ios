@@ -36,8 +36,8 @@ class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
             self.state.updateSetupTokenResponse = .loaded(
                 UpdateSetupTokenResult(
                     id: vaultResult.setupTokenID,
-                    deepLinkURL: vaultResult.deepLinkURL,
-                    status: vaultResult.status
+                    status: vaultResult.status,
+                    threeDSecureAttempted: vaultResult.threeDSecureAttempted
                 )
             )
         }

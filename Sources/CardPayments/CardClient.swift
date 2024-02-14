@@ -59,7 +59,7 @@ public class CardClient: NSObject {
                     print("3DS url \(url)")
                     startVaultThreeDSecureChallenge(url: url, setupTokenID: vaultRequest.setupTokenID)
                 } else {
-                    let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status, deepLinkURL: nil)
+                    let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status, threeDSecureAttempted: false)
                     notifyVaultSuccess(for: vaultResult)
                 }
             } catch let error as CoreSDKError {
@@ -176,13 +176,13 @@ public class CardClient: NSObject {
             context: self,
             sessionDidDisplay: { [weak self] didDisplay in
                 if didDisplay {
-                    // should we send different analytics for vault 3DS?
+                    // TODO: analytics for card vault
                     self?.analyticsService?.sendEvent("card-payments:3ds:challenge-presentation:succeeded")
                 } else {
                     self?.analyticsService?.sendEvent("card-payments:3ds:challenge-presentation:failed")
                 }
             },
-            sessionDidComplete: { url, error in
+            sessionDidComplete: { _, error in
                 self.vaultDelegate?.cardThreeDSecureDidFinish(self)
                 if let error = error {
                     switch error {
@@ -195,7 +195,7 @@ public class CardClient: NSObject {
                     }
                 }
 
-                let cardVaultResult = CardVaultResult(setupTokenID: setupTokenID, status: "3dsVerificationAttempted", deepLinkURL: url)
+                let cardVaultResult = CardVaultResult(setupTokenID: setupTokenID, status: nil, threeDSecureAttempted: true)
                 self.notifyVaultSuccess(for: cardVaultResult)
             }
         )

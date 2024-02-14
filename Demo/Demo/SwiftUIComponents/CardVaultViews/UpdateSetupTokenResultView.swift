@@ -28,10 +28,9 @@ struct UpdateSetupTokenResultView: View {
                 LeadingText("status", weight: .bold)
                 LeadingText("\(status)")
             }
-            if let deepLinkURL = updateSetupTokenResponse.deepLinkURL {
-                LeadingText("DeepLinkURL", weight: .bold)
-                LeadingText("\(deepLinkURL.absoluteString )")
-            }
+
+            LeadingText("threeDSecureAttempted", weight: .bold)
+            LeadingText("\(updateSetupTokenResponse.threeDSecureAttempted)")
         }
         .frame(maxWidth: .infinity)
         .padding()

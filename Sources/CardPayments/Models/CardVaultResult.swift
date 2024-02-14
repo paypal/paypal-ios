@@ -12,7 +12,6 @@ public struct CardVaultResult {
     /// setupToken status
     public let status: String?
 
-    /// This is the deep link url returned from 3DS authentication
-    @_documentation(visibility: private)
-    public let deepLinkURL: URL?
+    /// 3DS verification was attempted. Use v3/setup-tokens/{id} in your server to get verification results.
+    public let threeDSecureAttempted: Bool
 }
