@@ -3,10 +3,12 @@
 
 ## unreleased
 * PaymentButtons
+  * Add new `PaymentButtonSize` case `.standard`
   * Add `custom` case for `PaymentButtonEdges`
   * Support VoiceOver by adding button accessibility labels
   * Support VoiceOver by adding button accessibility labels
   * Font typeface changed to "PayPalOpen" to meet brand guidelines
+  * `PayPalButtonSize` `.mini` changed to rectangular button to meet brand guidelines
 * CardPayments
   * Add `liabilityShift` property to `CardResult`
   * Add `CardClientError.threeDSVerificationError` for invalid verification
@@ -20,7 +22,8 @@
 * Breaking Changes
   * PaymentButtons
     * Change `PaymentButtonEdges` to `PaymentButtonShape`
-    * Update `PaymentButtonShape` from `.hardEdges` to `.rectangle`, `.softEdges` to `.rounded`, and `.rounded` to `.pill`
+    * Change `PaymentButtonShape` from `.hardEdges` to `.rectangle`, `.softEdges` to `.rounded`, and `.rounded` to `.pill`
+    * Remove `PaymentButtonSize` cases: `.miniWithWordmark`, `.collapsed`, `.expanded`, `.full`
 
 ## 1.1.0 (2023-11-16)
 * PayPalNativePayments
