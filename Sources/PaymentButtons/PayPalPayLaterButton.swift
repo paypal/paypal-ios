@@ -55,7 +55,7 @@ public extension PayPalPayLaterButton {
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
             color: PayPalPayLaterButton.Color = .gold,
-            edges: PaymentButtonEdges = .rounded,
+            edges: PaymentButtonEdges = .softEdges,
             size: PaymentButtonSize = .standard,
             _ action: @escaping () -> Void = { }
         ) {

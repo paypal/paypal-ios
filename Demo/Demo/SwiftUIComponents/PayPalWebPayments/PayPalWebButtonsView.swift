@@ -27,15 +27,15 @@ struct PayPalWebButtonsView: View {
 
                 switch selectedFundingSource {
                 case .paypalCredit:
-                    PayPalCreditButton.Representable(color: .white, edges: .rounded, size: .standard) {
+                    PayPalCreditButton.Representable(color: .black, size: .standard) {
                         payPalWebViewModel.paymentButtonTapped(funding: .paypalCredit)
                     }
                 case .paylater:
-                    PayPalPayLaterButton.Representable(color: .gold, edges: .rounded, size: .standard) {
+                    PayPalPayLaterButton.Representable(color: .silver, edges: .softEdges, size: .full) {
                         payPalWebViewModel.paymentButtonTapped(funding: .paylater)
                     }
                 case .paypal:
-                    PayPalButton.Representable(color: .gold, edges: .rounded, size: .standard) {
+                    PayPalButton.Representable(color: .blue, size: .full) {
                         payPalWebViewModel.paymentButtonTapped(funding: .paypal)
                     }
                 }

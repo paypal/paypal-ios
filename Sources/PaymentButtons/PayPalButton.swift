@@ -43,7 +43,7 @@ public final class PayPalButton: PaymentButton {
     public convenience init(
         insets: NSDirectionalEdgeInsets? = nil,
         color: Color = .gold,
-        edges: PaymentButtonEdges = .rounded,
+        edges: PaymentButtonEdges = .softEdges,
         size: PaymentButtonSize = .standard,
         label: Label? = nil
     ) {
