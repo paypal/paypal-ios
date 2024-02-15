@@ -13,5 +13,5 @@ public struct CardVaultResult {
     public let status: String?
 
     /// 3DS verification was attempted. Use v3/setup-tokens/{id} in your server to get verification results.
-    public let threeDSecureAttempted: Bool
+    public let didAttemptThreeDSecureAuthentication: Bool
 }

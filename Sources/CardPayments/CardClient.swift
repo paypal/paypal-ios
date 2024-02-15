@@ -58,7 +58,7 @@ public class CardClient: NSObject {
                     }
                     startVaultThreeDSecureChallenge(url: url, setupTokenID: vaultRequest.setupTokenID)
                 } else {
-                    let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status, threeDSecureAttempted: false)
+                    let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status, didAttemptThreeDSecureAuthentication: false)
                     notifyVaultSuccess(for: vaultResult)
                 }
             } catch let error as CoreSDKError {
@@ -193,7 +193,7 @@ public class CardClient: NSObject {
                     }
                 }
 
-                let cardVaultResult = CardVaultResult(setupTokenID: setupTokenID, status: nil, threeDSecureAttempted: true)
+                let cardVaultResult = CardVaultResult(setupTokenID: setupTokenID, status: nil, didAttemptThreeDSecureAuthentication: true)
                 self.notifyVaultSuccess(for: cardVaultResult)
             }
         )

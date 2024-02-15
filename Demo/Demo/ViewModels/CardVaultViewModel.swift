@@ -37,7 +37,7 @@ class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
                 UpdateSetupTokenResult(
                     id: vaultResult.setupTokenID,
                     status: vaultResult.status,
-                    threeDSecureAttempted: vaultResult.threeDSecureAttempted
+                    didAttemptThreeDSecureAuthentication: vaultResult.didAttemptThreeDSecureAuthentication
                 )
             )
         }
