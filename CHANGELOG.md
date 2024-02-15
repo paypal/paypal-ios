@@ -9,10 +9,8 @@
   * Support VoiceOver by adding button accessibility labels
   * Font typeface changed to "PayPalOpen" to meet brand guidelines
 * CardPayments
-  * Add `liabilityShift` property to `CardResult`
-  * Add `CardClientError.threeDSVerificationError` for invalid verification
-  * Add `CardClientError.missingDeeplinkURLError` for missing deeplink URL
-  * Add `CardClientError.malformedDeeplinkURLError` for malformed or invalid deeplink
+  * Add `status` property to `CardResult`
+  * Add `didAttemptThreeDSecureAuthentication` property to `CardResult`
 * PayPalWebPayments
   * Add `vault(url:)` method to `PayPalWebCheckoutClient`
   * Add `PayPalVaultResult` type to return vault result
