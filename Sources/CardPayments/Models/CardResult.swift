@@ -9,10 +9,9 @@ public struct CardResult {
     /// The order ID associated with the transaction
     public let orderID: String
 
-    /// This is the deep link url returned from 3DS authentication
-    @_documentation(visibility: private)
-    public let deepLinkURL: URL?
-    
+    /// status of the order
+    public let status: String?
+
     /// Liability shift value returned from 3DS verification
-    public let liabilityShift: String?
+    public let threeDSecureAttempted: Bool
 }

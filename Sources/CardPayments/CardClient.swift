@@ -88,7 +88,7 @@ public class CardClient: NSObject {
                 } else {
                     analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:succeeded")
                     
-                    let cardResult = CardResult(orderID: result.id, deepLinkURL: nil, liabilityShift: nil)
+                    let cardResult = CardResult(orderID: result.id, status: result.status, threeDSecureAttempted: false)
                     notifySuccess(for: cardResult)
                 }
             } catch let error as CoreSDKError {
@@ -117,7 +117,7 @@ public class CardClient: NSObject {
                     self?.analyticsService?.sendEvent("card-payments:3ds:challenge-presentation:failed")
                 }
             },
-            sessionDidComplete: { url, error in
+            sessionDidComplete: { _, error in
                 self.delegate?.cardThreeDSecureDidFinish(self)
                 if let error = error {
                     switch error {
@@ -129,22 +129,9 @@ public class CardClient: NSObject {
                         return
                     }
                 }
-                
-                guard let url else {
-                    self.notifyFailure(with: CardClientError.missingDeeplinkURLError)
-                    return
-                }
-                
-                if self.getQueryStringParameter(url: url.absoluteString, param: "state") != nil
-                    && self.getQueryStringParameter(url: url.absoluteString, param: "code") != nil {
-                    let liabilityShift = self.getQueryStringParameter(url: url.absoluteString, param: "liability_shift")
-                    let cardResult = CardResult(orderID: orderId, deepLinkURL: url, liabilityShift: liabilityShift)
-                    self.notifySuccess(for: cardResult)
-                } else if self.getQueryStringParameter(url: url.absoluteString, param: "error") != nil {
-                    self.notifyFailure(with: CardClientError.threeDSVerificationError)
-                } else {
-                    self.notifyFailure(with: CardClientError.malformedDeeplinkURLError)
-                }
+
+                let cardResult = CardResult(orderID: orderId, status: nil, threeDSecureAttempted: true)
+                self.notifySuccess(for: cardResult)
             }
         )
     }
