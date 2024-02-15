@@ -9,7 +9,7 @@ public struct CardVaultResult {
     /// setupTokenID of token that was updated
     public let setupTokenID: String
 
-    /// setupToken status
+    /// setup token status
     public let status: String?
 
     /// 3DS verification was attempted. Use v3/setup-tokens/{id} in your server to get verification results.

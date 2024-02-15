@@ -50,13 +50,12 @@ public class CardClient: NSObject {
                 let result = try await vaultAPI.updateSetupToken(cardVaultRequest: vaultRequest).updateVaultSetupToken
 
                 if result.status == "PAYER_ACTION_REQUIRED",
-                let url = result.links.first(where: { $0.rel == "approve" })?.href {
-                    guard url.contains("helios"),
-                        let url = URL(string: url) else {
+                let urlString = result.links.first(where: { $0.rel == "approve" })?.href {
+                    guard urlString.contains("helios"),
+                        let url = URL(string: urlString) else {
                         self.notifyFailure(with: CardClientError.threeDSecureURLError)
                         return
                     }
-                    print("3DS url \(url)")
                     startVaultThreeDSecureChallenge(url: url, setupTokenID: vaultRequest.setupTokenID)
                 } else {
                     let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status, threeDSecureAttempted: false)
@@ -168,7 +167,6 @@ public class CardClient: NSObject {
         url: URL,
         setupTokenID: String
     ) {
-
         vaultDelegate?.cardThreeDSecureWillLaunch(self)
 
         webAuthenticationSession.start(
