@@ -2,6 +2,10 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
+* Breaking Changes
+  * CardPayments
+    * Add `status` property to `CardVaultResult`
+    * Add `didAttempt3DSecureAuthentication` property to `CardVaultResult`
 * PaymentButtons
   * Deprecate `PaymentButtonColor` `.black`, `.silver`, `.blue`, and `.darkBlue`
   * Add `PaymentButtonColor.gold` for `PayPalCreditButton`
@@ -15,6 +19,9 @@
   * Add `CardClientError.threeDSVerificationError` for invalid verification
   * Add `CardClientError.missingDeeplinkURLError` for missing deeplink URL
   * Add `CardClientError.malformedDeeplinkURLError` for malformed or invalid deeplink
+  * Add `cardVaultDidCancel()` to `CardVaultDelegate`
+  * Add `cardThreeDSecureWillLaunch()` to `CardVaultDelegate`
+  * Add `cardThreeDSecureDidFinish()` to `CardVaultDelegate`
 * PayPalWebPayments
   * Add `vault(url:)` method to `PayPalWebCheckoutClient`
   * Add `PayPalVaultResult` type to return vault result
