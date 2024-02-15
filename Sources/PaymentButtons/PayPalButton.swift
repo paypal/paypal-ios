@@ -64,11 +64,8 @@ public final class PayPalButton: PaymentButton {
 public extension PayPalButton {
 
     struct Representable: UIViewRepresentable {
-
         private var action: () -> Void = { }
-
         private var button: PayPalButton
-
         /// Initialize a PayPalButton
         /// - Parameters:
         ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
@@ -79,7 +76,7 @@ public extension PayPalButton {
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
             color: PayPalButton.Color = .gold,
-            edges: PaymentButtonEdges = .rounded,
+            edges: PaymentButtonEdges = .softEdges,
             size: PaymentButtonSize = .standard,
             label: PayPalButton.Label? = nil,
             _ action: @escaping () -> Void = { }

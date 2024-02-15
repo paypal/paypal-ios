@@ -44,7 +44,6 @@ public extension PayPalPayLaterButton {
     struct Representable: UIViewRepresentable {
         private let button: PayPalPayLaterButton
         private var action: () -> Void = { }
-
         /// Initialize a PayPalPayLaterButton
         /// - Parameters:
         ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.

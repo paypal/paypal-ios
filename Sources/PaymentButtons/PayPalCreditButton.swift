@@ -46,10 +46,8 @@ public final class PayPalCreditButton: PaymentButton {
 public extension PayPalCreditButton {
 
     struct Representable: UIViewRepresentable {
-
         private let button: PayPalCreditButton
         private var action: () -> Void = { }
-
         /// Initialize a PayPalCreditButton
         /// - Parameters:
         ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
