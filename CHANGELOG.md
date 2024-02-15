@@ -2,13 +2,6 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
-* PaymentButtons
-  * Add new `PaymentButtonSize` case `.standard`
-  * Add `custom` case for `PaymentButtonEdges`
-  * Support VoiceOver by adding button accessibility labels
-  * Support VoiceOver by adding button accessibility labels
-  * Font typeface changed to "PayPalOpen" to meet brand guidelines
-  * `PayPalButtonSize` `.mini` changed to rectangular button to meet brand guidelines
 * CardPayments
   * Add `liabilityShift` property to `CardResult`
   * Add `CardClientError.threeDSVerificationError` for invalid verification
@@ -19,6 +12,12 @@
   * Add `PayPalVaultResult` type to return vault result
   * Add `PayPalVaultDelegate` to handle results from vault flow
   * Add `PayPalWebCheckoutClientError.paypalVaultResponseError` for missing or invalid response from vaulting
+* PaymentButtons
+  * Add new `PaymentButtonSize` case `.standard`
+  * Add `custom` case for `PaymentButtonShape`
+  * Support VoiceOver by adding button accessibility labels
+  * Font typeface changed to "PayPalOpen" to meet brand guidelines
+  * `PayPalButtonSize` `.mini` changed to rectangular button to meet brand guidelines  
 * Breaking Changes
   * PaymentButtons
     * Change `PaymentButtonEdges` to `PaymentButtonShape`
