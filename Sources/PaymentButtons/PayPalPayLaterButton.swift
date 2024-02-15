@@ -86,7 +86,7 @@ public extension PayPalPayLaterButton {
 
 // MARK: PayLaterButton Preview
 
-struct PayPalPayLaterButtonUIView: View {
+struct PayPalPayLaterButtonView: View {
 
     var body: some View {
         PayPalPayLaterButton.Representable()

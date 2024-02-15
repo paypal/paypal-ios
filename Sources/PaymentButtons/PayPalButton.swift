@@ -111,7 +111,7 @@ public extension PayPalButton {
 
 // MARK: PayPalButton Preview
 
-struct PayPalButtonUIView: View {
+struct PayPalButtonView: View {
 
     var body: some View {
         PayPalButton.Representable()

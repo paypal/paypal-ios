@@ -46,6 +46,7 @@ public final class PayPalCreditButton: PaymentButton {
 public extension PayPalCreditButton {
 
     struct Representable: UIViewRepresentable {
+
         private let button: PayPalCreditButton
         private var action: () -> Void = { }
         /// Initialize a PayPalCreditButton
@@ -90,7 +91,7 @@ public extension PayPalCreditButton {
 
 // MARK: PayPalCreditButton Preview
 
-struct PayPalCreditButtonUIView: View {
+struct PayPalCreditButtonView: View {
 
     var body: some View {
         PayPalCreditButton.Representable()
