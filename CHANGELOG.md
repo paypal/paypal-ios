@@ -21,8 +21,6 @@
   * Font typeface changed to "PayPalOpen" to meet brand guidelines
 * Breaking Changes
   * PaymentButtons
-    * Remove `PaymentButtonColor` `.black`, `.silver`, `.blue`, and `.darkBlue`
-    * Add `PaymentButtonColor.gold` for `PayPalCreditButton`
     * Remove `PaymentButtonSize` cases: `.miniWithWordmark`, `.collapsed`, `.expanded`, `.full`
 
 ## 1.1.0 (2023-11-16)
