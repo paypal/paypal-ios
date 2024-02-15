@@ -23,7 +23,7 @@ public final class PayPalPayLaterButton: PaymentButton {
     public convenience init(
         insets: NSDirectionalEdgeInsets? = nil,
         color: Color = .gold,
-        edges: PaymentButtonEdges = .rounded,
+        edges: PaymentButtonEdges = .softEdges,
         size: PaymentButtonSize = .standard,
         _ action: @escaping () -> Void = { }
     ) {
@@ -42,7 +42,6 @@ public final class PayPalPayLaterButton: PaymentButton {
 public extension PayPalPayLaterButton {
 
     struct Representable: UIViewRepresentable {
-
         private let button: PayPalPayLaterButton
         private var action: () -> Void = { }
 

@@ -59,7 +59,7 @@ public extension PayPalCreditButton {
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
             color: PayPalCreditButton.Color = .white,
-            edges: PaymentButtonEdges = .rounded,
+            edges: PaymentButtonEdges = .softEdges,
             size: PaymentButtonSize = .standard,
             _ action: @escaping () -> Void = { }
         ) {
