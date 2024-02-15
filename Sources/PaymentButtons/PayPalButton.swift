@@ -8,6 +8,9 @@ public final class PayPalButton: PaymentButton {
     public enum Color: String {
         case gold
         case white
+        case black
+        case silver
+        case blue
 
         var color: PaymentButtonColor {
             PaymentButtonColor(rawValue: rawValue) ?? .gold
