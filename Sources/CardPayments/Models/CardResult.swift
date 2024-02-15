@@ -12,6 +12,6 @@ public struct CardResult {
     /// status of the order
     public let status: String?
 
-    /// Liability shift value returned from 3DS verification
-    public let threeDSecureAttempted: Bool
+    /// 3DS verification was attempted. Use v3/setup-tokens/{id} in your server to get verification results.
+    public let didAttemptThreeDSecureAuthentication: Bool
 }

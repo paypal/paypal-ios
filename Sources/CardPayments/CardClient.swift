@@ -88,7 +88,7 @@ public class CardClient: NSObject {
                 } else {
                     analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:succeeded")
                     
-                    let cardResult = CardResult(orderID: result.id, status: result.status, threeDSecureAttempted: false)
+                    let cardResult = CardResult(orderID: result.id, status: result.status, didAttemptThreeDSecureAuthentication: false)
                     notifySuccess(for: cardResult)
                 }
             } catch let error as CoreSDKError {
@@ -130,7 +130,7 @@ public class CardClient: NSObject {
                     }
                 }
 
-                let cardResult = CardResult(orderID: orderId, status: nil, threeDSecureAttempted: true)
+                let cardResult = CardResult(orderID: orderId, status: nil, didAttemptThreeDSecureAuthentication: true)
                 self.notifySuccess(for: cardResult)
             }
         )

@@ -143,7 +143,7 @@ class CardClient_Tests: XCTestCase {
         let mockCardDelegate = MockCardDelegate(success: {_, result -> Void in
             XCTAssertEqual(result.orderID, "testOrderId")
             XCTAssertEqual(result.status, "APPROVED")
-            XCTAssertFalse(result.threeDSecureAttempted)
+            XCTAssertFalse(result.didAttemptThreeDSecureAuthentication)
             expectation.fulfill()
         }, error: { _, _ in
             XCTFail("Invoked error() callback. Should invoke success().")
@@ -216,7 +216,7 @@ class CardClient_Tests: XCTestCase {
             success: {_, result in
                 XCTAssertEqual(result.orderID, "testOrderId")
                 XCTAssertNil(result.status)
-                XCTAssertTrue(result.threeDSecureAttempted)
+                XCTAssertTrue(result.didAttemptThreeDSecureAuthentication)
                 expectation.fulfill()
             },
             error: { _, error in
