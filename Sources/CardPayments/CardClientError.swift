@@ -82,22 +82,4 @@ enum CardClientError {
         domain: domain,
         errorDescription: "GraphQLClient is unexpectedly nil."
     )
-    
-    static let threeDSVerificationError = CoreSDKError(
-        code: Code.threeDSVerificationError.rawValue,
-        domain: domain,
-        errorDescription: "3DS Verification is returning an error."
-    )
-    
-    static let missingDeeplinkURLError = CoreSDKError(
-        code: Code.missingDeeplinkURLError.rawValue,
-        domain: domain,
-        errorDescription: "Missing deeplink URL from 3DS."
-    )
-    
-    static let malformedDeeplinkURLError = CoreSDKError(
-        code: Code.malformedDeeplinkURLError.rawValue,
-        domain: domain,
-        errorDescription: "Malformed deeplink URL."
-    )
 }
