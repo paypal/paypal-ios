@@ -32,7 +32,17 @@ extension PaymentButton {
         case .credit:
             imageAssetString += "credit_"
         }
-        imageAssetString += "color"
+
+        switch color {
+        case .gold, .white, .silver:
+            imageAssetString += "color"
+
+        case .black, .darkBlue:
+            imageAssetString += "monochrome"
+
+        case .blue:
+            imageAssetString += "blue"
+        }
         
         return imageAssetString
     }
