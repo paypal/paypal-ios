@@ -12,6 +12,6 @@ public struct CardResult {
     /// status of the order
     public let status: String?
 
-    /// 3DS verification was attempted. Use v3/setup-tokens/{id} in your server to get verification results.
+    /// 3DS verification was attempted. Use v2/checkout/orders/{orderID} in your server to get verification results.
     public let didAttemptThreeDSecureAuthentication: Bool
 }
