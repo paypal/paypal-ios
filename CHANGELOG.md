@@ -20,6 +20,9 @@
   * `PayPalButtonSize` `.mini` changed to rectangular button to meet brand guidelines
   * Font typeface changed to "PayPalOpen" to meet brand guidelines
 * Breaking Changes
+  * CardPayments
+    * Add `status` property to `CardResult`
+    * Add `didAttemptThreeDSecureAuthentication` property to `CardResult`
   * PaymentButtons
     * Remove `PaymentButtonColor` `.black`, `.silver`, `.blue`, and `.darkBlue`
     * Add `PaymentButtonColor.gold` for `PayPalCreditButton`
