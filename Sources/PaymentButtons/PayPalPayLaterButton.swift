@@ -51,7 +51,7 @@ public extension PayPalPayLaterButton {
         ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
         ///   - color: Color of the button. Default to gold if not provided.
         ///   - shape: Shape of the button. Default to `.rounded` if not provided.
-        ///   - size: Size of the button. Default to collapsed if not provided.
+        ///   - size: Size of the button. Default to `.standard` if not provided.
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
             color: PayPalPayLaterButton.Color = .gold,

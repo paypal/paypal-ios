@@ -47,7 +47,7 @@ extension PaymentButtonShape: CaseIterable {
 extension PaymentButtonSize: CaseIterable {
 
     public static var allCases: [PaymentButtonSize] {
-        [.mini, .collapsed, .expanded, .full]
+        [.mini, .standard]
     }
 
     static func allCasesAsString() -> [String] {

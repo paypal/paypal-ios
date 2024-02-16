@@ -1,6 +1,6 @@
 import UIKit
 
-/// Edges for the smart payment button, these affect the corner radius.
+/// Shapes for the smart payment button, these affect the corner radius.
 public enum PaymentButtonShape: Equatable {
 
     /// Sharp corners with 0 corner radius.
@@ -33,7 +33,7 @@ public enum PaymentButtonShape: Equatable {
     public var description: String {
         switch self {
         case .rectangle:
-            return "hardEdges"
+            return "rectangle"
 
         case .rounded:
             return "rounded"
