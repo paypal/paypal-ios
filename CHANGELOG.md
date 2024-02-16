@@ -5,7 +5,7 @@
 * Breaking Changes
   * CardPayments
     * Add `status` property to `CardVaultResult`
-    * Add `didAttempt3DSecureAuthentication` property to `CardVaultResult`
+    * Add `didAttemptThreeDSecureAuthentication` property to `CardVaultResult`
 * PaymentButtons
   * Deprecate `PaymentButtonColor` `.black`, `.silver`, `.blue`, and `.darkBlue`
   * Add `PaymentButtonColor.gold` for `PayPalCreditButton`
