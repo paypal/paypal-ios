@@ -39,7 +39,7 @@ public final class PayPalButton: PaymentButton {
     /// Initialize a PayPalButton
     /// - Parameters:
     ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
-    ///   - color: Color of the button. Default to gold if not provided.
+    ///   - color: Color of the button. Default to `.gold` if not provided.
     ///   - shape: Shape of the button. Default to `.rounded` if not provided.
     ///   - size: Size of the button. Default to `.standard` if not provided.
     ///   - label: Label displayed next to the button's logo. Default to no label.
