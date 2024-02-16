@@ -14,18 +14,17 @@
   * Add `PayPalWebCheckoutClientError.paypalVaultResponseError` for missing or invalid response from vaulting
 * PaymentButtons
   * Add new `PaymentButtonSize` case `.standard`
-  * Add `custom` case for `PaymentButtonEdges`
+  * Add `custom` case for `PaymentButtonShape`
   * Support VoiceOver by adding button accessibility labels
-  * Add new `PaymentButtonSize` case `.miniWithWordmark`
-  * `PayPalButtonSize` `.mini` changed to rectangular button to meet brand guidelines
   * Font typeface changed to "PayPalOpen" to meet brand guidelines
+  * `PayPalButtonSize` `.mini` changed to rectangular button to meet brand guidelines  
 * Breaking Changes
   * CardPayments
     * Add `status` property to `CardResult`
     * Add `didAttemptThreeDSecureAuthentication` property to `CardResult`
   * PaymentButtons
-    * Remove `PaymentButtonColor` `.black`, `.silver`, `.blue`, and `.darkBlue`
-    * Add `PaymentButtonColor.gold` for `PayPalCreditButton`
+    * Change `PaymentButtonEdges` to `PaymentButtonShape`
+    * Change `PaymentButtonShape` from `.hardEdges` to `.rectangle`, `.softEdges` to `.rounded`, and `.rounded` to `.pill`
     * Remove `PaymentButtonSize` cases: `.miniWithWordmark`, `.collapsed`, `.expanded`, `.full`
 
 ## 1.1.0 (2023-11-16)

@@ -21,18 +21,18 @@ public final class PayPalCreditButton: PaymentButton {
     /// - Parameters:
     ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
     ///   - color: Color of the button. Default to gold if not provided.
-    ///   - edges: Edges of the button. Default to softEdges if not provided.
+    ///   - shape: Shape of the button. Default to `.rounded` if not provided.
     ///   - size: Size of the button. Default to standard if not provided.
     public convenience init(
         insets: NSDirectionalEdgeInsets? = nil,
         color: Color = .white,
-        edges: PaymentButtonEdges = .softEdges,
+        shape: PaymentButtonShape = .rounded,
         size: PaymentButtonSize = .standard
     ) {
         self.init(
             fundingSource: PaymentButtonFundingSource.credit,
             color: color.color,
-            edges: edges,
+            shape: shape,
             size: size,
             insets: insets,
             label: nil
@@ -54,19 +54,19 @@ public extension PayPalCreditButton {
         /// - Parameters:
         ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
         ///   - color: Color of the button. Default to gold if not provided.
-        ///   - edges: Edges of the button. Default to softEdges if not provided.
+        ///   - shape: Shape of the button. Default to `.rounded` if not provided.
         ///   - size: Size of the button. Default to standard if not provided.
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
             color: PayPalCreditButton.Color = .white,
-            edges: PaymentButtonEdges = .softEdges,
+            shape: PaymentButtonShape = .rounded,
             size: PaymentButtonSize = .standard,
             _ action: @escaping () -> Void = { }
         ) {
             self.button = PayPalCreditButton(
                 fundingSource: PaymentButtonFundingSource.credit,
                 color: color.color,
-                edges: edges,
+                shape: shape,
                 size: size,
                 insets: insets,
                 label: nil

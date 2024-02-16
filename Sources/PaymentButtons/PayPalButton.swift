@@ -37,20 +37,20 @@ public final class PayPalButton: PaymentButton {
     /// - Parameters:
     ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
     ///   - color: Color of the button. Default to gold if not provided.
-    ///   - edges: Edges of the button. Default to softEdges if not provided.
-    ///   - size: Size of the button. Default to standard if not provided.
+    ///   - shape: Shape of the button. Default to `.rounded` if not provided.
+    ///   - size: Size of the button. Default to `.standard` if not provided.
     ///   - label: Label displayed next to the button's logo. Default to no label.
     public convenience init(
         insets: NSDirectionalEdgeInsets? = nil,
         color: Color = .gold,
-        edges: PaymentButtonEdges = .softEdges,
+        shape: PaymentButtonShape = .rounded,
         size: PaymentButtonSize = .standard,
         label: Label? = nil
     ) {
         self.init(
             fundingSource: .payPal,
             color: color.color,
-            edges: edges,
+            shape: shape,
             size: size,
             insets: insets,
             label: label?.label
@@ -73,13 +73,13 @@ public extension PayPalButton {
         /// - Parameters:
         ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
         ///   - color: Color of the button. Default to gold if not provided.
-        ///   - edges: Edges of the button. Default to softEdges if not provided.
-        ///   - size: Size of the button. Default to standard if not provided.
+        ///   - shape: Shape of the button. Default to `.rounded` if not provided.
+        ///   - size: Size of the button. Default to `.standard` if not provided.
         ///   - label: Label displayed next to the button's logo. Default to no label.
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
             color: PayPalButton.Color = .gold,
-            edges: PaymentButtonEdges = .softEdges,
+            shape: PaymentButtonShape = .rounded,
             size: PaymentButtonSize = .standard,
             label: PayPalButton.Label? = nil,
             _ action: @escaping () -> Void = { }
@@ -87,7 +87,7 @@ public extension PayPalButton {
             button = PayPalButton(
                 fundingSource: .payPal,
                 color: color.color,
-                edges: edges,
+                shape: shape,
                 size: size,
                 insets: insets,
                 label: label?.label
