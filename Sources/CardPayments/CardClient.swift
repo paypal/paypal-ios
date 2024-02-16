@@ -43,7 +43,7 @@ public class CardClient: NSObject {
     /// - Parameters:
     ///   - cardVaultRequest: The request containing setupTokenID and card
     /// - Returns: Card vault result
-    /// - Throws: PayPalSDK error if approve order could not complete successfully
+    /// - Throws: PayPalSDK error if vault could not complete successfully
     public func vault(_ vaultRequest: CardVaultRequest) {
         Task {
             do {
