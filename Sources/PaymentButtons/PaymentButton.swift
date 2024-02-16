@@ -37,7 +37,6 @@ public class PaymentButton: UIButton {
         self.insets = insets
         self.label = label
         super.init(frame: .zero)
-        configure()
     }
 
     // MARK: - Views
@@ -248,11 +247,23 @@ public class PaymentButton: UIButton {
     // MARK: - Override Function
     override public func layoutSubviews() {
         super.layoutSubviews()
+        configure()
+
         if size == .mini {
             let minValue = min(containerView.bounds.width, containerView.bounds.height)
             containerView.layer.cornerRadius = minValue / 2
         } else {
             containerView.layer.cornerRadius = edges.cornerRadius(for: containerView)
+        }
+    }
+
+    public override var intrinsicContentSize: CGSize {
+        switch size {
+        case .mini:
+            return CGSize(width: 36, height: 24)
+
+        case .collapsed, .expanded, .full:
+            return CGSize(width: frame.size.width, height: imageHeight + size.elementPadding.top * 2)
         }
     }
 

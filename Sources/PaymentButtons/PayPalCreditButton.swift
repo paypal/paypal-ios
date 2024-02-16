@@ -64,7 +64,7 @@ public extension PayPalCreditButton {
             _ action: @escaping () -> Void = { }
         ) {
             self.button = PayPalCreditButton(
-                fundingSource: PaymentButtonFundingSource.credit,
+                fundingSource: .credit,
                 color: color.color,
                 edges: edges,
                 size: size,
@@ -81,16 +81,13 @@ public extension PayPalCreditButton {
             Coordinator(action: action)
         }
 
-        public func makeUIView(context: Context) -> UIView {
-            let view = UIView()
-
-            view.addSubview(button)
+        public func makeUIView(context: Context) -> PaymentButton {
+            let button = button
             button.addTarget(context.coordinator, action: #selector(Coordinator.onAction(_:)), for: .touchUpInside)
-
-            return view
+            return button
         }
 
-        public func updateUIView(_ uiView: UIView, context: Context) {
+        public func updateUIView(_ uiView: PaymentButton, context: Context) {
             context.coordinator.action = action
         }
     }
@@ -98,16 +95,15 @@ public extension PayPalCreditButton {
 
 // MARK: PayPalCreditButton Preview
 
-struct PayPalCreditButtonView: View {
-
-    var body: some View {
-        PayPalCreditButton.Representable()
-    }
-}
-
 struct PayPalCreditButtonView_Preview: PreviewProvider {
 
     static var previews: some View {
-        PayPalCreditButtonView()
+        PayPalCreditButtonWrapper()
+    }
+    
+    private struct PayPalCreditButtonWrapper: View {
+        var body: some View {
+            PayPalCreditButton.Representable()
+        }
     }
 }

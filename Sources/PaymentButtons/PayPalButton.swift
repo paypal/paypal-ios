@@ -105,16 +105,13 @@ public extension PayPalButton {
             Coordinator(action: action)
         }
 
-        public func makeUIView(context: Context) -> UIView {
-            let view = UIView()
-
-            view.addSubview(button)
+        public func makeUIView(context: Context) -> PaymentButton {
+            let button = button
             button.addTarget(context.coordinator, action: #selector(Coordinator.onAction(_:)), for: .touchUpInside)
-
-            return view
+            return button
         }
 
-        public func updateUIView(_ uiView: UIView, context: Context) {
+        public func updateUIView(_ uiView: PaymentButton, context: Context) {
             context.coordinator.action = action
         }
     }
@@ -122,16 +119,15 @@ public extension PayPalButton {
 
 // MARK: PayPalButton Preview
 
-struct PayPalButtonView: View {
-
-    var body: some View {
-        PayPalButton.Representable()
-    }
-}
-
 struct PayPalButtonView_Preview: PreviewProvider {
 
     static var previews: some View {
-        PayPalButtonView()
+        PayPalButtonWrapper()
+    }
+    
+    private struct PayPalButtonWrapper: View {
+        var body: some View {
+            PayPalButton.Representable()
+        }
     }
 }
