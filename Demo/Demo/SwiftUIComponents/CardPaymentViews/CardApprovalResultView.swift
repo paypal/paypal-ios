@@ -24,8 +24,12 @@ struct CardApprovalResultView: View {
             }
             LeadingText("ID", weight: .bold)
             LeadingText("\(approvalResult.id)")
-            LeadingText("3DS URL", weight: .bold)
-            LeadingText("\(approvalResult.deepLinkURL ?? "NOT SET")")
+            if let status = approvalResult.status {
+                LeadingText("Order Status", weight: .bold)
+                LeadingText("\(status)")
+            }
+            LeadingText("didAttemptThreeDSecureAuthentication", weight: .bold)
+            LeadingText("\(approvalResult.didAttemptThreeDSecureAuthentication)")
         }
         .frame(maxWidth: .infinity)
         .padding()

@@ -6,7 +6,8 @@ struct CardPaymentState: Equatable {
     struct CardResult: Decodable, Equatable {
 
         let id: String
-        let deepLinkURL: String?
+        let status: String?
+        let didAttemptThreeDSecureAuthentication: Bool
     }
 
     var createOrder: Order?

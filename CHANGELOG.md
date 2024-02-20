@@ -6,19 +6,15 @@
   * CardPayments
     * Add `status` property to `CardVaultResult`
     * Add `didAttemptThreeDSecureAuthentication` property to `CardVaultResult`
+    * Add `status` property to `CardResult`
+    * Add `didAttemptThreeDSecureAuthentication` property to `CardResult`
 * PaymentButtons
-  * Deprecate `PaymentButtonColor` `.black`, `.silver`, `.blue`, and `.darkBlue`
-  * Add `PaymentButtonColor.gold` for `PayPalCreditButton`
   * Add `custom` case for `PaymentButtonEdges`
   * Support VoiceOver by adding button accessibility labels
   * Add `custom` case for `PaymentButtonEdges`
   * Support VoiceOver by adding button accessibility labels
   * Font typeface changed to "PayPalOpen" to meet brand guidelines
 * CardPayments
-  * Add `liabilityShift` property to `CardResult`
-  * Add `CardClientError.threeDSVerificationError` for invalid verification
-  * Add `CardClientError.missingDeeplinkURLError` for missing deeplink URL
-  * Add `CardClientError.malformedDeeplinkURLError` for malformed or invalid deeplink
   * Add `cardVaultDidCancel()` to `CardVaultDelegate`
   * Add `cardThreeDSecureWillLaunch()` to `CardVaultDelegate`
   * Add `cardThreeDSecureDidFinish()` to `CardVaultDelegate`
