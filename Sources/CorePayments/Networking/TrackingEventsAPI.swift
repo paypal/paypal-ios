@@ -13,7 +13,7 @@ class TrackingEventsAPI {
     // MARK: - Initializer
     
     init(coreConfig merchantConfig: CoreConfig) {
-        // api.sandbox.paypal.com does not currently send FPTI events to BigQuery/Looker
+        // api-m.sandbox.paypal.com does not currently send FPTI events to BigQuery/Looker
         self.coreConfig = CoreConfig(clientID: merchantConfig.clientID, environment: .live)
         self.networkingClient = NetworkingClient(coreConfig: coreConfig)
     }
