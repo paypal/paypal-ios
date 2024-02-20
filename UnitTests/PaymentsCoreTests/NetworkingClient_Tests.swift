@@ -32,7 +32,7 @@ class NetworkingClient_Tests: XCTestCase {
         let fakeGETRequest = RESTRequest(path: "", method: .get)
         
         _ = try await sut.fetch(request: fakeGETRequest)
-        XCTAssertEqual(mockHTTP.capturedHTTPRequest?.url.absoluteString, "https://api.paypal.com/")
+        XCTAssertEqual(mockHTTP.capturedHTTPRequest?.url.absoluteString, "https://api-m.paypal.com/")
     }
     
     func testFetchREST_whenSandbox_usesProperPayPalURL() async throws {
