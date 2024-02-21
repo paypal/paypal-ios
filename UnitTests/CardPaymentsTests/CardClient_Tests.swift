@@ -74,7 +74,55 @@ class CardClient_Tests: XCTestCase {
         
         waitForExpectations(timeout: 10)
     }
-    
+ 
+    func testVault_withValid3DSURLResponse_returnsSuccess() {
+        let setupTokenID = "testToken1"
+        let vaultStatus = "PAYER_ACTION_REQUIRED"
+        let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
+        let updateSetupTokenResponse = UpdateSetupTokenResponse(
+            updateVaultSetupToken: TokenDetails(id: setupTokenID, status: vaultStatus, links: [TokenDetails.Link(rel: "approve", href: "https://www.sandbox.paypal.com/webapps/helios?action=authenticate&token=6WX01471SY074580E")])
+        )
+        mockVaultAPI.stubSetupTokenResponse = updateSetupTokenResponse
+
+        let expectation = expectation(description: "vault completed")
+        let cardVaultDelegate = MockCardVaultDelegate(success: {_, result in
+            XCTAssertEqual(result.setupTokenID, setupTokenID)
+            XCTAssertNil(result.status)
+            XCTAssertTrue(result.didAttemptThreeDSecureAuthentication)
+            expectation.fulfill()
+        }, error: {_, _ in
+            XCTFail("Invoked error() callback. Should invoke success().")
+        })
+        sut.vaultDelegate = cardVaultDelegate
+        sut.vault(vaultRequest)
+
+        waitForExpectations(timeout: 10)
+    }
+
+    func testVault_withInvalid3DSURLResponse_returnsSuccess() {
+        let setupTokenID = "testToken1"
+        let vaultStatus = "PAYER_ACTION_REQUIRED"
+        let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
+        let updateSetupTokenResponse = UpdateSetupTokenResponse(
+            updateVaultSetupToken: TokenDetails(id: setupTokenID, status: vaultStatus, links: [TokenDetails.Link(rel: "approve", href: "https://www.sandbox.paypal.com/webapps/testBadURL?action=authenticate&token=6WX01471SY074580E")])
+        )
+        mockVaultAPI.stubSetupTokenResponse = updateSetupTokenResponse
+
+        let expectation = expectation(description: "vault completed")
+        let cardVaultDelegate = MockCardVaultDelegate(success: {_, _ in
+            XCTFail("Invoked success() callback. Should invoke error().")
+        }, error: {_, error in
+            XCTAssertEqual(error.code, CardClientError.threeDSecureURLError.code)
+            XCTAssertEqual(error.domain, CardClientError.domain)
+            XCTAssertEqual(error.localizedDescription, CardClientError.threeDSecureURLError.localizedDescription)
+            expectation.fulfill()
+        })
+        sut.vaultDelegate = cardVaultDelegate
+        sut.vault(vaultRequest)
+
+        waitForExpectations(timeout: 10)
+    }
+
     func testVault_whenVaultAPIError_bubblesError() {
         let setupTokenID = "testToken1"
         let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)

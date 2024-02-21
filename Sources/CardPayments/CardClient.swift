@@ -53,7 +53,7 @@ public class CardClient: NSObject {
                 let urlString = result.links.first(where: { $0.rel == "approve" })?.href {
                     guard urlString.contains("helios"),
                         let url = URL(string: urlString) else {
-                        self.notifyFailure(with: CardClientError.threeDSecureURLError)
+                        self.notifyVaultFailure(with: CardClientError.threeDSecureURLError)
                         return
                     }
                     startVaultThreeDSecureChallenge(url: url, setupTokenID: vaultRequest.setupTokenID)
