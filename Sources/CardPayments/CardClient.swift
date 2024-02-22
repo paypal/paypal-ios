@@ -39,7 +39,8 @@ public class CardClient: NSObject {
     }
 
     /// Updates a setup token with a payment method. Performs
-    /// 3DS verification if required. Check verification status with  /v3/vault/setup-token/{id} in your server.
+    /// 3DS verification if required. If verification is performed, SDK returns a property didAttemptThreeDSecureAuthentication.
+    /// If didAttempt3DSecureVerification is true, check verification status with  /v3/vault/setup-token/{id} in your server.
     /// - Parameters:
     ///   - cardVaultRequest: The request containing setupTokenID and card
     /// - Returns: Card vault result
@@ -150,10 +151,7 @@ public class CardClient: NSObject {
         return url.queryItems?.first { $0.name == param }?.value
     }
 
-    private func startVaultThreeDSecureChallenge(
-        url: URL,
-        setupTokenID: String
-    ) {
+    private func startVaultThreeDSecureChallenge(url: URL, setupTokenID: String) {
         vaultDelegate?.cardThreeDSecureWillLaunch(self)
 
         webAuthenticationSession.start(
@@ -210,7 +208,7 @@ public class CardClient: NSObject {
     }
 
     private func notifyVaultCancellation() {
-        vaultDelegate?.cardVaultDidCancel(self)
+        vaultDelegate?.cardDidCancelVault(self)
     }
 }
 

@@ -61,7 +61,7 @@ class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
         setUpdateSetupTokenFailureResult(vaultError: vaultError)
     }
 
-    func cardVaultDidCancel(_ cardClient: CardClient) {
+    func cardDidCancelVault(_ cardClient: CardClient) {
         DispatchQueue.main.async {
             self.state.updateSetupTokenResponse = .idle
             self.state.updateSetupToken = nil
