@@ -40,7 +40,7 @@ public class CardClient: NSObject {
 
     /// Updates a setup token with a payment method. Performs
     /// 3DS verification if required. If verification is performed, SDK returns a property didAttemptThreeDSecureAuthentication.
-    /// If didAttempt3DSecureVerification is true, check verification status with  /v3/vault/setup-token/{id} in your server.
+    /// If didAttempt3DSecureVerification is true, check verification status with /v3/vault/setup-token/{id} in your server.
     /// - Parameters:
     ///   - cardVaultRequest: The request containing setupTokenID and card
     /// - Returns: Card vault result
