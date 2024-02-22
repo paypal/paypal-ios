@@ -15,7 +15,7 @@
   * Support VoiceOver by adding button accessibility labels
   * Font typeface changed to "PayPalOpen" to meet brand guidelines
 * CardPayments
-  * Add `cardVaultDidCancel()` to `CardVaultDelegate`
+  * Add `cardDidCancelVault()` to `CardVaultDelegate`
   * Add `cardThreeDSecureWillLaunch()` to `CardVaultDelegate`
   * Add `cardThreeDSecureDidFinish()` to `CardVaultDelegate`
 * PayPalWebPayments
