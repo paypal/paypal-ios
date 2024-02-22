@@ -31,21 +31,19 @@ class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
         return enabled
     }
 
-    func setUpdateTokenSuccessResult(vaultResult: CardPayments.CardVaultResult) {
+    func setUpdateSetupTokenResult(vaultResult: CardPayments.CardVaultResult? = nil, vaultError: CorePayments.CoreSDKError? = nil) {
         DispatchQueue.main.async {
-            self.state.updateSetupTokenResponse = .loaded(
-                UpdateSetupTokenResult(
-                    id: vaultResult.setupTokenID,
-                    status: vaultResult.status,
-                    didAttemptThreeDSecureAuthentication: vaultResult.didAttemptThreeDSecureAuthentication
+            if let vaultResult {
+                self.state.updateSetupTokenResponse = .loaded(
+                    UpdateSetupTokenResult(
+                        id: vaultResult.setupTokenID,
+                        status: vaultResult.status,
+                        didAttemptThreeDSecureAuthentication: vaultResult.didAttemptThreeDSecureAuthentication
+                    )
                 )
-            )
-        }
-    }
-
-    func setUpdateSetupTokenFailureResult(vaultError: CorePayments.CoreSDKError) {
-        DispatchQueue.main.async {
-            self.state.updateSetupTokenResponse = .error(message: vaultError.localizedDescription)
+            } else if let vaultError {
+                self.state.updateSetupTokenResponse = .error(message: vaultError.localizedDescription)
+            }
         }
     }
 
@@ -53,12 +51,12 @@ class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
 
     func card(_ cardClient: CardPayments.CardClient, didFinishWithVaultResult vaultResult: CardPayments.CardVaultResult) {
         print("vaultResult: \(vaultResult)")
-        setUpdateTokenSuccessResult(vaultResult: vaultResult)
+        setUpdateSetupTokenResult(vaultResult: vaultResult)
     }
 
     func card(_ cardClient: CardPayments.CardClient, didFinishWithVaultError vaultError: CorePayments.CoreSDKError) {
         print("error: \(vaultError.errorDescription ?? "")")
-        setUpdateSetupTokenFailureResult(vaultError: vaultError)
+        setUpdateSetupTokenResult(vaultError: vaultError)
     }
 
     func cardDidCancelVault(_ cardClient: CardClient) {

@@ -43,8 +43,6 @@ public class CardClient: NSObject {
     /// If didAttempt3DSecureVerification is true, check verification status with /v3/vault/setup-token/{id} in your server.
     /// - Parameters:
     ///   - cardVaultRequest: The request containing setupTokenID and card
-    /// - Returns: Card vault result
-    /// - Throws: PayPalSDK error if vault could not complete successfully
     public func vault(_ vaultRequest: CardVaultRequest) {
         Task {
             do {
@@ -75,8 +73,6 @@ public class CardClient: NSObject {
     /// - Parameters:
     ///   - orderId: Order id for approval
     ///   - request: The request containing the card
-    /// - Returns: Card result
-    /// - Throws: PayPalSDK error if approve order could not complete successfully
     public func approveOrder(request: CardRequest) {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         analyticsService?.sendEvent("card-payments:3ds:started")
