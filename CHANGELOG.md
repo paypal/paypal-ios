@@ -11,6 +11,7 @@
   * Support VoiceOver by adding button accessibility labels
   * Font typeface changed to "PayPalOpen" to meet brand guidelines
   * Fixed frame alignment and width issue occuring in SwiftUI
+  * Fixed button alignment and size bug in SwiftUI with `intrinsicContentSize`
 * PayPalWebPayments
   * Add `vault(url:)` method to `PayPalWebCheckoutClient`
   * Add `PayPalVaultResult` type to return vault result

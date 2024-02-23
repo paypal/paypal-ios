@@ -81,7 +81,6 @@ public extension PayPalPayLaterButton {
         }
 
         public func makeUIView(context: Context) -> PaymentButton {
-            let button = button
             button.addTarget(context.coordinator, action: #selector(Coordinator.onAction(_:)), for: .touchUpInside)
             return button
         }
@@ -98,7 +97,6 @@ public extension PayPalPayLaterButton {
 struct PayPalPayLaterButtonView: View {
 
     var body: some View {
-
         PayPalPayLaterButton.Representable()
     }
 }
@@ -106,7 +104,7 @@ struct PayPalPayLaterButtonView: View {
 struct PayPalPayLaterButtonView_Preview: PreviewProvider {
 
     static var previews: some View {
-        PayPalPayLaterButtonWrapper()
+        PayPalPayLaterButtonView()
     }
     
     struct PayPalPayLaterButtonWrapper: View {
