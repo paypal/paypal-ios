@@ -2,7 +2,7 @@ import Foundation
 
 struct CreateSetupTokenParam: Encodable {
 
-    var customer: VaultCustomer?
+    let customer: VaultCustomer?
     let paymentSource: PaymentSourceType
 
     enum CodingKeys: String, CodingKey {

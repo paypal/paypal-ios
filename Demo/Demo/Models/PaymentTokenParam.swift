@@ -8,7 +8,7 @@ struct PaymentTokenParam: Encodable {
 
         let token: Token
 
-        public init(setupTokenID: String) {
+        init(setupTokenID: String) {
             token = Token(id: setupTokenID)
         }
     }

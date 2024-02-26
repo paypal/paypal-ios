@@ -22,9 +22,7 @@ final class DemoMerchantAPI {
         do {
             let requestBody = CreateSetupTokenParam(customer: VaultCustomer(id: customerID), paymentSource: paymentSourceType)
 
-            guard let url = buildBaseURL(with: "/setup_tokens", selectedMerchantIntegration: selectedMerchantIntegration)
-
-            else {
+            guard let url = buildBaseURL(with: "/setup_tokens") else {
                 throw URLResponseError.invalidURL
             }
             // make it mutable to add header fields for partner scenarios
@@ -39,8 +37,7 @@ final class DemoMerchantAPI {
     func createPaymentToken(setupToken: String, selectedMerchantIntegration: MerchantIntegration) async throws -> PaymentTokenResponse {
         do {
             let requestBody = PaymentTokenParam(paymentSource: PaymentTokenParam.PaymentSource(setupTokenID: setupToken))
-            guard let url = buildBaseURL(with: "/payment_tokens", selectedMerchantIntegration: selectedMerchantIntegration)
-            else {
+            guard let url = buildBaseURL(with: "/payment_tokens") else {
                 throw URLResponseError.invalidURL
             }
             // make it mutable to add header value for partner scenarios
@@ -56,10 +53,7 @@ final class DemoMerchantAPI {
 
     func completeOrder(intent: Intent, orderID: String) async throws -> Order {
         let intent = intent == .authorize ? "authorize" : "capture"
-        guard let url = buildBaseURL(
-            with: "/orders/\(orderID)/\(intent)",
-            selectedMerchantIntegration: DemoSettings.merchantIntegration
-        ) else {
+        guard let url = buildBaseURL(with: "/orders/\(orderID)/\(intent)") else {
             throw URLResponseError.invalidURL
         }
 
@@ -69,7 +63,7 @@ final class DemoMerchantAPI {
     }
 
     func captureOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws -> Order {
-        guard let url = buildBaseURL(with: "/orders/\(orderID)/capture", selectedMerchantIntegration: selectedMerchantIntegration) else {
+        guard let url = buildBaseURL(with: "/orders/\(orderID)/capture") else {
             throw URLResponseError.invalidURL
         }
         
@@ -79,7 +73,7 @@ final class DemoMerchantAPI {
     }
     
     func authorizeOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws -> Order {
-        guard let url = buildBaseURL(with: "/orders/\(orderID)/authorize", selectedMerchantIntegration: selectedMerchantIntegration) else {
+        guard let url = buildBaseURL(with: "/orders/\(orderID)/authorize") else {
             throw URLResponseError.invalidURL
         }
         
@@ -96,7 +90,7 @@ final class DemoMerchantAPI {
         if let injectedOrderID = InjectedValues.orderID {
             return Order(id: injectedOrderID, status: "CREATED")
         }
-        guard let url = buildBaseURL(with: "/orders", selectedMerchantIntegration: selectedMerchantIntegration) else {
+        guard let url = buildBaseURL(with: "/orders") else {
             throw URLResponseError.invalidURL
         }
 
@@ -110,9 +104,7 @@ final class DemoMerchantAPI {
     ///   - updateOrderParams: the parameters to update the order with
     /// - Throws: an error explaining why patching the order failed
     func updateOrder(_ updateOrderParams: UpdateOrderParams, selectedMerchantIntegration: MerchantIntegration) async throws {
-        guard let url = buildBaseURL(
-            with: "/orders/" + updateOrderParams.orderID, selectedMerchantIntegration: selectedMerchantIntegration
-        ) else {
+        guard let url = buildBaseURL(with: "/orders/" + updateOrderParams.orderID) else {
             throw URLResponseError.invalidURL
         }
         let urlRequest = buildURLRequest(method: "PATCH", url: url, body: updateOrderParams.updateOperations)
@@ -172,8 +164,8 @@ final class DemoMerchantAPI {
         }
     }
 
-    private func buildBaseURL(with endpoint: String, selectedMerchantIntegration: MerchantIntegration = .direct) -> URL? {
-        return URL(string: DemoSettings.environment.baseURL + selectedMerchantIntegration.path + endpoint)
+    private func buildBaseURL(with endpoint: String) -> URL? {
+        return URL(string: DemoSettings.environment.baseURL + DemoSettings.merchantIntegration.path + endpoint)
     }
 
     private func buildPayPalURL(with endpoint: String) -> URL? {
