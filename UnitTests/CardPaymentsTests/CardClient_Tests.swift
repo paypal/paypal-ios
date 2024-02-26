@@ -5,8 +5,7 @@ import AuthenticationServices
 @testable import CardPayments
 @testable import TestShared
 
-// swiftlint:disable type_body_length
-// swiftlint:disable file_length
+// swiftlint:disable type_body_length file_length
 class CardClient_Tests: XCTestCase {
 
     // MARK: - Helper Properties

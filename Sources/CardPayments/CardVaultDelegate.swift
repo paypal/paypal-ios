@@ -18,10 +18,10 @@ public protocol CardVaultDelegate: AnyObject {
     ///   - didFinishWithError: the error returned by the Card vault flow
     func card(_ cardClient: CardClient, didFinishWithVaultError vaultError: CoreSDKError)
 
-    /// Notify that the Card vault flow has been cancelled
+    /// Notify that the ThreeDSecure has been cancelled
     /// - Parameters:
     ///   - client: the CardClient associated with delegate
-    func cardDidCancelVault(_ cardClient: CardClient)
+    func cardDidCancelThreeDSecure(_ cardClient: CardClient)
 
     /// Notify that the 3DS challenge will be launched
     /// - Parameters:

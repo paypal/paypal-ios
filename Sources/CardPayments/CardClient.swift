@@ -204,7 +204,7 @@ public class CardClient: NSObject {
     }
 
     private func notifyVaultCancellation() {
-        vaultDelegate?.cardDidCancelVault(self)
+        vaultDelegate?.cardDidCancelThreeDSecure(self)
     }
 }
 
