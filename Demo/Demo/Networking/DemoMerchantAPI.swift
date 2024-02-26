@@ -135,11 +135,9 @@ final class DemoMerchantAPI {
         urlRequest.httpMethod = method
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        if method != "GET" {
-            if let json = try? encoder.encode(body) {
-                print(String(data: json, encoding: .utf8) ?? "")
+        if method != "GET", let json = try? encoder.encode(body) {
+            print(String(data: json, encoding: .utf8) ?? "")
                 urlRequest.httpBody = json
-            }
         }
 
         return urlRequest
