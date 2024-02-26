@@ -130,11 +130,4 @@ struct PayPalButtonView_Preview: PreviewProvider {
     static var previews: some View {
         PayPalButtonView()
     }
-    
-    struct PayPalButtonWrapper: View {
-
-        var body: some View {
-            PayPalButton.Representable()
-        }
-    }
 }

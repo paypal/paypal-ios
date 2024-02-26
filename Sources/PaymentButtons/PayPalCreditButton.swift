@@ -106,11 +106,4 @@ struct PayPalCreditButtonView_Preview: PreviewProvider {
     static var previews: some View {
         PayPalCreditButtonView()
     }
-    
-    struct PayPalCreditButtonWrapper: View {
-
-        var body: some View {
-            PayPalCreditButton.Representable()
-        }
-    }
 }
