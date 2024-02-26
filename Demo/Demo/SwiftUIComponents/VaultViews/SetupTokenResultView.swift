@@ -15,7 +15,7 @@ struct SetupTokenResultView: View {
         }
     }
 
-    func getSuccessView(setupTokenResponse: SetUpTokenResponse) -> some View {
+    func getSuccessView(setupTokenResponse: CreateSetupTokenResponse) -> some View {
         VStack(spacing: 16) {
             HStack {
                 Text("Setup Token")

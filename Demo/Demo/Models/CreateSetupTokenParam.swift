@@ -1,5 +1,16 @@
 import Foundation
 
+struct CreateSetupTokenParam: Encodable {
+
+    var customer: VaultCustomer?
+    let paymentSource: PaymentSourceType
+
+    enum CodingKeys: String, CodingKey {
+        case paymentSource = "payment_source"
+        case customer
+    }
+}
+
 struct VaultExperienceContext: Encodable {
 
     let returnUrl = "sdk.ios.paypal://vault/success"
@@ -58,39 +69,5 @@ struct VaultCustomer: Encodable {
 
     private enum CodingKeys: String, CodingKey {
         case id
-    }
-}
-
-struct SetupTokenRequestBody: Encodable {
-
-    var customer: VaultCustomer?
-    let paymentSource: PaymentSourceType
-
-    enum CodingKeys: String, CodingKey {
-        case paymentSource = "payment_source"
-        case customer
-    }
-}
-
-struct SetUpTokenRequest: Encodable {
-
-    let customerID: String?
-    let paymentSource: PaymentSourceType
-
-    var path: String {
-        "/setup_tokens/"
-    }
-
-    var method: String {
-        "POST"
-    }
-    
-    var headers: [String: String] {
-        ["Content-Type": "application/json"]
-    }
-
-    var body: Data? {
-        let requestBodyParam = SetupTokenRequestBody(customer: VaultCustomer(id: customerID), paymentSource: paymentSource)
-        return try? JSONEncoder().encode(requestBodyParam)
     }
 }
