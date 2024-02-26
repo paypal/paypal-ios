@@ -21,7 +21,7 @@ public protocol CardVaultDelegate: AnyObject {
     /// Notify that the ThreeDSecure has been cancelled
     /// - Parameters:
     ///   - client: the CardClient associated with delegate
-    func cardDidCancelThreeDSecure(_ cardClient: CardClient)
+    func cardThreeDSecureDidCancel(_ cardClient: CardClient)
 
     /// Notify that the 3DS challenge will be launched
     /// - Parameters:

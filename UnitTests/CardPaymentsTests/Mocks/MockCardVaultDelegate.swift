@@ -31,7 +31,7 @@ class MockCardVaultDelegate: CardVaultDelegate {
         failure?(cardClient, vaultError)
     }
 
-    func cardDidCancelThreeDSecure(_ cardClient: CardClient) {
+    func cardThreeDSecureDidCancel(_ cardClient: CardClient) {
         cancel?(cardClient)
     }
 
