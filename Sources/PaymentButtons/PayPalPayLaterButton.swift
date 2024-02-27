@@ -8,6 +8,9 @@ public final class PayPalPayLaterButton: PaymentButton {
     public enum Color: String {
         case gold
         case white
+        case black
+        case silver
+        case blue
 
         var color: PaymentButtonColor {
             PaymentButtonColor(rawValue: rawValue) ?? .gold
@@ -17,9 +20,9 @@ public final class PayPalPayLaterButton: PaymentButton {
     /// Initialize a PayPalPayLaterButton
     /// - Parameters:
     ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
-    ///   - color: Color of the button. Default to gold if not provided.
+    ///   - color: Color of the button. Default to `.gold` if not provided.
     ///   - shape: Shape of the button. Default to `.rounded` if not provided.
-    ///   - size: Size of the button. Default to standard if not provided.
+    ///   - size: Size of the button. Default to `.standard` if not provided.
     public convenience init(
         insets: NSDirectionalEdgeInsets? = nil,
         color: Color = .gold,
@@ -49,7 +52,7 @@ public extension PayPalPayLaterButton {
         /// Initialize a PayPalPayLaterButton
         /// - Parameters:
         ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
-        ///   - color: Color of the button. Default to gold if not provided.
+        ///   - color: Color of the button. Default to `.gold` if not provided.
         ///   - shape: Shape of the button. Default to `.rounded` if not provided.
         ///   - size: Size of the button. Default to `.standard` if not provided.
         public init(
