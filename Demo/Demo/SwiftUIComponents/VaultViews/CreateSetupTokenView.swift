@@ -44,8 +44,8 @@ struct CreateSetupTokenView: View {
                                 selectedMerchantIntegration: selectedMerchantIntegration,
                                 paymentSourceType: paymentSourceType
                             )
-                    } catch {
-                        print("Error in getting setup token. \(error.localizedDescription)")
+                        } catch {
+                            print("Error in getting setup token. \(error.localizedDescription)")
                         }
                     }
                 }
