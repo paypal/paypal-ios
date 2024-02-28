@@ -22,8 +22,19 @@ struct PayPal: Encodable {
     }
 }
 
+struct SetupTokenCard: Encodable {
+
+    let experienceContext = VaultExperienceContext()
+    let verificationMethod: String?
+
+    enum CodingKeys: String, CodingKey {
+        case verificationMethod = "verification_method"
+        case experienceContext = "experience_context"
+    }
+}
+
 enum PaymentSourceType: Encodable {
-    case card
+    case card(verification: String?)
     case paypal(usageType: String)
 
     private enum CodingKeys: String, CodingKey {
@@ -33,8 +44,8 @@ enum PaymentSourceType: Encodable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
-        case .card:
-            try container.encode(EmptyBodyParams(), forKey: .card)
+        case .card(let verification):
+            try container.encode(SetupTokenCard(verificationMethod: verification), forKey: .card)
         case .paypal(let usageType):
             try container.encode(PayPal(usageType: usageType), forKey: .paypal)
         }

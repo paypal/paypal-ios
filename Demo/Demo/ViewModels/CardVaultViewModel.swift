@@ -31,17 +31,19 @@ class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
         return enabled
     }
 
-    func setUpTokenSuccessResult(vaultResult: CardPayments.CardVaultResult) {
+    func setUpdateSetupTokenResult(vaultResult: CardVaultResult? = nil, vaultError: CoreSDKError? = nil) {
         DispatchQueue.main.async {
-            self.state.updateSetupTokenResponse = .loaded(
-                UpdateSetupTokenResult(id: vaultResult.setupTokenID, status: vaultResult.status)
-            )
-        }
-    }
-
-    func setUpdateSetupTokenFailureResult(vaultError: CorePayments.CoreSDKError) {
-        DispatchQueue.main.async {
-            self.state.updateSetupTokenResponse = .error(message: vaultError.localizedDescription)
+            if let vaultResult {
+                self.state.updateSetupTokenResponse = .loaded(
+                    UpdateSetupTokenResult(
+                        id: vaultResult.setupTokenID,
+                        status: vaultResult.status,
+                        didAttemptThreeDSecureAuthentication: vaultResult.didAttemptThreeDSecureAuthentication
+                    )
+                )
+            } else if let vaultError {
+                self.state.updateSetupTokenResponse = .error(message: vaultError.localizedDescription)
+            }
         }
     }
 
@@ -49,11 +51,26 @@ class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
 
     func card(_ cardClient: CardPayments.CardClient, didFinishWithVaultResult vaultResult: CardPayments.CardVaultResult) {
         print("vaultResult: \(vaultResult)")
-        setUpTokenSuccessResult(vaultResult: vaultResult)
+        setUpdateSetupTokenResult(vaultResult: vaultResult)
     }
 
     func card(_ cardClient: CardPayments.CardClient, didFinishWithVaultError vaultError: CorePayments.CoreSDKError) {
         print("error: \(vaultError.errorDescription ?? "")")
-        setUpdateSetupTokenFailureResult(vaultError: vaultError)
+        setUpdateSetupTokenResult(vaultError: vaultError)
+    }
+
+    func cardThreeDSecureDidCancel(_ cardClient: CardClient) {
+        DispatchQueue.main.async {
+            self.state.updateSetupTokenResponse = .idle
+            self.state.updateSetupToken = nil
+        }
+    }
+
+    func cardThreeDSecureWillLaunch(_ cardClient: CardPayments.CardClient) {
+        print("About to launch 3DS")
+    }
+
+    func cardThreeDSecureDidFinish(_ cardClient: CardPayments.CardClient) {
+        print("Finished 3DS")
     }
 }

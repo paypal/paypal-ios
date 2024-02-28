@@ -2,16 +2,20 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
-* Breaking Changes
-  * CardPayments
-    * Add `status` property to `CardResult`
-    * Add `didAttemptThreeDSecureAuthentication` property to `CardResult`
 * PaymentButtons
   * Add `custom` case for `PaymentButtonEdges`
   * Support VoiceOver by adding button accessibility labels
   * Add `custom` case for `PaymentButtonEdges`
   * Support VoiceOver by adding button accessibility labels
   * Font typeface changed to "PayPalOpen" to meet brand guidelines
+* CardPayments
+  * Add `status` property to `CardVaultResult`
+  * Add `didAttemptThreeDSecureAuthentication` property to `CardVaultResult`
+  * Add `status` property to `CardResult`
+  * Add `didAttemptThreeDSecureAuthentication` property to `CardResult`
+  * Add `cardThreeDSecureDidCancel()` to `CardVaultDelegate`
+  * Add `cardThreeDSecureWillLaunch()` to `CardVaultDelegate`
+  * Add `cardThreeDSecureDidFinish()` to `CardVaultDelegate`
 * PayPalWebPayments
   * Add `vault(url:)` method to `PayPalWebCheckoutClient`
   * Add `PayPalVaultResult` type to return vault result

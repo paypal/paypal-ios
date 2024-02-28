@@ -3,6 +3,7 @@ import SwiftUI
 struct CardVaultView: View {
 
     @StateObject var cardVaultViewModel = CardVaultViewModel()
+    @State var sca: String? = "SCA_WHEN_REQUIRED"
 
     // MARK: Views
 
@@ -13,7 +14,7 @@ struct CardVaultView: View {
                     CreateSetupTokenView(
                         selectedMerchantIntegration: DemoSettings.merchantIntegration,
                         vaultViewModel: cardVaultViewModel,
-                        paymentSourceType: PaymentSourceType.card
+                        paymentSourceType: PaymentSourceType.card(verification: sca)
                     )
                     SetupTokenResultView(vaultViewModel: cardVaultViewModel)
                     if let setupToken = cardVaultViewModel.state.setupToken {

@@ -5,7 +5,8 @@ import PayPalWebPayments
 struct UpdateSetupTokenResult: Decodable, Equatable {
 
     var id: String
-    var status: String
+    var status: String?
+    var didAttemptThreeDSecureAuthentication: Bool
 }
 
 struct VaultState: Equatable {
