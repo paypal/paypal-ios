@@ -14,7 +14,7 @@ class PayPalCreditButton_Tests: XCTestCase {
         let sut = PayPalCreditButton()
         XCTAssertEqual(sut.shape, PaymentButtonShape.rounded)
         XCTAssertEqual(sut.size, PaymentButtonSize.standard)
-        XCTAssertEqual(sut.color, PaymentButtonColor.white)
+        XCTAssertEqual(sut.color, PaymentButtonColor.darkBlue)
         XCTAssertNil(sut.insets)
         XCTAssertNil(sut.label)
     }
