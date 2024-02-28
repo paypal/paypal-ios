@@ -16,7 +16,8 @@ class TrackingEventsAPI_Tests: XCTestCase {
         eventName: "my-event-name",
         clientID: "my-id",
         orderID: "my-order",
-        correlationID: nil
+        correlationID: nil,
+        setupToken: nil
     )
     
     // MARK: - Test Lifecycle
@@ -43,7 +44,8 @@ class TrackingEventsAPI_Tests: XCTestCase {
             eventName: "my-event-name",
             clientID: "my-id",
             orderID: "my-order",
-            correlationID: "fake-correlation-id"
+            correlationID: "fake-correlation-id",
+            setupToken: "fake-setup-token"
         )
         _ = try await sut.sendEvent(with: fakeAnalyticsEventData)
         
