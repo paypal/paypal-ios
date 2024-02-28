@@ -24,8 +24,13 @@ struct UpdateSetupTokenResultView: View {
             }
             LeadingText("ID", weight: .bold)
             LeadingText("\(updateSetupTokenResponse.id)")
-            LeadingText("Status", weight: .bold)
-            LeadingText("\(updateSetupTokenResponse.status)")
+            if let status = updateSetupTokenResponse.status {
+                LeadingText("status", weight: .bold)
+                LeadingText("\(status)")
+            }
+
+            LeadingText("didAttemptThreeDSecureAuthentication", weight: .bold)
+            LeadingText("\(updateSetupTokenResponse.didAttemptThreeDSecureAuthentication)")
         }
         .frame(maxWidth: .infinity)
         .padding()

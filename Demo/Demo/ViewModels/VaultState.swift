@@ -5,19 +5,20 @@ import PayPalWebPayments
 struct UpdateSetupTokenResult: Decodable, Equatable {
 
     var id: String
-    var status: String
+    var status: String?
+    var didAttemptThreeDSecureAuthentication: Bool
 }
 
 struct VaultState: Equatable {
 
-    var setupToken: SetUpTokenResponse?
+    var setupToken: CreateSetupTokenResponse?
     var paymentToken: PaymentTokenResponse?
     // result for card vault
     var updateSetupToken: UpdateSetupTokenResult?
     // result for paypal vault
     var paypalVaultToken: PayPalVaultResult?
 
-    var setupTokenResponse: LoadingState<SetUpTokenResponse> = .idle {
+    var setupTokenResponse: LoadingState<CreateSetupTokenResponse> = .idle {
         didSet {
             if case .loaded(let value) = setupTokenResponse {
                 setupToken = value

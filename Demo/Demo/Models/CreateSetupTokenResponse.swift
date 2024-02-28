@@ -1,8 +1,8 @@
 import Foundation
 
-struct SetUpTokenResponse: Decodable, Equatable {
+struct CreateSetupTokenResponse: Decodable, Equatable {
 
-    static func == (lhs: SetUpTokenResponse, rhs: SetUpTokenResponse) -> Bool {
+    static func == (lhs: CreateSetupTokenResponse, rhs: CreateSetupTokenResponse) -> Bool {
         lhs.id == rhs.id
     }
     
