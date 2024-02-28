@@ -39,10 +39,10 @@ public class CardClient: NSObject {
     }
 
     /// Updates a setup token with a payment method. Performs
-    /// 3DS verification if required. If verification is performed, SDK returns a property didAttemptThreeDSecureAuthentication.
-    /// If didAttempt3DSecureVerification is true, check verification status with /v3/vault/setup-token/{id} in your server.
+    /// 3DS verification if required. If verification is performed, SDK returns a property `didAttemptThreeDSecureAuthentication`.
+    /// If `didAttempt3DSecureVerification` is `true`, check verification status with `/v3/vault/setup-token/{id}` in your server.
     /// - Parameters:
-    ///   - cardVaultRequest: The request containing setupTokenID and card
+    ///   - vaultRequest: The request containing setupTokenID and card
     public func vault(_ vaultRequest: CardVaultRequest) {
         Task {
             do {
@@ -50,8 +50,7 @@ public class CardClient: NSObject {
 
                 if result.status == "PAYER_ACTION_REQUIRED",
                 let urlString = result.links.first(where: { $0.rel == "approve" })?.href {
-                    guard urlString.contains("helios"),
-                        let url = URL(string: urlString) else {
+                    guard urlString.contains("helios"), let url = URL(string: urlString) else {
                         self.notifyVaultFailure(with: CardClientError.threeDSecureURLError)
                         return
                     }

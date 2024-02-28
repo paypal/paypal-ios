@@ -31,7 +31,7 @@ class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
         return enabled
     }
 
-    func setUpdateSetupTokenResult(vaultResult: CardPayments.CardVaultResult? = nil, vaultError: CorePayments.CoreSDKError? = nil) {
+    func setUpdateSetupTokenResult(vaultResult: CardVaultResult? = nil, vaultError: CoreSDKError? = nil) {
         DispatchQueue.main.async {
             if let vaultResult {
                 self.state.updateSetupTokenResponse = .loaded(

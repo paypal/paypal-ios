@@ -184,7 +184,8 @@ class CardClient_Tests: XCTestCase {
             },
             cancel: { _ in XCTFail("Invoked cancel() callback. Should invoke success().") },
             threeDSWillLaunch: { _ -> Void in XCTAssert(true) },
-            threeDSLaunched: { _ -> Void in XCTAssert(true) })
+            threeDSLaunched: { _ -> Void in XCTAssert(true) }
+        )
 
         sut.vaultDelegate = mockCardVaultDelegate
         sut.vault(cardVaultRequest)
@@ -216,7 +217,8 @@ class CardClient_Tests: XCTestCase {
                 expectation.fulfill()
             },
             threeDSWillLaunch: { _ in XCTAssert(true) },
-            threeDSLaunched: { _ in XCTAssert(true) })
+            threeDSLaunched: { _ in XCTAssert(true) }
+        )
 
         sut.vaultDelegate = mockCardVaultDelegate
         sut.vault(cardVaultRequest)
@@ -251,7 +253,8 @@ class CardClient_Tests: XCTestCase {
                 expectation.fulfill()
             },
             threeDSWillLaunch: { _ in XCTAssert(true) },
-            threeDSLaunched: { _ in XCTAssert(true) })
+            threeDSLaunched: { _ in XCTAssert(true) }
+        )
 
         sut.vaultDelegate = mockCardVaultDelegate
         sut.vault(cardVaultRequest)
