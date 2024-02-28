@@ -8,16 +8,24 @@ public struct AnalyticsService {
     
     private let coreConfig: CoreConfig
     private let trackingEventsAPI: TrackingEventsAPI
-    private let orderID: String
-        
+    private let orderID: String?
+    private let setupToken: String?
     // MARK: - Initializer
     
     public init(coreConfig: CoreConfig, orderID: String) {
         self.coreConfig = coreConfig
         self.trackingEventsAPI = TrackingEventsAPI(coreConfig: coreConfig)
         self.orderID = orderID
+        self.setupToken = nil
     }
-    
+
+    public init(coreConfig: CoreConfig, setupToken: String) {
+        self.coreConfig = coreConfig
+        self.trackingEventsAPI = TrackingEventsAPI(coreConfig: coreConfig)
+        self.setupToken = setupToken
+        self.orderID = nil
+    }
+
     // MARK: - Internal Initializer
 
     /// Exposed for testing
@@ -25,6 +33,7 @@ public struct AnalyticsService {
         self.coreConfig = coreConfig
         self.trackingEventsAPI = trackingEventsAPI
         self.orderID = orderID
+        self.setupToken = nil
     }
     
     // MARK: - Public Methods
@@ -54,7 +63,8 @@ public struct AnalyticsService {
                 eventName: name,
                 clientID: clientID,
                 orderID: orderID,
-                correlationID: correlationID
+                correlationID: correlationID,
+                setupToken: setupToken
             )
             
             let (_) = try await trackingEventsAPI.sendEvent(with: eventData)
