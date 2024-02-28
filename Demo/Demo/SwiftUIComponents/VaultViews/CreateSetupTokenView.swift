@@ -5,9 +5,10 @@ struct CreateSetupTokenView: View {
     let selectedMerchantIntegration: MerchantIntegration
 
     @State private var vaultCustomerID: String = ""
-    @ObservedObject var vaultViewModel: VaultViewModel
+    @State private var sca: String = "SCA_WHEN_REQUIRED"
+    @State var paymentSourceType: PaymentSourceType
 
-    let paymentSourceType: PaymentSourceType
+    @ObservedObject var vaultViewModel: VaultViewModel
 
     public init(selectedMerchantIntegration: MerchantIntegration, vaultViewModel: VaultViewModel, paymentSourceType: PaymentSourceType) {
         self.selectedMerchantIntegration = selectedMerchantIntegration
@@ -25,6 +26,15 @@ struct CreateSetupTokenView: View {
             .frame(maxWidth: .infinity)
             .font(.headline)
             FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $vaultCustomerID)
+            if case .card = paymentSourceType {
+                Picker("SCA", selection: $sca) {
+                    Text("SCA_WHEN_REQUIRED").tag("SCA_WHEN_REQUIRED")
+                    Text("SCA_ALWAYS").tag("SCA_ALWAYS")
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .frame(height: 50)
+            }
+
             ZStack {
                 Button("Create Setup Token") {
                     Task {
@@ -44,6 +54,9 @@ struct CreateSetupTokenView: View {
                     CircularProgressView()
                 }
             }
+        }
+        .onChange(of: sca) { _ in
+            paymentSourceType = PaymentSourceType.card(verification: sca)
         }
         .padding()
         .background(

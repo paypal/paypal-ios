@@ -1,5 +1,16 @@
 import Foundation
 
+struct CreateSetupTokenParam: Encodable {
+
+    let customer: VaultCustomer?
+    let paymentSource: PaymentSourceType
+
+    enum CodingKeys: String, CodingKey {
+        case paymentSource = "payment_source"
+        case customer
+    }
+}
+
 struct VaultExperienceContext: Encodable {
 
     let returnUrl = "sdk.ios.paypal://vault/success"
@@ -22,8 +33,19 @@ struct PayPal: Encodable {
     }
 }
 
+struct SetupTokenCard: Encodable {
+
+    let experienceContext = VaultExperienceContext()
+    let verificationMethod: String?
+
+    enum CodingKeys: String, CodingKey {
+        case verificationMethod = "verification_method"
+        case experienceContext = "experience_context"
+    }
+}
+
 enum PaymentSourceType: Encodable {
-    case card
+    case card(verification: String?)
     case paypal(usageType: String)
 
     private enum CodingKeys: String, CodingKey {
@@ -33,8 +55,8 @@ enum PaymentSourceType: Encodable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
-        case .card:
-            try container.encode(EmptyBodyParams(), forKey: .card)
+        case .card(let verification):
+            try container.encode(SetupTokenCard(verificationMethod: verification), forKey: .card)
         case .paypal(let usageType):
             try container.encode(PayPal(usageType: usageType), forKey: .paypal)
         }
@@ -47,39 +69,5 @@ struct VaultCustomer: Encodable {
 
     private enum CodingKeys: String, CodingKey {
         case id
-    }
-}
-
-struct SetupTokenRequestBody: Encodable {
-
-    var customer: VaultCustomer?
-    let paymentSource: PaymentSourceType
-
-    enum CodingKeys: String, CodingKey {
-        case paymentSource = "payment_source"
-        case customer
-    }
-}
-
-struct SetUpTokenRequest: Encodable {
-
-    let customerID: String?
-    let paymentSource: PaymentSourceType
-
-    var path: String {
-        "/setup_tokens/"
-    }
-
-    var method: String {
-        "POST"
-    }
-    
-    var headers: [String: String] {
-        ["Content-Type": "application/json"]
-    }
-
-    var body: Data? {
-        let requestBodyParam = SetupTokenRequestBody(customer: VaultCustomer(id: customerID), paymentSource: paymentSource)
-        return try? JSONEncoder().encode(requestBodyParam)
     }
 }

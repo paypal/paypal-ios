@@ -13,7 +13,7 @@ class VaultViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.state.setupTokenResponse = .loading
             }
-            let setupTokenResult = try await DemoMerchantAPI.sharedService.getSetupToken(
+            let setupTokenResult = try await DemoMerchantAPI.sharedService.createSetupToken(
                 customerID: customerID,
                 selectedMerchantIntegration: selectedMerchantIntegration,
                 paymentSourceType: paymentSourceType
@@ -41,7 +41,7 @@ class VaultViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.state.paymentTokenResponse = .loading
             }
-            let paymentTokenResult = try await DemoMerchantAPI.sharedService.getPaymentToken(
+            let paymentTokenResult = try await DemoMerchantAPI.sharedService.createPaymentToken(
                 setupToken: setupToken,
                 selectedMerchantIntegration: selectedMerchantIntegration
             )

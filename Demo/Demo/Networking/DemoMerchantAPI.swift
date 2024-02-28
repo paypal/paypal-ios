@@ -4,8 +4,6 @@ import CorePayments
 /// API Client used to create and process orders on sample merchant server
 final class DemoMerchantAPI {
 
-    // MARK: Public properties
-
     static let sharedService = DemoMerchantAPI()
 
     // To hardcode an order ID and client ID for this demo app, set the below values
@@ -16,41 +14,36 @@ final class DemoMerchantAPI {
 
     private init() {}
 
-    // MARK: Public Methods
-
-    func getSetupToken(
+    func createSetupToken(
         customerID: String? = nil,
         selectedMerchantIntegration: MerchantIntegration,
         paymentSourceType: PaymentSourceType
-    ) async throws -> SetUpTokenResponse {
+    ) async throws -> CreateSetupTokenResponse {
         do {
-            // TODO: pass in headers depending on integration type
-            // Different request struct or integration type property
-            // in SetUpTokenRequest to conditionally add header
-            let request = SetUpTokenRequest(customerID: customerID, paymentSource: paymentSourceType)
-            let urlRequest = try createSetupTokenUrlRequest(
-                setupTokenRequest: request,
-                environment: DemoSettings.environment,
-                selectedMerchantIntegration: selectedMerchantIntegration
-            )
-            
-            let data = try await data(for: urlRequest)
+            let requestBody = CreateSetupTokenParam(customer: VaultCustomer(id: customerID), paymentSource: paymentSourceType)
+
+            guard let url = buildBaseURL(with: "/setup_tokens") else {
+                throw URLResponseError.invalidURL
+            }
+            // make it mutable to add header fields for partner scenarios
+            let request = buildURLRequest(method: "POST", url: url, body: requestBody)
+            let data = try await data(for: request)
             return try parse(from: data)
         } catch {
-            print("error with the create setup token request: \(error.localizedDescription)")
             throw error
         }
     }
 
-    func getPaymentToken(setupToken: String, selectedMerchantIntegration: MerchantIntegration) async throws -> PaymentTokenResponse {
+    func createPaymentToken(setupToken: String, selectedMerchantIntegration: MerchantIntegration) async throws -> PaymentTokenResponse {
         do {
-            let request = PaymentTokenRequest(setupToken: setupToken)
-            let urlRequest = try createPaymentTokenUrlRequest(
-                paymentTokenRequest: request,
-                environment: DemoSettings.environment,
-                selectedMerchantIntegration: selectedMerchantIntegration
-            )
-            let data = try await data(for: urlRequest)
+            let requestBody = PaymentTokenParam(paymentSource: PaymentTokenParam.PaymentSource(setupTokenID: setupToken))
+            guard let url = buildBaseURL(with: "/payment_tokens") else {
+                throw URLResponseError.invalidURL
+            }
+            // make it mutable to add header value for partner scenarios
+            let request = buildURLRequest(method: "POST", url: url, body: requestBody)
+
+            let data = try await data(for: request)
             return try parse(from: data)
         } catch {
             print("error with the create payment token request: \(error.localizedDescription)")
@@ -60,10 +53,7 @@ final class DemoMerchantAPI {
 
     func completeOrder(intent: Intent, orderID: String) async throws -> Order {
         let intent = intent == .authorize ? "authorize" : "capture"
-        guard let url = buildBaseURL(
-            with: "/orders/\(orderID)/\(intent)",
-            selectedMerchantIntegration: DemoSettings.merchantIntegration
-        ) else {
+        guard let url = buildBaseURL(with: "/orders/\(orderID)/\(intent)") else {
             throw URLResponseError.invalidURL
         }
 
@@ -73,7 +63,7 @@ final class DemoMerchantAPI {
     }
 
     func captureOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws -> Order {
-        guard let url = buildBaseURL(with: "/orders/\(orderID)/capture", selectedMerchantIntegration: selectedMerchantIntegration) else {
+        guard let url = buildBaseURL(with: "/orders/\(orderID)/capture") else {
             throw URLResponseError.invalidURL
         }
         
@@ -83,7 +73,7 @@ final class DemoMerchantAPI {
     }
     
     func authorizeOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws -> Order {
-        guard let url = buildBaseURL(with: "/orders/\(orderID)/authorize", selectedMerchantIntegration: selectedMerchantIntegration) else {
+        guard let url = buildBaseURL(with: "/orders/\(orderID)/authorize") else {
             throw URLResponseError.invalidURL
         }
         
@@ -100,7 +90,7 @@ final class DemoMerchantAPI {
         if let injectedOrderID = InjectedValues.orderID {
             return Order(id: injectedOrderID, status: "CREATED")
         }
-        guard let url = buildBaseURL(with: "/orders", selectedMerchantIntegration: selectedMerchantIntegration) else {
+        guard let url = buildBaseURL(with: "/orders") else {
             throw URLResponseError.invalidURL
         }
 
@@ -114,9 +104,7 @@ final class DemoMerchantAPI {
     ///   - updateOrderParams: the parameters to update the order with
     /// - Throws: an error explaining why patching the order failed
     func updateOrder(_ updateOrderParams: UpdateOrderParams, selectedMerchantIntegration: MerchantIntegration) async throws {
-        guard let url = buildBaseURL(
-            with: "/orders/" + updateOrderParams.orderID, selectedMerchantIntegration: selectedMerchantIntegration
-        ) else {
+        guard let url = buildBaseURL(with: "/orders/" + updateOrderParams.orderID) else {
             throw URLResponseError.invalidURL
         }
         let urlRequest = buildURLRequest(method: "PATCH", url: url, body: updateOrderParams.updateOperations)
@@ -147,9 +135,9 @@ final class DemoMerchantAPI {
         urlRequest.httpMethod = method
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        if let json = try? encoder.encode(body) {
+        if method != "GET", let json = try? encoder.encode(body) {
             print(String(data: json, encoding: .utf8) ?? "")
-            urlRequest.httpBody = json
+                urlRequest.httpBody = json
         }
 
         return urlRequest
@@ -174,8 +162,8 @@ final class DemoMerchantAPI {
         }
     }
 
-    private func buildBaseURL(with endpoint: String, selectedMerchantIntegration: MerchantIntegration = .direct) -> URL? {
-        return URL(string: DemoSettings.environment.baseURL + selectedMerchantIntegration.path + endpoint)
+    private func buildBaseURL(with endpoint: String) -> URL? {
+        return URL(string: DemoSettings.environment.baseURL + DemoSettings.merchantIntegration.path + endpoint)
     }
 
     private func buildPayPalURL(with endpoint: String) -> URL? {
@@ -222,52 +210,6 @@ final class DemoMerchantAPI {
         clientIDRequest.headers.forEach { key, value in
             request.addValue(value, forHTTPHeaderField: key.rawValue)
         }
-        return request
-    }
-    
-    private func createSetupTokenUrlRequest(
-        setupTokenRequest: SetUpTokenRequest,
-        environment: Demo.Environment,
-        selectedMerchantIntegration: MerchantIntegration
-    ) throws -> URLRequest {
-        var completeUrl = environment.baseURL
-        completeUrl += selectedMerchantIntegration.path
-        completeUrl.append(contentsOf: setupTokenRequest.path)
-
-        guard let url = URL(string: completeUrl) else {
-            throw URLResponseError.invalidURL
-        }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = setupTokenRequest.method
-        request.httpBody = setupTokenRequest.body
-        setupTokenRequest.headers.forEach { key, value in
-            request.addValue(value, forHTTPHeaderField: key)
-        }
-
-        return request
-    }
-    
-    private func createPaymentTokenUrlRequest(
-        paymentTokenRequest: PaymentTokenRequest,
-        environment: Demo.Environment,
-        selectedMerchantIntegration: MerchantIntegration
-    ) throws -> URLRequest {
-        var completeUrl = environment.baseURL
-        completeUrl += selectedMerchantIntegration.path
-        completeUrl.append(contentsOf: paymentTokenRequest.path)
-
-        guard let url = URL(string: completeUrl) else {
-            throw URLResponseError.invalidURL
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = paymentTokenRequest.method
-        request.httpBody = paymentTokenRequest.body
-        paymentTokenRequest.headers.forEach { key, value in
-            request.addValue(value, forHTTPHeaderField: key)
-        }
-
         return request
     }
 }
