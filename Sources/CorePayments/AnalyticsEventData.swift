@@ -28,6 +28,7 @@ struct AnalyticsEventData: Encodable {
         case merchantAppVersion = "mapv"
         case deviceModel = "mobile_device_model"
         case platform = "platform"
+        case setupToken = "vault_setup_token"
         case timestamp = "t"
         case tenantName = "tenant_name"
     }
@@ -54,7 +55,7 @@ struct AnalyticsEventData: Encodable {
     
     let environment: String
     
-    let orderID: String
+    let orderID: String?
 
     let packageManager: String = {
         #if COCOAPODS
@@ -88,17 +89,20 @@ struct AnalyticsEventData: Encodable {
     }()
 
     let platform = "iOS"
+  
+    let setupToken: String?
 
     let timestamp = String(Date().timeIntervalSince1970 * 1000)
 
     let tenantName = "PayPal"
     
-    init(environment: String, eventName: String, clientID: String, orderID: String, correlationID: String?) {
+    init(environment: String, eventName: String, clientID: String, orderID: String?, correlationID: String?, setupToken: String?) {
         self.environment = environment
         self.eventName = eventName
         self.clientID = clientID
         self.orderID = orderID
         self.correlationID = correlationID
+        self.setupToken = setupToken
     }
     
     func encode(to encoder: Encoder) throws {
@@ -125,5 +129,6 @@ struct AnalyticsEventData: Encodable {
         try eventParameters.encode(orderID, forKey: .orderID)
         try eventParameters.encode(timestamp, forKey: .timestamp)
         try eventParameters.encode(tenantName, forKey: .tenantName)
+        try eventParameters.encode(setupToken, forKey: .setupToken)
     }
 }

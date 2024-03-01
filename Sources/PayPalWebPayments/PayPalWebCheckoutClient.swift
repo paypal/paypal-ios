@@ -104,6 +104,10 @@ public class PayPalWebCheckoutClient: NSObject {
     /// - Returns: PayPalVaultResult
     /// - Throws: PayPalSDK error if vaulting could not complete successfully
     public func vault(url: URL) {
+        if let setupToken = getQueryStringParameter(url: url.absoluteString, param: "approval_session_id") {
+            analyticsService = AnalyticsService(coreConfig: config, setupToken: setupToken)
+        }
+        analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:started")
         webAuthenticationSession.start(
             url: url,
             context: self,
@@ -164,15 +168,17 @@ public class PayPalWebCheckoutClient: NSObject {
     }
 
     private func notifyVaultSuccess(for result: PayPalVaultResult) {
+        analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:succeeded")
         vaultDelegate?.paypal(self, didFinishWithVaultResult: result)
     }
 
     private func notifyVaultFailure(with error: CoreSDKError) {
-        analyticsService?.sendEvent("paypal-web-payments:failed")
+        analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:failed")
         vaultDelegate?.paypal(self, didFinishWithVaultError: error)
     }
 
     private func notifyVaultCancellation() {
+        analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:canceled")
         vaultDelegate?.paypalDidCancel(self)
     }
 }

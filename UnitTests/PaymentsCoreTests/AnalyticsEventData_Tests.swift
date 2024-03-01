@@ -15,7 +15,8 @@ class AnalyticsEventData_Tests: XCTestCase {
             eventName: "fake-name",
             clientID: "fake-client-id",
             orderID: "fake-order",
-            correlationID: "fake-correlation-id"
+            correlationID: "fake-correlation-id",
+            setupToken: "fake-setup-token"
         )
     }
 
@@ -48,6 +49,7 @@ class AnalyticsEventData_Tests: XCTestCase {
         XCTAssertGreaterThanOrEqual(eventParams["t"] as! String, currentTime)
         XCTAssertLessThanOrEqual(eventParams["t"] as! String, oneSecondLater)
         XCTAssertEqual(eventParams["tenant_name"] as? String, "PayPal")
+        XCTAssertEqual(eventParams["vault_setup_token"] as? String, "fake-setup-token")
     }
 }
 
