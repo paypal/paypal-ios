@@ -18,7 +18,7 @@
   * Add `cardThreeDSecureDidFinish()` to `CardVaultDelegate`
 * PayPalWebPayments  
   * Add `PayPalVaultRequest` type for interacting with `vault` method
-  * Add `vault` method to `PayPalWebCheckoutClient`
+  * Add `vault(_:)` method to `PayPalWebCheckoutClient`
   * Add `PayPalVaultResult` type to return vault result
   * Add `PayPalVaultDelegate` to handle results from vault flow
   * Add `PayPalWebCheckoutClientError.paypalVaultResponseError` for missing or invalid response from vaulting
