@@ -41,7 +41,8 @@ class PayPalClient_Tests: XCTestCase {
             XCTFail("Invoked error() callback. Should invoke success().")
         })
         payPalClient.vaultDelegate = mockVaultDelegate
-        payPalClient.vault(url: url!)
+        let vaultRequest = PayPalVaultRequest(url: url!, setupTokenID: "fakeTokenID")
+        payPalClient.vault(vaultRequest)
 
         waitForExpectations(timeout: 10)
     }
@@ -65,7 +66,8 @@ class PayPalClient_Tests: XCTestCase {
             expectation.fulfill()
         })
         payPalClient.vaultDelegate = mockVaultDelegate
-        payPalClient.vault(url: url!)
+        let vaultRequest = PayPalVaultRequest(url: url!, setupTokenID: "fakeTokenID")
+        payPalClient.vault(vaultRequest)
 
         waitForExpectations(timeout: 10)
     }
@@ -91,7 +93,8 @@ class PayPalClient_Tests: XCTestCase {
             XCTFail("Invoked cancel callback. Should invoke error().")
         })
         payPalClient.vaultDelegate = mockVaultDelegate
-        payPalClient.vault(url: url!)
+        let vaultRequest = PayPalVaultRequest(url: url!, setupTokenID: "fakeTokenID")
+        payPalClient.vault(vaultRequest)
 
         waitForExpectations(timeout: 10)
     }
@@ -116,7 +119,8 @@ class PayPalClient_Tests: XCTestCase {
             expectation.fulfill()
         })
         payPalClient.vaultDelegate = mockVaultDelegate
-        payPalClient.vault(url: url!)
+        let vaultRequest = PayPalVaultRequest(url: url!, setupTokenID: "fakeTokenID")
+        payPalClient.vault(vaultRequest)
 
         waitForExpectations(timeout: 10)
     }

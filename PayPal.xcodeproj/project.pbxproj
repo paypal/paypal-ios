@@ -18,6 +18,7 @@
 		3B109B3C2A85CC6200D8135F /* MockCardVaultDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B109B3A2A85B54800D8135F /* MockCardVaultDelegate.swift */; };
 		3B22E8B62A840ECF00962E34 /* CardVaultDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22E8B52A840ECF00962E34 /* CardVaultDelegate.swift */; };
 		3B22E8B82A841AEA00962E34 /* CardVaultResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22E8B72A841AEA00962E34 /* CardVaultResult.swift */; };
+		3B29C3972B9148F70077741D /* PayPalVaultRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B29C3962B9148F70077741D /* PayPalVaultRequest.swift */; };
 		3B3C51122B20C962009125FE /* PayPalVaultDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3C51112B20C962009125FE /* PayPalVaultDelegate.swift */; };
 		3B3C51182B2221C9009125FE /* MockPayPalVaultDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3C51172B2221C9009125FE /* MockPayPalVaultDelegate.swift */; };
 		3B3C511E2B2395B5009125FE /* PayPalVaultResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3C511D2B2395B5009125FE /* PayPalVaultResult.swift */; };
@@ -218,6 +219,7 @@
 		3B109B3A2A85B54800D8135F /* MockCardVaultDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCardVaultDelegate.swift; sourceTree = "<group>"; };
 		3B22E8B52A840ECF00962E34 /* CardVaultDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultDelegate.swift; sourceTree = "<group>"; };
 		3B22E8B72A841AEA00962E34 /* CardVaultResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultResult.swift; sourceTree = "<group>"; };
+		3B29C3962B9148F70077741D /* PayPalVaultRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalVaultRequest.swift; sourceTree = "<group>"; };
 		3B3C51112B20C962009125FE /* PayPalVaultDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalVaultDelegate.swift; sourceTree = "<group>"; };
 		3B3C51172B2221C9009125FE /* MockPayPalVaultDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPayPalVaultDelegate.swift; sourceTree = "<group>"; };
 		3B3C511D2B2395B5009125FE /* PayPalVaultResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalVaultResult.swift; sourceTree = "<group>"; };
@@ -743,6 +745,7 @@
 				CB51FF7127FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift */,
 				3B3C51112B20C962009125FE /* PayPalVaultDelegate.swift */,
 				3B3C511D2B2395B5009125FE /* PayPalVaultResult.swift */,
+				3B29C3962B9148F70077741D /* PayPalVaultRequest.swift */,
 			);
 			name = PayPalWebPayments;
 			path = Sources/PayPalWebPayments;
@@ -1431,6 +1434,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B29C3972B9148F70077741D /* PayPalVaultRequest.swift in Sources */,
 				3B3C511E2B2395B5009125FE /* PayPalVaultResult.swift in Sources */,
 				BE4F785327EB656400FF4C0E /* Environment+PayPalWebCheckout.swift in Sources */,
 				BE4F785427EB656400FF4C0E /* PayPalWebCheckoutClient.swift in Sources */,
