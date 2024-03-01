@@ -102,6 +102,11 @@ public class PayPalWebCheckoutClient: NSObject {
     /// - Parameters:
     ///   - vaultRequest: Request created with url for vault approval and setupTokenID
     public func vault(_ vaultRequest: PayPalVaultRequest) {
+        if let setupToken = getQueryStringParameter(url: vaultRequest.url.absoluteString, param: "approval_session_id") {
+            analyticsService = AnalyticsService(coreConfig: config, setupToken: setupToken)
+        }
+        analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:started")
+        
         webAuthenticationSession.start(
             url: vaultRequest.url,
             context: self,
@@ -162,15 +167,17 @@ public class PayPalWebCheckoutClient: NSObject {
     }
 
     private func notifyVaultSuccess(for result: PayPalVaultResult) {
+        analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:succeeded")
         vaultDelegate?.paypal(self, didFinishWithVaultResult: result)
     }
 
     private func notifyVaultFailure(with error: CoreSDKError) {
-        analyticsService?.sendEvent("paypal-web-payments:failed")
+        analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:failed")
         vaultDelegate?.paypal(self, didFinishWithVaultError: error)
     }
 
     private func notifyVaultCancellation() {
+        analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:canceled")
         vaultDelegate?.paypalDidCancel(self)
     }
 }
