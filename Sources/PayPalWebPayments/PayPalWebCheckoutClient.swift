@@ -102,7 +102,6 @@ public class PayPalWebCheckoutClient: NSObject {
     /// - Parameters:
     ///   - vaultRequest: Request created with url for vault approval and setupTokenID
     public func vault(_ vaultRequest: PayPalVaultRequest) {
-
         analyticsService = AnalyticsService(coreConfig: config, setupToken: vaultRequest.setupTokenID)
         analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:started")
         
