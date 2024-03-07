@@ -3,6 +3,7 @@ import UIKit
 import CorePayments
 #endif
 
+// swiftlint:disable type_body_length
 /// Handles functionality shared across payment buttons
 public class PaymentButton: UIButton {
 
