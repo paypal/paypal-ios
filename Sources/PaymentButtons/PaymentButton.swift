@@ -1,4 +1,7 @@
 import UIKit
+#if canImport(CorePayments)
+import CorePayments
+#endif
 
 /// Handles functionality shared across payment buttons
 public class PaymentButton: UIButton {
@@ -20,6 +23,12 @@ public class PaymentButton: UIButton {
     static let bundle = Bundle(for: PaymentButton.self)
     #endif
 
+    // Use an empty config and default to live environment for button analytics
+    private let analyticsService = AnalyticsService(
+        coreConfig: .init(clientID: "", environment: .live),
+        orderID: ""
+    )
+
     // MARK: - Init
 
     required init(
@@ -36,7 +45,9 @@ public class PaymentButton: UIButton {
         self.size = size
         self.insets = insets
         self.label = label
+        self.analyticsService.sendEvent("paypal-button:initialized", buttonType: fundingSource.rawValue)
         super.init(frame: .zero)
+        self.addTarget(self, action: #selector(onTap), for: .touchUpInside)
     }
 
     // MARK: - Views
@@ -155,6 +166,12 @@ public class PaymentButton: UIButton {
             }
             return false
         }
+    }
+
+    // MARK: - Private
+
+    @objc private func onTap() {
+        analyticsService.sendEvent("paypal-button:tapped", buttonType: fundingSource.rawValue)
     }
 
     // MARK: - Configuration

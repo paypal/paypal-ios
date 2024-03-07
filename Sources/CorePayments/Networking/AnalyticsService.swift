@@ -42,19 +42,21 @@ public struct AnalyticsService {
     /// Sends analytics event to https://api.paypal.com/v1/tracking/events/ via a background task.
     /// - Parameter name: Event name string used to identify this unique event in FPTI.
     /// - Parameter correlationID: correlation ID associated with the request
-    public func sendEvent(_ name: String, correlationID: String? = nil) {
+    /// - Parameter buttonType: The type of button
+    public func sendEvent(_ name: String, correlationID: String? = nil, buttonType: String? = nil) {
         Task(priority: .background) {
-            await performEventRequest(name, correlationID: correlationID)
+            await performEventRequest(name, correlationID: correlationID, buttonType: buttonType)
         }
     }
-    
+
     // MARK: - Internal Methods
     
     /// Exposed to be able to execute this function synchronously in unit tests
     /// - Parameters:
     ///   - name: Event name string used to identify this unique event in FPTI
     ///   - correlationID: correlation ID associated with the request
-    func performEventRequest(_ name: String, correlationID: String? = nil) async {
+    ///   - buttonType: The type of button
+    func performEventRequest(_ name: String, correlationID: String? = nil, buttonType: String? = nil) async {
         do {
             let clientID = coreConfig.clientID
             
@@ -64,7 +66,8 @@ public struct AnalyticsService {
                 clientID: clientID,
                 orderID: orderID,
                 correlationID: correlationID,
-                setupToken: setupToken
+                setupToken: setupToken,
+                buttonType: buttonType
             )
             
             let (_) = try await trackingEventsAPI.sendEvent(with: eventData)
