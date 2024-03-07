@@ -8,6 +8,8 @@
   * Fixed frame alignment and width issue occuring in SwiftUI
   * Fixed button alignment and size bug in SwiftUI with `intrinsicContentSize`
     * The height cannot be set smaller than 38px or width shorter than 300px
+  * Added analytics events
+    * `paypal-button:initialized` and `paypal-button:tapped`
 * CardPayments
   * Add `status` property to `CardVaultResult`
   * Add `didAttemptThreeDSecureAuthentication` property to `CardVaultResult`
