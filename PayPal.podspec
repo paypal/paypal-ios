@@ -14,12 +14,14 @@ Pod::Spec.new do |s|
   s.subspec "CardPayments" do |s|
     s.source_files  = "Sources/CardPayments/**/*.swift"
     s.dependency "PayPal/CorePayments"
+    s.resource_bundle = { "PayPalCard_PrivacyInfo" => "Sources/CardPayments/PrivacyInfo.xcprivacy" }
   end
 
   s.subspec "PayPalNativePayments" do |s|
    s.source_files  = "Sources/PayPalNativePayments/**/*.swift"
    s.dependency "PayPal/CorePayments"
    s.dependency "PayPalCheckout", "1.2.0"
+   s.resource_bundle = { "PayPalNative_PrivacyInfo" => "Sources/PayPalNativePayments/PrivacyInfo.xcprivacy" }
   end
 
   s.subspec "PaymentButtons" do |s|
@@ -28,11 +30,13 @@ Pod::Spec.new do |s|
     s.resource_bundle = {
     	'PayPalSDK' => ['Sources/PaymentButtons/*.xcassets']
     }
+    s.resource_bundle = { "PayPalButtons_PrivacyInfo" => "Sources/PaymentButtons/PrivacyInfo.xcprivacy" }
   end
 
   s.subspec "PayPalWebPayments" do |s|
     s.source_files  = "Sources/PayPalWebPayments/*.swift"
     s.dependency "PayPal/CorePayments"
+    s.resource_bundle = { "PayPalWeb_PrivacyInfo" => "Sources/PayPalWebPayments/PrivacyInfo.xcprivacy" }
   end
 
   s.subspec "FraudProtection" do |s|

@@ -26,6 +26,12 @@
 		3B80D50C2A27979000D2EAC4 /* FailingJSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */; };
 		3BD82DBB2A835AF900CBE764 /* UpdateSetupTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD82DBA2A835AF900CBE764 /* UpdateSetupTokenResponse.swift */; };
 		3BDB34942A80CE6E008100D7 /* CardVaultRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB34932A80CE6E008100D7 /* CardVaultRequest.swift */; };
+		3BE738682B9A66D800598F05 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3BE738622B9A482800598F05 /* PrivacyInfo.xcprivacy */; };
+		3BE738692B9A66E600598F05 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3BE738632B9A4A4500598F05 /* PrivacyInfo.xcprivacy */; };
+		3BE7386A2B9A66EE00598F05 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3BE738642B9A566200598F05 /* PrivacyInfo.xcprivacy */; };
+		3BE7386B2B9A66F600598F05 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3BE738652B9A58AE00598F05 /* PrivacyInfo.xcprivacy */; };
+		3BE7386C2B9A66FC00598F05 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3BE738672B9A598200598F05 /* PrivacyInfo.xcprivacy */; };
+		3BE7386D2B9A670400598F05 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3BE738662B9A593100598F05 /* PrivacyInfo.xcprivacy */; };
 		3D1763A22720722A00652E1C /* CardResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1763A12720722A00652E1C /* CardResult.swift */; };
 		3DC42BA927187E8300B71645 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC42BA827187E8300B71645 /* ErrorResponse.swift */; };
 		53A2A4E228A182AC0093441C /* NativeCheckoutProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A2A4E128A182AC0093441C /* NativeCheckoutProvider.swift */; };
@@ -226,6 +232,12 @@
 		3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailingJSONEncoder.swift; sourceTree = "<group>"; };
 		3BD82DBA2A835AF900CBE764 /* UpdateSetupTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSetupTokenResponse.swift; sourceTree = "<group>"; };
 		3BDB34932A80CE6E008100D7 /* CardVaultRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultRequest.swift; sourceTree = "<group>"; };
+		3BE738622B9A482800598F05 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		3BE738632B9A4A4500598F05 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		3BE738642B9A566200598F05 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		3BE738652B9A58AE00598F05 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		3BE738662B9A593100598F05 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		3BE738672B9A598200598F05 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		3D1763A12720722A00652E1C /* CardResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardResult.swift; sourceTree = "<group>"; };
 		3D25238127344F330099E4EB /* NativeCheckoutStartable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NativeCheckoutStartable.swift; path = Sources/PayPalNativePayments/NativeCheckoutStartable.swift; sourceTree = SOURCE_ROOT; };
 		3D25238B273979170099E4EB /* MockNativeCheckoutProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNativeCheckoutProvider.swift; sourceTree = "<group>"; };
@@ -575,6 +587,7 @@
 				807C5E6829102D9800ECECD8 /* AnalyticsEventData.swift */,
 				8021B68F29144E6D000FBC54 /* PayPalCoreConstants.swift */,
 				80DB2F752980795D00CFB86A /* CorePaymentsError.swift */,
+				3BE738632B9A4A4500598F05 /* PrivacyInfo.xcprivacy */,
 			);
 			name = CorePayments;
 			path = Sources/CorePayments;
@@ -594,6 +607,7 @@
 				80DBC9DD29C3B57200462539 /* PayPalNativeShippingAddress.swift */,
 				80DBC9DF29C3B8A800462539 /* PayPalNativeShippingMethod.swift */,
 				CBC16DD629E99D0D00307117 /* PayPalNativePaysheetActions.swift */,
+				3BE738652B9A58AE00598F05 /* PrivacyInfo.xcprivacy */,
 			);
 			name = PayPalNativePayments;
 			path = Sources/PayPalNativePayments;
@@ -636,6 +650,7 @@
 				3B22E8B52A840ECF00962E34 /* CardVaultDelegate.swift */,
 				80DBC9D829C336D500462539 /* APIRequests */,
 				065A4DBD26FCDA270007014A /* Models */,
+				3BE738622B9A482800598F05 /* PrivacyInfo.xcprivacy */,
 			);
 			name = CardPayments;
 			path = Sources/CardPayments;
@@ -682,6 +697,7 @@
 				BC9C18D727D279C70019B541 /* MagnesSDKResult.swift */,
 				BCF735EA27D160E800A52E03 /* MagnesSetupParams.swift */,
 				BCF735E627D15AB800A52E03 /* PayPalDataCollector.swift */,
+				3BE738642B9A566200598F05 /* PrivacyInfo.xcprivacy */,
 			);
 			name = FraudProtection;
 			path = Sources/FraudProtection;
@@ -715,6 +731,7 @@
 				CB1A47F92820BF6B00BD8184 /* PaymentButtonFont.swift */,
 				CB1A47FD2820C10700BD8184 /* PaymentButtonFundingSource.swift */,
 				CB1A48042822BCED00BD8184 /* PaymentButton+ImageAsset.swift */,
+				3BE738672B9A598200598F05 /* PrivacyInfo.xcprivacy */,
 			);
 			name = PaymentButtons;
 			path = Sources/PaymentButtons;
@@ -743,6 +760,7 @@
 				CB51FF7127FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift */,
 				3B3C51112B20C962009125FE /* PayPalVaultDelegate.swift */,
 				3B3C511D2B2395B5009125FE /* PayPalVaultResult.swift */,
+				3BE738662B9A593100598F05 /* PrivacyInfo.xcprivacy */,
 			);
 			name = PayPalWebPayments;
 			path = Sources/PayPalWebPayments;
@@ -1220,6 +1238,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BE738692B9A66E600598F05 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1227,6 +1246,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BE7386B2B9A66F600598F05 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1241,6 +1261,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BE738682B9A66D800598F05 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1255,6 +1276,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BE7386D2B9A670400598F05 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1262,6 +1284,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BE7386A2B9A66EE00598F05 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1276,6 +1299,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BE7386C2B9A66FC00598F05 /* PrivacyInfo.xcprivacy in Resources */,
 				BCFAC70527ED042500C3AF00 /* Assets.xcassets in Resources */,
 				045386092B5CB9AA0057AFDA /* PayPalOpen-Regular.otf in Resources */,
 			);
