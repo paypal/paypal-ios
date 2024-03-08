@@ -2,13 +2,13 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
+* [Meets Apple's new Privacy Update requirements](https://developer.apple.com/news/?id=3d8a9yyh)
 * PaymentButtons
   * Add `custom` case for `PaymentButtonEdges`
   * Support VoiceOver by adding button accessibility labels
   * Fixed frame alignment and width issue occuring in SwiftUI
   * Fixed button alignment and size bug in SwiftUI with `intrinsicContentSize`
     * The height cannot be set smaller than 38px or width shorter than 300px
-  * Add PrivacyInfo.xcprivacy file
 * CardPayments
   * Add `status` property to `CardVaultResult`
   * Add `didAttemptThreeDSecureAuthentication` property to `CardVaultResult`
@@ -17,19 +17,11 @@
   * Add `cardThreeDSecureDidCancel()` to `CardVaultDelegate`
   * Add `cardThreeDSecureWillLaunch()` to `CardVaultDelegate`
   * Add `cardThreeDSecureDidFinish()` to `CardVaultDelegate`
-  * Add PrivacyInfo.xcprivacy file
 * PayPalWebPayments
   * Add `vault(url:)` method to `PayPalWebCheckoutClient`
   * Add `PayPalVaultResult` type to return vault result
   * Add `PayPalVaultDelegate` to handle results from vault flow
   * Add `PayPalWebCheckoutClientError.paypalVaultResponseError` for missing or invalid response from vaulting
-  * Add PrivacyInfo.xcprivacy file
-* CorePayments
-  * Add PrivacyInfo.xcprivacy file
-* PayPalNativePayments
-  * Add PrivacyInfo.xcprivacy file
-* FraudProtection
-  * Add PrivacyInfo.xcprivacy file
 
 ## 1.1.0 (2023-11-16)
 * PayPalNativePayments
