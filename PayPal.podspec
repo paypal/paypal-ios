@@ -14,12 +14,14 @@ Pod::Spec.new do |s|
   s.subspec "CardPayments" do |s|
     s.source_files  = "Sources/CardPayments/**/*.swift"
     s.dependency "PayPal/CorePayments"
+    s.resource_bundle = { "CardPayments_PrivacyInfo" => "Sources/CardPayments/PrivacyInfo.xcprivacy" }
   end
 
   s.subspec "PayPalNativePayments" do |s|
    s.source_files  = "Sources/PayPalNativePayments/**/*.swift"
    s.dependency "PayPal/CorePayments"
    s.dependency "PayPalCheckout", "1.2.0"
+   s.resource_bundle = { "PayPalNativePayments_PrivacyInfo" => "Sources/PayPalNativePayments/PrivacyInfo.xcprivacy" }
   end
 
   s.subspec "PaymentButtons" do |s|
@@ -28,20 +30,24 @@ Pod::Spec.new do |s|
     s.resource_bundle = {
     	'PayPalSDK' => ['Sources/PaymentButtons/*.xcassets']
     }
+    s.resource_bundle = { "PaymentButtons_PrivacyInfo" => "Sources/PaymentButtons/PrivacyInfo.xcprivacy" }
   end
 
   s.subspec "PayPalWebPayments" do |s|
     s.source_files  = "Sources/PayPalWebPayments/*.swift"
     s.dependency "PayPal/CorePayments"
+    s.resource_bundle = { "PayPalWebPayments_PrivacyInfo" => "Sources/PayPalWebPayments/PrivacyInfo.xcprivacy" }
   end
 
   s.subspec "FraudProtection" do |s|
     s.source_files = "Sources/FraudProtection/*.swift"
     s.dependency "PayPal/CorePayments"
     s.vendored_frameworks = "Frameworks/XCFrameworks/PPRiskMagnes.xcframework"
+    s.resource_bundle = { "FraudProtection_PrivacyInfo" => "Sources/FraudProtection/PrivacyInfo.xcprivacy" }
   end
 
   s.subspec "CorePayments" do |s|
     s.source_files  = "Sources/CorePayments/**/*.swift"
+    s.resource_bundle = { "CorePayments_PrivacyInfo" => "Sources/CorePayments/PrivacyInfo.xcprivacy" }
   end
 end

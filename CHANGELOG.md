@@ -2,6 +2,7 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
+* [Meets Apple's new Privacy Update requirements](https://developer.apple.com/news/?id=3d8a9yyh)
 * PaymentButtons
   * Add `custom` case for `PaymentButtonEdges`
   * Support VoiceOver by adding button accessibility labels
