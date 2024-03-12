@@ -46,7 +46,7 @@ public class PaymentButton: UIButton {
         self.size = size
         self.insets = insets
         self.label = label
-        self.analyticsService.sendEvent("paypal-button:initialized", buttonType: fundingSource.rawValue)
+        self.analyticsService.sendEvent("payment-button:initialized", buttonType: fundingSource.rawValue)
         super.init(frame: .zero)
         self.addTarget(self, action: #selector(onTap), for: .touchUpInside)
     }
@@ -172,7 +172,7 @@ public class PaymentButton: UIButton {
     // MARK: - Private
 
     @objc private func onTap() {
-        analyticsService.sendEvent("paypal-button:tapped", buttonType: fundingSource.rawValue)
+        analyticsService.sendEvent("payment-button:tapped", buttonType: fundingSource.rawValue)
     }
 
     // MARK: - Configuration
