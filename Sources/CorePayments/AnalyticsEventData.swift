@@ -13,6 +13,7 @@ struct AnalyticsEventData: Encodable {
     enum EventParameterKeys: String, CodingKey, CaseIterable {
         case appID = "app_id"
         case appName = "app_name"
+        case buttonType = "button_type"
         case clientID = "partner_client_id"
         case clientSDKVersion = "c_sdk_ver"
         case clientOS = "client_os"
@@ -95,14 +96,25 @@ struct AnalyticsEventData: Encodable {
     let timestamp = String(Date().timeIntervalSince1970 * 1000)
 
     let tenantName = "PayPal"
-    
-    init(environment: String, eventName: String, clientID: String, orderID: String?, correlationID: String?, setupToken: String?) {
+
+    let buttonType: String?
+
+    init(
+        environment: String,
+        eventName: String,
+        clientID: String,
+        orderID: String?,
+        correlationID: String?,
+        setupToken: String?,
+        buttonType: String? = nil
+    ) {
         self.environment = environment
         self.eventName = eventName
         self.clientID = clientID
         self.orderID = orderID
         self.correlationID = correlationID
         self.setupToken = setupToken
+        self.buttonType = buttonType
     }
     
     func encode(to encoder: Encoder) throws {
