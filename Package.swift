@@ -38,27 +38,33 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "CorePayments",
-            dependencies: []
+            dependencies: [],
+            resources: [.copy("PrivacyInfo.xcprivacy")]
         ),
         .target(
             name: "CardPayments",
-            dependencies: ["CorePayments"]
+            dependencies: ["CorePayments"],
+            resources: [.copy("PrivacyInfo.xcprivacy")]
         ),
         .target(
            name: "PayPalNativePayments",
-           dependencies: ["CorePayments", "PayPalCheckout"]
+           dependencies: ["CorePayments", "PayPalCheckout"],
+           resources: [.copy("PrivacyInfo.xcprivacy")]
         ),
         .target(
             name: "PaymentButtons",
-            dependencies: ["CorePayments"]
+            dependencies: ["CorePayments"],
+            resources: [.copy("PrivacyInfo.xcprivacy")]
         ),
         .target(
             name: "PayPalWebPayments",
-            dependencies: ["CorePayments"]
+            dependencies: ["CorePayments"],
+            resources: [.copy("PrivacyInfo.xcprivacy")]
         ),
         .target(
             name: "FraudProtection",
-            dependencies: ["CorePayments", "PPRiskMagnes"]
+            dependencies: ["CorePayments", "PPRiskMagnes"],
+            resources: [.copy("PrivacyInfo.xcprivacy")]
         ),
         .binaryTarget(
             name: "PPRiskMagnes",
