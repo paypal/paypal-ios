@@ -44,6 +44,10 @@ public class CardClient: NSObject {
     /// - Parameters:
     ///   - vaultRequest: The request containing setupTokenID and card
     public func vault(_ vaultRequest: CardVaultRequest) {
+        Task {
+            await vaultAPI.getEligibility()
+        }
+        
         analyticsService = AnalyticsService(coreConfig: config, setupToken: vaultRequest.setupTokenID)
         analyticsService?.sendEvent("card-payments:vault-wo-purchase:started")
         Task {
