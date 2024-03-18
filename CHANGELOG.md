@@ -2,6 +2,7 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
+* Bump to PPRiskMagnes v5.5.0 with code signing & a privacy manifest file
 * [Meets Apple's new Privacy Update requirements](https://developer.apple.com/news/?id=3d8a9yyh)
 * PaymentButtons
   * Add `custom` case for `PaymentButtonEdges`

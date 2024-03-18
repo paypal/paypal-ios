@@ -14,7 +14,7 @@
 		</data>
 		<key>Headers/PPRiskMagnes-Swift.h</key>
 		<data>
-		Xl3vpQzeFvCUSYv64C5vXKdEHY8=
+		936N2ixT2/DZ98BHfjUObm+XWgs=
 		</data>
 		<key>Headers/PPRiskMagnes.h</key>
 		<data>
@@ -22,59 +22,55 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		viDvf6vvhQeJfQGnynVhtLzuhb4=
+		jPT4ONCDgNUSQ4FU1zVk5gO9eAo=
+		</data>
+		<key>Modules/PPRiskMagnes.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
+		<data>
+		AgDX+n0ehmqgECM9WHbnuiCNrlI=
+		</data>
+		<key>Modules/PPRiskMagnes.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
+		<data>
+		5fDwe4ZtNhd1Z8P/khPPY46M8e4=
 		</data>
 		<key>Modules/PPRiskMagnes.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		4jD1P2II+G6D6CVtcEeIH0FpFs4=
+		YItoTOw0jAgX5e29i8EVP6RBkSA=
 		</data>
 		<key>Modules/PPRiskMagnes.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		n3jo5/7BFK1IgcOHP4/3chHYV2A=
+		5fDwe4ZtNhd1Z8P/khPPY46M8e4=
 		</data>
 		<key>Modules/PPRiskMagnes.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		ULBVli3hqu3ofVN6+sgvKoKCBXk=
+		vA43LRuG/WtG6aJySC3fm3eCsts=
 		</data>
-		<key>Modules/PPRiskMagnes.swiftmodule/arm64.swiftdoc</key>
+		<key>Modules/PPRiskMagnes.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		4jD1P2II+G6D6CVtcEeIH0FpFs4=
+		AgDX+n0ehmqgECM9WHbnuiCNrlI=
 		</data>
-		<key>Modules/PPRiskMagnes.swiftmodule/arm64.swiftinterface</key>
+		<key>Modules/PPRiskMagnes.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		n3jo5/7BFK1IgcOHP4/3chHYV2A=
-		</data>
-		<key>Modules/PPRiskMagnes.swiftmodule/arm64.swiftmodule</key>
-		<data>
-		ULBVli3hqu3ofVN6+sgvKoKCBXk=
+		A36UpIwR+8WbR3HZwhYukP3rDrE=
 		</data>
 		<key>Modules/PPRiskMagnes.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		CZopOv0xjsk6hNlXaoFZ+LwGjJc=
+		A0RVk9BIrsW+KUvYOIT/LJCGyz8=
 		</data>
 		<key>Modules/PPRiskMagnes.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		Lslbt2Pw+DW6RUG08qQnh4qukHQ=
+		A36UpIwR+8WbR3HZwhYukP3rDrE=
 		</data>
 		<key>Modules/PPRiskMagnes.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		2JjgG5tM9gIBvqA/rZt1GQbSSJg=
-		</data>
-		<key>Modules/PPRiskMagnes.swiftmodule/x86_64.swiftdoc</key>
-		<data>
-		CZopOv0xjsk6hNlXaoFZ+LwGjJc=
-		</data>
-		<key>Modules/PPRiskMagnes.swiftmodule/x86_64.swiftinterface</key>
-		<data>
-		Lslbt2Pw+DW6RUG08qQnh4qukHQ=
-		</data>
-		<key>Modules/PPRiskMagnes.swiftmodule/x86_64.swiftmodule</key>
-		<data>
-		2JjgG5tM9gIBvqA/rZt1GQbSSJg=
+		SnJQ0SLvSCO9UEwDaJ0wIvIA8pw=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
-		zG2HaZ52YRJVtlwpUULn49EDHFQ=
+		PqwKWB8mAAOSBHORIySv8rF6Rbg=
+		</data>
+		<key>PrivacyInfo.xcprivacy</key>
+		<data>
+		GcpG0fhQKRD4f8bUwQpPRQzm9Tg=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -97,7 +93,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			lAyc0YaRdWFzi3bnrlP02QCZLvS8H8cI+FGFgCZm//M=
+			2woAzKk9Q+1yIUYRAciC5Y3aqkYAd4bh/uLRng2PgEc=
 			</data>
 		</dict>
 		<key>Headers/PPRiskMagnes.h</key>
@@ -107,95 +103,88 @@
 			vhMly4uO6RmzlDtGoz0aUCKQHXGKVN52CnjC6s87et0=
 			</data>
 		</dict>
+		<key>Modules/PPRiskMagnes.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			qTSnRwnJRuiVVyX1vyNBvLbgsn08ROZY6HYeeeNhUNA=
+			</data>
+		</dict>
+		<key>Modules/PPRiskMagnes.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			EXmcgy22vq1s4eb7J0BX/nf8HPK0SaPLd1vfBLpJoyw=
+			</data>
+		</dict>
 		<key>Modules/PPRiskMagnes.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			CXfGBlYhQHrsCxXjHxLvVHaqqFhpQg3iJ+Qg/sK8vqg=
+			AVjaMgGU2b2uSDf+OTlku7fY2iifTI+YiJqyzX0bJC8=
 			</data>
 		</dict>
 		<key>Modules/PPRiskMagnes.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Et6g2fXSIEH/vLI4gT8Tst+I8+/NkKPFkohljV8UnHI=
+			EXmcgy22vq1s4eb7J0BX/nf8HPK0SaPLd1vfBLpJoyw=
 			</data>
 		</dict>
 		<key>Modules/PPRiskMagnes.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			/a77MvAJsGL8S/TE2/NHoCruEgf/wBgyjDIHk+65gcA=
+			KG60pbuw+lupPMiE/d6BoSstGANdiobAZ+dqSPZQAco=
 			</data>
 		</dict>
-		<key>Modules/PPRiskMagnes.swiftmodule/arm64.swiftdoc</key>
+		<key>Modules/PPRiskMagnes.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			CXfGBlYhQHrsCxXjHxLvVHaqqFhpQg3iJ+Qg/sK8vqg=
+			qTSnRwnJRuiVVyX1vyNBvLbgsn08ROZY6HYeeeNhUNA=
 			</data>
 		</dict>
-		<key>Modules/PPRiskMagnes.swiftmodule/arm64.swiftinterface</key>
+		<key>Modules/PPRiskMagnes.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Et6g2fXSIEH/vLI4gT8Tst+I8+/NkKPFkohljV8UnHI=
-			</data>
-		</dict>
-		<key>Modules/PPRiskMagnes.swiftmodule/arm64.swiftmodule</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			/a77MvAJsGL8S/TE2/NHoCruEgf/wBgyjDIHk+65gcA=
+			EuSl0jMdSSP0haQK3Yxtu1xFtoOpcx69639NTm/X5eU=
 			</data>
 		</dict>
 		<key>Modules/PPRiskMagnes.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			/rTVsmh4BuSWR9LOg3rFJbwLpht4JBvk3kkzr1PuwhA=
+			hSPz++xxWbcWGchsubnMNp++suydDM/wHgWrf+vYI0Y=
 			</data>
 		</dict>
 		<key>Modules/PPRiskMagnes.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			/YcGxTEgtUM/npls0t/K8rsFfTMxMBKQ6x4TeYxDmQI=
+			EuSl0jMdSSP0haQK3Yxtu1xFtoOpcx69639NTm/X5eU=
 			</data>
 		</dict>
 		<key>Modules/PPRiskMagnes.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			1wwO/cjIHQMyOZCv5vugNk4GIIzohFrG2jmm2GhbdPc=
-			</data>
-		</dict>
-		<key>Modules/PPRiskMagnes.swiftmodule/x86_64.swiftdoc</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			/rTVsmh4BuSWR9LOg3rFJbwLpht4JBvk3kkzr1PuwhA=
-			</data>
-		</dict>
-		<key>Modules/PPRiskMagnes.swiftmodule/x86_64.swiftinterface</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			/YcGxTEgtUM/npls0t/K8rsFfTMxMBKQ6x4TeYxDmQI=
-			</data>
-		</dict>
-		<key>Modules/PPRiskMagnes.swiftmodule/x86_64.swiftmodule</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			1wwO/cjIHQMyOZCv5vugNk4GIIzohFrG2jmm2GhbdPc=
+			roK8FRIH+sriitSvLkiYCZfLuxfnwG86yEMEQrKbURM=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			5GvSEZlUrg4GELohSYR+X99i2WmXcpodL/JXQozOFYk=
+			Sc3wP5Dw4PSO7tfVI/u9J5/R+zgQz4HBuDRsK8QlvSI=
+			</data>
+		</dict>
+		<key>PrivacyInfo.xcprivacy</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Z9sDQFJLboD5Z9h30opzQuDd9ShidSWUdbn76Ug+LLw=
 			</data>
 		</dict>
 	</dict>
