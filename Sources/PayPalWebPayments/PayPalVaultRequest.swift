@@ -12,7 +12,7 @@ public struct PayPalVaultRequest {
 
     /// Creates an instance of a PayPal vault request
     /// - Parameters:
-    ///    - url: The PayPal URL for the approval web page
+    ///    - url: PayPal approval URL returned as the `href` from the setup token API call
     ///    - setupTokenID: An ID for the setup token associated with the vault
     public init(url: URL, setupTokenID: String) {
         self.url = url
