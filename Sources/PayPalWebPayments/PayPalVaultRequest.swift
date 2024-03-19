@@ -3,10 +3,11 @@ import Foundation
 /// A request to vault a PayPal payment method
 public struct PayPalVaultRequest {
 
-    /// PayPal URL for the approval web page
+    /// PayPal approval URL returned as the `href` from the setup token API call
     public let url: URL
 
     /// ID for the setup token associated with the vault
+    /// Returned as  top level `id` from the setup token API call
     public let setupTokenID: String
 
     /// Creates an instance of a PayPal vault request
