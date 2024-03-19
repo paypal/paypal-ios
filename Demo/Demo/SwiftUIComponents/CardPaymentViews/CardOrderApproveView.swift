@@ -94,6 +94,8 @@ struct CardOrderApproveView: View {
                     }
                 }
             }
+        }.onOpenURL { url in
+            print(url)
         }
     }
 }
