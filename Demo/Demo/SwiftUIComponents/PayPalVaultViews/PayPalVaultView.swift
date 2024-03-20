@@ -14,10 +14,11 @@ struct PayPalVaultView: View {
                         paymentSourceType: PaymentSourceType.paypal(usageType: "MERCHANT")
                     )
                     SetupTokenResultView(vaultViewModel: paypalVaultViewModel)
-                    if let url = paypalVaultViewModel.state.setupToken?.paypalURL {
+                    if let urlString = paypalVaultViewModel.state.setupToken?.paypalURL,
+                        let setupTokenID = paypalVaultViewModel.state.setupToken?.id {
                         Button("Vault PayPal") {
                             Task {
-                                await paypalVaultViewModel.vault(url: url)
+                                await paypalVaultViewModel.vault(url: urlString, setupTokenID: setupTokenID)
                             }
                         }
                         .buttonStyle(RoundedBlueButtonStyle())
