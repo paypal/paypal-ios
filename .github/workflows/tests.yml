@@ -13,7 +13,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
-      - name: Use Xcode 14
-        run: sudo xcode-select -switch /Applications/Xcode_14.3.app
+      - name: Use Xcode 15.1
+        run: sudo xcode-select -switch /Applications/Xcode_15.1.app
       - name: Run Unit Tests
         run: set -o pipefail && xcodebuild -workspace 'PayPal.xcworkspace' -sdk 'iphonesimulator' -configuration 'Debug' -scheme 'UnitTests' -destination 'name=iPhone 14,platform=iOS Simulator' test | xcpretty
