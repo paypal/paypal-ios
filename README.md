@@ -8,7 +8,7 @@ If you have suggestions for features that you would like to see in future iterat
 
 ## Support
 
-The PayPal iOS SDK supports a minimum deployment target of iOS 14+ and requires Xcode 14.3+ and macOS Ventura 13. See our [Client Deprecation policy](https://developer.paypal.com/braintree/docs/guides/client-sdk/deprecation-policy/ios/v5) to plan for updates.
+The PayPal iOS SDK supports a minimum deployment target of iOS 14+ and requires Xcode 15.0+ and macOS Ventura 13. See our [Client Deprecation policy](https://developer.paypal.com/braintree/docs/guides/client-sdk/deprecation-policy/ios/v5) to plan for updates.
 
 ### Package Managers
 This SDK supports:
