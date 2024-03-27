@@ -1,6 +1,7 @@
 import Foundation
 import CorePayments
 import PayPalWebPayments
+import FraudProtection
 
 class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
@@ -16,6 +17,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
     }
 
     let configManager = CoreConfigManager(domain: "PayPalWeb Payments")
+    private var payPalDataCollector: PayPalDataCollector?
 
     func createOrder(shouldVault: Bool) async throws {
         let amountRequest = Amount(currencyCode: "USD", value: "10.00")
@@ -83,6 +85,7 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         do {
             let config = try await configManager.getCoreConfig()
             let payPalClient = PayPalWebCheckoutClient(config: config)
+            payPalDataCollector = PayPalDataCollector(config: config)
             return payPalClient
         } catch {
             updateState(.error(message: error.localizedDescription))
@@ -95,8 +98,13 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         do {
             updateState(.loading)
 
+            let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
             if let orderID {
-                let order = try await DemoMerchantAPI.sharedService.completeOrder(intent: intent, orderID: orderID)
+                let order = try await DemoMerchantAPI.sharedService.completeOrder(
+                    intent: intent,
+                    orderID: orderID,
+                    payPalClientMetadataID: payPalClientMetadataID
+                )
                 updateOrder(order)
                 updateState(.success)
             }

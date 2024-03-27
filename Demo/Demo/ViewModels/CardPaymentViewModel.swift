@@ -1,10 +1,12 @@
 import Foundation
 import CardPayments
 import CorePayments
+import FraudProtection
 
 class CardPaymentViewModel: ObservableObject, CardDelegate {
 
     @Published var state = CardPaymentState()
+    private var payPalDataCollector: PayPalDataCollector?
 
     let configManager = CoreConfigManager(domain: "Card Payments")
 
@@ -68,9 +70,11 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
             DispatchQueue.main.async {
                 self.state.capturedOrderResponse = .loading
             }
+            let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
             let order = try await DemoMerchantAPI.sharedService.captureOrder(
                 orderID: orderID,
-                selectedMerchantIntegration: selectedMerchantIntegration
+                selectedMerchantIntegration: selectedMerchantIntegration,
+                payPalClientMetadataID: payPalClientMetadataID
             )
             DispatchQueue.main.async {
                 self.state.capturedOrderResponse = .loaded(order)
@@ -88,9 +92,11 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
             DispatchQueue.main.async {
                 self.state.authorizedOrderResponse = .loading
             }
+            let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
             let order = try await DemoMerchantAPI.sharedService.authorizeOrder(
                 orderID: orderID,
-                selectedMerchantIntegration: selectedMerchantIntegration
+                selectedMerchantIntegration: selectedMerchantIntegration,
+                payPalClientMetadataID: payPalClientMetadataID
             )
             DispatchQueue.main.async {
                 self.state.authorizedOrderResponse = .loaded(order)
@@ -110,6 +116,7 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
             }
             let config = try await configManager.getCoreConfig()
             cardClient = CardClient(config: config)
+            payPalDataCollector = PayPalDataCollector(config: config)
             cardClient?.delegate = self
             let cardRequest = CardRequest(orderID: orderID, card: card, sca: sca)
             cardClient?.approveOrder(request: cardRequest)
