@@ -8,9 +8,9 @@ public enum Environment {
     var baseURL: URL {
         switch self {
         case .sandbox:
-            return URL(string: "https://api.sandbox.paypal.com")!
+            return URL(string: "https://api-m.sandbox.paypal.com")!
         case .live:
-            return URL(string: "https://api.paypal.com")!
+            return URL(string: "https://api-m.paypal.com")!
         }
     }
 

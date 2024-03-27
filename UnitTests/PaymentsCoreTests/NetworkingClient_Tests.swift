@@ -32,21 +32,21 @@ class NetworkingClient_Tests: XCTestCase {
         let fakeGETRequest = RESTRequest(path: "", method: .get)
         
         _ = try await sut.fetch(request: fakeGETRequest)
-        XCTAssertEqual(mockHTTP.capturedHTTPRequest?.url.absoluteString, "https://api.paypal.com/")
+        XCTAssertEqual(mockHTTP.capturedHTTPRequest?.url.absoluteString, "https://api-m.paypal.com/")
     }
     
     func testFetchREST_whenSandbox_usesProperPayPalURL() async throws {
         let fakeGETRequest = RESTRequest(path: "", method: .get)
         
         _ = try await sut.fetch(request: fakeGETRequest)
-        XCTAssertEqual(mockHTTP.capturedHTTPRequest?.url.absoluteString, "https://api.sandbox.paypal.com/")
+        XCTAssertEqual(mockHTTP.capturedHTTPRequest?.url.absoluteString, "https://api-m.sandbox.paypal.com/")
     }
     
     func testFetchREST_whenGET_constructsProperHTTPRequest() async throws {
         let fakeGETRequest = RESTRequest(path: "v1/fake-endpoint", method: .get, queryParameters: ["key1": "value1"])
         
         _ = try await sut.fetch(request: fakeGETRequest)
-        XCTAssertEqual(mockHTTP.capturedHTTPRequest?.url.absoluteString, "https://api.sandbox.paypal.com/v1/fake-endpoint?key1=value1")
+        XCTAssertEqual(mockHTTP.capturedHTTPRequest?.url.absoluteString, "https://api-m.sandbox.paypal.com/v1/fake-endpoint?key1=value1")
         XCTAssertEqual(mockHTTP.capturedHTTPRequest?.method, .get)
         XCTAssertEqual(mockHTTP.capturedHTTPRequest?.headers[.authorization], "Basic \(base64EncodedFakeClientID)")
     }
@@ -61,7 +61,7 @@ class NetworkingClient_Tests: XCTestCase {
         )
         
         _ = try await sut.fetch(request: fakePOSTRequest)
-        XCTAssertEqual(mockHTTP.capturedHTTPRequest?.url.absoluteString, "https://api.sandbox.paypal.com/v1/fake-endpoint")
+        XCTAssertEqual(mockHTTP.capturedHTTPRequest?.url.absoluteString, "https://api-m.sandbox.paypal.com/v1/fake-endpoint")
         XCTAssertEqual(mockHTTP.capturedHTTPRequest?.method, .post)
         XCTAssertEqual(mockHTTP.capturedHTTPRequest?.headers[.authorization], "Basic \(base64EncodedFakeClientID)")
         XCTAssertEqual(mockHTTP.capturedHTTPRequest?.headers[.contentType], "application/json")

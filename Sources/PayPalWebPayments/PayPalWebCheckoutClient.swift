@@ -100,16 +100,13 @@ public class PayPalWebCheckoutClient: NSObject {
     /// Starts a web session for vaulting PayPal Payment Method
     /// After setupToken successfullly attaches a payment method, you will need to create a payment token with the setup token
     /// - Parameters:
-    ///   - url: URL created from string value from setupToken API
-    /// - Returns: PayPalVaultResult
-    /// - Throws: PayPalSDK error if vaulting could not complete successfully
-    public func vault(url: URL) {
-        if let setupToken = getQueryStringParameter(url: url.absoluteString, param: "approval_session_id") {
-            analyticsService = AnalyticsService(coreConfig: config, setupToken: setupToken)
-        }
+    ///   - vaultRequest: Request created with url for vault approval and setupTokenID
+    public func vault(_ vaultRequest: PayPalVaultRequest) {
+        analyticsService = AnalyticsService(coreConfig: config, setupToken: vaultRequest.setupTokenID)
         analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:started")
+        
         webAuthenticationSession.start(
-            url: url,
+            url: vaultRequest.url,
             context: self,
             sessionDidDisplay: { [weak self] didDisplay in
                 if didDisplay {
