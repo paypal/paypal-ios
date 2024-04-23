@@ -28,9 +28,9 @@ Pod::Spec.new do |s|
     s.source_files  = "Sources/PaymentButtons/*.swift"
     s.dependency "PayPal/CorePayments"
     s.resource_bundle = {
-    	'PayPalSDK' => ['Sources/PaymentButtons/*.xcassets']
+    	'PayPalSDK' => ['Sources/PaymentButtons/*.xcassets'],
+         "PaymentButtons_PrivacyInfo" => "Sources/PaymentButtons/PrivacyInfo.xcprivacy"
     }
-    s.resource_bundle = { "PaymentButtons_PrivacyInfo" => "Sources/PaymentButtons/PrivacyInfo.xcprivacy" }
   end
 
   s.subspec "PayPalWebPayments" do |s|
