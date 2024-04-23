@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
     s.dependency "PayPal/CorePayments"
     s.resource_bundle = {
     	'PayPalSDK' => ['Sources/PaymentButtons/*.xcassets'],
-         "PaymentButtons_PrivacyInfo" => "Sources/PaymentButtons/PrivacyInfo.xcprivacy"
+        "PaymentButtons_PrivacyInfo" => "Sources/PaymentButtons/PrivacyInfo.xcprivacy"
     }
   end
 
