@@ -1,6 +1,10 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+* PaymentButtons
+  * Fix assets not rendering when importing CocoaPods
+  
 ## 1.2.0 (2024-03-27)
 * Bump to PPRiskMagnes v5.5.0 with code signing & a privacy manifest file
 * Require Xcode 15.0+ and Swift 5.9+ (per [App Store requirements](https://developer.apple.com/news/?id=khzvxn8a))
