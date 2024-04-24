@@ -4,6 +4,8 @@
 ## unreleased
 * PayPalNativePayments
   * Bump `PayPalCheckout` to `1.3.0` with code signing & a privacy manifest file
+* PaymentButtons
+  * Resolve assets not rendering when importing via CocoaPods (fixes #267)
 
 ## 1.2.0 (2024-03-27)
 * Bump to PPRiskMagnes v5.5.0 with code signing & a privacy manifest file
