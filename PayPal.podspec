@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   s.subspec "PayPalNativePayments" do |s|
    s.source_files  = "Sources/PayPalNativePayments/**/*.swift"
    s.dependency "PayPal/CorePayments"
-   s.dependency "PayPalCheckout", "1.2.0"
+   s.dependency "PayPalCheckout", "1.3.0"
    s.resource_bundle = { "PayPalNativePayments_PrivacyInfo" => "Sources/PayPalNativePayments/PrivacyInfo.xcprivacy" }
   end
 

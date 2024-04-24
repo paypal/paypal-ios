@@ -2,6 +2,8 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
+* PayPalNativePayments
+  * Bump `PayPalCheckout` to `1.3.0` with code signing & a privacy manifest file
 * PaymentButtons
   * Resolve assets not rendering when importing via CocoaPods (fixes #267)
 
