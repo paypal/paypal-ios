@@ -1,7 +1,7 @@
 
 # PayPal iOS SDK Release Notes
 
-## unreleased
+## 1.3.0 (2024-04-25)
 * PayPalNativePayments
   * Bump `PayPalCheckout` to `1.3.0` with code signing & a privacy manifest file
 * PaymentButtons
