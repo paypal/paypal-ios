@@ -1,7 +1,7 @@
 
 # PayPal iOS SDK Release Notes
 
-## unreleased
+## 1.3.1 (2024-04-29)
 * FraudProtection
   * Include `DeviceID` privacy term in `PrivacyInfo.xcprivacy` file
   
