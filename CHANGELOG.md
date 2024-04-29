@@ -1,6 +1,10 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+* FraudProtection
+  * Include `DeviceID` privacy term in `PrivacyInfo.xcprivacy` file
+  
 ## 1.3.0 (2024-04-25)
 * PayPalNativePayments
   * Bump `PayPalCheckout` to `1.3.0` with code signing & a privacy manifest file
