@@ -4,6 +4,8 @@
 ## 1.3.1 (2024-04-29)
 * FraudProtection
   * Include `DeviceID` privacy term in `PrivacyInfo.xcprivacy` file
+* PaymentButtons
+  * Add black boundary around white buttons
   
 ## 1.3.0 (2024-04-25)
 * PayPalNativePayments
