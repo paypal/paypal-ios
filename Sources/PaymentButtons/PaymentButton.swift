@@ -48,6 +48,7 @@ public class PaymentButton: UIButton {
         self.label = label
         self.analyticsService.sendEvent("payment-button:initialized", buttonType: fundingSource.rawValue)
         super.init(frame: .zero)
+        customizeAppearance()
         self.addTarget(self, action: #selector(onTap), for: .touchUpInside)
     }
 
@@ -330,5 +331,15 @@ public class PaymentButton: UIButton {
         defer { UIGraphicsEndImageContext() }
         image.draw(in: CGRect(x: 0.0, y: 0.0, width: size.width, height: size.height))
         return UIGraphicsGetImageFromCurrentImageContext()
+    }
+
+    private func customizeAppearance() {
+        if self.color == .white {
+            self.containerView.layer.borderColor = UIColor.black.cgColor
+            self.containerView.layer.borderWidth = 2
+        } else {
+            self.containerView.layer.borderColor = UIColor.clear.cgColor
+            self.containerView.layer.borderWidth = 0
+        }
     }
 }
