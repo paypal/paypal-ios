@@ -335,6 +335,6 @@ public class PaymentButton: UIButton {
 
     private func customizeAppearance() {
         containerView.layer.borderColor = color == .white ? UIColor.black.cgColor : UIColor.clear.cgColor
-        containerView.layer.borderWidth = color == .white ? 2 : 0
+        containerView.layer.borderWidth = color == .white ? 1 : 0
     }
 }
