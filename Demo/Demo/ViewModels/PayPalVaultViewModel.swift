@@ -18,7 +18,24 @@ class PayPalVaultViewModel: VaultViewModel, PayPalVaultDelegate {
             let paypalClient = PayPalWebCheckoutClient(config: config)
             paypalClient.vaultDelegate = self
             let vaultRequest = PayPalVaultRequest(url: payPalURL, setupTokenID: setupTokenID)
-            paypalClient.vault(vaultRequest)
+            print("Attempt Vault")
+            // swiftlint:disable line_length
+
+            let venmoURL = """
+            https://www.sandbox.paypal.com/checkoutnow?sessionID=\(UUID().uuidString)&buttonSessionID=\(UUID().uuidString)&stickinessID=\(UUID().uuidString)&sign_out_user=false&token=\(setupTokenID)&fundingSource=venmo&buyerCountry=US&locale.x=en_US&commit=true&client-metadata-id=\(UUID().uuidString)&enableFunding.0=venmo&clientID=\(config.clientID)&env=sandbox&xcomponent=1&version=1.3.0&pageURL=www.apple.com
+            """
+            
+                        
+            let venmoActualURL = URL(string: venmoURL)!
+            Task {
+                let success = await UIApplication.shared.open(venmoActualURL)
+                if success {
+                    print("opened")
+                } else {
+                    print("nah")
+                }
+            }
+//            paypalClient.vault(vaultRequest)
         } catch {
             print("Error in vaulting PayPal Payment")
         }
