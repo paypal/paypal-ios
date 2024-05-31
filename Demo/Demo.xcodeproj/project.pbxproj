@@ -178,6 +178,7 @@
 		53B9E8E928C93B4400719239 /* OrderRequestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderRequestHelpers.swift; sourceTree = "<group>"; };
 		8052E2A229B684A600B33FBC /* PPRiskMagnes.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:XEZPTDFLAS:changching chi"; lastKnownFileType = wrapper.xcframework; name = PPRiskMagnes.xcframework; path = ../Frameworks/XCFrameworks/PPRiskMagnes.xcframework; sourceTree = "<group>"; };
 		805AB84E26B87A87003BEE0D /* PaymentsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PaymentsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		806C7A812C000626000E85E8 /* Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Demo.entitlements; sourceTree = "<group>"; };
 		806F1E3526B85367007A60E6 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		806F1E4126B85369007A60E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		806F1E4626B85369007A60E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -367,6 +368,7 @@
 		806F1E3726B85367007A60E6 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				806C7A812C000626000E85E8 /* Demo.entitlements */,
 				53B9E8E828C93B2B00719239 /* Helpers */,
 				806F1E4126B85369007A60E6 /* Assets.xcassets */,
 				BED0422F2710833100C80954 /* Card */,
@@ -810,6 +812,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Demo/Demo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 43253H4X22;
@@ -840,6 +843,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Demo/Demo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 43253H4X22;
