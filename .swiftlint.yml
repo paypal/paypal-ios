@@ -13,6 +13,7 @@ disabled_rules:
   - type_name # tests will have have the format <SUT>_Tests
   - xctfail_message
   - blanket_disable_command
+  - non_optional_string_data_conversion
 
 opt_in_rules:
   - array_init

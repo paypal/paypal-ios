@@ -183,8 +183,8 @@ class CardClient_Tests: XCTestCase {
                 expectation.fulfill()
             },
             cancel: { _ in XCTFail("Invoked cancel() callback. Should invoke success().") },
-            threeDSWillLaunch: { _ -> Void in XCTAssert(true) },
-            threeDSLaunched: { _ -> Void in XCTAssert(true) }
+            threeDSWillLaunch: { _ in XCTAssert(true) },
+            threeDSLaunched: { _ in XCTAssert(true) }
         )
 
         sut.vaultDelegate = mockCardVaultDelegate
@@ -291,7 +291,7 @@ class CardClient_Tests: XCTestCase {
         
         let expectation = expectation(description: "approveOrder() completed")
 
-        let mockCardDelegate = MockCardDelegate(success: {_, result -> Void in
+        let mockCardDelegate = MockCardDelegate(success: {_, result in
             XCTAssertEqual(result.orderID, "testOrderId")
             XCTAssertEqual(result.status, "APPROVED")
             XCTAssertFalse(result.didAttemptThreeDSecureAuthentication)
@@ -313,7 +313,7 @@ class CardClient_Tests: XCTestCase {
 
         let expectation = expectation(description: "approveOrder() completed")
 
-        let mockCardDelegate = MockCardDelegate(success: {_, _ -> Void in
+        let mockCardDelegate = MockCardDelegate(success: {_, _ in
             XCTFail("Invoked success() callback. Should invoke error().")
         }, error: { _, error in
             XCTAssertEqual(error.domain, "sdk-domain")
@@ -339,7 +339,7 @@ class CardClient_Tests: XCTestCase {
 
         let expectation = expectation(description: "approveOrder() completed")
 
-        let mockCardDelegate = MockCardDelegate(success: {_, _ -> Void in
+        let mockCardDelegate = MockCardDelegate(success: {_, _ in
             XCTFail("Invoked success() callback. Should invoke error().")
         }, error: { _, error in
             XCTAssertEqual(error.domain, CardClientError.domain)
@@ -375,8 +375,8 @@ class CardClient_Tests: XCTestCase {
                 expectation.fulfill()
             },
             cancel: { _ in XCTFail("Invoked cancel() callback. Should invoke success().") },
-            threeDSWillLaunch: { _ -> Void in XCTAssert(true) },
-            threeDSLaunched: { _ -> Void in XCTAssert(true) })
+            threeDSWillLaunch: { _ in XCTAssert(true) },
+            threeDSLaunched: { _ in XCTAssert(true) })
 
         sut.delegate = mockCardDelegate
         sut.approveOrder(request: cardRequest)
