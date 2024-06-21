@@ -1,6 +1,10 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+* PayPalNativePayments
+  * Add deprecated warning in public classes and methods
+  
 ## 1.3.2 (2024-05-23)
 * PaymentButtons
   * Add black boundary around white buttons
