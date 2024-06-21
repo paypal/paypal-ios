@@ -1,7 +1,7 @@
 import Foundation
 
-@available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
 /// Used to configure options for approving a PayPal native order
+@available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
 public struct PayPalNativeCheckoutRequest {
 
     /// The order ID associated with the request.

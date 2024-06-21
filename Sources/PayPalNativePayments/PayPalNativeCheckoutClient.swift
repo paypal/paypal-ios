@@ -4,9 +4,9 @@ import PayPalCheckout
 import CorePayments
 #endif
 
-@available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
 /// PayPal Paysheet to handle PayPal transaction
 /// encapsulates instance to communicate with nxo
+@available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
 public class PayPalNativeCheckoutClient {
 
     public weak var delegate: PayPalNativeCheckoutDelegate?
@@ -19,10 +19,10 @@ public class PayPalNativeCheckoutClient {
     private let config: CoreConfig
     private var analyticsService: AnalyticsService?
 
-    @available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
     /// Initialize a PayPalNativeCheckoutClient to process PayPal transaction
     /// - Parameters:
     ///   - config: The CoreConfig object
+    @available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
     public convenience init(config: CoreConfig) {
         self.init(
             config: config,
@@ -37,12 +37,12 @@ public class PayPalNativeCheckoutClient {
         self.networkingClient = networkingClient
     }
 
-    @available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
     // NEXT_MAJOR_VERSION: - Change to non-async
     /// Present PayPal Paysheet and start a PayPal transaction
     /// - Parameters:
     ///   - request: The PayPalNativeCheckoutRequest for the transaction
     ///   - presentingViewController: the ViewController to present PayPalPaysheet on, if not provided, the Paysheet will be presented on your top-most ViewController
+    @available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
     public func start(
         request: PayPalNativeCheckoutRequest,
         presentingViewController: UIViewController? = nil
