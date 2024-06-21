@@ -5,6 +5,7 @@ import PayPalCheckout
 import CorePayments
 #endif
 
+@available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
 protocol NativeCheckoutStartable {
 
     /// Used in POST body for FPTI analytics.

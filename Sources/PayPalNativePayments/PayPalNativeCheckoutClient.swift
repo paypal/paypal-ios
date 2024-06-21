@@ -4,6 +4,7 @@ import PayPalCheckout
 import CorePayments
 #endif
 
+@available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
 /// PayPal Paysheet to handle PayPal transaction
 /// encapsulates instance to communicate with nxo
 public class PayPalNativeCheckoutClient {
@@ -18,6 +19,7 @@ public class PayPalNativeCheckoutClient {
     private let config: CoreConfig
     private var analyticsService: AnalyticsService?
 
+    @available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
     /// Initialize a PayPalNativeCheckoutClient to process PayPal transaction
     /// - Parameters:
     ///   - config: The CoreConfig object
@@ -35,6 +37,7 @@ public class PayPalNativeCheckoutClient {
         self.networkingClient = networkingClient
     }
 
+    @available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
     // NEXT_MAJOR_VERSION: - Change to non-async
     /// Present PayPal Paysheet and start a PayPal transaction
     /// - Parameters:

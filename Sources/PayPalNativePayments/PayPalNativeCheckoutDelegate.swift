@@ -4,6 +4,7 @@ import CorePayments
 #endif
 import PayPalCheckout
 
+@available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
 /// A required delegate to handle events from `PayPalNativeCheckoutClient.start()`
 public protocol PayPalNativeCheckoutDelegate: AnyObject {
 

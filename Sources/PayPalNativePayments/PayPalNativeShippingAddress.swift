@@ -1,5 +1,6 @@
 import PayPalCheckout
 
+@available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
 // Wrapper for PayPalCheckout.ShippingChangeAddress
 /// The user's selected shipping address via the PayPal Native Checkout UI.
 ///

@@ -1,5 +1,6 @@
 import Foundation
 
+@available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
 /// The result of a PayPal native payment flow.
 public struct PayPalNativeCheckoutResult {
     
