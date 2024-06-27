@@ -4,6 +4,7 @@ import Foundation
 public struct PayPalVaultRequest {
 
     /// PayPal approval URL returned as the `href` from the setup token API call
+    // NEXT_MAJOR_VERSION: - Remove URL property
     public let url: URL? = nil
 
     /// ID for the setup token associated with the vault
