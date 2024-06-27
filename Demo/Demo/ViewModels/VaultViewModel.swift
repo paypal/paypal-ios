@@ -18,6 +18,7 @@ class VaultViewModel: ObservableObject {
                 selectedMerchantIntegration: selectedMerchantIntegration,
                 paymentSourceType: paymentSourceType
             )
+            
             DispatchQueue.main.async {
                 self.state.setupTokenResponse = .loaded(setupTokenResult)
             }

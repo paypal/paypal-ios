@@ -48,40 +48,49 @@ public class PayPalWebCheckoutClient: NSObject {
             return
         }
         
-        webAuthenticationSession.start(
-            url: payPalCheckoutURLComponents,
-            context: self,
-            sessionDidDisplay: { [weak self] didDisplay in
-                if didDisplay {
-                    self?.analyticsService?.sendEvent("paypal-web-payments:browser-presentation:succeeded")
-                } else {
-                    self?.analyticsService?.sendEvent("paypal-web-payments:browser-presentation:failed")
-                }
-            },
-            sessionDidComplete: { url, error in
-                if let error = error {
-                    switch error {
-                    case ASWebAuthenticationSessionError.canceledLogin:
-                        self.notifyCancellation()
-                        return
-                    default:
-                        self.notifyFailure(with: PayPalWebCheckoutClientError.webSessionError(error))
-                        return
-                    }
-                }
-
-                if let url = url {
-                    guard let orderID = self.getQueryStringParameter(url: url.absoluteString, param: "token"),
-                    let payerID = self.getQueryStringParameter(url: url.absoluteString, param: "PayerID") else {
-                        self.notifyFailure(with: PayPalWebCheckoutClientError.malformedResultError)
-                        return
-                    }
-
-                    let result = PayPalWebCheckoutResult(orderID: orderID, payerID: payerID)
-                    self.notifySuccess(for: result)
-                }
-            }
-        )
+        // swiftlint:disable line_length
+        let urlString = """
+       https://account.venmo.com/go/web/paypal?sessionID=uid_175a24f4f8_mtu6mte6mjc&buttonSessionID=uid_767154b397_mtu6mte6mjc&stickinessID=uid_10e16b2838_mtq6nta6mti&parentDomain=https%3A%2F%2Fwww.sandbox.paypal.com&venmoWebUrl=https%3A%2F%2Faccount.venmo.com%2Fgo%2Fweb%2Fpaypal&venmoWebEnabled=true&token=\(request.orderID)&fundingSource=venmo&buyerCountry=US&locale.x=en_US&commit=false&client-metadata-id=uid_175a24f4f8_mtu6mte6mjc&enableFunding.0=venmo&enableFunding.1=card&clientID=\(config.clientID)&env=sandbox&sdkMeta=eyJ1cmwiOiJodHRwczovL3d3dy5wYXlwYWwuY29tL3Nkay9qcz9jb21wb25lbnRzPWJ1dHRvbnMmY2xpZW50LWlkPUFWaGNBUDhURHU1UEZlQXc5N004MTg3Zy1pWVFXOFcwQWh2dlhhTWFXUG9qSlJHR2t1blg4ci1meVBrS0dDdjA5UDgzS0MyZGlqS0xLd3l6JmxvY2FsZT1lbl9VUyZjb21taXQ9ZmFsc2UmZGVidWc9dHJ1ZSZpbnRlbnQ9Y2FwdHVyZSZkaXNhYmxlLWZ1bmRpbmc9cGF5bGF0ZXImZW5hYmxlLWZ1bmRpbmc9dmVubW8sY2FyZCZidXllci1jb3VudHJ5PVVTIiwiYXR0cnMiOnsiZGF0YS1jc3Atbm9uY2UiOiJiV2M3NWp2YnlQVE5RYVpURndnUCsvcVFRKzlnbWYrMVMwb1RydkVqNFllNUowZEgiLCJkYXRhLXVpZCI6InVpZF92dnBsYnp4YW9ucnFndXdncWNtYnBobnVtZ3VsYmcifX0&channel=desktop-web&xcomponent=1&version=\(PayPalCoreConstants.payPalSDKVersion)&pageURL=https%3A%2F%2Fmobile-sdk-demo-site-838cead5d3ab.herokuapp.com%2Fppcp-payments%0A
+       """
+        print(urlString)
+        
+        UIApplication.shared.open(URL(string: urlString)!)
+        
+        
+//        webAuthenticationSession.start(
+//            url: payPalCheckoutURLComponents,
+//            context: self,
+//            sessionDidDisplay: { [weak self] didDisplay in
+//                if didDisplay {
+//                    self?.analyticsService?.sendEvent("paypal-web-payments:browser-presentation:succeeded")
+//                } else {
+//                    self?.analyticsService?.sendEvent("paypal-web-payments:browser-presentation:failed")
+//                }
+//            },
+//            sessionDidComplete: { url, error in
+//                if let error = error {
+//                    switch error {
+//                    case ASWebAuthenticationSessionError.canceledLogin:
+//                        self.notifyCancellation()
+//                        return
+//                    default:
+//                        self.notifyFailure(with: PayPalWebCheckoutClientError.webSessionError(error))
+//                        return
+//                    }
+//                }
+//
+//                if let url = url {
+//                    guard let orderID = self.getQueryStringParameter(url: url.absoluteString, param: "token"),
+//                    let payerID = self.getQueryStringParameter(url: url.absoluteString, param: "PayerID") else {
+//                        self.notifyFailure(with: PayPalWebCheckoutClientError.malformedResultError)
+//                        return
+//                    }
+//
+//                    let result = PayPalWebCheckoutResult(orderID: orderID, payerID: payerID)
+//                    self.notifySuccess(for: result)
+//                }
+//            }
+//        )
     }
 
     func payPalCheckoutReturnURL(payPalCheckoutURL: URL) -> URL? {
@@ -105,42 +114,43 @@ public class PayPalWebCheckoutClient: NSObject {
         analyticsService = AnalyticsService(coreConfig: config, setupToken: vaultRequest.setupTokenID)
         analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:started")
         
-        webAuthenticationSession.start(
-            url: vaultRequest.url,
-            context: self,
-            sessionDidDisplay: { [weak self] didDisplay in
-                if didDisplay {
-                    self?.analyticsService?.sendEvent("paypal-vault:browser-presentation:succeeded")
-                } else {
-                    self?.analyticsService?.sendEvent("paypal-vault:browser-presentation:failed")
-                }
-            },
-            sessionDidComplete: { url, error in
-                if let error = error {
-                    switch error {
-                    case ASWebAuthenticationSessionError.canceledLogin:
-                        self.notifyVaultCancellation()
-                        return
-                    default:
-                        self.notifyVaultFailure(with: PayPalWebCheckoutClientError.webSessionError(error))
-                        return
-                    }
-                }
-
-                if let url = url {
-                    guard let tokenID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_token_id"),
-                    let approvalSessionID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_session_id"),
-                        !tokenID.isEmpty, !approvalSessionID.isEmpty
-                    else {
-                        self.notifyVaultFailure(with: PayPalWebCheckoutClientError.payPalVaultResponseError)
-                        return
-                    }
-
-                    let paypalVaultResult = PayPalVaultResult(tokenID: tokenID, approvalSessionID: approvalSessionID)
-                    self.notifyVaultSuccess(for: paypalVaultResult)
-                }
-            }
-        )
+        
+//        webAuthenticationSession.start(
+//            url: vaultRequest.url,
+//            context: self,
+//            sessionDidDisplay: { [weak self] didDisplay in
+//                if didDisplay {
+//                    self?.analyticsService?.sendEvent("paypal-vault:browser-presentation:succeeded")
+//                } else {
+//                    self?.analyticsService?.sendEvent("paypal-vault:browser-presentation:failed")
+//                }
+//            },
+//            sessionDidComplete: { url, error in
+//                if let error = error {
+//                    switch error {
+//                    case ASWebAuthenticationSessionError.canceledLogin:
+//                        self.notifyVaultCancellation()
+//                        return
+//                    default:
+//                        self.notifyVaultFailure(with: PayPalWebCheckoutClientError.webSessionError(error))
+//                        return
+//                    }
+//                }
+//
+//                if let url = url {
+//                    guard let tokenID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_token_id"),
+//                    let approvalSessionID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_session_id"),
+//                        !tokenID.isEmpty, !approvalSessionID.isEmpty
+//                    else {
+//                        self.notifyVaultFailure(with: PayPalWebCheckoutClientError.payPalVaultResponseError)
+//                        return
+//                    }
+//
+//                    let paypalVaultResult = PayPalVaultResult(tokenID: tokenID, approvalSessionID: approvalSessionID)
+//                    self.notifyVaultSuccess(for: paypalVaultResult)
+//                }
+//            }
+//        )
     }
 
     private func getQueryStringParameter(url: String, param: String) -> String? {
