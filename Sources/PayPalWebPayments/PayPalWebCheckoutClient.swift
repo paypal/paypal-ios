@@ -105,7 +105,7 @@ public class PayPalWebCheckoutClient: NSObject {
         analyticsService = AnalyticsService(coreConfig: config, setupToken: vaultRequest.setupTokenID)
         analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:started")
         
-        var vaultURLComponents = URLComponents(url: config.environment.vaultCheckoutURL, resolvingAgainstBaseURL: false)
+        var vaultURLComponents = URLComponents(url: config.environment.paypalVaultCheckoutURL, resolvingAgainstBaseURL: false)
         let queryItems = [URLQueryItem(name: "approval_session_id", value: vaultRequest.setupTokenID)]
         vaultURLComponents?.queryItems = queryItems
         

@@ -23,8 +23,8 @@ public enum Environment {
         }
     }
     
-    /// URL used to display Vault w/o Purchase experience in web browser
-    public var vaultCheckoutURL: URL {
+    /// URL used to display the PayPal Vault w/o Purchase experience in web browser
+    public var paypalVaultCheckoutURL: URL {
         switch self {
         case .sandbox:
             return URL(string: "https://sandbox.paypal.com/agreements/approve")!
