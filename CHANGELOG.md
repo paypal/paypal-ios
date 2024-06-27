@@ -1,6 +1,11 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+* PayPalWebPayments
+  * Deprecate `PayPalVaultRequest.init(url:setupTokenID:)`
+  * Add `PayPalVaultRequest.init(setupTokenID:)`
+
 ## 1.3.2 (2024-05-23)
 * PaymentButtons
   * Add black boundary around white buttons
