@@ -3,8 +3,8 @@
 
 ## unreleased
 * PayPalWebPayments
-  * Deprecate `PayPalVaultRequest.init(url:setupTokenID:)`
-  * Add `PayPalVaultRequest.init(setupTokenID:)`
+  * Deprecate `PayPalVaultRequest(url:setupTokenID:)`
+  * Add `PayPalVaultRequest(setupTokenID:)`
 
 ## 1.3.2 (2024-05-23)
 * PaymentButtons
