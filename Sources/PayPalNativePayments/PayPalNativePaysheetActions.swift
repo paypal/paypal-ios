@@ -1,6 +1,7 @@
 import PayPalCheckout
 
 /// The actions that can be used to update the Paysheet UI after `PayPalNativeShippingDelegate` methods are invoked.
+@available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
 public class PayPalNativePaysheetActions {
 
     private let shippingActions: ShippingActionsProtocol

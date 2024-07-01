@@ -2,6 +2,7 @@ import Foundation
 import PayPalNativePayments
 import CorePayments
 
+@available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
 class PayPalViewModel: ObservableObject {
 
     enum State {
@@ -85,6 +86,7 @@ class PayPalViewModel: ObservableObject {
     }
 }
 
+@available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
 extension PayPalViewModel: PayPalNativeCheckoutDelegate {
 
     func paypal(_ payPalClient: PayPalNativeCheckoutClient, didFinishWithResult result: PayPalNativeCheckoutResult) {
@@ -104,6 +106,7 @@ extension PayPalViewModel: PayPalNativeCheckoutDelegate {
     }
 }
 
+@available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
 extension PayPalViewModel: PayPalNativeShippingDelegate {
     
     func paypal(
