@@ -74,6 +74,7 @@
 				<string>PayPal Web Checkout</string>
 				<string>Payment Button Customization</string>
 				<string>PayPal Native Checkout</string>
+				<string>Venmo Payments</string>
 			</array>
 			<key>Values</key>
 			<array>
@@ -82,6 +83,7 @@
 				<string>payPalWebCheckout</string>
 				<string>paymentButtonCustomization</string>
 				<string>payPalNativeCheckout</string>
+				<string>venmoPayments</string>
 			</array>
 		</dict>
 	</array>
