@@ -1,15 +1,11 @@
-//
-//  VenmoPaymentView.swift
-//  Demo
-//
-//  Created by Herrera, Ricardo on 08/07/24.
-//
-
 import SwiftUI
 
 struct VenmoPaymentView: View {
+    
+    @ObservedObject var venmoPaymentsViewModel = VenmoPaymentsViewModel()
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("Hello, Venmo!")
     }
 }
 
