@@ -59,6 +59,11 @@ struct FeatureSelectionView: View {
                     } label: {
                         Text("Payment Button")
                     }
+                    NavigationLink {
+                        VenmoPaymentView()
+                    } label: {
+                        Text("Venmo Payments")
+                    }
                 }
                 .listStyle(InsetGroupedListStyle())
                 .navigationTitle("Feature Selection")
