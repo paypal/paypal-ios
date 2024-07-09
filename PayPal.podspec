@@ -40,7 +40,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "VenmoPayments" do |s|
-    s.source_files  = "Sources/VenmoPayments/**/*.swift"
+    s.source_files  = "Sources/VenmoPayments/*.swift"
     s.dependency "PayPal/CorePayments"
   end
 
