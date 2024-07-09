@@ -1,7 +1,7 @@
 
 # PayPal iOS SDK Release Notes
 
-## unreleased
+## 1.4.0 (2024-07-09)
 * PayPalNativePayments (DEPRECATED)  
   * **Note:** This module is deprecated and will be removed in a future version of the SDK
   * Add deprecated warning message to all public classes and methods
