@@ -1,11 +1,16 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+* PayPalWebPayments
+  * Deprecate `PayPalVaultRequest(url:setupTokenID:)`
+  * Add `PayPalVaultRequest(setupTokenID:)`
+
 ## 1.4.0 (2024-07-09)
 * PayPalNativePayments (DEPRECATED)  
   * **Note:** This module is deprecated and will be removed in a future version of the SDK
   * Add deprecated warning message to all public classes and methods
-  
+
 ## 1.3.2 (2024-05-23)
 * PaymentButtons
   * Add black boundary around white buttons

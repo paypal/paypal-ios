@@ -6,10 +6,7 @@ class PayPalVaultViewModel: VaultViewModel, PayPalVaultDelegate {
 
     let configManager = CoreConfigManager(domain: "PayPal Vault")
 
-    func vault(url: String, setupTokenID: String) async {
-        guard let payPalURL = URL(string: url) else {
-            return
-        }
+    func vault(setupTokenID: String) async {
         DispatchQueue.main.async {
             self.state.paypalVaultTokenResponse = .loading
         }
@@ -17,7 +14,7 @@ class PayPalVaultViewModel: VaultViewModel, PayPalVaultDelegate {
             let config = try await configManager.getCoreConfig()
             let paypalClient = PayPalWebCheckoutClient(config: config)
             paypalClient.vaultDelegate = self
-            let vaultRequest = PayPalVaultRequest(url: payPalURL, setupTokenID: setupTokenID)
+            let vaultRequest = PayPalVaultRequest(setupTokenID: setupTokenID)
             paypalClient.vault(vaultRequest)
         } catch {
             print("Error in vaulting PayPal Payment")
