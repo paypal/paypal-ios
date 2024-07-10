@@ -5,6 +5,7 @@ import CorePayments
 import PayPalCheckout
 
 /// A required delegate to handle events from `PayPalNativeCheckoutClient.start()`
+@available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
 public protocol PayPalNativeCheckoutDelegate: AnyObject {
 
     /// Notify that the PayPal flow finished with a successful result
@@ -31,6 +32,7 @@ public protocol PayPalNativeCheckoutDelegate: AnyObject {
 /// A delegate to receive notifications if the user changes their shipping information.
 ///
 /// This is **only required** if the order ID was created with `shipping_preferences = GET_FROM_FILE`. [See Orders V2 documentation](https://developer.paypal.com/docs/api/orders/v2/#definition-order_application_context). If the order ID was created with `shipping_preferences = NO_SHIPPING` or `SET_PROVIDED_ADDRESS`, don't implement this protocol.
+@available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
 public protocol PayPalNativeShippingDelegate: AnyObject {
     
     /// Notify when the users selected shipping address changes. Use `PayPalNativeShippingActions.approve`

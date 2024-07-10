@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 import PaymentButtons
 
+@available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
 struct SwiftUINativeCheckoutDemo: View {
 
     @StateObject var viewModel = PayPalViewModel()
@@ -103,6 +104,7 @@ struct SwiftUINativeCheckoutDemo: View {
     }
 }
 
+@available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
 struct SwiftUINativeCheckoutDemo_Preview: PreviewProvider {
 
     static var previews: some View {

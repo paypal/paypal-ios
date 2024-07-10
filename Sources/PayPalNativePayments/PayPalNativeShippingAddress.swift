@@ -6,6 +6,7 @@ import PayPalCheckout
 /// If you want to show shipping options in the PayPal Native Paysheet,
 /// provide `purchase_units[].shipping.options` when creating an orderID with
 /// the [`orders/v2` API](https://developer.paypal.com/docs/api/orders/v2/#definition-purchase_unit) on your server. Otherwise, our Paysheet won't display any shipping options.
+@available(*, deprecated, message: "PayPalNativePayments Module is deprecated, use PayPalWebPayments Module instead")
 public struct PayPalNativeShippingAddress {
     
     /// The ID of the shipping address
