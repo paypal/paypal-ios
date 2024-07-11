@@ -29,12 +29,12 @@ let package = Package(
             targets: ["CardPayments"]
         ),
         .library(
-            name: "FraudProtection",
-            targets: ["FraudProtection", "PPRiskMagnes"]
-        ),
-        .library(
             name: "VenmoPayments",
             targets: ["VenmoPayments"]
+        ),
+        .library(
+            name: "FraudProtection",
+            targets: ["FraudProtection", "PPRiskMagnes"]
         )
     ],
     targets: [
