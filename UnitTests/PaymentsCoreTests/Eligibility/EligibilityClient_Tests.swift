@@ -1,5 +1,7 @@
 import XCTest
+@testable import CorePayments
 
-final class EligibilityClient_Tests: XCTestCase {
+class EligibilityClient_Tests: XCTestCase {
+    
     // TODO: to be implemented in a future PR
 }
