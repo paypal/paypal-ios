@@ -1,5 +1,4 @@
 import Foundation
 
-public class VenmoClient: NSObject {
-    
+public class VenmoClient {
 }
