@@ -35,6 +35,7 @@
 		3BE7386D2B9A670400598F05 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3BE738662B9A593100598F05 /* PrivacyInfo.xcprivacy */; };
 		3D1763A22720722A00652E1C /* CardResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1763A12720722A00652E1C /* CardResult.swift */; };
 		3DC42BA927187E8300B71645 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC42BA827187E8300B71645 /* ErrorResponse.swift */; };
+		45B063AF2C40349300E743F2 /* EligibilityRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B063AE2C40349300E743F2 /* EligibilityRequest.swift */; };
 		53A2A4E228A182AC0093441C /* NativeCheckoutProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A2A4E128A182AC0093441C /* NativeCheckoutProvider.swift */; };
 		8008D2052A9E54FF0003CAF4 /* CheckoutOrdersAPI_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8008D2042A9E54FF0003CAF4 /* CheckoutOrdersAPI_Tests.swift */; };
 		80132D7229008C000088D30D /* TestShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E743F8270E40CE00BACECA /* TestShared.framework */; };
@@ -244,6 +245,7 @@
 		3D25238127344F330099E4EB /* NativeCheckoutStartable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NativeCheckoutStartable.swift; path = Sources/PayPalNativePayments/NativeCheckoutStartable.swift; sourceTree = SOURCE_ROOT; };
 		3D25238B273979170099E4EB /* MockNativeCheckoutProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNativeCheckoutProvider.swift; sourceTree = "<group>"; };
 		3DC42BA827187E8300B71645 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
+		45B063AE2C40349300E743F2 /* EligibilityRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EligibilityRequest.swift; sourceTree = "<group>"; };
 		53A2A4E128A182AC0093441C /* NativeCheckoutProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeCheckoutProvider.swift; sourceTree = "<group>"; };
 		8008D2042A9E54FF0003CAF4 /* CheckoutOrdersAPI_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutOrdersAPI_Tests.swift; sourceTree = "<group>"; };
 		8021B68F29144E6D000FBC54 /* PayPalCoreConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalCoreConstants.swift; sourceTree = "<group>"; };
@@ -534,6 +536,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		45B063AD2C40346500E743F2 /* Eligibility */ = {
+			isa = PBXGroup;
+			children = (
+				45B063AE2C40349300E743F2 /* EligibilityRequest.swift */,
+			);
+			path = Eligibility;
+			sourceTree = "<group>";
+		};
 		8036C1DE270F9BCF00C0F091 /* PaymentsCoreTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -582,14 +592,15 @@
 		80B9F85226B8750000D67843 /* CorePayments */ = {
 			isa = PBXGroup;
 			children = (
-				BE4F784827EB629100FF4C0E /* WebAuthenticationSession.swift */,
-				06CE009826F3D1660000CC46 /* CoreConfig.swift */,
-				065A4DBB26FCD8080007014A /* CoreSDKError.swift */,
-				BEA100E526EF9EDA0036A6A5 /* Networking */,
 				807C5E6829102D9800ECECD8 /* AnalyticsEventData.swift */,
-				8021B68F29144E6D000FBC54 /* PayPalCoreConstants.swift */,
+				06CE009826F3D1660000CC46 /* CoreConfig.swift */,
 				80DB2F752980795D00CFB86A /* CorePaymentsError.swift */,
+				065A4DBB26FCD8080007014A /* CoreSDKError.swift */,
+				45B063AD2C40346500E743F2 /* Eligibility */,
+				BEA100E526EF9EDA0036A6A5 /* Networking */,
+				8021B68F29144E6D000FBC54 /* PayPalCoreConstants.swift */,
 				3BE738632B9A4A4500598F05 /* PrivacyInfo.xcprivacy */,
+				BE4F784827EB629100FF4C0E /* WebAuthenticationSession.swift */,
 			);
 			name = CorePayments;
 			path = Sources/CorePayments;
@@ -1432,6 +1443,7 @@
 				3BDB34942A80CE6E008100D7 /* CardVaultRequest.swift in Sources */,
 				80B8B2FC2A8EBBFD00AB60CD /* VaultPaymentTokensAPI.swift in Sources */,
 				CB4BE27D2847AF6F00EA2DD1 /* SCA.swift in Sources */,
+				45B063AF2C40349300E743F2 /* EligibilityRequest.swift in Sources */,
 				0647E70E2714962800F8E517 /* Address.swift in Sources */,
 				BC7F8123275FC1350011EDC8 /* CardRequest.swift in Sources */,
 			);
