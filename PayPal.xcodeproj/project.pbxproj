@@ -547,11 +547,11 @@
 		45B063AD2C40346500E743F2 /* Eligibility */ = {
 			isa = PBXGroup;
 			children = (
+				45B063B92C40456F00E743F2 /* EligibilityAPI.swift */,
+				45B063B22C4035DB00E743F2 /* EligibilityClient.swift */,
 				45B063AE2C40349300E743F2 /* EligibilityRequest.swift */,
 				45B063B02C4034B700E743F2 /* EligibilityResult.swift */,
-				45B063B22C4035DB00E743F2 /* EligibilityClient.swift */,
 				45B063B72C40440000E743F2 /* EligibilityVariables.swift */,
-				45B063B92C40456F00E743F2 /* EligibilityAPI.swift */,
 			);
 			path = Eligibility;
 			sourceTree = "<group>";
