@@ -6,7 +6,7 @@ class EligibilityAPI_Tests: XCTestCase {
     
     let mockClientID = "mockClientId"
     let mockURLSession = MockURLSession()
-    let eligibilityRequest = EligibilityRequest()
+    let eligibilityRequest = EligibilityRequest(currency: "SOME-CURRENCY", intent: .CAPTURE)
     
     var sut: EligibilityAPI!
     var coreConfig: CoreConfig!
@@ -27,7 +27,7 @@ class EligibilityAPI_Tests: XCTestCase {
         super.tearDown()
     }
     
-    func testCheckSuccess() async throws {
+    func testCheck_constructsGraphQLRequest() async throws {
         let rawQuery = """
         query getEligibility(
             $clientId: String!,
@@ -70,11 +70,11 @@ class EligibilityAPI_Tests: XCTestCase {
         
         let variables = mockNetworkingClient.capturedGraphQLRequest?.variables as! EligibilityVariables
         XCTAssertEqual(variables.clientID, mockClientID)
-        XCTAssertEqual(variables.eligibilityRequest.currency.rawValue, "USD")
+        XCTAssertEqual(variables.eligibilityRequest.currency, "SOME-CURRENCY")
         XCTAssertEqual(variables.eligibilityRequest.intent.rawValue, "CAPTURE")
     }
     
-    func testUpdateSetupToken_whenNetworkingClientError_bubblesError() async {
+    func testCheck_whenNetworkingClientError_returnsError() async {
         mockNetworkingClient.stubHTTPError = CoreSDKError(code: 123, domain: "api-client-error", errorDescription: "error-desc")
         
         do {
@@ -88,7 +88,7 @@ class EligibilityAPI_Tests: XCTestCase {
         }
     }
     
-    func testUpdateSetupToken_whenSuccess_returnsParsedUpdateSetupTokenResponse() async throws {
+    func testCheck_whenSuccess_returnsParsedResponse() async throws {
         let successsResponseJSON = """
         {
             "data": {
