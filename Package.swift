@@ -29,6 +29,10 @@ let package = Package(
             targets: ["CardPayments"]
         ),
         .library(
+            name: "VenmoPayments",
+            targets: ["VenmoPayments"]
+        ),
+        .library(
             name: "FraudProtection",
             targets: ["FraudProtection", "PPRiskMagnes"]
         )
@@ -65,6 +69,10 @@ let package = Package(
             name: "FraudProtection",
             dependencies: ["CorePayments", "PPRiskMagnes"],
             resources: [.copy("PrivacyInfo.xcprivacy")]
+        ),
+        .target(
+            name: "VenmoPayments",
+            dependencies: ["CorePayments"]
         ),
         .binaryTarget(
             name: "PPRiskMagnes",

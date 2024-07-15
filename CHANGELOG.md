@@ -5,6 +5,8 @@
 * PayPalNativePayments (DEPRECATED)  
   * **Note:** This module is deprecated and will be removed in a future version of the SDK
   * Add deprecated warning message to all public classes and methods
+* VenmoPayments
+  * Add `VenmoPayments` module 
   
 ## 1.3.2 (2024-05-23)
 * PaymentButtons
