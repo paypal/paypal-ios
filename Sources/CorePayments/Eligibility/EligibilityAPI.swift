@@ -1,7 +1,7 @@
 import Foundation
 
 /// API that return merchant's eligibility for different payment methods: Venmo, PayPal, PayPal Credit, Pay Later & credit card
-final class EligibilityAPI {
+class EligibilityAPI {
     
     // MARK: - Private Propertires
     
