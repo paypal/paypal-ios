@@ -2,9 +2,9 @@ import Foundation
 
 public struct EligibilityRequest {
 
-    public let intent: String
-    public let currency: String
-    public let enableFunding: [String]
+    let intent: String
+    let currency: String
+    let enableFunding: [String]
     
     // MARK: - Initializer
     
