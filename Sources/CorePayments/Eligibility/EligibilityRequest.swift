@@ -2,15 +2,15 @@ import Foundation
 
 public struct EligibilityRequest {
 
-    let intent: String
-    let currency: String
-    let enableFunding: [String]
+    let intent: EligibilityIntent
+    let currency: SupportedCurrencyType
+    let enableFunding: [SupportedPaymentMethodsType]
     
     // MARK: - Initializer
     
-    public init(intent: String, currency: String, enableFunding: [String]) {
-        self.intent = intent
-        self.currency = currency
-        self.enableFunding = enableFunding
+    public init() {
+        self.intent = .CAPTURE
+        self.currency = .USD
+        self.enableFunding = [.VENMO]
     }
 }
