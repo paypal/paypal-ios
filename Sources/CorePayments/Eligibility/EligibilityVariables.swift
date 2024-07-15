@@ -13,13 +13,6 @@ struct EligibilityVariables: Encodable {
         case currency
         case enableFunding
     }
- 
-    // MARK: - Initializer
-    
-    init(eligibilityRequest: EligibilityRequest, clientID: String) {
-        self.eligibilityRequest = eligibilityRequest
-        self.clientID = clientID
-    }
     
     // MARK: - Custom Encoder
     
@@ -27,7 +20,7 @@ struct EligibilityVariables: Encodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(clientID, forKey: .clientID)
         try container.encode(eligibilityRequest.intent.rawValue, forKey: .intent)
-        try container.encode(eligibilityRequest.currency.rawValue, forKey: .currency)
+        try container.encode(eligibilityRequest.currency, forKey: .currency)
         
         let enableFunding = eligibilityRequest.enableFunding.compactMap { $0.rawValue }
         try container.encode(enableFunding, forKey: .enableFunding)
