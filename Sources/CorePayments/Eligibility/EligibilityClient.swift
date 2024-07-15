@@ -6,6 +6,8 @@ public final class EligibilityClient {
     private let api: EligibilityAPI
     private let config: CoreConfig
     
+    // MARK: - Initializers
+    
     ///  Initializes a new instance of `EligibilityClient`.
     /// - Parameter config: The core configuration needed for the client.
     public init(config: CoreConfig) {
@@ -19,6 +21,7 @@ public final class EligibilityClient {
         self.api = api
     }
     
+    // MARK: - Public Methods
     
     /// Checks the eligibility based on the provided `EligibilityRequest`.
     ///

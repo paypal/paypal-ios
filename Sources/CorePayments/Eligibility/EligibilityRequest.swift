@@ -1,9 +1,10 @@
 import Foundation
 
-
 /// The `EligibilityRequest` structure includes the necessary parameters to make an eligibility check request.
 public struct EligibilityRequest {
 
+    // MARK: - Internal Properties
+    
     /// The currency code for the eligibility request.
     let currencyCode: String
     

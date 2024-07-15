@@ -8,7 +8,7 @@ class EligibilityAPI {
     private let coreConfig: CoreConfig
     private let networkingClient: NetworkingClient
     
-    // MARK: - Initializer
+    // MARK: - Initializers
     
     /// Initialize the eligibility API to check for payment methods eligibility
     /// - Parameter coreConfig: configuration object
@@ -22,6 +22,8 @@ class EligibilityAPI {
         self.coreConfig = coreConfig
         self.networkingClient = networkingClient
     }
+    
+    // MARK: - Internal Methods
     
     /// Checks merchants eligibility for different payment methods.
     /// - Returns: An `EligibilityResponse` containing the result of the eligibility check.
