@@ -35,7 +35,7 @@ struct EligibilityResponse: Decodable {
     }
 }
 
-struct FundingEligibility: Codable {
+struct FundingEligibility: Decodable {
 
     let venmo: SupportedPaymentMethodsTypeEligibility
     let card: SupportedPaymentMethodsTypeEligibility
@@ -44,8 +44,7 @@ struct FundingEligibility: Codable {
     let credit: SupportedPaymentMethodsTypeEligibility
 }
 
-struct SupportedPaymentMethodsTypeEligibility: Codable {
+struct SupportedPaymentMethodsTypeEligibility: Decodable {
 
     let eligible: Bool
-    let reasons: [String]?
 }
