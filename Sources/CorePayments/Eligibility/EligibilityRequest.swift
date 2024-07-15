@@ -5,7 +5,7 @@ import Foundation
 public struct EligibilityRequest {
 
     /// The currency code for the eligibility request.
-    let currency: String
+    let currencyCode: String
     
     /// The intent of the eligibility request.
     let intent: EligibilityIntent
@@ -17,10 +17,10 @@ public struct EligibilityRequest {
     
     /// Creates an instance of a eligibility request
     /// - Parameters:
-    ///    - currency: The currency code for the eligibility request.
+    ///    - currencyCode: The currency code for the eligibility request.
     ///    - intent: The intent of the eligibility request.
-    public init(currency: String, intent: EligibilityIntent) {
-        self.currency = currency
+    public init(currencyCode: String, intent: EligibilityIntent) {
+        self.currencyCode = currencyCode
         self.intent = intent
         self.enableFunding = [.VENMO]
     }

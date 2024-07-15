@@ -6,7 +6,7 @@ class EligibilityAPI_Tests: XCTestCase {
     
     let mockClientID = "mockClientId"
     let mockURLSession = MockURLSession()
-    let eligibilityRequest = EligibilityRequest(currency: "SOME-CURRENCY", intent: .CAPTURE)
+    let eligibilityRequest = EligibilityRequest(currencyCode: "SOME-CURRENCY", intent: .CAPTURE)
     
     var sut: EligibilityAPI!
     var coreConfig: CoreConfig!
@@ -70,7 +70,7 @@ class EligibilityAPI_Tests: XCTestCase {
         
         let variables = mockNetworkingClient.capturedGraphQLRequest?.variables as! EligibilityVariables
         XCTAssertEqual(variables.clientID, mockClientID)
-        XCTAssertEqual(variables.eligibilityRequest.currency, "SOME-CURRENCY")
+        XCTAssertEqual(variables.eligibilityRequest.currencyCode, "SOME-CURRENCY")
         XCTAssertEqual(variables.eligibilityRequest.intent.rawValue, "CAPTURE")
     }
     
