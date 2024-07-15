@@ -1,6 +1,6 @@
 import Foundation
 
-enum EligibilityIntent: String {
+public enum EligibilityIntent: String {
     case SALE
     case CAPTURE
     case AUTHORIZE
