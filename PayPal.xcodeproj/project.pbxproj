@@ -570,7 +570,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-<<<<<<< HEAD
 		62D3FB122C3DB4B30046563B /* VenmoPaymentsTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -586,7 +585,8 @@
 			);
 			name = VenmoPayments;
 			path = Sources/VenmoPayments;
-=======
+            sourceTree = "<group>";
+        };
 		45B063AD2C40346500E743F2 /* Eligibility */ = {
 			isa = PBXGroup;
 			children = (
@@ -606,7 +606,6 @@
 				45B063BC2C40545100E743F2 /* EligibilityClient_Tests.swift */,
 			);
 			path = Eligibility;
->>>>>>> venmo-feature
 			sourceTree = "<group>";
 		};
 		8036C1DE270F9BCF00C0F091 /* PaymentsCoreTests */ = {
