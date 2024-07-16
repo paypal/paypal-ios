@@ -25,7 +25,7 @@ struct EligibilityResponse: Decodable {
     }
     
     var asResult: EligibilityResult {
-        .init(
+        EligibilityResult(
             isVenmoEligible: isVenmoEligible,
             isCardEligible: isCardEligible,
             isPayPalEligible: isPayPalEligible,
