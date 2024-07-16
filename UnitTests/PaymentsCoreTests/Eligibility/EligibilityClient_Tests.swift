@@ -29,8 +29,8 @@ class EligibilityClient_Tests: XCTestCase {
             fundingEligibility: .init(
                 venmo: .init(eligible: true),
                 card: .init(eligible: true),
-                paypal: .init(eligible: true),
-                paylater: .init(eligible: false),
+                payPal: .init(eligible: true),
+                payLater: .init(eligible: false),
                 credit: .init(eligible: false)
             )
         )
