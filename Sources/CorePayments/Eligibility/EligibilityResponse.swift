@@ -2,25 +2,25 @@ import Foundation
 
 struct EligibilityResponse: Decodable {
 
-    let fundingEligibility: FundingEligibility
+    private let fundingEligibility: FundingEligibility
     
-    var isVenmoEligible: Bool {
+    private var isVenmoEligible: Bool {
         fundingEligibility.venmo.eligible
     }
     
-    var isCardEligible: Bool {
+    private var isCardEligible: Bool {
         fundingEligibility.card.eligible
     }
     
-    var isPayPalEligible: Bool {
-        fundingEligibility.paypal.eligible
+    private var isPayPalEligible: Bool {
+        fundingEligibility.payPal.eligible
     }
     
-    var isPayLaterEligible: Bool {
-        fundingEligibility.paylater.eligible
+    private var isPayLaterEligible: Bool {
+        fundingEligibility.payLater.eligible
     }
     
-    var isCreditEligible: Bool {
+    private var isCreditEligible: Bool {
         fundingEligibility.credit.eligible
     }
     
@@ -39,9 +39,19 @@ struct FundingEligibility: Decodable {
 
     let venmo: SupportedPaymentMethodsTypeEligibility
     let card: SupportedPaymentMethodsTypeEligibility
-    let paypal: SupportedPaymentMethodsTypeEligibility
-    let paylater: SupportedPaymentMethodsTypeEligibility
+    let payPal: SupportedPaymentMethodsTypeEligibility
+    let payLater: SupportedPaymentMethodsTypeEligibility
     let credit: SupportedPaymentMethodsTypeEligibility
+    
+    // MARK: - Coding Keys
+    
+    private enum CodingKeys: String, CodingKey {
+        case venmo
+        case card
+        case payPal = "paypal"
+        case payLater = "paylater"
+        case credit
+    }
 }
 
 struct SupportedPaymentMethodsTypeEligibility: Decodable {
