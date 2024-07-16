@@ -49,7 +49,7 @@ struct FundingEligibility: Decodable {
         case venmo
         case card
         case payPal = "paypal"
-        case payLater = "payLater"
+        case payLater = "paylater"
         case credit
     }
 }
