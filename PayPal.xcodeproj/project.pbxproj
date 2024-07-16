@@ -35,7 +35,9 @@
 		3BE7386D2B9A670400598F05 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3BE738662B9A593100598F05 /* PrivacyInfo.xcprivacy */; };
 		3D1763A22720722A00652E1C /* CardResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1763A12720722A00652E1C /* CardResult.swift */; };
 		3DC42BA927187E8300B71645 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC42BA827187E8300B71645 /* ErrorResponse.swift */; };
-		459633102C45DDC3002008EF /* SupportedPaymentMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4596330F2C45DDC3002008EF /* SupportedPaymentMethods.swift */; };
+		459633162C46BD63002008EF /* EligibilityIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459633152C46BD63002008EF /* EligibilityIntent.swift */; };
+		459633182C46BD6F002008EF /* EligibilityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459633172C46BD6F002008EF /* EligibilityResponse.swift */; };
+		4596331A2C46BD7B002008EF /* SupportedPaymentMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459633192C46BD7B002008EF /* SupportedPaymentMethods.swift */; };
 		45B063B42C4035E200E743F2 /* EligibilityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B063B22C4035DB00E743F2 /* EligibilityClient.swift */; };
 		45B063B52C4035E500E743F2 /* EligibilityResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B063B02C4034B700E743F2 /* EligibilityResult.swift */; };
 		45B063B62C4035EA00E743F2 /* EligibilityRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B063AE2C40349300E743F2 /* EligibilityRequest.swift */; };
@@ -43,8 +45,6 @@
 		45B063BA2C40456F00E743F2 /* EligibilityAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B063B92C40456F00E743F2 /* EligibilityAPI.swift */; };
 		45B063BD2C40545100E743F2 /* EligibilityClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B063BC2C40545100E743F2 /* EligibilityClient_Tests.swift */; };
 		45B063BF2C40549000E743F2 /* EligibilityAPI_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B063BE2C40549000E743F2 /* EligibilityAPI_Tests.swift */; };
-		45B063C12C41D08400E743F2 /* EligibilityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B063C02C41D08400E743F2 /* EligibilityResponse.swift */; };
-		45B063C72C41E7AA00E743F2 /* EligibilityIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B063C62C41E7AA00E743F2 /* EligibilityIntent.swift */; };
 		45B063CA2C459F9900E743F2 /* MockEligibilityAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B063C92C459F9900E743F2 /* MockEligibilityAPI.swift */; };
 		53A2A4E228A182AC0093441C /* NativeCheckoutProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A2A4E128A182AC0093441C /* NativeCheckoutProvider.swift */; };
 		62D3FB292C3DB5130046563B /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; platformFilter = ios; };
@@ -258,6 +258,9 @@
 		3D25238B273979170099E4EB /* MockNativeCheckoutProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNativeCheckoutProvider.swift; sourceTree = "<group>"; };
 		3DC42BA827187E8300B71645 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		4596330F2C45DDC3002008EF /* SupportedPaymentMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedPaymentMethods.swift; sourceTree = "<group>"; };
+		459633152C46BD63002008EF /* EligibilityIntent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EligibilityIntent.swift; sourceTree = "<group>"; };
+		459633172C46BD6F002008EF /* EligibilityResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EligibilityResponse.swift; sourceTree = "<group>"; };
+		459633192C46BD7B002008EF /* SupportedPaymentMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportedPaymentMethods.swift; sourceTree = "<group>"; };
 		45B063AE2C40349300E743F2 /* EligibilityRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EligibilityRequest.swift; sourceTree = "<group>"; };
 		45B063B02C4034B700E743F2 /* EligibilityResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EligibilityResult.swift; sourceTree = "<group>"; };
 		45B063B22C4035DB00E743F2 /* EligibilityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EligibilityClient.swift; sourceTree = "<group>"; };
@@ -578,17 +581,27 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		459633142C46BD51002008EF /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				4596330F2C45DDC3002008EF /* SupportedPaymentMethods.swift */,
+				45B063C02C41D08400E743F2 /* EligibilityResponse.swift */,
+				45B063C62C41E7AA00E743F2 /* EligibilityIntent.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		45B063AD2C40346500E743F2 /* Eligibility */ = {
 			isa = PBXGroup;
 			children = (
 				45B063B92C40456F00E743F2 /* EligibilityAPI.swift */,
 				45B063B22C4035DB00E743F2 /* EligibilityClient.swift */,
-				45B063C62C41E7AA00E743F2 /* EligibilityIntent.swift */,
+				459633152C46BD63002008EF /* EligibilityIntent.swift */,
 				45B063AE2C40349300E743F2 /* EligibilityRequest.swift */,
-				45B063C02C41D08400E743F2 /* EligibilityResponse.swift */,
+				459633172C46BD6F002008EF /* EligibilityResponse.swift */,
 				45B063B02C4034B700E743F2 /* EligibilityResult.swift */,
 				45B063B72C40440000E743F2 /* EligibilityVariables.swift */,
-				4596330F2C45DDC3002008EF /* SupportedPaymentMethods.swift */,
+				459633192C46BD7B002008EF /* SupportedPaymentMethods.swift */,
 			);
 			path = Eligibility;
 			sourceTree = "<group>";
@@ -950,6 +963,7 @@
 				OBJ_13 /* Products */,
 				805AB85726B8887D003BEE0D /* Frameworks */,
 				047AF85D2B4F47BD0011303B /* Resources */,
+				459633142C46BD51002008EF /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1511,11 +1525,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6022E802857C6BE008B0E27 /* GraphQLHTTPResponse.swift in Sources */,
+				459633182C46BD6F002008EF /* EligibilityResponse.swift in Sources */,
 				80E643832A1EBBD2008FD705 /* HTTPResponse.swift in Sources */,
 				807C5E6929102D9800ECECD8 /* AnalyticsEventData.swift in Sources */,
 				80E237DF2A84434B00FF18CA /* HTTPRequest.swift in Sources */,
 				8021B69029144E6D000FBC54 /* PayPalCoreConstants.swift in Sources */,
-				459633102C45DDC3002008EF /* SupportedPaymentMethods.swift in Sources */,
 				45B063B82C40440000E743F2 /* EligibilityVariables.swift in Sources */,
 				807D56B02A869F97009E591D /* GraphQLErrorResponse.swift in Sources */,
 				80DB2F762980795D00CFB86A /* CorePaymentsError.swift in Sources */,
@@ -1525,11 +1539,10 @@
 				BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */,
 				45B063B62C4035EA00E743F2 /* EligibilityRequest.swift in Sources */,
 				CB4BE27E2847EA7D00EA2DD1 /* WebAuthenticationSession.swift in Sources */,
-				45B063C12C41D08400E743F2 /* EligibilityResponse.swift in Sources */,
 				80E2FDC12A83535A0045593D /* TrackingEventsAPI.swift in Sources */,
 				BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */,
 				BEA100F026EFA7C20036A6A5 /* NetworkingClientError.swift in Sources */,
-				45B063C72C41E7AA00E743F2 /* EligibilityIntent.swift in Sources */,
+				459633162C46BD63002008EF /* EligibilityIntent.swift in Sources */,
 				804E628629380B04004B9FEF /* AnalyticsService.swift in Sources */,
 				45B063BA2C40456F00E743F2 /* EligibilityAPI.swift in Sources */,
 				BC04837427B2FC7300FA7B46 /* URLSession+URLSessionProtocol.swift in Sources */,
@@ -1540,6 +1553,7 @@
 				804E62822937EBCE004B9FEF /* HTTP.swift in Sources */,
 				BC04836F27B2FB3600FA7B46 /* URLSessionProtocol.swift in Sources */,
 				065A4DBC26FCD8090007014A /* CoreSDKError.swift in Sources */,
+				4596331A2C46BD7B002008EF /* SupportedPaymentMethods.swift in Sources */,
 				BEA100E726EF9EDA0036A6A5 /* NetworkingClient.swift in Sources */,
 				807BF58F2A2A5D19002F32B3 /* HTTPResponseParser.swift in Sources */,
 				807D56AE2A869064009E591D /* GraphQLRequest.swift in Sources */,
