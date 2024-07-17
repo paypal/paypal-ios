@@ -1,10 +1,11 @@
 import Foundation
 
+/// Enum representing the possible intents for eligibility.
 public enum EligibilityIntent: String {
-    case SALE
-    case CAPTURE
-    case AUTHORIZE
-    case ORDER
-    case TOKENIZE
-    case SUBSCRIPTION
+    
+    /// Represents the intent to capture a payment.
+    case capture = "CAPTURE"
+    
+    /// Represents the intent to authorize a payment.
+    case authorize = "AUTHORIZE"
 }
