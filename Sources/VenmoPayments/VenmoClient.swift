@@ -15,7 +15,7 @@ public class VenmoClient {
     
     ///  Initialize a VenmoClient to process a Venmo payment
     ///  - Parameter config: The CoreConfig object
-    init(config: CoreConfig, universalLink: URL) {
+    public init(config: CoreConfig, universalLink: URL) {
         self.config = config
         self.universalLink = universalLink
         self.networkingClient = NetworkingClient(coreConfig: config)
