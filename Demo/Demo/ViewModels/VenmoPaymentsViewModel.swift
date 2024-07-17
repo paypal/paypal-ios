@@ -7,13 +7,13 @@ class VenmoPaymentsViewModel: ObservableObject {
     
     @Published var state = VenmoState()
     
-    func getEligibility() async throws {
+    func getEligibility(_ intent: EligibilityIntent) async throws {
         DispatchQueue.main.async {
             self.state.isVenmoEligibleResponse = .loading
         }
         do {
             let config = try await configManager.getCoreConfig()
-            let eligibilityRequest = EligibilityRequest(currencyCode: "USD", intent: .CAPTURE)
+            let eligibilityRequest = EligibilityRequest(currencyCode: "USD", intent: intent)
             let eligibilityClient = EligibilityClient(config: config)
             let eligibilityResult = try? await eligibilityClient.check(eligibilityRequest)
             let isVenmoEligible = eligibilityResult?.isVenmoEligible ?? false

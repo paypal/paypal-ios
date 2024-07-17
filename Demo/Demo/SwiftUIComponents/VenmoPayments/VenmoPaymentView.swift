@@ -1,17 +1,24 @@
 import SwiftUI
+import CorePayments
 
 struct VenmoPaymentView: View {
     
+    @State private var selectedIntent: EligibilityIntent = .capture
     @StateObject var venmoPaymentsViewModel = VenmoPaymentsViewModel()
     
     var body: some View {
-        VStack {
+        VStack(spacing: 16) {
             Text("Hello, Venmo!")
+            Picker("Intent", selection: $selectedIntent) {
+                Text("AUTHORIZE").tag(EligibilityIntent.authorize)
+                Text("CAPTURE").tag(EligibilityIntent.capture)
+            }
+            .pickerStyle(SegmentedPickerStyle())
             ZStack {
                 Button("Check eligibility") {
                     Task {
                         do {
-                            try await venmoPaymentsViewModel.getEligibility()
+                            try await venmoPaymentsViewModel.getEligibility(selectedIntent)
                         } catch {
                             print("Error in getting payment token. \(error.localizedDescription)")
                         }
@@ -30,6 +37,12 @@ struct VenmoPaymentView: View {
                 }
             }
         }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(.gray, lineWidth: 2)
+                .padding(5)
+        )
     }
 }
 
