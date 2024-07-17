@@ -4,7 +4,7 @@ import XCTest
 class EligibilityClient_Tests: XCTestCase {
     
     let mockClientID = "mockClientId"
-    let eligibilityRequest = EligibilityRequest(currencyCode: "SOME-CURRENCY", intent: .CAPTURE)
+    let eligibilityRequest = EligibilityRequest(currencyCode: "SOME-CURRENCY", intent: .capture)
     
     var sut: EligibilityClient!
     var coreConfig: CoreConfig!

@@ -6,7 +6,7 @@ class EligibilityAPI_Tests: XCTestCase {
     
     let mockClientID = "mockClientId"
     let mockURLSession = MockURLSession()
-    let eligibilityRequest = EligibilityRequest(currencyCode: "SOME-CURRENCY", intent: .CAPTURE)
+    let eligibilityRequest = EligibilityRequest(currencyCode: "SOME-CURRENCY", intent: .capture)
     
     var sut: EligibilityAPI!
     var coreConfig: CoreConfig!
