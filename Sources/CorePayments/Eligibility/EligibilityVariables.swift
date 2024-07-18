@@ -1,14 +1,28 @@
 import Foundation
 
-struct EligibilityVariables {
+struct EligibilityVariables: Encodable {
     
-    private let eligibilityRequest: EligibilityRequest
-    private let clientID: String
- 
-    // MARK: - Initializer
+    let eligibilityRequest: EligibilityRequest
+    let clientID: String
     
-    init(eligibilityRequest: EligibilityRequest, clientID: String) {
-        self.eligibilityRequest = eligibilityRequest
-        self.clientID = clientID
+    // MARK: - Coding Keys
+    
+    private enum CodingKeys: String, CodingKey {
+        case clientID = "clientId"
+        case intent
+        case currency
+        case enableFunding
+    }
+    
+    // MARK: - Custom Encoder
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(clientID, forKey: .clientID)
+        try container.encode(eligibilityRequest.intent.rawValue, forKey: .intent)
+        try container.encode(eligibilityRequest.currencyCode, forKey: .currency)
+        
+        let enableFunding = eligibilityRequest.enableFunding.compactMap { $0.rawValue }
+        try container.encode(enableFunding, forKey: .enableFunding)
     }
 }
