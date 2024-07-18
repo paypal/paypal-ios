@@ -257,7 +257,6 @@
 		3D25238127344F330099E4EB /* NativeCheckoutStartable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NativeCheckoutStartable.swift; path = Sources/PayPalNativePayments/NativeCheckoutStartable.swift; sourceTree = SOURCE_ROOT; };
 		3D25238B273979170099E4EB /* MockNativeCheckoutProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNativeCheckoutProvider.swift; sourceTree = "<group>"; };
 		3DC42BA827187E8300B71645 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
-		4596330F2C45DDC3002008EF /* SupportedPaymentMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedPaymentMethods.swift; sourceTree = "<group>"; };
 		459633152C46BD63002008EF /* EligibilityIntent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EligibilityIntent.swift; sourceTree = "<group>"; };
 		459633172C46BD6F002008EF /* EligibilityResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EligibilityResponse.swift; sourceTree = "<group>"; };
 		459633192C46BD7B002008EF /* SupportedPaymentMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportedPaymentMethods.swift; sourceTree = "<group>"; };
@@ -268,8 +267,6 @@
 		45B063B92C40456F00E743F2 /* EligibilityAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EligibilityAPI.swift; sourceTree = "<group>"; };
 		45B063BC2C40545100E743F2 /* EligibilityClient_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EligibilityClient_Tests.swift; sourceTree = "<group>"; };
 		45B063BE2C40549000E743F2 /* EligibilityAPI_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EligibilityAPI_Tests.swift; sourceTree = "<group>"; };
-		45B063C02C41D08400E743F2 /* EligibilityResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EligibilityResponse.swift; sourceTree = "<group>"; };
-		45B063C62C41E7AA00E743F2 /* EligibilityIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EligibilityIntent.swift; sourceTree = "<group>"; };
 		45B063C92C459F9900E743F2 /* MockEligibilityAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEligibilityAPI.swift; sourceTree = "<group>"; };
 		53A2A4E128A182AC0093441C /* NativeCheckoutProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeCheckoutProvider.swift; sourceTree = "<group>"; };
 		62D3FB132C3DB4D40046563B /* VenmoClient_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoClient_Tests.swift; sourceTree = "<group>"; };
@@ -579,16 +576,6 @@
 				3DC42BA827187E8300B71645 /* ErrorResponse.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		459633142C46BD51002008EF /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				4596330F2C45DDC3002008EF /* SupportedPaymentMethods.swift */,
-				45B063C02C41D08400E743F2 /* EligibilityResponse.swift */,
-				45B063C62C41E7AA00E743F2 /* EligibilityIntent.swift */,
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		45B063AD2C40346500E743F2 /* Eligibility */ = {
@@ -963,7 +950,6 @@
 				OBJ_13 /* Products */,
 				805AB85726B8887D003BEE0D /* Frameworks */,
 				047AF85D2B4F47BD0011303B /* Resources */,
-				459633142C46BD51002008EF /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
