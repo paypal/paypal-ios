@@ -1,7 +1,7 @@
 import Foundation
 
 enum SupportedPaymentMethodsType: String {
-    case VENMO
-    case CREDIT
-    case PAYLATER
+    case venmo = "VENMO"
+    case credit = "CREDIT"
+    case payLater = "PAYLATER"
 }

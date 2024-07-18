@@ -23,6 +23,6 @@ public struct EligibilityRequest {
     public init(currencyCode: String, intent: EligibilityIntent) {
         self.currencyCode = currencyCode
         self.intent = intent
-        self.enableFunding = [.VENMO]
+        self.enableFunding = [.venmo]
     }
 }
