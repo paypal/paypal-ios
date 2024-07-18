@@ -27,6 +27,8 @@ class EligibilityAPI {
     
     /// Checks merchants eligibility for different payment methods.
     /// - Returns: An `EligibilityResponse` containing the result of the eligibility check.
+    /// - Throws: An `Error` describing the failure.
+
     func check(_ eligibilityRequest: EligibilityRequest) async throws -> EligibilityResponse {
         let variables = EligibilityVariables(eligibilityRequest: eligibilityRequest, clientID: coreConfig.clientID)
         let graphQLRequest = GraphQLRequest(query: Self.rawQuery, variables: variables)
