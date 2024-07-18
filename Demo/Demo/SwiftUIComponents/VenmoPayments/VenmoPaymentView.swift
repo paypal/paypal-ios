@@ -25,16 +25,19 @@ struct VenmoPaymentView: View {
                     }
                 }
                 .buttonStyle(RoundedBlueButtonStyle())
-                if case .loading = venmoPaymentsViewModel.state.isVenmoEligibleResponse {
+                if case .loading = venmoPaymentsViewModel.state {
                     CircularProgressView()
                 }
             }
-            if case .loaded(let value) = venmoPaymentsViewModel.state.isVenmoEligibleResponse {
-                if value {
+            if case .success = venmoPaymentsViewModel.state {
+                if venmoPaymentsViewModel.isVenmoEligible {
                     Text("Venmo is eligible! 🥳")
                 } else {
                     Text("Venmo is not eligible! 🫤")
                 }
+            }
+            if case .error(let message) = venmoPaymentsViewModel.state {
+                Text(message)
             }
         }
         .padding()
