@@ -8,7 +8,7 @@
 * VenmoPayments
   * Add `VenmoPayments` module 
   * Add `VenmoCheckoutRequest` and `VenmoCheckoutResult` type for interacting with `start` method
-  * Add `start(_ request: VenmoCheckoutRequest)` method to `VenmoClient`
+  * Add `start(_:)` method to `VenmoClient`
 
 ## 1.3.2 (2024-05-23)
 * PaymentButtons

@@ -1,5 +1,4 @@
 import XCTest
-import AuthenticationServices
 @testable import VenmoPayments
 @testable import CorePayments
 @testable import TestShared
