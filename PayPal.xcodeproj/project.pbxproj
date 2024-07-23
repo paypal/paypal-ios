@@ -35,6 +35,9 @@
 		3BE7386D2B9A670400598F05 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3BE738662B9A593100598F05 /* PrivacyInfo.xcprivacy */; };
 		3D1763A22720722A00652E1C /* CardResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1763A12720722A00652E1C /* CardResult.swift */; };
 		3DC42BA927187E8300B71645 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC42BA827187E8300B71645 /* ErrorResponse.swift */; };
+		459633162C46BD63002008EF /* EligibilityIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459633152C46BD63002008EF /* EligibilityIntent.swift */; };
+		459633182C46BD6F002008EF /* EligibilityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459633172C46BD6F002008EF /* EligibilityResponse.swift */; };
+		4596331A2C46BD7B002008EF /* SupportedPaymentMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459633192C46BD7B002008EF /* SupportedPaymentMethods.swift */; };
 		45B063B42C4035E200E743F2 /* EligibilityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B063B22C4035DB00E743F2 /* EligibilityClient.swift */; };
 		45B063B52C4035E500E743F2 /* EligibilityResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B063B02C4034B700E743F2 /* EligibilityResult.swift */; };
 		45B063B62C4035EA00E743F2 /* EligibilityRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B063AE2C40349300E743F2 /* EligibilityRequest.swift */; };
@@ -42,6 +45,7 @@
 		45B063BA2C40456F00E743F2 /* EligibilityAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B063B92C40456F00E743F2 /* EligibilityAPI.swift */; };
 		45B063BD2C40545100E743F2 /* EligibilityClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B063BC2C40545100E743F2 /* EligibilityClient_Tests.swift */; };
 		45B063BF2C40549000E743F2 /* EligibilityAPI_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B063BE2C40549000E743F2 /* EligibilityAPI_Tests.swift */; };
+		45B063CA2C459F9900E743F2 /* MockEligibilityAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B063C92C459F9900E743F2 /* MockEligibilityAPI.swift */; };
 		53A2A4E228A182AC0093441C /* NativeCheckoutProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A2A4E128A182AC0093441C /* NativeCheckoutProvider.swift */; };
 		62D3FB292C3DB5130046563B /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; platformFilter = ios; };
 		62D3FB4B2C3ED82D0046563B /* VenmoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D3FB492C3ED82D0046563B /* VenmoClient.swift */; };
@@ -255,6 +259,9 @@
 		3D25238127344F330099E4EB /* NativeCheckoutStartable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NativeCheckoutStartable.swift; path = Sources/PayPalNativePayments/NativeCheckoutStartable.swift; sourceTree = SOURCE_ROOT; };
 		3D25238B273979170099E4EB /* MockNativeCheckoutProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNativeCheckoutProvider.swift; sourceTree = "<group>"; };
 		3DC42BA827187E8300B71645 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
+		459633152C46BD63002008EF /* EligibilityIntent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EligibilityIntent.swift; sourceTree = "<group>"; };
+		459633172C46BD6F002008EF /* EligibilityResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EligibilityResponse.swift; sourceTree = "<group>"; };
+		459633192C46BD7B002008EF /* SupportedPaymentMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportedPaymentMethods.swift; sourceTree = "<group>"; };
 		45B063AE2C40349300E743F2 /* EligibilityRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EligibilityRequest.swift; sourceTree = "<group>"; };
 		45B063B02C4034B700E743F2 /* EligibilityResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EligibilityResult.swift; sourceTree = "<group>"; };
 		45B063B22C4035DB00E743F2 /* EligibilityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EligibilityClient.swift; sourceTree = "<group>"; };
@@ -262,6 +269,7 @@
 		45B063B92C40456F00E743F2 /* EligibilityAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EligibilityAPI.swift; sourceTree = "<group>"; };
 		45B063BC2C40545100E743F2 /* EligibilityClient_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EligibilityClient_Tests.swift; sourceTree = "<group>"; };
 		45B063BE2C40549000E743F2 /* EligibilityAPI_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EligibilityAPI_Tests.swift; sourceTree = "<group>"; };
+		45B063C92C459F9900E743F2 /* MockEligibilityAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEligibilityAPI.swift; sourceTree = "<group>"; };
 		53A2A4E128A182AC0093441C /* NativeCheckoutProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeCheckoutProvider.swift; sourceTree = "<group>"; };
 		62D3FB132C3DB4D40046563B /* VenmoClient_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoClient_Tests.swift; sourceTree = "<group>"; };
 		62D3FB2F2C3DB5130046563B /* VenmoPayments.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VenmoPayments.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -582,6 +590,12 @@
 				45B063AE2C40349300E743F2 /* EligibilityRequest.swift */,
 				45B063B02C4034B700E743F2 /* EligibilityResult.swift */,
 				45B063B72C40440000E743F2 /* EligibilityVariables.swift */,
+				459633152C46BD63002008EF /* EligibilityIntent.swift */,
+				45B063AE2C40349300E743F2 /* EligibilityRequest.swift */,
+				459633172C46BD6F002008EF /* EligibilityResponse.swift */,
+				45B063B02C4034B700E743F2 /* EligibilityResult.swift */,
+				45B063B72C40440000E743F2 /* EligibilityVariables.swift */,
+				459633192C46BD7B002008EF /* SupportedPaymentMethods.swift */,
 			);
 			path = Eligibility;
 			sourceTree = "<group>";
@@ -593,6 +607,23 @@
 				45B063BC2C40545100E743F2 /* EligibilityClient_Tests.swift */,
 			);
 			path = Eligibility;
+			sourceTree = "<group>";
+		};
+		62D3FB122C3DB4B30046563B /* VenmoPaymentsTests */ = {
+			isa = PBXGroup;
+			children = (
+				62D3FB132C3DB4D40046563B /* VenmoClient_Tests.swift */,
+			);
+			path = VenmoPaymentsTests;
+			sourceTree = "<group>";
+		};
+		62D3FB4A2C3ED82D0046563B /* VenmoPayments */ = {
+			isa = PBXGroup;
+			children = (
+				62D3FB492C3ED82D0046563B /* VenmoClient.swift */,
+			);
+			name = VenmoPayments;
+			path = Sources/VenmoPayments;
 			sourceTree = "<group>";
 		};
 		62D3FB122C3DB4B30046563B /* VenmoPaymentsTests */ = {
@@ -656,6 +687,7 @@
 			isa = PBXGroup;
 			children = (
 				802EFBD72A9685DF00AB709D /* MockTrackingEventsAPI.swift */,
+				45B063C92C459F9900E743F2 /* MockEligibilityAPI.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -1490,6 +1522,7 @@
 			files = (
 				808EEA81291321FE001B6765 /* AnalyticsEventData_Tests.swift in Sources */,
 				8036C1E5270F9BE700C0F091 /* Environment_Tests.swift in Sources */,
+				45B063CA2C459F9900E743F2 /* MockEligibilityAPI.swift in Sources */,
 				80B96AAE2A980F6B00C62916 /* MockTrackingEventsAPI.swift in Sources */,
 				80FC261D29847AC7008EC841 /* HTTP_Tests.swift in Sources */,
 				45B063BD2C40545100E743F2 /* EligibilityClient_Tests.swift in Sources */,
@@ -1506,6 +1539,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6022E802857C6BE008B0E27 /* GraphQLHTTPResponse.swift in Sources */,
+				459633182C46BD6F002008EF /* EligibilityResponse.swift in Sources */,
 				80E643832A1EBBD2008FD705 /* HTTPResponse.swift in Sources */,
 				807C5E6929102D9800ECECD8 /* AnalyticsEventData.swift in Sources */,
 				80E237DF2A84434B00FF18CA /* HTTPRequest.swift in Sources */,
@@ -1522,6 +1556,7 @@
 				80E2FDC12A83535A0045593D /* TrackingEventsAPI.swift in Sources */,
 				BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */,
 				BEA100F026EFA7C20036A6A5 /* NetworkingClientError.swift in Sources */,
+				459633162C46BD63002008EF /* EligibilityIntent.swift in Sources */,
 				804E628629380B04004B9FEF /* AnalyticsService.swift in Sources */,
 				45B063BA2C40456F00E743F2 /* EligibilityAPI.swift in Sources */,
 				BC04837427B2FC7300FA7B46 /* URLSession+URLSessionProtocol.swift in Sources */,
@@ -1532,6 +1567,7 @@
 				804E62822937EBCE004B9FEF /* HTTP.swift in Sources */,
 				BC04836F27B2FB3600FA7B46 /* URLSessionProtocol.swift in Sources */,
 				065A4DBC26FCD8090007014A /* CoreSDKError.swift in Sources */,
+				4596331A2C46BD7B002008EF /* SupportedPaymentMethods.swift in Sources */,
 				BEA100E726EF9EDA0036A6A5 /* NetworkingClient.swift in Sources */,
 				807BF58F2A2A5D19002F32B3 /* HTTPResponseParser.swift in Sources */,
 				807D56AE2A869064009E591D /* GraphQLRequest.swift in Sources */,
