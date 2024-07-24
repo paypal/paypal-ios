@@ -7,7 +7,9 @@
   * Add deprecated warning message to all public classes and methods
 * VenmoPayments
   * Add `VenmoPayments` module 
-  
+  * Add `VenmoCheckoutRequest` and `VenmoCheckoutResult` type for interacting with `start` method
+  * Add `start(_:)` method to `VenmoClient`
+
 ## 1.3.2 (2024-05-23)
 * PaymentButtons
   * Add black boundary around white buttons
