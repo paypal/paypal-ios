@@ -50,6 +50,8 @@
 		62094F872C501F760003D85F /* VenmoPaymentsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62094F862C501F760003D85F /* VenmoPaymentsError.swift */; };
 		62D3FB292C3DB5130046563B /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; platformFilter = ios; };
 		62D3FB4B2C3ED82D0046563B /* VenmoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D3FB492C3ED82D0046563B /* VenmoClient.swift */; };
+		62EEC3EE2C471EAE00C350FD /* VenmoCheckoutRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EEC3ED2C471EAE00C350FD /* VenmoCheckoutRequest.swift */; };
+		62EEC3F02C471F6000C350FD /* VenmoCheckoutResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EEC3EF2C471F6000C350FD /* VenmoCheckoutResult.swift */; };
 		8008D2052A9E54FF0003CAF4 /* CheckoutOrdersAPI_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8008D2042A9E54FF0003CAF4 /* CheckoutOrdersAPI_Tests.swift */; };
 		80132D7229008C000088D30D /* TestShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E743F8270E40CE00BACECA /* TestShared.framework */; };
 		8021B69029144E6D000FBC54 /* PayPalCoreConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8021B68F29144E6D000FBC54 /* PayPalCoreConstants.swift */; };
@@ -275,6 +277,8 @@
 		62D3FB2F2C3DB5130046563B /* VenmoPayments.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VenmoPayments.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		62D3FB452C3DB5370046563B /* VenmoPaymentsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VenmoPaymentsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		62D3FB492C3ED82D0046563B /* VenmoClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenmoClient.swift; sourceTree = "<group>"; };
+		62EEC3ED2C471EAE00C350FD /* VenmoCheckoutRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoCheckoutRequest.swift; sourceTree = "<group>"; };
+		62EEC3EF2C471F6000C350FD /* VenmoCheckoutResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoCheckoutResult.swift; sourceTree = "<group>"; };
 		8008D2042A9E54FF0003CAF4 /* CheckoutOrdersAPI_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutOrdersAPI_Tests.swift; sourceTree = "<group>"; };
 		8021B68F29144E6D000FBC54 /* PayPalCoreConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalCoreConstants.swift; sourceTree = "<group>"; };
 		802C4A732945670400896A5D /* MockHTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHTTP.swift; sourceTree = "<group>"; };
@@ -585,6 +589,9 @@
 			children = (
 				45B063B92C40456F00E743F2 /* EligibilityAPI.swift */,
 				45B063B22C4035DB00E743F2 /* EligibilityClient.swift */,
+				45B063AE2C40349300E743F2 /* EligibilityRequest.swift */,
+				45B063B02C4034B700E743F2 /* EligibilityResult.swift */,
+				45B063B72C40440000E743F2 /* EligibilityVariables.swift */,
 				459633152C46BD63002008EF /* EligibilityIntent.swift */,
 				45B063AE2C40349300E743F2 /* EligibilityRequest.swift */,
 				459633172C46BD6F002008EF /* EligibilityResponse.swift */,
@@ -617,6 +624,25 @@
 			children = (
 				62D3FB492C3ED82D0046563B /* VenmoClient.swift */,
 				62094F862C501F760003D85F /* VenmoPaymentsError.swift */,
+			);
+			name = VenmoPayments;
+			path = Sources/VenmoPayments;
+			sourceTree = "<group>";
+		};
+		62D3FB122C3DB4B30046563B /* VenmoPaymentsTests */ = {
+			isa = PBXGroup;
+			children = (
+				62D3FB132C3DB4D40046563B /* VenmoClient_Tests.swift */,
+			);
+			path = VenmoPaymentsTests;
+			sourceTree = "<group>";
+		};
+		62D3FB4A2C3ED82D0046563B /* VenmoPayments */ = {
+			isa = PBXGroup;
+			children = (
+				62D3FB492C3ED82D0046563B /* VenmoClient.swift */,
+				62EEC3ED2C471EAE00C350FD /* VenmoCheckoutRequest.swift */,
+				62EEC3EF2C471F6000C350FD /* VenmoCheckoutResult.swift */,
 			);
 			name = VenmoPayments;
 			path = Sources/VenmoPayments;
@@ -1482,6 +1508,8 @@
 			files = (
 				62D3FB4B2C3ED82D0046563B /* VenmoClient.swift in Sources */,
 				62094F872C501F760003D85F /* VenmoPaymentsError.swift in Sources */,
+				62EEC3EE2C471EAE00C350FD /* VenmoCheckoutRequest.swift in Sources */,
+				62EEC3F02C471F6000C350FD /* VenmoCheckoutResult.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
