@@ -33,6 +33,17 @@ extension PayPalCreditButton.Color: CaseIterable {
     }
 }
 
+extension VenmoButton.Color: CaseIterable {
+    
+    public static var allCases: [VenmoButton.Color] {
+        [.primaryBlue]
+    }
+    
+    static func allCasesAsString() -> [String] {
+        Self.allCases.map { $0.rawValue }
+    }
+}
+
 extension PaymentButtonEdges: CaseIterable {
 
     public static var allCases: [PaymentButtonEdges] {

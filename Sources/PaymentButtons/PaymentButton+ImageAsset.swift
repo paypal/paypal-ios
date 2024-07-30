@@ -31,6 +31,9 @@ extension PaymentButton {
 
         case .credit:
             imageAssetString += "credit_"
+            
+        case .venmo:
+            imageAssetString += "venmo_"
         }
 
         switch color {
@@ -42,6 +45,9 @@ extension PaymentButton {
 
         case .blue:
             imageAssetString += "blue"
+        
+        case .primaryBlue:
+            imageAssetString += "primary_blue"
         }
         
         return imageAssetString
