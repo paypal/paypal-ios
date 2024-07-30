@@ -13,6 +13,34 @@ public final class VenmoButton: PaymentButton {
         }
     }
     
+    /// Available button states for VenmoButton.
+    public enum ButtonState: String {
+        /// default button state
+        case _default
+        
+        /// hover button state
+        case hover
+        
+        /// focus button state
+        case focus
+        
+        /// active button state
+        case active
+        
+        var color: UIColor {
+            switch self {
+            case ._default:
+                return UIColor(hexString: "#008CFF")
+            case .hover:
+                return UIColor(hexString: "#0080EA")
+            case .focus:
+                return UIColor(hexString: "#0080EA")
+            case .active:
+                return UIColor(hexString: "#006DC7")
+            }
+        }
+    }
+    
     /// Initialize a VenmoButton
     /// - Parameters:
     ///    - insets: Edge insets of the button that determine the spacing of the button's edges relative to its content

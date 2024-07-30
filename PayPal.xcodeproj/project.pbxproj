@@ -833,6 +833,7 @@
 				BE00B79B2742F96200758C63 /* PayPalButton.swift */,
 				BE00B7A82743F6AF00758C63 /* PayPalCreditButton.swift */,
 				CB1A47F12820AFED00BD8184 /* PayPalPayLaterButton.swift */,
+				6222CA772C5860BE001E7290 /* VenmoButton.swift */,
 				CB1A47F32820BA5D00BD8184 /* PaymentButtonEdges.swift */,
 				CB1A47F52820BAA600BD8184 /* PaymentButtonLabel.swift */,
 				CB1A47F72820BCE200BD8184 /* PaymentButtonSize.swift */,
@@ -840,7 +841,6 @@
 				CB1A47FD2820C10700BD8184 /* PaymentButtonFundingSource.swift */,
 				CB1A48042822BCED00BD8184 /* PaymentButton+ImageAsset.swift */,
 				3BE738672B9A598200598F05 /* PrivacyInfo.xcprivacy */,
-				6222CA772C5860BE001E7290 /* VenmoButton.swift */,
 			);
 			name = PaymentButtons;
 			path = Sources/PaymentButtons;
