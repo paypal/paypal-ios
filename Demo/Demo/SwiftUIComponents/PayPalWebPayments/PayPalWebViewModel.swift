@@ -3,6 +3,7 @@ import CorePayments
 import PayPalWebPayments
 import FraudProtection
 
+@MainActor
 class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
     @Published var state: CurrentState = .idle

@@ -9,14 +9,16 @@ struct FeatureSelectionView: View {
         NavigationView {
             List {
                 Section(header: Text("Settings")) {
-                    Picker("Environment", selection: $selectedEnvironment.onChange(updateEnvironment)) {
+                    Picker("Environment", selection: $selectedEnvironment.onChange { newValue in DemoSettings.environment = newValue
+                    }) {
                         ForEach(Environment.allCases, id: \.self) { environment in
                             Text(environment.rawValue.capitalized).tag(environment)
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
 
-                    Picker("Merchant Integration", selection: $selectedIntegration.onChange(updateIntegration)) {
+                    Picker("Merchant Integration", selection: $selectedIntegration.onChange { newValue in DemoSettings.merchantIntegration = newValue
+                    }) {
                         ForEach(MerchantIntegration.allCases, id: \.self) { integration in
                             Text(integration.rawValue).tag(integration)
                         }
@@ -77,7 +79,7 @@ struct FeatureSelectionView: View {
 
 extension Binding {
 
-    func onChange(_ handler: @escaping (Value) -> Void) -> Binding<Value> {
+    func onChange(_ handler: @Sendable @escaping (Value) -> Void) -> Binding<Value> {
         Binding(
             get: { self.wrappedValue },
             set: { newValue in

@@ -2,7 +2,7 @@ import Foundation
 import CorePayments
 
 /// API Client used to create and process orders on sample merchant server
-final class DemoMerchantAPI {
+actor DemoMerchantAPI {
 
     static let sharedService = DemoMerchantAPI()
 

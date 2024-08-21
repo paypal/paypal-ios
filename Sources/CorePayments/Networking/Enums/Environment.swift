@@ -1,7 +1,7 @@
 import Foundation
 
 // swiftlint:disable force_unwrapping
-public enum Environment {
+public enum Environment: Sendable {
     case sandbox
     case live
 

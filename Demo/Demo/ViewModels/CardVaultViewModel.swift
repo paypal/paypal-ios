@@ -2,7 +2,8 @@ import Foundation
 import CardPayments
 import CorePayments
 
-class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
+@MainActor
+class CardVaultViewModel: VaultViewModel, @preconcurrency CardVaultDelegate {
 
     let configManager = CoreConfigManager(domain: "Card Vault")
 
