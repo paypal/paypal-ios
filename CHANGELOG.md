@@ -2,6 +2,9 @@
 # PayPal iOS SDK Release Notes
 
 ## unreleased
+* Breaking Changes
+  * PayPalNativePayments
+    * Remove entire PayPalNativePayments module
 * PayPalWebPayments
   * Deprecate `PayPalVaultRequest(url:setupTokenID:)`
   * Add `PayPalVaultRequest(setupTokenID:)`
