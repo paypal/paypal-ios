@@ -13,7 +13,7 @@ public class PayPalWebCheckoutClient: NSObject {
     private let networkingClient: NetworkingClient
     private var analyticsService: AnalyticsService?
 
-    /// Initialize a PayPalNativeCheckoutClient to process PayPal transaction
+    /// Initialize a PayPalWebCheckoutClient to process PayPal transaction
     /// - Parameters:
     ///   - config: The CoreConfig object
     public init(config: CoreConfig) {
