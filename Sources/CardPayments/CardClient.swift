@@ -109,6 +109,35 @@ public class CardClient: NSObject {
         }
     }
 
+    public func approveOrderAsync(request: CardRequest) async throws -> CardResult {
+        analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
+        analyticsService?.sendEvent("card-payments:3ds:started")
+        do {
+            let result = try await checkoutOrdersAPI.confirmPaymentSource(cardRequest: request)
+
+            if result.status == "PAYER_ACTION_REQUIRED",
+            let url = result.links?.first(where: { $0.rel == "payer-action" })?.href {
+                guard getQueryStringParameter(url: url, param: "flow") == "3ds",
+                    url.contains("helios"),
+                    let url = URL(string: url) else {
+                    throw CardClientError.threeDSecureURLError
+                }
+
+                analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:challenge-required")
+                let cardResult = try await startAsyncThreeDSecureChallenge(url: url, orderId: result.id)
+                return cardResult
+            } else {
+                analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:succeeded")
+
+                let cardResult = CardResult(orderID: result.id, status: result.status, didAttemptThreeDSecureAuthentication: false)
+                return cardResult
+            }
+        } catch {
+            analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:failed")
+            throw CardClientError.unknownError
+        }
+    }
+
     private func startThreeDSecureChallenge(
         url: URL,
         orderId: String
@@ -143,7 +172,44 @@ public class CardClient: NSObject {
             }
         )
     }
-    
+
+    private func startAsyncThreeDSecureChallenge(
+        url: URL,
+        orderId: String
+    ) async throws -> CardResult {
+        return try await withCheckedThrowingContinuation { continuation in
+            webAuthenticationSession.start(
+                url: url,
+                context: self,
+                sessionDidDisplay: { [weak self] didDisplay in
+                    if didDisplay {
+                        self?.analyticsService?.sendEvent("card-payments:3ds:challenge-presentation:succeeded")
+                    } else {
+                        self?.analyticsService?.sendEvent("card-payments:3ds:challenge-presentation:failed")
+                    }
+                },
+                sessionDidComplete: { _, error in
+                    if let error = error {
+                        switch error {
+                        case ASWebAuthenticationSessionError.canceledLogin:
+                            self.analyticsService?.sendEvent("card-payments:3ds:challenge:user-canceled")
+                            continuation.resume(throwing: error)
+                            return
+                        default:
+                            self.analyticsService?.sendEvent("card-payments:3ds:failed")
+                            continuation.resume(throwing: error)
+                            return
+                        }
+                    }
+
+                    let cardResult = CardResult(orderID: orderId, status: nil, didAttemptThreeDSecureAuthentication: true)
+                    self.analyticsService?.sendEvent("card-payments:3ds:succeeded")
+                    continuation.resume(returning: cardResult)
+                }
+            )
+        }
+    }
+
     private func getQueryStringParameter(url: String, param: String) -> String? {
         guard let url = URLComponents(string: url) else { return nil }
         return url.queryItems?.first { $0.name == param }?.value

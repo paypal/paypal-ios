@@ -119,7 +119,17 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
             payPalDataCollector = PayPalDataCollector(config: config)
             cardClient?.delegate = self
             let cardRequest = CardRequest(orderID: orderID, card: card, sca: sca)
-            cardClient?.approveOrder(request: cardRequest)
+            let result = try await cardClient?.approveOrderAsync(request: cardRequest)
+            if let result {
+                let finalResult = CardPaymentState.CardResult(
+                    id: result.orderID,
+                    status: result.status,
+                    didAttemptThreeDSecureAuthentication: result.didAttemptThreeDSecureAuthentication
+                )
+                approveResultSuccessResult(approveResult: finalResult)
+            } else {
+                self.state.approveResultResponse = .error(message: "cardResult was nil")
+            }
         } catch {
             self.state.approveResultResponse = .error(message: error.localizedDescription)
             print("failed in checkout with card. \(error.localizedDescription)")
