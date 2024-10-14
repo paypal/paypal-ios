@@ -286,6 +286,18 @@ class CardClient_Tests: XCTestCase {
         waitForExpectations(timeout: 10)
     }
 
+    func testAsyncApproveOrder_withInvalid3DSURL_returnsError() async throws {
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withInvalid3DSURL
+
+        do {
+            _ = try await sut.approveOrderAsync(request: cardRequest)
+        } catch let error as CoreSDKError {
+            XCTAssertEqual(error.code, 3)
+            XCTAssertEqual(error.domain, "CardClientErrorDomain")
+            XCTAssertEqual(error.errorDescription, "An invalid 3DS URL was returned. Contact developer.paypal.com/support.")
+        }
+    }
+
     func testApproveOrder_withNoThreeDSecure_returnsOrderData() {
         mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.without3DS
         
@@ -306,6 +318,19 @@ class CardClient_Tests: XCTestCase {
         sut.approveOrder(request: cardRequest)
 
         waitForExpectations(timeout: 10)
+    }
+
+    func testAsyncApproveOrder_withNoThreeDSecure_returnsOrderData() async throws {
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.without3DS
+
+        do {
+            let result = try await sut.approveOrderAsync(request: cardRequest)
+            XCTAssertEqual(result.orderID, "testOrderId")
+            XCTAssertEqual(result.status, "APPROVED")
+            XCTAssertFalse(result.didAttemptThreeDSecureAuthentication)
+        } catch {
+            XCTFail("Invoked error() callback. Should invoke success().")
+        }
     }
 
     func testApproveOrder_whenConfirmPaymentSDKError_bubblesError() {
