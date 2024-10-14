@@ -132,9 +132,12 @@ public class CardClient: NSObject {
                 let cardResult = CardResult(orderID: result.id, status: result.status, didAttemptThreeDSecureAuthentication: false)
                 return cardResult
             }
-        } catch {
+        } catch let error as CoreSDKError {
             analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:failed")
             throw error
+        } catch {
+            analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:failed")
+            throw CardClientError.unknownError
         }
     }
 
@@ -193,11 +196,11 @@ public class CardClient: NSObject {
                         switch error {
                         case ASWebAuthenticationSessionError.canceledLogin:
                             self.analyticsService?.sendEvent("card-payments:3ds:challenge:user-canceled")
-                            continuation.resume(throwing: error)
+                            continuation.resume(throwing: CardClientError.threeDSecureCancellation)
                             return
                         default:
                             self.analyticsService?.sendEvent("card-payments:3ds:failed")
-                            continuation.resume(throwing: error)
+                            continuation.resume(throwing: CardClientError.threeDSecureError(error))
                             return
                         }
                     }
