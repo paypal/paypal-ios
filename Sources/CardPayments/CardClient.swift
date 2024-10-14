@@ -134,7 +134,7 @@ public class CardClient: NSObject {
             }
         } catch {
             analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:failed")
-            throw CardClientError.unknownError
+            throw error
         }
     }
 
