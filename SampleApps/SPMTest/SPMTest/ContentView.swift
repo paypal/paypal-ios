@@ -1,7 +1,6 @@
 import SwiftUI
 import CardPayments
 import PayPalWebPayments
-import PayPalNativePayments
 import FraudProtection
 import PaymentButtons
 import CorePayments
