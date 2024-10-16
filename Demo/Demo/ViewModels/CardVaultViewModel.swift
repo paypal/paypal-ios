@@ -2,7 +2,7 @@ import Foundation
 import CardPayments
 import CorePayments
 
-class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
+class CardVaultViewModel: VaultViewModel {
 
     let configManager = CoreConfigManager(domain: "Card Vault")
 
@@ -13,9 +13,9 @@ class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
         do {
             let config = try await configManager.getCoreConfig()
             let cardClient = CardClient(config: config)
-            cardClient.vaultDelegate = self
             let cardVaultRequest = CardVaultRequest(card: card, setupTokenID: setupToken)
-            cardClient.vault(cardVaultRequest)
+            let vaultResult = try await cardClient.asyncVault(cardVaultRequest)
+            setUpdateSetupTokenResult(vaultResult: vaultResult)
         } catch {
             self.state.updateSetupTokenResponse = .error(message: error.localizedDescription)
             print("failed in updating setup token. \(error.localizedDescription)")
@@ -45,32 +45,5 @@ class CardVaultViewModel: VaultViewModel, CardVaultDelegate {
                 self.state.updateSetupTokenResponse = .error(message: vaultError.localizedDescription)
             }
         }
-    }
-
-    // MARK: - CardVault Delegate
-
-    func card(_ cardClient: CardPayments.CardClient, didFinishWithVaultResult vaultResult: CardPayments.CardVaultResult) {
-        print("vaultResult: \(vaultResult)")
-        setUpdateSetupTokenResult(vaultResult: vaultResult)
-    }
-
-    func card(_ cardClient: CardPayments.CardClient, didFinishWithVaultError vaultError: CorePayments.CoreSDKError) {
-        print("error: \(vaultError.errorDescription ?? "")")
-        setUpdateSetupTokenResult(vaultError: vaultError)
-    }
-
-    func cardThreeDSecureDidCancel(_ cardClient: CardClient) {
-        DispatchQueue.main.async {
-            self.state.updateSetupTokenResponse = .idle
-            self.state.updateSetupToken = nil
-        }
-    }
-
-    func cardThreeDSecureWillLaunch(_ cardClient: CardPayments.CardClient) {
-        print("About to launch 3DS")
-    }
-
-    func cardThreeDSecureDidFinish(_ cardClient: CardPayments.CardClient) {
-        print("Finished 3DS")
     }
 }

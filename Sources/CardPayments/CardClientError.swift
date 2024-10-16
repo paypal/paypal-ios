@@ -71,7 +71,7 @@ enum CardClientError {
     static let threeDSecureCancellation = CoreSDKError(
         code: Code.threeDSCancellation.rawValue,
         domain: domain,
-        errorDescription: "3DS verification has been cancelled by the user"
+        errorDescription: "3DS verification has been cancelled by the user."
     )
 
     static let noVaultTokenDataError = CoreSDKError(
