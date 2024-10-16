@@ -40,7 +40,7 @@ public class CardClient: NSObject {
     /// If `didAttempt3DSecureVerification` is `true`, check verification status with `/v3/vault/setup-token/{id}` in your server.
     /// - Parameters:
     ///   - vaultRequest: The request containing setupTokenID and card
-    public func asyncVault(_ vaultRequest: CardVaultRequest) async throws -> CardVaultResult {
+    public func vault(_ vaultRequest: CardVaultRequest) async throws -> CardVaultResult {
         analyticsService = AnalyticsService(coreConfig: config, setupToken: vaultRequest.setupTokenID)
         analyticsService?.sendEvent("card-payments:vault-wo-purchase:started")
         do {
@@ -73,7 +73,7 @@ public class CardClient: NSObject {
     /// - Parameters:
     ///   - orderId: Order id for approval
     ///   - request: The request containing the card
-    public func approveOrderAsync(request: CardRequest) async throws -> CardResult {
+    public func approveOrder(request: CardRequest) async throws -> CardResult {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         analyticsService?.sendEvent("card-payments:3ds:started")
         do {

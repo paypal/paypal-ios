@@ -118,7 +118,7 @@ class CardPaymentViewModel: ObservableObject {
             cardClient = CardClient(config: config)
             payPalDataCollector = PayPalDataCollector(config: config)
             let cardRequest = CardRequest(orderID: orderID, card: card, sca: sca)
-            let result = try await cardClient?.approveOrderAsync(request: cardRequest)
+            let result = try await cardClient?.approveOrder(request: cardRequest)
             if let result {
                 let finalResult = CardPaymentState.CardResult(
                     id: result.orderID,

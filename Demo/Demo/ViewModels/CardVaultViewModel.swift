@@ -14,7 +14,7 @@ class CardVaultViewModel: VaultViewModel {
             let config = try await configManager.getCoreConfig()
             let cardClient = CardClient(config: config)
             let cardVaultRequest = CardVaultRequest(card: card, setupTokenID: setupToken)
-            let vaultResult = try await cardClient.asyncVault(cardVaultRequest)
+            let vaultResult = try await cardClient.vault(cardVaultRequest)
             setUpdateSetupTokenResult(vaultResult: vaultResult)
         } catch {
             self.state.updateSetupTokenResponse = .error(message: error.localizedDescription)

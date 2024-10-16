@@ -48,7 +48,7 @@ class CardClient_Tests: XCTestCase {
     
     // MARK: - vault() tests
 
-    func testAsyncVault_withValidResponse_returnsSuccess() async throws {
+    func testVault_withValidResponse_returnsSuccess() async throws {
         let setupTokenID = "testToken1"
         let vaultStatus = "APPROVED"
         let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
@@ -58,7 +58,7 @@ class CardClient_Tests: XCTestCase {
         mockVaultAPI.stubSetupTokenResponse = updateSetupTokenResponse
 
         do {
-            let result = try await sut.asyncVault(vaultRequest)
+            let result = try await sut.vault(vaultRequest)
             XCTAssertEqual(result.setupTokenID, setupTokenID)
             XCTAssertEqual(result.status, vaultStatus)
             XCTAssertFalse(result.didAttemptThreeDSecureAuthentication)
@@ -67,7 +67,7 @@ class CardClient_Tests: XCTestCase {
         }
     }
 
-    func testAsyncVault_withValid3DSURLResponse_returnsSuccess() async throws {
+    func testVault_withValid3DSURLResponse_returnsSuccess() async throws {
         let setupTokenID = "testToken1"
         let vaultStatus = "PAYER_ACTION_REQUIRED"
         let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
@@ -77,7 +77,7 @@ class CardClient_Tests: XCTestCase {
         mockVaultAPI.stubSetupTokenResponse = updateSetupTokenResponse
 
         do {
-            let result = try await sut.asyncVault(vaultRequest)
+            let result = try await sut.vault(vaultRequest)
             XCTAssertEqual(result.setupTokenID, setupTokenID)
             XCTAssertNil(result.status)
             XCTAssertTrue(result.didAttemptThreeDSecureAuthentication)
@@ -86,7 +86,7 @@ class CardClient_Tests: XCTestCase {
         }
     }
 
-    func testAsyncVault_withInvalid3DSURLResponse_returnsError() async throws {
+    func testVault_withInvalid3DSURLResponse_returnsError() async throws {
         let setupTokenID = "testToken1"
         let vaultStatus = "PAYER_ACTION_REQUIRED"
         let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
@@ -96,7 +96,7 @@ class CardClient_Tests: XCTestCase {
         mockVaultAPI.stubSetupTokenResponse = updateSetupTokenResponse
 
         do {
-            _ = try await sut.asyncVault(vaultRequest)
+            _ = try await sut.vault(vaultRequest)
             XCTFail("Invoked success() callback. Should invoke error().")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.code, CardClientError.threeDSecureURLError.code)
@@ -105,14 +105,14 @@ class CardClient_Tests: XCTestCase {
         }
     }
 
-    func testAsyncVault_whenVaultAPIError_bubblesError() async throws {
+    func testVault_whenVaultAPIError_bubblesError() async throws {
         let setupTokenID = "testToken1"
         let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
 
         mockVaultAPI.stubError = CoreSDKError(code: 123, domain: "fake-domain", errorDescription: "api-error")
 
         do {
-            _ = try await sut.asyncVault(vaultRequest)
+            _ = try await sut.vault(vaultRequest)
             XCTFail("Invoked success() callback. Should invoke error().")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, "fake-domain")
@@ -121,14 +121,14 @@ class CardClient_Tests: XCTestCase {
         }
     }
 
-    func testAsyncVault_whenUnknownError_returnsVaultError() async throws {
+    func testVault_whenUnknownError_returnsVaultError() async throws {
         let setupTokenID = "testToken1"
         let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
 
         mockVaultAPI.stubError = NSError(domain: "some-domain", code: 123, userInfo: [NSLocalizedDescriptionKey: "some-description"])
 
         do {
-            _ = try await sut.asyncVault(vaultRequest)
+            _ = try await sut.vault(vaultRequest)
             XCTFail("Invoked success() callback. Should invoke error().")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, CardClientError.domain)
@@ -137,13 +137,13 @@ class CardClient_Tests: XCTestCase {
         }
     }
 
-    func test_asyncVault_withThreeDSecure_browserSwitchLaunches_vaultReturnsSuccess() async throws {
+    func test_vault_withThreeDSecure_browserSwitchLaunches_vaultReturnsSuccess() async throws {
         mockVaultAPI.stubSetupTokenResponse = FakeUpdateSetupTokenResponse.withValid3DSURL
 
         mockWebAuthSession.cannedResponseURL = .init(string: "sdk.ios.paypal://vault/success")
 
         do {
-            let result = try await sut.asyncVault(cardVaultRequest)
+            let result = try await sut.vault(cardVaultRequest)
             XCTAssertEqual(result.setupTokenID, "testSetupTokenId")
             XCTAssertNil(result.status)
             XCTAssertTrue(result.didAttemptThreeDSecureAuthentication)
@@ -152,7 +152,7 @@ class CardClient_Tests: XCTestCase {
         }
     }
 
-    func testAsyncVault_withThreeDSecure_userCancelsBrowser() async throws {
+    func testVault_withThreeDSecure_userCancelsBrowser() async throws {
         mockVaultAPI.stubSetupTokenResponse = FakeUpdateSetupTokenResponse.withValid3DSURL
 
         mockWebAuthSession.cannedErrorResponse = ASWebAuthenticationSessionError(
@@ -161,7 +161,7 @@ class CardClient_Tests: XCTestCase {
         )
 
         do {
-            _ = try await sut.asyncVault(cardVaultRequest)
+            _ = try await sut.vault(cardVaultRequest)
             XCTFail("Invoked success() callback. Should invoke error().")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, CardClientError.domain)
@@ -170,7 +170,7 @@ class CardClient_Tests: XCTestCase {
         }
     }
 
-    func testAsyncVault_withThreeDSecure_browserReturnsError() async throws {
+    func testVault_withThreeDSecure_browserReturnsError() async throws {
         mockVaultAPI.stubSetupTokenResponse = FakeUpdateSetupTokenResponse.withValid3DSURL
 
         mockWebAuthSession.cannedErrorResponse = CoreSDKError(
@@ -180,7 +180,7 @@ class CardClient_Tests: XCTestCase {
         )
 
         do {
-            _ = try await sut.asyncVault(cardVaultRequest)
+            _ = try await sut.vault(cardVaultRequest)
             XCTFail("Invoked success() callback. Should invoke error().")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, CardClientError.domain)
@@ -195,7 +195,7 @@ class CardClient_Tests: XCTestCase {
         mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withInvalid3DSURL
 
         do {
-            _ = try await sut.approveOrderAsync(request: cardRequest)
+            _ = try await sut.approveOrder(request: cardRequest)
             XCTFail("Invoked success() callback. Should invoke error().")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.code, 3)
@@ -208,7 +208,7 @@ class CardClient_Tests: XCTestCase {
         mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.without3DS
 
         do {
-            let result = try await sut.approveOrderAsync(request: cardRequest)
+            let result = try await sut.approveOrder(request: cardRequest)
             XCTAssertEqual(result.orderID, "testOrderId")
             XCTAssertEqual(result.status, "APPROVED")
             XCTAssertFalse(result.didAttemptThreeDSecureAuthentication)
@@ -221,7 +221,7 @@ class CardClient_Tests: XCTestCase {
         mockCheckoutOrdersAPI.stubError = CoreSDKError(code: 123, domain: "sdk-domain", errorDescription: "sdk-error-desc")
 
         do {
-            _ = try await sut.approveOrderAsync(request: cardRequest)
+            _ = try await sut.approveOrder(request: cardRequest)
             XCTFail("Invoked success() callback. Should invoke error().")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, "sdk-domain")
@@ -238,7 +238,7 @@ class CardClient_Tests: XCTestCase {
         )
 
         do {
-            _ = try await sut.approveOrderAsync(request: cardRequest)
+            _ = try await sut.approveOrder(request: cardRequest)
             XCTFail("Invoked success() callback. Should invoke error().")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, CardClientError.domain)
@@ -253,7 +253,7 @@ class CardClient_Tests: XCTestCase {
         mockWebAuthSession.cannedResponseURL = .init(string: "sdk.ios.paypal://card/success?state=undefined&code=undefined&liability_shift=POSSIBLE")
 
         do {
-            let result = try await sut.approveOrderAsync(request: cardRequest)
+            let result = try await sut.approveOrder(request: cardRequest)
                 XCTAssertEqual(result.orderID, "testOrderId")
                 XCTAssertNil(result.status)
                 XCTAssertTrue(result.didAttemptThreeDSecureAuthentication)
@@ -271,7 +271,7 @@ class CardClient_Tests: XCTestCase {
         )
 
         do {
-            _ = try await sut.approveOrderAsync(request: cardRequest)
+            _ = try await sut.approveOrder(request: cardRequest)
             XCTFail("Invoked success() callback. Should invoke error().")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, CardClientError.domain)
@@ -290,7 +290,7 @@ class CardClient_Tests: XCTestCase {
         )
 
         do {
-            _ = try await sut.approveOrderAsync(request: cardRequest)
+            _ = try await sut.approveOrder(request: cardRequest)
             XCTFail("Invoked success() callback. Should invoke error().")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, CardClientError.domain)
