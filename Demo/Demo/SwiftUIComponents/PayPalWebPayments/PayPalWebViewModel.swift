@@ -68,12 +68,18 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
                     print("Error initializing PayPalWebCheckoutClient")
                     return
                 }
-
+                
                 if let orderID {
                     let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding)
-                    payPalWebCheckoutClient.start(request: payPalRequest)
+                    let result = try await payPalWebCheckoutClient.asyncStart(request: payPalRequest)
+                    updateState(.success)
+                    DispatchQueue.main.async {
+                        self.checkoutResult = result
+                    }
+                } else {
+                    print("Error starting PayPalWebCheckoutClient")
+                    updateState(.error(message: "Error getting orderID"))
                 }
-                updateState(.success)
             } catch {
                 print("Error starting PayPalWebCheckoutClient")
                 updateState(.error(message: error.localizedDescription))

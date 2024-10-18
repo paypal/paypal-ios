@@ -84,6 +84,64 @@ public class PayPalWebCheckoutClient: NSObject {
         )
     }
 
+    public func asyncStart(request: PayPalWebCheckoutRequest) async throws -> PayPalWebCheckoutResult {
+        analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
+        analyticsService?.sendEvent("paypal-web-payments:started")
+
+        let baseURLString = config.environment.payPalBaseURL.absoluteString
+        let payPalCheckoutURLString =
+        "\(baseURLString)/checkoutnow?token=\(request.orderID)" +
+        "&fundingSource=\(request.fundingSource.rawValue)"
+
+        guard let payPalCheckoutURL = URL(string: payPalCheckoutURLString),
+            let payPalCheckoutURLComponents = payPalCheckoutReturnURL(payPalCheckoutURL: payPalCheckoutURL)
+        else {
+            throw PayPalWebCheckoutClientError.payPalURLError
+        }
+
+        return try await withCheckedThrowingContinuation { continuation in
+            webAuthenticationSession.start(
+                url: payPalCheckoutURLComponents,
+                context: self,
+                sessionDidDisplay: { [weak self] didDisplay in
+                    if didDisplay {
+                        self?.analyticsService?.sendEvent("paypal-web-payments:browser-presentation:succeeded")
+                    } else {
+                        self?.analyticsService?.sendEvent("paypal-web-payments:browser-presentation:failed")
+                    }
+                },
+                sessionDidComplete: { url, error in
+                    if let error = error {
+                        switch error {
+                        case ASWebAuthenticationSessionError.canceledLogin:
+                            self.analyticsService?.sendEvent("card-payments:3ds:challenge:user-canceled")
+                            self.analyticsService?.sendEvent("paypal-web-payments:failed")
+                            continuation.resume(throwing: PayPalWebCheckoutClientError.paypalCancellation)
+                            return
+                        default:
+                            self.analyticsService?.sendEvent("paypal-web-payments:failed")
+                            continuation.resume(throwing: PayPalWebCheckoutClientError.webSessionError(error))
+                        }
+                    }
+
+                    if let url = url {
+                        guard let orderID = self.getQueryStringParameter(url: url.absoluteString, param: "token"),
+                            let payerID = self.getQueryStringParameter(url: url.absoluteString, param: "PayerID") else {
+                            self.analyticsService?.sendEvent("paypal-web-payments:failed")
+                            continuation.resume(throwing: PayPalWebCheckoutClientError.malformedResultError)
+                            return
+                        }
+
+                        let result = PayPalWebCheckoutResult(orderID: orderID, payerID: payerID)
+                        self.analyticsService?.sendEvent("paypal-web-payments:succeeded")
+                        continuation.resume(returning: result)
+                    }
+                }
+            )
+        }
+    }
+
+
     func payPalCheckoutReturnURL(payPalCheckoutURL: URL) -> URL? {
         let bundleID = PayPalCoreConstants.callbackURLScheme
         let redirectURLString = "\(bundleID)://x-callback-url/paypal-sdk/paypal-checkout"
