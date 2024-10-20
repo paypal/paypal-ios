@@ -2,7 +2,7 @@ import UIKit
 import PayPalWebPayments
 import CorePayments
 
-class PayPalVaultViewModel: VaultViewModel, PayPalVaultDelegate {
+class PayPalVaultViewModel: VaultViewModel {
 
     let configManager = CoreConfigManager(domain: "PayPal Vault")
 
@@ -13,36 +13,13 @@ class PayPalVaultViewModel: VaultViewModel, PayPalVaultDelegate {
         do {
             let config = try await configManager.getCoreConfig()
             let paypalClient = PayPalWebCheckoutClient(config: config)
-            paypalClient.vaultDelegate = self
             let vaultRequest = PayPalVaultRequest(setupTokenID: setupTokenID)
-            paypalClient.vault(vaultRequest)
+            let result = try await paypalClient.vault(vaultRequest)
+            DispatchQueue.main.async {
+                self.state.paypalVaultTokenResponse = .loaded(result)
+            }
         } catch {
             print("Error in vaulting PayPal Payment")
         }
-    }
-
-    // MARK: - PayPalVault Delegate
-
-    func paypal(
-        _ paypalWebClient: PayPalWebPayments.PayPalWebCheckoutClient,
-        didFinishWithVaultResult paypalVaultResult: PayPalVaultResult
-    ) {
-        DispatchQueue.main.async {
-            self.state.paypalVaultTokenResponse = .loaded(paypalVaultResult)
-        }
-    }
-
-    func paypal(
-        _ paypalWebClient: PayPalWebPayments.PayPalWebCheckoutClient,
-        didFinishWithVaultError vaultError: CorePayments.CoreSDKError
-    ) {
-
-        DispatchQueue.main.async {
-            self.state.paypalVaultTokenResponse = .error(message: vaultError.localizedDescription)
-        }
-    }
-
-    func paypalDidCancel(_ payPalWebClient: PayPalWebCheckoutClient) {
-        print("PayPal Checkout Canceled")
     }
 }

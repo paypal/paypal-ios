@@ -40,6 +40,8 @@ public class CardClient: NSObject {
     /// If `didAttempt3DSecureVerification` is `true`, check verification status with `/v3/vault/setup-token/{id}` in your server.
     /// - Parameters:
     ///   - vaultRequest: The request containing setupTokenID and card
+    /// - Returns: A `CardVaultResult` with `setupTokenID` and status of the vault
+    /// - Throws: An `Error` describing the failure
     public func vault(_ vaultRequest: CardVaultRequest) async throws -> CardVaultResult {
         analyticsService = AnalyticsService(coreConfig: config, setupToken: vaultRequest.setupTokenID)
         analyticsService?.sendEvent("card-payments:vault-wo-purchase:started")
@@ -68,11 +70,32 @@ public class CardClient: NSObject {
         }
     }
 
+    /// Updates a setup token with a payment method. Performs
+    /// 3DS verification if required. If verification is performed, SDK returns a property `didAttemptThreeDSecureAuthentication`.
+    /// If `didAttempt3DSecureVerification` is `true`, check verification status with `/v3/vault/setup-token/{id}` in your server.
+    /// - Parameters:
+    ///   - vaultRequest: The request containing setupTokenID and card
+    ///   -  completion: A completion block that is invoked when the request is completed. If the request succeeds,
+    ///   a `cardVaultResult` with `setupTokenID` and status of the vault is returned  and `error` will be `nil`;
+    ///   if it fails, `cardVaultResult` will be `nil` and `error` will describe the failure
+    public func vault(_ vaultRequest: CardVaultRequest, completion: @escaping(CardVaultResult?, Error?) -> Void) {
+        Task {
+            do {
+                let result = try await vault(vaultRequest)
+                completion(result, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
     /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
     /// After the order has been successfully approved, you will need to handle capturing/authorizing the order in your server.
     /// - Parameters:
     ///   - orderId: Order id for approval
     ///   - request: The request containing the card
+    /// - Returns: A `CardResult` with `orderID` and status of the approval
+    /// - Throws: An `Error` describing the failure
     public func approveOrder(request: CardRequest) async throws -> CardResult {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         analyticsService?.sendEvent("card-payments:3ds:started")
@@ -102,6 +125,25 @@ public class CardClient: NSObject {
         } catch {
             analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:failed")
             throw CardClientError.unknownError
+        }
+    }
+
+    /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
+    /// After the order has been successfully approved, you will need to handle capturing/authorizing the order in your server.
+    /// - Parameters:
+    ///   - orderId: Order id for approval
+    ///   - request: The request containing the card
+    ///   - completion: A completion block that is invoked when the request is completed. If the request succeeds,
+    ///   a `cardResult` with `orderID` and `payerID` are returned and `error` will be `nil`;
+    ///   if it fails, `cardResult` will be `nil` and `error` will describe the failure
+    public func approveOrder(request: CardRequest, completion: @escaping(CardResult?, Error?) -> Void ) {
+        Task {
+            do {
+                let result = try await approveOrder(request: request)
+                completion(result, nil)
+            } catch {
+                completion(nil, error)
+            }
         }
     }
 
