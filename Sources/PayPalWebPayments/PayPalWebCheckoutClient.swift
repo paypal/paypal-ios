@@ -94,7 +94,7 @@ public class PayPalWebCheckoutClient: NSObject {
     ///   - completion: A completion block that is invoked when the request is completed. If the request succeeds,
     ///   a `PayPalWebCheckoutResult` with `orderID` and `payerID` is returned and `error` will be `nil`;
     ///   if it fails, `PayPalWebCheckoutResult` will be nil and `error` will describe the failure
-    public func start(request: PayPalWebCheckoutRequest, completion: @escaping(PayPalWebCheckoutResult?, Error?) -> Void) {
+    public func start(request: PayPalWebCheckoutRequest, completion: @escaping (PayPalWebCheckoutResult?, Error?) -> Void) {
         Task {
             do {
                 let result = try await start(request: request)
@@ -154,32 +154,20 @@ public class PayPalWebCheckoutClient: NSObject {
                         case ASWebAuthenticationSessionError.canceledLogin:
                             self.analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:canceled")
                             continuation.resume(throwing: PayPalWebCheckoutClientError.paypalCancellation)
-                            return
                         default:
                             self.analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:failed")
                             continuation.resume(throwing: PayPalWebCheckoutClientError.webSessionError(error))
-                            return
                         }
-                    }
-
-                    if let url = url {
-                        guard let tokenID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_token_id"),
+                    } else if let url = url,
+                        let tokenID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_token_id"),
                             let approvalSessionID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_session_id"),
-                            !tokenID.isEmpty, !approvalSessionID.isEmpty
-                        else {
-                            self.analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:failed")
-                            continuation.resume(throwing: PayPalWebCheckoutClientError.payPalVaultResponseError)
-                            return
-                        }
-
+                            !tokenID.isEmpty, !approvalSessionID.isEmpty {
                         let paypalVaultResult = PayPalVaultResult(tokenID: tokenID, approvalSessionID: approvalSessionID)
                         self.analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:succeeded")
                         continuation.resume(returning: paypalVaultResult)
-                        return
                     } else {
                         self.analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:failed")
-                        continuation.resume(throwing: PayPalWebCheckoutClientError.payPalURLError)
-                        return
+                        continuation.resume(throwing: PayPalWebCheckoutClientError.payPalVaultResponseError)
                     }
                 }
             )
@@ -193,7 +181,7 @@ public class PayPalWebCheckoutClient: NSObject {
     ///   - completion: A completion blokc that is invoked when the request is completed. If the request succeeds,
     ///   a `PayPalVaultResult` with `tokenID` and `approvalSessionID` is returned and `error` will be `nil`;
     ///   if it fails, `PayPalVaultResult` will be `nil` and `error will describe the failure`
-    public func vault(_ vaultRequest: PayPalVaultRequest, completion: @escaping(PayPalVaultResult?, Error?) -> Void) {
+    public func vault(_ vaultRequest: PayPalVaultRequest, completion: @escaping (PayPalVaultResult?, Error?) -> Void) {
         Task {
             do {
                 let vaultResult = try await vault(vaultRequest)

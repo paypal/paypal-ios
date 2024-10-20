@@ -78,7 +78,7 @@ public class CardClient: NSObject {
     ///   -  completion: A completion block that is invoked when the request is completed. If the request succeeds,
     ///   a `cardVaultResult` with `setupTokenID` and status of the vault is returned  and `error` will be `nil`;
     ///   if it fails, `cardVaultResult` will be `nil` and `error` will describe the failure
-    public func vault(_ vaultRequest: CardVaultRequest, completion: @escaping(CardVaultResult?, Error?) -> Void) {
+    public func vault(_ vaultRequest: CardVaultRequest, completion: @escaping (CardVaultResult?, Error?) -> Void) {
         Task {
             do {
                 let result = try await vault(vaultRequest)
@@ -136,7 +136,7 @@ public class CardClient: NSObject {
     ///   - completion: A completion block that is invoked when the request is completed. If the request succeeds,
     ///   a `cardResult` with `orderID` and `payerID` are returned and `error` will be `nil`;
     ///   if it fails, `cardResult` will be `nil` and `error` will describe the failure
-    public func approveOrder(request: CardRequest, completion: @escaping(CardResult?, Error?) -> Void ) {
+    public func approveOrder(request: CardRequest, completion: @escaping (CardResult?, Error?) -> Void ) {
         Task {
             do {
                 let result = try await approveOrder(request: request)
