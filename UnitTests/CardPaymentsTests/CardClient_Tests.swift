@@ -22,7 +22,6 @@ class CardClient_Tests: XCTestCase {
 
     let mockWebAuthSession = MockWebAuthenticationSession()
     var mockNetworkingClient: MockNetworkingClient!
-    var mockCardVaultDelegate: MockCardVaultDelegate!
     var mockCheckoutOrdersAPI: MockCheckoutOrdersAPI!
     var mockVaultAPI: MockVaultPaymentTokensAPI!
 
@@ -60,18 +59,15 @@ class CardClient_Tests: XCTestCase {
         mockVaultAPI.stubSetupTokenResponse = updateSetupTokenResponse
         
         let expectation = expectation(description: "vault completed")
-        let cardVaultDelegate = MockCardVaultDelegate(success: {_, result in
-            XCTAssertEqual(result.setupTokenID, setupTokenID)
-            XCTAssertEqual(result.status, vaultStatus)
-            XCTAssertFalse(result.didAttemptThreeDSecureAuthentication)
+
+        sut.vault(vaultRequest) { result, error in
+            XCTAssertEqual(result?.setupTokenID, setupTokenID)
+            XCTAssertEqual(result?.status, vaultStatus)
+            XCTAssertNil(error)
             expectation.fulfill()
-        }, error: {_, _ in
-            XCTFail("Invoked error() callback. Should invoke success().")
-        })
-        sut.vaultDelegate = cardVaultDelegate
-        sut.vault(vaultRequest)
-        
-        waitForExpectations(timeout: 10)
+        }
+
+        waitForExpectations(timeout: 2, handler: nil)
     }
  
     func testVault_withValid3DSURLResponse_returnsSuccess() {
@@ -84,21 +80,23 @@ class CardClient_Tests: XCTestCase {
         mockVaultAPI.stubSetupTokenResponse = updateSetupTokenResponse
 
         let expectation = expectation(description: "vault completed")
-        let cardVaultDelegate = MockCardVaultDelegate(success: {_, result in
-            XCTAssertEqual(result.setupTokenID, setupTokenID)
-            XCTAssertNil(result.status)
-            XCTAssertTrue(result.didAttemptThreeDSecureAuthentication)
-            expectation.fulfill()
-        }, error: {_, _ in
-            XCTFail("Invoked error() callback. Should invoke success().")
-        })
-        sut.vaultDelegate = cardVaultDelegate
-        sut.vault(vaultRequest)
+        sut.vault(vaultRequest) { result, error in
+            if let result {
+                XCTAssertEqual(result.setupTokenID, setupTokenID)
+                XCTAssertNil(result.status)
+                XCTAssertTrue(result.didAttemptThreeDSecureAuthentication)
+            } else {
+                XCTFail("expected result not to be nil")
+            }
 
-        waitForExpectations(timeout: 10)
+            XCTAssertNil(error)
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testVault_withInvalid3DSURLResponse_returnsSuccess() {
+    func testVault_withInvalid3DSURLResponse_returnsError() {
         let setupTokenID = "testToken1"
         let vaultStatus = "PAYER_ACTION_REQUIRED"
         let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
@@ -108,18 +106,20 @@ class CardClient_Tests: XCTestCase {
         mockVaultAPI.stubSetupTokenResponse = updateSetupTokenResponse
 
         let expectation = expectation(description: "vault completed")
-        let cardVaultDelegate = MockCardVaultDelegate(success: {_, _ in
-            XCTFail("Invoked success() callback. Should invoke error().")
-        }, error: {_, error in
-            XCTAssertEqual(error.code, CardClientError.threeDSecureURLError.code)
-            XCTAssertEqual(error.domain, CardClientError.domain)
-            XCTAssertEqual(error.localizedDescription, CardClientError.threeDSecureURLError.localizedDescription)
-            expectation.fulfill()
-        })
-        sut.vaultDelegate = cardVaultDelegate
-        sut.vault(vaultRequest)
 
-        waitForExpectations(timeout: 10)
+        sut.vault(vaultRequest) { result, error in
+            XCTAssertNil(result)
+            if let error = error as? CoreSDKError {
+                XCTAssertEqual(error.domain, CardClientError.domain)
+                XCTAssertEqual(error.code, CardClientError.threeDSecureURLError.code)
+                XCTAssertEqual(error.localizedDescription, CardClientError.threeDSecureURLError.localizedDescription)
+            } else {
+                XCTFail("Expected error to be of type CoreSDKError")
+            }
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     func testVault_whenVaultAPIError_bubblesError() {
@@ -129,18 +129,20 @@ class CardClient_Tests: XCTestCase {
         mockVaultAPI.stubError = CoreSDKError(code: 123, domain: "fake-domain", errorDescription: "api-error")
 
         let expectation = expectation(description: "vault completed")
-        let cardVaultDelegate = MockCardVaultDelegate(success: {_, _ in
-            XCTFail("Invoked success() callback. Should invoke error().")
-        }, error: {_, error in
-            XCTAssertEqual(error.domain, "fake-domain")
-            XCTAssertEqual(error.code, 123)
-            XCTAssertEqual(error.localizedDescription, "api-error")
-            expectation.fulfill()
-        })
-        sut.vaultDelegate = cardVaultDelegate
-        sut.vault(vaultRequest)
 
-        waitForExpectations(timeout: 10)
+        sut.vault(vaultRequest) { result, error in
+            XCTAssertNil(result)
+            if let error = error as? CoreSDKError {
+                XCTAssertEqual(error.domain, "fake-domain")
+                XCTAssertEqual(error.code, 123)
+                XCTAssertEqual(error.localizedDescription, "api-error")
+            } else {
+                XCTFail("Expected error to be of type CoreSDKError")
+            }
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     func testVault_whenUnknownError_returnsVaultError() {
@@ -150,18 +152,19 @@ class CardClient_Tests: XCTestCase {
         mockVaultAPI.stubError = NSError(domain: "some-domain", code: 123, userInfo: [NSLocalizedDescriptionKey: "some-description"])
 
         let expectation = expectation(description: "vault completed")
-        let cardVaultDelegate = MockCardVaultDelegate(success: {_, _ in
-            XCTFail("Invoked success() callback. Should invoke error().")
-        }, error: {_, error in
-            XCTAssertEqual(error.domain, CardClientError.domain)
-            XCTAssertEqual(error.code, CardClientError.Code.vaultTokenError.rawValue)
-            XCTAssertEqual(error.localizedDescription, "An error occurred while vaulting a card.")
+        sut.vault(vaultRequest) { result, error in
+            XCTAssertNil(result)
+            if let error = error as? CoreSDKError {
+                XCTAssertEqual(error.domain, CardClientError.domain)
+                XCTAssertEqual(error.code, CardClientError.Code.vaultTokenError.rawValue)
+                XCTAssertEqual(error.localizedDescription, "An error occurred while vaulting a card.")
+            } else {
+                XCTFail("Expected error to be of type CoreSDKError")
+            }
             expectation.fulfill()
-        })
-        sut.vaultDelegate = cardVaultDelegate
-        sut.vault(vaultRequest)
+        }
 
-        waitForExpectations(timeout: 10)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     func test_vault_withThreeDSecure_browserSwitchLaunches_vaultReturnsSuccess() {
@@ -171,26 +174,19 @@ class CardClient_Tests: XCTestCase {
 
         let expectation = expectation(description: "vault() completed")
 
-        let mockCardVaultDelegate = MockCardVaultDelegate(
-            success: {_, result in
+        sut.vault(cardVaultRequest) { result, error in
+            XCTAssertNil(error)
+            if let result {
                 XCTAssertEqual(result.setupTokenID, "testSetupTokenId")
                 XCTAssertNil(result.status)
                 XCTAssertTrue(result.didAttemptThreeDSecureAuthentication)
-                expectation.fulfill()
-            },
-            error: { _, error in
-                XCTFail(error.localizedDescription)
-                expectation.fulfill()
-            },
-            cancel: { _ in XCTFail("Invoked cancel() callback. Should invoke success().") },
-            threeDSWillLaunch: { _ in XCTAssert(true) },
-            threeDSLaunched: { _ in XCTAssert(true) }
-        )
+            } else {
+                XCTFail("Expected result not to be nil")
+            }
+            expectation.fulfill()
+        }
 
-        sut.vaultDelegate = mockCardVaultDelegate
-        sut.vault(cardVaultRequest)
-
-        waitForExpectations(timeout: 10)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     func testVault_withThreeDSecure_userCancelsBrowser() {
@@ -203,27 +199,19 @@ class CardClient_Tests: XCTestCase {
 
         let expectation = expectation(description: "vault() completed")
 
-        let mockCardVaultDelegate = MockCardVaultDelegate(
-            success: {_, _ in
-                XCTFail("Invoked success() callback. Should invoke cancel().")
-                expectation.fulfill()
-            },
-            error: { _, error in
-                XCTFail(error.localizedDescription)
-                expectation.fulfill()
-            },
-            cancel: { _ in
-                XCTAssert(true)
-                expectation.fulfill()
-            },
-            threeDSWillLaunch: { _ in XCTAssert(true) },
-            threeDSLaunched: { _ in XCTAssert(true) }
-        )
+        sut.vault(cardVaultRequest) { result, error in
+            XCTAssertNil(result)
+            if let error = error as? CoreSDKError {
+                XCTAssertEqual(error.domain, CardClientError.domain)
+                XCTAssertEqual(error.code, CardClientError.Code.threeDSCancellation.rawValue)
+                XCTAssertEqual(error.localizedDescription, CardClientError.threeDSecureCancellation.localizedDescription)
+            } else {
+                XCTFail("Expected error to be of type CoreSDKError")
+            }
+            expectation.fulfill()
+        }
 
-        sut.vaultDelegate = mockCardVaultDelegate
-        sut.vault(cardVaultRequest)
-
-        waitForExpectations(timeout: 10)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     func testVault_withThreeDSecure_browserReturnsError() {
@@ -237,29 +225,19 @@ class CardClient_Tests: XCTestCase {
 
         let expectation = expectation(description: "vault() completed")
 
-        let mockCardVaultDelegate = MockCardVaultDelegate(
-            success: {_, _ in
-                XCTFail("Invoked success() callback. Should invoke error().")
-                expectation.fulfill()
-            },
-            error: { _, error in
+        sut.vault(cardVaultRequest) { result, error in
+            XCTAssertNil(result)
+            if let error = error as? CoreSDKError {
                 XCTAssertEqual(error.domain, CardClientError.domain)
                 XCTAssertEqual(error.code, CardClientError.Code.threeDSecureError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "Mock web session error description.")
-                expectation.fulfill()
-            },
-            cancel: { _ in
-                XCTFail("Invoked cancel() callback. Should invoke error().")
-                expectation.fulfill()
-            },
-            threeDSWillLaunch: { _ in XCTAssert(true) },
-            threeDSLaunched: { _ in XCTAssert(true) }
-        )
+            } else {
+                XCTFail("Expected error to be of type CoreSDKError")
+            }
+            expectation.fulfill()
+        }
 
-        sut.vaultDelegate = mockCardVaultDelegate
-        sut.vault(cardVaultRequest)
-
-        waitForExpectations(timeout: 10)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     // MARK: - approveOrder() tests
