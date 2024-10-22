@@ -34,7 +34,7 @@ public class PayPalWebCheckoutClient: NSObject {
     ///   - completion: A completion block that is invoked when the request is completed. If the request succeeds,
     ///   a `PayPalWebCheckoutResult` with `orderID` and `payerID` are returned and `error` will be `nil`;
     ///   if it fails, `PayPalWebCheckoutResult will be `nil` and `error` will describe the failure
-    public func start(request: PayPalWebCheckoutRequest, completion: @escaping(PayPalWebCheckoutResult?, Error?) -> Void) {
+    public func start(request: PayPalWebCheckoutRequest, completion: @escaping (PayPalWebCheckoutResult?, Error?) -> Void) {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         analyticsService?.sendEvent("paypal-web-payments:started")
         
