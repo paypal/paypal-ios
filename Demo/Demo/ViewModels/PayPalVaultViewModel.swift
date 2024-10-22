@@ -20,6 +20,9 @@ class PayPalVaultViewModel: VaultViewModel {
             }
         } catch {
             print("Error in vaulting PayPal Payment")
+            DispatchQueue.main.async {
+                self.state.paypalVaultTokenResponse = .error(message: error.localizedDescription)
+            }
         }
     }
 }
