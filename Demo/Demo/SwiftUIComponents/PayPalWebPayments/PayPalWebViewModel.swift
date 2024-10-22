@@ -3,7 +3,7 @@ import CorePayments
 import PayPalWebPayments
 import FraudProtection
 
-class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
+class PayPalWebViewModel: ObservableObject {
 
     @Published var state: CurrentState = .idle
     @Published var intent: Intent = .authorize

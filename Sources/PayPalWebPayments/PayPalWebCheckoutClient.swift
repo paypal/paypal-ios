@@ -6,7 +6,6 @@ import CorePayments
 
 public class PayPalWebCheckoutClient: NSObject {
 
-    public weak var vaultDelegate: PayPalVaultDelegate?
     let config: CoreConfig
     private let webAuthenticationSession: WebAuthenticationSession
     private let networkingClient: NetworkingClient
