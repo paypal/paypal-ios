@@ -71,7 +71,14 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
                 if let orderID {
                     let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding)
-                    payPalWebCheckoutClient.start(request: payPalRequest)
+                    payPalWebCheckoutClient.start(request: payPalRequest) { result, error in
+                        if let error {
+                            self.updateState(.error(message: error.localizedDescription))
+                        } else {
+                            self.updateState(.success)
+                            self.checkoutResult = result
+                        }
+                    }
                 }
                 updateState(.success)
             } catch {
