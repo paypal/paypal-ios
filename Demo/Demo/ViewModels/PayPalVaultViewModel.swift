@@ -13,11 +13,23 @@ class PayPalVaultViewModel: VaultViewModel, PayPalVaultDelegate {
         do {
             let config = try await configManager.getCoreConfig()
             let paypalClient = PayPalWebCheckoutClient(config: config)
-            paypalClient.vaultDelegate = self
             let vaultRequest = PayPalVaultRequest(setupTokenID: setupTokenID)
-            paypalClient.vault(vaultRequest)
+            paypalClient.vault(vaultRequest) { result, error in
+                if let error {
+                    DispatchQueue.main.async {
+                        self.state.paypalVaultTokenResponse = .error(message: error.localizedDescription)
+                    }
+                } else if let result {
+                    DispatchQueue.main.async {
+                        self.state.paypalVaultTokenResponse = .loaded(result)
+                    }
+                }
+            }
         } catch {
             print("Error in vaulting PayPal Payment")
+            DispatchQueue.main.async {
+                self.state.paypalVaultTokenResponse = .error(message: error.localizedDescription)
+            }
         }
     }
 
