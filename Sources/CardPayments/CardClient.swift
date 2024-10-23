@@ -5,9 +5,6 @@ import CorePayments
 #endif
 
 public class CardClient: NSObject {
-
-    public weak var delegate: CardDelegate?
-    public weak var vaultDelegate: CardVaultDelegate?
     
     private let checkoutOrdersAPI: CheckoutOrdersAPI
     private let vaultAPI: VaultPaymentTokensAPI
@@ -43,7 +40,10 @@ public class CardClient: NSObject {
     /// If `didAttempt3DSecureVerification` is `true`, check verification status with `/v3/vault/setup-token/{id}` in your server.
     /// - Parameters:
     ///   - vaultRequest: The request containing setupTokenID and card
-    public func vault(_ vaultRequest: CardVaultRequest) {
+    ///   - completion: A completion block that is invoked when the request is completed. If the request succeeds,
+    ///   a `CardVaultResult` with `setupTokenID` and `status` are returned and `error` will be `nil`;
+    ///   if it fails, `CardVaultResult will be `nil` and `error` will describe the failure
+    public func vault(_ vaultRequest: CardVaultRequest, completion: @escaping (CardVaultResult?, Error?) -> Void) {
         analyticsService = AnalyticsService(coreConfig: config, setupToken: vaultRequest.setupTokenID)
         analyticsService?.sendEvent("card-payments:vault-wo-purchase:started")
         Task {
@@ -53,29 +53,51 @@ public class CardClient: NSObject {
                 if result.status == "PAYER_ACTION_REQUIRED",
                 let urlString = result.links.first(where: { $0.rel == "approve" })?.href {
                     guard urlString.contains("helios"), let url = URL(string: urlString) else {
-                        self.notifyVaultFailure(with: CardClientError.threeDSecureURLError)
+                        self.notifyVaultFailure(with: CardClientError.threeDSecureURLError, completion: completion)
                         return
                     }
                     analyticsService?.sendEvent("card-payments:vault-wo-purchase:challenge-required")
-                    startVaultThreeDSecureChallenge(url: url, setupTokenID: vaultRequest.setupTokenID)
+                    startVaultThreeDSecureChallenge(url: url, setupTokenID: vaultRequest.setupTokenID, completion: completion)
                 } else {
                     let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status, didAttemptThreeDSecureAuthentication: false)
-                    notifyVaultSuccess(for: vaultResult)
+                    notifyVaultSuccess(for: vaultResult, completion: completion)
                 }
             } catch let error as CoreSDKError {
-                notifyVaultFailure(with: error)
+                notifyVaultFailure(with: error, completion: completion)
             } catch {
-                notifyVaultFailure(with: CardClientError.vaultTokenError)
+                notifyVaultFailure(with: CardClientError.vaultTokenError, completion: completion)
             }
         }
     }
-           
+
+    /// Updates a setup token with a payment method. Performs
+    /// 3DS verification if required. If verification is performed, SDK returns a property `didAttemptThreeDSecureAuthentication`.
+    /// If `didAttempt3DSecureVerification` is `true`, check verification status with `/v3/vault/setup-token/{id}` in your server.
+    /// - Parameters:
+    ///   - vaultRequest: The request containing setupTokenID and card
+    /// - Returns: `CardVaultResult` if successful
+    /// - Throws: An `Error` describing failure
+    public func vault(_ vaultRequest: CardVaultRequest) async throws -> CardVaultResult {
+        try await withCheckedThrowingContinuation { continuation in
+            vault(vaultRequest) { result, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else if let result {
+                    continuation.resume(returning: result)
+                }
+            }
+        }
+    }
+
     /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
     /// After the order has been successfully approved, you will need to handle capturing/authorizing the order in your server.
     /// - Parameters:
     ///   - orderId: Order id for approval
     ///   - request: The request containing the card
-    public func approveOrder(request: CardRequest) {
+    ///   - completion: A completion block that is invoked when the request is completed. If the request succeeds,
+    ///   a `CardResult` with `orderID` , `status` and `didAttemptThreeDSecureAuthentication` are returned and `error` will be `nil`;
+    ///   if it fails, `CardResult will be `nil` and `error` will describe the failure
+    public func approveOrder(request: CardRequest, completion: @escaping (CardResult?, Error?) -> Void) {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         analyticsService?.sendEvent("card-payments:3ds:started")
         Task {
@@ -87,33 +109,52 @@ public class CardClient: NSObject {
                     guard getQueryStringParameter(url: url, param: "flow") == "3ds",
                         url.contains("helios"),
                         let url = URL(string: url) else {
-                        self.notifyFailure(with: CardClientError.threeDSecureURLError)
+                        self.notifyCheckoutFailure(with: CardClientError.threeDSecureURLError, completion: completion)
                         return
                     }
                 
                     analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:challenge-required")
-                    startThreeDSecureChallenge(url: url, orderId: result.id)
+                    startThreeDSecureChallenge(url: url, orderId: result.id, completion: completion)
                 } else {
                     analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:succeeded")
                     
                     let cardResult = CardResult(orderID: result.id, status: result.status, didAttemptThreeDSecureAuthentication: false)
-                    notifySuccess(for: cardResult)
+                    notifyCheckoutSuccess(for: cardResult, completion: completion)
                 }
             } catch let error as CoreSDKError {
                 analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:failed")
-                notifyFailure(with: error)
+                notifyCheckoutFailure(with: error, completion: completion)
             } catch {
                 analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:failed")
-                notifyFailure(with: CardClientError.unknownError)
+                notifyCheckoutFailure(with: CardClientError.unknownError, completion: completion)
+            }
+        }
+    }
+
+    /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
+    /// After the order has been successfully approved, you will need to handle capturing/authorizing the order in your server.
+    /// - Parameters:
+    ///   - orderId: Order id for approval
+    ///   - request: The request containing the card
+    /// - Returns: `CardResult` if successful
+    /// - Throws: An `Error` describing failure
+    public func approveOrder(request: CardRequest) async throws -> CardResult {
+        try await withCheckedThrowingContinuation { continuation in
+            approveOrder(request: request) { result, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else if let result {
+                    continuation.resume(returning: result)
+                }
             }
         }
     }
 
     private func startThreeDSecureChallenge(
         url: URL,
-        orderId: String
+        orderId: String,
+        completion: @escaping (CardResult?, Error?) -> Void
     ) {
-        delegate?.cardThreeDSecureWillLaunch(self)
         
         webAuthenticationSession.start(
             url: url,
@@ -126,20 +167,19 @@ public class CardClient: NSObject {
                 }
             },
             sessionDidComplete: { _, error in
-                self.delegate?.cardThreeDSecureDidFinish(self)
                 if let error = error {
                     switch error {
                     case ASWebAuthenticationSessionError.canceledLogin:
-                        self.notifyCancellation()
+                        self.notifyCheckoutCancelWithError(with: CardClientError.threeDSecureCancellation, completion: completion)
                         return
                     default:
-                        self.notifyFailure(with: CardClientError.threeDSecureError(error))
+                        self.notifyCheckoutFailure(with: CardClientError.threeDSecureError(error), completion: completion)
                         return
                     }
                 }
 
                 let cardResult = CardResult(orderID: orderId, status: nil, didAttemptThreeDSecureAuthentication: true)
-                self.notifySuccess(for: cardResult)
+                self.notifyCheckoutSuccess(for: cardResult, completion: completion)
             }
         )
     }
@@ -149,8 +189,7 @@ public class CardClient: NSObject {
         return url.queryItems?.first { $0.name == param }?.value
     }
 
-    private func startVaultThreeDSecureChallenge(url: URL, setupTokenID: String) {
-        vaultDelegate?.cardThreeDSecureWillLaunch(self)
+    private func startVaultThreeDSecureChallenge(url: URL, setupTokenID: String, completion: @escaping (CardVaultResult?, Error?) -> Void) {
 
         webAuthenticationSession.start(
             url: url,
@@ -164,52 +203,51 @@ public class CardClient: NSObject {
                 }
             },
             sessionDidComplete: { _, error in
-                self.vaultDelegate?.cardThreeDSecureDidFinish(self)
                 if let error = error {
                     switch error {
                     case ASWebAuthenticationSessionError.canceledLogin:
-                        self.notifyVaultCancellation()
+                        self.notifyVaultCancelWithError(with: CardClientError.threeDSecureCancellation, completion: completion)
                         return
                     default:
-                        self.notifyVaultFailure(with: CardClientError.threeDSecureError(error))
+                        self.notifyVaultFailure(with: CardClientError.threeDSecureError(error), completion: completion)
                         return
                     }
                 }
 
                 let cardVaultResult = CardVaultResult(setupTokenID: setupTokenID, status: nil, didAttemptThreeDSecureAuthentication: true)
-                self.notifyVaultSuccess(for: cardVaultResult)
+                self.notifyVaultSuccess(for: cardVaultResult, completion: completion)
             }
         )
     }
 
-    private func notifySuccess(for result: CardResult) {
+    private func notifyCheckoutSuccess(for result: CardResult, completion: (CardResult?, Error?) -> Void) {
         analyticsService?.sendEvent("card-payments:3ds:succeeded")
-        delegate?.card(self, didFinishWithResult: result)
+        completion(result, nil)
     }
 
-    private func notifyFailure(with error: CoreSDKError) {
+    private func notifyCheckoutFailure(with error: CoreSDKError, completion: (CardResult?, Error?) -> Void) {
         analyticsService?.sendEvent("card-payments:3ds:failed")
-        delegate?.card(self, didFinishWithError: error)
-    }
-    
-    private func notifyVaultSuccess(for vaultResult: CardVaultResult) {
-        analyticsService?.sendEvent("card-payments:vault-wo-purchase:succeeded")
-        vaultDelegate?.card(self, didFinishWithVaultResult: vaultResult)
+        completion(nil, error)
     }
 
-    private func notifyVaultFailure(with vaultError: CoreSDKError) {
-        analyticsService?.sendEvent("card-payments:vault-wo-purchase:failed")
-        vaultDelegate?.card(self, didFinishWithVaultError: vaultError)
-    }
-
-    private func notifyCancellation() {
+    private func notifyCheckoutCancelWithError(with error: CoreSDKError, completion: (CardResult?, Error?) -> Void) {
         analyticsService?.sendEvent("card-payments:3ds:challenge:user-canceled")
-        delegate?.cardDidCancel(self)
+        completion(nil, error)
     }
 
-    private func notifyVaultCancellation() {
+    private func notifyVaultSuccess(for vaultResult: CardVaultResult, completion: (CardVaultResult?, Error?) -> Void) {
+        analyticsService?.sendEvent("card-payments:vault-wo-purchase:succeeded")
+        completion(vaultResult, nil)
+    }
+
+    private func notifyVaultFailure(with vaultError: CoreSDKError, completion: (CardVaultResult?, Error?) -> Void) {
+        analyticsService?.sendEvent("card-payments:vault-wo-purchase:failed")
+        completion(nil, vaultError)
+    }
+
+    private func notifyVaultCancelWithError(with vaultError: CoreSDKError, completion: (CardVaultResult?, Error?) -> Void) {
         analyticsService?.sendEvent("card-payments:vault-wo-purchase:challenge:canceled")
-        vaultDelegate?.cardThreeDSecureDidCancel(self)
+        completion(nil, vaultError)
     }
 }
 

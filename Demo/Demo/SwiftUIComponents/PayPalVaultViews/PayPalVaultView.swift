@@ -15,13 +15,18 @@ struct PayPalVaultView: View {
                     )
                     SetupTokenResultView(vaultViewModel: paypalVaultViewModel)
                     if let setupTokenID = paypalVaultViewModel.state.setupToken?.id {
-                        Button("Vault PayPal") {
-                            Task {
-                                await paypalVaultViewModel.vault(setupTokenID: setupTokenID)
+                        ZStack {
+                            Button("Vault PayPal") {
+                                Task {
+                                    await paypalVaultViewModel.vault(setupTokenID: setupTokenID)
+                                }
+                            }
+                            .buttonStyle(RoundedBlueButtonStyle())
+                            .padding()
+                            if case .loading = paypalVaultViewModel.state.paypalVaultTokenResponse {
+                                CircularProgressView()
                             }
                         }
-                        .buttonStyle(RoundedBlueButtonStyle())
-                        .padding()
                     }
                     PayPalVaultResultView(viewModel: paypalVaultViewModel)
                     if let paypalVaultResult = paypalVaultViewModel.state.paypalVaultToken {
