@@ -184,7 +184,7 @@ public class PayPalWebCheckoutClient: NSObject {
     /// - Parameters:
     ///   - vaultRequest: Request created with url for vault approval and setupTokenID
     /// - Returns: `PayPalVaultResult`if successful
-    /// - Throws: `An `Error` describing failure
+    /// - Throws: An `Error` describing failure
     public func vault(_ vaultRequest: PayPalVaultRequest) async throws -> PayPalVaultResult {
         try await withCheckedThrowingContinuation { continuation in
             vault(vaultRequest) { result, error in

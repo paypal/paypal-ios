@@ -71,7 +71,26 @@ public class CardClient: NSObject {
             }
         }
     }
-           
+
+    /// Updates a setup token with a payment method. Performs
+    /// 3DS verification if required. If verification is performed, SDK returns a property `didAttemptThreeDSecureAuthentication`.
+    /// If `didAttempt3DSecureVerification` is `true`, check verification status with `/v3/vault/setup-token/{id}` in your server.
+    /// - Parameters:
+    ///   - vaultRequest: The request containing setupTokenID and card
+    /// - Returns: `CardVaultResult` if successful
+    /// - Throws: An `Error` describing failure
+    public func vault(_ vaultRequest: CardVaultRequest) async throws -> CardVaultResult {
+        try await withCheckedThrowingContinuation { continuation in
+            vault(vaultRequest) { result, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else if let result {
+                    continuation.resume(returning: result)
+                }
+            }
+        }
+    }
+
     /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
     /// After the order has been successfully approved, you will need to handle capturing/authorizing the order in your server.
     /// - Parameters:
@@ -110,6 +129,25 @@ public class CardClient: NSObject {
             } catch {
                 analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:failed")
                 notifyCheckoutFailure(with: CardClientError.unknownError, completion: completion)
+            }
+        }
+    }
+
+    /// Approve an order with a card, which validates buyer's card, and if valid, attaches the card as the payment source to the order.
+    /// After the order has been successfully approved, you will need to handle capturing/authorizing the order in your server.
+    /// - Parameters:
+    ///   - orderId: Order id for approval
+    ///   - request: The request containing the card
+    /// - Returns: `CardResult` if successful
+    /// - Throws: An `Error` describing failure
+    public func approveOrder(request: CardRequest) async throws -> CardResult {
+        try await withCheckedThrowingContinuation { continuation in
+            approveOrder(request: request) { result, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else if let result {
+                    continuation.resume(returning: result)
+                }
             }
         }
     }
