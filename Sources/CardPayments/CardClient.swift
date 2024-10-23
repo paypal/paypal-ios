@@ -117,15 +117,18 @@ public class CardClient: NSObject {
                 return cardResult
             } else {
                 analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:succeeded")
+                analyticsService?.sendEvent("card-payments:3ds:succeeded")
 
                 let cardResult = CardResult(orderID: result.id, status: result.status, didAttemptThreeDSecureAuthentication: false)
                 return cardResult
             }
         } catch let error as CoreSDKError {
             analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:failed")
+            analyticsService?.sendEvent("card-payments:3ds:failed")
             throw error
         } catch {
             analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:failed")
+            analyticsService?.sendEvent("card-payments:3ds:failed")
             throw CardClientError.unknownError
         }
     }
@@ -209,7 +212,7 @@ public class CardClient: NSObject {
                             continuation.resume(throwing: CardClientError.threeDSecureCancellation)
                             return
                         default:
-                            self.analyticsService?.sendEvent("card-payments:3ds:failed")
+                            self.analyticsService?.sendEvent("card-payments:vault-wo-purchase:failed")
                             continuation.resume(throwing: CardClientError.threeDSecureError(error))
                             return
                         }
@@ -220,7 +223,7 @@ public class CardClient: NSObject {
                         status: nil,
                         didAttemptThreeDSecureAuthentication: true
                     )
-                    self.analyticsService?.sendEvent("card-payments:3ds:succeeded")
+                    self.analyticsService?.sendEvent("card-payments:vault-wo-purchase:succeeded")
                     continuation.resume(returning: cardVaultResult)
                 }
             )
