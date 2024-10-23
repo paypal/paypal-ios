@@ -5,8 +5,6 @@ import CorePayments
 #endif
 
 public class CardClient: NSObject {
-
-    public weak var delegate: CardDelegate?
     
     private let checkoutOrdersAPI: CheckoutOrdersAPI
     private let vaultAPI: VaultPaymentTokensAPI
@@ -157,7 +155,6 @@ public class CardClient: NSObject {
         orderId: String,
         completion: @escaping (CardResult?, Error?) -> Void
     ) {
-        delegate?.cardThreeDSecureWillLaunch(self)
         
         webAuthenticationSession.start(
             url: url,
@@ -170,7 +167,6 @@ public class CardClient: NSObject {
                 }
             },
             sessionDidComplete: { _, error in
-                self.delegate?.cardThreeDSecureDidFinish(self)
                 if let error = error {
                     switch error {
                     case ASWebAuthenticationSessionError.canceledLogin:

@@ -3,7 +3,7 @@ import CardPayments
 import CorePayments
 import FraudProtection
 
-class CardPaymentViewModel: ObservableObject, CardDelegate {
+class CardPaymentViewModel: ObservableObject {
 
     @Published var state = CardPaymentState()
     private var payPalDataCollector: PayPalDataCollector?
@@ -117,7 +117,6 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
             let config = try await configManager.getCoreConfig()
             cardClient = CardClient(config: config)
             payPalDataCollector = PayPalDataCollector(config: config)
-            cardClient?.delegate = self
             let cardRequest = CardRequest(orderID: orderID, card: card, sca: sca)
             cardClient?.approveOrder(request: cardRequest) { result, error in
                 if let error {
