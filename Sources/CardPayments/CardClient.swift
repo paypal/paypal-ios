@@ -77,6 +77,9 @@ public class CardClient: NSObject {
     /// - Parameters:
     ///   - orderId: Order id for approval
     ///   - request: The request containing the card
+    ///   - completion: A completion block that is invoked when the request is completed. If the request succeeds,
+    ///   a `CardResult` with `orderID` , `status` and `didAttemptThreeDSecureAuthentication` are returned and `error` will be `nil`;
+    ///   if it fails, `CardResult will be `nil` and `error` will describe the failure
     public func approveOrder(request: CardRequest, completion: @escaping (CardResult?, Error?) -> Void) {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         analyticsService?.sendEvent("card-payments:3ds:started")
