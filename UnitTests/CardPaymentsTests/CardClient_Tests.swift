@@ -5,7 +5,7 @@ import AuthenticationServices
 @testable import CardPayments
 @testable import TestShared
 
-// swiftlint:disable type_body_length file_length
+// swiftlint:disable type_body_length
 class CardClient_Tests: XCTestCase {
 
     // MARK: - Helper Properties
@@ -247,21 +247,19 @@ class CardClient_Tests: XCTestCase {
         
         let expectation = expectation(description: "approveOrder() completed")
 
-        let mockCardDelegate = MockCardDelegate(success: {_, _ in
-            XCTFail("Invoked success() callback. Should invoke error().")
-        }, error: { _, err in
-            XCTAssertEqual(err.code, 3)
-            XCTAssertEqual(err.domain, "CardClientErrorDomain")
-            XCTAssertEqual(err.errorDescription, "An invalid 3DS URL was returned. Contact developer.paypal.com/support.")
+        sut.approveOrder(request: cardRequest) { result, error in
+            XCTAssertNil(result)
+            if let error = error as? CoreSDKError {
+                XCTAssertEqual(error.code, 3)
+                XCTAssertEqual(error.domain, "CardClientErrorDomain")
+                XCTAssertEqual(error.errorDescription, "An invalid 3DS URL was returned. Contact developer.paypal.com/support.")
+            } else {
+                XCTFail("Expected error not to be nil")
+            }
             expectation.fulfill()
-        }, threeDSWillLaunch: { _ in
-            XCTFail("Invoked willLaunch() callback. Should invoke error().")
-        })
+        }
 
-        sut.delegate = mockCardDelegate
-        sut.approveOrder(request: cardRequest)
-
-        waitForExpectations(timeout: 10)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     func testApproveOrder_withNoThreeDSecure_returnsOrderData() {
@@ -269,21 +267,20 @@ class CardClient_Tests: XCTestCase {
         
         let expectation = expectation(description: "approveOrder() completed")
 
-        let mockCardDelegate = MockCardDelegate(success: {_, result in
-            XCTAssertEqual(result.orderID, "testOrderId")
-            XCTAssertEqual(result.status, "APPROVED")
-            XCTAssertFalse(result.didAttemptThreeDSecureAuthentication)
+        sut.approveOrder(request: cardRequest) { result, error in
+            if let result {
+                XCTAssertEqual(result.orderID, "testOrderId")
+                XCTAssertEqual(result.status, "APPROVED")
+                XCTAssertFalse(result.didAttemptThreeDSecureAuthentication)
+            } else {
+                XCTFail("expected result not to be nil")
+            }
+
+            XCTAssertNil(error)
             expectation.fulfill()
-        }, error: { _, _ in
-            XCTFail("Invoked error() callback. Should invoke success().")
-        }, threeDSWillLaunch: { _ in
-            XCTFail("Invoked willLaunch() callback. Should invoke success().")
-        })
+        }
 
-        sut.delegate = mockCardDelegate
-        sut.approveOrder(request: cardRequest)
-
-        waitForExpectations(timeout: 10)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     func testApproveOrder_whenConfirmPaymentSDKError_bubblesError() {
@@ -291,21 +288,19 @@ class CardClient_Tests: XCTestCase {
 
         let expectation = expectation(description: "approveOrder() completed")
 
-        let mockCardDelegate = MockCardDelegate(success: {_, _ in
-            XCTFail("Invoked success() callback. Should invoke error().")
-        }, error: { _, error in
-            XCTAssertEqual(error.domain, "sdk-domain")
-            XCTAssertEqual(error.code, 123)
-            XCTAssertEqual(error.localizedDescription, "sdk-error-desc")
+        sut.approveOrder(request: cardRequest) { result, error in
+            XCTAssertNil(result)
+            if let error = error as? CoreSDKError {
+                XCTAssertEqual(error.code, 123)
+                XCTAssertEqual(error.domain, "sdk-domain")
+                XCTAssertEqual(error.errorDescription, "sdk-error-desc")
+            } else {
+                XCTFail("Expected error not to be nil")
+            }
             expectation.fulfill()
-        }, threeDSWillLaunch: { _ in
-            XCTFail("Invoked willLaunch() callback. Should invoke error().")
-        })
+        }
 
-        sut.delegate = mockCardDelegate
-        sut.approveOrder(request: cardRequest)
-
-        waitForExpectations(timeout: 10)
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testApproveOrder_whenConfirmPaymentGeneralError_returnsUnknownError() {
@@ -317,21 +312,17 @@ class CardClient_Tests: XCTestCase {
 
         let expectation = expectation(description: "approveOrder() completed")
 
-        let mockCardDelegate = MockCardDelegate(success: {_, _ in
-            XCTFail("Invoked success() callback. Should invoke error().")
-        }, error: { _, error in
-            XCTAssertEqual(error.domain, CardClientError.domain)
-            XCTAssertEqual(error.code, CardClientError.Code.unknown.rawValue)
-            XCTAssertNotNil(error.localizedDescription)
-            expectation.fulfill()
-        }, threeDSWillLaunch: { _ in
-            XCTFail("Invoked willLaunch() callback. Should invoke error().")
-        })
+        sut.approveOrder(request: cardRequest) { result, error in
+            XCTAssertNil(result)
+            if let error = error as? CoreSDKError {
+                XCTAssertEqual(error.domain, CardClientError.domain)
+                XCTAssertEqual(error.code, CardClientError.Code.unknown.rawValue)
+                XCTAssertNotNil(error.localizedDescription)
+                expectation.fulfill()
+            }
+        }
 
-        sut.delegate = mockCardDelegate
-        sut.approveOrder(request: cardRequest)
-
-        waitForExpectations(timeout: 10)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     func testApproveOrder_withThreeDSecure_browserSwitchLaunches_getOrderReturnsSuccess() {
@@ -341,25 +332,19 @@ class CardClient_Tests: XCTestCase {
         
         let expectation = expectation(description: "approveOrder() completed")
 
-        let mockCardDelegate = MockCardDelegate(
-            success: {_, result in
+        sut.approveOrder(request: cardRequest) { result, error in
+            XCTAssertNil(error)
+            if let result {
                 XCTAssertEqual(result.orderID, "testOrderId")
                 XCTAssertNil(result.status)
                 XCTAssertTrue(result.didAttemptThreeDSecureAuthentication)
-                expectation.fulfill()
-            },
-            error: { _, error in
-                XCTFail(error.localizedDescription)
-                expectation.fulfill()
-            },
-            cancel: { _ in XCTFail("Invoked cancel() callback. Should invoke success().") },
-            threeDSWillLaunch: { _ in XCTAssert(true) },
-            threeDSLaunched: { _ in XCTAssert(true) })
+            } else {
+                XCTFail("Expected non-nil result")
+            }
+            expectation.fulfill()
+        }
 
-        sut.delegate = mockCardDelegate
-        sut.approveOrder(request: cardRequest)
-
-        waitForExpectations(timeout: 10)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     func testApproveOrder_withThreeDSecure_userCancelsBrowser() {
@@ -372,26 +357,19 @@ class CardClient_Tests: XCTestCase {
 
         let expectation = expectation(description: "approveOrder() completed")
 
-        let mockCardDelegate = MockCardDelegate(
-            success: {_, _ in
-                XCTFail("Invoked success() callback. Should invoke cancel().")
-                expectation.fulfill()
-            },
-            error: { _, error in
-                XCTFail(error.localizedDescription)
-                expectation.fulfill()
-            },
-            cancel: { _ in
-                XCTAssert(true)
-                expectation.fulfill()
-            },
-            threeDSWillLaunch: { _ in XCTAssert(true) },
-            threeDSLaunched: { _ in XCTAssert(true) })
+        sut.approveOrder(request: cardRequest) { result, error in
+            XCTAssertNil(result)
+            if let error = error as? CoreSDKError {
+                XCTAssertEqual(error.domain, CardClientError.domain)
+                XCTAssertEqual(error.code, CardClientError.threeDSecureCancellation.code)
+                XCTAssertEqual(error.localizedDescription, CardClientError.threeDSecureCancellation.localizedDescription)
+            } else {
+                XCTFail("Expected error to be of type CoreSDKError")
+            }
+            expectation.fulfill()
+        }
 
-        sut.delegate = mockCardDelegate
-        sut.approveOrder(request: cardRequest)
-
-        waitForExpectations(timeout: 10)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     func testApproveOrder_withThreeDSecure_browserReturnsError() {
@@ -405,27 +383,18 @@ class CardClient_Tests: XCTestCase {
 
         let expectation = expectation(description: "approveOrder() completed")
 
-        let mockCardDelegate = MockCardDelegate(
-            success: {_, _ in
-                XCTFail("Invoked success() callback. Should invoke error().")
-                expectation.fulfill()
-            },
-            error: { _, error in
+        sut.approveOrder(request: cardRequest) { result, error in
+            XCTAssertNil(result)
+            if let error = error as? CoreSDKError {
                 XCTAssertEqual(error.domain, CardClientError.domain)
                 XCTAssertEqual(error.code, CardClientError.Code.threeDSecureError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "Mock web session error description.")
-                expectation.fulfill()
-            },
-            cancel: { _ in
-                XCTFail("Invoked cancel() callback. Should invoke error().")
-                expectation.fulfill()
-            },
-            threeDSWillLaunch: { _ in XCTAssert(true) },
-            threeDSLaunched: { _ in XCTAssert(true) })
+            } else {
+                XCTFail("Expected error to be of type CoreSDKError")
+            }
+            expectation.fulfill()
+        }
 
-        sut.delegate = mockCardDelegate
-        sut.approveOrder(request: cardRequest)
-
-        waitForExpectations(timeout: 10)
+        waitForExpectations(timeout: 2, handler: nil)
     }
 }

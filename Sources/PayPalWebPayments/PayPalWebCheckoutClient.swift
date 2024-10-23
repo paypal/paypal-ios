@@ -63,7 +63,10 @@ public class PayPalWebCheckoutClient: NSObject {
                 if let error = error {
                     switch error {
                     case ASWebAuthenticationSessionError.canceledLogin:
-                        self.notifyCheckoutFailure(with: PayPalWebCheckoutClientError.paypalCancellationError, completion: completion)
+                        self.notifyCheckoutCancelWithError(
+                            with: PayPalWebCheckoutClientError.paypalCancellationError,
+                            completion: completion
+                        )
                         return
                     default:
                         self.notifyCheckoutFailure(with: PayPalWebCheckoutClientError.webSessionError(error), completion: completion)
@@ -132,7 +135,10 @@ public class PayPalWebCheckoutClient: NSObject {
                 if let error = error {
                     switch error {
                     case ASWebAuthenticationSessionError.canceledLogin:
-                        self.notifyVaultFailure(with: PayPalWebCheckoutClientError.paypalVaultCancellationError, completion: completion)
+                        self.notifyVaultCancelWithError(
+                            with: PayPalWebCheckoutClientError.paypalVaultCancellationError,
+                            completion: completion
+                        )
                         return
                     default:
                         self.notifyVaultFailure(with: PayPalWebCheckoutClientError.webSessionError(error), completion: completion)
@@ -171,6 +177,11 @@ public class PayPalWebCheckoutClient: NSObject {
         completion(nil, error)
     }
 
+    private func notifyCheckoutCancelWithError(with error: CoreSDKError, completion: (PayPalWebCheckoutResult?, Error?) -> Void) {
+        analyticsService?.sendEvent("paypal-web-payments:challenge:browser-login:canceled")
+        completion(nil, error)
+    }
+
     private func notifyVaultSuccess(for result: PayPalVaultResult, completion: (PayPalVaultResult?, Error?) -> Void) {
         analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:succeeded")
         completion(result, nil)
@@ -179,6 +190,11 @@ public class PayPalWebCheckoutClient: NSObject {
     private func notifyVaultFailure(with error: CoreSDKError, completion: (PayPalVaultResult?, Error?) -> Void) {
         analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:failed")
         completion(nil, error)
+    }
+
+    private func notifyVaultCancelWithError(with vaultError: CoreSDKError, completion: (PayPalVaultResult?, Error?) -> Void) {
+        analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:canceled")
+        completion(nil, vaultError)
     }
 }
 
