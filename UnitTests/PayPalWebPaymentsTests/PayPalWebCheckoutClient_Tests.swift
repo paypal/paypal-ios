@@ -85,8 +85,8 @@ class PayPalClient_Tests: XCTestCase {
             XCTFail("Returned PayPalVaultResult. Should return Error.")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, PayPalWebCheckoutClientError.domain)
-            XCTAssertEqual(error.code, PayPalWebCheckoutClientError.Code.paypalCancellationError.rawValue)
-            XCTAssertEqual(error.localizedDescription, "paypal checkout has been cancelled by the user.")
+            XCTAssertEqual(error.code, PayPalWebCheckoutClientError.Code.paypalVaultCancellationError.rawValue)
+            XCTAssertEqual(error.localizedDescription, "paypal vault has been cancelled by the user.")
         }
     }
 

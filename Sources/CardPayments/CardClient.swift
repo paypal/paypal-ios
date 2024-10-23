@@ -51,10 +51,11 @@ public class CardClient: NSObject {
             if result.status == "PAYER_ACTION_REQUIRED",
             let urlString = result.links.first(where: { $0.rel == "approve" })?.href {
                 guard urlString.contains("helios"), let url = URL(string: urlString) else {
+                    analyticsService?.sendEvent("card-payments:vault-wo-purchase:failed")
                     throw CardClientError.threeDSecureURLError
                 }
                 analyticsService?.sendEvent("card-payments:vault-wo-purchase:challenge-required")
-                let cardVaultResult = try await startAsyncVaultThreeDSecureChallenge(url: url, setupTokenID: vaultRequest.setupTokenID)
+                let cardVaultResult = try await startVaultThreeDSecureChallenge(url: url, setupTokenID: vaultRequest.setupTokenID)
                 return cardVaultResult
             } else {
                 let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status, didAttemptThreeDSecureAuthentication: false)
@@ -107,11 +108,12 @@ public class CardClient: NSObject {
                 guard getQueryStringParameter(url: url, param: "flow") == "3ds",
                     url.contains("helios"),
                     let url = URL(string: url) else {
+                    analyticsService?.sendEvent("card-payments:3ds:failed")
                     throw CardClientError.threeDSecureURLError
                 }
 
                 analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:challenge-required")
-                let cardResult = try await startAsyncThreeDSecureChallenge(url: url, orderId: result.id)
+                let cardResult = try await startThreeDSecureChallenge(url: url, orderId: result.id)
                 return cardResult
             } else {
                 analyticsService?.sendEvent("card-payments:3ds:confirm-payment-source:succeeded")
@@ -147,7 +149,7 @@ public class CardClient: NSObject {
         }
     }
 
-    private func startAsyncThreeDSecureChallenge(
+    private func startThreeDSecureChallenge(
         url: URL,
         orderId: String
     ) async throws -> CardResult {
@@ -184,7 +186,7 @@ public class CardClient: NSObject {
         }
     }
 
-    private func startAsyncVaultThreeDSecureChallenge(
+    private func startVaultThreeDSecureChallenge(
         url: URL,
         setupTokenID: String
     ) async throws -> CardVaultResult {

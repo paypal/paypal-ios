@@ -64,7 +64,7 @@ public class PayPalWebCheckoutClient: NSObject {
                         switch error {
                         case ASWebAuthenticationSessionError.canceledLogin:
                             self.analyticsService?.sendEvent("paypal-web-payments:browser-login:canceled")
-                            continuation.resume(throwing: PayPalWebCheckoutClientError.paypalCancellation)
+                            continuation.resume(throwing: PayPalWebCheckoutClientError.paypalCancellationError)
                         default:
                             self.analyticsService?.sendEvent("paypal-web-payments:failed")
                             continuation.resume(throwing: PayPalWebCheckoutClientError.webSessionError(error))
@@ -153,7 +153,7 @@ public class PayPalWebCheckoutClient: NSObject {
                         switch error {
                         case ASWebAuthenticationSessionError.canceledLogin:
                             self.analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:canceled")
-                            continuation.resume(throwing: PayPalWebCheckoutClientError.paypalCancellation)
+                            continuation.resume(throwing: PayPalWebCheckoutClientError.paypalVaultCancellationError)
                         default:
                             self.analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:failed")
                             continuation.resume(throwing: PayPalWebCheckoutClientError.webSessionError(error))

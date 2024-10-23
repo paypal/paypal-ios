@@ -24,8 +24,11 @@ enum PayPalWebCheckoutClientError {
         /// 4. Vault result did not return a token id
         case paypalVaultResponseError
 
-        /// 5. Vault result did not return a token id
+        /// 5. WebSession is cancelled by the user
         case paypalCancellationError
+
+        /// 6. WebSession is cancelled by the user
+        case paypalVaultCancellationError
     }
 
     static let webSessionError: (Error) -> CoreSDKError = { error in
@@ -54,9 +57,15 @@ enum PayPalWebCheckoutClientError {
         errorDescription: "Error parsing paypal vault response"
     )
 
-    static let paypalCancellation = CoreSDKError(
+    static let paypalCancellationError = CoreSDKError(
         code: Code.paypalCancellationError.rawValue,
         domain: domain,
         errorDescription: "paypal checkout has been cancelled by the user."
+    )
+
+    static let paypalVaultCancellationError = CoreSDKError(
+        code: Code.paypalVaultCancellationError.rawValue,
+        domain: domain,
+        errorDescription: "paypal vault has been cancelled by the user."
     )
 }
