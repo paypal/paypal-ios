@@ -88,6 +88,23 @@ public class PayPalWebCheckoutClient: NSObject {
         )
     }
 
+    /// Launch the PayPal web flow
+    /// - Parameters:
+    ///   - request: the PayPalRequest for the transaction
+    /// - Returns: A `PayPalWebCheckoutResult` if successful
+    /// - Throws: An `Error` describing the failure
+    public func start(request: PayPalWebCheckoutRequest) async throws -> PayPalWebCheckoutResult {
+        try await withCheckedThrowingContinuation { continuation in
+            start(request: request) { result, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else if let result {
+                    continuation.resume(returning: result)
+                }
+            }
+        }
+    }
+
     func payPalCheckoutReturnURL(payPalCheckoutURL: URL) -> URL? {
         let bundleID = PayPalCoreConstants.callbackURLScheme
         let redirectURLString = "\(bundleID)://x-callback-url/paypal-sdk/paypal-checkout"
@@ -160,6 +177,24 @@ public class PayPalWebCheckoutClient: NSObject {
                 }
             }
         )
+    }
+
+    /// Starts a web session for vaulting PayPal Payment Method
+    /// After setupToken successfullly attaches a payment method, you will need to create a payment token with the setup token
+    /// - Parameters:
+    ///   - vaultRequest: Request created with url for vault approval and setupTokenID
+    /// - Returns: `PayPalVaultResult`if successful
+    /// - Throws: `An `Error` describing failure
+    public func vault(_ vaultRequest: PayPalVaultRequest) async throws -> PayPalVaultResult {
+        try await withCheckedThrowingContinuation { continuation in
+            vault(vaultRequest) { result, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else if let result {
+                    continuation.resume(returning: result)
+                }
+            }
+        }
     }
 
     private func getQueryStringParameter(url: String, param: String) -> String? {
