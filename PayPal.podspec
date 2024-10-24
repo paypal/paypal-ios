@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "PayPal"
-  s.version          = "1.4.0"
+  s.version          = "1.5.0"
   s.summary          = "The PayPal iOS SDK: Helps you accept card, PayPal, and alternative payment methods in your iOS app."
   s.homepage         = "https://developer.paypal.com/home"
   s.license          = "MIT"

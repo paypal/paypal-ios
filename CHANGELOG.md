@@ -1,7 +1,7 @@
 
 # PayPal iOS SDK Release Notes
 
-## unreleased
+## 1.5.0 (2024-10-24)
 * PayPalWebPayments
   * Deprecate `PayPalVaultRequest(url:setupTokenID:)`
   * Add `PayPalVaultRequest(setupTokenID:)`
