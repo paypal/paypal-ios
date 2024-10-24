@@ -5,6 +5,8 @@
 * PayPalWebPayments
   * Deprecate `PayPalVaultRequest(url:setupTokenID:)`
   * Add `PayPalVaultRequest(setupTokenID:)`
+* CorePayments
+  * Bug fix for live graphQL url
 
 ## 1.4.0 (2024-07-09)
 * PayPalNativePayments (DEPRECATED)  

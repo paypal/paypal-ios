@@ -109,7 +109,7 @@ class NetworkingClient_Tests: XCTestCase {
         let fakeGraphQLRequest = GraphQLRequest(query: "fake-query", variables: FakeRequest(fakeParam: "fake-param"))
         
         _ = try await sut.fetch(request: fakeGraphQLRequest)
-        XCTAssertEqual(mockHTTP.capturedHTTPRequest?.url.absoluteString, "https://paypal.com/graphql")
+        XCTAssertEqual(mockHTTP.capturedHTTPRequest?.url.absoluteString, "https://www.paypal.com/graphql")
     }
     
     func testFetchGraphQL_whenSandbox_usesProperPayPalURL() async throws {
