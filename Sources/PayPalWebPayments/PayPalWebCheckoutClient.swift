@@ -64,7 +64,7 @@ public class PayPalWebCheckoutClient: NSObject {
                     switch error {
                     case ASWebAuthenticationSessionError.canceledLogin:
                         self.notifyCheckoutCancelWithError(
-                            with: PayPalWebCheckoutClientError.paypalCancellationError,
+                            with: PayPalWebCheckoutClientError.payPalCancellationError,
                             completion: completion
                         )
                         return
@@ -153,7 +153,7 @@ public class PayPalWebCheckoutClient: NSObject {
                     switch error {
                     case ASWebAuthenticationSessionError.canceledLogin:
                         self.notifyVaultCancelWithError(
-                            with: PayPalWebCheckoutClientError.paypalVaultCancellationError,
+                            with: PayPalWebCheckoutClientError.payPalVaultCancellationError,
                             completion: completion
                         )
                         return
