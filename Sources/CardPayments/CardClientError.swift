@@ -37,6 +37,9 @@ enum CardClientError {
         
         /// 9. Malformed Deeplink URL from 3DS
         case malformedDeeplinkURLError
+
+        /// 10. Cancellation from 3DS verification
+        case threeDSCancellation
     }
 
     static let unknownError = CoreSDKError(
@@ -64,7 +67,13 @@ enum CardClientError {
         domain: domain,
         errorDescription: "An invalid 3DS URL was returned. Contact developer.paypal.com/support."
     )
-    
+
+    static let threeDSecureCancellation = CoreSDKError(
+        code: Code.threeDSCancellation.rawValue,
+        domain: domain,
+        errorDescription: "3DS verification has been cancelled by the user."
+    )
+
     static let noVaultTokenDataError = CoreSDKError(
         code: Code.noVaultTokenDataError.rawValue,
         domain: domain,

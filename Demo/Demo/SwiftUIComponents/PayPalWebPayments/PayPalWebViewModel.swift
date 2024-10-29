@@ -3,7 +3,7 @@ import CorePayments
 import PayPalWebPayments
 import FraudProtection
 
-class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
+class PayPalWebViewModel: ObservableObject {
 
     @Published var state: CurrentState = .idle
     @Published var intent: Intent = .authorize
@@ -63,7 +63,6 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         Task {
             do {
                 payPalWebCheckoutClient = try await getPayPalClient()
-                payPalWebCheckoutClient?.delegate = self
                 guard let payPalWebCheckoutClient else {
                     print("Error initializing PayPalWebCheckoutClient")
                     return
@@ -71,7 +70,14 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
                 if let orderID {
                     let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding)
-                    payPalWebCheckoutClient.start(request: payPalRequest)
+                    payPalWebCheckoutClient.start(request: payPalRequest) { result, error in
+                        if let error {
+                            self.updateState(.error(message: error.localizedDescription))
+                        } else {
+                            self.updateState(.success)
+                            self.checkoutResult = result
+                        }
+                    }
                 }
                 updateState(.success)
             } catch {
