@@ -208,7 +208,7 @@ public class PayPalWebCheckoutClient: NSObject {
     }
 
     private func notifyCheckoutFailure(with error: CoreSDKError, completion: (PayPalWebCheckoutResult?, Error?) -> Void) {
-        self.analyticsService?.sendEvent("paypal-web-payments:succeeded")
+        self.analyticsService?.sendEvent("paypal-web-payments:failed")
         completion(nil, error)
     }
 
