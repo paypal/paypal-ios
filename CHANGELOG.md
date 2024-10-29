@@ -21,7 +21,7 @@
       * Remove `vault(vaultRequest:)` method that uses delegate callbacks
       * Add `approveOrder(request:completion:(CardResult?, Error?) -> Void)` to `CardClient`
       * Add `vault(request:completion:(CardVaultResult?, Error?) -> Void)` to `CardClient`
-      * Add `approveOrder(request:) async throws -> Cardresult`
+      * Add `approveOrder(request:) async throws -> CardResult`
       * Add `vault(vaultRequest:) async throws -> CardVaultResult`      
 * PayPalWebPayments
   * Deprecate `PayPalVaultRequest(url:setupTokenID:)`
