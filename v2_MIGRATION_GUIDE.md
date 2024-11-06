@@ -139,7 +139,7 @@ class MyViewController {
 ## Migration Steps
 
 ### 1. Update SDK Version
-- Update your dependency manager (CocoapPods, SPM, etc.) to the latest SDK version
+- Update your dependency manager (CocoapPods or SPM) to the latest SDK version
 
 ### 2. Remove Delegate Implementation
 ```swift
