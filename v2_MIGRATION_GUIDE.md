@@ -3,7 +3,7 @@
 ## Overview
 Version 2.0-beta of the SDK transitions from the delgate-based payment flows to completion handler-based flows. This change simplifies the integration and provides better compatibility with modern async/await patterns.
 
-### Key Change
+### Key Changes
 
 ### CardClient Changes
 
@@ -139,11 +139,11 @@ class MyViewController {
 ## Migration Steps
 
 ### 1. Update SDK Version
-- Update your dependency manager (CocoapPods or SPM) to the latest SDK version
+- Update your dependency manager (CocoaPods or SPM) to the latest SDK version
 
 ### 2. Remove Delegate Implementation
 ```swift
-// Remove delegate protocol confirmance
+// Remove delegate protocol conformance
 - class MyViewController: CardDelegate {
 + class MyViewController {
 
@@ -152,7 +152,7 @@ class MyViewController {
 
 // Remove delegate methods
 - func card(_ cardClient: CardClient, didFinishWithResult result: CardResult) {
-- func card(_ cardClient: CardCliet, didFinishWithError error: Error) {
+- func card(_ cardClient: CardClient, didFinishWithError error: Error) {
 - func cardDidCancel(_ cardClient: CardClient ) {
 ```
 
@@ -160,9 +160,9 @@ class MyViewController {
 ```swift
 // Option 1: Using completion handlers
 func processPayment() {
-    showLaodingIndicator()
+    showLoadingIndicator()
 
-    cardClient.approveORder(request: cardRequest) { [weak self] result, error in
+    cardClient.approveOrder(request: cardRequest) { [weak self] result, error in
         guard let self = self else { return }
         removeLoadingIndicator()
 
@@ -171,7 +171,7 @@ func processPayment() {
                 case CardClientError.threeDSecureCancellation:
                     handleCancellation()
                 default:
-                    handleError(erorr)                
+                    handleError(error)                
             }
             return
         }
@@ -189,7 +189,7 @@ func processPayment() async {
     defer { removeLoadingIndicator() }
 
     do {
-        let result = try await cardClient.approveOrder(request: cardReuqest)
+        let result = try await cardClient.approveOrder(request: cardRequest)
         handleSuccess(result)
     } catch {
         handleError(error)
