@@ -1,7 +1,7 @@
 # Migrating from Delegates to Completion Handlers
 
 ## Overview
-Version 2.0-beta of the SDK transitions from the delgate-based payment flows to completion handler-based flows. This change simplifies the integration and provides better compatibility with modern async/await patterns.
+Version 2.0-beta of the SDK transitions from the delgate-based flows to completion handler-based flows. This change simplifies the integration and provides better compatibility with modern async/await patterns.
 
 ### Key Changes
 
@@ -49,7 +49,7 @@ class MyViewController {
 ### PayPalWebCheckoutClient Changes
 
 ```Swift
-//Old (Delegate-based)
+// Old (Delegate-based)
 class MyViewController: PayPalWebCheckoutDelegate {
     func startPayPalFlow() {
         let payPalClient = PayPalWebCheckoutClient(config: config)
@@ -120,7 +120,7 @@ class MyViewController {
         let payPalClient = PayPalWebCheckoutClient(config: config)
         do {
             let result = try await payPalClient.start(request: paypalRequest)
-            /// Payment successful
+            // Payment successful
             handleSuccess(result)
         } catch let error as PayPalWebCheckoutClientError {
             switch error {
@@ -147,7 +147,7 @@ class MyViewController {
 - class MyViewController: CardDelegate {
 + class MyViewController {
 
-/// Remove delegate property assignment
+// Remove delegate property assignment
 -cardClient.delegate = self
 
 // Remove delegate methods
@@ -157,8 +157,9 @@ class MyViewController {
 ```
 
 ### 3. Update SDK Flow Implementation
+
+ Option 1: Using completion handlers
 ```swift
-// Option 1: Using completion handlers
 func processPayment() {
     showLoadingIndicator()
 
@@ -182,7 +183,7 @@ func processPayment() {
     }
 }
 ```
-// Option 2: Using async/await
+ Option 2: Using async/await
 ```swift
 func processPayment() async {
     showLaodingIndicator()
