@@ -101,7 +101,7 @@ class MyViewController {
             handleSuccess(result)
         } catch let error as CardClientError {
             switch error {
-                case .threeDSecureCancellation:
+                case .canceled:
                     handleCancellation()
                 default:
                     handleError(error)
@@ -124,7 +124,7 @@ class MyViewController {
             handleSuccess(result)
         } catch let error as PayPalWebCheckoutClientError {
             switch error {
-                case .paypalCancellationError:
+                case .checkoutCanceled:
                     handleCancellation()
                 default:
                     handleError(error)
@@ -169,7 +169,7 @@ func processPayment() {
 
         if let error = error {
             switch error {
-                case CardClientError.threeDSecureCancellation:
+                case CardClientError.canceled:
                     handleCancellation()
                 default:
                     handleError(error)                
