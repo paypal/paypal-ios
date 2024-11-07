@@ -24,7 +24,7 @@
       * Add `vault(request:completion:(CardVaultResult?, Error?) -> Void)` to `CardClient`
       * Add `approveOrder(request:) async throws -> CardResult`
       * Add `vault(vaultRequest:) async throws -> CardVaultResult`   
-      * Add `.canceled` to `CardClientError`   
+      * Add `.threeDSecureCanceled` to `CardClientError`   
 * PayPalWebPayments
   * Deprecate `PayPalVaultRequest(url:setupTokenID:)`
   * Add `PayPalVaultRequest(setupTokenID:)`
