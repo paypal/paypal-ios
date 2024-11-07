@@ -142,14 +142,15 @@ class MyViewController {
 - Update your dependency manager (CocoaPods or SPM) to the latest SDK version
 
 ### 2. Remove Delegate Implementation
-```swift
+```diff
 // Remove delegate protocol conformance
 - class MyViewController: CardDelegate {
 + class MyViewController {
 
 // Remove delegate property assignment
 -cardClient.delegate = self
-
+```
+```swift
 // Remove delegate methods
 - func card(_ cardClient: CardClient, didFinishWithResult result: CardResult) {
 - func card(_ cardClient: CardClient, didFinishWithError error: Error) {
