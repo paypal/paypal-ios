@@ -169,7 +169,7 @@ func processPayment() {
 
         if let error = error {
             switch error {
-                case CardClientError.canceled:
+                case CardClientError.threeDSecureCanceled:
                     handleCancellation()
                 default:
                     handleError(error)                
