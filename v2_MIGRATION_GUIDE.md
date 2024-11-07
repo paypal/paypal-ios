@@ -149,8 +149,7 @@ class MyViewController {
 
 // Remove delegate property assignment
 -cardClient.delegate = self
-```
-```swift
+
 // Remove delegate methods
 - func card(_ cardClient: CardClient, didFinishWithResult result: CardResult) {
 - func card(_ cardClient: CardClient, didFinishWithError error: Error) {
