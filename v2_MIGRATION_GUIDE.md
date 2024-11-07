@@ -101,7 +101,7 @@ class MyViewController {
             handleSuccess(result)
         } catch let error as CardClientError {
             switch error {
-                case .canceled:
+                case .threeDSecureCanceled:
                     handleCancellation()
                 default:
                     handleError(error)
