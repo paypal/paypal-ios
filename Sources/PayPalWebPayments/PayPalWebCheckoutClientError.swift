@@ -57,15 +57,15 @@ enum PayPalWebCheckoutClientError {
         errorDescription: "Error parsing PayPal vault response"
     )
 
-    static let payPalCancellationError = CoreSDKError(
+    static let checkoutCanceled = CoreSDKError(
         code: Code.payPalCancellationError.rawValue,
         domain: domain,
-        errorDescription: "PayPal checkout has been cancelled by the user"
+        errorDescription: "PayPal checkout has been canceled by the user"
     )
 
-    static let payPalVaultCancellationError = CoreSDKError(
+    static let vaultCanceled = CoreSDKError(
         code: Code.payPalVaultCancellationError.rawValue,
         domain: domain,
-        errorDescription: "PayPal vault has been cancelled by the user"
+        errorDescription: "PayPal vault has been canceled by the user"
     )
 }

@@ -14,6 +14,7 @@
       * Add `vault(vaultRequest:completion(PayPalVaultResult?, Error?) -> Void)` to `PayPalWebCheckoutClient`
       * Add `start(request:) async throws -> PayPalCheckoutResult`
       * Add `vault(vaultRequest:) async throws -> PayPalVaultResult`
+      * Add `.checkoutCanceled` and `.vaultCanceled` to `PayPalWebCheckoutClientError`
   * CardPayments
     * Replace delegate pattern with completion handlers and Swift concurrency
       * Remove `CardDelegate` and `CardVaultDelegate`
@@ -22,7 +23,8 @@
       * Add `approveOrder(request:completion:(CardResult?, Error?) -> Void)` to `CardClient`
       * Add `vault(request:completion:(CardVaultResult?, Error?) -> Void)` to `CardClient`
       * Add `approveOrder(request:) async throws -> CardResult`
-      * Add `vault(vaultRequest:) async throws -> CardVaultResult`      
+      * Add `vault(vaultRequest:) async throws -> CardVaultResult`   
+      * Add `.threeDSecureCanceled` to `CardClientError`   
 * PayPalWebPayments
   * Deprecate `PayPalVaultRequest(url:setupTokenID:)`
   * Add `PayPalVaultRequest(setupTokenID:)`

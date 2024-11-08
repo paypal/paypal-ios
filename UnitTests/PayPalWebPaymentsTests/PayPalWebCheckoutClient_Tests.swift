@@ -80,7 +80,7 @@ class PayPalClient_Tests: XCTestCase {
             if let error = error as? CoreSDKError {
                 XCTAssertEqual(error.domain, PayPalWebCheckoutClientError.domain)
                 XCTAssertEqual(error.code, PayPalWebCheckoutClientError.Code.payPalVaultCancellationError.rawValue)
-                XCTAssertEqual(error.localizedDescription, "PayPal vault has been cancelled by the user")
+                XCTAssertEqual(error.localizedDescription, "PayPal vault has been canceled by the user")
             } else {
                 XCTFail("Expected error to be of type CoreSDKError")
             }
@@ -159,8 +159,8 @@ class PayPalClient_Tests: XCTestCase {
             XCTAssertNil(result)
             if let error = error as? CoreSDKError {
                 XCTAssertEqual(error.domain, PayPalWebCheckoutClientError.domain)
-                XCTAssertEqual(error.code, PayPalWebCheckoutClientError.payPalCancellationError.code)
-                XCTAssertEqual(error.localizedDescription, PayPalWebCheckoutClientError.payPalCancellationError.localizedDescription)
+                XCTAssertEqual(error.code, PayPalWebCheckoutClientError.checkoutCanceled.code)
+                XCTAssertEqual(error.localizedDescription, PayPalWebCheckoutClientError.checkoutCanceled.localizedDescription)
             } else {
                 XCTFail("Expected error to be of type CoreSDKError")
             }

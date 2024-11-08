@@ -203,8 +203,8 @@ class CardClient_Tests: XCTestCase {
             XCTAssertNil(result)
             if let error = error as? CoreSDKError {
                 XCTAssertEqual(error.domain, CardClientError.domain)
-                XCTAssertEqual(error.code, CardClientError.Code.threeDSCancellation.rawValue)
-                XCTAssertEqual(error.localizedDescription, CardClientError.threeDSecureCancellation.localizedDescription)
+                XCTAssertEqual(error.code, CardClientError.Code.threeDSCancellationError.rawValue)
+                XCTAssertEqual(error.localizedDescription, CardClientError.threeDSecureCanceled.localizedDescription)
             } else {
                 XCTFail("Expected error to be of type CoreSDKError")
             }
@@ -361,8 +361,8 @@ class CardClient_Tests: XCTestCase {
             XCTAssertNil(result)
             if let error = error as? CoreSDKError {
                 XCTAssertEqual(error.domain, CardClientError.domain)
-                XCTAssertEqual(error.code, CardClientError.threeDSecureCancellation.code)
-                XCTAssertEqual(error.localizedDescription, CardClientError.threeDSecureCancellation.localizedDescription)
+                XCTAssertEqual(error.code, CardClientError.threeDSecureCanceled.code)
+                XCTAssertEqual(error.localizedDescription, CardClientError.threeDSecureCanceled.localizedDescription)
             } else {
                 XCTFail("Expected error to be of type CoreSDKError")
             }
