@@ -102,15 +102,14 @@ class MyViewController {
             let result = try await cardClient.approveOrder(request: cardRequest)
             // payment successful
             handleSuccess(result)
-        } catch let error as CardClientError {
+        } catch {
             switch error {
-                case .threeDSecureCanceled:
+                // separate handling of cancel error if needed
+                case CardClientError.threeDSecureCanceled:
                     handleCancellation()
                 default:
                     handleError(error)
             }
-        } catch {
-            handleError(error)
         }
     }
 }
@@ -125,15 +124,14 @@ class MyViewController {
             let result = try await payPalClient.start(request: paypalRequest)
             // Payment successful
             handleSuccess(result)
-        } catch let error as PayPalWebCheckoutClientError {
+        } catch {
             switch error {
-                case .checkoutCanceled:
+                 // separate handling of cancel error if needed
+                case PayPalWebCheckoutClientError.checkoutCanceled:
                     handleCancellation()
                 default:
                     handleError(error)
             }
-        } catch {
-            handleError(error)
         }
     }
 }
@@ -196,7 +194,12 @@ func processPayment() async {
         let result = try await cardClient.approveOrder(request: cardRequest)
         handleSuccess(result)
     } catch {
-        handleError(error)
+         switch error {
+                case CardClient.threeDSecureCanceled:
+                    handleCancellation()
+                default:
+                    handleError(error)
+            }
     }
 }
 ```
