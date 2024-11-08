@@ -5,7 +5,7 @@ Version 2.0-beta of the SDK transitions from the delgate-based flows to completi
 
 ### Key Changes
 
-### Important Cahnge: Cancellation Handling
+### Important Change: Cancellation Handling
 In v2.0-beta, cancellations (e.g., 3DS cancellations, PayPal web flow cancellations) are now returned as errors rather than as separate delegate methods.
 
 ### CardClient Changes
