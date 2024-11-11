@@ -90,6 +90,29 @@ class PayPalClient_Tests: XCTestCase {
         waitForExpectations(timeout: 10)
     }
 
+    func testVault_whenWebSession_cancelled_returnsIsVaultCanceledTrue() {
+
+        mockWebAuthenticationSession.cannedErrorResponse = ASWebAuthenticationSessionError(
+            .canceledLogin,
+            userInfo: ["Description": "Mock cancellation error description."]
+        )
+
+        let expectation = expectation(description: "vault(url:) completed")
+
+        let vaultRequest = PayPalVaultRequest(setupTokenID: "fakeTokenID")
+        payPalClient.vault(vaultRequest) { result, error in
+            if let error {
+                XCTAssertNil(result)
+                XCTAssertTrue(PayPalWebCheckoutClient.isVaultCanceled(error))
+            } else {
+                XCTFail("Expected error from PayPal vault cancellation")
+            }
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 10)
+    }
+
     func testVault_whenWebSession_returnsDefaultError() {
 
         let expectedError = CoreSDKError(
@@ -169,6 +192,33 @@ class PayPalClient_Tests: XCTestCase {
 
         waitForExpectations(timeout: 2, handler: nil)
     }
+
+    func testStart_whenWebSession_cancelled_returnsIsCheckoutCanceledTrue() {
+
+        let request = PayPalWebCheckoutRequest(orderID: "1234")
+
+        mockWebAuthenticationSession.cannedErrorResponse = ASWebAuthenticationSessionError(
+            _bridgedNSError: NSError(
+                domain: ASWebAuthenticationSessionError.errorDomain,
+                code: ASWebAuthenticationSessionError.canceledLogin.rawValue,
+                userInfo: ["Description": "Mock cancellation error description."]
+            )
+        )
+
+        let expectation = self.expectation(description: "Call back invoked with error")
+        payPalClient.start(request: request) { result, error in
+            XCTAssertNil(result)
+            if let error {
+                XCTAssertTrue(PayPalWebCheckoutClient.isCheckoutCanceled(error))
+            } else {
+                XCTFail("Expected error from PayPal checkout cancellation.")
+            }
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 2, handler: nil)
+    }
+
 
     func testStart_whenWebAuthenticationSessions_returnsWebSessionError() {
         let request = PayPalWebCheckoutRequest(orderID: "1234")

@@ -24,19 +24,25 @@ struct PayPalWebButtonsView: View {
                     Text("Pay Later").tag(PayPalWebCheckoutFundingSource.paylater)
                 }
                 .pickerStyle(SegmentedPickerStyle())
-
-                switch selectedFundingSource {
-                case .paypalCredit:
-                    PayPalCreditButton.Representable(color: .black, size: .full) {
-                        payPalWebViewModel.paymentButtonTapped(funding: .paypalCredit)
+                ZStack {
+                    switch selectedFundingSource {
+                    case .paypalCredit:
+                        PayPalCreditButton.Representable(color: .black, size: .full) {
+                            payPalWebViewModel.paymentButtonTapped(funding: .paypalCredit)
+                        }
+                    case .paylater:
+                        PayPalPayLaterButton.Representable(color: .silver, edges: .softEdges, size: .full) {
+                            payPalWebViewModel.paymentButtonTapped(funding: .paylater)
+                        }
+                    case .paypal:
+                        PayPalButton.Representable(color: .blue, size: .full) {
+                            payPalWebViewModel.paymentButtonTapped(funding: .paypal)
+                        }
                     }
-                case .paylater:
-                    PayPalPayLaterButton.Representable(color: .silver, edges: .softEdges, size: .full) {
-                        payPalWebViewModel.paymentButtonTapped(funding: .paylater)
-                    }
-                case .paypal:
-                    PayPalButton.Representable(color: .blue, size: .full) {
-                        payPalWebViewModel.paymentButtonTapped(funding: .paypal)
+                    if payPalWebViewModel.state == .loading &&
+                        payPalWebViewModel.checkoutResult == nil &&
+                        payPalWebViewModel.orderID != nil {
+                        CircularProgressView()
                     }
                 }
             }
