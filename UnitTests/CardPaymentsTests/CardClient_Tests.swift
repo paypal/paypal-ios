@@ -6,6 +6,7 @@ import AuthenticationServices
 @testable import TestShared
 
 // swiftlint:disable type_body_length
+// swiftlint:disable file_length
 class CardClient_Tests: XCTestCase {
 
     // MARK: - Helper Properties
@@ -391,6 +392,30 @@ class CardClient_Tests: XCTestCase {
                 XCTAssertEqual(error.localizedDescription, "Mock web session error description.")
             } else {
                 XCTFail("Expected error to be of type CoreSDKError")
+            }
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 2, handler: nil)
+    }
+
+    // MARK: - Helper function test
+
+    func testApproveOrder_withThreeDSecure_userCancelsBrowser_returns_isThreeDSecureCanceledTrue() {
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withValid3DSURL
+        mockWebAuthSession.cannedErrorResponse = ASWebAuthenticationSessionError(
+            .canceledLogin,
+            userInfo: ["Description": "Mock cancellation error description."]
+        )
+
+        let expectation = expectation(description: "approveOrder() completed")
+
+        sut.approveOrder(request: cardRequest) { result, error in
+            XCTAssertNil(result)
+            if let error = error {
+                XCTAssertTrue(CardClient.isThreeDSecureCanceled(error))
+            } else {
+                XCTFail("Expected error due to user cancellation")
             }
             expectation.fulfill()
         }
