@@ -73,7 +73,7 @@ class PayPalWebViewModel: ObservableObject {
                     let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding)
                     payPalWebCheckoutClient.start(request: payPalRequest) { result, error in
                         if let error {
-                            if PayPalWebCheckoutClientError.isCheckoutCanceled(error) {
+                            if PayPalError.isCheckoutCanceled(error) {
                                 print("Canceled")
                                 self.updateState(.idle)
                             } else {

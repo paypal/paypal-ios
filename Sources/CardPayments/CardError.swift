@@ -3,7 +3,7 @@ import Foundation
 import CorePayments
 #endif
 
-public enum CardClientError {
+public enum CardError {
 
     static let domain = "CardClientErrorDomain"
 
@@ -97,6 +97,6 @@ public enum CardClientError {
         guard let error = error as? CoreSDKError else {
             return false
         }
-        return error.domain == CardClientError.domain && error.code == CardClientError.threeDSecureCanceled.code
+        return error.domain == CardError.domain && error.code == CardError.threeDSecureCanceled.code
     }
 }

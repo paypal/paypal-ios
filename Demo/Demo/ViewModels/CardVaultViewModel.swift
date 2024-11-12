@@ -47,7 +47,7 @@ class CardVaultViewModel: VaultViewModel {
                     )
                 )
             } else if let vaultError {
-                if CardClientError.isThreeDSecureCanceled(vaultError) {
+                if CardError.isThreeDSecureCanceled(vaultError) {
                     print("Canceled")
                     self.state.updateSetupTokenResponse = .idle
                 } else {

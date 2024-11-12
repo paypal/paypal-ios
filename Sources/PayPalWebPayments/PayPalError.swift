@@ -4,7 +4,7 @@ import Foundation
 import CorePayments
 #endif
 
-public enum PayPalWebCheckoutClientError {
+public enum PayPalError {
 
     static let domain = "PayPalClientErrorDomain"
 
@@ -74,7 +74,7 @@ public enum PayPalWebCheckoutClientError {
         guard let error = error as? CoreSDKError else {
             return false
         }
-        return error.domain == PayPalWebCheckoutClientError.domain && error.code == PayPalWebCheckoutClientError.checkoutCanceled.code
+        return error.domain == PayPalError.domain && error.code == PayPalError.checkoutCanceled.code
     }
 
     // Helper function that allows handling of PayPal vault cancel errors separately without having to cast the error to CoreSDKError and checking code and domain properties.
@@ -82,6 +82,6 @@ public enum PayPalWebCheckoutClientError {
         guard let error = error as? CoreSDKError else {
             return false
         }
-        return error.domain == PayPalWebCheckoutClientError.domain && error.code == PayPalWebCheckoutClientError.vaultCanceled.code
+        return error.domain == PayPalError.domain && error.code == PayPalError.vaultCanceled.code
     }
 }

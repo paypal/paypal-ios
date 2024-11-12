@@ -78,8 +78,8 @@ class PayPalClient_Tests: XCTestCase {
         payPalClient.vault(vaultRequest) { result, error in
             XCTAssertNil(result)
             if let error = error as? CoreSDKError {
-                XCTAssertEqual(error.domain, PayPalWebCheckoutClientError.domain)
-                XCTAssertEqual(error.code, PayPalWebCheckoutClientError.Code.payPalVaultCancellationError.rawValue)
+                XCTAssertEqual(error.domain, PayPalError.domain)
+                XCTAssertEqual(error.code, PayPalError.Code.payPalVaultCancellationError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "PayPal vault has been canceled by the user")
             } else {
                 XCTFail("Expected error to be of type CoreSDKError")
@@ -103,7 +103,7 @@ class PayPalClient_Tests: XCTestCase {
         payPalClient.vault(vaultRequest) { result, error in
             if let error {
                 XCTAssertNil(result)
-                XCTAssertTrue(PayPalWebCheckoutClientError.isVaultCanceled(error))
+                XCTAssertTrue(PayPalError.isVaultCanceled(error))
             } else {
                 XCTFail("Expected error from PayPal vault cancellation")
             }
@@ -116,9 +116,9 @@ class PayPalClient_Tests: XCTestCase {
     func testVault_whenWebSession_returnsDefaultError() {
 
         let expectedError = CoreSDKError(
-            code: PayPalWebCheckoutClientError.Code.webSessionError.rawValue,
-            domain: PayPalWebCheckoutClientError.domain,
-            errorDescription: PayPalWebCheckoutClientError.payPalVaultResponseError.errorDescription
+            code: PayPalError.Code.webSessionError.rawValue,
+            domain: PayPalError.domain,
+            errorDescription: PayPalError.payPalVaultResponseError.errorDescription
         )
         mockWebAuthenticationSession.cannedErrorResponse = expectedError
 
@@ -146,9 +146,9 @@ class PayPalClient_Tests: XCTestCase {
         let expectation = expectation(description: "vault(url:) completed")
 
         let expectedError = CoreSDKError(
-            code: PayPalWebCheckoutClientError.payPalVaultResponseError.code,
-            domain: PayPalWebCheckoutClientError.domain,
-            errorDescription: PayPalWebCheckoutClientError.payPalVaultResponseError.errorDescription
+            code: PayPalError.payPalVaultResponseError.code,
+            domain: PayPalError.domain,
+            errorDescription: PayPalError.payPalVaultResponseError.errorDescription
         )
 
         let vaultRequest = PayPalVaultRequest(setupTokenID: "fakeTokenID")
@@ -181,9 +181,9 @@ class PayPalClient_Tests: XCTestCase {
         payPalClient.start(request: request) { result, error in
             XCTAssertNil(result)
             if let error = error as? CoreSDKError {
-                XCTAssertEqual(error.domain, PayPalWebCheckoutClientError.domain)
-                XCTAssertEqual(error.code, PayPalWebCheckoutClientError.checkoutCanceled.code)
-                XCTAssertEqual(error.localizedDescription, PayPalWebCheckoutClientError.checkoutCanceled.localizedDescription)
+                XCTAssertEqual(error.domain, PayPalError.domain)
+                XCTAssertEqual(error.code, PayPalError.checkoutCanceled.code)
+                XCTAssertEqual(error.localizedDescription, PayPalError.checkoutCanceled.localizedDescription)
             } else {
                 XCTFail("Expected error to be of type CoreSDKError")
             }
@@ -209,7 +209,7 @@ class PayPalClient_Tests: XCTestCase {
         payPalClient.start(request: request) { result, error in
             XCTAssertNil(result)
             if let error {
-                XCTAssertTrue(PayPalWebCheckoutClientError.isCheckoutCanceled(error))
+                XCTAssertTrue(PayPalError.isCheckoutCanceled(error))
             } else {
                 XCTFail("Expected error from PayPal checkout cancellation.")
             }
@@ -224,8 +224,8 @@ class PayPalClient_Tests: XCTestCase {
         let request = PayPalWebCheckoutRequest(orderID: "1234")
 
         mockWebAuthenticationSession.cannedErrorResponse = CoreSDKError(
-            code: PayPalWebCheckoutClientError.Code.webSessionError.rawValue,
-            domain: PayPalWebCheckoutClientError.domain,
+            code: PayPalError.Code.webSessionError.rawValue,
+            domain: PayPalError.domain,
             errorDescription: "Mock web session error description."
         )
 
@@ -233,8 +233,8 @@ class PayPalClient_Tests: XCTestCase {
         payPalClient.start(request: request) { result, error in
             XCTAssertNil(result)
             if let error = error as? CoreSDKError {
-                XCTAssertEqual(error.domain, PayPalWebCheckoutClientError.domain)
-                XCTAssertEqual(error.code, PayPalWebCheckoutClientError.Code.webSessionError.rawValue)
+                XCTAssertEqual(error.domain, PayPalError.domain)
+                XCTAssertEqual(error.code, PayPalError.Code.webSessionError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "Mock web session error description.")
             } else {
                 XCTFail("Expected error to be of type CoreSDKError")
@@ -252,8 +252,8 @@ class PayPalClient_Tests: XCTestCase {
         payPalClient.start(request: request) { result, error in
             XCTAssertNil(result)
             if let error = error as? CoreSDKError {
-                XCTAssertEqual(error.domain, PayPalWebCheckoutClientError.domain)
-                XCTAssertEqual(error.code, PayPalWebCheckoutClientError.Code.malformedResultError.rawValue)
+                XCTAssertEqual(error.domain, PayPalError.domain)
+                XCTAssertEqual(error.code, PayPalError.Code.malformedResultError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "Result did not contain the expected data.")
             } else {
                 XCTFail("Expected error to be of type CoreSDKError")
