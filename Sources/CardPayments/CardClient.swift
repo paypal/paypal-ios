@@ -150,14 +150,6 @@ public class CardClient: NSObject {
         }
     }
 
-    // Helper function that allows handling of 3DS cancel errors separately without having to cast the error to CoreSDKError and checking code and domain properties.
-    public static func isThreeDSecureCanceled(_ error: Error) -> Bool {
-        guard let error = error as? CoreSDKError else {
-            return false
-        }
-        return error.domain == CardClientError.domain && error.code == CardClientError.threeDSecureCanceled.code
-    }
-
     private func startThreeDSecureChallenge(
         url: URL,
         orderId: String,

@@ -103,7 +103,7 @@ class PayPalClient_Tests: XCTestCase {
         payPalClient.vault(vaultRequest) { result, error in
             if let error {
                 XCTAssertNil(result)
-                XCTAssertTrue(PayPalWebCheckoutClient.isVaultCanceled(error))
+                XCTAssertTrue(PayPalWebCheckoutClientError.isVaultCanceled(error))
             } else {
                 XCTFail("Expected error from PayPal vault cancellation")
             }
@@ -209,7 +209,7 @@ class PayPalClient_Tests: XCTestCase {
         payPalClient.start(request: request) { result, error in
             XCTAssertNil(result)
             if let error {
-                XCTAssertTrue(PayPalWebCheckoutClient.isCheckoutCanceled(error))
+                XCTAssertTrue(PayPalWebCheckoutClientError.isCheckoutCanceled(error))
             } else {
                 XCTFail("Expected error from PayPal checkout cancellation.")
             }

@@ -3,7 +3,7 @@ import Foundation
 import CorePayments
 #endif
 
-enum CardClientError {
+public enum CardClientError {
 
     static let domain = "CardClientErrorDomain"
 
@@ -91,4 +91,12 @@ enum CardClientError {
         domain: domain,
         errorDescription: "GraphQLClient is unexpectedly nil."
     )
+
+    // Helper function that allows handling of threeDSecure websession cancel errors separately without having to cast the error to CoreSDKError and checking code and domain properties.
+    public static func isThreeDSecureCanceled(_ error: Error) -> Bool {
+        guard let error = error as? CoreSDKError else {
+            return false
+        }
+        return error.domain == CardClientError.domain && error.code == CardClientError.threeDSecureCanceled.code
+    }
 }

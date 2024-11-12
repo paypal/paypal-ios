@@ -413,7 +413,7 @@ class CardClient_Tests: XCTestCase {
         sut.approveOrder(request: cardRequest) { result, error in
             XCTAssertNil(result)
             if let error = error {
-                XCTAssertTrue(CardClient.isThreeDSecureCanceled(error))
+                XCTAssertTrue(CardClientError.isThreeDSecureCanceled(error))
             } else {
                 XCTFail("Expected error due to user cancellation")
             }
