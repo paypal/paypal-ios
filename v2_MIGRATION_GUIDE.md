@@ -6,7 +6,10 @@ Version 2.0-beta of the SDK transitions from the delgate-based flows to completi
 ### Key Changes
 
 ### Important Change: Cancellation Handling
-In v2.0-beta, cancellations (e.g., 3DS cancellations, PayPal web flow cancellations) are now returned as errors rather than as separate delegate methods.
+In v2.0-beta, cancellations (e.g., 3DS cancellations, PayPal web flow cancellations) are now returned as errors rather than as separate delegate methods. There are new helper methods, static functions, to help you discern threeDSecure cancellation errors and PayPal web flow cancellation errors. 
+- `CardError.threeDSecureCanceled(Error)` will return true for user cancellation during 3DS verification during card payment or card vaulting flows. 
+- `PayPalError.isCheckoutCaceled(Error)` will return true for user cancellation during PayPalWebCheckout session.
+- `PayPalError.isVaultCanceled(Error)` will return true for user cancellation during PayPal vault session.
 
 ### CardClient Changes
 
@@ -38,9 +41,14 @@ class MyViewController {
         let cardClient = CardClient(config: config)
         cardClient.approveOrder(request: cardRequest) { [weak self] result, error in
             if let error = error {
-                // handle error
+                // if threeDSecure is canceled by user
+                if CardError.isThreeDSecureCanceled(error) {
+                // handle cancel error
+                } else {
+                // handle other errors
+                }
                 return
-            }
+             }
             if let result = result {
                 // handle success
             }
@@ -79,7 +87,12 @@ class MyViewController {
         let payPalClient = PayPalWebCheckoutClient(config: config)
         payPalClient.start(request: paypalRequest) { [weak self] result, error in
             if let error = error {
-                // handle error
+                // if PayPal webflow is canceled by user
+                if PayPalError.isCheckoutCanceled(error) {
+                // handle cancel error
+                } else {
+                // handle all other errors
+                }
                 return
             }
             if let result = result {
