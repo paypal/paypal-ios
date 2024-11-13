@@ -110,12 +110,12 @@ class CardClient_Tests: XCTestCase {
 
         sut.vault(vaultRequest) { result, error in
             XCTAssertNil(result)
-            if let error = error as? CoreSDKError {
+            if let error {
                 XCTAssertEqual(error.domain, CardError.domain)
                 XCTAssertEqual(error.code, CardError.threeDSecureURLError.code)
                 XCTAssertEqual(error.localizedDescription, CardError.threeDSecureURLError.localizedDescription)
             } else {
-                XCTFail("Expected error to be of type CoreSDKError")
+                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
@@ -133,12 +133,12 @@ class CardClient_Tests: XCTestCase {
 
         sut.vault(vaultRequest) { result, error in
             XCTAssertNil(result)
-            if let error = error as? CoreSDKError {
+            if let error {
                 XCTAssertEqual(error.domain, "fake-domain")
                 XCTAssertEqual(error.code, 123)
                 XCTAssertEqual(error.localizedDescription, "api-error")
             } else {
-                XCTFail("Expected error to be of type CoreSDKError")
+                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
@@ -155,12 +155,12 @@ class CardClient_Tests: XCTestCase {
         let expectation = expectation(description: "vault completed")
         sut.vault(vaultRequest) { result, error in
             XCTAssertNil(result)
-            if let error = error as? CoreSDKError {
+            if let error {
                 XCTAssertEqual(error.domain, CardError.domain)
                 XCTAssertEqual(error.code, CardError.Code.vaultTokenError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "An error occurred while vaulting a card.")
             } else {
-                XCTFail("Expected error to be of type CoreSDKError")
+                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
@@ -202,12 +202,12 @@ class CardClient_Tests: XCTestCase {
 
         sut.vault(cardVaultRequest) { result, error in
             XCTAssertNil(result)
-            if let error = error as? CoreSDKError {
+            if let error {
                 XCTAssertEqual(error.domain, CardError.domain)
                 XCTAssertEqual(error.code, CardError.Code.threeDSCancellationError.rawValue)
                 XCTAssertEqual(error.localizedDescription, CardError.threeDSecureCanceled.localizedDescription)
             } else {
-                XCTFail("Expected error to be of type CoreSDKError")
+                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
@@ -228,12 +228,12 @@ class CardClient_Tests: XCTestCase {
 
         sut.vault(cardVaultRequest) { result, error in
             XCTAssertNil(result)
-            if let error = error as? CoreSDKError {
+            if let error {
                 XCTAssertEqual(error.domain, CardError.domain)
                 XCTAssertEqual(error.code, CardError.Code.threeDSecureError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "Mock web session error description.")
             } else {
-                XCTFail("Expected error to be of type CoreSDKError")
+                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
@@ -250,7 +250,7 @@ class CardClient_Tests: XCTestCase {
 
         sut.approveOrder(request: cardRequest) { result, error in
             XCTAssertNil(result)
-            if let error = error as? CoreSDKError {
+            if let error {
                 XCTAssertEqual(error.code, 3)
                 XCTAssertEqual(error.domain, "CardClientErrorDomain")
                 XCTAssertEqual(error.errorDescription, "An invalid 3DS URL was returned. Contact developer.paypal.com/support.")
@@ -291,7 +291,7 @@ class CardClient_Tests: XCTestCase {
 
         sut.approveOrder(request: cardRequest) { result, error in
             XCTAssertNil(result)
-            if let error = error as? CoreSDKError {
+            if let error {
                 XCTAssertEqual(error.code, 123)
                 XCTAssertEqual(error.domain, "sdk-domain")
                 XCTAssertEqual(error.errorDescription, "sdk-error-desc")
@@ -315,11 +315,13 @@ class CardClient_Tests: XCTestCase {
 
         sut.approveOrder(request: cardRequest) { result, error in
             XCTAssertNil(result)
-            if let error = error as? CoreSDKError {
+            if let error = error {
                 XCTAssertEqual(error.domain, CardError.domain)
                 XCTAssertEqual(error.code, CardError.Code.unknown.rawValue)
                 XCTAssertNotNil(error.localizedDescription)
                 expectation.fulfill()
+            } else {
+                XCTFail("Expected error not to be nil")
             }
         }
 
@@ -360,12 +362,12 @@ class CardClient_Tests: XCTestCase {
 
         sut.approveOrder(request: cardRequest) { result, error in
             XCTAssertNil(result)
-            if let error = error as? CoreSDKError {
+            if let error = error {
                 XCTAssertEqual(error.domain, CardError.domain)
                 XCTAssertEqual(error.code, CardError.threeDSecureCanceled.code)
                 XCTAssertEqual(error.localizedDescription, CardError.threeDSecureCanceled.localizedDescription)
             } else {
-                XCTFail("Expected error to be of type CoreSDKError")
+                XCTFail("Expected error")
             }
             expectation.fulfill()
         }
@@ -386,12 +388,12 @@ class CardClient_Tests: XCTestCase {
 
         sut.approveOrder(request: cardRequest) { result, error in
             XCTAssertNil(result)
-            if let error = error as? CoreSDKError {
+            if let error = error {
                 XCTAssertEqual(error.domain, CardError.domain)
                 XCTAssertEqual(error.code, CardError.Code.threeDSecureError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "Mock web session error description.")
             } else {
-                XCTFail("Expected error to be of type CoreSDKError")
+                XCTFail("Expected error")
             }
             expectation.fulfill()
         }

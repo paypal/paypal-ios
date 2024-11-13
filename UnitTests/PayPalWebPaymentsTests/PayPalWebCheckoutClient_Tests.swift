@@ -77,12 +77,12 @@ class PayPalClient_Tests: XCTestCase {
         let vaultRequest = PayPalVaultRequest(setupTokenID: "fakeTokenID")
         payPalClient.vault(vaultRequest) { result, error in
             XCTAssertNil(result)
-            if let error = error as? CoreSDKError {
+            if let error {
                 XCTAssertEqual(error.domain, PayPalError.domain)
                 XCTAssertEqual(error.code, PayPalError.Code.payPalVaultCancellationError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "PayPal vault has been canceled by the user")
             } else {
-                XCTFail("Expected error to be of type CoreSDKError")
+                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
@@ -127,11 +127,11 @@ class PayPalClient_Tests: XCTestCase {
         let vaultRequest = PayPalVaultRequest(setupTokenID: "fakeTokenID")
         payPalClient.vault(vaultRequest) { result, error in
             XCTAssertNil(result)
-            if let error = error as? CoreSDKError {
+            if let error {
                 XCTAssertEqual(error.domain, expectedError.domain)
                 XCTAssertEqual(error.code, expectedError.code)
             } else {
-                XCTFail("Expected error to be of type CoreSDKError")
+                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
@@ -154,11 +154,11 @@ class PayPalClient_Tests: XCTestCase {
         let vaultRequest = PayPalVaultRequest(setupTokenID: "fakeTokenID")
         payPalClient.vault(vaultRequest) { result, error in
             XCTAssertNil(result)
-            if let error = error as? CoreSDKError {
+            if let error {
                 XCTAssertEqual(error.domain, expectedError.domain)
                 XCTAssertEqual(error.code, expectedError.code)
             } else {
-                XCTFail("Expected error to be of type CoreSDKError")
+                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
@@ -180,12 +180,12 @@ class PayPalClient_Tests: XCTestCase {
         let expectation = self.expectation(description: "Call back invoked with error")
         payPalClient.start(request: request) { result, error in
             XCTAssertNil(result)
-            if let error = error as? CoreSDKError {
+            if let error {
                 XCTAssertEqual(error.domain, PayPalError.domain)
                 XCTAssertEqual(error.code, PayPalError.checkoutCanceled.code)
                 XCTAssertEqual(error.localizedDescription, PayPalError.checkoutCanceled.localizedDescription)
             } else {
-                XCTFail("Expected error to be of type CoreSDKError")
+                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
@@ -232,12 +232,12 @@ class PayPalClient_Tests: XCTestCase {
         let expectation = self.expectation(description: "Call back invoked with error")
         payPalClient.start(request: request) { result, error in
             XCTAssertNil(result)
-            if let error = error as? CoreSDKError {
+            if let error {
                 XCTAssertEqual(error.domain, PayPalError.domain)
                 XCTAssertEqual(error.code, PayPalError.Code.webSessionError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "Mock web session error description.")
             } else {
-                XCTFail("Expected error to be of type CoreSDKError")
+                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
@@ -251,12 +251,12 @@ class PayPalClient_Tests: XCTestCase {
         let expectation = self.expectation(description: "Call back invoked with error")
         payPalClient.start(request: request) { result, error in
             XCTAssertNil(result)
-            if let error = error as? CoreSDKError {
+            if let error {
                 XCTAssertEqual(error.domain, PayPalError.domain)
                 XCTAssertEqual(error.code, PayPalError.Code.malformedResultError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "Result did not contain the expected data.")
             } else {
-                XCTFail("Expected error to be of type CoreSDKError")
+                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }

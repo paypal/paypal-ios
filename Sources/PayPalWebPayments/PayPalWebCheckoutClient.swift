@@ -33,7 +33,7 @@ public class PayPalWebCheckoutClient: NSObject {
     ///   - completion: A completion block that is invoked when the request is completed. If the request succeeds,
     ///   a `PayPalWebCheckoutResult` with `orderID` and `payerID` are returned and `error` will be `nil`;
     ///   if it fails, `PayPalWebCheckoutResult will be `nil` and `error` will describe the failure
-    public func start(request: PayPalWebCheckoutRequest, completion: @escaping (PayPalWebCheckoutResult?, Error?) -> Void) {
+    public func start(request: PayPalWebCheckoutRequest, completion: @escaping (PayPalWebCheckoutResult?, CoreSDKError?) -> Void) {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         analyticsService?.sendEvent("paypal-web-payments:started")
         
@@ -125,7 +125,7 @@ public class PayPalWebCheckoutClient: NSObject {
     ///   - completion: A completion block that is invoked when the request is completed. If the request succeeds,
     ///   a `PayPalVaultResult` with `tokenID` and `approvalSessionID` are returned and `error` will be `nil`;
     ///   if it fails, `PayPalVaultResult will be `nil` and `error` will describe the failure
-    public func vault(_ vaultRequest: PayPalVaultRequest, completion: @escaping (PayPalVaultResult?, Error?) -> Void) {
+    public func vault(_ vaultRequest: PayPalVaultRequest, completion: @escaping (PayPalVaultResult?, CoreSDKError?) -> Void) {
         analyticsService = AnalyticsService(coreConfig: config, setupToken: vaultRequest.setupTokenID)
         analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:started")
         
@@ -202,32 +202,32 @@ public class PayPalWebCheckoutClient: NSObject {
         return url.queryItems?.first { $0.name == param }?.value
     }
 
-    private func notifyCheckoutSuccess(for result: PayPalWebCheckoutResult, completion: (PayPalWebCheckoutResult?, Error?) -> Void) {
+    private func notifyCheckoutSuccess(for result: PayPalWebCheckoutResult, completion: (PayPalWebCheckoutResult?, CoreSDKError?) -> Void) {
         self.analyticsService?.sendEvent("paypal-web-payments:succeeded")
         completion(result, nil)
     }
 
-    private func notifyCheckoutFailure(with error: CoreSDKError, completion: (PayPalWebCheckoutResult?, Error?) -> Void) {
+    private func notifyCheckoutFailure(with error: CoreSDKError, completion: (PayPalWebCheckoutResult?, CoreSDKError?) -> Void) {
         self.analyticsService?.sendEvent("paypal-web-payments:failed")
         completion(nil, error)
     }
 
-    private func notifyCheckoutCancelWithError(with error: CoreSDKError, completion: (PayPalWebCheckoutResult?, Error?) -> Void) {
+    private func notifyCheckoutCancelWithError(with error: CoreSDKError, completion: (PayPalWebCheckoutResult?, CoreSDKError?) -> Void) {
         analyticsService?.sendEvent("paypal-web-payments:challenge:browser-login:canceled")
         completion(nil, error)
     }
 
-    private func notifyVaultSuccess(for result: PayPalVaultResult, completion: (PayPalVaultResult?, Error?) -> Void) {
+    private func notifyVaultSuccess(for result: PayPalVaultResult, completion: (PayPalVaultResult?, CoreSDKError?) -> Void) {
         analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:succeeded")
         completion(result, nil)
     }
 
-    private func notifyVaultFailure(with error: CoreSDKError, completion: (PayPalVaultResult?, Error?) -> Void) {
+    private func notifyVaultFailure(with error: CoreSDKError, completion: (PayPalVaultResult?, CoreSDKError?) -> Void) {
         analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:failed")
         completion(nil, error)
     }
 
-    private func notifyVaultCancelWithError(with vaultError: CoreSDKError, completion: (PayPalVaultResult?, Error?) -> Void) {
+    private func notifyVaultCancelWithError(with vaultError: CoreSDKError, completion: (PayPalVaultResult?, CoreSDKError?) -> Void) {
         analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:canceled")
         completion(nil, vaultError)
     }
