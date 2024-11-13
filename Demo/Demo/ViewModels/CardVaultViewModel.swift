@@ -47,7 +47,12 @@ class CardVaultViewModel: VaultViewModel {
                     )
                 )
             } else if let vaultError {
-                self.state.updateSetupTokenResponse = .error(message: vaultError.localizedDescription)
+                if CardError.isThreeDSecureCanceled(vaultError) {
+                    print("Canceled")
+                    self.state.updateSetupTokenResponse = .idle
+                } else {
+                    self.state.updateSetupTokenResponse = .error(message: vaultError.localizedDescription)
+                }
             }
         }
     }

@@ -62,6 +62,7 @@ class PayPalWebViewModel: ObservableObject {
     func paymentButtonTapped(funding: PayPalWebCheckoutFundingSource) {
         Task {
             do {
+                self.updateState(.loading)
                 payPalWebCheckoutClient = try await getPayPalClient()
                 guard let payPalWebCheckoutClient else {
                     print("Error initializing PayPalWebCheckoutClient")
@@ -72,7 +73,12 @@ class PayPalWebViewModel: ObservableObject {
                     let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding)
                     payPalWebCheckoutClient.start(request: payPalRequest) { result, error in
                         if let error {
-                            self.updateState(.error(message: error.localizedDescription))
+                            if PayPalError.isCheckoutCanceled(error) {
+                                print("Canceled")
+                                self.updateState(.idle)
+                            } else {
+                                self.updateState(.error(message: error.localizedDescription))
+                            }
                         } else {
                             self.updateState(.success)
                             self.checkoutResult = result
@@ -136,23 +142,5 @@ class PayPalWebViewModel: ObservableObject {
         DispatchQueue.main.async {
             self.state = state
         }
-    }
-
-    // MARK: - PayPalWeb Checkout Delegate
-
-    func payPal(
-        _ payPalClient: PayPalWebCheckoutClient,
-        didFinishWithResult result: PayPalWebCheckoutResult
-    ) {
-        updateState(.success)
-        checkoutResult = result
-    }
-
-    func payPal(_ payPalClient: PayPalWebCheckoutClient, didFinishWithError error: CoreSDKError) {
-        updateState(.error(message: error.localizedDescription))
-    }
-
-    func payPalDidCancel(_ payPalClient: PayPalWebCheckoutClient) {
-        print("PayPal Checkout Canceled")
     }
 }

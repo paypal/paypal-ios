@@ -57,8 +57,12 @@ class HTTP_Tests: XCTestCase {
         do {
             _ = try await sut.performRequest(fakeHTTPRequest)
             XCTFail("Request succeeded. Expected error.")
-        } catch let error {
-            XCTAssertTrue(serverError === (error as AnyObject))
+        } catch let error as CoreSDKError {
+            XCTAssertEqual(error.domain, NetworkingClientError.domain)
+            XCTAssertEqual(error.code, NetworkingClientError.Code.urlSessionError.rawValue)
+            XCTAssertEqual(error.localizedDescription, "An error occured during network call. Contact developer.paypal.com/support.")
+        } catch {
+            XCTFail("Unexpected error type")
         }
     }
     

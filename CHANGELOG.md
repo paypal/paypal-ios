@@ -10,21 +10,25 @@
       * Remove `PayPalWebCheckoutDelegate` and `PayPalVaultDelegate`
       * Remove `start(request:)` method that uses delegate callbacks
       * Remove `vault(vaultRequest:)` method that uses delegate callbacks
-      * Add `start(request:completion(PayPalWebCheckoutResult?, Error?) -> Void)` to `PayPalWebCheckoutClient`
-      * Add `vault(vaultRequest:completion(PayPalVaultResult?, Error?) -> Void)` to `PayPalWebCheckoutClient`
+      * Add `start(request:completion(PayPalWebCheckoutResult?, CoreSDKError?) -> Void)` to `PayPalWebCheckoutClient`
+      * Add `vault(vaultRequest:completion(PayPalVaultResult?, CoreSDKError?) -> Void)` to `PayPalWebCheckoutClient`
       * Add `start(request:) async throws -> PayPalCheckoutResult`
       * Add `vault(vaultRequest:) async throws -> PayPalVaultResult`
       * Add `.checkoutCanceled` and `.vaultCanceled` to `PayPalWebCheckoutClientError`
+      * Rename `PayPalWebCheckoutClientError` to `PayPalError`
+      * Add public static functions `isCheckoutCanceled(Error)` and `isVaultCanceled(Error)` to `PayPalError` to distinguish cancellation errors in PayPal flows. 
   * CardPayments
     * Replace delegate pattern with completion handlers and Swift concurrency
       * Remove `CardDelegate` and `CardVaultDelegate`
       * Remove `approveOrder(request:)` method that uses delegate callbacks
       * Remove `vault(vaultRequest:)` method that uses delegate callbacks
-      * Add `approveOrder(request:completion:(CardResult?, Error?) -> Void)` to `CardClient`
-      * Add `vault(request:completion:(CardVaultResult?, Error?) -> Void)` to `CardClient`
+      * Add `approveOrder(request:completion:(CardResult?, CoreSDKError?) -> Void)` to `CardClient`
+      * Add `vault(request:completion:(CardVaultResult?, CoreSDKError?) -> Void)` to `CardClient`
       * Add `approveOrder(request:) async throws -> CardResult`
       * Add `vault(vaultRequest:) async throws -> CardVaultResult`   
-      * Add `.threeDSecureCanceled` to `CardClientError`   
+      * Add `.threeDSecureCanceled` to `CardClientError` 
+      * Rename `PayPalClientError` to `PayPalError`
+      * Add public static function `isThreeDSecureCanceled(Error)` to `CardClientError` to distinguish cancellation error from threeDSecure verification
 * PayPalWebPayments
   * Deprecate `PayPalVaultRequest(url:setupTokenID:)`
   * Add `PayPalVaultRequest(setupTokenID:)`
