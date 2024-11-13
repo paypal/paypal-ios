@@ -78,7 +78,7 @@ enum NetworkingClientError {
     }
     
     static let noGraphQLDataKey = CoreSDKError(
-        code: Code.noResponseData.rawValue,
+        code: Code.noGraphQLDataKey.rawValue,
         domain: domain,
         errorDescription: "An error occured due to missing `data` key in GraphQL query response. Contact developer.paypal.com/support."
     )

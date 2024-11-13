@@ -213,7 +213,7 @@ public class PayPalWebCheckoutClient: NSObject {
     }
 
     private func notifyCheckoutCancelWithError(with error: CoreSDKError, completion: (PayPalWebCheckoutResult?, CoreSDKError?) -> Void) {
-        analyticsService?.sendEvent("paypal-web-payments:challenge:browser-login:canceled")
+        analyticsService?.sendEvent("paypal-web-payments:browser-login:canceled")
         completion(nil, error)
     }
 
