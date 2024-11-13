@@ -1,13 +1,13 @@
 # Migrating from Delegates to Completion Handlers
 
 ## Overview
-Version 2.0-beta of the SDK transitions from the delgate-based flows to completion handler-based flows. This change simplifies the integration and provides better compatibility with modern async/await patterns.
+Version 2.0 of the SDK transitions from delgate-based flows to completion handler-based flows. This change simplifies the integration and provides better compatibility with modern async/await patterns.
 
 ### Key Changes
 
 ### Important Change: Cancellation Handling
-In v2.0-beta, cancellations (e.g., 3DS cancellations, PayPal web flow cancellations) are now returned as errors rather than as separate delegate methods. There are new helper methods, static functions, to help you discern threeDSecure cancellation errors and PayPal web flow cancellation errors. 
-- `CardError.threeDSecureCanceled(Error)` will return true for user cancellation during 3DS verification during card payment or card vaulting flows. 
+In v2.0, cancellations (e.g., 3DS cancellations, PayPal web flow cancellations) are now returned as errors rather than as separate delegate methods. There are new helper static functions, to help you discern threeDSecure cancellation errors and PayPal web flow cancellation errors. 
+- `CardError.threeDSecureCanceled(Error)` will return true for 3DS cancellation errors received during card payment or card vaulting flows. 
 - `PayPalError.isCheckoutCanceled(Error)` will return true for user cancellation during PayPalWebCheckout session.
 - `PayPalError.isVaultCanceled(Error)` will return true for user cancellation during PayPal vault session.
 
@@ -183,7 +183,7 @@ func processPayment() {
  Option 2: Using async/await
 ```swift
 func processPayment() async {
-    showLaodingIndicator()
+    showLoadingIndicator()
     defer { removeLoadingIndicator() }
 
     do {
