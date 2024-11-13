@@ -8,7 +8,7 @@ Version 2.0-beta of the SDK transitions from the delgate-based flows to completi
 ### Important Change: Cancellation Handling
 In v2.0-beta, cancellations (e.g., 3DS cancellations, PayPal web flow cancellations) are now returned as errors rather than as separate delegate methods. There are new helper methods, static functions, to help you discern threeDSecure cancellation errors and PayPal web flow cancellation errors. 
 - `CardError.threeDSecureCanceled(Error)` will return true for user cancellation during 3DS verification during card payment or card vaulting flows. 
-- `PayPalError.isCheckoutCaceled(Error)` will return true for user cancellation during PayPalWebCheckout session.
+- `PayPalError.isCheckoutCanceled(Error)` will return true for user cancellation during PayPalWebCheckout session.
 - `PayPalError.isVaultCanceled(Error)` will return true for user cancellation during PayPal vault session.
 
 ### CardClient Changes
