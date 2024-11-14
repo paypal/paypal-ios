@@ -26,7 +26,6 @@
 * PayPalWebPayments
   * Deprecate `PayPalVaultRequest(url:setupTokenID:)`
   * Add `PayPalVaultRequest(setupTokenID:)`
-  * Add `.checkoutCanceled` and `.vaultCanceled` to `PayPalWebCheckoutClientError`
   * Rename `PayPalWebCheckoutClientError` to `PayPalError`
   * Add `.checkoutCanceledError` and `vaultCanceledError` to `PayPalError`
   * Add public static functions `isCheckoutCanceled(Error)` and `isVaultCanceled(Error)` to `PayPalError` to distinguish cancellation errors in PayPal flows. 
