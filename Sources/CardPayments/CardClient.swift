@@ -170,7 +170,7 @@ public class CardClient: NSObject {
                 if let error = error {
                     switch error {
                     case ASWebAuthenticationSessionError.canceledLogin:
-                        self.notifyCheckoutCancelWithError(with: CardError.threeDSecureCanceled, completion: completion)
+                        self.notifyCheckoutCancelWithError(with: CardError.threeDSecureCanceledError, completion: completion)
                         return
                     default:
                         self.notifyCheckoutFailure(with: CardError.threeDSecureError(error), completion: completion)
@@ -210,7 +210,7 @@ public class CardClient: NSObject {
                 if let error = error {
                     switch error {
                     case ASWebAuthenticationSessionError.canceledLogin:
-                        self.notifyVaultCancelWithError(with: CardError.threeDSecureCanceled, completion: completion)
+                        self.notifyVaultCancelWithError(with: CardError.threeDSecureCanceledError, completion: completion)
                         return
                     default:
                         self.notifyVaultFailure(with: CardError.threeDSecureError(error), completion: completion)

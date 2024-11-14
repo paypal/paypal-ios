@@ -16,7 +16,9 @@
       * Add `vault(vaultRequest:) async throws -> PayPalVaultResult`
       * Add `.checkoutCanceled` and `.vaultCanceled` to `PayPalWebCheckoutClientError`
       * Rename `PayPalWebCheckoutClientError` to `PayPalError`
+      * Add `.checkoutCanceledError` and `vaultCanceledError` to `PayPalError`
       * Add public static functions `isCheckoutCanceled(Error)` and `isVaultCanceled(Error)` to `PayPalError` to distinguish cancellation errors in PayPal flows. 
+      * Make `PayPalError` public to expose cancellation error handling helpers
   * CardPayments
     * Replace delegate pattern with completion handlers and Swift concurrency
       * Remove `CardDelegate` and `CardVaultDelegate`
@@ -27,16 +29,13 @@
       * Add `approveOrder(request:) async throws -> CardResult`
       * Add `vault(vaultRequest:) async throws -> CardVaultResult`   
       * Add `.threeDSecureCanceled` to `CardClientError` 
-      * Rename `PayPalClientError` to `PayPalError`
-      * Add public static function `isThreeDSecureCanceled(Error)` to `CardClientError` to distinguish cancellation error from threeDSecure verification
+      * Rename `CardClientError` to `CardError`
+      * Add `threeDSecureCanceledError` to `CardError`
+      * Add public static function `isThreeDSecureCanceled(Error)` to `CardError` to distinguish cancellation error from threeDSecure verification
+      * Make `CardError` public to expose cancellation error handling helper
 * PayPalWebPayments
   * Deprecate `PayPalVaultRequest(url:setupTokenID:)`
   * Add `PayPalVaultRequest(setupTokenID:)`
-  * Add new error types for cancellation handling:
-    * `PayPalWebCheckoutClientError.payPalCancellationError`
-    * `PayPalWebCheckoutClientError.payPalVaultCancellationError`
-* CardPayments
-  * Add new error type `CardClientError.threeDSecureCancellation` for handling 3DS cancellation
 
 ## 1.4.0 (2024-07-09)
 * PayPalNativePayments (DEPRECATED)  

@@ -24,11 +24,11 @@ public enum PayPalError {
         /// 4. Vault result did not return a token id
         case payPalVaultResponseError
 
-        /// 5. Websession is cancelled by the user
-        case payPalCancellationError
+        /// 5. Checkout websession is cancelled by the user
+        case checkoutCanceledError
 
-        /// 6. Websession is cancelled by the user
-        case payPalVaultCancellationError
+        /// 6. Vault websession is cancelled by the user
+        case vaultCanceledError
     }
 
     static let webSessionError: (Error) -> CoreSDKError = { error in
@@ -57,14 +57,14 @@ public enum PayPalError {
         errorDescription: "Error parsing PayPal vault response"
     )
 
-    static let checkoutCanceled = CoreSDKError(
-        code: Code.payPalCancellationError.rawValue,
+    static let checkoutCanceledError = CoreSDKError(
+        code: Code.checkoutCanceledError.rawValue,
         domain: domain,
         errorDescription: "PayPal checkout has been canceled by the user"
     )
 
-    static let vaultCanceled = CoreSDKError(
-        code: Code.payPalVaultCancellationError.rawValue,
+    static let vaultCanceledError = CoreSDKError(
+        code: Code.vaultCanceledError.rawValue,
         domain: domain,
         errorDescription: "PayPal vault has been canceled by the user"
     )
@@ -74,7 +74,7 @@ public enum PayPalError {
         guard let error = error as? CoreSDKError else {
             return false
         }
-        return error.domain == PayPalError.domain && error.code == PayPalError.checkoutCanceled.code
+        return error.domain == PayPalError.domain && error.code == PayPalError.checkoutCanceledError.code
     }
 
     // Helper function that allows handling of PayPal vault cancel errors separately without having to cast the error to CoreSDKError and checking code and domain properties.
@@ -82,6 +82,6 @@ public enum PayPalError {
         guard let error = error as? CoreSDKError else {
             return false
         }
-        return error.domain == PayPalError.domain && error.code == PayPalError.vaultCanceled.code
+        return error.domain == PayPalError.domain && error.code == PayPalError.vaultCanceledError.code
     }
 }

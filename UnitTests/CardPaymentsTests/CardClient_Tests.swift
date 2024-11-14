@@ -204,8 +204,8 @@ class CardClient_Tests: XCTestCase {
             XCTAssertNil(result)
             if let error {
                 XCTAssertEqual(error.domain, CardError.domain)
-                XCTAssertEqual(error.code, CardError.Code.threeDSCancellationError.rawValue)
-                XCTAssertEqual(error.localizedDescription, CardError.threeDSecureCanceled.localizedDescription)
+                XCTAssertEqual(error.code, CardError.Code.threeDSecureCanceledError.rawValue)
+                XCTAssertEqual(error.localizedDescription, CardError.threeDSecureCanceledError.localizedDescription)
             } else {
                 XCTFail("Expected error not to be nil")
             }
@@ -364,8 +364,8 @@ class CardClient_Tests: XCTestCase {
             XCTAssertNil(result)
             if let error = error {
                 XCTAssertEqual(error.domain, CardError.domain)
-                XCTAssertEqual(error.code, CardError.threeDSecureCanceled.code)
-                XCTAssertEqual(error.localizedDescription, CardError.threeDSecureCanceled.localizedDescription)
+                XCTAssertEqual(error.code, CardError.threeDSecureCanceledError.code)
+                XCTAssertEqual(error.localizedDescription, CardError.threeDSecureCanceledError.localizedDescription)
             } else {
                 XCTFail("Expected error")
             }
