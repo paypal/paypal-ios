@@ -79,7 +79,7 @@ class PayPalClient_Tests: XCTestCase {
             XCTAssertNil(result)
             if let error {
                 XCTAssertEqual(error.domain, PayPalError.domain)
-                XCTAssertEqual(error.code, PayPalError.Code.payPalVaultCancellationError.rawValue)
+                XCTAssertEqual(error.code, PayPalError.Code.vaultCanceledError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "PayPal vault has been canceled by the user")
             } else {
                 XCTFail("Expected error not to be nil")
@@ -182,8 +182,8 @@ class PayPalClient_Tests: XCTestCase {
             XCTAssertNil(result)
             if let error {
                 XCTAssertEqual(error.domain, PayPalError.domain)
-                XCTAssertEqual(error.code, PayPalError.checkoutCanceled.code)
-                XCTAssertEqual(error.localizedDescription, PayPalError.checkoutCanceled.localizedDescription)
+                XCTAssertEqual(error.code, PayPalError.checkoutCanceledError.code)
+                XCTAssertEqual(error.localizedDescription, PayPalError.checkoutCanceledError.localizedDescription)
             } else {
                 XCTFail("Expected error not to be nil")
             }
