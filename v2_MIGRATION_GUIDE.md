@@ -1,7 +1,7 @@
 # Migrating from Delegates to Completion Handlers
 
 ## Overview
-Version 2.0 of the SDK transitions from delgate-based flows to completion handler-based flows. This change simplifies the integration and provides better compatibility with modern async/await patterns.
+Version 2.0 of the SDK transitions from delgate-based flows to completion handler-based flows. This change simplifies the integration and provides better compatibility with modern async/await patterns. 
 
 ### Key Changes
 
