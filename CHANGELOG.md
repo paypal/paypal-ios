@@ -24,8 +24,6 @@
       * Add `approveOrder(request:) async throws -> CardResult`
       * Add `vault(vaultRequest:) async throws -> CardVaultResult`   
 * PayPalWebPayments
-  * Deprecate `PayPalVaultRequest(url:setupTokenID:)`
-  * Add `PayPalVaultRequest(setupTokenID:)`
   * Rename `PayPalWebCheckoutClientError` to `PayPalError`
   * Add `.checkoutCanceledError` and `vaultCanceledError` to `PayPalError`
   * Add public static functions `isCheckoutCanceled(Error)` and `isVaultCanceled(Error)` to `PayPalError` to distinguish cancellation errors in PayPal flows. 
@@ -35,6 +33,13 @@
   * Add `threeDSecureCanceledError` to `CardError`
   * Add public static function `isThreeDSecureCanceled(Error)` to `CardError` to distinguish cancellation error from threeDSecure verification
   * Make `CardError` public to expose cancellation error handling helper
+
+## 1.5.0 (2024-10-24)
+* PayPalWebPayments
+  * Deprecate `PayPalVaultRequest(url:setupTokenID:)`
+  * Add `PayPalVaultRequest(setupTokenID:)`
+* CorePayments
+  * Bug fix for live graphQL url
 
 ## 1.4.0 (2024-07-09)
 * PayPalNativePayments (DEPRECATED)  
