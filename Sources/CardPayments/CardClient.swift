@@ -76,7 +76,7 @@ public class CardClient: NSObject {
     /// - Parameters:
     ///   - vaultRequest: The request containing setupTokenID and card
     /// - Returns: `CardVaultResult` if successful
-    /// - Throws: An `Error` describing failure
+    /// - Throws: A `CoreSDKError` describing failure
     public func vault(_ vaultRequest: CardVaultRequest) async throws -> CardVaultResult {
         try await withCheckedThrowingContinuation { continuation in
             vault(vaultRequest) { result, error in
@@ -137,7 +137,7 @@ public class CardClient: NSObject {
     ///   - orderId: Order id for approval
     ///   - request: The request containing the card
     /// - Returns: `CardResult` if successful
-    /// - Throws: An `Error` describing failure
+    /// - Throws: A `CoreSDKError` describing failure
     public func approveOrder(request: CardRequest) async throws -> CardResult {
         try await withCheckedThrowingContinuation { continuation in
             approveOrder(request: request) { result, error in

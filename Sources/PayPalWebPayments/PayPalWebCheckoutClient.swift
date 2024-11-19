@@ -92,7 +92,7 @@ public class PayPalWebCheckoutClient: NSObject {
     /// - Parameters:
     ///   - request: the PayPalRequest for the transaction
     /// - Returns: A `PayPalWebCheckoutResult` if successful
-    /// - Throws: An `Error` describing the failure
+    /// - Throws: A `CoreSDKError` describing the failure
     public func start(request: PayPalWebCheckoutRequest) async throws -> PayPalWebCheckoutResult {
         try await withCheckedThrowingContinuation { continuation in
             start(request: request) { result, error in
@@ -184,7 +184,7 @@ public class PayPalWebCheckoutClient: NSObject {
     /// - Parameters:
     ///   - vaultRequest: Request created with url for vault approval and setupTokenID
     /// - Returns: `PayPalVaultResult`if successful
-    /// - Throws: An `Error` describing failure
+    /// - Throws: A `CoreSDKError` describing failure
     public func vault(_ vaultRequest: PayPalVaultRequest) async throws -> PayPalVaultResult {
         try await withCheckedThrowingContinuation { continuation in
             vault(vaultRequest) { result, error in
