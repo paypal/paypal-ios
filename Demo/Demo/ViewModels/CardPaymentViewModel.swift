@@ -3,7 +3,7 @@ import CardPayments
 import CorePayments
 import FraudProtection
 
-class CardPaymentViewModel: ObservableObject, CardDelegate {
+class CardPaymentViewModel: ObservableObject {
 
     @Published var state = CardPaymentState()
     private var payPalDataCollector: PayPalDataCollector?
@@ -117,16 +117,31 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
             let config = try await configManager.getCoreConfig()
             cardClient = CardClient(config: config)
             payPalDataCollector = PayPalDataCollector(config: config)
-            cardClient?.delegate = self
             let cardRequest = CardRequest(orderID: orderID, card: card, sca: sca)
-            cardClient?.approveOrder(request: cardRequest)
+            cardClient?.approveOrder(request: cardRequest) { result, error in
+                if let error {
+                    if CardError.isThreeDSecureCanceled(error) {
+                        self.setApprovalCancelResult()
+                    } else {
+                        self.setApprovalFailureResult(vaultError: error)
+                    }
+                } else if let result {
+                    self.setApprovalSuccessResult(
+                        approveResult: CardPaymentState.CardResult(
+                            id: result.orderID,
+                            status: result.status,
+                            didAttemptThreeDSecureAuthentication: result.didAttemptThreeDSecureAuthentication
+                        )
+                    )
+                }
+            }
         } catch {
-            self.state.approveResultResponse = .error(message: error.localizedDescription)
+            setApprovalFailureResult(vaultError: error)
             print("failed in checkout with card. \(error.localizedDescription)")
         }
     }
 
-    func approveResultSuccessResult(approveResult: CardPaymentState.CardResult) {
+    func setApprovalSuccessResult(approveResult: CardPaymentState.CardResult) {
         DispatchQueue.main.async {
             self.state.approveResultResponse = .loaded(
                 approveResult
@@ -134,44 +149,16 @@ class CardPaymentViewModel: ObservableObject, CardDelegate {
         }
     }
 
-    func setUpdateSetupTokenFailureResult(vaultError: CorePayments.CoreSDKError) {
+    func setApprovalFailureResult(vaultError: Error) {
         DispatchQueue.main.async {
             self.state.approveResultResponse = .error(message: vaultError.localizedDescription)
         }
     }
 
-    // MARK: - Card Delegate
-
-    func card(_ cardClient: CardPayments.CardClient, didFinishWithResult result: CardPayments.CardResult) {
-        approveResultSuccessResult(
-            approveResult: CardPaymentState.CardResult(
-                id: result.orderID,
-                status: result.status,
-                didAttemptThreeDSecureAuthentication: result.didAttemptThreeDSecureAuthentication
-            )
-        )
-    }
-
-    func card(_ cardClient: CardPayments.CardClient, didFinishWithError error: CorePayments.CoreSDKError) {
-        print("Error here")
-        DispatchQueue.main.async {
-            self.state.approveResultResponse = .error(message: error.localizedDescription)
-        }
-    }
-
-    func cardDidCancel(_ cardClient: CardPayments.CardClient) {
-        print("Card Payment Canceled")
+    func setApprovalCancelResult() {
+        print("Canceled")
         DispatchQueue.main.async {
             self.state.approveResultResponse = .idle
-            self.state.approveResult = nil
         }
-    }
-
-    func cardThreeDSecureWillLaunch(_ cardClient: CardPayments.CardClient) {
-        print("About to launch 3DS")
-    }
-
-    func cardThreeDSecureDidFinish(_ cardClient: CardPayments.CardClient) {
-        print("Finished 3DS")
     }
 }

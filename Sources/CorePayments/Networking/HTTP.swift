@@ -22,8 +22,16 @@ class HTTP {
         httpRequest.headers.forEach { key, value in
             urlRequest.addValue(value, forHTTPHeaderField: key.rawValue)
         }
-        
-        let (data, response) = try await urlSession.performRequest(with: urlRequest)
+
+        let (data, response): (Data, URLResponse)
+        do {
+            (data, response) = try await urlSession.performRequest(with: urlRequest)
+        } catch _ as URLError {
+            throw NetworkingClientError.urlSessionError
+        } catch {
+            throw NetworkingClientError.unknownError
+        }
+
         guard let response = response as? HTTPURLResponse else {
             throw NetworkingClientError.invalidURLResponseError
         }

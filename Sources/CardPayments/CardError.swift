@@ -3,7 +3,7 @@ import Foundation
 import CorePayments
 #endif
 
-enum CardClientError {
+public enum CardError {
 
     static let domain = "CardClientErrorDomain"
 
@@ -37,6 +37,9 @@ enum CardClientError {
         
         /// 9. Malformed Deeplink URL from 3DS
         case malformedDeeplinkURLError
+
+        /// 10. Cancellation from 3DS verification
+        case threeDSecureCanceledError
     }
 
     static let unknownError = CoreSDKError(
@@ -64,7 +67,13 @@ enum CardClientError {
         domain: domain,
         errorDescription: "An invalid 3DS URL was returned. Contact developer.paypal.com/support."
     )
-    
+
+    static let threeDSecureCanceledError = CoreSDKError(
+        code: Code.threeDSecureCanceledError.rawValue,
+        domain: domain,
+        errorDescription: "3DS verification has been canceled by the user."
+    )
+
     static let noVaultTokenDataError = CoreSDKError(
         code: Code.noVaultTokenDataError.rawValue,
         domain: domain,
@@ -82,4 +91,12 @@ enum CardClientError {
         domain: domain,
         errorDescription: "GraphQLClient is unexpectedly nil."
     )
+
+    // Helper function that allows handling of threeDSecure websession cancel errors separately without having to check error code and domain properties.
+    public static func isThreeDSecureCanceled(_ error: Error) -> Bool {
+        guard let error = error as? CoreSDKError else {
+            return false
+        }
+        return error.domain == CardError.domain && error.code == CardError.threeDSecureCanceledError.code
+    }
 }

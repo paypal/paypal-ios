@@ -3,7 +3,7 @@ import CorePayments
 import PayPalWebPayments
 import FraudProtection
 
-class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
+class PayPalWebViewModel: ObservableObject {
 
     @Published var state: CurrentState = .idle
     @Published var intent: Intent = .authorize
@@ -62,8 +62,8 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
     func paymentButtonTapped(funding: PayPalWebCheckoutFundingSource) {
         Task {
             do {
+                self.updateState(.loading)
                 payPalWebCheckoutClient = try await getPayPalClient()
-                payPalWebCheckoutClient?.delegate = self
                 guard let payPalWebCheckoutClient else {
                     print("Error initializing PayPalWebCheckoutClient")
                     return
@@ -71,7 +71,19 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
 
                 if let orderID {
                     let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding)
-                    payPalWebCheckoutClient.start(request: payPalRequest)
+                    payPalWebCheckoutClient.start(request: payPalRequest) { result, error in
+                        if let error {
+                            if PayPalError.isCheckoutCanceled(error) {
+                                print("Canceled")
+                                self.updateState(.idle)
+                            } else {
+                                self.updateState(.error(message: error.localizedDescription))
+                            }
+                        } else {
+                            self.updateState(.success)
+                            self.checkoutResult = result
+                        }
+                    }
                 }
                 updateState(.success)
             } catch {
@@ -130,23 +142,5 @@ class PayPalWebViewModel: ObservableObject, PayPalWebCheckoutDelegate {
         DispatchQueue.main.async {
             self.state = state
         }
-    }
-
-    // MARK: - PayPalWeb Checkout Delegate
-
-    func payPal(
-        _ payPalClient: PayPalWebCheckoutClient,
-        didFinishWithResult result: PayPalWebCheckoutResult
-    ) {
-        updateState(.success)
-        checkoutResult = result
-    }
-
-    func payPal(_ payPalClient: PayPalWebCheckoutClient, didFinishWithError error: CoreSDKError) {
-        updateState(.error(message: error.localizedDescription))
-    }
-
-    func payPalDidCancel(_ payPalClient: PayPalWebCheckoutClient) {
-        print("PayPal Checkout Canceled")
     }
 }

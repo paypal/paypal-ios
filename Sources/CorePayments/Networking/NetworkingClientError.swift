@@ -37,13 +37,11 @@ enum NetworkingClientError {
         errorDescription: "An unknown error occured. Contact developer.paypal.com/support."
     )
 
-    static let urlSessionError: (String) -> CoreSDKError = { description in
-        CoreSDKError(
-            code: Code.urlSessionError.rawValue,
-            domain: domain,
-            errorDescription: description
-        )
-    }
+    static let urlSessionError = CoreSDKError(
+        code: Code.urlSessionError.rawValue,
+        domain: domain,
+        errorDescription: "An error occured during network call. Contact developer.paypal.com/support."
+    )
 
     static let jsonDecodingError: (String) -> CoreSDKError = { description in
         CoreSDKError(
@@ -80,7 +78,7 @@ enum NetworkingClientError {
     }
     
     static let noGraphQLDataKey = CoreSDKError(
-        code: Code.noResponseData.rawValue,
+        code: Code.noGraphQLDataKey.rawValue,
         domain: domain,
         errorDescription: "An error occured due to missing `data` key in GraphQL query response. Contact developer.paypal.com/support."
     )
