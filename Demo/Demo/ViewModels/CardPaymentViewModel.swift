@@ -120,7 +120,7 @@ class CardPaymentViewModel: ObservableObject {
             let cardRequest = CardRequest(orderID: orderID, card: card, sca: sca)
             cardClient?.approveOrder(request: cardRequest) { result, error in
                 if let error {
-                    if CardError.isThreeDSecureCanceled(error) {
+                    if error == CardError.threeDSecureCanceledError {
                         self.setApprovalCancelResult()
                     } else {
                         self.setApprovalFailureResult(vaultError: error)

@@ -16,7 +16,7 @@ class PayPalVaultViewModel: VaultViewModel {
             let vaultRequest = PayPalVaultRequest(setupTokenID: setupTokenID)
             paypalClient.vault(vaultRequest) { result, error in
                 if let error {
-                    if PayPalError.isVaultCanceled(error) {
+                    if error == PayPalError.vaultCanceledError {
                         DispatchQueue.main.async {
                             print("Canceled")
                             self.state.paypalVaultTokenResponse = .idle

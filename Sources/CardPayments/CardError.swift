@@ -42,19 +42,19 @@ public enum CardError {
         case threeDSecureCanceledError
     }
 
-    static let unknownError = CoreSDKError(
+    public static let unknownError = CoreSDKError(
         code: Code.unknown.rawValue,
         domain: domain,
         errorDescription: "An unknown error has occured. Contact developer.paypal.com/support."
     )
     
-    static let encodingError = CoreSDKError(
+    public static let encodingError = CoreSDKError(
         code: Code.encodingError.rawValue,
         domain: domain,
         errorDescription: "An error occured encoding HTTP request body data. Contact developer.paypal.com/support."
     )
 
-    static let threeDSecureError: (Error) -> CoreSDKError = { error in
+    public static let threeDSecureError: (Error) -> CoreSDKError = { error in
         CoreSDKError(
             code: Code.threeDSecureError.rawValue,
             domain: domain,
@@ -62,13 +62,13 @@ public enum CardError {
         )
     }
     
-    static let threeDSecureURLError = CoreSDKError(
+    public static let threeDSecureURLError = CoreSDKError(
         code: Code.threeDSecureURLError.rawValue,
         domain: domain,
         errorDescription: "An invalid 3DS URL was returned. Contact developer.paypal.com/support."
     )
 
-    static let threeDSecureCanceledError = CoreSDKError(
+    public static let threeDSecureCanceledError = CoreSDKError(
         code: Code.threeDSecureCanceledError.rawValue,
         domain: domain,
         errorDescription: "3DS verification has been canceled by the user."
