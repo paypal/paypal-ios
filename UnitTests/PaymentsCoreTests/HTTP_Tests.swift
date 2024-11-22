@@ -58,8 +58,8 @@ class HTTP_Tests: XCTestCase {
             _ = try await sut.performRequest(fakeHTTPRequest)
             XCTFail("Request succeeded. Expected error.")
         } catch let error as CoreSDKError {
-            XCTAssertEqual(error.domain, NetworkingClientError.domain)
-            XCTAssertEqual(error.code, NetworkingClientError.Code.urlSessionError.rawValue)
+            XCTAssertEqual(error.domain, NetworkingError.domain)
+            XCTAssertEqual(error.code, NetworkingError.Code.urlSessionError.rawValue)
             XCTAssertEqual(error.localizedDescription, "An error occured during network call. Contact developer.paypal.com/support.")
         } catch {
             XCTFail("Unexpected error type")
@@ -73,8 +73,8 @@ class HTTP_Tests: XCTestCase {
             _ = try await sut.performRequest(fakeHTTPRequest)
             XCTFail("Request succeeded. Expected error.")
         } catch let error as CoreSDKError {
-            XCTAssertEqual(error.domain, NetworkingClientError.domain)
-            XCTAssertEqual(error.code, NetworkingClientError.Code.invalidURLResponse.rawValue)
+            XCTAssertEqual(error.domain, NetworkingError.domain)
+            XCTAssertEqual(error.code, NetworkingError.Code.invalidURLResponse.rawValue)
             XCTAssertEqual(error.localizedDescription, "An error occured due to an invalid HTTP response. Contact developer.paypal.com/support.")
         } catch {
             XCTFail("Unexpected error type")
