@@ -32,6 +32,7 @@ public class PayPalWebCheckoutClient: NSObject {
     /// Launch the PayPal web flow
     /// - Parameters:
     ///   - request: the PayPalRequest for the transaction
+    @available(*, deprecated, message: "This method is deprecated and will be removed in a future release. Use the new completion handler-based approach instead.")
     public func start(request: PayPalWebCheckoutRequest) {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         analyticsService?.sendEvent("paypal-web-payments:started")

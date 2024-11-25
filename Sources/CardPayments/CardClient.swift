@@ -43,6 +43,7 @@ public class CardClient: NSObject {
     /// If `didAttempt3DSecureVerification` is `true`, check verification status with `/v3/vault/setup-token/{id}` in your server.
     /// - Parameters:
     ///   - vaultRequest: The request containing setupTokenID and card
+    @available(*, deprecated, message: "This method is deprecated and will be removed in a future release. Use the new completion handler-based approach instead.")
     public func vault(_ vaultRequest: CardVaultRequest) {
         analyticsService = AnalyticsService(coreConfig: config, setupToken: vaultRequest.setupTokenID)
         analyticsService?.sendEvent("card-payments:vault-wo-purchase:started")
@@ -75,6 +76,7 @@ public class CardClient: NSObject {
     /// - Parameters:
     ///   - orderId: Order id for approval
     ///   - request: The request containing the card
+    @available(*, deprecated, message: "This method is deprecated and will be removed in a future release. Use the new completion handler-based approach instead.")
     public func approveOrder(request: CardRequest) {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         analyticsService?.sendEvent("card-payments:3ds:started")

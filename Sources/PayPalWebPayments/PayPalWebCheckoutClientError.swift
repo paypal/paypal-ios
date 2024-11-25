@@ -4,6 +4,7 @@ import Foundation
 import CorePayments
 #endif
 
+@available(*, deprecated, renamed: "PayPalError")
 enum PayPalWebCheckoutClientError {
 
     static let domain = "PayPalClientErrorDomain"

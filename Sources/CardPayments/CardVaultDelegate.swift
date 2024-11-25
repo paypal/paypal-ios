@@ -4,6 +4,7 @@ import CorePayments
 #endif
 
 /// CardVault delegate to handle events from CardClient
+@available(*, deprecated, message: "This protocol is deprecated and will be removed in a future release. Use the new completion handler-based approach instead.")
 public protocol CardVaultDelegate: AnyObject {
     
     /// Notify that the Card vault flow finished with a successful result

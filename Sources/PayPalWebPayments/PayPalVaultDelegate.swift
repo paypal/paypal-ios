@@ -4,6 +4,7 @@ import CorePayments
 #endif
 
 /// PayPalVault delegate to vault results from PayPalWebCheckoutClient
+@available(*, deprecated, message: "This protocol is deprecated and will be removed in a future release. Use the new completion handler-based approach instead.")
 public protocol PayPalVaultDelegate: AnyObject {
 
     /// Notify that the PayPal vault flow finished with a successful result
