@@ -43,8 +43,7 @@ Using Completion Handlers
 ```swift
 // Completion handlers return CoreSDKError, so no casting is needed in completion blocks
 cardClient.vault(request) { result, error in
-   guard let error = error else { return }
-   
+   if let error {
    // You can now use the public error enums directly
    switch error {
    case CardError.threeDSecureCanceledError:
@@ -54,6 +53,7 @@ cardClient.vault(request) { result, error in
    default:
    // Handle other errors
    }
+ }
 }
 ```
 
