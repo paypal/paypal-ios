@@ -5,11 +5,11 @@
 * CorePayments
   * Make `CoreSDKError` conform to Equatable
   * Rename `NetworkingClientError` to `NetworkingError`
-  * Make `NetworkingError` and static constants public
+  * Make `NetworkingError` enum and static constants public
 * CardPayments
-  * Make `CardError` static constants public
+  * Make `CardError` enum and static constants public
 * PayPalPayments
-  * Make `PayPalError` static constants public
+  * Make `PayPalError` enum and static constants public
 
 ## 2.0.0-beta1 (2024-11-20)
 * Breaking Changes
