@@ -5,6 +5,10 @@ This guide helps you migrate your code from version 1.x or 2.0.0-beta1 to 2.0.0-
 ## Overview
 Version 2.0 of the SDK transitions from delgate-based flows to completion handler-based flows. This change simplifies the integration and provides better compatibility with modern async/await patterns.
 
+### Error Handling in the SDK
+This SDK uses `CoreSDKError` as its unified error type across all operations. All errors returned by the SDK, whether from card payments, PayPal flows, or networking operations, are instances of `CoreSDKError`.
+This allows for consistent error handling across different payment methods and operations.
+
 ### Key Changes
 
 ### Important Change: Cancellation Handling
@@ -45,15 +49,19 @@ Using Completion Handlers
 cardClient.vault(request) { result, error in
    if let error {
    // You can now use the public error enums directly
-   switch error {
-   case CardError.threeDSecureCanceledError:
-   // Handle 3DS cancellation
-   case NetworkingError.urlSessionError:
-   // Handle netowrk error
-   default:
-   // Handle other errors
-   }
- }
+      switch error {
+      case CardError.threeDSecureCanceledError:
+      // Handle 3DS cancellation
+      case NetworkingError.urlSessionError:
+      // Handle netowrk error
+      default:
+      // Handle other errors
+    }
+    return
+  }
+  if let result {
+    // Handle success
+  }
 }
 ```
 
@@ -95,7 +103,7 @@ do {
 ### Best Practices 
 - Take advantage of `Equatable` for simpler error comparisons
 - Use the public error enum properties for better code clarity and type safety
-- The helper methods CardError.isThreeDSecureCanceled(Error), PayPalError.isCheckoutCanceled(Error), PayPalError.isVaultCanceled(Error) are still available and are particularly useful if you only need to handle specific cases like cancellation and want to avoid casting to CoreSDKError in catch blocks:
+- The helper methods `CardError.isThreeDSecureCanceled(Error)`, `PayPalError.isCheckoutCanceled(Error)`, `PayPalError.isVaultCanceled(Error)` are still available and are particularly useful if you only need to handle specific cases like cancellation and want to avoid casting to CoreSDKError in catch blocks:
 
 ```swift
 // If you only care about handling cancellation, this might be simpler:
