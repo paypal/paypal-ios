@@ -1,7 +1,7 @@
 import Foundation
 
 /// Error structure that SDK errors conform to
-public struct CoreSDKError: Error, LocalizedError {
+public struct CoreSDKError: Error, LocalizedError, Equatable {
 
     /// The error code.
     public let code: Int?

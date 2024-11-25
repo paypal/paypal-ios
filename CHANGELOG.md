@@ -1,6 +1,16 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+* CorePayments
+  * Make `CoreSDKError` conform to Equatable
+  * Rename `NetworkingClientError` to `NetworkingError`
+  * Make `NetworkingError` enum and static constants public
+* CardPayments
+  * Make `CardError` enum and static constants public
+* PayPalPayments
+  * Make `PayPalError` enum and static constants public
+
 ## 2.0.0-beta1 (2024-11-20)
 * Breaking Changes
   * PayPalNativePayments

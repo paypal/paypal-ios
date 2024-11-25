@@ -120,10 +120,10 @@ class CardPaymentViewModel: ObservableObject {
             let cardRequest = CardRequest(orderID: orderID, card: card, sca: sca)
             cardClient?.approveOrder(request: cardRequest) { result, error in
                 if let error {
-                    if CardError.isThreeDSecureCanceled(error) {
+                    if error == CardError.threeDSecureCanceledError {
                         self.setApprovalCancelResult()
                     } else {
-                        self.setApprovalFailureResult(vaultError: error)
+                        self.setApprovalFailureResult(error: error)
                     }
                 } else if let result {
                     self.setApprovalSuccessResult(
@@ -136,7 +136,7 @@ class CardPaymentViewModel: ObservableObject {
                 }
             }
         } catch {
-            setApprovalFailureResult(vaultError: error)
+            setApprovalFailureResult(error: error)
             print("failed in checkout with card. \(error.localizedDescription)")
         }
     }
@@ -149,9 +149,9 @@ class CardPaymentViewModel: ObservableObject {
         }
     }
 
-    func setApprovalFailureResult(vaultError: Error) {
+    func setApprovalFailureResult(error: Error) {
         DispatchQueue.main.async {
-            self.state.approveResultResponse = .error(message: vaultError.localizedDescription)
+            self.state.approveResultResponse = .error(message: error.localizedDescription)
         }
     }
 

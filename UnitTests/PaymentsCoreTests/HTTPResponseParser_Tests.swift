@@ -19,7 +19,7 @@ class HTTPResponseParser_Tests: XCTestCase {
         } catch {
             let error = error as! CoreSDKError
             XCTAssertEqual(error.localizedDescription, "An error occured due to missing HTTP response data. Contact developer.paypal.com/support.")
-            XCTAssertEqual(error.domain, NetworkingClientError.domain)
+            XCTAssertEqual(error.domain, NetworkingError.domain)
         }
     }
     
@@ -64,7 +64,7 @@ class HTTPResponseParser_Tests: XCTestCase {
         } catch {
             let error = error as! CoreSDKError
             XCTAssertEqual(error.localizedDescription, "fake-error-name: fake-message")
-            XCTAssertEqual(error.domain, NetworkingClientError.domain)
+            XCTAssertEqual(error.domain, NetworkingError.domain)
         }
     }
     
@@ -79,7 +79,7 @@ class HTTPResponseParser_Tests: XCTestCase {
         } catch {
             let error = error as! CoreSDKError
             XCTAssertEqual(error.localizedDescription, "An error occured due to missing HTTP response data. Contact developer.paypal.com/support.")
-            XCTAssertEqual(error.domain, NetworkingClientError.domain)
+            XCTAssertEqual(error.domain, NetworkingError.domain)
         }
     }
     
@@ -105,7 +105,7 @@ class HTTPResponseParser_Tests: XCTestCase {
         } catch {
             let error = error as! CoreSDKError
             XCTAssertEqual(error.localizedDescription, "An error occured due to missing `data` key in GraphQL query response. Contact developer.paypal.com/support.")
-            XCTAssertEqual(error.domain, NetworkingClientError.domain)
+            XCTAssertEqual(error.domain, NetworkingError.domain)
         }
     }
     
@@ -138,7 +138,7 @@ class HTTPResponseParser_Tests: XCTestCase {
         } catch {
             let error = error as! CoreSDKError
             XCTAssertEqual(error.localizedDescription, "fake-error-description")
-            XCTAssertEqual(error.domain, NetworkingClientError.domain)
+            XCTAssertEqual(error.domain, NetworkingError.domain)
         }
     }
 }

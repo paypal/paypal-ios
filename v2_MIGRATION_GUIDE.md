@@ -1,16 +1,124 @@
-# Migrating from Delegates to Completion Handlers
+# Migrating Guide to 2.0.0-beta2
+
+This guide helps you migrate your code from version 1.x or 2.0.0-beta1 to 2.0.0-beta2.
 
 ## Overview
 Version 2.0 of the SDK transitions from delgate-based flows to completion handler-based flows. This change simplifies the integration and provides better compatibility with modern async/await patterns.
 
+### Error Handling in the SDK
+This SDK uses `CoreSDKError` as its unified error type across all operations. All errors returned by the SDK, whether from card payments, PayPal flows, or networking operations, are instances of `CoreSDKError`.
+This allows for consistent error handling across different payment methods and operations.
+
 ### Key Changes
 
 ### Important Change: Cancellation Handling
-In v2.0, cancellations (e.g., 3DS cancellations, PayPal web flow cancellations) are now returned as errors rather than as separate delegate methods. There are new helper static functions, to help you discern threeDSecure cancellation errors and PayPal web flow cancellation errors. 
-- `CardError.threeDSecureCanceled(Error)` will return true for 3DS cancellation errors received during card payment or card vaulting flows. 
-- `PayPalError.isCheckoutCanceled(Error)` will return true for user cancellation during PayPalWebCheckout session.
-- `PayPalError.isVaultCanceled(Error)` will return true for user cancellation during PayPal vault session.
+In v2.0, cancellations (e.g., 3DS cancellations, PayPal web flow cancellations) are now returned as errors rather than as separate delegate methods. 
 
+### What's New in 2.0.0-beta2
+- The `CoreSDKError` is now equatable, enabling direct comparison of errors:
+```swift
+// Now possible in 2.0.0-beta2
+  if error == CardError.threeDSecureCanceledError {
+     // Handle 3DS Cancellation
+  }
+  
+// Instead of checking properties individually before and helper function in 2.0.0-beta1
+```
+
+- Public Access to Domain-Specific Error Enums: 
+Previously internal error enums like `CardError` and `NetworkingError` are now public, along with their static properties that return `CoreSDKError` instances. This provides better discoverability and type safety when working with specific error cases.
+```swift
+public enum CardError {
+  public static let threeDSecureCanceledError: CoreSDKError
+  public static let encodingError: CoreSDKError
+  //...other error constants
+}
+
+public enum NetworkingError {
+  public static let urlSessionError: CoreSDKError
+  public static let serverResponseError: (String) -> CoreSDKError
+  //...other error constants
+}
+```
+
+- Error Handling Examples
+
+Using Completion Handlers
+```swift
+// Completion handlers return CoreSDKError, so no casting is needed in completion blocks
+cardClient.vault(request) { result, error in
+   if let error {
+   // You can now use the public error enums directly
+      switch error {
+      case CardError.threeDSecureCanceledError:
+      // Handle 3DS cancellation
+      case NetworkingError.urlSessionError:
+      // Handle netowrk error
+      default:
+      // Handle other errors
+    }
+    return
+  }
+  if let result {
+    // Handle success
+  }
+}
+```
+
+Using Async/Await
+```swift
+do {
+      let result = cardClient.vault(request)
+      // handle success
+   } catch let error as CoreSDKError {
+      // Make sure to cast to CoreSDKError when using try-catch
+      switch error {
+      case CardError.threeDSecureCanceledError:
+      // Handle 3DS cancellation
+      case NetworkingError.urlSessionError:
+      // Handle netowrk error
+      default:
+      // Handle other errors
+      }
+  } catch {
+     // Handle unexpected errors
+  }  
+  
+  // Alternative approach using if-else
+  do {
+     let result = try await cardClient.vault(request)
+     // Handle success
+     } catch let error as CoreSDKError {
+        if error == CardError.threeDSecureCanceledError {
+         // Handle 3DS Cancellation
+        } else {
+         // Handle other CoreSDKErrors
+        }
+     } catch {
+       // Handle unexpected errors
+     }
+  }
+```
+
+### Best Practices 
+- Take advantage of `Equatable` for simpler error comparisons
+- Use the public error enum properties for better code clarity and type safety
+- The helper methods `CardError.isThreeDSecureCanceled(Error)`, `PayPalError.isCheckoutCanceled(Error)`, `PayPalError.isVaultCanceled(Error)` are still available and are particularly useful if you only need to handle specific cases like cancellation and want to avoid casting to CoreSDKError in catch blocks:
+
+```swift
+// If you only care about handling cancellation, this might be simpler:
+  do {
+     let result = try await cardClient.vault(request)
+     // Handle success
+    } catch {
+       if CardError.isThreeDSecureCanceled(error) {
+        // Handle cancellation
+       } else {
+        // Handle other errors
+       }
+    }
+```
+ 
 ### CardClient Changes
 
 ```swift
@@ -41,12 +149,7 @@ class MyViewController {
         let cardClient = CardClient(config: config)
         cardClient.approveOrder(request: cardRequest) { [weak self] result, error in
             if let error = error {
-                // if threeDSecure is canceled by user
-                if CardError.isThreeDSecureCanceled(error) {
-                // handle cancel error
-                } else {
-                // handle other errors
-                }
+                // handle errors
                 return
              }
             if let result = result {
@@ -87,12 +190,7 @@ class MyViewController {
         let payPalClient = PayPalWebCheckoutClient(config: config)
         payPalClient.start(request: paypalRequest) { [weak self] result, error in
             if let error = error {
-                // if PayPal webflow is canceled by user
-                if PayPalError.isCheckoutCanceled(error) {
-                // handle cancel error
-                } else {
-                // handle all other errors
-                }
+                // handle errors
                 return
             }
             if let result = result {

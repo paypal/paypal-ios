@@ -31,7 +31,7 @@ public enum PayPalError {
         case vaultCanceledError
     }
 
-    static let webSessionError: (Error) -> CoreSDKError = { error in
+    public static let webSessionError: (Error) -> CoreSDKError = { error in
         CoreSDKError(
             code: Code.webSessionError.rawValue,
             domain: domain,
@@ -39,31 +39,31 @@ public enum PayPalError {
         )
     }
 
-    static let payPalURLError = CoreSDKError(
+    public static let payPalURLError = CoreSDKError(
         code: Code.payPalURLError.rawValue,
         domain: domain,
         errorDescription: "Error constructing URL for PayPal request."
     )
 
-    static let malformedResultError = CoreSDKError(
+    public static let malformedResultError = CoreSDKError(
         code: Code.malformedResultError.rawValue,
         domain: domain,
         errorDescription: "Result did not contain the expected data."
     )
 
-    static let payPalVaultResponseError = CoreSDKError(
+    public static let payPalVaultResponseError = CoreSDKError(
         code: Code.payPalVaultResponseError.rawValue,
         domain: domain,
         errorDescription: "Error parsing PayPal vault response"
     )
 
-    static let checkoutCanceledError = CoreSDKError(
+    public static let checkoutCanceledError = CoreSDKError(
         code: Code.checkoutCanceledError.rawValue,
         domain: domain,
         errorDescription: "PayPal checkout has been canceled by the user"
     )
 
-    static let vaultCanceledError = CoreSDKError(
+    public static let vaultCanceledError = CoreSDKError(
         code: Code.vaultCanceledError.rawValue,
         domain: domain,
         errorDescription: "PayPal vault has been canceled by the user"
