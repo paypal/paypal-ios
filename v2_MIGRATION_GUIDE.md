@@ -1,6 +1,6 @@
 # Migrating Guide to 2.0.0-beta2
 
-This guide helps you migrade your code from version 1.x or 2.0.0-beta1 to 2.0.0-beta2.
+This guide helps you migrate your code from version 1.x or 2.0.0-beta1 to 2.0.0-beta2.
 
 ## Overview
 Version 2.0 of the SDK transitions from delgate-based flows to completion handler-based flows. This change simplifies the integration and provides better compatibility with modern async/await patterns.
