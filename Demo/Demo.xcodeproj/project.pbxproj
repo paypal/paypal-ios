@@ -239,7 +239,6 @@
 		1001E2B72CF6432F0023A03C /* PayPalVault */ = {
 			isa = PBXGroup;
 			children = (
-				1001E2BE2CF6548E0023A03C /* VaultViewModel */,
 				1001E2BC2CF644BE0023A03C /* PayPalVaultViewModel */,
 				3BB60B512B1F9EE400A298CF /* PayPalVaultViews */,
 			);
@@ -304,6 +303,15 @@
 				3B2027402A8A72050007907E /* VaultState.swift */,
 			);
 			path = VaultViewModel;
+			sourceTree = "<group>";
+		};
+		1001E2BF2CF6590E0023A03C /* Vault */ = {
+			isa = PBXGroup;
+			children = (
+				1001E2BE2CF6548E0023A03C /* VaultViewModel */,
+				3B2501052B2679F000903EAB /* VaultViews */,
+			);
+			path = Vault;
 			sourceTree = "<group>";
 		};
 		3B2501052B2679F000903EAB /* VaultViews */ = {
@@ -420,11 +428,11 @@
 		806F1E3726B85367007A60E6 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				1001E2BF2CF6590E0023A03C /* Vault */,
 				1001E2B92CF6433C0023A03C /* PayPalWebPayments */,
 				1001E2B82CF643350023A03C /* CardPayments */,
 				1001E2B72CF6432F0023A03C /* PayPalVault */,
 				1001E2B62CF643270023A03C /* CardVault */,
-				3B2501052B2679F000903EAB /* VaultViews */,
 				806C7A812C000626000E85E8 /* Demo.entitlements */,
 				806F1E4126B85369007A60E6 /* Assets.xcassets */,
 				BED0422F2710833100C80954 /* Card */,
