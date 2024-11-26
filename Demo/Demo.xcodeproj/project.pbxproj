@@ -249,7 +249,7 @@
 			isa = PBXGroup;
 			children = (
 				1001E2BB2CF6449B0023A03C /* CardPaymentViewModel */,
-				3BA56FEA2A9DCBB30081D14F /* CardPaymentViews */,
+				3BA56FEA2A9DCBB30081D14F /* CardViewComponents */,
 			);
 			path = CardPayments;
 			sourceTree = "<group>";
@@ -335,7 +335,7 @@
 			path = CardVaultViews;
 			sourceTree = "<group>";
 		};
-		3BA56FEA2A9DCBB30081D14F /* CardPaymentViews */ = {
+		3BA56FEA2A9DCBB30081D14F /* CardViewComponents */ = {
 			isa = PBXGroup;
 			children = (
 				3BA56FF32A9DCD790081D14F /* CardPaymentView.swift */,
@@ -347,7 +347,7 @@
 				3BA56FF52A9E9AAB0081D14F /* CardOrderActionButton.swift */,
 				3BA56FF92A9FE4180081D14F /* CardOrderCompletionResultView.swift */,
 			);
-			path = CardPaymentViews;
+			path = CardViewComponents;
 			sourceTree = "<group>";
 		};
 		3BA56FFF2A9FF6630081D14F /* PayPalWebPaymentsView */ = {
@@ -430,8 +430,8 @@
 			children = (
 				1001E2BF2CF6590E0023A03C /* Vault */,
 				1001E2B92CF6433C0023A03C /* PayPalWebPayments */,
-				1001E2B82CF643350023A03C /* CardPayments */,
 				1001E2B72CF6432F0023A03C /* PayPalVault */,
+				1001E2B82CF643350023A03C /* CardPayments */,
 				1001E2B62CF643270023A03C /* CardVault */,
 				806C7A812C000626000E85E8 /* Demo.entitlements */,
 				806F1E4126B85369007A60E6 /* Assets.xcassets */,
