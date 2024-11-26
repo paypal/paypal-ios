@@ -76,7 +76,7 @@ public class CardClient: NSObject {
     /// - Parameters:
     ///   - orderId: Order id for approval
     ///   - request: The request containing the card
-    @available(*, deprecated, message: "This method is deprecated and will be removed in a future release. Use the new completion handler-based approach instead.")
+    @available(*, deprecated, message: "This method is deprecated and will be removed in version 2.0.0. Please use the new completion handler-based approach instead. For more details, visit the v2 migration guide: https://github.com/paypal/paypal-ios/")
     public func approveOrder(request: CardRequest) {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         analyticsService?.sendEvent("card-payments:3ds:started")

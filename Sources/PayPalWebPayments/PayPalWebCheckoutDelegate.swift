@@ -4,7 +4,7 @@ import CorePayments
 #endif
 
 /// PayPal delegate to handle events from PayPalNativeCheckoutClient
-@available(*, deprecated, message: "This protocol is deprecated and will be removed in a future release. Use the new completion handler-based approach instead.")
+@available(*, deprecated, message: "This protocol is deprecated and will be removed in version 2.0.0. Please use the new completion handler-based approach instead. For more details, visit the v2 migration guide: https://github.com/paypal/paypal-ios/")
 public protocol PayPalWebCheckoutDelegate: AnyObject {
 
     /// Notify that the PayPal flow finished with a successful result
