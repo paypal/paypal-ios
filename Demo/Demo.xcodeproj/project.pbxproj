@@ -338,13 +338,13 @@
 		3BA56FEA2A9DCBB30081D14F /* CardPaymentViews */ = {
 			isa = PBXGroup;
 			children = (
+				3BA56FF32A9DCD790081D14F /* CardPaymentView.swift */,
 				3BA56FEB2A9DCBF30081D14F /* CreateOrderCardPaymentView.swift */,
 				3BA56FED2A9DCC340081D14F /* OrderCreateCardResultView.swift */,
 				3BA56FEF2A9DCCFD0081D14F /* CardOrderApproveView.swift */,
 				3BA56FF12A9DCD440081D14F /* CardApprovalResultView.swift */,
-				3BA56FF32A9DCD790081D14F /* CardPaymentView.swift */,
-				3BA56FF52A9E9AAB0081D14F /* CardOrderActionButton.swift */,
 				3BA56FF72A9FDB5A0081D14F /* CardPaymentOrderCompletionView.swift */,
+				3BA56FF52A9E9AAB0081D14F /* CardOrderActionButton.swift */,
 				3BA56FF92A9FE4180081D14F /* CardOrderCompletionResultView.swift */,
 			);
 			path = CardPaymentViews;
