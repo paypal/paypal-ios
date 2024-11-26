@@ -11,7 +11,7 @@ extension PayPalPayLaterButton.Color {
     }
 }
 
-extension PayPalButton.Color: CaseIterable {
+extension PayPalButton.Color {
 
     public static var allCases: [PayPalButton.Color] {
         [.gold, .white, .black, .silver, .blue]
@@ -22,7 +22,7 @@ extension PayPalButton.Color: CaseIterable {
     }
 }
 
-extension PayPalCreditButton.Color: CaseIterable {
+extension PayPalCreditButton.Color {
 
     public static var allCases: [PayPalCreditButton.Color] {
         [.white, .black, .darkBlue]
@@ -33,7 +33,7 @@ extension PayPalCreditButton.Color: CaseIterable {
     }
 }
 
-extension PaymentButtonEdges: CaseIterable {
+extension PaymentButtonEdges {
 
     public static var allCases: [PaymentButtonEdges] {
         [.hardEdges, .softEdges, .rounded, .custom(10)]
@@ -44,7 +44,7 @@ extension PaymentButtonEdges: CaseIterable {
     }
 }
 
-extension PaymentButtonSize: CaseIterable {
+extension PaymentButtonSize {
 
     public static var allCases: [PaymentButtonSize] {
         [.mini, .collapsed, .expanded, .full]
@@ -55,7 +55,7 @@ extension PaymentButtonSize: CaseIterable {
     }
 }
 
-extension PaymentButtonFundingSource: CaseIterable {
+extension PaymentButtonFundingSource {
 
     public static var allCases: [PaymentButtonFundingSource] {
         [.payPal, .payLater, .credit]
@@ -66,8 +66,8 @@ extension PaymentButtonFundingSource: CaseIterable {
     }
 }
 
-extension PayPalButton.Label: CaseIterable {
-    
+extension PayPalButton.Label {
+
     public static var allCases: [PayPalButton.Label] {
         [.none, .checkout, .buyNow, .payWith]
     }
