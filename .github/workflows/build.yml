@@ -34,4 +34,5 @@ jobs:
         run: cd SampleApps/SPMTest && swift package resolve
       - name: Build & archive SPMTest
         run: xcodebuild -project 'SampleApps/SPMTest/SPMTest.xcodeproj' -scheme 'SPMTest' clean build archive CODE_SIGNING_ALLOWED=NO
+        run: pod lib lint --allow-warnings="deprecated"
 

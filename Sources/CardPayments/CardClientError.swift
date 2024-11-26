@@ -3,6 +3,7 @@ import Foundation
 import CorePayments
 #endif
 
+@available(*, deprecated, renamed: "CardError")
 enum CardClientError {
 
     static let domain = "CardClientErrorDomain"
