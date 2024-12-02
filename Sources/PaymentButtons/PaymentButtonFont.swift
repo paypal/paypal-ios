@@ -12,6 +12,10 @@ extension UIFont {
         var errorRef: Unmanaged<CFError>?
         let frameworkBundle = Bundle(for: PaymentButton.self)
 
+        guard UIFont(name: name, size: 10.0) == nil else {
+            return
+        }
+
         guard
             let pathForResourceString = frameworkBundle.path(forResource: name, ofType: fileExtension),
             let fontData = NSData(contentsOfFile: pathForResourceString),

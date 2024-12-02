@@ -48,6 +48,7 @@ public class PaymentButton: UIButton {
         self.label = label
         self.analyticsService.sendEvent("payment-button:initialized", buttonType: fundingSource.rawValue)
         super.init(frame: .zero)
+        UIFont.registerFont()
         customizeAppearance()
         self.addTarget(self, action: #selector(onTap), for: .touchUpInside)
     }
@@ -180,7 +181,6 @@ public class PaymentButton: UIButton {
 
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
-        UIFont.registerFont()
         configureStackView()
         configureBackgroundColor()
         configurePrefix()
