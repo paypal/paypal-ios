@@ -1,22 +1,19 @@
 import Foundation
-import CardPayments
+import PayPalWebPayments
 
-struct CardPaymentState: Equatable {
-
-    struct CardResult: Decodable, Equatable {
-
+struct PayPalPaymentState: Equatable {
+    
+    struct ApprovalResult: Decodable, Equatable {
         let id: String
         let status: String?
-        let didAttemptThreeDSecureAuthentication: Bool
-    }
 
+    }
     var createOrder: Order?
     var authorizedOrder: Order?
     var capturedOrder: Order?
     var intent: Intent = .authorize
-    var scaSelection: SCA = .scaWhenRequired
-    var approveResult: CardResult?
-
+    var approveResult: ApprovalResult?
+    
     var createdOrderResponse: LoadingState<Order> = .idle {
         didSet {
             if case .loaded(let value) = createdOrderResponse {
@@ -25,9 +22,10 @@ struct CardPaymentState: Equatable {
         }
     }
 
-    var approveResultResponse: LoadingState<CardResult> = .idle {
+    var approveResultResponse: LoadingState<ApprovalResult> = .idle {
         didSet {
             if case .loaded(let value) = approveResultResponse {
+
                 approveResult = value
             }
         }

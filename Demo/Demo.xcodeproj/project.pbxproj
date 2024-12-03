@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1001E2C12CFFC72E0023A03C /* PayPalPaymentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1001E2C02CFFC72E0023A03C /* PayPalPaymentState.swift */; };
 		3B20273D2A89E3F00007907E /* CreateSetupTokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20273C2A89E3F00007907E /* CreateSetupTokenView.swift */; };
 		3B20273F2A89F24E0007907E /* CardVaultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20273E2A89F24E0007907E /* CardVaultViewModel.swift */; };
 		3B2027412A8A72050007907E /* VaultState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2027402A8A72050007907E /* VaultState.swift */; };
@@ -118,6 +119,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1001E2C02CFFC72E0023A03C /* PayPalPaymentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalPaymentState.swift; sourceTree = "<group>"; };
 		3B20273C2A89E3F00007907E /* CreateSetupTokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSetupTokenView.swift; sourceTree = "<group>"; };
 		3B20273E2A89F24E0007907E /* CardVaultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultViewModel.swift; sourceTree = "<group>"; };
 		3B2027402A8A72050007907E /* VaultState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultState.swift; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 			isa = PBXGroup;
 			children = (
 				3BA56FFB2A9FEFE90081D14F /* PayPalWebViewModel.swift */,
+				1001E2C02CFFC72E0023A03C /* PayPalPaymentState.swift */,
 			);
 			path = PayPalWebViewModel;
 			sourceTree = "<group>";
@@ -657,6 +660,7 @@
 				3B2027432A8A95EF0007907E /* SetupTokenResultView.swift in Sources */,
 				3BF999762A8AC093009CBDF2 /* UpdateSetupTokenResultView.swift in Sources */,
 				BECD84A027036DC2007CCAE4 /* Environment.swift in Sources */,
+				1001E2C12CFFC72E0023A03C /* PayPalPaymentState.swift in Sources */,
 				3BCCFE4B2A9D985F00C5102F /* FeatureSelectionView.swift in Sources */,
 				CB9ED44C283FDA900081F4DE /* PaymentButtonEnums+Extension.swift in Sources */,
 				3BB60B552B1FA00C00A298CF /* PayPalVaultViewModel.swift in Sources */,

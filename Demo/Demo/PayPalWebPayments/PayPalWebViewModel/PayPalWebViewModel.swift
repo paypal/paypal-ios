@@ -131,7 +131,7 @@ class PayPalWebViewModel: ObservableObject {
                             }
                         } else {
                             DispatchQueue.main.async {
-                                self.state.createdOrderResponse = .loaded(Order(id: orderID, status: "COMPLETED"))
+                                self.state.approveResultResponse = .loaded(PayPalPaymentState.ApprovalResult(id: orderID, status: "COMPLETED"))
                                 self.checkoutResult = result
                                 print("✅ Checkout result: \(String(describing: result))")
                             }
