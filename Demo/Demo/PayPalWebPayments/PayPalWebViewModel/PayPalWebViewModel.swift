@@ -54,8 +54,6 @@ class PayPalWebViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.state.createdOrderResponse = .loaded(order)
             }
-//            updateOrder(order)
-//            updateState(.success)
             print("✅ fetched orderID: \(order.id) with status: \(order.status)")
         } catch {
             DispatchQueue.main.async {
@@ -132,7 +130,6 @@ class PayPalWebViewModel: ObservableObject {
                                 }
                             }
                         } else {
-//                            self.updateState(.success)
                             DispatchQueue.main.async {
                                 self.state.createdOrderResponse = .loaded(Order(id: orderID, status: "COMPLETED"))
                                 self.checkoutResult = result
@@ -141,7 +138,6 @@ class PayPalWebViewModel: ObservableObject {
                         }
                     }
                 }
-//                updateState(.success)
             } catch {
                 print("Error starting PayPalWebCheckoutClient")
                 self.state.createdOrderResponse = .error(message: error.localizedDescription)
