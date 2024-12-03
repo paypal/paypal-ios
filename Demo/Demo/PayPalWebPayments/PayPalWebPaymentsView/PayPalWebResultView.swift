@@ -28,7 +28,7 @@ struct PayPalWebResultView: View {
             LabelViewText("Status:", bodyText: createOrderResponse.status)
 
             if let payerID = payPalWebViewModel.checkoutResult?.payerID {
-                LabelViewText("Payer ID:", bodyText: createOrderResponse.status)
+                LabelViewText("Payer ID:", bodyText: payerID)
             }
 
             if let emailAddress = createOrderResponse.paymentSource?.paypal?.emailAddress {

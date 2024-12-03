@@ -40,9 +40,6 @@ struct PayPalWebCreateOrderView: View {
                     }
                 }
                 .buttonStyle(RoundedBlueButtonStyle())
-//                if payPalWebViewModel.state == .loading && payPalWebViewModel.checkoutResult == nil && payPalWebViewModel.orderID == nil {
-//                    CircularProgressView()
-//                }
                 if case .loading = payPalWebViewModel.state.createdOrderResponse {
                     CircularProgressView()
                 }
