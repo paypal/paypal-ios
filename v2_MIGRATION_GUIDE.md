@@ -220,7 +220,7 @@ class MyViewController {
 }
 ```
 * Note about using async/await functions: Our async/await functions utilize `withCheckedContinuation`
-There were crashes reported with Xcode 16 beta 5 with earlier iOS 18 beta versions.
+There were crashes reported with Xcode 16 beta 5+ with earlier iOS 18 beta versions.
 Also reported issues with MacCatalyst apps built with Xcode 16 and running on MacOS 14-.
 The fix for MacCatalyst apps was released with Xcode 16.2 beta.
 https://github.com/swiftlang/swift/pull/76218#issuecomment-2377064768
