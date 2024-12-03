@@ -10,7 +10,7 @@ struct PayPalWebPaymentsView: View {
                 VStack(spacing: 16) {
                     PayPalWebCreateOrderView(payPalWebViewModel: payPalWebViewModel)
 
-                    if payPalWebViewModel.orderID != nil {
+                    if payPalWebViewModel.state.createOrder?.id != nil {
                         PayPalWebButtonsView(payPalWebViewModel: payPalWebViewModel)
                     }
 

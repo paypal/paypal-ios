@@ -39,7 +39,7 @@ struct PayPalWebButtonsView: View {
                             payPalWebViewModel.paymentButtonTapped(funding: .paypal)
                         }
                     }
-                    if payPalWebViewModel.state == .loading &&
+                    if payPalWebViewModel.state.createdOrderResponse == .loading &&
                         payPalWebViewModel.checkoutResult == nil &&
                         payPalWebViewModel.orderID != nil {
                         CircularProgressView()
