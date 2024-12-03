@@ -109,7 +109,7 @@ class PayPalWebViewModel: ObservableObject {
         Task {
             do {
                 DispatchQueue.main.async {
-                    self.state.createdOrderResponse = .loading
+                    self.state.approveResultResponse = .loading
                 }
                 payPalWebCheckoutClient = try await getPayPalClient()
                 guard let payPalWebCheckoutClient else {
@@ -124,9 +124,9 @@ class PayPalWebViewModel: ObservableObject {
                             DispatchQueue.main.async {
                                 if error == PayPalError.checkoutCanceledError {
                                     print("Canceled")
-                                    self.state.createdOrderResponse = .idle
+                                    self.state.approveResultResponse = .idle
                                 } else {
-                                    self.state.createdOrderResponse = .error(message: error.localizedDescription)
+                                    self.state.approveResultResponse = .error(message: error.localizedDescription)
                                 }
                             }
                         } else {
