@@ -33,7 +33,7 @@ struct PayPalWebPaymentsView: View {
                     if case .loaded = payPalWebViewModel.state.capturedOrderResponse {
                         PayPalOrderCompletionResultView(payPalWebViewModel: payPalWebViewModel)
                     } else if case .loaded = payPalWebViewModel.state.authorizedOrderResponse {
-                        PayPalOrderCreateResultView(payPalWebViewModel: payPalWebViewModel)
+                        PayPalOrderCompletionResultView(payPalWebViewModel: payPalWebViewModel)
                     }
                 }
                 .onChange(of: payPalWebViewModel.state) { _ in
