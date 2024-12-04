@@ -167,8 +167,8 @@ class PayPalWebViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.state.authorizedOrderResponse = .loading
             }
-            let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
-            if let orderID {
+            if let orderID = state.createOrder?.id, !orderID.isEmpty {
+                let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
                 let order = try await DemoMerchantAPI.sharedService.completeOrder(
                     intent: intent,
                     orderID: orderID,

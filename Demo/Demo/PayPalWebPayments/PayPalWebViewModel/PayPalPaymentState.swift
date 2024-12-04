@@ -25,7 +25,6 @@ struct PayPalPaymentState: Equatable {
     var approveResultResponse: LoadingState<ApprovalResult> = .idle {
         didSet {
             if case .loaded(let value) = approveResultResponse {
-
                 approveResult = value
             }
         }
