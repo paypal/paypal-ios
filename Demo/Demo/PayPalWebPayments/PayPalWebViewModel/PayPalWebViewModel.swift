@@ -65,7 +65,9 @@ class PayPalWebViewModel: ObservableObject {
     
     func captureOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async {
         do {
-            self.state.capturedOrderResponse = .loading
+            DispatchQueue.main.async {
+                self.state.capturedOrderResponse = .loading
+            }
             let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
             let order = try await DemoMerchantAPI.sharedService.captureOrder(
                 orderID: orderID,
@@ -162,8 +164,9 @@ class PayPalWebViewModel: ObservableObject {
 
     func completeTransaction() async throws {
         do {
-            self.state.authorizedOrderResponse = .loading
-
+            DispatchQueue.main.async {
+                self.state.authorizedOrderResponse = .loading
+            }
             let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
             if let orderID {
                 let order = try await DemoMerchantAPI.sharedService.completeOrder(
