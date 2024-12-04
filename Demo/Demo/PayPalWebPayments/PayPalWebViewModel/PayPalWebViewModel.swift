@@ -164,25 +164,52 @@ class PayPalWebViewModel: ObservableObject {
 
     func completeTransaction() async throws {
         do {
-            DispatchQueue.main.async {
-                self.state.authorizedOrderResponse = .loading
-            }
-            if let orderID = state.createOrder?.id, !orderID.isEmpty {
+            setLoadingState()
+            if let orderID = state.createOrder?.id {
                 let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
                 let order = try await DemoMerchantAPI.sharedService.completeOrder(
                     intent: intent,
                     orderID: orderID,
                     payPalClientMetadataID: payPalClientMetadataID
                 )
-                DispatchQueue.main.async {
-                    self.state.authorizedOrderResponse = .loaded(order)
-                }
+                setLoadingState(order: order)
             }
         } catch {
-            DispatchQueue.main.async {
-                self.state.authorizedOrderResponse = .error(message: error.localizedDescription)
-            }
+            setErrorState(message: error.localizedDescription)
             print("Error with \(intent) order: \(error.localizedDescription)")
+        }
+    }
+    
+    private func setLoadingState() {
+        DispatchQueue.main.async {
+            switch self.intent {
+            case .authorize:
+                self.state.authorizedOrderResponse = .loading
+            case .capture:
+                self.state.capturedOrderResponse = .loading
+            }
+        }
+    }
+    
+    private func setLoadingState(order: Order) {
+        DispatchQueue.main.async {
+            switch self.intent {
+            case .authorize:
+                self.state.authorizedOrderResponse = .loaded(order)
+            case .capture:
+                self.state.capturedOrderResponse = .loaded(order)
+            }
+        }
+    }
+    
+    private func setErrorState(message: String) {
+        DispatchQueue.main.async {
+            switch self.intent {
+            case .authorize:
+                self.state.authorizedOrderResponse = .error(message: message)
+            case .capture:
+                self.state.capturedOrderResponse = .error(message: message)
+            }
         }
     }
 

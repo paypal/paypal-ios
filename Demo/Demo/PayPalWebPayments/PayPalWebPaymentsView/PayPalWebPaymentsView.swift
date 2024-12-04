@@ -11,7 +11,7 @@ struct PayPalWebPaymentsView: View {
                     
                     PayPalWebCreateOrderView(payPalWebViewModel: payPalWebViewModel)
                     
-                    if case .loaded(let order) = payPalWebViewModel.state.createdOrderResponse {
+                    if case .loaded(_) = payPalWebViewModel.state.createdOrderResponse {
                         PayPalOrderCreateResultView(payPalWebViewModel: payPalWebViewModel)
                         
                         PayPalWebButtonsView(payPalWebViewModel: payPalWebViewModel)
