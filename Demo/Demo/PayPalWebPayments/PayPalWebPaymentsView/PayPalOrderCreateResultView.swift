@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct PayPalWebResultView: View {
+struct PayPalOrderCreateResultView: View {
 
     @ObservedObject var payPalWebViewModel: PayPalWebViewModel
 
