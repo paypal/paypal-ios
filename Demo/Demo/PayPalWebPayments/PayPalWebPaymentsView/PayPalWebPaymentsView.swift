@@ -22,12 +22,6 @@ struct PayPalWebPaymentsView: View {
                         
                         PayPalWebTransactionView(payPalWebViewModel: payPalWebViewModel)
                             .padding(.bottom, 20)
-                            .id("bottomView")
-                            .onAppear {
-                                withAnimation {
-                                    scrollView.scrollTo("bottomView")
-                                }
-                            }
                     }
                     
                     if case .loaded = payPalWebViewModel.state.capturedOrderResponse {
@@ -35,6 +29,8 @@ struct PayPalWebPaymentsView: View {
                     } else if case .loaded = payPalWebViewModel.state.authorizedOrderResponse {
                         PayPalOrderCompletionResultView(payPalWebViewModel: payPalWebViewModel)
                     }
+                    Text("")
+                        .id("bottomView")
                 }
                 .onChange(of: payPalWebViewModel.state) { _ in
                     withAnimation {

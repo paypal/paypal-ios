@@ -19,10 +19,25 @@ struct PayPalOrderCompletionResultView: View {
             Text("Order \(intent) Successfully")
                 .font(.system(size: 20))
             
-            LeadingText("Order ID", weight: .bold)
-            LeadingText(order.id)
-            LeadingText("Status", weight: .bold)
-            LeadingText(order.status)
+            LabelViewText("Order ID:", bodyText: order.id)
+            
+            LabelViewText("Status:", bodyText: order.status)
+
+            if let payerID = payPalWebViewModel.checkoutResult?.payerID {
+                LabelViewText("Payer ID:", bodyText: payerID)
+            }
+
+            if let emailAddress = order.paymentSource?.paypal?.emailAddress {
+                LabelViewText("Email:", bodyText: emailAddress)
+            }
+
+            if let vaultID = order.paymentSource?.paypal?.attributes?.vault.id {
+                LabelViewText("Payment Token:", bodyText: vaultID)
+            }
+
+            if let customerID = order.paymentSource?.paypal?.attributes?.vault.customer?.id {
+                LabelViewText("Customer ID:", bodyText: customerID)
+            }
         }
         .frame(maxWidth: .infinity)
         .padding()

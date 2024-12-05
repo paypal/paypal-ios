@@ -360,13 +360,13 @@
 		3BA56FFF2A9FF6630081D14F /* PayPalWebPaymentsView */ = {
 			isa = PBXGroup;
 			children = (
-				3BA570062AA0DF330081D14F /* PayPalWebButtonsView.swift */,
 				3BA570022AA053AE0081D14F /* PayPalWebCreateOrderView.swift */,
-				3BA570002AA052E80081D14F /* PayPalWebPaymentsView.swift */,
-				3B6472A62AFAEB3A004745C4 /* PayPalWebTransactionView.swift */,
 				BE8117632B07E778009867B9 /* PayPalOrderCreateResultView.swift */,
+				3BA570062AA0DF330081D14F /* PayPalWebButtonsView.swift */,
 				1001E2C42CFFD2800023A03C /* PayPalApprovalResultView.swift */,
 				1001E2C62CFFD2A20023A03C /* PayPalOrderCompletionResultView.swift */,
+				3BA570002AA052E80081D14F /* PayPalWebPaymentsView.swift */,
+				3B6472A62AFAEB3A004745C4 /* PayPalWebTransactionView.swift */,
 			);
 			path = PayPalWebPaymentsView;
 			sourceTree = "<group>";
