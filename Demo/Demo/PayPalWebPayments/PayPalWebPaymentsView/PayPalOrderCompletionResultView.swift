@@ -15,14 +15,21 @@ struct PayPalOrderCompletionResultView: View {
     }
     
     func getCompletionSuccessView(order: Order, intent: String) -> some View {
-        VStack(spacing: 16) {
+        VStack(alignment: .leading, spacing: 16) {
             Text("Order \(intent) Successfully")
-                .font(.headline)
+                .font(.system(size: 20))
             
             LeadingText("Order ID", weight: .bold)
             LeadingText(order.id)
             LeadingText("Status", weight: .bold)
             LeadingText(order.status)
         }
+        .frame(maxWidth: .infinity)
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(.gray, lineWidth: 2)
+                .padding(5)
+        )
     }
 }

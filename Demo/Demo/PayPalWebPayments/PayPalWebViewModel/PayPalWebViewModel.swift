@@ -52,6 +52,7 @@ class PayPalWebViewModel: ObservableObject {
                 selectedMerchantIntegration: DemoSettings.merchantIntegration
             )
             DispatchQueue.main.async {
+                self.order = order
                 self.state.createdOrderResponse = .loaded(order)
             }
             print("✅ fetched orderID: \(order.id) with status: \(order.status)")
@@ -63,7 +64,7 @@ class PayPalWebViewModel: ObservableObject {
         }
     }
     
-    func captureOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async {
+    func captureOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws {
         do {
             DispatchQueue.main.async {
                 self.state.capturedOrderResponse = .loading
@@ -85,7 +86,7 @@ class PayPalWebViewModel: ObservableObject {
         }
     }
     
-    func authorizeOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async {
+    func authorizeOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws {
         do {
             DispatchQueue.main.async {
                 self.state.authorizedOrderResponse = .loading
