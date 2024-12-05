@@ -176,7 +176,7 @@ class PayPalWebViewModel: ObservableObject {
                     orderID: orderID,
                     payPalClientMetadataID: payPalClientMetadataID
                 )
-                setLoadingState(order: order)
+                setOrderCompletionLoadedState(order: order)
             }
         } catch {
             setErrorState(message: error.localizedDescription)
@@ -204,7 +204,7 @@ class PayPalWebViewModel: ObservableObject {
         }
     }
     
-    private func setLoadingState(order: Order) {
+    private func setOrderCompletionLoadedState(order: Order) {
         DispatchQueue.main.async {
             switch self.intent {
             case .authorize:
