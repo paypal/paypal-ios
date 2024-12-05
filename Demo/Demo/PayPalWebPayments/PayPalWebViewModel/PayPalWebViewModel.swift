@@ -63,50 +63,6 @@ class PayPalWebViewModel: ObservableObject {
             print("❌ failed to fetch orderID with error: \(error.localizedDescription)")
         }
     }
-    
-    func captureOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws {
-        do {
-            DispatchQueue.main.async {
-                self.state.capturedOrderResponse = .loading
-            }
-            let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
-            let order = try await DemoMerchantAPI.sharedService.captureOrder(
-                orderID: orderID,
-                selectedMerchantIntegration: selectedMerchantIntegration,
-                payPalClientMetadataID: payPalClientMetadataID
-            )
-            DispatchQueue.main.async {
-                self.state.capturedOrderResponse = .loaded(order)
-            }
-        } catch {
-            DispatchQueue.main.async {
-                self.state.capturedOrderResponse = .error(message: error.localizedDescription)
-            }
-            print("❌ Failed to capture order: \(error.localizedDescription)")
-        }
-    }
-    
-    func authorizeOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws {
-        do {
-            DispatchQueue.main.async {
-                self.state.authorizedOrderResponse = .loading
-            }
-            let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
-            let order = try await DemoMerchantAPI.sharedService.authorizeOrder(
-                orderID: orderID,
-                selectedMerchantIntegration: selectedMerchantIntegration,
-                payPalClientMetadataID: payPalClientMetadataID
-            )
-            DispatchQueue.main.async {
-                self.state.authorizedOrderResponse = .loaded(order)
-            }
-        } catch {
-            DispatchQueue.main.async {
-                self.state.authorizedOrderResponse = .error(message: error.localizedDescription)
-            }
-            print("❌ Failed to authorize order: \(error.localizedDescription)")
-        }
-    }
 
     func paymentButtonTapped(funding: PayPalWebCheckoutFundingSource) {
         Task {
@@ -134,7 +90,7 @@ class PayPalWebViewModel: ObservableObject {
                             }
                         } else {
                             DispatchQueue.main.async {
-                                self.state.approveResultResponse = .loaded(PayPalPaymentState.ApprovalResult(id: orderID, status: "COMPLETED"))
+                                self.state.approveResultResponse = .loaded(PayPalPaymentState.ApprovalResult(id: orderID, status: "APPROVED"))
                                 self.checkoutResult = result
                                 print("✅ Checkout result: \(String(describing: result))")
                             }
@@ -166,9 +122,6 @@ class PayPalWebViewModel: ObservableObject {
     func completeTransaction() async throws {
         do {
             setLoadingState()
-            
-            try await processIntent(orderID: orderID ?? "")
-
             if let orderID = state.createOrder?.id {
                 let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
                 let order = try await DemoMerchantAPI.sharedService.completeOrder(
@@ -181,15 +134,6 @@ class PayPalWebViewModel: ObservableObject {
         } catch {
             setErrorState(message: error.localizedDescription)
             print("Error with \(intent) order: \(error.localizedDescription)")
-        }
-    }
-    
-    private func processIntent(orderID: String) async throws {
-        switch intent {
-        case .authorize:
-            try await authorizeOrder(orderID: orderID, selectedMerchantIntegration: DemoSettings.merchantIntegration)
-        case .capture:
-            try await captureOrder(orderID: orderID, selectedMerchantIntegration: DemoSettings.merchantIntegration)
         }
     }
     
