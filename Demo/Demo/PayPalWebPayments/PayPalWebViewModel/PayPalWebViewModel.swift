@@ -166,6 +166,9 @@ class PayPalWebViewModel: ObservableObject {
     func completeTransaction() async throws {
         do {
             setLoadingState()
+            
+            try await processIntent(orderID: orderID ?? "")
+
             if let orderID = state.createOrder?.id {
                 let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
                 let order = try await DemoMerchantAPI.sharedService.completeOrder(
@@ -178,6 +181,15 @@ class PayPalWebViewModel: ObservableObject {
         } catch {
             setErrorState(message: error.localizedDescription)
             print("Error with \(intent) order: \(error.localizedDescription)")
+        }
+    }
+    
+    private func processIntent(orderID: String) async throws {
+        switch intent {
+        case .authorize:
+            try await authorizeOrder(orderID: orderID, selectedMerchantIntegration: DemoSettings.merchantIntegration)
+        case .capture:
+            try await captureOrder(orderID: orderID, selectedMerchantIntegration: DemoSettings.merchantIntegration)
         }
     }
     
