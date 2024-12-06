@@ -6,8 +6,8 @@ struct PayPalPaymentState: Equatable {
     struct ApprovalResult: Decodable, Equatable {
         let id: String
         let status: String?
-
     }
+    
     var createOrder: Order?
     var authorizedOrder: Order?
     var capturedOrder: Order?
