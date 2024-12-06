@@ -107,7 +107,9 @@ class PayPalWebViewModel: ObservableObject {
                 }
             } catch {
                 print("Error starting PayPalWebCheckoutClient")
-                self.state.createdOrderResponse = .error(message: error.localizedDescription)
+                DispatchQueue.main.async {
+                    self.state.createdOrderResponse = .error(message: error.localizedDescription)
+                }
             }
         }
     }
