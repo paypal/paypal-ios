@@ -113,7 +113,7 @@ public class CardClient: NSObject {
                         return
                     }
                 
-                    analyticsService?.sendEvent("card-payments:approve-order:challenge-required")
+                    analyticsService?.sendEvent("card-payments:approve-order:auth-challenge-required")
                     startThreeDSecureChallenge(url: url, orderId: result.id, completion: completion)
                 } else {
                     let cardResult = CardResult(orderID: result.id, status: result.status, didAttemptThreeDSecureAuthentication: false)
