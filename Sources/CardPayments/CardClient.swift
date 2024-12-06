@@ -120,10 +120,8 @@ public class CardClient: NSObject {
                     notifyCheckoutSuccess(for: cardResult, completion: completion)
                 }
             } catch let error as CoreSDKError {
-                analyticsService?.sendEvent("card-payments:confirm-payment-source:failed")
                 notifyCheckoutFailure(with: error, completion: completion)
             } catch {
-                analyticsService?.sendEvent("card-payments:confirm-payment-source:failed")
                 notifyCheckoutFailure(with: CardError.unknownError, completion: completion)
             }
         }
