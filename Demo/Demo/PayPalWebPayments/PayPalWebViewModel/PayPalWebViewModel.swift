@@ -5,7 +5,7 @@ import FraudProtection
 
 class PayPalWebViewModel: ObservableObject {
 
-    @Published var state: CurrentState = .idle
+    @Published var state = PayPalPaymentState()
     @Published var intent: Intent = .authorize
     @Published var order: Order?
     @Published var checkoutResult: PayPalWebCheckoutResult?
@@ -27,7 +27,13 @@ class PayPalWebViewModel: ObservableObject {
         if shouldVault {
             let attributes = Attributes(vault: Vault(storeInVault: "ON_SUCCESS", usageType: "MERCHANT", customerType: "CONSUMER"))
             // The returnURL is not used in our mobile SDK, but a required field for create order with PayPal payment source. DTPPCPSDK-1492 to track this issue
-            let paypal = VaultPayPal(attributes: attributes, experienceContext: ExperienceContext(returnURL: "https://example.com/returnUrl", cancelURL: "https://example.com/cancelUrl"))
+            let paypal = VaultPayPal(
+                attributes: attributes,
+                experienceContext: ExperienceContext(
+                    returnURL: "https://example.com/returnUrl",
+                    cancelURL: "https://example.com/cancelUrl"
+                )
+            )
             vaultPayPalPaymentSource = VaultPayPalPaymentSource(paypal: paypal)
         }
 
@@ -44,17 +50,22 @@ class PayPalWebViewModel: ObservableObject {
         )
 
         do {
-            updateState(.loading)
+            DispatchQueue.main.async {
+                self.state.createdOrderResponse = .loading
+            }
             let order = try await DemoMerchantAPI.sharedService.createOrder(
                 orderParams: orderRequestParams,
                 selectedMerchantIntegration: DemoSettings.merchantIntegration
             )
-
-            updateOrder(order)
-            updateState(.success)
+            DispatchQueue.main.async {
+                self.order = order
+                self.state.createdOrderResponse = .loaded(order)
+            }
             print("✅ fetched orderID: \(order.id) with status: \(order.status)")
         } catch {
-            updateState(.error(message: error.localizedDescription))
+            DispatchQueue.main.async {
+                self.state.createdOrderResponse = .error(message: error.localizedDescription)
+            }
             print("❌ failed to fetch orderID with error: \(error.localizedDescription)")
         }
     }
@@ -62,33 +73,43 @@ class PayPalWebViewModel: ObservableObject {
     func paymentButtonTapped(funding: PayPalWebCheckoutFundingSource) {
         Task {
             do {
-                self.updateState(.loading)
+                DispatchQueue.main.async {
+                    self.state.approveResultResponse = .loading
+                }
                 payPalWebCheckoutClient = try await getPayPalClient()
                 guard let payPalWebCheckoutClient else {
                     print("Error initializing PayPalWebCheckoutClient")
                     return
                 }
 
-                if let orderID {
+                if let orderID = state.createOrder?.id {
                     let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding)
                     payPalWebCheckoutClient.start(request: payPalRequest) { result, error in
                         if let error {
-                            if error == PayPalError.checkoutCanceledError {
-                                print("Canceled")
-                                self.updateState(.idle)
-                            } else {
-                                self.updateState(.error(message: error.localizedDescription))
+                            DispatchQueue.main.async {
+                                if error == PayPalError.checkoutCanceledError {
+                                    print("Canceled")
+                                    self.state.approveResultResponse = .idle
+                                } else {
+                                    self.state.approveResultResponse = .error(message: error.localizedDescription)
+                                }
                             }
                         } else {
-                            self.updateState(.success)
-                            self.checkoutResult = result
+                            DispatchQueue.main.async {
+                                self.state.approveResultResponse = .loaded(
+                                    PayPalPaymentState.ApprovalResult(id: orderID, status: "APPROVED")
+                                )
+                                self.checkoutResult = result
+                                print("✅ Checkout result: \(String(describing: result))")
+                            }
                         }
                     }
                 }
-                updateState(.success)
             } catch {
                 print("Error starting PayPalWebCheckoutClient")
-                updateState(.error(message: error.localizedDescription))
+                DispatchQueue.main.async {
+                    self.state.createdOrderResponse = .error(message: error.localizedDescription)
+                }
             }
         }
     }
@@ -100,7 +121,9 @@ class PayPalWebViewModel: ObservableObject {
             payPalDataCollector = PayPalDataCollector(config: config)
             return payPalClient
         } catch {
-            updateState(.error(message: error.localizedDescription))
+            DispatchQueue.main.async {
+                self.state.createdOrderResponse = .error(message: error.localizedDescription)
+            }
             print("❌ failed to create PayPalWebCheckoutClient with error: \(error.localizedDescription)")
             return nil
         }
@@ -108,39 +131,58 @@ class PayPalWebViewModel: ObservableObject {
 
     func completeTransaction() async throws {
         do {
-            updateState(.loading)
-
-            let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
-            if let orderID {
+            setLoadingState()
+            if let orderID = state.createOrder?.id {
+                let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
                 let order = try await DemoMerchantAPI.sharedService.completeOrder(
                     intent: intent,
                     orderID: orderID,
                     payPalClientMetadataID: payPalClientMetadataID
                 )
-                updateOrder(order)
-                updateState(.success)
+                setOrderCompletionLoadedState(order: order)
             }
         } catch {
-            updateState(.error(message: error.localizedDescription))
+            setErrorState(message: error.localizedDescription)
             print("Error with \(intent) order: \(error.localizedDescription)")
+        }
+    }
+    
+    private func setLoadingState() {
+        DispatchQueue.main.async {
+            switch self.intent {
+            case .authorize:
+                self.state.authorizedOrderResponse = .loading
+            case .capture:
+                self.state.capturedOrderResponse = .loading
+            }
+        }
+    }
+    
+    private func setOrderCompletionLoadedState(order: Order) {
+        DispatchQueue.main.async {
+            switch self.intent {
+            case .authorize:
+                self.state.authorizedOrderResponse = .loaded(order)
+            case .capture:
+                self.state.capturedOrderResponse = .loaded(order)
+            }
+        }
+    }
+    
+    private func setErrorState(message: String) {
+        DispatchQueue.main.async {
+            switch self.intent {
+            case .authorize:
+                self.state.authorizedOrderResponse = .error(message: message)
+            case .capture:
+                self.state.capturedOrderResponse = .error(message: message)
+            }
         }
     }
 
     func resetState() {
-        updateState(.idle)
+        self.state = PayPalPaymentState()
         order = nil
         checkoutResult = nil
-    }
-
-    private func updateOrder(_ order: Order) {
-        DispatchQueue.main.async {
-            self.order = order
-        }
-    }
-
-    private func updateState(_ state: CurrentState) {
-        DispatchQueue.main.async {
-            self.state = state
-        }
     }
 }
