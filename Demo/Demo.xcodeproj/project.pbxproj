@@ -321,6 +321,17 @@
 			path = Vault;
 			sourceTree = "<group>";
 		};
+		1001E2CB2D03836D0023A03C /* PayPalWebResultViews */ = {
+			isa = PBXGroup;
+			children = (
+				BE8117632B07E778009867B9 /* PayPalOrderCreateResultView.swift */,
+				1001E2C42CFFD2800023A03C /* PayPalApprovalResultView.swift */,
+				3B6472A62AFAEB3A004745C4 /* PayPalWebTransactionView.swift */,
+				1001E2C62CFFD2A20023A03C /* PayPalOrderCompletionResultView.swift */,
+			);
+			path = PayPalWebResultViews;
+			sourceTree = "<group>";
+		};
 		3B2501052B2679F000903EAB /* VaultViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -360,13 +371,10 @@
 		3BA56FFF2A9FF6630081D14F /* PayPalWebPaymentsView */ = {
 			isa = PBXGroup;
 			children = (
-				3BA570022AA053AE0081D14F /* PayPalWebCreateOrderView.swift */,
-				BE8117632B07E778009867B9 /* PayPalOrderCreateResultView.swift */,
-				3BA570062AA0DF330081D14F /* PayPalWebButtonsView.swift */,
-				1001E2C42CFFD2800023A03C /* PayPalApprovalResultView.swift */,
-				1001E2C62CFFD2A20023A03C /* PayPalOrderCompletionResultView.swift */,
+				1001E2CB2D03836D0023A03C /* PayPalWebResultViews */,
 				3BA570002AA052E80081D14F /* PayPalWebPaymentsView.swift */,
-				3B6472A62AFAEB3A004745C4 /* PayPalWebTransactionView.swift */,
+				3BA570062AA0DF330081D14F /* PayPalWebButtonsView.swift */,
+				3BA570022AA053AE0081D14F /* PayPalWebCreateOrderView.swift */,
 			);
 			path = PayPalWebPaymentsView;
 			sourceTree = "<group>";
