@@ -27,7 +27,7 @@ struct PayPalApprovalResultView: View {
                 LeadingText("Status", weight: .bold)
                 LeadingText(status)
             }
-        } 
+        }
         .frame(maxWidth: .infinity)
         .padding()
         .background(

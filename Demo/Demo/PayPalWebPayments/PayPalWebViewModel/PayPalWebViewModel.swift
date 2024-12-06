@@ -27,7 +27,13 @@ class PayPalWebViewModel: ObservableObject {
         if shouldVault {
             let attributes = Attributes(vault: Vault(storeInVault: "ON_SUCCESS", usageType: "MERCHANT", customerType: "CONSUMER"))
             // The returnURL is not used in our mobile SDK, but a required field for create order with PayPal payment source. DTPPCPSDK-1492 to track this issue
-            let paypal = VaultPayPal(attributes: attributes, experienceContext: ExperienceContext(returnURL: "https://example.com/returnUrl", cancelURL: "https://example.com/cancelUrl"))
+            let paypal = VaultPayPal(
+                attributes: attributes,
+                experienceContext: ExperienceContext(
+                    returnURL: "https://example.com/returnUrl",
+                    cancelURL: "https://example.com/cancelUrl"
+                )
+            )
             vaultPayPalPaymentSource = VaultPayPalPaymentSource(paypal: paypal)
         }
 

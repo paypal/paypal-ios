@@ -4,6 +4,7 @@ import PayPalWebPayments
 struct PayPalPaymentState: Equatable {
     
     struct ApprovalResult: Decodable, Equatable {
+        
         let id: String
         let status: String?
     }
