@@ -1,7 +1,7 @@
 
 # PayPal iOS SDK Release Notes
 
-## unreleased
+## 2.0.0-beta2 (2024-12-11)
 * CorePayments
   * Make `CoreSDKError` conform to Equatable
   * Rename `NetworkingClientError` to `NetworkingError`
