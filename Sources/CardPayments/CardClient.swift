@@ -53,7 +53,7 @@ public class CardClient: NSObject {
                 if result.status == "PAYER_ACTION_REQUIRED",
                 let urlString = result.links.first(where: { $0.rel == "approve" })?.href {
                     guard urlString.contains("helios"), let url = URL(string: urlString) else {
-                        self.notifyVaultFailure(with: CardError.threeDSecureURLError, completion: completion)
+                        self.notify3dsVaultFailure(with: CardError.threeDSecureURLError, completion: completion)
                         return
                     }
                     analyticsService?.sendEvent("card-payments:vault-wo-purchase:challenge-required")
@@ -157,9 +157,9 @@ public class CardClient: NSObject {
             context: self,
             sessionDidDisplay: { [weak self] didDisplay in
                 if didDisplay {
-                    self?.analyticsService?.sendEvent("card-payments:approve-order:challenge-presentation:succeeded")
+                    self?.analyticsService?.sendEvent("card-payments:approve-order:auth-challenge-presentation:succeeded")
                 } else {
-                    self?.analyticsService?.sendEvent("card-payments:approve-order:challenge-presentation:failed")
+                    self?.analyticsService?.sendEvent("card-payments:approve-order:auth-challenge-presentation:failed")
                 }
             },
             sessionDidComplete: { _, error in
@@ -197,25 +197,25 @@ public class CardClient: NSObject {
             sessionDidDisplay: { [weak self] didDisplay in
                 if didDisplay {
                     // TODO: analytics for card vault
-                    self?.analyticsService?.sendEvent("card-payments:3ds:challenge-presentation:succeeded")
+                    self?.analyticsService?.sendEvent("card-payments:vault-wo-purchase:auth-challenge-presentation:succeeded")
                 } else {
-                    self?.analyticsService?.sendEvent("card-payments:3ds:challenge-presentation:failed")
+                    self?.analyticsService?.sendEvent("card-payments:vault-wo-purchase:auth-challenge-presentation:failed")
                 }
             },
             sessionDidComplete: { _, error in
                 if let error = error {
                     switch error {
                     case ASWebAuthenticationSessionError.canceledLogin:
-                        self.notifyVaultCancelWithError(with: CardError.threeDSecureCanceledError, completion: completion)
+                        self.notify3dsVaultCancelWithError(with: CardError.threeDSecureCanceledError, completion: completion)
                         return
                     default:
-                        self.notifyVaultFailure(with: CardError.threeDSecureError(error), completion: completion)
+                        self.notify3dsVaultFailure(with: CardError.threeDSecureError(error), completion: completion)
                         return
                     }
                 }
 
                 let cardVaultResult = CardVaultResult(setupTokenID: setupTokenID, status: nil, didAttemptThreeDSecureAuthentication: true)
-                self.notifyVaultSuccess(for: cardVaultResult, completion: completion)
+                self.notify3dsVaultSuccess(for: cardVaultResult, completion: completion)
             }
         )
     }
@@ -250,13 +250,23 @@ public class CardClient: NSObject {
         completion(vaultResult, nil)
     }
 
+    private func notify3dsVaultSuccess(for vaultResult: CardVaultResult, completion: (CardVaultResult?, CoreSDKError?) -> Void) {
+        analyticsService?.sendEvent("card-payments:vault-wo-purchase:auth-challenge-succeeded")
+        completion(vaultResult, nil)
+    }
+
     private func notifyVaultFailure(with vaultError: CoreSDKError, completion: (CardVaultResult?, CoreSDKError?) -> Void) {
         analyticsService?.sendEvent("card-payments:vault-wo-purchase:failed")
         completion(nil, vaultError)
     }
 
-    private func notifyVaultCancelWithError(with vaultError: CoreSDKError, completion: (CardVaultResult?, CoreSDKError?) -> Void) {
-        analyticsService?.sendEvent("card-payments:vault-wo-purchase:challenge:canceled")
+    private func notify3dsVaultFailure(with vaultError: CoreSDKError, completion: (CardVaultResult?, CoreSDKError?) -> Void) {
+        analyticsService?.sendEvent("card-payments:vault-wo-purchase:auth-challenge-failed")
+        completion(nil, vaultError)
+    }
+
+    private func notify3dsVaultCancelWithError(with vaultError: CoreSDKError, completion: (CardVaultResult?, CoreSDKError?) -> Void) {
+        analyticsService?.sendEvent("card-payments:vault-wo-purchase:auth-challenge-canceled")
         completion(nil, vaultError)
     }
 }
