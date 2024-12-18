@@ -39,7 +39,11 @@ enum CardType {
             return .visa
         } else if cardNumber.starts(with: "6011") || cardNumber.starts(with: "65") {
             return .discover
-        } else if cardNumber.starts(with: "51") || cardNumber.starts(with: "52") || cardNumber.starts(with: "53") || cardNumber.starts(with: "54") || cardNumber.starts(with: "55") {
+        } else if cardNumber.starts(with: "51") ||
+            cardNumber.starts(with: "52") ||
+            cardNumber.starts(with: "53") ||
+            cardNumber.starts(with: "54") ||
+            cardNumber.starts(with: "55") {
         return .masterCard
         } else {
             return .unknown
