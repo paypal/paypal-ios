@@ -1,72 +1,64 @@
 import SwiftUI
 import CardPayments
 import CorePayments
+import CardPaySheet
 
 struct CardOrderApproveView: View {
-
-    let cardSections: [CardSection] = [
-        CardSection(title: "Successful Authentication Visa", numbers: ["4868 7194 6070 7704"]),
-        CardSection(title: "Vault with Purchase (no 3DS)", numbers: ["4000 0000 0000 0002"]),
-        CardSection(title: "Step up", numbers: ["5314 6090 4083 0349"]),
-        CardSection(title: "Frictionless - LiabilityShift Possible", numbers: ["4005 5192 0000 0004"]),
-        CardSection(title: "Frictionless - LiabilityShift NO", numbers: ["4020 0278 5185 3235"]),
-        CardSection(title: "No Challenge", numbers: ["4111 1111 1111 1111"])
-    ]
+    
     let orderID: String
-
+    var config: CoreConfig?
+    
     @ObservedObject var cardPaymentViewModel: CardPaymentViewModel
     @State private var cardNumberText: String = "4111 1111 1111 1111"
     @State private var expirationDateText: String = "01 / 25"
     @State private var cvvText: String = "123"
-
+    @State private var showingCardSheet = false
+    
     var body: some View {
         ScrollView {
             ScrollViewReader { scrollView in
                 VStack {
                     VStack(spacing: 16) {
                         HStack {
-                            Text("Enter Card Information")
-                                .font(.system(size: 20))
+                            Text("Your cart")
+                                .font(.system(size: 22, weight: .semibold))
                             Spacer()
                         }
-
-                        CardFormView(
-                            cardSections: cardSections,
-                            cardNumberText: $cardNumberText,
-                            expirationDateText: $expirationDateText,
-                            cvvText: $cvvText
-                        )
-
-                        let card = Card.createCard(
-                            cardNumber: cardNumberText,
-                            expirationDate: expirationDateText,
-                            cvv: cvvText
-                        )
-
+                        
+                        HStack(spacing: 20) {
+                            Image("headphonePic")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 120, height: 120)
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Bose Rose Gold QC35II")
+                                    .font(.system(size: 16, weight: .semibold))
+                                    .foregroundColor(.primary)
+                                Text("$10.00")
+                                    .font(.system(size: 16))
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                        
+                        Spacer().frame(height: 20)
+                        
                         Picker("SCA", selection: $cardPaymentViewModel.state.scaSelection) {
                             Text(SCA.scaWhenRequired.rawValue).tag(SCA.scaWhenRequired)
                             Text(SCA.scaAlways.rawValue).tag(SCA.scaAlways)
                         }
                         .pickerStyle(SegmentedPickerStyle())
                         .frame(height: 50)
-
-                        ZStack {
-                            Button("Approve Order") {
-                                Task {
-                                    do {
-                                        await cardPaymentViewModel.checkoutWith(
-                                            card: card,
-                                            orderID: orderID,
-                                            sca: cardPaymentViewModel.state.scaSelection
-                                        )
+                        Button("Pay with Card") {
+                            Task {
+                                do {
+                                    try await cardPaymentViewModel.getConfig()
+                                    await MainActor.run {
+                                        showingCardSheet = true
                                     }
                                 }
                             }
-                            .buttonStyle(RoundedBlueButtonStyle())
-                            if case .loading = cardPaymentViewModel.state.approveResultResponse {
-                                CircularProgressView()
-                            }
                         }
+                        .buttonStyle(RoundedBlueButtonStyle())
                     }
                     .padding()
                     .background(
@@ -87,6 +79,28 @@ struct CardOrderApproveView: View {
                     Text("")
                         .id("bottomView")
                     Spacer()
+                }
+                .sheet(isPresented: $showingCardSheet) {
+                    if let config = cardPaymentViewModel.config {
+                        CardPaySheetView(config: config, orderID: orderID, sca: cardPaymentViewModel.state.scaSelection) { result in
+                            switch result {
+                            case .success(let cardResult):
+                                print("success!: \(cardResult.orderID)")
+                                cardPaymentViewModel.setApprovalSuccessResult(
+                                    approveResult:
+                                        CardPaymentState.CardResult(
+                                            id: cardResult.orderID,
+                                            status: cardResult.status,
+                                            didAttemptThreeDSecureAuthentication: cardResult.didAttemptThreeDSecureAuthentication
+                                        )
+                                )
+                            case .failure(let error):
+                                cardPaymentViewModel.setApprovalFailureResult(error: error)
+                            }
+                            showingCardSheet = false
+                        }
+                        .presentationDetents([.fraction(0.75)])
+                    }
                 }
                 .onChange(of: cardPaymentViewModel.state) { _ in
                     withAnimation {

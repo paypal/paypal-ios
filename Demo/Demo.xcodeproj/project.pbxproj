@@ -25,6 +25,7 @@
 		3B80D5102A291CB100D2EAC4 /* ClientIDResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50F2A291CB100D2EAC4 /* ClientIDResponse.swift */; };
 		3B8EF4DB2A932DA300A70D0B /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8EF4DA2A932DA300A70D0B /* ErrorView.swift */; };
 		3BA0A58B2B1E240300330681 /* VaultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA0A58A2B1E240300330681 /* VaultViewModel.swift */; };
+		3BA3643C2D134857008926B7 /* CardPaySheet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BA3643B2D134857008926B7 /* CardPaySheet.framework */; };
 		3BA56FE72A9DC9D70081D14F /* CardPaymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA56FE62A9DC9D70081D14F /* CardPaymentViewModel.swift */; };
 		3BA56FE92A9DCA520081D14F /* CardPaymentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA56FE82A9DCA520081D14F /* CardPaymentState.swift */; };
 		3BA56FEC2A9DCBF30081D14F /* CreateOrderCardPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA56FEB2A9DCBF30081D14F /* CreateOrderCardPaymentView.swift */; };
@@ -139,6 +140,7 @@
 		3B80D50F2A291CB100D2EAC4 /* ClientIDResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientIDResponse.swift; sourceTree = "<group>"; };
 		3B8EF4DA2A932DA300A70D0B /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		3BA0A58A2B1E240300330681 /* VaultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultViewModel.swift; sourceTree = "<group>"; };
+		3BA3643B2D134857008926B7 /* CardPaySheet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CardPaySheet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BA56FE62A9DC9D70081D14F /* CardPaymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPaymentViewModel.swift; sourceTree = "<group>"; };
 		3BA56FE82A9DCA520081D14F /* CardPaymentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPaymentState.swift; sourceTree = "<group>"; };
 		3BA56FEB2A9DCBF30081D14F /* CreateOrderCardPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrderCardPaymentView.swift; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BA3643C2D134857008926B7 /* CardPaySheet.framework in Frameworks */,
 				CB1AC3B82982AAD70081AED6 /* CardPayments.framework in Frameworks */,
 				CB1AC3C02982C4030081AED6 /* PayPalWebPayments.framework in Frameworks */,
 				CB1AC3BB2982BB130081AED6 /* PaymentButtons.framework in Frameworks */,
@@ -406,6 +409,7 @@
 		805AB84C26B87A87003BEE0D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3BA3643B2D134857008926B7 /* CardPaySheet.framework */,
 				8052E2A229B684A600B33FBC /* PPRiskMagnes.xcframework */,
 				CBDEEA212989990200A460A6 /* CorePayments.framework */,
 				CB1AC3C62982E32D0081AED6 /* FraudProtection.framework */,
@@ -794,7 +798,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -849,7 +853,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
