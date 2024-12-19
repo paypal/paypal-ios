@@ -20,7 +20,6 @@
 		3B79E4F72A8503CA00C01D06 /* UpdateVaultVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B79E4F62A8503C900C01D06 /* UpdateVaultVariables.swift */; };
 		3B80D50C2A27979000D2EAC4 /* FailingJSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */; };
 		3BA364052D133C97008926B7 /* CardPaySheet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BA363FB2D133C97008926B7 /* CardPaySheet.framework */; };
-		3BA364342D134672008926B7 /* CardPaySheet.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BA364302D134672008926B7 /* CardPaySheet.h */; };
 		3BA364352D134672008926B7 /* CardFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA3642E2D134672008926B7 /* CardFormViewController.swift */; };
 		3BA364362D134672008926B7 /* CardType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA364322D134672008926B7 /* CardType.swift */; };
 		3BA364372D134672008926B7 /* CardPaysheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA3642F2D134672008926B7 /* CardPaysheet.swift */; };
@@ -214,7 +213,6 @@
 		3BA3642D2D134672008926B7 /* CardFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardFormatter.swift; sourceTree = "<group>"; };
 		3BA3642E2D134672008926B7 /* CardFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardFormViewController.swift; sourceTree = "<group>"; };
 		3BA3642F2D134672008926B7 /* CardPaysheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPaysheet.swift; sourceTree = "<group>"; };
-		3BA364302D134672008926B7 /* CardPaySheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardPaySheet.h; sourceTree = "<group>"; };
 		3BA364312D134672008926B7 /* CardPaySheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPaySheetView.swift; sourceTree = "<group>"; };
 		3BA364322D134672008926B7 /* CardType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardType.swift; sourceTree = "<group>"; };
 		3BD82DBA2A835AF900CBE764 /* UpdateSetupTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSetupTokenResponse.swift; sourceTree = "<group>"; };
@@ -497,7 +495,6 @@
 				3BA3642D2D134672008926B7 /* CardFormatter.swift */,
 				3BA3642E2D134672008926B7 /* CardFormViewController.swift */,
 				3BA3642F2D134672008926B7 /* CardPaysheet.swift */,
-				3BA364302D134672008926B7 /* CardPaySheet.h */,
 				3BA364312D134672008926B7 /* CardPaySheetView.swift */,
 				3BA364322D134672008926B7 /* CardType.swift */,
 			);
@@ -808,7 +805,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3BA364342D134672008926B7 /* CardPaySheet.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1545,8 +1541,8 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 5YRAV27ZNE;
+				DEFINES_MODULE = NO;
+				DEVELOPMENT_TEAM = 43253H4X22;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -1582,7 +1578,7 @@
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = victoria.com.CardPaySheet;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal-io-sdk.CardPaySheet";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1632,8 +1628,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 5YRAV27ZNE;
+				DEFINES_MODULE = NO;
+				DEVELOPMENT_TEAM = 43253H4X22;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -1664,7 +1660,7 @@
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = victoria.com.CardPaySheet;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal-io-sdk.CardPaySheet";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1713,7 +1709,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5YRAV27ZNE;
+				DEVELOPMENT_TEAM = 43253H4X22;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -1736,7 +1732,7 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = victoria.com.CardPaySheetTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.CardPaySheetTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
@@ -1781,7 +1777,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5YRAV27ZNE;
+				DEVELOPMENT_TEAM = 43253H4X22;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -1799,7 +1795,7 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = victoria.com.CardPaySheetTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.CardPaySheetTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = NO;
