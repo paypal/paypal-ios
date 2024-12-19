@@ -19,7 +19,7 @@ public class CardPaySheet {
         self.sca = sca
     }
 
-    func createCardFormViewController(
+    public func createCardFormViewController(
         orderID: String,
         sca: SCA,
         completion: @escaping (Result<CardResult, Error>) -> Void
