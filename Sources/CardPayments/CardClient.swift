@@ -56,7 +56,7 @@ public class CardClient: NSObject {
                         self.notify3dsVaultFailure(with: CardError.threeDSecureURLError, completion: completion)
                         return
                     }
-                    analyticsService?.sendEvent("card-payments:vault-wo-purchase:challenge-required")
+                    analyticsService?.sendEvent("card-payments:vault-wo-purchase:auth-challenge-required")
                     startVaultThreeDSecureChallenge(url: url, setupTokenID: vaultRequest.setupTokenID, completion: completion)
                 } else {
                     let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status, didAttemptThreeDSecureAuthentication: false)
