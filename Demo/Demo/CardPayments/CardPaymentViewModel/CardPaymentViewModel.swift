@@ -7,10 +7,16 @@ class CardPaymentViewModel: ObservableObject {
 
     @Published var state = CardPaymentState()
     private var payPalDataCollector: PayPalDataCollector?
+    public var config: CoreConfig?
 
     let configManager = CoreConfigManager(domain: "Card Payments")
 
     private var cardClient: CardClient?
+
+    func getConfig() async throws {
+        let config = try await configManager.getCoreConfig()
+        self.config = config
+    }
 
     func createOrder(
         amount: String,
