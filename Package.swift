@@ -48,7 +48,7 @@ let package = Package(
         ),
         .target(
             name: "CardPaySheet",
-            dependencies: ["CorePayments, CardPayments"]
+            dependencies: ["CorePayments", "CardPayments"]
         ),
         .target(
             name: "PaymentButtons",
