@@ -16,6 +16,8 @@
 		3B22E8B82A841AEA00962E34 /* CardVaultResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22E8B72A841AEA00962E34 /* CardVaultResult.swift */; };
 		3B29C3972B9148F70077741D /* PayPalVaultRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B29C3962B9148F70077741D /* PayPalVaultRequest.swift */; };
 		3B3C511E2B2395B5009125FE /* PayPalVaultResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3C511D2B2395B5009125FE /* PayPalVaultResult.swift */; };
+		3B4B210C2D148F4800068AD5 /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; platformFilters = (driverkit, ios, macos, tvos, watchos, xros, ); };
+		3B4B210D2D148F4D00068AD5 /* CardPayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E8DAD926B8783800FAFC3F /* CardPayments.framework */; platformFilters = (driverkit, ios, macos, tvos, watchos, xros, ); };
 		3B783DC32B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B783DC22B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift */; };
 		3B79E4F72A8503CA00C01D06 /* UpdateVaultVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B79E4F62A8503C900C01D06 /* UpdateVaultVariables.swift */; };
 		3B80D50C2A27979000D2EAC4 /* FailingJSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */; };
@@ -332,6 +334,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B4B210D2D148F4D00068AD5 /* CardPayments.framework in Frameworks */,
+				3B4B210C2D148F4800068AD5 /* CorePayments.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

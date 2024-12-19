@@ -25,6 +25,10 @@ let package = Package(
             targets: ["CardPayments"]
         ),
         .library(
+            name: "CardPaySheet",
+            targets: ["CardPaySheet"]
+        ),
+        .library(
             name: "FraudProtection",
             targets: ["FraudProtection", "PPRiskMagnes"]
         )
@@ -41,6 +45,10 @@ let package = Package(
             name: "CardPayments",
             dependencies: ["CorePayments"],
             resources: [.copy("PrivacyInfo.xcprivacy")]
+        ),
+        .target(
+            name: "CardPaySheet",
+            dependencies: ["CorePayments, CardPayments"]
         ),
         .target(
             name: "PaymentButtons",
