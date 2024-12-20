@@ -131,7 +131,7 @@ class CardFormViewController: UIViewController {
             return
         }
 
-        let card = Card.createCard(cardNumber: cardNumber, expirationDate: expirationDate,cvv: cvv)
+        let card = Card.createCard(cardNumber: cardNumber, expirationDate: expirationDate, cvv: cvv)
 
         let request = CardRequest(
             orderID: orderID,
