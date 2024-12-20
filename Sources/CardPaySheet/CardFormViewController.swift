@@ -125,16 +125,13 @@ class CardFormViewController: UIViewController {
             return
         }
 
-        if cardNumber.isEmpty || expirationDate.isEmpty || cvv.isEmpty {
+
+        if !Card.isCardFormValid(cardNumber: cardNumber, expirationDate: expirationDate, cvv: cvv) {
             // handle error
             return
         }
 
-        let card = Card.createCard(
-            cardNumber: cardForm.cardNumber ?? "",
-            expirationDate: cardForm.expiryDate ?? "",
-            cvv: cardForm.cvv ?? ""
-        )
+        let card = Card.createCard(cardNumber: cardNumber, expirationDate: expirationDate,cvv: cvv)
 
         let request = CardRequest(
             orderID: orderID,
