@@ -120,6 +120,16 @@ class CardFormViewController: UIViewController {
     }
 
     @objc private func handleContinueButton() {
+        guard let cardNumber = cardForm.cardNumber, let expirationDate = cardForm.expiryDate, let cvv = cardForm.expiryDate else {
+            // handle error
+            return
+        }
+
+        if cardNumber.isEmpty || expirationDate.isEmpty || cvv.isEmpty {
+            // handle error
+            return
+        }
+
         let card = Card.createCard(
             cardNumber: cardForm.cardNumber ?? "",
             expirationDate: cardForm.expiryDate ?? "",
