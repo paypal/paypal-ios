@@ -203,32 +203,32 @@ public class PayPalWebCheckoutClient: NSObject {
     }
 
     private func notifyCheckoutSuccess(for result: PayPalWebCheckoutResult, completion: (PayPalWebCheckoutResult?, CoreSDKError?) -> Void) {
-        self.analyticsService?.sendEvent("paypal-web-payments:checkout:auth-challenge-succeeded")
+        self.analyticsService?.sendEvent("paypal-web-payments:checkout:succeeded")
         completion(result, nil)
     }
 
     private func notifyCheckoutFailure(with error: CoreSDKError, completion: (PayPalWebCheckoutResult?, CoreSDKError?) -> Void) {
-        self.analyticsService?.sendEvent("paypal-web-payments:checkout:auth-challenge-failed")
+        self.analyticsService?.sendEvent("paypal-web-payments:checkout:failed")
         completion(nil, error)
     }
 
     private func notifyCheckoutCancelWithError(with error: CoreSDKError, completion: (PayPalWebCheckoutResult?, CoreSDKError?) -> Void) {
-        analyticsService?.sendEvent("paypal-web-payments:checkout:auth-challenge-canceled")
+        analyticsService?.sendEvent("paypal-web-payments:checkout:canceled")
         completion(nil, error)
     }
 
     private func notifyVaultSuccess(for result: PayPalVaultResult, completion: (PayPalVaultResult?, CoreSDKError?) -> Void) {
-        analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:auth-challenge-succeeded")
+        analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:succeeded")
         completion(result, nil)
     }
 
     private func notifyVaultFailure(with error: CoreSDKError, completion: (PayPalVaultResult?, CoreSDKError?) -> Void) {
-        analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:auth-challenge-failed")
+        analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:failed")
         completion(nil, error)
     }
 
     private func notifyVaultCancelWithError(with vaultError: CoreSDKError, completion: (PayPalVaultResult?, CoreSDKError?) -> Void) {
-        analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:auth-challenge-canceled")
+        analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:canceled")
         completion(nil, vaultError)
     }
 }
