@@ -226,7 +226,7 @@ public class CardClient: NSObject {
     }
 
     private func notify3dsCheckoutSuccess(for result: CardResult, completion: (CardResult?, CoreSDKError?) -> Void) {
-        analyticsService?.sendEvent("card-payments:approve-order:auth-challenge-succeeded")
+        analyticsService?.sendEvent("card-payments:approve-order:auth-challenge:succeeded")
         completion(result, nil)
     }
 
@@ -236,12 +236,12 @@ public class CardClient: NSObject {
     }
 
     private func notify3dsCheckoutFailure(with error: CoreSDKError, completion: (CardResult?, CoreSDKError?) -> Void) {
-        analyticsService?.sendEvent("card-payments:approve-order:auth-challenge-failed")
+        analyticsService?.sendEvent("card-payments:approve-order:auth-challenge:failed")
         completion(nil, error)
     }
 
     private func notify3dsCheckoutCancelWithError(with error: CoreSDKError, completion: (CardResult?, CoreSDKError?) -> Void) {
-        analyticsService?.sendEvent("card-payments:approve-order:auth-challenge-canceled")
+        analyticsService?.sendEvent("card-payments:approve-order:auth-challenge:canceled")
         completion(nil, error)
     }
 
@@ -251,7 +251,7 @@ public class CardClient: NSObject {
     }
 
     private func notify3dsVaultSuccess(for vaultResult: CardVaultResult, completion: (CardVaultResult?, CoreSDKError?) -> Void) {
-        analyticsService?.sendEvent("card-payments:vault-wo-purchase:auth-challenge-succeeded")
+        analyticsService?.sendEvent("card-payments:vault-wo-purchase:auth-challenge:succeeded")
         completion(vaultResult, nil)
     }
 
@@ -261,12 +261,12 @@ public class CardClient: NSObject {
     }
 
     private func notify3dsVaultFailure(with vaultError: CoreSDKError, completion: (CardVaultResult?, CoreSDKError?) -> Void) {
-        analyticsService?.sendEvent("card-payments:vault-wo-purchase:auth-challenge-failed")
+        analyticsService?.sendEvent("card-payments:vault-wo-purchase:auth-challenge:failed")
         completion(nil, vaultError)
     }
 
     private func notify3dsVaultCancelWithError(with vaultError: CoreSDKError, completion: (CardVaultResult?, CoreSDKError?) -> Void) {
-        analyticsService?.sendEvent("card-payments:vault-wo-purchase:auth-challenge-canceled")
+        analyticsService?.sendEvent("card-payments:vault-wo-purchase:auth-challenge:canceled")
         completion(nil, vaultError)
     }
 }
