@@ -14,10 +14,11 @@ class CardVaultViewModel: VaultViewModel {
             let config = try await configManager.getCoreConfig()
             let cardClient = CardClient(config: config)
             let cardVaultRequest = CardVaultRequest(card: card, setupTokenID: setupToken)
-            cardClient.vault(cardVaultRequest) { result, error in
-                if let result {
-                    self.setUpdateSetupTokenResult(vaultResult: result, vaultError: nil)
-                } else if let error {
+            cardClient.vault(cardVaultRequest) { result in
+                switch result {
+                case .success(let cardVaultResult):
+                    self.setUpdateSetupTokenResult(vaultResult: cardVaultResult, vaultError: nil)
+                case .failure(let error):
                     self.setUpdateSetupTokenResult(vaultResult: nil, vaultError: error)
                 }
             }

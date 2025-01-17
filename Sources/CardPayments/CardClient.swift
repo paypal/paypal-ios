@@ -41,9 +41,9 @@ public class CardClient: NSObject {
     /// - Parameters:
     ///   - vaultRequest: The request containing setupTokenID and card
     ///   - completion: A completion block that is invoked when the request is completed. If the request succeeds,
-    ///   a `CardVaultResult` with `setupTokenID` and `status` are returned and `error` will be `nil`;
-    ///   if it fails, `CardVaultResult will be `nil` and `error` will describe the failure
-    public func vault(_ vaultRequest: CardVaultRequest, completion: @escaping (CardVaultResult?, CoreSDKError?) -> Void) {
+    ///   a  `Result` type with `.success(CardVaultResult)` with `setupTokenID` and `status` are returned;
+    ///   if it fails, `Result` type with `.failure(CoreSDKError)` that describes the failure will be returned
+    public func vault(_ vaultRequest: CardVaultRequest, completion: @escaping (Result<CardVaultResult, CoreSDKError>) -> Void) {
         analyticsService = AnalyticsService(coreConfig: config, setupToken: vaultRequest.setupTokenID)
         analyticsService?.sendEvent("card-payments:vault-wo-purchase:started")
         Task {
@@ -79,11 +79,12 @@ public class CardClient: NSObject {
     /// - Throws: A `CoreSDKError` describing failure
     public func vault(_ vaultRequest: CardVaultRequest) async throws -> CardVaultResult {
         try await withCheckedThrowingContinuation { continuation in
-            vault(vaultRequest) { result, error in
-                if let error {
+            vault(vaultRequest) { result in
+                switch result {
+                case .success(let cardVaultResult):
+                    continuation.resume(returning: cardVaultResult)
+                case .failure(let error):
                     continuation.resume(throwing: error)
-                } else if let result {
-                    continuation.resume(returning: result)
                 }
             }
         }
@@ -95,8 +96,8 @@ public class CardClient: NSObject {
     ///   - orderId: Order id for approval
     ///   - request: The request containing the card
     ///   - completion: A completion block that is invoked when the request is completed. If the request succeeds,
-    ///   a `CardResult` with `orderID` , `status` and `didAttemptThreeDSecureAuthentication` are returned and `error` will be `nil`;
-    ///   if it fails, `CardResult will be `nil` and `error` will describe the failure
+    ///   a  `Result` type will be returned with `.success(CardResult)` with `orderID` , `status` and `didAttemptThreeDSecureAuthentication`;
+    ///   if it fails, `Result` type with `.failure(CoreSDKError)` that describes the failure will be returned
     public func approveOrder(request: CardRequest, completion: @escaping (Result<CardResult, CoreSDKError>) -> Void) {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         analyticsService?.sendEvent("card-payments:approve-order:started")
@@ -138,10 +139,10 @@ public class CardClient: NSObject {
         try await withCheckedThrowingContinuation { continuation in
             approveOrder(request: request) { result in
                 switch result {
-                case .failure(let error):
-                    continuation.resume(throwing: error)
                 case .success(let cardResult):
                     continuation.resume(returning: cardResult)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
                 }
             }
         }
@@ -189,7 +190,7 @@ public class CardClient: NSObject {
     private func startVaultThreeDSecureChallenge(
         url: URL,
         setupTokenID: String,
-        completion: @escaping (CardVaultResult?, CoreSDKError?) -> Void
+        completion: @escaping (Result<CardVaultResult, CoreSDKError>) -> Void
     ) {
 
         webAuthenticationSession.start(
@@ -246,29 +247,29 @@ public class CardClient: NSObject {
         completion(.failure(error))
     }
 
-    private func notifyVaultSuccess(for vaultResult: CardVaultResult, completion: (CardVaultResult?, CoreSDKError?) -> Void) {
+    private func notifyVaultSuccess(for vaultResult: CardVaultResult, completion: (Result<CardVaultResult, CoreSDKError>) -> Void) {
         analyticsService?.sendEvent("card-payments:vault-wo-purchase:succeeded")
-        completion(vaultResult, nil)
+        completion(.success(vaultResult))
     }
 
-    private func notify3dsVaultSuccess(for vaultResult: CardVaultResult, completion: (CardVaultResult?, CoreSDKError?) -> Void) {
+    private func notify3dsVaultSuccess(for vaultResult: CardVaultResult, completion: (Result<CardVaultResult, CoreSDKError>) -> Void) {
         analyticsService?.sendEvent("card-payments:vault-wo-purchase:auth-challenge:succeeded")
-        completion(vaultResult, nil)
+        completion(.success(vaultResult))
     }
 
-    private func notifyVaultFailure(with vaultError: CoreSDKError, completion: (CardVaultResult?, CoreSDKError?) -> Void) {
+    private func notifyVaultFailure(with vaultError: CoreSDKError, completion: (Result<CardVaultResult, CoreSDKError>) -> Void) {
         analyticsService?.sendEvent("card-payments:vault-wo-purchase:failed")
-        completion(nil, vaultError)
+        completion(.failure(vaultError))
     }
 
-    private func notify3dsVaultFailure(with vaultError: CoreSDKError, completion: (CardVaultResult?, CoreSDKError?) -> Void) {
+    private func notify3dsVaultFailure(with vaultError: CoreSDKError, completion: (Result<CardVaultResult, CoreSDKError>) -> Void) {
         analyticsService?.sendEvent("card-payments:vault-wo-purchase:auth-challenge:failed")
-        completion(nil, vaultError)
+        completion(.failure(vaultError))
     }
 
-    private func notify3dsVaultCancelWithError(with vaultError: CoreSDKError, completion: (CardVaultResult?, CoreSDKError?) -> Void) {
+    private func notify3dsVaultCancelWithError(with vaultError: CoreSDKError, completion: (Result<CardVaultResult, CoreSDKError>) -> Void) {
         analyticsService?.sendEvent("card-payments:vault-wo-purchase:auth-challenge:canceled")
-        completion(nil, vaultError)
+        completion(.failure(vaultError))
     }
 }
 
