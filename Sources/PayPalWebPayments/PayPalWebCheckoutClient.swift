@@ -32,7 +32,7 @@ public class PayPalWebCheckoutClient: NSObject {
     ///   - request: the PayPalRequest for the transaction
     ///   - completion: A completion block that is invoked when the request is completed.
     ///                 The closure returns a `Result`:
-    ///                 - `.success(CardResult)` containing:
+    ///                 - `.success(PayPalCheckoutResult)` containing:
     ///                   - `orderID`: The ID of the approved order.
     ///                   - `payerID`: Payer ID (or user id associated with the transaction
     ///                 - `.failure(CoreSDKError)`: Describes the reason for failure.
