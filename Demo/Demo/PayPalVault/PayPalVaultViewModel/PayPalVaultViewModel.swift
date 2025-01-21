@@ -14,8 +14,13 @@ class PayPalVaultViewModel: VaultViewModel {
             let config = try await configManager.getCoreConfig()
             let paypalClient = PayPalWebCheckoutClient(config: config)
             let vaultRequest = PayPalVaultRequest(setupTokenID: setupTokenID)
-            paypalClient.vault(vaultRequest) { result, error in
-                if let error {
+            paypalClient.vault(vaultRequest) { result in
+                switch result {
+                case .success(let cardVaultResult):
+                    DispatchQueue.main.async {
+                        self.state.paypalVaultTokenResponse = .loaded(cardVaultResult)
+                    }
+                case .failure(let error):
                     if error == PayPalError.vaultCanceledError {
                         DispatchQueue.main.async {
                             print("Canceled")
@@ -25,10 +30,6 @@ class PayPalVaultViewModel: VaultViewModel {
                         DispatchQueue.main.async {
                             self.state.paypalVaultTokenResponse = .error(message: error.localizedDescription)
                         }
-                    }
-                } else if let result {
-                    DispatchQueue.main.async {
-                        self.state.paypalVaultTokenResponse = .loaded(result)
                     }
                 }
             }

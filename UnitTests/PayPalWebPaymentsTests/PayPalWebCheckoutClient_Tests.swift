@@ -26,7 +26,7 @@ class PayPalClient_Tests: XCTestCase {
     
     func testVault_whenSandbox_launchesCorrectURLInWebSession() {
         let vaultRequest = PayPalVaultRequest(setupTokenID: "fake-token")
-        payPalClient.vault(vaultRequest) { _, _ in }
+        payPalClient.vault(vaultRequest) { _ in }
 
         XCTAssertEqual(mockWebAuthenticationSession.lastLaunchedURL?.absoluteString, "https://sandbox.paypal.com/agreements/approve?approval_session_id=fake-token")
     }
@@ -40,7 +40,7 @@ class PayPalClient_Tests: XCTestCase {
         )
         
         let vaultRequest = PayPalVaultRequest(setupTokenID: "fake-token")
-        payPalClient.vault(vaultRequest) { _, _ in }
+        payPalClient.vault(vaultRequest) { _ in }
 
         XCTAssertEqual(mockWebAuthenticationSession.lastLaunchedURL?.absoluteString, "https://paypal.com/agreements/approve?approval_session_id=fake-token")
     }
@@ -55,10 +55,14 @@ class PayPalClient_Tests: XCTestCase {
         let expectedSessionIDResult = "fakeSessionID"
 
         let vaultRequest = PayPalVaultRequest(setupTokenID: "fakeTokenID")
-        payPalClient.vault(vaultRequest) { result, error in
-            XCTAssertEqual(expectedTokenIDResult, result?.tokenID)
-            XCTAssertEqual(expectedSessionIDResult, result?.approvalSessionID)
-            XCTAssertNil(error)
+        payPalClient.vault(vaultRequest) { result in
+            switch result {
+            case .success(let cardVaultResult):
+                XCTAssertEqual(expectedTokenIDResult, cardVaultResult.tokenID)
+                XCTAssertEqual(expectedSessionIDResult, cardVaultResult.approvalSessionID)
+            case .failure:
+                XCTFail("Expected success with CardVaultResult")
+            }
             expectation.fulfill()
         }
 
@@ -75,14 +79,14 @@ class PayPalClient_Tests: XCTestCase {
         let expectation = expectation(description: "vault(url:) completed")
 
         let vaultRequest = PayPalVaultRequest(setupTokenID: "fakeTokenID")
-        payPalClient.vault(vaultRequest) { result, error in
-            XCTAssertNil(result)
-            if let error {
+        payPalClient.vault(vaultRequest) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure with error")
+            case .failure(let error):
                 XCTAssertEqual(error.domain, PayPalError.domain)
                 XCTAssertEqual(error.code, PayPalError.Code.vaultCanceledError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "PayPal vault has been canceled by the user")
-            } else {
-                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
@@ -100,12 +104,12 @@ class PayPalClient_Tests: XCTestCase {
         let expectation = expectation(description: "vault(url:) completed")
 
         let vaultRequest = PayPalVaultRequest(setupTokenID: "fakeTokenID")
-        payPalClient.vault(vaultRequest) { result, error in
-            if let error {
-                XCTAssertNil(result)
+        payPalClient.vault(vaultRequest) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure with cancellation error")
+            case .failure(let error):
                 XCTAssertTrue(PayPalError.isVaultCanceled(error))
-            } else {
-                XCTFail("Expected error from PayPal vault cancellation")
             }
             expectation.fulfill()
         }
@@ -125,13 +129,13 @@ class PayPalClient_Tests: XCTestCase {
         let expectation = expectation(description: "vault(url:) completed")
 
         let vaultRequest = PayPalVaultRequest(setupTokenID: "fakeTokenID")
-        payPalClient.vault(vaultRequest) { result, error in
-            XCTAssertNil(result)
-            if let error {
+        payPalClient.vault(vaultRequest) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure with error")
+            case .failure(let error):
                 XCTAssertEqual(error.domain, expectedError.domain)
                 XCTAssertEqual(error.code, expectedError.code)
-            } else {
-                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
@@ -140,29 +144,29 @@ class PayPalClient_Tests: XCTestCase {
     }
 
     func testVault_whenSuccessUrl_missingToken_returnsError() {
-
+        
         mockWebAuthenticationSession.cannedResponseURL = URL(string: "sdk.ios.paypal://vault/success?approval_token_id=&approval_session_id=fakeSessionID")
-
+        
         let expectation = expectation(description: "vault(url:) completed")
-
+        
         let expectedError = CoreSDKError(
             code: PayPalError.payPalVaultResponseError.code,
             domain: PayPalError.domain,
             errorDescription: PayPalError.payPalVaultResponseError.errorDescription
         )
-
+        
         let vaultRequest = PayPalVaultRequest(setupTokenID: "fakeTokenID")
-        payPalClient.vault(vaultRequest) { result, error in
-            XCTAssertNil(result)
-            if let error {
+        payPalClient.vault(vaultRequest) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure with error")
+            case .failure(let error):
                 XCTAssertEqual(error.domain, expectedError.domain)
                 XCTAssertEqual(error.code, expectedError.code)
-            } else {
-                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
-
+        
         waitForExpectations(timeout: 10)
     }
 
