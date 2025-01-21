@@ -61,13 +61,16 @@ class CardClient_Tests: XCTestCase {
         
         let expectation = expectation(description: "vault completed")
 
-        sut.vault(vaultRequest) { result, error in
-            XCTAssertEqual(result?.setupTokenID, setupTokenID)
-            XCTAssertEqual(result?.status, vaultStatus)
-            XCTAssertNil(error)
+        sut.vault(vaultRequest) { result in
+            switch result {
+            case .success(let cardVaultResult):
+                XCTAssertEqual(cardVaultResult.setupTokenID, setupTokenID)
+                XCTAssertEqual(cardVaultResult.status, vaultStatus)
+            case .failure:
+                XCTFail("Expected success with CardVaultResult")
+            }
             expectation.fulfill()
         }
-
         waitForExpectations(timeout: 2, handler: nil)
     }
  
@@ -81,16 +84,15 @@ class CardClient_Tests: XCTestCase {
         mockVaultAPI.stubSetupTokenResponse = updateSetupTokenResponse
 
         let expectation = expectation(description: "vault completed")
-        sut.vault(vaultRequest) { result, error in
-            if let result {
-                XCTAssertEqual(result.setupTokenID, setupTokenID)
-                XCTAssertNil(result.status)
-                XCTAssertTrue(result.didAttemptThreeDSecureAuthentication)
-            } else {
-                XCTFail("expected result not to be nil")
+        sut.vault(vaultRequest) { result in
+            switch result {
+            case .success(let cardVaultResult):
+                XCTAssertEqual(cardVaultResult.setupTokenID, setupTokenID)
+                XCTAssertNil(cardVaultResult.status)
+                XCTAssertTrue(cardVaultResult.didAttemptThreeDSecureAuthentication)
+            case .failure:
+                XCTFail("Expected success with CardVaultResult")
             }
-
-            XCTAssertNil(error)
             expectation.fulfill()
         }
 
@@ -108,14 +110,14 @@ class CardClient_Tests: XCTestCase {
 
         let expectation = expectation(description: "vault completed")
 
-        sut.vault(vaultRequest) { result, error in
-            XCTAssertNil(result)
-            if let error {
+        sut.vault(vaultRequest) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure with error")
+            case .failure(let error):
                 XCTAssertEqual(error.domain, CardError.domain)
                 XCTAssertEqual(error.code, CardError.threeDSecureURLError.code)
                 XCTAssertEqual(error.localizedDescription, CardError.threeDSecureURLError.localizedDescription)
-            } else {
-                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
@@ -126,19 +128,19 @@ class CardClient_Tests: XCTestCase {
     func testVault_whenVaultAPIError_bubblesError() {
         let setupTokenID = "testToken1"
         let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
-               
+
         mockVaultAPI.stubError = CoreSDKError(code: 123, domain: "fake-domain", errorDescription: "api-error")
 
         let expectation = expectation(description: "vault completed")
 
-        sut.vault(vaultRequest) { result, error in
-            XCTAssertNil(result)
-            if let error {
+        sut.vault(vaultRequest) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure with error")
+            case .failure(let error):
                 XCTAssertEqual(error.domain, "fake-domain")
                 XCTAssertEqual(error.code, 123)
                 XCTAssertEqual(error.localizedDescription, "api-error")
-            } else {
-                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
@@ -153,14 +155,14 @@ class CardClient_Tests: XCTestCase {
         mockVaultAPI.stubError = NSError(domain: "some-domain", code: 123, userInfo: [NSLocalizedDescriptionKey: "some-description"])
 
         let expectation = expectation(description: "vault completed")
-        sut.vault(vaultRequest) { result, error in
-            XCTAssertNil(result)
-            if let error {
+        sut.vault(vaultRequest) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure with error")
+            case .failure(let error):
                 XCTAssertEqual(error.domain, CardError.domain)
                 XCTAssertEqual(error.code, CardError.Code.vaultTokenError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "An error occurred while vaulting a card.")
-            } else {
-                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
@@ -175,14 +177,14 @@ class CardClient_Tests: XCTestCase {
 
         let expectation = expectation(description: "vault() completed")
 
-        sut.vault(cardVaultRequest) { result, error in
-            XCTAssertNil(error)
-            if let result {
-                XCTAssertEqual(result.setupTokenID, "testSetupTokenId")
-                XCTAssertNil(result.status)
-                XCTAssertTrue(result.didAttemptThreeDSecureAuthentication)
-            } else {
-                XCTFail("Expected result not to be nil")
+        sut.vault(cardVaultRequest) { result in
+            switch result {
+            case .success(let cardVaultResult):
+                XCTAssertEqual(cardVaultResult.setupTokenID, "testSetupTokenId")
+                XCTAssertNil(cardVaultResult.status)
+                XCTAssertTrue(cardVaultResult.didAttemptThreeDSecureAuthentication)
+            case .failure:
+                XCTFail("Expected success with CardVaultResult")
             }
             expectation.fulfill()
         }
@@ -200,14 +202,14 @@ class CardClient_Tests: XCTestCase {
 
         let expectation = expectation(description: "vault() completed")
 
-        sut.vault(cardVaultRequest) { result, error in
-            XCTAssertNil(result)
-            if let error {
+        sut.vault(cardVaultRequest) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure with error")
+            case .failure(let error):
                 XCTAssertEqual(error.domain, CardError.domain)
                 XCTAssertEqual(error.code, CardError.Code.threeDSecureCanceledError.rawValue)
                 XCTAssertEqual(error.localizedDescription, CardError.threeDSecureCanceledError.localizedDescription)
-            } else {
-                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
@@ -226,14 +228,14 @@ class CardClient_Tests: XCTestCase {
 
         let expectation = expectation(description: "vault() completed")
 
-        sut.vault(cardVaultRequest) { result, error in
-            XCTAssertNil(result)
-            if let error {
+        sut.vault(cardVaultRequest) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure with error")
+            case .failure(let error):
                 XCTAssertEqual(error.domain, CardError.domain)
                 XCTAssertEqual(error.code, CardError.Code.threeDSecureError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "Mock web session error description.")
-            } else {
-                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
@@ -248,14 +250,14 @@ class CardClient_Tests: XCTestCase {
         
         let expectation = expectation(description: "approveOrder() completed")
 
-        sut.approveOrder(request: cardRequest) { result, error in
-            XCTAssertNil(result)
-            if let error {
+        sut.approveOrder(request: cardRequest) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure with error")
+            case .failure(let error):
                 XCTAssertEqual(error.code, 3)
                 XCTAssertEqual(error.domain, "CardClientErrorDomain")
                 XCTAssertEqual(error.errorDescription, "An invalid 3DS URL was returned. Contact developer.paypal.com/support.")
-            } else {
-                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
@@ -265,19 +267,17 @@ class CardClient_Tests: XCTestCase {
 
     func testApproveOrder_withNoThreeDSecure_returnsOrderData() {
         mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.without3DS
-        
         let expectation = expectation(description: "approveOrder() completed")
 
-        sut.approveOrder(request: cardRequest) { result, error in
-            if let result {
-                XCTAssertEqual(result.orderID, "testOrderId")
-                XCTAssertEqual(result.status, "APPROVED")
-                XCTAssertFalse(result.didAttemptThreeDSecureAuthentication)
-            } else {
-                XCTFail("expected result not to be nil")
+        sut.approveOrder(request: cardRequest) { result in
+            switch result {
+            case .success(let cardResult):
+                XCTAssertEqual(cardResult.orderID, "testOrderId")
+                XCTAssertEqual(cardResult.status, "APPROVED")
+                XCTAssertFalse(cardResult.didAttemptThreeDSecureAuthentication)
+            case .failure:
+                XCTFail("Expected success with CardResult")
             }
-
-            XCTAssertNil(error)
             expectation.fulfill()
         }
 
@@ -289,18 +289,17 @@ class CardClient_Tests: XCTestCase {
 
         let expectation = expectation(description: "approveOrder() completed")
 
-        sut.approveOrder(request: cardRequest) { result, error in
-            XCTAssertNil(result)
-            if let error {
+        sut.approveOrder(request: cardRequest) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure with error")
+            case .failure(let error):
                 XCTAssertEqual(error.code, 123)
                 XCTAssertEqual(error.domain, "sdk-domain")
                 XCTAssertEqual(error.errorDescription, "sdk-error-desc")
-            } else {
-                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
-
         waitForExpectations(timeout: 2, handler: nil)
     }
     
@@ -313,16 +312,16 @@ class CardClient_Tests: XCTestCase {
 
         let expectation = expectation(description: "approveOrder() completed")
 
-        sut.approveOrder(request: cardRequest) { result, error in
-            XCTAssertNil(result)
-            if let error = error {
+        sut.approveOrder(request: cardRequest) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure with error")
+            case .failure(let error):
                 XCTAssertEqual(error.domain, CardError.domain)
                 XCTAssertEqual(error.code, CardError.Code.unknown.rawValue)
                 XCTAssertNotNil(error.localizedDescription)
-                expectation.fulfill()
-            } else {
-                XCTFail("Expected error not to be nil")
             }
+            expectation.fulfill()
         }
 
         waitForExpectations(timeout: 2, handler: nil)
@@ -332,17 +331,16 @@ class CardClient_Tests: XCTestCase {
         mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withValid3DSURL
 
         mockWebAuthSession.cannedResponseURL = .init(string: "sdk.ios.paypal://card/success?state=undefined&code=undefined&liability_shift=POSSIBLE")
-        
         let expectation = expectation(description: "approveOrder() completed")
 
-        sut.approveOrder(request: cardRequest) { result, error in
-            XCTAssertNil(error)
-            if let result {
-                XCTAssertEqual(result.orderID, "testOrderId")
-                XCTAssertNil(result.status)
-                XCTAssertTrue(result.didAttemptThreeDSecureAuthentication)
-            } else {
-                XCTFail("Expected non-nil result")
+        sut.approveOrder(request: cardRequest) { result in
+            switch result {
+            case .success(let cardResult):
+                XCTAssertEqual(cardResult.orderID, "testOrderId")
+                XCTAssertNil(cardResult.status)
+                XCTAssertTrue(cardResult.didAttemptThreeDSecureAuthentication)
+            case .failure:
+                XCTFail("Expected success with CardResult")
             }
             expectation.fulfill()
         }
@@ -360,14 +358,14 @@ class CardClient_Tests: XCTestCase {
 
         let expectation = expectation(description: "approveOrder() completed")
 
-        sut.approveOrder(request: cardRequest) { result, error in
-            XCTAssertNil(result)
-            if let error = error {
+        sut.approveOrder(request: cardRequest) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure with error")
+            case .failure(let error):
                 XCTAssertEqual(error.domain, CardError.domain)
                 XCTAssertEqual(error.code, CardError.threeDSecureCanceledError.code)
                 XCTAssertEqual(error.localizedDescription, CardError.threeDSecureCanceledError.localizedDescription)
-            } else {
-                XCTFail("Expected error")
             }
             expectation.fulfill()
         }
@@ -386,14 +384,14 @@ class CardClient_Tests: XCTestCase {
 
         let expectation = expectation(description: "approveOrder() completed")
 
-        sut.approveOrder(request: cardRequest) { result, error in
-            XCTAssertNil(result)
-            if let error = error {
+        sut.approveOrder(request: cardRequest) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure with error")
+            case .failure(let error):
                 XCTAssertEqual(error.domain, CardError.domain)
                 XCTAssertEqual(error.code, CardError.Code.threeDSecureError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "Mock web session error description.")
-            } else {
-                XCTFail("Expected error")
             }
             expectation.fulfill()
         }
@@ -412,12 +410,12 @@ class CardClient_Tests: XCTestCase {
 
         let expectation = expectation(description: "approveOrder() completed")
 
-        sut.approveOrder(request: cardRequest) { result, error in
-            XCTAssertNil(result)
-            if let error = error {
+        sut.approveOrder(request: cardRequest) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure with cancellation error")
+            case .failure(let error):
                 XCTAssertTrue(CardError.isThreeDSecureCanceled(error))
-            } else {
-                XCTFail("Expected error due to user cancellation")
             }
             expectation.fulfill()
         }

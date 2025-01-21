@@ -118,21 +118,22 @@ class CardPaymentViewModel: ObservableObject {
             cardClient = CardClient(config: config)
             payPalDataCollector = PayPalDataCollector(config: config)
             let cardRequest = CardRequest(orderID: orderID, card: card, sca: sca)
-            cardClient?.approveOrder(request: cardRequest) { result, error in
-                if let error {
+            cardClient?.approveOrder(request: cardRequest) { result in
+                switch result {
+                case .success(let cardResult):
+                    self.setApprovalSuccessResult(
+                        approveResult: CardPaymentState.CardResult(
+                            id: cardResult.orderID,
+                            status: cardResult.status,
+                            didAttemptThreeDSecureAuthentication: cardResult.didAttemptThreeDSecureAuthentication
+                        )
+                    )
+                case .failure(let error):
                     if error == CardError.threeDSecureCanceledError {
                         self.setApprovalCancelResult()
                     } else {
                         self.setApprovalFailureResult(error: error)
                     }
-                } else if let result {
-                    self.setApprovalSuccessResult(
-                        approveResult: CardPaymentState.CardResult(
-                            id: result.orderID,
-                            status: result.status,
-                            didAttemptThreeDSecureAuthentication: result.didAttemptThreeDSecureAuthentication
-                        )
-                    )
                 }
             }
         } catch {
