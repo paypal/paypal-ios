@@ -34,7 +34,7 @@ public class PayPalWebCheckoutClient: NSObject {
     ///                 The closure returns a `Result`:
     ///                 - `.success(PayPalCheckoutResult)` containing:
     ///                   - `orderID`: The ID of the approved order.
-    ///                   - `payerID`: Payer ID (or user id associated with the transaction
+    ///                   - `payerID`: Payer ID (or user id) associated with the transaction
     ///                 - `.failure(CoreSDKError)`: Describes the reason for failure.
     public func start(request: PayPalWebCheckoutRequest, completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void) {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
