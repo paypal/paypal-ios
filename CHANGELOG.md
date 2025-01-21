@@ -1,6 +1,17 @@
 
 # PayPal iOS SDK Release Notes
 
+## Unreleased
+* Breaking Changes
+  * PayPalWebPayments
+    * Update completion handler types to use `Result` instead of optional tuples
+      * Change `start` completion from `(PayPalWebCheckoutResult?, CoreSDKError?)` to `Result<PayPalWebCheckoutResult, CoreSDKError>`
+      * Change `vault` completion from `(PayPalVaultResult?, CoreSDKError?)` to `Result<PayPalVaultResult, CoreSDKError>`
+  * CardPayments
+    * Update completion handler types to use `Result` instead of optional tuples
+      * Change `approveOrder` completion from `(CardResult?, CoreSDKError?)` to `Result<CardResult, CoreSDKError>`
+      * Change `vault` completion from `(CardVaultResult?, CoreSDKError?)` to `Result<CardVaultResult, CoreSDKError>`
+      
 ## 2.0.0-beta2 (2024-12-11)
 * CorePayments
   * Make `CoreSDKError` conform to Equatable
