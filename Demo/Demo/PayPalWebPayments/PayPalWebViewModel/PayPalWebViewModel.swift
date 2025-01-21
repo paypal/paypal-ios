@@ -84,8 +84,17 @@ class PayPalWebViewModel: ObservableObject {
 
                 if let orderID = state.createOrder?.id {
                     let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding)
-                    payPalWebCheckoutClient.start(request: payPalRequest) { result, error in
-                        if let error {
+                    payPalWebCheckoutClient.start(request: payPalRequest) { result in
+                        switch result {
+                        case .success(let paypalResult):
+                            DispatchQueue.main.async {
+                                self.state.approveResultResponse = .loaded(
+                                    PayPalPaymentState.ApprovalResult(id: paypalResult.orderID, status: "APPROVED")
+                                )
+                                self.checkoutResult = paypalResult
+                                print("✅ Checkout result: \(String(describing: paypalResult))")
+                            }
+                        case .failure(let error):
                             DispatchQueue.main.async {
                                 if error == PayPalError.checkoutCanceledError {
                                     print("Canceled")
@@ -93,14 +102,6 @@ class PayPalWebViewModel: ObservableObject {
                                 } else {
                                     self.state.approveResultResponse = .error(message: error.localizedDescription)
                                 }
-                            }
-                        } else {
-                            DispatchQueue.main.async {
-                                self.state.approveResultResponse = .loaded(
-                                    PayPalPaymentState.ApprovalResult(id: orderID, status: "APPROVED")
-                                )
-                                self.checkoutResult = result
-                                print("✅ Checkout result: \(String(describing: result))")
                             }
                         }
                     }

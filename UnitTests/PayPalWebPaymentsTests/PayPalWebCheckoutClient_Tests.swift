@@ -178,14 +178,14 @@ class PayPalClient_Tests: XCTestCase {
         )
 
         let expectation = self.expectation(description: "Call back invoked with error")
-        payPalClient.start(request: request) { result, error in
-            XCTAssertNil(result)
-            if let error {
+        payPalClient.start(request: request) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure with error")
+            case .failure(let error):
                 XCTAssertEqual(error.domain, PayPalError.domain)
                 XCTAssertEqual(error.code, PayPalError.checkoutCanceledError.code)
                 XCTAssertEqual(error.localizedDescription, PayPalError.checkoutCanceledError.localizedDescription)
-            } else {
-                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
@@ -206,19 +206,18 @@ class PayPalClient_Tests: XCTestCase {
         )
 
         let expectation = self.expectation(description: "Call back invoked with error")
-        payPalClient.start(request: request) { result, error in
-            XCTAssertNil(result)
-            if let error {
+        payPalClient.start(request: request) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure with error")
+            case .failure(let error):
                 XCTAssertTrue(PayPalError.isCheckoutCanceled(error))
-            } else {
-                XCTFail("Expected error from PayPal checkout cancellation.")
             }
             expectation.fulfill()
         }
 
         waitForExpectations(timeout: 2, handler: nil)
     }
-
 
     func testStart_whenWebAuthenticationSessions_returnsWebSessionError() {
         let request = PayPalWebCheckoutRequest(orderID: "1234")
@@ -230,17 +229,19 @@ class PayPalClient_Tests: XCTestCase {
         )
 
         let expectation = self.expectation(description: "Call back invoked with error")
-        payPalClient.start(request: request) { result, error in
-            XCTAssertNil(result)
-            if let error {
+
+        payPalClient.start(request: request) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure with error")
+            case .failure(let error):
                 XCTAssertEqual(error.domain, PayPalError.domain)
                 XCTAssertEqual(error.code, PayPalError.Code.webSessionError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "Mock web session error description.")
-            } else {
-                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
+
         waitForExpectations(timeout: 2, handler: nil)
     }
 
@@ -249,17 +250,18 @@ class PayPalClient_Tests: XCTestCase {
 
         mockWebAuthenticationSession.cannedResponseURL = URL(string: "https://fakeURL?PayerID=98765")
         let expectation = self.expectation(description: "Call back invoked with error")
-        payPalClient.start(request: request) { result, error in
-            XCTAssertNil(result)
-            if let error {
+        payPalClient.start(request: request) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure with error")
+            case .failure(let error):
                 XCTAssertEqual(error.domain, PayPalError.domain)
                 XCTAssertEqual(error.code, PayPalError.Code.malformedResultError.rawValue)
                 XCTAssertEqual(error.localizedDescription, "Result did not contain the expected data.")
-            } else {
-                XCTFail("Expected error not to be nil")
             }
             expectation.fulfill()
         }
+
         waitForExpectations(timeout: 2, handler: nil)
     }
 
@@ -268,12 +270,17 @@ class PayPalClient_Tests: XCTestCase {
 
         mockWebAuthenticationSession.cannedResponseURL = URL(string: "https://fakeURL?token=1234&PayerID=98765")
         let expectation = self.expectation(description: "Call back invoked with error")
-        payPalClient.start(request: request) { result, error in
-            XCTAssertEqual(result?.orderID, "1234")
-            XCTAssertEqual(result?.payerID, "98765")
-            XCTAssertNil(error)
+        payPalClient.start(request: request) { result in
+            switch result {
+            case .success(let result):
+                XCTAssertEqual(result.orderID, "1234")
+                XCTAssertEqual(result.payerID, "98765")
+            case .failure:
+                XCTFail("Expected success with PayPalCheckoutResult")
+            }
             expectation.fulfill()
         }
+
         waitForExpectations(timeout: 2, handler: nil)
     }
 

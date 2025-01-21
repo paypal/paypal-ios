@@ -41,8 +41,12 @@ public class CardClient: NSObject {
     /// - Parameters:
     ///   - vaultRequest: The request containing setupTokenID and card
     ///   - completion: A completion block that is invoked when the request is completed. If the request succeeds,
-    ///   a  `Result` type with `.success(CardVaultResult)` with `setupTokenID` and `status` are returned;
-    ///   if it fails, `Result` type with `.failure(CoreSDKError)` that describes the failure will be returned
+    ///                 The closure returns a `Result`:
+    ///                 - `.success(CardVaultResult)` containing:
+    ///                   - `setupTokenID`: The ID of the token that was updated.
+    ///                   - `status`: The setup token status.
+    ///                   - `didAttemptThreeDSecureAuthentication`: A flag indicating if 3D Secure authentication was attempted.
+    ///                 - `.failure(CoreSDKError)`: Describes the reason for failure.
     public func vault(_ vaultRequest: CardVaultRequest, completion: @escaping (Result<CardVaultResult, CoreSDKError>) -> Void) {
         analyticsService = AnalyticsService(coreConfig: config, setupToken: vaultRequest.setupTokenID)
         analyticsService?.sendEvent("card-payments:vault-wo-purchase:started")
@@ -95,9 +99,13 @@ public class CardClient: NSObject {
     /// - Parameters:
     ///   - orderId: Order id for approval
     ///   - request: The request containing the card
-    ///   - completion: A completion block that is invoked when the request is completed. If the request succeeds,
-    ///   a  `Result` type will be returned with `.success(CardResult)` with `orderID` , `status` and `didAttemptThreeDSecureAuthentication`;
-    ///   if it fails, `Result` type with `.failure(CoreSDKError)` that describes the failure will be returned
+    ///   - completion: A completion block that is invoked when the request is completed.
+    ///                 The closure returns a `Result`:
+    ///                 - `.success(CardResult)` containing:
+    ///                   - `orderID`: The ID of the approved order.
+    ///                   - `status`: The approval status.
+    ///                   - `didAttemptThreeDSecureAuthentication`: A flag indicating if 3D Secure authentication was attempted.
+    ///                 - `.failure(CoreSDKError)`: Describes the reason for failure.
     public func approveOrder(request: CardRequest, completion: @escaping (Result<CardResult, CoreSDKError>) -> Void) {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         analyticsService?.sendEvent("card-payments:approve-order:started")
