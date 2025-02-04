@@ -5,7 +5,7 @@ This guide helps you migrate your code from version 1.x or 2.0.0-beta releases t
 > **Note:**
 > Most of the examples below show the changes introduced in **2.0.0-beta1** (new `CoreSDKError` wrapper types in **2.0.0-beta2**), which used completion signature of the form `(SomeResult?,CoreSDKError?) -> Void`.
 > For **2.0.0 GA**, these methods now use `Result<SomeResult, CoreSDKError>` in their completion blocks.
-> Please see the [**What's New in 2.0.0 GA**] (#what's-new-in-200-ga) section below for updated code snippets.
+> Please see the [What's New in 2.0.0 GA] <a name="what's-new-in-200-ga"></a>section below for updated code snippets.
 
 ## Overview
 Version 2.0 of the SDK transitions from delgate-based flows to completion handler-based flows. This change simplifies the integration and provides better compatibility with modern async/await patterns.
@@ -302,9 +302,8 @@ func processPayment() async {
     }
 }
 ```
-#what's-new-in-200-ga
 
-### What's New in 2.0.0 GA
+### [What's New in 2.0.0 GA](#whats-new-in-200-ga)
 - If you were already in 2.0.0-beta versions, the difference in GA is that all completion blocks now return a single Result instead of two optionals. For example:
 Using Completion Handlers
 ```swift
