@@ -1,6 +1,11 @@
-# Migrating Guide to 2.0.0-beta2
+# Migrating Guide to 2.0.0
 
-This guide helps you migrate your code from version 1.x or 2.0.0-beta1 to 2.0.0-beta2.
+This guide helps you migrate your code from version 1.x or 2.0.0-beta releases to 2.0.0 GA.
+
+> **Note:**
+> Most of the examples below show the changes introduced in **2.0.0-beta1** (new `CoreSDKError` wrapper types in **2.0.0-beta2**), which used completion signature of the form `(SomeResult?,CoreSDKError?) -> Void`.
+> For **2.0.0 GA**, these methods now use `Result<SomeResult, CoreSDKError>` in their completion blocks.
+> Please see the [**What's New in 2.0.0 GA**] (#what's-new-in-200-ga) section below for updated code snippets.
 
 ## Overview
 Version 2.0 of the SDK transitions from delgate-based flows to completion handler-based flows. This change simplifies the integration and provides better compatibility with modern async/await patterns.
@@ -297,3 +302,32 @@ func processPayment() async {
     }
 }
 ```
+#what's-new-in-200-ga
+
+### What's New in 2.0.0 GA
+- If you were already in 2.0.0-beta versions, the difference in GA is that all completion blocks now return a single Result instead of two optionals. For example:
+Using Completion Handlers
+```swift
+// 2.0.0-beta:
+cardClient.approveOrder(request: cardRequest) { cardResult, error in
+   if let error {
+   // handle error
+    return
+  }
+  if let cardResult {
+    // Handle success
+  }
+}
+```
+```swift
+// 2.0.0 GA:
+cardClient.approveOrder(request: cardRequest) { cardResult, error in
+   switch result {
+    case .success(let cardResult):
+    // handle success
+    case .failure(let error):
+    // handle error
+   }
+}
+```
+- Async/await function signatures remain the same from 2.0.0 beta versions
