@@ -18,6 +18,8 @@
 		3B22E8BA2A842D8900962E34 /* PaymentTokenParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22E8B92A842D8900962E34 /* PaymentTokenParam.swift */; };
 		3B22E8BC2A84397600962E34 /* PaymentTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22E8BB2A84397600962E34 /* PaymentTokenResponse.swift */; };
 		3B3C51142B20F7CE009125FE /* PayPalVaultResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3C51132B20F7CE009125FE /* PayPalVaultResultView.swift */; };
+		3B48B6782D84907D00B18759 /* PayPalBrandedCardForm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B48B6772D84907D00B18759 /* PayPalBrandedCardForm.framework */; };
+		3B48B6792D84907D00B18759 /* PayPalBrandedCardForm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3B48B6772D84907D00B18759 /* PayPalBrandedCardForm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3B4DD9A02A892A7000F4A716 /* CardVaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DD99F2A892A7000F4A716 /* CardVaultView.swift */; };
 		3B4DD9A22A8982B000F4A716 /* CardFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DD9A12A8982B000F4A716 /* CardFormView.swift */; };
 		3B6472A72AFAEB3A004745C4 /* PayPalWebTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6472A62AFAEB3A004745C4 /* PayPalWebTransactionView.swift */; };
@@ -112,6 +114,7 @@
 				CB1AC3C12982C4030081AED6 /* PayPalWebPayments.framework in Embed Frameworks */,
 				CB1AC3BC2982BB130081AED6 /* PaymentButtons.framework in Embed Frameworks */,
 				8052E2A629B684BA00B33FBC /* PPRiskMagnes.xcframework in Embed Frameworks */,
+				3B48B6792D84907D00B18759 /* PayPalBrandedCardForm.framework in Embed Frameworks */,
 				CB1AC3C82982E32D0081AED6 /* FraudProtection.framework in Embed Frameworks */,
 				CB1AC3B92982AAD70081AED6 /* CardPayments.framework in Embed Frameworks */,
 			);
@@ -132,6 +135,7 @@
 		3B22E8B92A842D8900962E34 /* PaymentTokenParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentTokenParam.swift; sourceTree = "<group>"; };
 		3B22E8BB2A84397600962E34 /* PaymentTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentTokenResponse.swift; sourceTree = "<group>"; };
 		3B3C51132B20F7CE009125FE /* PayPalVaultResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalVaultResultView.swift; sourceTree = "<group>"; };
+		3B48B6772D84907D00B18759 /* PayPalBrandedCardForm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PayPalBrandedCardForm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4DD99F2A892A7000F4A716 /* CardVaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultView.swift; sourceTree = "<group>"; };
 		3B4DD9A12A8982B000F4A716 /* CardFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardFormView.swift; sourceTree = "<group>"; };
 		3B6472A62AFAEB3A004745C4 /* PayPalWebTransactionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayPalWebTransactionView.swift; sourceTree = "<group>"; };
@@ -218,6 +222,7 @@
 				CB1AC3C02982C4030081AED6 /* PayPalWebPayments.framework in Frameworks */,
 				CB1AC3BB2982BB130081AED6 /* PaymentButtons.framework in Frameworks */,
 				CBDEEA222989990200A460A6 /* CorePayments.framework in Frameworks */,
+				3B48B6782D84907D00B18759 /* PayPalBrandedCardForm.framework in Frameworks */,
 				8052E2A529B684BA00B33FBC /* PPRiskMagnes.xcframework in Frameworks */,
 				CB1AC3C72982E32D0081AED6 /* FraudProtection.framework in Frameworks */,
 			);
@@ -414,6 +419,7 @@
 		805AB84C26B87A87003BEE0D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3B48B6772D84907D00B18759 /* PayPalBrandedCardForm.framework */,
 				8052E2A229B684A600B33FBC /* PPRiskMagnes.xcframework */,
 				CBDEEA212989990200A460A6 /* CorePayments.framework */,
 				CB1AC3C62982E32D0081AED6 /* FraudProtection.framework */,
