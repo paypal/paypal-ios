@@ -40,7 +40,7 @@ public class PayPalBrandedCardFormClient: NSObject {
         analyticsService = AnalyticsService(coreConfig: config, orderID: orderID)
         analyticsService?.sendEvent("paypal-branded-card-form:checkout:started")
 
-        let baseURLString = config.environment.payPalBaseURL.absoluteString
+        let baseURLString = config.environment.payPalGuestBaseURL.absoluteString
 
         let payPalCheckoutURLString =
             "\(baseURLString)/checkoutnow?token=\(orderID)" +
@@ -168,4 +168,3 @@ extension PayPalBrandedCardFormClient: ASWebAuthenticationPresentationContextPro
         }
     }
 }
-

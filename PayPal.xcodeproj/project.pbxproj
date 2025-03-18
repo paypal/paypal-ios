@@ -22,6 +22,8 @@
 		3B4AC3BD2D84DA4B008E82EE /* CardFormError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4AC3BC2D84DA3A008E82EE /* CardFormError.swift */; };
 		3B4AC3BF2D84DA6C008E82EE /* CardFormResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4AC3BE2D84DA67008E82EE /* CardFormResult.swift */; };
 		3B4AC3C12D84DAA3008E82EE /* Environment+PayPalBrandedCardFormClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4AC3C02D84DA8F008E82EE /* Environment+PayPalBrandedCardFormClient.swift */; };
+		3B4AC3C22D87C91C008E82EE /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; platformFilters = (driverkit, ios, macos, tvos, watchos, xros, ); };
+		3B4AC3C32D87C91C008E82EE /* CorePayments.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; platformFilters = (driverkit, ios, macos, tvos, watchos, xros, ); settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3B783DC32B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B783DC22B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift */; };
 		3B79E4F72A8503CA00C01D06 /* UpdateVaultVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B79E4F62A8503C900C01D06 /* UpdateVaultVariables.swift */; };
 		3B80D50C2A27979000D2EAC4 /* FailingJSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */; };
@@ -146,6 +148,13 @@
 			remoteGlobalIDString = 3B4AC39B2D84D6AC008E82EE;
 			remoteInfo = PayPalBrandedCardForm;
 		};
+		3B4AC3C42D87C91C008E82EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 80B9F85026B8750000D67843;
+			remoteInfo = CorePayments;
+		};
 		8034A9E826B875C90055AF13 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
@@ -182,6 +191,20 @@
 			remoteInfo = PayPalUI;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3B4AC3C62D87C91C008E82EE /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				3B4AC3C32D87C91C008E82EE /* CorePayments.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		045386082B5CB9AA0057AFDA /* PayPalOpen-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PayPalOpen-Regular.otf"; sourceTree = "<group>"; };
@@ -323,6 +346,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B4AC3C22D87C91C008E82EE /* CorePayments.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -838,10 +862,12 @@
 				3B4AC3982D84D6AC008E82EE /* Sources */,
 				3B4AC3992D84D6AC008E82EE /* Frameworks */,
 				3B4AC39A2D84D6AC008E82EE /* Resources */,
+				3B4AC3C62D87C91C008E82EE /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				3B4AC3C52D87C91C008E82EE /* PBXTargetDependency */,
 			);
 			name = PayPalBrandedCardForm;
 			packageProductDependencies = (
@@ -1468,6 +1494,19 @@
 			target = 3B4AC39B2D84D6AC008E82EE /* PayPalBrandedCardForm */;
 			targetProxy = 3B4AC3A72D84D6AD008E82EE /* PBXContainerItemProxy */;
 		};
+		3B4AC3C52D87C91C008E82EE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			platformFilters = (
+				driverkit,
+				ios,
+				macos,
+				tvos,
+				watchos,
+				xros,
+			);
+			target = 80B9F85026B8750000D67843 /* CorePayments */;
+			targetProxy = 3B4AC3C42D87C91C008E82EE /* PBXContainerItemProxy */;
+		};
 		8034A9E926B875C90055AF13 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 80B9F85026B8750000D67843 /* CorePayments */;
@@ -1501,10 +1540,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -1533,15 +1572,15 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 5YRAV27ZNE;
+				DEVELOPMENT_TEAM = 43253H4X22;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = YES;
+				ENABLE_MODULE_VERIFIER = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1557,25 +1596,25 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MARKETING_VERSION = 1.0;
-				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
-				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.PayPalBrandedCardForm";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1588,10 +1627,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
@@ -1620,15 +1659,15 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 5YRAV27ZNE;
+				DEVELOPMENT_TEAM = 43253H4X22;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = YES;
+				ENABLE_MODULE_VERIFIER = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -1639,24 +1678,24 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MARKETING_VERSION = 1.0;
-				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
-				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.PayPalBrandedCardForm";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

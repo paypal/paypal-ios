@@ -7,7 +7,7 @@ import CorePayments
 extension Environment {
 
     // swiftlint:disable force_unwrapping
-    var payPalBaseURL: URL {
+    var payPalGuestBaseURL: URL {
         switch self {
         case .sandbox:
             return URL(string: "https://www.sandbox.paypal.com")!

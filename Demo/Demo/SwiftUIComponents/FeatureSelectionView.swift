@@ -44,6 +44,12 @@ struct FeatureSelectionView: View {
                         Text("PayPal Web")
                     }
                     NavigationLink {
+                        BrandedCardFormView()
+                            .navigationTitle("Card Form")
+                    } label: {
+                        Text("Card Form")
+                    }
+                    NavigationLink {
                         PayPalVaultView()
                             .navigationTitle("PayPal Vaulting")
                     } label: {
