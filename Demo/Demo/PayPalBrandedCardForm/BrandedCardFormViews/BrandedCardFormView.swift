@@ -14,20 +14,19 @@ struct BrandedCardFormView: View {
                     if case .loaded = cardFormViewModel.state.createdOrderResponse {
                         BrandedCardOrderCreateResultView(cardFormViewModel: cardFormViewModel)
 
-//                        PayPalWebButtonsView(payPalWebViewModel: payPalWebViewModel)
+                        CardButtonView(cardFormViewModel: cardFormViewModel)
                     }
 
                     if case .loaded = cardFormViewModel.state.approveResultResponse {
-//                        PayPalApprovalResultView(payPalWebViewModel: payPalWebViewModel)
-//
-//                        PayPalWebTransactionView(payPalWebViewModel: payPalWebViewModel)
-//                            .padding(.bottom, 20)
+                        BrandedCardApprovalResultView(cardFormViewModel: cardFormViewModel)
+                        CardFormOrderCompletionView(cardFormViewModel: cardFormViewModel)
+                            .padding(.bottom, 20)
                     }
 
                     if case .loaded = cardFormViewModel.state.capturedOrderResponse {
-//                        PayPalOrderCompletionResultView(payPalWebViewModel: payPalWebViewModel)
+                        BrandedCardOrderCompletionResultView(cardFormViewModel: cardFormViewModel)
                     } else if case .loaded = cardFormViewModel.state.authorizedOrderResponse {
-//                        PayPalOrderCompletionResultView(payPalWebViewModel: payPalWebViewModel)
+                        BrandedCardOrderCompletionResultView(cardFormViewModel: cardFormViewModel)
                     }
                     Text("")
                         .id("bottomView")
@@ -41,4 +40,3 @@ struct BrandedCardFormView: View {
         }
     }
 }
-

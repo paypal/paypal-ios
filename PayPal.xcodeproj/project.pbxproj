@@ -24,6 +24,7 @@
 		3B4AC3C12D84DAA3008E82EE /* Environment+PayPalBrandedCardFormClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4AC3C02D84DA8F008E82EE /* Environment+PayPalBrandedCardFormClient.swift */; };
 		3B4AC3C22D87C91C008E82EE /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; platformFilters = (driverkit, ios, macos, tvos, watchos, xros, ); };
 		3B4AC3C32D87C91C008E82EE /* CorePayments.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; platformFilters = (driverkit, ios, macos, tvos, watchos, xros, ); settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3B76EF602D89B56000B615DD /* CardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B76EF5F2D89B55700B615DD /* CardButton.swift */; };
 		3B783DC32B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B783DC22B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift */; };
 		3B79E4F72A8503CA00C01D06 /* UpdateVaultVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B79E4F62A8503C900C01D06 /* UpdateVaultVariables.swift */; };
 		3B80D50C2A27979000D2EAC4 /* FailingJSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */; };
@@ -226,6 +227,7 @@
 		3B4AC3BC2D84DA3A008E82EE /* CardFormError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardFormError.swift; sourceTree = "<group>"; };
 		3B4AC3BE2D84DA67008E82EE /* CardFormResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardFormResult.swift; sourceTree = "<group>"; };
 		3B4AC3C02D84DA8F008E82EE /* Environment+PayPalBrandedCardFormClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment+PayPalBrandedCardFormClient.swift"; sourceTree = "<group>"; };
+		3B76EF5F2D89B55700B615DD /* CardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardButton.swift; sourceTree = "<group>"; };
 		3B783DC22B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeUpdateSetupTokenResponse.swift; sourceTree = "<group>"; };
 		3B79E4F62A8503C900C01D06 /* UpdateVaultVariables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateVaultVariables.swift; sourceTree = "<group>"; };
 		3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailingJSONEncoder.swift; sourceTree = "<group>"; };
@@ -685,6 +687,7 @@
 			isa = PBXGroup;
 			children = (
 				BE00B79D2742F9F000758C63 /* Assets.xcassets */,
+				3B76EF5F2D89B55700B615DD /* CardButton.swift */,
 				BEDB7FE32788AB8E00CEA554 /* Coordinator.swift */,
 				BE00B7AA2743FD9F00758C63 /* PaymentButton.swift */,
 				BE9F36DE274859A000AFC7DA /* PaymentButtonColor.swift */,
@@ -1470,6 +1473,7 @@
 				BCFAC71F27ED04C800C3AF00 /* Coordinator.swift in Sources */,
 				BCFAC71C27ED04C000C3AF00 /* PaymentButton.swift in Sources */,
 				CB1A47F22820AFED00BD8184 /* PayPalPayLaterButton.swift in Sources */,
+				3B76EF602D89B56000B615DD /* CardButton.swift in Sources */,
 				CB1A47F42820BA5D00BD8184 /* PaymentButtonEdges.swift in Sources */,
 				BCFAC71A27ED04AC00C3AF00 /* PaymentButtonColor.swift in Sources */,
 			);
