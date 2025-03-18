@@ -1,16 +1,50 @@
 
 # PayPal iOS SDK Release Notes
 
-## Unreleased
+## unreleased
 * Breaking Changes
+  * PayPalNativePayments
+    * Remove entire PayPalNativePayments module
   * PayPalWebPayments
+    * Replace delegate pattern with completion handlers and Swift concurrency
+        * Remove `PayPalWebCheckoutDelegate` and `PayPalVaultDelegate`
+        * Remove `start(request:)` method that uses delegate callbacks
+        * Remove `vault(vaultRequest:)` method that uses delegate callbacks
+        * Add `start(request:completion(PayPalWebCheckoutResult?, CoreSDKError?) -> Void)` to `PayPalWebCheckoutClient`
+        * Add `vault(vaultRequest:completion(PayPalVaultResult?, CoreSDKError?) -> Void)` to `PayPalWebCheckoutClient`
+        * Add `start(request:) async throws -> PayPalCheckoutResult`
+        * Add `vault(vaultRequest:) async throws -> PayPalVaultResult`
     * Update completion handler types to use `Result` instead of optional tuples
       * Change `start` completion from `(PayPalWebCheckoutResult?, CoreSDKError?)` to `Result<PayPalWebCheckoutResult, CoreSDKError>`
       * Change `vault` completion from `(PayPalVaultResult?, CoreSDKError?)` to `Result<PayPalVaultResult, CoreSDKError>`
   * CardPayments
+    * Replace delegate pattern with completion handlers and Swift concurrency
+      * Remove `CardDelegate` and `CardVaultDelegate`
+      * Remove `approveOrder(request:)` method that uses delegate callbacks
+      * Remove `vault(vaultRequest:)` method that uses delegate callbacks
+      * Add `approveOrder(request:completion:(CardResult?, CoreSDKError?) -> Void)` to `CardClient`
+      * Add `vault(request:completion:(CardVaultResult?, CoreSDKError?) -> Void)` to `CardClient`
+      * Add `approveOrder(request:) async throws -> CardResult`
+      * Add `vault(vaultRequest:) async throws -> CardVaultResult`   
     * Update completion handler types to use `Result` instead of optional tuples
       * Change `approveOrder` completion from `(CardResult?, CoreSDKError?)` to `Result<CardResult, CoreSDKError>`
       * Change `vault` completion from `(CardVaultResult?, CoreSDKError?)` to `Result<CardVaultResult, CoreSDKError>`
+* CorePayments
+  * Make `CoreSDKError` conform to Equatable
+  * Rename `NetworkingClientError` to `NetworkingError`
+  * Make `NetworkingError` enum and static constants public
+* CardPayments
+  * Make `CardError` enum and static constants public
+  * Rename `CardClientError` to `CardError`
+    * Add `threeDSecureCanceledError` to `CardError`
+    * Add public static function `isThreeDSecureCanceled(Error)` to `CardError` to distinguish cancellation error from threeDSecure verification
+    * Make `CardError` public to expose cancellation error handling helper
+* PayPalWebPayments
+  * Rename `PayPalWebCheckoutClientError` to `PayPalError`
+  * Add `.checkoutCanceledError` and `vaultCanceledError` to `PayPalError`
+  * Add public static functions `isCheckoutCanceled(Error)` and `isVaultCanceled(Error)` to `PayPalError` to distinguish cancellation errors in PayPal flows. 
+  * Make `PayPalError` public to expose cancellation error handling helpers
+  * Make `PayPalError` enum and static constants public   
       
 ## 2.0.0-beta2 (2024-12-11)
 * CorePayments
