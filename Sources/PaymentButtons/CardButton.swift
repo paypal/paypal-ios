@@ -13,7 +13,7 @@ public final class CardButton: PaymentButton {
         case blue
 
         var color: PaymentButtonColor {
-            PaymentButtonColor(rawValue: rawValue) ?? .gold
+            PaymentButtonColor(rawValue: rawValue) ?? .black
         }
     }
 
@@ -36,20 +36,20 @@ public final class CardButton: PaymentButton {
     /// Initialize a PayPalButton
     /// - Parameters:
     ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
-    ///   - color: Color of the button. Default to gold if not provided.
+    ///   - color: Color of the button. Default to black if not provided.
     ///   - edges: Edges of the button. Default to softEdges if not provided.
     ///   - size: Size of the button. Default to collapsed if not provided.
     ///   - label: Label displayed next to the button's logo. Default to no label.
     public convenience init(
         insets: NSDirectionalEdgeInsets? = nil,
-        color: Color = .gold,
+        color: Color = .black,
         edges: PaymentButtonEdges = .softEdges,
         size: PaymentButtonSize = .collapsed,
         label: Label = .card,
         cardImage: UIImage? = nil
     ) {
         self.init(
-            fundingSource: .payPal,
+            fundingSource: .card,
             color: color.color,
             edges: edges,
             size: size,
@@ -79,14 +79,14 @@ public extension CardButton {
         ///   - label: Label displayed next to the button's logo. Default to no label.
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
-            color: PayPalButton.Color = .gold,
+            color: PayPalButton.Color = .black,
             edges: PaymentButtonEdges = .softEdges,
             size: PaymentButtonSize = .collapsed,
             label: CardButton.Label = .card,
             _ action: @escaping () -> Void = { }
         ) {
             button = CardButton(
-                fundingSource: .payPal,
+                fundingSource: .card,
                 color: color.color,
                 edges: edges,
                 size: size,
