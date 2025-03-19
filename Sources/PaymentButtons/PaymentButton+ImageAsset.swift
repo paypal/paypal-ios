@@ -10,7 +10,11 @@ extension PaymentButton {
     
     var imageAccessibilityLabel: String {
         // NEXT_MAJOR_VERSION: - To be replaced with translation strings.
-        fileName.starts(with: "credit") ? "PayPal Credit" : "PayPal"
+        if fundingSource == .card {
+            return "Credit Card"
+        }
+
+        return fileName.starts(with: "credit") ? "PayPal Credit" : "PayPal"
     }
     
     // MARK: - Private Properties
@@ -31,6 +35,9 @@ extension PaymentButton {
 
         case .credit:
             imageAssetString += "credit_"
+
+        case .card:
+            imageAssetString += "card_"
         }
 
         switch color {

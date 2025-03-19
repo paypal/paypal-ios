@@ -15,6 +15,9 @@ public enum PaymentButtonLabel: String {
     /// Add "Pay later" to the right of button's logo, only used for PayPalPayLaterButton
     case payLater = "Pay Later"
 
+    /// Add "Debit or Credit Card" to the right of button's logo, only used for CardButton
+    case card = "Debit or Credit Card"
+
     enum Position {
         case prefix
         case suffix
@@ -22,7 +25,7 @@ public enum PaymentButtonLabel: String {
 
     var position: Position {
         switch self {
-        case .checkout, .buyNow, .payLater:
+        case .card, .checkout, .buyNow, .payLater:
             return .suffix
 
         case .payWith:
