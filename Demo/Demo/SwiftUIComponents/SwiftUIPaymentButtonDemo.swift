@@ -124,6 +124,7 @@ struct SwiftUIPaymentButtonDemo: View {
                         edges: selectedEdge,
                         size: selectedSize
                         )
+                    .id(buttonID)
                 }
             }
             .padding()
