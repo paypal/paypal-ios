@@ -21,6 +21,10 @@ let package = Package(
             targets: ["PayPalWebPayments"]
         ),
         .library(
+            name: "PayPalBrandedCardForm",
+            targets: ["PayPalBrandedCardForm"]
+        ),
+        .library(
             name: "CardPayments",
             targets: ["CardPayments"]
         ),
@@ -51,6 +55,10 @@ let package = Package(
             name: "PayPalWebPayments",
             dependencies: ["CorePayments"],
             resources: [.copy("PrivacyInfo.xcprivacy")]
+        ),
+        .target(
+            name: "PayPalBrandedCardForm",
+            dependencies: ["CorePayments"]
         ),
         .target(
             name: "FraudProtection",
