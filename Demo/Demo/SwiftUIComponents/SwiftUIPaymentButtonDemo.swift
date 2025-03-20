@@ -119,9 +119,8 @@ struct SwiftUIPaymentButtonDemo: View {
                     )
                     .id(buttonID)
                 case .card:
-                    // TODO: colors for Card button
                     CardButton.Representable(
-                        color: PayPalButton.Color.allCases[colorsIndex],
+                        color: CardButton.Color.allCases[colorsIndex],
                         edges: selectedEdge,
                         size: selectedSize
                         )
@@ -144,8 +143,7 @@ struct SwiftUIPaymentButtonDemo: View {
         case .credit:
             return PayPalCreditButton.Color.allCasesAsString()
         case .card:
-            // TODO: card button colors
-            return PayPalButton.Color.allCasesAsString()
+            return CardButton.Color.allCasesAsString()
         }
     }
 }

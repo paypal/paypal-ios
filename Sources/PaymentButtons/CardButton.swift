@@ -79,7 +79,7 @@ public extension CardButton {
         ///   - label: Label displayed next to the button's logo. Default to no label.
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
-            color: PayPalButton.Color = .black,
+            color: CardButton.Color = .black,
             edges: PaymentButtonEdges = .softEdges,
             size: PaymentButtonSize = .collapsed,
             label: CardButton.Label = .card,
