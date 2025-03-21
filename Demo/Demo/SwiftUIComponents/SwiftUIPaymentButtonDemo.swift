@@ -118,6 +118,14 @@ struct SwiftUIPaymentButtonDemo: View {
                         size: selectedSize
                     )
                     .id(buttonID)
+
+                case .card:
+                    CardButton.Representable(
+                        color: CardButton.Color.allCases[colorsIndex],
+                        edges: selectedEdge,
+                        size: selectedSize
+                    )
+                    .id(buttonID)
                 }
             }
             .padding()
@@ -136,6 +144,9 @@ struct SwiftUIPaymentButtonDemo: View {
 
         case .credit:
             return PayPalCreditButton.Color.allCasesAsString()
+
+        case .card:
+            return CardButton.Color.allCasesAsString()
         }
     }
 }

@@ -13,4 +13,7 @@ public enum PayPalWebCheckoutFundingSource: String {
 
     /// PayPal will launch the web checkout for a one-time PayPal Checkout flow
     case paypal = "paypal"
+
+    /// PayPal will launch the web guest checkout for card funding source
+    case card = "card"
 }
