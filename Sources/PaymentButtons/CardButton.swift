@@ -6,11 +6,8 @@ public final class CardButton: PaymentButton {
 
     /// Available colors for CardButton.
     public enum Color: String {
-        case gold
         case white
         case black
-        case silver
-        case blue
 
         var color: PaymentButtonColor {
             PaymentButtonColor(rawValue: rawValue) ?? .black
@@ -19,12 +16,6 @@ public final class CardButton: PaymentButton {
 
     /// Available labels for CardButton.
     public enum Label: String {
-        /// Display no label
-        case none
-
-        /// Display "Pay with" on the left side of the button's logo
-        case payWith = "Pay with"
-
         /// Display "Debit or Credit Card" on the left side of the button's logo
         case card = "Debit or Credit Card"
 

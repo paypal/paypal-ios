@@ -36,7 +36,7 @@ extension PayPalCreditButton.Color {
 extension CardButton.Color {
 
     public static var allCases: [CardButton.Color] {
-        [.black]
+        [.black, .white]
     }
 
     static func allCasesAsString() -> [String] {
