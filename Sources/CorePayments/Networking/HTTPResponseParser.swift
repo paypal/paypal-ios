@@ -69,3 +69,25 @@ public class HTTPResponseParser {
         }
     }
 }
+
+extension HTTPResponseParser {
+
+    // to extract correlationId from GraphQL response
+    public func parseGraphQLDictionary(_ httpResponse: HTTPResponse) throws -> [String: Any] {
+
+        guard httpResponse.status == 200 else {
+            throw NetworkingError.urlSessionError
+        }
+
+        guard let body = httpResponse.body else {
+            throw NetworkingError.noResponseDataError
+        }
+
+        let jsonObject = try JSONSerialization.jsonObject(with: body, options: [])
+        guard let topLevel = jsonObject as? [String: Any] else {
+            throw NetworkingError.invalidURLResponseError
+        }
+
+        return topLevel
+    }
+}

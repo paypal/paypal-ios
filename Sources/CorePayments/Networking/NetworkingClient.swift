@@ -57,15 +57,29 @@ public class NetworkingClient {
 
     /// This function executes a network request from a GraphQLRequest and returns HTTPResponse
     /// which contains status (Int type) and body (optional Data type)
+    /// client context is header included for UpdateClientConfig call for BCDC flow
     @_documentation(visibility: private)
-    public func fetch(request: GraphQLRequest) async throws -> HTTPResponse {
+    public func fetch(
+        request: GraphQLRequest,
+        clientContext: String? = nil
+    ) async throws -> HTTPResponse {
         let url = try constructGraphQLURL(queryName: request.queryNameForURL)
                 
         // TODO: - Move JSON encoding into custom class
         let postBody = GraphQLHTTPPostBody(query: request.query, variables: request.variables)
         // TODO: - encoding `Data` results in mumbo jumbo string. Why
         let postData = try JSONEncoder().encode(postBody)
-        
+
+        var headers: [HTTPHeader: String] = [
+            .contentType: "application/json",
+            .accept: "application/json",
+            .appName: "ppcpmobilesdk",
+            .origin: coreConfig.environment.graphQLURL.absoluteString
+        ]
+
+        if let clientContext {
+            headers[.paypalClientContext] = clientContext
+        }
         let httpRequest = HTTPRequest(
             headers: [
                 .contentType: "application/json",
