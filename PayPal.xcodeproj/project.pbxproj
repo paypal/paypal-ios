@@ -19,6 +19,7 @@
 		3B783DC32B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B783DC22B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift */; };
 		3B79E4F72A8503CA00C01D06 /* UpdateVaultVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B79E4F62A8503C900C01D06 /* UpdateVaultVariables.swift */; };
 		3B80D50C2A27979000D2EAC4 /* FailingJSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */; };
+		3B8F84842D92F95500A151AC /* CardButton_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8F84832D92F94600A151AC /* CardButton_Tests.swift */; };
 		3BD014C82D8B4D60005565FE /* CardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD014C72D8B4D60005565FE /* CardButton.swift */; };
 		3BD82DBB2A835AF900CBE764 /* UpdateSetupTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD82DBA2A835AF900CBE764 /* UpdateSetupTokenResponse.swift */; };
 		3BDB34942A80CE6E008100D7 /* CardVaultRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB34932A80CE6E008100D7 /* CardVaultRequest.swift */; };
@@ -187,6 +188,7 @@
 		3B783DC22B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeUpdateSetupTokenResponse.swift; sourceTree = "<group>"; };
 		3B79E4F62A8503C900C01D06 /* UpdateVaultVariables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateVaultVariables.swift; sourceTree = "<group>"; };
 		3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailingJSONEncoder.swift; sourceTree = "<group>"; };
+		3B8F84832D92F94600A151AC /* CardButton_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardButton_Tests.swift; sourceTree = "<group>"; };
 		3BD014C72D8B4D60005565FE /* CardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardButton.swift; sourceTree = "<group>"; };
 		3BD82DBA2A835AF900CBE764 /* UpdateSetupTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSetupTokenResponse.swift; sourceTree = "<group>"; };
 		3BDB34932A80CE6E008100D7 /* CardVaultRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultRequest.swift; sourceTree = "<group>"; };
@@ -629,6 +631,7 @@
 		BCFAC72227ED05D900C3AF00 /* PaymentButtonsTests */ = {
 			isa = PBXGroup;
 			children = (
+				3B8F84832D92F94600A151AC /* CardButton_Tests.swift */,
 				BEF3FF1627AC5DF3006B4B69 /* Coordinator_Tests.swift */,
 				BE00B7AC27444FE900758C63 /* PayPalButton_Tests.swift */,
 				BE9F36E3275520E700AFC7DA /* PayPalCreditButton_Tests.swift */,
@@ -1311,6 +1314,7 @@
 			buildActionMask = 0;
 			files = (
 				BCFAC70E27ED043100C3AF00 /* PayPalButton_Tests.swift in Sources */,
+				3B8F84842D92F95500A151AC /* CardButton_Tests.swift in Sources */,
 				BCFAC70F27ED043100C3AF00 /* Coordinator_Tests.swift in Sources */,
 				CB22C018291049500097E592 /* PayPalPayLaterButton_Tests.swift in Sources */,
 				BCFAC71327ED043100C3AF00 /* PayPalCreditButton_Tests.swift in Sources */,
