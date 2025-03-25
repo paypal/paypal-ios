@@ -6,6 +6,8 @@ import CorePayments
 /// This class coordinates networking logic for communicating with the /graphql?UpdateClientConfig API.
 class UpdateClientConfigAPI {
 
+    // MARK: - Private Properties
+
     private let coreConfig: CoreConfig
     private let networkingClient: NetworkingClient
 
@@ -62,10 +64,6 @@ class UpdateClientConfigAPI {
         )
 
         let httpResponse = try await networkingClient.fetch(request: graphQLRequest, clientContext: request.orderID)
-
-        // to grab correlationId
-        let dataDict = try HTTPResponseParser().parseGraphQLDictionary(httpResponse)
-        print("full graphQL response: \(dataDict)")
 
         return try HTTPResponseParser().parseGraphQL(httpResponse, as: ClientConfigResponse.self)
     }
