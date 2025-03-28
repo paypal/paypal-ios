@@ -81,12 +81,7 @@ public class NetworkingClient {
             headers[.paypalClientContext] = clientContext
         }
         let httpRequest = HTTPRequest(
-            headers: [
-                .contentType: "application/json",
-                .accept: "application/json",
-                .appName: "ppcpmobilesdk",
-                .origin: coreConfig.environment.graphQLURL.absoluteString
-            ],
+            headers: headers,
             method: .post,
             url: url,
             body: postData
