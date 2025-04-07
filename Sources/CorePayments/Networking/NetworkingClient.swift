@@ -78,7 +78,7 @@ public class NetworkingClient {
         ]
 
         if let clientContext {
-            headers[.paypalClientContext] = clientContext
+            headers[.payPalClientContext] = clientContext
         }
         let httpRequest = HTTPRequest(
             headers: headers,

@@ -66,13 +66,13 @@ public extension CardButton {
         ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
         ///   - color: Color of the button. Default to gold if not provided.
         ///   - edges: Edges of the button. Default to softEdges if not provided.
-        ///   - size: Size of the button. Default to collapsed if not provided.
+        ///   - size: Size of the button. Default to expanded if not provided.
         ///   - label: Label displayed next to the button's logo. Default to no label.
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
             color: CardButton.Color = .black,
             edges: PaymentButtonEdges = .softEdges,
-            size: PaymentButtonSize = .collapsed,
+            size: PaymentButtonSize = .expanded,
             label: CardButton.Label = .card,
             _ action: @escaping () -> Void = { }
         ) {
