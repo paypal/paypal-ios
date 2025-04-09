@@ -48,11 +48,14 @@ class UpdateClientConfigAPI {
             }
         """
 
+        // 1. userExperienceFlow: "INCONTEXT"
+        // 2. userExperienceFlow: "INLINE"
+        // 3. Without the UpdateClientConfig call
         let variables = UpdateClientConfigVariables(
             orderID: request.orderID,
             fundingSource: request.fundingSource.rawValue,
             integrationArtifact: "PAYPAL_JS_SDK", // PAYPAL_JS_SDK or NATIVE_SDK
-            userExperienceFlow: "INCONTEXT", // INCONTEXT or INLINE
+            userExperienceFlow: "INLINE", // INCONTEXT or INLINE
             productFlow: "SMART_PAYMENT_BUTTONS", // NATIVE or SMART_PAYMENT_BUTTONS
             buttonSessionID: nil
         )
