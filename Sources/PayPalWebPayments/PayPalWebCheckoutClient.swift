@@ -52,8 +52,8 @@ public class PayPalWebCheckoutClient: NSObject {
         Task {
             if request.fundingSource == .card {
                 do {
-                    let configResult = try await clientConfigAPI.updateClientConfig(request: request)
-                    print("configResult: \(configResult)")
+                    //let configResult = try await clientConfigAPI.updateClientConfig(request: request)
+//                    print("configResult: \(configResult)")
                 } catch {
                     print("error in calling graphQL: \(error.localizedDescription)")
                     self.notifyCheckoutFailure(with: PayPalError.payPalURLError, completion: completion)
