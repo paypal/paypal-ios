@@ -50,15 +50,15 @@ public class PayPalWebCheckoutClient: NSObject {
         analyticsService?.sendEvent("paypal-web-payments:checkout:started")
 
         Task {
-            if request.fundingSource == .card {
-                do {
-                    //let configResult = try await clientConfigAPI.updateClientConfig(request: request)
-//                    print("configResult: \(configResult)")
-                } catch {
-                    print("error in calling graphQL: \(error.localizedDescription)")
-                    self.notifyCheckoutFailure(with: PayPalError.payPalURLError, completion: completion)
-                }
-            }
+//            if request.fundingSource == .card {
+//                do {
+//                    //let configResult = try await clientConfigAPI.updateClientConfig(request: request)
+////                    print("configResult: \(configResult)")
+//                } catch {
+//                    print("error in calling graphQL: \(error.localizedDescription)")
+//                    self.notifyCheckoutFailure(with: PayPalError.payPalURLError, completion: completion)
+//                }
+//            }
             let baseURLString = config.environment.payPalBaseURL.absoluteString
             let payPalCheckoutURLString =
                 "\(baseURLString)/checkoutnow?token=\(request.orderID)" +
