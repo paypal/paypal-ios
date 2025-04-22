@@ -50,18 +50,23 @@ public class PayPalWebCheckoutClient: NSObject {
         analyticsService?.sendEvent("paypal-web-payments:checkout:started")
 
         Task {
-            if request.fundingSource == .card {
-                do {
-                    //let configResult = try await clientConfigAPI.updateClientConfig(request: request)
+//            if request.fundingSource == .card {
+//                do {
+//                    let configResult = try await clientConfigAPI.updateClientConfig(request: request)
 //                    print("configResult: \(configResult)")
-                } catch {
-                    print("error in calling graphQL: \(error.localizedDescription)")
-                    self.notifyCheckoutFailure(with: PayPalError.payPalURLError, completion: completion)
-                }
-            }
+//                } catch {
+//                    print("error in calling graphQL: \(error.localizedDescription)")
+//                    self.notifyCheckoutFailure(with: PayPalError.payPalURLError, completion: completion)
+//                }
+//            }
+            
+            // NOW: https://www.sandbox.paypal.com/checkoutnow?token=3RJ39001MF2530239&fundingSource=paypal
+            //
+            // NEW: https://sandbox.paypal.com/checkoutweb?token=3RJ39001MF2530239&fundingSource=paypal
+            // NEW: https://sandbox.paypal.com/checkoutweb/signup?token=EC-5CN61450R0682984X
             let baseURLString = config.environment.payPalBaseURL.absoluteString
             let payPalCheckoutURLString =
-                "\(baseURLString)/checkoutnow?token=\(request.orderID)" +
+                "\(baseURLString)/checkoutweb/signup?token=\(request.orderID)" +
                 "&fundingSource=\(request.fundingSource.rawValue)"
 
             guard let payPalCheckoutURL = URL(string: payPalCheckoutURLString),
