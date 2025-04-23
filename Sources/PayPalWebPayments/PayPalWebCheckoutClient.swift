@@ -66,7 +66,7 @@ public class PayPalWebCheckoutClient: NSObject {
             // NEW: https://sandbox.paypal.com/checkoutweb/signup?token=EC-5CN61450R0682984X
             let baseURLString = config.environment.payPalBaseURL.absoluteString
             let payPalCheckoutURLString =
-                "\(baseURLString)/checkoutweb/signup?token=\(request.orderID)" +
+                "\(baseURLString)/checkoutweb?token=\(request.orderID)" +
                 "&fundingSource=\(request.fundingSource.rawValue)"
 
             guard let payPalCheckoutURL = URL(string: payPalCheckoutURLString),
