@@ -10,7 +10,7 @@ extension Environment {
     var payPalBaseURL: URL {
         switch self {
         case .sandbox:
-            return URL(string: "https://sandbox.paypal.com/")!
+            return URL(string: "https://sandbox.paypal.com")!
         case .live:
             return URL(string: "https://www.paypal.com")!
         }
