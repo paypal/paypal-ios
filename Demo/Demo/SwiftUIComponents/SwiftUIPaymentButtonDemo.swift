@@ -18,8 +18,6 @@ struct SwiftUIPaymentButtonDemo: View {
     @State private var selectedEdge = PaymentButtonEdges.allCases[0]
     @State private var customEdge: Int = 10
 
-    @State private var sizesIndex = 1
-    
     @State private var labelIndex = 0
     private var labels = PayPalButton.Label.allCasesAsString()
     @State private var selectedLabel = PayPalButton.Label.allCases[0]
