@@ -44,17 +44,6 @@ extension PaymentButtonEdges {
     }
 }
 
-extension PaymentButtonSize {
-
-    public static var allCases: [PaymentButtonSize] {
-        [.mini, .collapsed, .expanded, .full]
-    }
-
-    static func allCasesAsString() -> [String] {
-        Self.allCases.map { $0.description }
-    }
-}
-
 extension PaymentButtonFundingSource {
 
     public static var allCases: [PaymentButtonFundingSource] {

@@ -3,7 +3,6 @@ import UIKit
 import CorePayments
 #endif
 
-// swiftlint:disable type_body_length
 /// Handles functionality shared across payment buttons
 public class PaymentButton: UIButton {
 
@@ -36,14 +35,12 @@ public class PaymentButton: UIButton {
         fundingSource: PaymentButtonFundingSource,
         color: PaymentButtonColor,
         edges: PaymentButtonEdges,
-        size: PaymentButtonSize,
         insets: NSDirectionalEdgeInsets?,
         label: PaymentButtonLabel?
     ) {
         self.fundingSource = fundingSource
         self.color = color
         self.edges = edges
-        self.size = size
         self.insets = insets
         self.label = label
         self.analyticsService.sendEvent("payment-button:initialized", buttonType: fundingSource.rawValue)
@@ -115,9 +112,6 @@ public class PaymentButton: UIButton {
     /// The corners of the button and how they should be shaped.
     public private(set) var edges: PaymentButtonEdges
 
-    /// The size enum determines how the button will be shown.
-    public private(set) var size: PaymentButtonSize
-
     /// The padding on the smart payment button.
     public private(set) var insets: NSDirectionalEdgeInsets?
 
@@ -125,33 +119,14 @@ public class PaymentButton: UIButton {
     public private(set) var label: PaymentButtonLabel?
 
     private var imageHeight: CGFloat {
-        // For pay later or paypal credit return different image height
-        switch size {
-        case .mini:
-            return fundingSource == .payLater || fundingSource == .credit ? 12 : 24
-
-        case .collapsed:
-            return 15.0
-
-        case .expanded:
-            return 20.0
-
-        case .full:
-            return 26.0
-        }
+        return 20.0
     }
 
     private var supportsPrefixLabel: Bool {
-        switch size {
-        case .mini, .collapsed:
-            return false
-
-        case .expanded, .full:
-            if let label = label {
-                return label.position == .prefix
-            }
-            return false
+        if let label = label {
+            return label.position == .prefix
         }
+        return false
     }
 
     private var supportsSuffixLabel: Bool {
@@ -159,16 +134,10 @@ public class PaymentButton: UIButton {
             return true
         }
 
-        switch size {
-        case .mini, .collapsed:
-            return false
-
-        case .expanded, .full:
-            if let label = label {
-                return label.position == .suffix
-            }
-            return false
+        if let label = label {
+            return label.position == .suffix
         }
+        return false
     }
 
     // MARK: - Private
@@ -191,8 +160,14 @@ public class PaymentButton: UIButton {
     }
 
     private func configureStackView() {
-        stackView.directionalLayoutMargins = insets ?? size.elementPadding
-        stackView.spacing = size.elementSpacing
+        let fixedInsets = NSDirectionalEdgeInsets(
+            top: 13.0,
+            leading: 24.0,
+            bottom: 13.0,
+            trailing: 24.0
+        )
+        stackView.directionalLayoutMargins = insets ?? fixedInsets
+        stackView.spacing = 4.5
     }
 
     private func configureBackgroundColor() {
@@ -203,7 +178,7 @@ public class PaymentButton: UIButton {
     private func configureLogo() -> UIImageView {
         let logo = resize(with: image)
         let logoImageView = UIImageView(image: logo)
-        sizeToImage(on: logoImageView, with: size)
+        sizeToImage(on: logoImageView)
         logoImageView.contentMode = .scaleAspectFit
         return logoImageView
     }
@@ -213,7 +188,7 @@ public class PaymentButton: UIButton {
         if let label = label, label.position == .prefix {
             prefixLabel.text = label.rawValue
         }
-        prefixLabel.font = size.font
+        prefixLabel.font = PaymentButtonFont.paypalPrimaryFont
         prefixLabel.isHidden = !supportsPrefixLabel
     }
 
@@ -222,7 +197,7 @@ public class PaymentButton: UIButton {
         if let label = label, label.position == .suffix {
             suffixLabel.text = label.rawValue
         }
-        suffixLabel.font = size.font
+        suffixLabel.font = PaymentButtonFont.paypalPrimaryFont
         suffixLabel.isHidden = !supportsSuffixLabel
     }
     
@@ -267,50 +242,25 @@ public class PaymentButton: UIButton {
     override public func layoutSubviews() {
         super.layoutSubviews()
         configure()
-
-        if size == .mini {
-            let minValue = min(containerView.bounds.width, containerView.bounds.height)
-            containerView.layer.cornerRadius = minValue / 2
-        } else {
-            containerView.layer.cornerRadius = edges.cornerRadius(for: containerView)
-        }
+        containerView.layer.cornerRadius = edges.cornerRadius(for: containerView)
     }
 
     public override var intrinsicContentSize: CGSize {
-        switch size {
-        case .mini:
-            return CGSize(width: 36, height: 24)
-
-        case .collapsed, .expanded, .full:
-            return CGSize(width: frame.size.width, height: imageHeight + size.elementPadding.top * 2)
-        }
+        return CGSize(width: frame.size.width, height: 45)
     }
 
     // MARK: - Utility
 
-    private func sizeToImage(on imageView: UIImageView, with size: PaymentButtonSize) {
+    private func sizeToImage(on imageView: UIImageView) {
 
         guard let image = imageView.image else { return }
 
-        // Size to fit
-        switch size {
-        case .mini:
-            let maxValue = max(image.size.width, image.size.height)
-            imageView.bounds = CGRect(
-                x: 0,
-                y: 0,
-                width: maxValue,
-                height: maxValue
-            )
-
-        default:
-            imageView.bounds = CGRect(
-                x: 0,
-                y: 0,
-                width: image.size.width,
-                height: image.size.height
-            )
-        }
+        imageView.bounds = CGRect(
+            x: 0,
+            y: 0,
+            width: image.size.width,
+            height: image.size.height
+        )
     }
 
     private func resize(with image: UIImage?) -> UIImage? {

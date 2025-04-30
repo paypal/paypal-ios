@@ -22,10 +22,6 @@ extension PaymentButton {
         case .payPal:
             imageAssetString += "paypal_"
 
-            if size == .mini {
-                imageAssetString += "monogram_"
-            }
-
         case .payLater:
             imageAssetString += "paypal_monogram_"
 
