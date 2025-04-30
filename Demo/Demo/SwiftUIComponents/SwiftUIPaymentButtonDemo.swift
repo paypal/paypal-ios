@@ -68,31 +68,18 @@ struct SwiftUIPaymentButtonDemo: View {
                         buttonID += 1
                     }
                 }
-//                Picker("sizes", selection: $sizesIndex) {
-//                    ForEach(sizes.indices, id: \.self) { index in
-//                        Text(sizes[index])
-//                    }
-//                }
-//                .pickerStyle(SegmentedPickerStyle())
-//                .onChange(of: sizesIndex) { _ in
-//                    selectedSize = PaymentButtonSize.allCases[sizesIndex]
-//                    buttonID += 1
-//                }
-
                 switch selectedFunding {
                 case .payPal:
-//                    if selectedSize == .expanded || selectedSize == .full {
-                        Picker("label", selection: $labelIndex) {
-                            ForEach(labels.indices, id: \.self) { index in
-                                Text(labels[index])
-                            }
+                    Picker("label", selection: $labelIndex) {
+                        ForEach(labels.indices, id: \.self) { index in
+                            Text(labels[index])
                         }
-                        .pickerStyle(SegmentedPickerStyle())
-                        .onChange(of: labelIndex) { _ in
-                            selectedLabel = PayPalButton.Label.allCases[labelIndex]
-                            buttonID += 1
-                        }
-                 //   }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .onChange(of: labelIndex) { _ in
+                        selectedLabel = PayPalButton.Label.allCases[labelIndex]
+                        buttonID += 1
+                    }
                     PayPalButton.Representable(
                         color: PayPalButton.Color.allCases[colorsIndex],
                         edges: selectedEdge,
