@@ -82,6 +82,7 @@ public extension PayPalButton {
             color: PayPalButton.Color = .gold,
             edges: PaymentButtonEdges = .softEdges,
             label: PayPalButton.Label? = nil,
+            height: CGFloat? = 45.0,
             _ action: @escaping () -> Void = { }
         ) {
             button = PayPalButton(
@@ -91,6 +92,7 @@ public extension PayPalButton {
                 insets: insets,
                 label: label?.label
             )
+            button.buttonHeight = height ?? 45.0
             self.action = action
         }
        

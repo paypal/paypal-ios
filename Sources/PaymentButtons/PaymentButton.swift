@@ -118,8 +118,16 @@ public class PaymentButton: UIButton {
     /// The label displayed next to the button's logo.
     public private(set) var label: PaymentButtonLabel?
 
+    public var buttonHeight: CGFloat = 45 {
+        didSet {
+            buttonHeight = max(25, min(buttonHeight, 60))
+            invalidateIntrinsicContentSize()
+            setNeedsLayout()
+        }
+    }
+
     private var imageHeight: CGFloat {
-        return 20.0
+        return buttonHeight * 0.76
     }
 
     private var supportsPrefixLabel: Bool {
@@ -160,14 +168,7 @@ public class PaymentButton: UIButton {
     }
 
     private func configureStackView() {
-        let fixedInsets = NSDirectionalEdgeInsets(
-            top: 13.0,
-            leading: 24.0,
-            bottom: 13.0,
-            trailing: 24.0
-        )
-        stackView.directionalLayoutMargins = insets ?? fixedInsets
-        stackView.spacing = 4.5
+        stackView.spacing = 5
     }
 
     private func configureBackgroundColor() {
@@ -188,7 +189,7 @@ public class PaymentButton: UIButton {
         if let label = label, label.position == .prefix {
             prefixLabel.text = label.rawValue
         }
-        prefixLabel.font = PaymentButtonFont.paypalPrimaryFont
+        prefixLabel.font = PaymentButtonFont.paypalScaledFont(for: buttonHeight)
         prefixLabel.isHidden = !supportsPrefixLabel
     }
 
@@ -197,7 +198,7 @@ public class PaymentButton: UIButton {
         if let label = label, label.position == .suffix {
             suffixLabel.text = label.rawValue
         }
-        suffixLabel.font = PaymentButtonFont.paypalPrimaryFont
+        suffixLabel.font = PaymentButtonFont.paypalScaledFont(for: buttonHeight)
         suffixLabel.isHidden = !supportsSuffixLabel
     }
     
@@ -242,11 +243,11 @@ public class PaymentButton: UIButton {
     override public func layoutSubviews() {
         super.layoutSubviews()
         configure()
-        containerView.layer.cornerRadius = edges.cornerRadius(for: containerView)
+        containerView.layer.cornerRadius = edges.cornerRadius(for: self)
     }
 
     public override var intrinsicContentSize: CGSize {
-        return CGSize(width: frame.size.width, height: 45)
+        return CGSize(width: frame.size.width, height: buttonHeight)
     }
 
     // MARK: - Utility

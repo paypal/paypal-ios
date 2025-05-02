@@ -58,6 +58,7 @@ public extension PayPalCreditButton {
             insets: NSDirectionalEdgeInsets? = nil,
             color: PayPalCreditButton.Color = .darkBlue,
             edges: PaymentButtonEdges = .softEdges,
+            height: CGFloat? = 45.0,
             _ action: @escaping () -> Void = { }
         ) {
             self.button = PayPalCreditButton(
@@ -67,6 +68,7 @@ public extension PayPalCreditButton {
                 insets: insets,
                 label: nil
             )
+            button.buttonHeight = height ?? 45.0
             self.action = action
         }
         
