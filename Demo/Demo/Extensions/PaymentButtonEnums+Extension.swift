@@ -25,7 +25,7 @@ extension PayPalButton.Color {
 extension PayPalCreditButton.Color {
 
     public static var allCases: [PayPalCreditButton.Color] {
-        [.white, .black, .darkBlue]
+        [.white, .black, .blue]
     }
 
     static func allCasesAsString() -> [String] {
