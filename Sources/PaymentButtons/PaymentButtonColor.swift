@@ -20,7 +20,7 @@ public enum PaymentButtonColor: String {
             return UIColor(hexString: "#000000")
 
         case .blue:
-            return UIColor(hexString: "#0070BA")
+            return UIColor(hexString: "#60CDFF")
         }
     }
 
