@@ -3,7 +3,7 @@ import PaymentButtons
 extension PayPalPayLaterButton.Color {
 
     public static var allCases: [PayPalPayLaterButton.Color] {
-        [.gold, .white, .black, .silver, .blue]
+        [.white, .black, .blue]
     }
 
     static func allCasesAsString() -> [String] {
@@ -14,7 +14,7 @@ extension PayPalPayLaterButton.Color {
 extension PayPalButton.Color {
 
     public static var allCases: [PayPalButton.Color] {
-        [.gold, .white, .black, .silver, .blue]
+        [.white, .black, .blue]
     }
 
     static func allCasesAsString() -> [String] {

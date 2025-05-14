@@ -6,14 +6,12 @@ public final class PayPalButton: PaymentButton {
 
     /// Available colors for PayPalButton.
     public enum Color: String {
-        case gold
         case white
         case black
-        case silver
         case blue
 
         var color: PaymentButtonColor {
-            PaymentButtonColor(rawValue: rawValue) ?? .gold
+            PaymentButtonColor(rawValue: rawValue) ?? .blue
         }
     }
 
@@ -45,7 +43,7 @@ public final class PayPalButton: PaymentButton {
     ///   - label: Label displayed next to the button's logo. Default to no label.
     public convenience init(
         insets: NSDirectionalEdgeInsets? = nil,
-        color: Color = .gold,
+        color: Color = .blue,
         edges: PaymentButtonEdges = .softEdges,
         label: Label? = nil
     ) {
@@ -79,7 +77,7 @@ public extension PayPalButton {
         ///   - label: Label displayed next to the button's logo. Default to no label.
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
-            color: PayPalButton.Color = .gold,
+            color: PayPalButton.Color = .blue,
             edges: PaymentButtonEdges = .softEdges,
             label: PayPalButton.Label? = nil,
             height: CGFloat? = 45.0,

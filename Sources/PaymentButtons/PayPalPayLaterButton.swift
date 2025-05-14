@@ -6,14 +6,12 @@ public final class PayPalPayLaterButton: PaymentButton {
 
     /// Available colors for PayPalPayLaterButton.
     public enum Color: String {
-        case gold
         case white
         case black
-        case silver
         case blue
 
         var color: PaymentButtonColor {
-            PaymentButtonColor(rawValue: rawValue) ?? .gold
+            PaymentButtonColor(rawValue: rawValue) ?? .blue
         }
     }
 
@@ -25,7 +23,7 @@ public final class PayPalPayLaterButton: PaymentButton {
     ///   - size: Size of the button. Default to collapsed if not provided.
     public convenience init(
         insets: NSDirectionalEdgeInsets? = nil,
-        color: Color = .gold,
+        color: Color = .blue,
         edges: PaymentButtonEdges = .softEdges,
         _ action: @escaping () -> Void = { }
     ) {
@@ -55,7 +53,7 @@ public extension PayPalPayLaterButton {
         ///   - size: Size of the button. Default to collapsed if not provided.
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
-            color: PayPalPayLaterButton.Color = .gold,
+            color: PayPalPayLaterButton.Color = .blue,
             edges: PaymentButtonEdges = .softEdges,
             height: CGFloat? = 45.0,
             _ action: @escaping () -> Void = { }

@@ -18,26 +18,14 @@ extension PaymentButton {
     /// Name of the sized `.imageset` assets within `Assets.xcassets` directory
     private var fileName: String {
         var imageAssetString = ""
-        switch fundingSource {
-        case .payPal:
-            imageAssetString += "paypal_"
-
-        case .payLater:
-            imageAssetString += "paypal_monogram_"
-
-        case .credit:
-            imageAssetString += "credit_"
-        }
+            imageAssetString += "paypal-logo-"
 
         switch color {
-        case .gold, .white, .silver:
-            imageAssetString += "color"
+        case .white, .blue:
+            imageAssetString += "black"
 
-        case .black, .darkBlue:
-            imageAssetString += "monochrome"
-
-        case .blue:
-            imageAssetString += "blue"
+        case .black:
+            imageAssetString += "white"
         }
         
         return imageAssetString
