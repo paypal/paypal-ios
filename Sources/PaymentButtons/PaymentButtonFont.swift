@@ -4,6 +4,10 @@ enum PaymentButtonFont {
     /// The primary font
     public static let paypalPrimaryFont = UIFont(name: "PayPalOpen-Regular", size: 14) ??
         .systemFont(ofSize: UIFont.systemFontSize)
+    public static func paypalScaledFont(for height: CGFloat) -> UIFont {
+        let pointSize = height * 0.44
+        return UIFont(name: "PayPalOpen-Regular", size: pointSize) ?? .systemFont(ofSize: pointSize)
+    }
 }
 
 extension UIFont {
