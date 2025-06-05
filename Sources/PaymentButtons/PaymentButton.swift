@@ -288,6 +288,9 @@ public class PaymentButton: UIButton {
         if color == .white {
             containerView.layer.borderWidth = 1
             containerView.layer.borderColor = UIColor(hexString: "#555555").cgColor
+        } else {
+            containerView.layer.borderWidth = 0
+            containerView.layer.borderColor = UIColor.clear.cgColor
         }
     }
 }
