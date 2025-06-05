@@ -160,6 +160,7 @@ public class PaymentButton: UIButton {
         translatesAutoresizingMaskIntoConstraints = false
         configureStackView()
         configureBackgroundColor()
+        configureBorder()
         configurePrefix()
         configureSuffix()
         configureSubviews()
@@ -174,6 +175,13 @@ public class PaymentButton: UIButton {
     private func configureBackgroundColor() {
         backgroundColor = .clear
         containerView.backgroundColor = color.color
+    }
+
+    private func configureBorder() {
+        if color == .white {
+            containerView.layer.borderWidth = 1
+            containerView.layer.borderColor = UIColor(hexString: "#555555").cgColor
+        }
     }
 
     private func configureLogo() -> UIImageView {
