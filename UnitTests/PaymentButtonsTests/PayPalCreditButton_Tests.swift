@@ -18,7 +18,7 @@ class PayPalCreditButton_Tests: XCTestCase {
         XCTAssertNil(sut.label)
     }
 
-    func testInit_whenwhitePayPalButtonCreated_hasBorderConfiguration() {
+    func testInit_whenWhitePayPalButtonCreated_hasBorderConfiguration() {
         let sut = PayPalCreditButton(color: .white)
 
         XCTAssertEqual(sut.containerView.layer.borderWidth, 1.0)
