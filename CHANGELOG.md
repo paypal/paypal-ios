@@ -11,6 +11,7 @@
     * Remove `PaymentButtonColor.SILVER` enum case
     * Remove `PayPalCreditButtonColor.GOLD` enum case
     * Remove `PayPalCreditButtonColor.DARK_BLUE` enum case
+    * Add border around white buttons
 
 ## 2.0.0 (2025-03-18)
 * Breaking Changes

@@ -285,7 +285,12 @@ public class PaymentButton: UIButton {
     }
 
     private func customizeAppearance() {
-        containerView.layer.borderColor = color == .white ? UIColor.black.cgColor : UIColor.clear.cgColor
-        containerView.layer.borderWidth = color == .white ? 1 : 0
+        if color == .white {
+            containerView.layer.borderWidth = 1
+            containerView.layer.borderColor = UIColor(hexString: "#555555").cgColor
+        } else {
+            containerView.layer.borderWidth = 0
+            containerView.layer.borderColor = UIColor.clear.cgColor
+        }
     }
 }

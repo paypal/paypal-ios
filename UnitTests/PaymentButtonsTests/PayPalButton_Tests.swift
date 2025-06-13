@@ -18,6 +18,30 @@ class PayPalButton_Tests: XCTestCase {
         XCTAssertNil(sut.insets)
     }
 
+    func testInit_whenWhitePayPalButtonCreated_hasBorderConfiguration() {
+        let sut = PayPalButton(color: .white)
+
+        XCTAssertEqual(sut.containerView.layer.borderWidth, 1.0)
+        let expectedColor = UIColor(hexString: "#555555").cgColor
+        XCTAssertEqual(sut.containerView.layer.borderColor, expectedColor)
+    }
+
+    func testInit_whenBluePayPalButtonCreated_hasNoBorderConfiguration() {
+        let sut = PayPalButton(color: .blue)
+
+        XCTAssertEqual(sut.containerView.layer.borderWidth, 0.0)
+        let expectedColor = UIColor.clear.cgColor
+        XCTAssertEqual(sut.containerView.layer.borderColor, expectedColor)
+    }
+
+    func testInit_whenBlackPayPalButtonCreated_hasNoBorderConfiguration() {
+        let sut = PayPalButton(color: .black)
+
+        XCTAssertEqual(sut.containerView.layer.borderWidth, 0.0)
+        let expectedColor = UIColor.clear.cgColor
+        XCTAssertEqual(sut.containerView.layer.borderColor, expectedColor)
+    }
+
     // MARK: - PayPalButton.Representable for SwiftUI
     
     func testMakeCoordinator_whenOnActionIsCalled_executesActionPassedInInitializer() {
