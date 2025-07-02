@@ -36,7 +36,7 @@ class UpdateClientConfigAPI_Tests: XCTestCase {
                 $integrationArtifact: IntegrationArtifactType!,
                 $userExperienceFlow: UserExperienceFlowType!,
                 $productFlow: ProductFlowType!,
-                $buttonSessionID: String
+                $productChannel: ProductChannel!
             ) {
                 updateClientConfig(
                     token: $orderID
@@ -44,7 +44,7 @@ class UpdateClientConfigAPI_Tests: XCTestCase {
                     integrationArtifact: $integrationArtifact,
                     userExperienceFlow: $userExperienceFlow,
                     productFlow: $productFlow,
-                    buttonSessionID: $buttonSessionID
+                    channel: $productChannel
                 )
             }
         """
@@ -55,9 +55,10 @@ class UpdateClientConfigAPI_Tests: XCTestCase {
 
         let variables = mockNetworkingClient.capturedGraphQLRequest?.variables as! UpdateClientConfigVariables
         XCTAssertEqual(variables.orderID, "testID")
-        XCTAssertEqual(variables.integrationArtifact, "PAYPAL_JS_SDK")
+        XCTAssertEqual(variables.integrationArtifact, "MOBILE_SDK")
         XCTAssertEqual(variables.userExperienceFlow, "INCONTEXT")
-        XCTAssertEqual(variables.productFlow, "SMART_PAYMENT_BUTTONS")
+        XCTAssertEqual(variables.productFlow, "HERMES")
+        XCTAssertEqual(variables.channel, "MOBILE_APP")
     }
 
     func testUpdateClientConfig_whenNetworkingClientError_bubblesError() async {
