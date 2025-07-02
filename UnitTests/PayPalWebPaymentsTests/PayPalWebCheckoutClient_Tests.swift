@@ -10,7 +10,7 @@ class PayPalClient_Tests: XCTestCase {
     var mockWebAuthenticationSession: MockWebAuthenticationSession!
     var payPalClient: PayPalWebCheckoutClient!
     var mockNetworkingClient: MockNetworkingClient!
-    var mockClientConfigAPI: UpdateClientConfigAPI!
+    var mockClientConfigAPI: MockClientConfigAPI!
 
 
     override func setUp() {
@@ -18,7 +18,7 @@ class PayPalClient_Tests: XCTestCase {
         config = CoreConfig(clientID: "testClientID", environment: .sandbox)
         mockWebAuthenticationSession = MockWebAuthenticationSession()
         mockNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: config))
-        mockClientConfigAPI = UpdateClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)
+        mockClientConfigAPI = MockClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)
 
 
         payPalClient = PayPalWebCheckoutClient(
@@ -179,6 +179,8 @@ class PayPalClient_Tests: XCTestCase {
     func testStart_whenWebAuthenticationSessionCancelCalled_returnsCancellationError() {
         let request = PayPalWebCheckoutRequest(orderID: "1234")
 
+        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: "test")
+
         mockWebAuthenticationSession.cannedErrorResponse = ASWebAuthenticationSessionError(
             _bridgedNSError: NSError(
                 domain: ASWebAuthenticationSessionError.errorDomain,
@@ -207,6 +209,8 @@ class PayPalClient_Tests: XCTestCase {
 
         let request = PayPalWebCheckoutRequest(orderID: "1234")
 
+        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: "test")
+
         mockWebAuthenticationSession.cannedErrorResponse = ASWebAuthenticationSessionError(
             _bridgedNSError: NSError(
                 domain: ASWebAuthenticationSessionError.errorDomain,
@@ -231,6 +235,8 @@ class PayPalClient_Tests: XCTestCase {
 
     func testStart_whenWebAuthenticationSessions_returnsWebSessionError() {
         let request = PayPalWebCheckoutRequest(orderID: "1234")
+
+        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: "test")
 
         mockWebAuthenticationSession.cannedErrorResponse = CoreSDKError(
             code: PayPalError.Code.webSessionError.rawValue,
@@ -260,6 +266,8 @@ class PayPalClient_Tests: XCTestCase {
 
         mockWebAuthenticationSession.cannedResponseURL = URL(string: "https://fakeURL?PayerID=98765")
         let expectation = self.expectation(description: "Call back invoked with error")
+        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: "test")
+
         payPalClient.start(request: request) { result in
             switch result {
             case .success:
@@ -277,6 +285,8 @@ class PayPalClient_Tests: XCTestCase {
 
     func testStart_whenWebResultIsSuccessful_returnsSuccessfulResult() {
         let request = PayPalWebCheckoutRequest(orderID: "1234")
+
+        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: "test")
 
         mockWebAuthenticationSession.cannedResponseURL = URL(string: "https://fakeURL?token=1234&PayerID=98765")
         let expectation = self.expectation(description: "Call back invoked with error")

@@ -56,6 +56,7 @@ public class PayPalWebCheckoutClient: NSObject {
             } catch {
                 print("error in calling graphQL: \(error.localizedDescription)")
                 self.notifyCheckoutFailure(with: PayPalError.payPalURLError, completion: completion)
+                return
             }
             
             let baseURLString = config.environment.payPalBaseURL.absoluteString

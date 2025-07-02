@@ -4,7 +4,7 @@ import Foundation
 
 class MockClientConfigAPI: UpdateClientConfigAPI {
 
-    var stubSetupTokenResponse: ClientConfigResponse?
+    var stubUpdateClientConfigResponse: ClientConfigResponse?
     var stubError: Error?
 
     var paypalWebRequest: PayPalWebCheckoutRequest?
@@ -15,8 +15,8 @@ class MockClientConfigAPI: UpdateClientConfigAPI {
             throw stubError
         }
 
-        if let stubSetupTokenResponse {
-            return stubSetupTokenResponse
+        if let stubUpdateClientConfigResponse {
+            return stubUpdateClientConfigResponse
         }
 
         throw CoreSDKError(code: 0, domain: "", errorDescription: "Stubbed responses not implemented for this mock.")
