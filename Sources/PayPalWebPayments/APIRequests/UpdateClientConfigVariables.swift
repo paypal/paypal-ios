@@ -7,5 +7,5 @@ struct UpdateClientConfigVariables: Encodable {
     let integrationArtifact: String
     let userExperienceFlow: String
     let productFlow: String
-    let buttonSessionID: String?
+    let channel: String
 }

@@ -35,7 +35,7 @@ class UpdateClientConfigAPI {
                 $integrationArtifact: IntegrationArtifactType!,
                 $userExperienceFlow: UserExperienceFlowType!,
                 $productFlow: ProductFlowType!,
-                $buttonSessionID: String
+                $productChannel: ProductChannel!
             ) {
                 updateClientConfig(
                     token: $orderID
@@ -43,7 +43,7 @@ class UpdateClientConfigAPI {
                     integrationArtifact: $integrationArtifact,
                     userExperienceFlow: $userExperienceFlow,
                     productFlow: $productFlow,
-                    buttonSessionID: $buttonSessionID
+                    channel: $productChannel
                 )
             }
         """
@@ -51,10 +51,10 @@ class UpdateClientConfigAPI {
         let variables = UpdateClientConfigVariables(
             orderID: request.orderID,
             fundingSource: request.fundingSource.rawValue,
-            integrationArtifact: "PAYPAL_JS_SDK", // PAYPAL_JS_SDK or NATIVE_SDK
-            userExperienceFlow: "INCONTEXT", // INCONTEXT or INLINE
-            productFlow: "SMART_PAYMENT_BUTTONS", // NATIVE or SMART_PAYMENT_BUTTONS
-            buttonSessionID: nil
+            integrationArtifact: "MOBILE_SDK",
+            userExperienceFlow: "INCONTEXT",
+            productFlow: "HERMES",
+            channel: "MOBILE_APP"
         )
 
         let graphQLRequest = GraphQLRequest(
