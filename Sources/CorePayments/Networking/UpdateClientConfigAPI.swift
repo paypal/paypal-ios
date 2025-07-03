@@ -63,9 +63,6 @@ public class UpdateClientConfigAPI {
 
         let httpResponse = try await networkingClient.fetch(request: graphQLRequest, clientContext: orderID)
 
-        let dataDict = try HTTPResponseParser().parseGraphQLDictionary(httpResponse)
-        print("full graphQL response: \(dataDict)")
-
         return try HTTPResponseParser().parseGraphQL(httpResponse, as: ClientConfigResponse.self)
     }
 }
