@@ -36,7 +36,7 @@ class UpdateClientConfigAPI_Tests: XCTestCase {
                 $integrationArtifact: IntegrationArtifactType!,
                 $userExperienceFlow: UserExperienceFlowType!,
                 $productFlow: ProductFlowType!,
-                $productChannel: ProductChannel!
+                $channel: ProductChannel!
             ) {
                 updateClientConfig(
                     token: $orderID
@@ -44,7 +44,7 @@ class UpdateClientConfigAPI_Tests: XCTestCase {
                     integrationArtifact: $integrationArtifact,
                     userExperienceFlow: $userExperienceFlow,
                     productFlow: $productFlow,
-                    channel: $productChannel
+                    channel: $channel
                 )
             }
         """
