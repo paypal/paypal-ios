@@ -51,7 +51,10 @@ public class PayPalWebCheckoutClient: NSObject {
 
         Task {
             do {
-                let configResult = try await clientConfigAPI.updateClientConfig(request: request)
+                let configResult = try await clientConfigAPI.updateClientConfig(
+                    orderID: request.orderID,
+                    fundingSource: request.fundingSource.rawValue
+                )
                 print("configResult: \(configResult)")
             } catch {
                 print("error in calling graphQL: \(error.localizedDescription)")

@@ -1,10 +1,8 @@
 import Foundation
-#if canImport(CorePayments)
-import CorePayments
-#endif
 
 /// This class coordinates networking logic for communicating with the /graphql?UpdateClientConfig API.
-class UpdateClientConfigAPI {
+@_documentation(visibility: private)
+public class UpdateClientConfigAPI {
 
     // MARK: - Private Properties
 
@@ -13,7 +11,7 @@ class UpdateClientConfigAPI {
 
     // MARK: - Initializer
 
-    init(coreConfig: CoreConfig) {
+    public init(coreConfig: CoreConfig) {
         self.coreConfig = coreConfig
         self.networkingClient = NetworkingClient(coreConfig: coreConfig)
     }
@@ -26,7 +24,7 @@ class UpdateClientConfigAPI {
 
     // MARK: - Internal Methods
 
-    func updateClientConfig(request: PayPalWebCheckoutRequest) async throws -> ClientConfigResponse {
+    public func updateClientConfig(orderID: String, fundingSource: String) async throws -> ClientConfigResponse {
 
         let queryString = """
             mutation UpdateClientConfig(
@@ -49,8 +47,8 @@ class UpdateClientConfigAPI {
         """
 
         let variables = UpdateClientConfigVariables(
-            orderID: request.orderID,
-            fundingSource: request.fundingSource.rawValue,
+            orderID: orderID,
+            fundingSource: fundingSource,
             integrationArtifact: "MOBILE_SDK",
             userExperienceFlow: "INCONTEXT",
             productFlow: "HERMES",
@@ -63,7 +61,10 @@ class UpdateClientConfigAPI {
             queryNameForURL: "UpdateClientConfig"
         )
 
-        let httpResponse = try await networkingClient.fetch(request: graphQLRequest, clientContext: request.orderID)
+        let httpResponse = try await networkingClient.fetch(request: graphQLRequest, clientContext: orderID)
+
+        let dataDict = try HTTPResponseParser().parseGraphQLDictionary(httpResponse)
+        print("full graphQL response: \(dataDict)")
 
         return try HTTPResponseParser().parseGraphQL(httpResponse, as: ClientConfigResponse.self)
     }

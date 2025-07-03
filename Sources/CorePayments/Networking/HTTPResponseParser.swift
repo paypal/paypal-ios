@@ -73,6 +73,7 @@ public class HTTPResponseParser {
 extension HTTPResponseParser {
 
     // to extract correlationId from GraphQL response
+    @_documentation(visibility: private)
     public func parseGraphQLDictionary(_ httpResponse: HTTPResponse) throws -> [String: Any] {
 
         guard httpResponse.status == 200 else {

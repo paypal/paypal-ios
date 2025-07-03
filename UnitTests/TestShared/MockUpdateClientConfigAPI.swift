@@ -1,5 +1,4 @@
 import Foundation
-@testable import PayPalWebPayments
 @testable import CorePayments
 
 class MockClientConfigAPI: UpdateClientConfigAPI {
@@ -7,9 +6,7 @@ class MockClientConfigAPI: UpdateClientConfigAPI {
     var stubUpdateClientConfigResponse: ClientConfigResponse?
     var stubError: Error?
 
-    var paypalWebRequest: PayPalWebCheckoutRequest?
-
-    override func updateClientConfig(request: PayPalWebCheckoutRequest) async throws -> ClientConfigResponse {
+    override func updateClientConfig(orderID: String, fundingSource: String) async throws -> ClientConfigResponse {
 
         if let stubError {
             throw stubError

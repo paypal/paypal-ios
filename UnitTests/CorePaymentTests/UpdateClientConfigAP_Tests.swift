@@ -1,6 +1,5 @@
 import Foundation
 import XCTest
-@testable import PayPalWebPayments
 @testable import CorePayments
 @testable import TestShared
 
@@ -11,10 +10,6 @@ class UpdateClientConfigAPI_Tests: XCTestCase {
     var sut: UpdateClientConfigAPI!
     var mockNetworkingClient: MockNetworkingClient!
     let coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
-    let request = PayPalWebCheckoutRequest(
-        orderID: "testID",
-        fundingSource: .card
-    )
 
     // MARK: - Test Lifecycle
 
@@ -49,7 +44,7 @@ class UpdateClientConfigAPI_Tests: XCTestCase {
             }
         """
 
-        _ = try? await sut.updateClientConfig(request: request)
+        _ = try? await sut.updateClientConfig(orderID: "testID", fundingSource: "paypal")
         XCTAssertEqual(mockNetworkingClient.capturedGraphQLRequest?.query, expectedQueryString)
         XCTAssertEqual(mockNetworkingClient.capturedGraphQLRequest?.queryNameForURL, "UpdateClientConfig")
 
@@ -65,7 +60,7 @@ class UpdateClientConfigAPI_Tests: XCTestCase {
         mockNetworkingClient.stubHTTPError = CoreSDKError(code: 123, domain: "api-client-error", errorDescription: "error-desc")
 
         do {
-            _ = try await sut.updateClientConfig(request: request)
+            _ = try await sut.updateClientConfig(orderID: "testID", fundingSource: "paypal")
             XCTFail("Expected error throw.")
         } catch {
             let error = error as! CoreSDKError
@@ -79,7 +74,7 @@ class UpdateClientConfigAPI_Tests: XCTestCase {
         let successsResponseJSON = """
         {
             "data": {
-            "updateClientConfig": "some value"
+            "updateClientConfig": true
             }
         }
         """
@@ -88,7 +83,7 @@ class UpdateClientConfigAPI_Tests: XCTestCase {
         let stubbedHTTPResponse = HTTPResponse(status: 200, body: data)
         mockNetworkingClient.stubHTTPResponse = stubbedHTTPResponse
 
-        let response = try await sut.updateClientConfig(request: request)
+        let response = try await sut.updateClientConfig(orderID: "testID", fundingSource: "paypal")
         XCTAssertNotNil(response.updateClientConfig)
     }
 }
