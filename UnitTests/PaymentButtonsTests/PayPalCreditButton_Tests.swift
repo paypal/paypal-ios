@@ -42,6 +42,42 @@ class PayPalCreditButton_Tests: XCTestCase {
         XCTAssertEqual(sut.containerView.layer.borderColor, expectedColor)
     }
 
+    func testHighlightState_whenHighlightedTrue_setsCorrectPressedColor() {
+        let sut = PayPalCreditButton(color: .blue)
+        sut.isHighlighted = true
+
+        let expectedColor = PaymentButtonColor.blue.highlightedColor
+        XCTAssertEqual(sut.containerView.backgroundColor, expectedColor)
+    }
+
+    func testHighlightState_whenHighlightedFalse_restoresDefaultColor() {
+        let sut = PayPalCreditButton(color: .blue)
+        sut.isHighlighted = true
+        sut.isHighlighted = false
+
+        let expectedColor = PaymentButtonColor.blue.color
+        XCTAssertEqual(sut.containerView.backgroundColor, expectedColor)
+    }
+
+    func testPressedState_whenWhite_setsE9E9E9() {
+        let sut = PayPalCreditButton(color: .white)
+        sut.isHighlighted = true
+        XCTAssertEqual(sut.containerView.backgroundColor, UIColor(hexString: "#E9E9E9"))
+    }
+
+    func testPressedState_whenBlack_sets696969() {
+        let sut = PayPalCreditButton(color: .black)
+        sut.isHighlighted = true
+        XCTAssertEqual(sut.containerView.backgroundColor, UIColor(hexString: "#696969"))
+    }
+
+    func testPressedState_whenBlue_sets696969() {
+        let sut = PayPalCreditButton(color: .blue)
+        sut.isHighlighted = true
+        XCTAssertEqual(sut.containerView.backgroundColor, UIColor(hexString: "#3DB5FF"))
+    }
+
+
     // MARK: - PayPalPayCreditButton.Representable for SwiftUI
     
     func testMakeCoordinator_whenOnActionIsCalled_executesActionPassedInInitializer() {
