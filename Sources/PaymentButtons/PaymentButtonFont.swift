@@ -2,11 +2,11 @@ import UIKit
 
 enum PaymentButtonFont {
     /// The primary font
-    public static let paypalPrimaryFont = UIFont(name: "PayPalOpen-Regular", size: 14) ??
+    public static let paypalPrimaryFont = UIFont(name: "PayPalPro-Book", size: 14) ??
         .systemFont(ofSize: UIFont.systemFontSize)
     public static func paypalScaledFont(for height: CGFloat) -> UIFont {
         let pointSize = height * 0.44
-        return UIFont(name: "PayPalOpen-Regular", size: pointSize) ?? .systemFont(ofSize: pointSize)
+        return UIFont(name: "PayPalPro-Book", size: pointSize) ?? .systemFont(ofSize: pointSize)
     }
 }
 
@@ -33,6 +33,6 @@ extension UIFont {
     }
 
     static func registerFont() {
-        registerFont(withName: "PayPalOpen-Regular", fileExtension: "otf")
+        registerFont(withName: "PayPalPro-Book", fileExtension: "otf")
     }
 }
