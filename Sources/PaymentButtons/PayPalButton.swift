@@ -44,7 +44,7 @@ public final class PayPalButton: PaymentButton {
     public convenience init(
         insets: NSDirectionalEdgeInsets? = nil,
         color: Color = .blue,
-        edges: PaymentButtonEdges = .softEdges,
+        edges: PaymentButtonEdges = .soft,
         label: Label? = nil
     ) {
         self.init(
@@ -78,7 +78,7 @@ public extension PayPalButton {
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
             color: PayPalButton.Color = .blue,
-            edges: PaymentButtonEdges = .softEdges,
+            edges: PaymentButtonEdges = .soft,
             label: PayPalButton.Label? = nil,
             height: CGFloat = 45.0,
             _ action: @escaping () -> Void = { }

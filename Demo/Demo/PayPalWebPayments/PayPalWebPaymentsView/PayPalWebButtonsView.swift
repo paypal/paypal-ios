@@ -31,7 +31,7 @@ struct PayPalWebButtonsView: View {
                             payPalWebViewModel.paymentButtonTapped(funding: .paypalCredit)
                         }
                     case .paylater:
-                        PayPalPayLaterButton.Representable(color: .white, edges: .softEdges) {
+                        PayPalPayLaterButton.Representable(color: .white, edges: .soft) {
                             payPalWebViewModel.paymentButtonTapped(funding: .paylater)
                         }
                     case .paypal:
