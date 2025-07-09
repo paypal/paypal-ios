@@ -24,6 +24,17 @@ public enum PaymentButtonColor: String {
         }
     }
 
+    var highlightedColor: UIColor {
+        switch self {
+        case .blue:
+            return UIColor(hexString: "#3DB5FF")
+        case .black:
+            return UIColor(hexString: "#696969")
+        case .white:
+            return UIColor(hexString: "#E9E9E9")
+        }
+    }
+
     var fontColor: UIColor {
         switch self {
         case .white:

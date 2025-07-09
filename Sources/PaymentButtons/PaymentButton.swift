@@ -173,7 +173,7 @@ public class PaymentButton: UIButton {
 
     private func configureBackgroundColor() {
         backgroundColor = .clear
-        containerView.backgroundColor = color.color
+        containerView.backgroundColor = isHighlighted ? color.highlightedColor : color.color
     }
 
     private func configureLogo() -> UIImageView {
@@ -246,6 +246,12 @@ public class PaymentButton: UIButton {
         containerView.layer.cornerRadius = edges.cornerRadius(for: self)
     }
 
+    override public var isHighlighted: Bool {
+        didSet {
+            updateBackgroundColor()
+        }
+    }
+
     public override var intrinsicContentSize: CGSize {
         return CGSize(width: frame.size.width, height: buttonHeight)
     }
@@ -292,5 +298,9 @@ public class PaymentButton: UIButton {
             containerView.layer.borderWidth = 0
             containerView.layer.borderColor = UIColor.clear.cgColor
         }
+    }
+
+    private func updateBackgroundColor() {
+        containerView.backgroundColor = isHighlighted ? color.highlightedColor : color.color
     }
 }
