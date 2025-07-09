@@ -74,7 +74,7 @@ class UpdateClientConfigAPI_Tests: XCTestCase {
         let successsResponseJSON = """
         {
             "data": {
-            "updateClientConfig": true
+                "updateClientConfig": true
             }
         }
         """
