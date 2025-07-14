@@ -4,26 +4,26 @@ import UIKit
 public enum PaymentButtonEdges: Equatable {
 
     /// Hard edges on button with 0 corner radius.
-    case hardEdges
+    case sharp
 
     /// Soft edges with a corner radius of 4 pts.
-    case softEdges
+    case soft
 
     /// Pill shaped corner radius.
-    case rounded
+    case pill
 
     /// Custom corner radius.
     case custom(CGFloat)
 
     func cornerRadius(for button: PaymentButton) -> CGFloat {
         switch self {
-        case .hardEdges:
+        case .sharp:
             return 0.0
 
-        case .softEdges:
+        case .soft:
             return 4.0
 
-        case .rounded:
+        case .pill:
             return button.buttonHeight / 2
 
         case .custom(let cornerRadius):
@@ -32,14 +32,14 @@ public enum PaymentButtonEdges: Equatable {
     }
     public var description: String {
         switch self {
-        case .hardEdges:
-            return "hardEdges"
+        case .sharp:
+            return "sharp"
 
-        case .softEdges:
-            return "softEdges"
+        case .soft:
+            return "soft"
 
-        case .rounded:
-            return "rounded"
+        case .pill:
+            return "pill"
 
         case .custom:
             return "custom"

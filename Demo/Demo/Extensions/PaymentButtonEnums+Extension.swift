@@ -36,7 +36,7 @@ extension PayPalCreditButton.Color {
 extension PaymentButtonEdges {
 
     public static var allCases: [PaymentButtonEdges] {
-        [.hardEdges, .softEdges, .rounded, .custom(10)]
+        [.sharp, .soft, .pill, .custom(10)]
     }
 
     static func allCasesAsString() -> [String] {
