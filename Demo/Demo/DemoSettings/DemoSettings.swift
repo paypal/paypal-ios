@@ -18,11 +18,14 @@ enum DemoSettings {
 
     static var merchantIntegration: MerchantIntegration {
         get {
-            UserDefaults.standard.string(forKey: MerchantIntegrationDefaultKey)
-                .flatMap { MerchantIntegration(rawValue: $0) } ?? .direct
+            if let savedDisplayName = UserDefaults.standard.string(forKey: MerchantIntegrationDefaultKey),
+            let matchingCase = MerchantIntegration.allCases.first(where: { $0.displayName == savedDisplayName }) {
+                return matchingCase
+            }
+            return MerchantIntegration.default
         }
         set {
-            UserDefaults.standard.set(newValue.rawValue, forKey: MerchantIntegrationDefaultKey)
+            UserDefaults.standard.set(newValue.displayName, forKey: MerchantIntegrationDefaultKey)
         }
     }
 }
