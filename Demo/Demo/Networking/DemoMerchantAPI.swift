@@ -22,7 +22,7 @@ final class DemoMerchantAPI {
         do {
             let requestBody = CreateSetupTokenParam(customer: VaultCustomer(id: customerID), paymentSource: paymentSourceType)
 
-            guard let url = buildBaseURL(with: "/setup_tokens") else {
+            guard let url = buildBaseURL(with: "/setup-tokens") else {
                 throw URLResponseError.invalidURL
             }
             // make it mutable to add header fields for partner scenarios
@@ -37,7 +37,7 @@ final class DemoMerchantAPI {
     func createPaymentToken(setupToken: String, selectedMerchantIntegration: MerchantIntegration) async throws -> PaymentTokenResponse {
         do {
             let requestBody = PaymentTokenParam(paymentSource: PaymentTokenParam.PaymentSource(setupTokenID: setupToken))
-            guard let url = buildBaseURL(with: "/payment_tokens") else {
+            guard let url = buildBaseURL(with: "/payment-tokens") else {
                 throw URLResponseError.invalidURL
             }
             // make it mutable to add header value for partner scenarios
@@ -125,17 +125,14 @@ final class DemoMerchantAPI {
         if let injectedClientID = InjectedValues.clientID {
             return injectedClientID
         }
-        
-        let clientID = await fetchClientID(environment: environment, selectedMerchantIntegration: selectedMerchantIntegration)
-            return clientID
+
+        return selectedMerchantIntegration.clientID
     }
 
     // MARK: Private methods
 
     private func buildURLRequest<T>(method: String, url: URL, body: T) -> URLRequest where T: Encodable {
         let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -168,7 +165,7 @@ final class DemoMerchantAPI {
     }
 
     private func buildBaseURL(with endpoint: String) -> URL? {
-        return URL(string: DemoSettings.environment.baseURL + DemoSettings.merchantIntegration.path + endpoint)
+        return URL(string: DemoSettings.environment.baseURL + endpoint)
     }
 
     private func buildPayPalURL(with endpoint: String) -> URL? {
@@ -203,8 +200,7 @@ final class DemoMerchantAPI {
         selectedMerchantIntegration: MerchantIntegration
     ) throws -> URLRequest {
         var completeUrl = environment.baseURL
-       
-        completeUrl += selectedMerchantIntegration.path
+        
         completeUrl.append(contentsOf: clientIDRequest.path)
         guard let url = URL(string: completeUrl) else {
             throw URLResponseError.invalidURL

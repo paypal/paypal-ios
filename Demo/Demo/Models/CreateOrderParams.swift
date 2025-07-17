@@ -105,16 +105,6 @@ struct Shipping: Encodable {
         let adminArea1: String
         let countryCode: String
         let postalCode: String
-
-        // swiftlint:disable nesting
-        enum CodingKeys: String, CodingKey {
-            case adminArea2 = "admin_area_2"
-            case adminArea1 = "admin_area_1"
-            case addressLine1 = "address_line_1"
-            case addressLine2 = "address_line_2"
-            case countryCode
-            case postalCode
-        }
     }
 
     struct Name: Encodable {

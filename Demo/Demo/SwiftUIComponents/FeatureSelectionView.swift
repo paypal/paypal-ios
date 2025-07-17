@@ -18,7 +18,7 @@ struct FeatureSelectionView: View {
 
                     Picker("Merchant Integration", selection: $selectedIntegration.onChange(updateIntegration)) {
                         ForEach(MerchantIntegration.allCases, id: \.self) { integration in
-                            Text(integration.rawValue).tag(integration)
+                            Text(integration.displayName).tag(integration)
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
