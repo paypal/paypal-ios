@@ -320,7 +320,7 @@ cardClient.approveOrder(request: cardRequest) { cardResult, error in
 ```
 ```swift
 // 2.0.0 GA:
-cardClient.approveOrder(request: cardRequest) { cardResult, error in
+cardClient.approveOrder(request: cardRequest) { result in
    switch result {
     case .success(let cardResult):
     // handle success
