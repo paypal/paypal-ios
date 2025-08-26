@@ -6,7 +6,7 @@ class MockClientConfigAPI: UpdateClientConfigAPI {
     var stubUpdateClientConfigResponse: ClientConfigResponse?
     var stubError: Error?
 
-    override func updateClientConfig(orderID: String, fundingSource: String) async throws -> ClientConfigResponse {
+    override func updateClientConfig(token: String, fundingSource: String) async throws -> ClientConfigResponse {
 
         if let stubError {
             throw stubError

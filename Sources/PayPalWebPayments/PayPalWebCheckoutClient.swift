@@ -52,7 +52,7 @@ public class PayPalWebCheckoutClient: NSObject {
         Task {
             do {
                 _ = try await clientConfigAPI.updateClientConfig(
-                    orderID: request.orderID,
+                    token: request.orderID,
                     fundingSource: request.fundingSource.rawValue
                 )
             } catch {

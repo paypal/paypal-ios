@@ -24,11 +24,11 @@ public class UpdateClientConfigAPI {
 
     // MARK: - Internal Methods
 
-    public func updateClientConfig(orderID: String, fundingSource: String) async throws -> ClientConfigResponse {
+    public func updateClientConfig(token: String, fundingSource: String) async throws -> ClientConfigResponse {
 
         let queryString = """
             mutation UpdateClientConfig(
-                $orderID: String!,
+                $token: String!,
                 $fundingSource: ButtonFundingSourceType!,
                 $integrationArtifact: IntegrationArtifactType!,
                 $userExperienceFlow: UserExperienceFlowType!,
@@ -36,7 +36,7 @@ public class UpdateClientConfigAPI {
                 $channel: ProductChannel!
             ) {
                 updateClientConfig(
-                    token: $orderID
+                    token: $token
                     fundingSource: $fundingSource
                     integrationArtifact: $integrationArtifact,
                     userExperienceFlow: $userExperienceFlow,
@@ -47,7 +47,7 @@ public class UpdateClientConfigAPI {
         """
 
         let variables = UpdateClientConfigVariables(
-            orderID: orderID,
+            token: token,
             fundingSource: fundingSource,
             integrationArtifact: "MOBILE_SDK",
             userExperienceFlow: "INCONTEXT",
@@ -61,7 +61,7 @@ public class UpdateClientConfigAPI {
             queryNameForURL: "UpdateClientConfig"
         )
 
-        let httpResponse = try await networkingClient.fetch(request: graphQLRequest, clientContext: orderID)
+        let httpResponse = try await networkingClient.fetch(request: graphQLRequest, clientContext: token)
 
         return try HTTPResponseParser().parseGraphQL(httpResponse, as: ClientConfigResponse.self)
     }

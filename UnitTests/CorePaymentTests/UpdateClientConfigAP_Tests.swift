@@ -26,7 +26,7 @@ class UpdateClientConfigAPI_Tests: XCTestCase {
     func testUpdateClientConfig_constructsGraphQLRequest() async {
         let expectedQueryString = """
             mutation UpdateClientConfig(
-                $orderID: String!,
+                $token: String!,
                 $fundingSource: ButtonFundingSourceType!,
                 $integrationArtifact: IntegrationArtifactType!,
                 $userExperienceFlow: UserExperienceFlowType!,
@@ -34,7 +34,7 @@ class UpdateClientConfigAPI_Tests: XCTestCase {
                 $channel: ProductChannel!
             ) {
                 updateClientConfig(
-                    token: $orderID
+                    token: $token
                     fundingSource: $fundingSource
                     integrationArtifact: $integrationArtifact,
                     userExperienceFlow: $userExperienceFlow,
@@ -44,12 +44,12 @@ class UpdateClientConfigAPI_Tests: XCTestCase {
             }
         """
 
-        _ = try? await sut.updateClientConfig(orderID: "testID", fundingSource: "paypal")
+        _ = try? await sut.updateClientConfig(token: "testID", fundingSource: "paypal")
         XCTAssertEqual(mockNetworkingClient.capturedGraphQLRequest?.query, expectedQueryString)
         XCTAssertEqual(mockNetworkingClient.capturedGraphQLRequest?.queryNameForURL, "UpdateClientConfig")
 
         let variables = mockNetworkingClient.capturedGraphQLRequest?.variables as! UpdateClientConfigVariables
-        XCTAssertEqual(variables.orderID, "testID")
+        XCTAssertEqual(variables.token, "testID")
         XCTAssertEqual(variables.integrationArtifact, "MOBILE_SDK")
         XCTAssertEqual(variables.userExperienceFlow, "INCONTEXT")
         XCTAssertEqual(variables.productFlow, "HERMES")
@@ -60,7 +60,7 @@ class UpdateClientConfigAPI_Tests: XCTestCase {
         mockNetworkingClient.stubHTTPError = CoreSDKError(code: 123, domain: "api-client-error", errorDescription: "error-desc")
 
         do {
-            _ = try await sut.updateClientConfig(orderID: "testID", fundingSource: "paypal")
+            _ = try await sut.updateClientConfig(token: "testID", fundingSource: "paypal")
             XCTFail("Expected error throw.")
         } catch {
             let error = error as! CoreSDKError
@@ -83,7 +83,7 @@ class UpdateClientConfigAPI_Tests: XCTestCase {
         let stubbedHTTPResponse = HTTPResponse(status: 200, body: data)
         mockNetworkingClient.stubHTTPResponse = stubbedHTTPResponse
 
-        let response = try await sut.updateClientConfig(orderID: "testID", fundingSource: "paypal")
+        let response = try await sut.updateClientConfig(token: "testID", fundingSource: "paypal")
         XCTAssertNotNil(response.updateClientConfig)
     }
 }

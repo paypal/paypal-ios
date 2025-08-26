@@ -2,7 +2,7 @@ import Foundation
 
 struct UpdateClientConfigVariables: Encodable {
     
-    let orderID: String
+    let token: String
     let fundingSource: String
     let integrationArtifact: String
     let userExperienceFlow: String
