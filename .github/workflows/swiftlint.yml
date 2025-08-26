@@ -6,7 +6,7 @@ concurrency:
 jobs:
   swiftlint:
     name: SwiftLint
-    runs-on: macOS-latest
+    runs-on: macOS-14
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
