@@ -17,7 +17,7 @@ struct UpdateSetupTokenView: View {
     ]
 
     @State private var cardNumberText: String = "4111 1111 1111 1111"
-    @State private var expirationDateText: String = "01 / 25"
+    @State private var expirationDateText: String = "01 / 27"
     @State private var cvvText: String = "123"
 
     @ObservedObject var cardVaultViewModel: CardVaultViewModel
