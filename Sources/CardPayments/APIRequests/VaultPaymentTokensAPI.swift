@@ -6,7 +6,7 @@ import CorePayments
 /// This class coordinates networking logic for communicating with the /graphql?UpdateVaultSetupToken API.
 class VaultPaymentTokensAPI {
     
-    // MARK: - Private Propertires
+    // MARK: - Private Properties
     
     private let coreConfig: CoreConfig
     private let networkingClient: NetworkingClient

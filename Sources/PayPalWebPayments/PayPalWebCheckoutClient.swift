@@ -7,6 +7,8 @@ import CorePayments
 public class PayPalWebCheckoutClient: NSObject {
 
     let config: CoreConfig
+
+    private let clientConfigAPI: UpdateClientConfigAPI
     private let webAuthenticationSession: WebAuthenticationSession
     private let networkingClient: NetworkingClient
     private var analyticsService: AnalyticsService?
@@ -18,13 +20,20 @@ public class PayPalWebCheckoutClient: NSObject {
         self.config = config
         self.webAuthenticationSession = WebAuthenticationSession()
         self.networkingClient = NetworkingClient(coreConfig: config)
+        self.clientConfigAPI = UpdateClientConfigAPI(coreConfig: config)
     }
     
     /// For internal use for testing/mocking purpose
-    init(config: CoreConfig, networkingClient: NetworkingClient, webAuthenticationSession: WebAuthenticationSession) {
+    init(
+        config: CoreConfig,
+        networkingClient: NetworkingClient,
+        clientConfigAPI: UpdateClientConfigAPI,
+        webAuthenticationSession: WebAuthenticationSession
+    ) {
         self.config = config
         self.webAuthenticationSession = webAuthenticationSession
         self.networkingClient = networkingClient
+        self.clientConfigAPI = clientConfigAPI
     }
 
     /// Launch the PayPal web flow
@@ -40,55 +49,66 @@ public class PayPalWebCheckoutClient: NSObject {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         analyticsService?.sendEvent("paypal-web-payments:checkout:started")
 
-        let baseURLString = config.environment.payPalBaseURL.absoluteString
-        let payPalCheckoutURLString =
-            "\(baseURLString)/checkoutnow?token=\(request.orderID)" +
-            "&fundingSource=\(request.fundingSource.rawValue)"
-
-        guard let payPalCheckoutURL = URL(string: payPalCheckoutURLString),
-        let payPalCheckoutURLComponents = payPalCheckoutReturnURL(payPalCheckoutURL: payPalCheckoutURL)
-        else {
-            self.notifyCheckoutFailure(with: PayPalError.payPalURLError, completion: completion)
-            return
-        }
-        
-        webAuthenticationSession.start(
-            url: payPalCheckoutURLComponents,
-            context: self,
-            sessionDidDisplay: { [weak self] didDisplay in
-                if didDisplay {
-                    self?.analyticsService?.sendEvent("paypal-web-payments:checkout:auth-challenge-presentation:succeeded")
-                } else {
-                    self?.analyticsService?.sendEvent("paypal-web-payments:checkout:auth-challenge-presentation:failed")
-                }
-            },
-            sessionDidComplete: { url, error in
-                if let error = error {
-                    switch error {
-                    case ASWebAuthenticationSessionError.canceledLogin:
-                        self.notifyCheckoutCancelWithError(
-                            with: PayPalError.checkoutCanceledError,
-                            completion: completion
-                        )
-                        return
-                    default:
-                        self.notifyCheckoutFailure(with: PayPalError.webSessionError(error), completion: completion)
-                        return
-                    }
-                }
-
-                if let url = url {
-                    guard let orderID = self.getQueryStringParameter(url: url.absoluteString, param: "token"),
-                    let payerID = self.getQueryStringParameter(url: url.absoluteString, param: "PayerID") else {
-                        self.notifyCheckoutFailure(with: PayPalError.malformedResultError, completion: completion)
-                        return
-                    }
-
-                    let result = PayPalWebCheckoutResult(orderID: orderID, payerID: payerID)
-                    self.notifyCheckoutSuccess(for: result, completion: completion)
-                }
+        Task {
+            do {
+                _ = try await clientConfigAPI.updateClientConfig(
+                    token: request.orderID,
+                    fundingSource: request.fundingSource.rawValue
+                )
+            } catch {
+                print("error in calling graphQL: \(error.localizedDescription)")
             }
-        )
+            
+            let baseURLString = config.environment.payPalBaseURL.absoluteString
+            let payPalCheckoutURLString =
+                "\(baseURLString)/checkoutnow?token=\(request.orderID)" +
+                "&fundingSource=\(request.fundingSource.rawValue)"
+
+            guard let payPalCheckoutURL = URL(string: payPalCheckoutURLString),
+                let payPalCheckoutURLComponents = payPalCheckoutReturnURL(payPalCheckoutURL: payPalCheckoutURL)
+            else {
+                self.notifyCheckoutFailure(with: PayPalError.payPalURLError, completion: completion)
+                return
+            }
+
+            webAuthenticationSession.start(
+                url: payPalCheckoutURLComponents,
+                context: self,
+                sessionDidDisplay: { [weak self] didDisplay in
+                    if didDisplay {
+                        self?.analyticsService?.sendEvent("paypal-web-payments:checkout:auth-challenge-presentation:succeeded")
+                    } else {
+                        self?.analyticsService?.sendEvent("paypal-web-payments:checkout:auth-challenge-presentation:failed")
+                    }
+                },
+                sessionDidComplete: { url, error in
+                    if let error = error {
+                        switch error {
+                        case ASWebAuthenticationSessionError.canceledLogin:
+                            self.notifyCheckoutCancelWithError(
+                                with: PayPalError.checkoutCanceledError,
+                                completion: completion
+                            )
+                            return
+                        default:
+                            self.notifyCheckoutFailure(with: PayPalError.webSessionError(error), completion: completion)
+                            return
+                        }
+                    }
+
+                    if let url = url {
+                        guard let orderID = self.getQueryStringParameter(url: url.absoluteString, param: "token"),
+                            let payerID = self.getQueryStringParameter(url: url.absoluteString, param: "PayerID") else {
+                            self.notifyCheckoutFailure(with: PayPalError.malformedResultError, completion: completion)
+                            return
+                        }
+
+                        let result = PayPalWebCheckoutResult(orderID: orderID, payerID: payerID)
+                        self.notifyCheckoutSuccess(for: result, completion: completion)
+                    }
+                }
+            )
+        }
     }
 
     /// Launch the PayPal web flow

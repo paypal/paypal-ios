@@ -23,7 +23,7 @@ class MockNetworkingClient: NetworkingClient {
         throw CoreSDKError(code: 0, domain: "", errorDescription: "Stubbed responses not implemented for this mock.")
     }
     
-    override func fetch(request: GraphQLRequest) async throws -> HTTPResponse {
+    override func fetch(request: GraphQLRequest, clientContext: String? = nil) async throws -> HTTPResponse {
         capturedGraphQLRequest = request
         
         if let stubHTTPError {
