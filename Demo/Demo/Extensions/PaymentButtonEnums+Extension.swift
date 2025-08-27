@@ -33,17 +33,6 @@ extension PayPalCreditButton.Color {
     }
 }
 
-extension CardButton.Color {
-
-    public static var allCases: [CardButton.Color] {
-        [.black, .white]
-    }
-
-    static func allCasesAsString() -> [String] {
-        Self.allCases.map { $0.rawValue }
-    }
-}
-
 extension PaymentButtonEdges {
 
     public static var allCases: [PaymentButtonEdges] {
@@ -69,7 +58,7 @@ extension PaymentButtonSize {
 extension PaymentButtonFundingSource {
 
     public static var allCases: [PaymentButtonFundingSource] {
-        [.payPal, .payLater, .credit, .card]
+        [.payPal, .payLater, .credit]
     }
 
     static func allCasesAsString() -> [String] {

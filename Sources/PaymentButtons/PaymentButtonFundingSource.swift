@@ -5,5 +5,4 @@ public enum PaymentButtonFundingSource: String {
     case payPal = "PayPal"
     case payLater = "Pay Later"
     case credit = "Credit"
-    case card = "Card"
 }
