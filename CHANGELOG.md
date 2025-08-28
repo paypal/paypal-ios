@@ -1,5 +1,11 @@
 
 # PayPal iOS SDK Release Notes
+
+## unreleased
+* PaymentButtons
+  * Add `CardButton` to be used for PayPal guest checkout using card funding option
+* PaymentButtons
+  * Add `card` option in `PayPalWebChecoutFundingSource` for web card field option
   
 ## 2.0.0 (2025-03-18)
 * Breaking Changes

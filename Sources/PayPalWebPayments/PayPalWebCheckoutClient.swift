@@ -192,7 +192,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
                 if let url = url {
                     guard let tokenID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_token_id"),
-                        let approvalSessionID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_session_id"),
+                    let approvalSessionID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_session_id"),
                         !tokenID.isEmpty, !approvalSessionID.isEmpty
                     else {
                         self.notifyVaultFailure(with: PayPalError.payPalVaultResponseError, completion: completion)
