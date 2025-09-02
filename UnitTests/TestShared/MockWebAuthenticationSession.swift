@@ -9,6 +9,8 @@ class MockWebAuthenticationSession: WebAuthenticationSession {
     var cannedDidDisplayResult = true
     var lastLaunchedURL: URL?
 
+    var onStart: (() -> Void)?
+
     override func start(
         url: URL,
         context: ASWebAuthenticationPresentationContextProviding,
@@ -16,6 +18,8 @@ class MockWebAuthenticationSession: WebAuthenticationSession {
         sessionDidComplete: @escaping (URL?, Error?) -> Void
     ) {
         lastLaunchedURL = url
+        onStart?()
+        
         sessionDidDisplay(cannedDidDisplayResult)
         sessionDidComplete(cannedResponseURL, cannedErrorResponse)
     }

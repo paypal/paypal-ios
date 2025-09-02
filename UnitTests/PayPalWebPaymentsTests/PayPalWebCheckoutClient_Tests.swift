@@ -4,6 +4,7 @@ import AuthenticationServices
 @testable import PayPalWebPayments
 @testable import TestShared
 
+// swiftlint: disable type_body_length
 class PayPalClient_Tests: XCTestCase {
     
     var config: CoreConfig!
@@ -31,13 +32,24 @@ class PayPalClient_Tests: XCTestCase {
     
     func testVault_whenSandbox_launchesCorrectURLInWebSession() {
         let vaultRequest = PayPalVaultRequest(setupTokenID: "fake-token")
+        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
+
+        let started = expectation(description: "ASWebAuthenticationSession Started")
+        mockWebAuthenticationSession.onStart = { started.fulfill() }
+
         payPalClient.vault(vaultRequest) { _ in }
+        wait(for: [started], timeout: 1.0)
 
         XCTAssertEqual(mockWebAuthenticationSession.lastLaunchedURL?.absoluteString, "https://sandbox.paypal.com/agreements/approve?approval_session_id=fake-token")
     }
     
     func testVault_whenLive_launchesCorrectURLInWebSession() {
         config = CoreConfig(clientID: "testClientID", environment: .live)
+        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
+
+        let started = expectation(description: "ASWebAuthenticationSession Started")
+        mockWebAuthenticationSession.onStart = { started.fulfill() }
+
         let payPalClient = PayPalWebCheckoutClient(
             config: config,
             networkingClient: mockNetworkingClient,
@@ -47,6 +59,7 @@ class PayPalClient_Tests: XCTestCase {
         
         let vaultRequest = PayPalVaultRequest(setupTokenID: "fake-token")
         payPalClient.vault(vaultRequest) { _ in }
+        wait(for: [started], timeout: 1.0)
 
         XCTAssertEqual(mockWebAuthenticationSession.lastLaunchedURL?.absoluteString, "https://paypal.com/agreements/approve?approval_session_id=fake-token")
     }
@@ -314,3 +327,4 @@ class PayPalClient_Tests: XCTestCase {
         )
     }
 }
+// swiftlint:enable type_body_length
