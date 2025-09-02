@@ -30,8 +30,8 @@ class PayPalWebViewModel: ObservableObject {
             let paypal = VaultPayPal(
                 attributes: attributes,
                 experienceContext: ExperienceContext(
-                    returnURL: "https://example.com/returnUrl",
-                    cancelURL: "https://example.com/cancelUrl"
+                    returnUrl: "https://example.com/returnUrl",
+                    cancelUrl: "https://example.com/cancelUrl"
                 )
             )
             vaultPayPalPaymentSource = VaultPayPalPaymentSource(paypal: paypal)
