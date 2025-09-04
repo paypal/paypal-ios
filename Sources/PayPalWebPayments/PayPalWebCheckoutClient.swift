@@ -155,7 +155,7 @@ public class PayPalWebCheckoutClient: NSObject {
     public func vault(_ vaultRequest: PayPalVaultRequest, completion: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void) {
         analyticsService = AnalyticsService(coreConfig: config, setupToken: vaultRequest.setupTokenID)
         analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:started")
-
+        
         Task {
             do {
                 _ = try await clientConfigAPI.updateClientConfig(
@@ -169,12 +169,12 @@ public class PayPalWebCheckoutClient: NSObject {
             var vaultURLComponents = URLComponents(url: config.environment.paypalVaultCheckoutURL, resolvingAgainstBaseURL: false)
             let queryItems = [URLQueryItem(name: "approval_session_id", value: vaultRequest.setupTokenID)]
             vaultURLComponents?.queryItems = queryItems
-
+            
             guard let vaultCheckoutURL = vaultURLComponents?.url else {
                 notifyVaultFailure(with: PayPalError.payPalURLError, completion: completion)
                 return
             }
-
+            
             webAuthenticationSession.start(
                 url: vaultCheckoutURL,
                 context: self,
@@ -199,7 +199,7 @@ public class PayPalWebCheckoutClient: NSObject {
                             return
                         }
                     }
-
+                    
                     if let url = url {
                         guard let tokenID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_token_id"),
                             let approvalSessionID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_session_id"),
@@ -208,7 +208,7 @@ public class PayPalWebCheckoutClient: NSObject {
                             self.notifyVaultFailure(with: PayPalError.payPalVaultResponseError, completion: completion)
                             return
                         }
-
+                        
                         let paypalVaultResult = PayPalVaultResult(tokenID: tokenID, approvalSessionID: approvalSessionID)
                         self.notifyVaultSuccess(for: paypalVaultResult, completion: completion)
                     }
