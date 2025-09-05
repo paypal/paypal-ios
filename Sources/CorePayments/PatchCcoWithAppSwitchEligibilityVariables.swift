@@ -19,4 +19,3 @@ struct PatchCcoWithAppSwitchEligibilityVariables: Encodable {
     let integrationArtifact: String
     let paypalNativeAppInstalled: Bool?
 }
-
