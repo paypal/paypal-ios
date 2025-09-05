@@ -25,6 +25,7 @@
 		3B857B1D2E6B6661006F3CBC /* PatchCCOWithAppSwitchEligibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B857B1C2E6B663F006F3CBC /* PatchCCOWithAppSwitchEligibility.swift */; };
 		3B857B1F2E6B7A76006F3CBC /* PatchCcoWithAppSwitchEligibilityVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B857B1E2E6B7A64006F3CBC /* PatchCcoWithAppSwitchEligibilityVariables.swift */; };
 		3B8F848C2D93380B00A151AC /* TestShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E743F8270E40CE00BACECA /* TestShared.framework */; };
+		3B95C9832E6B9B77004C6F65 /* PatchCcoWithAppSwitchEligibilityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95C9822E6B9B77004C6F65 /* PatchCcoWithAppSwitchEligibilityResponse.swift */; };
 		3BD82DBB2A835AF900CBE764 /* UpdateSetupTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD82DBA2A835AF900CBE764 /* UpdateSetupTokenResponse.swift */; };
 		3BDB34942A80CE6E008100D7 /* CardVaultRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB34932A80CE6E008100D7 /* CardVaultRequest.swift */; };
 		3BE738682B9A66D800598F05 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3BE738622B9A482800598F05 /* PrivacyInfo.xcprivacy */; };
@@ -211,6 +212,7 @@
 		3B857B1E2E6B7A64006F3CBC /* PatchCcoWithAppSwitchEligibilityVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchCcoWithAppSwitchEligibilityVariables.swift; sourceTree = "<group>"; };
 		3B8F84852D93318D00A151AC /* UpdateClientConfigAP_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateClientConfigAP_Tests.swift; sourceTree = "<group>"; };
 		3B8F84912D933FAE00A151AC /* MockUpdateClientConfigAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUpdateClientConfigAPI.swift; sourceTree = "<group>"; };
+		3B95C9822E6B9B77004C6F65 /* PatchCcoWithAppSwitchEligibilityResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchCcoWithAppSwitchEligibilityResponse.swift; sourceTree = "<group>"; };
 		3BD82DBA2A835AF900CBE764 /* UpdateSetupTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSetupTokenResponse.swift; sourceTree = "<group>"; };
 		3BDB34932A80CE6E008100D7 /* CardVaultRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultRequest.swift; sourceTree = "<group>"; };
 		3BE738622B9A482800598F05 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -529,6 +531,7 @@
 		80B9F85226B8750000D67843 /* CorePayments */ = {
 			isa = PBXGroup;
 			children = (
+				3B95C9822E6B9B77004C6F65 /* PatchCcoWithAppSwitchEligibilityResponse.swift */,
 				3B857B1E2E6B7A64006F3CBC /* PatchCcoWithAppSwitchEligibilityVariables.swift */,
 				3B857B1C2E6B663F006F3CBC /* PatchCCOWithAppSwitchEligibility.swift */,
 				BE4F784827EB629100FF4C0E /* WebAuthenticationSession.swift */,
@@ -1216,6 +1219,7 @@
 				BEA100F026EFA7C20036A6A5 /* NetworkingError.swift in Sources */,
 				804E628629380B04004B9FEF /* AnalyticsService.swift in Sources */,
 				BC04837427B2FC7300FA7B46 /* URLSession+URLSessionProtocol.swift in Sources */,
+				3B95C9832E6B9B77004C6F65 /* PatchCcoWithAppSwitchEligibilityResponse.swift in Sources */,
 				80E2FDC32A8354AD0045593D /* RESTRequest.swift in Sources */,
 				3DC42BA927187E8300B71645 /* ErrorResponse.swift in Sources */,
 				807D56AC2A869044009E591D /* GraphQLHTTPPostBody.swift in Sources */,
