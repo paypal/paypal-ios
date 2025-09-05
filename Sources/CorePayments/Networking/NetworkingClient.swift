@@ -39,15 +39,19 @@ public class NetworkingClient {
             .authorization: "Basic \(base64EncodedCredentials)"
         ]
         if request.method == .post {
-            headers[.contentType] = "application/json"
+            headers[.contentType] = request.contentType.headerValue
         }
         
         // TODO: - Move JSON encoding into custom class, similar to HTTPResponseParser
         var data: Data?
         if let postBody = request.postParameters {
-            let encoder = JSONEncoder()
-            encoder.keyEncodingStrategy = .convertToSnakeCase
-            data = try encoder.encode(postBody)
+            if request.contentType == .formURLEncoded, let formString = postBody as? String {
+                data = formString.data(using: .utf8)
+            } else {
+                let encoder = JSONEncoder()
+                encoder.keyEncodingStrategy = .convertToSnakeCase
+                data = try encoder.encode(postBody)
+            }
         }
         
         let httpRequest = HTTPRequest(headers: headers, method: request.method, url: url, body: data)
