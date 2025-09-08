@@ -65,7 +65,8 @@ public class NetworkingClient {
     @_documentation(visibility: private)
     public func fetch(
         request: GraphQLRequest,
-        clientContext: String? = nil
+        clientContext: String? = nil,
+        additionalHeaders: [HTTPHeader: String] = [:]
     ) async throws -> HTTPResponse {
         let url = try constructGraphQLURL(queryName: request.queryNameForURL)
                 
@@ -84,6 +85,9 @@ public class NetworkingClient {
         if let clientContext {
             headers[.payPalClientContext] = clientContext
         }
+
+        additionalHeaders.forEach { headers[$0.key] = $0.value }
+
         let httpRequest = HTTPRequest(
             headers: headers,
             method: .post,
