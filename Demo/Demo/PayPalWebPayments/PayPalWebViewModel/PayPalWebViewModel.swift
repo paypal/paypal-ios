@@ -10,6 +10,8 @@ class PayPalWebViewModel: ObservableObject {
     @Published var order: Order?
     @Published var checkoutResult: PayPalWebCheckoutResult?
 
+    let appSwitchURL = "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
+
     var payPalWebCheckoutClient: PayPalWebCheckoutClient?
 
     var orderID: String? {
@@ -19,42 +21,46 @@ class PayPalWebViewModel: ObservableObject {
     let configManager = CoreConfigManager(domain: "PayPalWeb Payments")
     private var payPalDataCollector: PayPalDataCollector?
 
-    func createOrder(shouldVault: Bool) async throws {
+    /// S1: No payment source (non app-switch, non vault)
+    /// S2: PayPal app-switch (no vault) -> experienceContext with appSwitchContext
+    /// S3: PayPal vault (no app-switch)  -> attributes.vault + experienceContext
+    /// S4: PayPal vault + app-switch     -> attributes.vault + experienceContext.appSwitchContext
+    func createOrder(shouldVault: Bool, appSwitch: Bool = false) async throws {
         let amountRequest = Amount(currencyCode: "USD", value: "10.00")
 
-        // TODO: might need to pass in payee as payee object or as auth header
-        var vaultPayPalPaymentSource: VaultPayPalPaymentSource?
-        if shouldVault {
-            let attributes = Attributes(vault: Vault(storeInVault: "ON_SUCCESS", usageType: "MERCHANT", customerType: "CONSUMER"))
-            // The returnURL is not used in our mobile SDK, but a required field for create order with PayPal payment source. DTPPCPSDK-1492 to track this issue
-            let paypal = VaultPayPal(
-                attributes: attributes,
-                experienceContext: ExperienceContext(
-                    returnUrl: "https://example.com/returnUrl",
-                    cancelUrl: "https://example.com/cancelUrl"
-                )
+        var paymentSource: OrderPaymentSource?
+
+        if appSwitch || shouldVault {
+            // experienceContext is required for PayPal vault and for app switch
+            let nativeApp = NativeApp(osType: "IOS", appUrl: appSwitchURL)
+            let experience = PayPalExperienceContext(
+                returnUrl: appSwitchURL + "/success",
+                cancelUrl: appSwitchURL + "/cancel",
+                appSwitchContext: appSwitch ? AppSwitchContext(nativeApp: nativeApp) : nil
             )
-            vaultPayPalPaymentSource = VaultPayPalPaymentSource(paypal: paypal)
+
+            let attributes: Attributes? = shouldVault
+            ? Attributes(vault: Vault(
+                storeInVault: "ON_SUCCESS",
+                usageType: "MERCHANT",
+                customerType: "CONSUMER"))
+            : nil
+
+            let paypal = PayPalSource(attributes: attributes, experienceContext: experience)
+            paymentSource = .paypal(OrderPayPalPaymentSource(paypal: paypal))
         }
 
-        var vaultPaymentSource: VaultPaymentSource?
-        if let vaultPayPalPaymentSource {
-            vaultPaymentSource = .paypal(vaultPayPalPaymentSource)
-        }
-
-        let orderRequestParams = CreateOrderParams(
+        let params = CreateOrderParams(
             applicationContext: nil,
             intent: intent.rawValue,
             purchaseUnits: [PurchaseUnit(amount: amountRequest)],
-            paymentSource: vaultPaymentSource
+            paymentSource: paymentSource
         )
 
         do {
-            DispatchQueue.main.async {
-                self.state.createdOrderResponse = .loading
-            }
+            DispatchQueue.main.async { self.state.createdOrderResponse = .loading }
             let order = try await DemoMerchantAPI.sharedService.createOrder(
-                orderParams: orderRequestParams,
+                orderParams: params,
                 selectedMerchantIntegration: DemoSettings.merchantIntegration
             )
             DispatchQueue.main.async {
