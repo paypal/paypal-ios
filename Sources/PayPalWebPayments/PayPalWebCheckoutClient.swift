@@ -8,6 +8,8 @@ public class PayPalWebCheckoutClient: NSObject {
 
     let config: CoreConfig
 
+    var appSwitchCompletion: ((Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void)?
+
     private let clientConfigAPI: UpdateClientConfigAPI
     private let webAuthenticationSession: WebAuthenticationSession
     private let networkingClient: NetworkingClient
@@ -231,6 +233,42 @@ public class PayPalWebCheckoutClient: NSObject {
                 }
             }
         }
+    }
+
+    // MARK: - App Switch Method
+
+    public func handleReturnURL(_ url: URL) {
+
+        guard let completion = appSwitchCompletion else { return }
+        defer { appSwitchCompletion = nil }
+
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        let items = components?.queryItems ?? []
+        func queryValue(_ name: String) -> String? {
+            items.first { $0.name.compare(name) == .orderedSame }?.value
+        }
+
+        let path = url.path.lowercased()
+
+        if path.contains("/cancel") {
+            notifyCheckoutCancelWithError(with: PayPalError.checkoutCanceledError, completion: completion)
+            return
+        }
+
+        if path.contains("/success"),
+        let orderID = queryValue("token"), !orderID.isEmpty,
+        let payerID = queryValue("PayerID") ?? queryValue("payer_id") ?? queryValue("payerId"), !payerID.isEmpty {
+            notifyCheckoutSuccess(for: PayPalWebCheckoutResult(orderID: orderID, payerID: payerID), completion: completion)
+            return
+        }
+
+        // TODO: Check for error in app switch returnURL, return PayPalError.webSessionError(Error)
+        if path.contains("/fail") {
+            notifyCheckoutFailure(with: PayPalError.malformedResultError, completion: completion)
+            return
+        }
+
+        notifyCheckoutFailure(with: PayPalError.malformedResultError, completion: completion)
     }
 
     private func getQueryStringParameter(url: String, param: String) -> String? {
