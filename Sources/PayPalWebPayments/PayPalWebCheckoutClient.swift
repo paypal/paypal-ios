@@ -248,7 +248,7 @@ public class PayPalWebCheckoutClient: NSObject {
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
         let items = components?.queryItems ?? []
         func queryValue(_ name: String) -> String? {
-            items.first { $0.name.caseInsensitiveCompare(name) == .orderedSame }?.value
+            items.first { $0.name.compare(name) == .orderedSame }?.value
         }
 
         let path = url.path.lowercased()
@@ -265,7 +265,7 @@ public class PayPalWebCheckoutClient: NSObject {
             return
         }
 
-        // get new error type
+        // TODO: Check for error in app switch returnURL, return PayPalError.webSessionError(Error)
         if path.contains("/fail") {
             notifyCheckoutFailure(with: PayPalError.malformedResultError, completion: completion)
             return

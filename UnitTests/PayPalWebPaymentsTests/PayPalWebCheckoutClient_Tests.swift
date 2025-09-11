@@ -406,6 +406,46 @@ class PayPalClient_Tests: XCTestCase {
         XCTAssertNil(payPalClient.appSwitchCompletion)
     }
 
+    func testHandleReturnURL_successPathIncorrectPayerIdFormat_isMalformedResultError() {
+        var received: Result<PayPalWebCheckoutResult, CoreSDKError>?
+        payPalClient.appSwitchCompletion = { received = $0 }
+
+        // Should be PayerID
+        let url = URL(string:
+            "https://appSwitchURL/success?token=ORDER123&PayerId=PAYER456&switch_initiated_time=1757431432185"
+        )!
+
+        payPalClient.handleReturnURL(url)
+
+        if case .failure(let error)? = received {
+            XCTAssertEqual(error.code, PayPalError.malformedResultError.code)
+            XCTAssertEqual(error.domain, PayPalError.domain)
+        } else {
+            XCTFail("Expected malformedResultError")
+        }
+        XCTAssertNil(payPalClient.appSwitchCompletion)
+    }
+
+    func testHandleReturnURL_successPathIncorrectPayeridFormat_isMalformedResultError() {
+        var received: Result<PayPalWebCheckoutResult, CoreSDKError>?
+        payPalClient.appSwitchCompletion = { received = $0 }
+
+        // Should be PayerID
+        let url = URL(string:
+            "https://appSwitchURL/success?token=ORDER123&Payer_id=PAYER456&switch_initiated_time=1757431432185"
+        )!
+
+        payPalClient.handleReturnURL(url)
+
+        if case .failure(let error)? = received {
+            XCTAssertEqual(error.code, PayPalError.malformedResultError.code)
+            XCTAssertEqual(error.domain, PayPalError.domain)
+        } else {
+            XCTFail("Expected malformedResultError")
+        }
+        XCTAssertNil(payPalClient.appSwitchCompletion)
+    }
+
     func testHandleReturnURL__onlyCompletesOnce() {
         var completionCount = 0
         payPalClient.appSwitchCompletion = { _ in completionCount += 1 }
