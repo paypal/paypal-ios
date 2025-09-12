@@ -73,6 +73,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
                 case .fallback(let reason):
                     // TODO: analytics
+                    _ = reason
                     startWebCheckoutFlow(request: request, completion: completionOnce)
                 }
             } else {
