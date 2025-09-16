@@ -35,11 +35,6 @@ struct PayPal: Encodable {
 
     var usageType: String
     let experienceContext: VaultExperienceContext
-
-    init(usageType: String, experienceContext: VaultExperienceContext) {
-        self.usageType = usageType
-        self.experienceContext = experienceContext
-    }
 }
 
 struct SetupTokenCard: Encodable {
