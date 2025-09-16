@@ -9,7 +9,7 @@ class PayPalWebViewModel: ObservableObject {
     @Published var intent: Intent = .authorize
     @Published var order: Order?
     @Published var checkoutResult: PayPalWebCheckoutResult?
-    @Published var appSwitch: Bool = false
+    @Published var appSwitch = false
 
     let appSwitchURL = "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
 
@@ -29,7 +29,7 @@ class PayPalWebViewModel: ObservableObject {
     func createOrder(shouldVault: Bool) async throws {
         let amountRequest = Amount(currencyCode: "USD", value: "10.00")
 
-        var paymentSource: OrderPaymentSource? = nil
+        var paymentSource: OrderPaymentSource?
 
         if appSwitch || shouldVault {
             let experience = PayPalExperienceContext(
@@ -39,9 +39,7 @@ class PayPalWebViewModel: ObservableObject {
             )
 
             let attributes: Attributes? = shouldVault
-            ? Attributes(vault: Vault(storeInVault: "ON_SUCCESS",
-                                      usageType: "MERCHANT",
-                                      customerType: "CONSUMER"))
+            ? Attributes(vault: Vault(storeInVault: "ON_SUCCESS", usageType: "MERCHANT", customerType: "CONSUMER"))
             : nil
 
             let paypal = PayPalSource(attributes: attributes, experienceContext: experience)
@@ -189,11 +187,5 @@ class PayPalWebViewModel: ObservableObject {
         self.state = PayPalPaymentState()
         order = nil
         checkoutResult = nil
-    }
-
-    func handleUniversalLinkReturn(_ url: URL) {
-        guard let payPalWebCheckoutClient else
-        { return }
-        payPalWebCheckoutClient.handleReturnURL(url)
     }
 }
