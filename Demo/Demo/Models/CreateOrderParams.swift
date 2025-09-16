@@ -62,6 +62,9 @@ struct PayPalExperienceContext: Encodable {
 struct AppSwitchContext: Encodable {
 
     let nativeApp: NativeApp
+    init(appUrl: String, osType: String = "IOS") {
+        self.nativeApp = NativeApp(osType: osType, appUrl: appUrl)
+    }
 }
 
 struct NativeApp: Encodable {

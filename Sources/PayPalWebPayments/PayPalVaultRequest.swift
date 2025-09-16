@@ -11,18 +11,22 @@ public struct PayPalVaultRequest {
     /// Returned as  top level `id` from the setup token API call
     public let setupTokenID: String
 
+    public let appSwitchIfEligible: Bool
+
     /// Creates an instance of a PayPal vault request
     /// - Parameters:
     ///    - url: PayPal approval URL returned as the `href` from the setup token API call
     ///    - setupTokenID: An ID for the setup token associated with the vault
     @available(*, deprecated, message: "Use `init(setupTokenID:)` instead.")
-    public init(url: URL, setupTokenID: String) {
+    public init(url: URL, setupTokenID: String, appSwitchIfEligible: Bool = false) {
         self.setupTokenID = setupTokenID
+        self.appSwitchIfEligible = appSwitchIfEligible
     }
-    
+
     /// Creates an instance of a PayPal vault request
     /// - Parameter setupTokenID: An ID for the setup token associated with the vault
-    public init(setupTokenID: String) {
+    public init(setupTokenID: String, appSwitchIfEligible: Bool = false) {
         self.setupTokenID = setupTokenID
+        self.appSwitchIfEligible = appSwitchIfEligible
     }
 }
