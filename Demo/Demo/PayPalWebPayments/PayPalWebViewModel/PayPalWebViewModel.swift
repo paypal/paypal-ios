@@ -85,7 +85,7 @@ class PayPalWebViewModel: ObservableObject {
                 }
 
                 if let orderID = state.createOrder?.id {
-                    let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding)
+                    let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding, appSwitchIfEligible: appSwitch)
                     payPalWebCheckoutClient.start(request: payPalRequest) { result in
                         switch result {
                         case .success(let paypalResult):
