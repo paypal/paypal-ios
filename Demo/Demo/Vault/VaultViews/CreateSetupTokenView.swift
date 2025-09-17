@@ -6,14 +6,14 @@ struct CreateSetupTokenView: View {
 
     @State private var vaultCustomerID: String = ""
     @State private var sca: String = "SCA_WHEN_REQUIRED"
-    @State var paymentSourceType: PaymentSourceType
+    @State var paymentType: PaymentType
 
     @ObservedObject var vaultViewModel: VaultViewModel
 
-    public init(selectedMerchantIntegration: MerchantIntegration, vaultViewModel: VaultViewModel, paymentSourceType: PaymentSourceType) {
+    public init(selectedMerchantIntegration: MerchantIntegration, vaultViewModel: VaultViewModel, paymentType: PaymentType) {
         self.selectedMerchantIntegration = selectedMerchantIntegration
         self.vaultViewModel = vaultViewModel
-        self.paymentSourceType = paymentSourceType
+        self.paymentType = paymentType
     }
 
     var body: some View {
@@ -26,7 +26,7 @@ struct CreateSetupTokenView: View {
             .frame(maxWidth: .infinity)
             .font(.headline)
             FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $vaultCustomerID)
-            if case .card = paymentSourceType {
+            if case .card = paymentType {
                 Picker("SCA", selection: $sca) {
                     Text("SCA_WHEN_REQUIRED").tag("SCA_WHEN_REQUIRED")
                     Text("SCA_ALWAYS").tag("SCA_ALWAYS")
@@ -35,6 +35,10 @@ struct CreateSetupTokenView: View {
                 .frame(height: 50)
             }
 
+            if paymentType == .paypal {
+                Toggle("Enable App Switch", isOn: $vaultViewModel.appSwitch)
+                    .padding()
+            }
             ZStack {
                 Button("Create Setup Token") {
                     Task {
@@ -42,7 +46,8 @@ struct CreateSetupTokenView: View {
                             try await vaultViewModel.getSetupToken(
                                 customerID: vaultCustomerID.isEmpty ? nil : vaultCustomerID,
                                 selectedMerchantIntegration: selectedMerchantIntegration,
-                                paymentSourceType: paymentSourceType
+                                paymentType: paymentType,
+                                sca: sca
                             )
                         } catch {
                             print("Error in getting setup token. \(error.localizedDescription)")
@@ -54,9 +59,6 @@ struct CreateSetupTokenView: View {
                     CircularProgressView()
                 }
             }
-        }
-        .onChange(of: sca) { _ in
-            paymentSourceType = PaymentSourceType.card(verification: sca)
         }
         .padding()
         .background(
