@@ -7,6 +7,7 @@ public struct PayPalWebCheckoutRequest {
     public let orderID: String
     /// The funding for the order: credit, paylater or default
     public let fundingSource: PayPalWebCheckoutFundingSource
+    /// Used to determine if the customer will use the PayPal app switch flow
     public let appSwitchIfEligible: Bool
 
     /// Creates an instance of a PayPalRequest.

@@ -11,6 +11,7 @@ public struct PayPalVaultRequest {
     /// Returned as  top level `id` from the setup token API call
     public let setupTokenID: String
 
+    /// Used to determine if the customer will use the PayPal app switch flow
     public let appSwitchIfEligible: Bool
 
     /// Creates an instance of a PayPal vault request
