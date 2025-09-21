@@ -9,6 +9,7 @@ class PayPalWebViewModel: ObservableObject {
     @Published var intent: Intent = .authorize
     @Published var order: Order?
     @Published var checkoutResult: PayPalWebCheckoutResult?
+    @Published var appSwitch = false
 
     let appSwitchURL = "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
 
@@ -25,25 +26,20 @@ class PayPalWebViewModel: ObservableObject {
     /// S2: PayPal app-switch (no vault) -> experienceContext with appSwitchContext
     /// S3: PayPal vault (no app-switch)  -> attributes.vault + experienceContext
     /// S4: PayPal vault + app-switch     -> attributes.vault + experienceContext.appSwitchContext
-    func createOrder(shouldVault: Bool, appSwitch: Bool = false) async throws {
+    func createOrder(shouldVault: Bool) async throws {
         let amountRequest = Amount(currencyCode: "USD", value: "10.00")
 
         var paymentSource: OrderPaymentSource?
 
         if appSwitch || shouldVault {
-            // experienceContext is required for PayPal vault and for app switch
-            let nativeApp = NativeApp(osType: "IOS", appUrl: appSwitchURL)
             let experience = PayPalExperienceContext(
                 returnUrl: appSwitchURL + "/success",
                 cancelUrl: appSwitchURL + "/cancel",
-                appSwitchContext: appSwitch ? AppSwitchContext(nativeApp: nativeApp) : nil
+                appSwitchContext: appSwitch ? AppSwitchContext(appUrl: appSwitchURL) : nil
             )
 
             let attributes: Attributes? = shouldVault
-            ? Attributes(vault: Vault(
-                storeInVault: "ON_SUCCESS",
-                usageType: "MERCHANT",
-                customerType: "CONSUMER"))
+            ? Attributes(vault: Vault(storeInVault: "ON_SUCCESS", usageType: "MERCHANT", customerType: "CONSUMER"))
             : nil
 
             let paypal = PayPalSource(attributes: attributes, experienceContext: experience)
@@ -89,7 +85,7 @@ class PayPalWebViewModel: ObservableObject {
                 }
 
                 if let orderID = state.createOrder?.id {
-                    let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding)
+                    let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding, appSwitchIfEligible: appSwitch)
                     payPalWebCheckoutClient.start(request: payPalRequest) { result in
                         switch result {
                         case .success(let paypalResult):
@@ -153,7 +149,7 @@ class PayPalWebViewModel: ObservableObject {
             print("Error with \(intent) order: \(error.localizedDescription)")
         }
     }
-    
+
     private func setLoadingState() {
         DispatchQueue.main.async {
             switch self.intent {
@@ -164,7 +160,7 @@ class PayPalWebViewModel: ObservableObject {
             }
         }
     }
-    
+
     private func setOrderCompletionLoadedState(order: Order) {
         DispatchQueue.main.async {
             switch self.intent {
@@ -175,7 +171,7 @@ class PayPalWebViewModel: ObservableObject {
             }
         }
     }
-    
+
     private func setErrorState(message: String) {
         DispatchQueue.main.async {
             switch self.intent {
