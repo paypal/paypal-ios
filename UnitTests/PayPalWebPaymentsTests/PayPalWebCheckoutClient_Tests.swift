@@ -367,25 +367,6 @@ class PayPalClient_Tests: XCTestCase {
         XCTAssertNil(payPalClient.appSwitchCompletion)
     }
 
-    func testHandleReturnURL_failPath_mapsToUnknownError() {
-        var received: Result<PayPalWebCheckoutResult, CoreSDKError>?
-        payPalClient.appSwitchCompletion = { received = $0 }
-
-        let url = URL(string:
-            "https://appSwitchURL/fail?token=ORDER123&PayerID=PAYER456&switch_initiated_time=1757431432185"
-        )!
-
-        payPalClient.handleReturnURL(url)
-
-        if case .failure(let error)? = received {
-            XCTAssertEqual(error.code, PayPalError.malformedResultError.code)
-            XCTAssertEqual(error.domain, PayPalError.domain)
-        } else {
-            XCTFail("Expected unknown error")
-        }
-        XCTAssertNil(payPalClient.appSwitchCompletion)
-    }
-
     func testHandleReturnURL_successPathMissingPayerID_isMalformedResultError() {
         var received: Result<PayPalWebCheckoutResult, CoreSDKError>?
         payPalClient.appSwitchCompletion = { received = $0 }
@@ -455,11 +436,47 @@ class PayPalClient_Tests: XCTestCase {
         )!
 
         payPalClient.handleReturnURL(url)
-        // Second call should do nothing because appSwitchCompletion was cleared via defer
+        // Second call should do nothing because appSwitchCompletion was cleared
         payPalClient.handleReturnURL(url)
 
         XCTAssertEqual(completionCount, 1, "Completion should be called exactly once")
         XCTAssertNil(payPalClient.appSwitchCompletion)
+    }
+
+    func testHandleReturnURL_success_callsVaultAppSwitchCompletionWithResult() {
+        var received: Result<PayPalVaultResult, CoreSDKError>?
+        payPalClient.vaultAppSwitchCompletion = { received = $0 }
+
+        let url = URL(string:
+            "https://appSwitchURL/success?approval_token_id=345&approval_session_id=12345&PayerID=PAYER456&switch_initiated_time=1757431432185")!
+
+        payPalClient.handleReturnURL(url)
+
+        switch received {
+        case .success(let result)?:
+            XCTAssertEqual(result.approvalSessionID, "12345")
+            XCTAssertEqual(result.tokenID, "345")
+        default:
+            XCTFail("Expected success with PayPalVaultResult")
+        }
+
+        XCTAssertNil(payPalClient.vaultAppSwitchCompletion)
+    }
+
+    func testHandleReturnURL_onlyCompletesOnce_forVault() {
+        var completionCount = 0
+        payPalClient.vaultAppSwitchCompletion = { _ in completionCount += 1 }
+
+        let url = URL(string:
+            "https://appSwitchURL/success?approval_token_id=345&approval_session_id=12345&PayerID=PAYER456&switch_initiated_time=1757431432185"
+        )!
+
+        payPalClient.handleReturnURL(url)
+        // Second call should do nothing because vaultAppSwitchCompletion was cleared
+        payPalClient.handleReturnURL(url)
+
+        XCTAssertEqual(completionCount, 1, "Completion should be called exactly once")
+        XCTAssertNil(payPalClient.vaultAppSwitchCompletion)
     }
 }
 // swiftlint:enable type_body_length

@@ -4,11 +4,13 @@ import AuthenticationServices
 import CorePayments
 #endif
 
+// swiftlint: disable type_body_length
 public class PayPalWebCheckoutClient: NSObject {
 
     let config: CoreConfig
 
     var appSwitchCompletion: ((Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void)?
+    var vaultAppSwitchCompletion: ((Result<PayPalVaultResult, CoreSDKError>) -> Void)?
 
     private let clientConfigAPI: UpdateClientConfigAPI
     private let webAuthenticationSession: WebAuthenticationSession
@@ -242,36 +244,66 @@ public class PayPalWebCheckoutClient: NSObject {
 
     public func handleReturnURL(_ url: URL) {
 
-        guard let completion = appSwitchCompletion else { return }
-        defer { appSwitchCompletion = nil }
-
-        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        let items = components?.queryItems ?? []
+        let comps = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        let items = comps?.queryItems ?? []
         func queryValue(_ name: String) -> String? {
             items.first { $0.name.compare(name) == .orderedSame }?.value
         }
 
         let path = url.path.lowercased()
 
-        if path.contains("/cancel") {
-            notifyCheckoutCancelWithError(with: PayPalError.checkoutCanceledError, completion: completion)
+        let isCancel = path.contains("/cancel")
+
+        let vaultTokenID   = queryValue("approval_token_id")
+        let vaultSessionID = queryValue("approval_session_id")
+        let hasVaultSuccess = (vaultTokenID?.isEmpty == false) && (vaultSessionID?.isEmpty == false)
+
+        let orderID  = queryValue("token")
+        let payerID  = queryValue("PayerID")
+        let hasCheckoutSuccess = (orderID?.isEmpty == false) && (payerID?.isEmpty == false)
+
+        if isCancel {
+            if let completion = vaultAppSwitchCompletion {
+                vaultAppSwitchCompletion = nil
+                notifyVaultCancelWithError(with: PayPalError.vaultCanceledError, completion: completion)
+                return
+            }
+            if let completion = appSwitchCompletion {
+                appSwitchCompletion = nil
+                notifyCheckoutCancelWithError(with: PayPalError.checkoutCanceledError, completion: completion)
+                return
+            }
+            // No pending flow; nothing to do.
             return
         }
 
-        if path.contains("/success"),
-        let orderID = queryValue("token"), !orderID.isEmpty,
-        let payerID = queryValue("PayerID") ?? queryValue("payer_id") ?? queryValue("payerId"), !payerID.isEmpty {
-            notifyCheckoutSuccess(for: PayPalWebCheckoutResult(orderID: orderID, payerID: payerID), completion: completion)
-            return
+        if hasVaultSuccess, let tokenID = vaultTokenID, let sessionID = vaultSessionID {
+            if let completion = vaultAppSwitchCompletion {
+                vaultAppSwitchCompletion = nil
+                let result = PayPalVaultResult(tokenID: tokenID, approvalSessionID: sessionID)
+                notifyVaultSuccess(for: result, completion: completion)
+                return
+            }
         }
 
-        // TODO: Check for error in app switch returnURL, return PayPalError.webSessionError(Error)
-        if path.contains("/fail") {
+        if hasCheckoutSuccess, let oid = orderID, let pid = payerID {
+            if let completion = appSwitchCompletion {
+                appSwitchCompletion = nil
+                let result = PayPalWebCheckoutResult(orderID: oid, payerID: pid)
+                notifyCheckoutSuccess(for: result, completion: completion)
+                return
+            }
+        }
+
+        if let completion = vaultAppSwitchCompletion {
+            vaultAppSwitchCompletion = nil
+            notifyVaultFailure(with: PayPalError.malformedResultError, completion: completion)
+        } else if let completion = appSwitchCompletion {
+            appSwitchCompletion = nil
             notifyCheckoutFailure(with: PayPalError.malformedResultError, completion: completion)
-            return
+        } else {
+            // No pending flow; ignore.
         }
-
-        notifyCheckoutFailure(with: PayPalError.malformedResultError, completion: completion)
     }
 
     private func getQueryStringParameter(url: String, param: String) -> String? {
@@ -334,3 +366,4 @@ extension PayPalWebCheckoutClient: ASWebAuthenticationPresentationContextProvidi
         }
     }
 }
+// swiftlint:enable type_body_length
