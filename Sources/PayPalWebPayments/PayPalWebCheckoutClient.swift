@@ -4,7 +4,7 @@ import AuthenticationServices
 import CorePayments
 #endif
 
-// swiftlint: disable type_body_length
+// swiftlint: disable type_body_length file_length
 public class PayPalWebCheckoutClient: NSObject {
 
     let config: CoreConfig
@@ -15,6 +15,7 @@ public class PayPalWebCheckoutClient: NSObject {
     private let clientConfigAPI: UpdateClientConfigAPI
     private let webAuthenticationSession: WebAuthenticationSession
     private let networkingClient: NetworkingClient
+    private let patchCCOAPI: PatchCCOWithAppSwitchEligibility
     private var analyticsService: AnalyticsService?
 
     /// Initialize a PayPalWebCheckoutClient to process PayPal transaction
@@ -25,6 +26,7 @@ public class PayPalWebCheckoutClient: NSObject {
         self.webAuthenticationSession = WebAuthenticationSession()
         self.networkingClient = NetworkingClient(coreConfig: config)
         self.clientConfigAPI = UpdateClientConfigAPI(coreConfig: config)
+        self.patchCCOAPI = PatchCCOWithAppSwitchEligibility(coreConfig: config)
     }
     
     /// For internal use for testing/mocking purpose
@@ -32,12 +34,14 @@ public class PayPalWebCheckoutClient: NSObject {
         config: CoreConfig,
         networkingClient: NetworkingClient,
         clientConfigAPI: UpdateClientConfigAPI,
+        patchCCOAPI: PatchCCOWithAppSwitchEligibility,
         webAuthenticationSession: WebAuthenticationSession
     ) {
         self.config = config
         self.webAuthenticationSession = webAuthenticationSession
         self.networkingClient = networkingClient
         self.clientConfigAPI = clientConfigAPI
+        self.patchCCOAPI = patchCCOAPI
     }
 
     /// Launch the PayPal web flow
@@ -53,8 +57,39 @@ public class PayPalWebCheckoutClient: NSObject {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         analyticsService?.sendEvent("paypal-web-payments:checkout:started")
 
+        let completionOnce = makeCompletionOnce(completion)
+
         Task {
-            startWebCheckoutFlow(request: request, completion: completion)
+            // TODO: check device for paypal app
+            if request.appSwitchIfEligible {
+                switch await attemptAppSwitchIfEligible(request: request, completionOnce: completionOnce) {
+                case .launched:
+                    // Do nothing here. We will complete when handleReturnURL is invoked.
+                    return
+
+                case .fallback(let reason):
+                    analyticsService?.sendEvent("paypal-web-payments:checkout:fallback-to-web:\(reason)")
+                    startWebCheckoutFlow(request: request, completion: completionOnce)
+                }
+            } else {
+                startWebCheckoutFlow(request: request, completion: completionOnce)
+            }
+        }
+    }
+
+    // MARK: - Single-shot completion wrapper
+
+    private func makeCompletionOnce(
+        _ completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
+    ) -> (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void {
+        let lock = NSLock()
+        var called = false
+        return { result in
+            lock.lock()
+            defer { lock.unlock() }
+            guard !called else { return }
+            called = true
+            completion(result)
         }
     }
 
@@ -123,6 +158,55 @@ public class PayPalWebCheckoutClient: NSObject {
                     }
                 )
             }
+        }
+    }
+
+    private enum AppSwitchAttempt { case launched, fallback(String) }
+
+    private func attemptAppSwitchIfEligible(
+        request: PayPalWebCheckoutRequest,
+        completionOnce: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
+    ) async -> AppSwitchAttempt {
+        do {
+            let eligibility = try await patchCCOAPI.patchCCOWithAppSwitchEligibility(
+                token: request.orderID,
+                tokenType: "ORDER_ID"
+            )
+
+            guard eligibility.appSwitchEligible == true,
+                let urlString = eligibility.redirectURL,
+                let url = URL(string: urlString)
+            else {
+                return .fallback(eligibility.ineligibleReason ?? "ineligible")
+            }
+            await MainActor.run {
+                appSwitchCompletion = completionOnce
+            }
+
+            // Try to open the PayPal app (or deep link). If opening fails, fall back.
+            let opened: Bool = await withCheckedContinuation { (cont: CheckedContinuation<Bool, Never>) in
+                DispatchQueue.main.async {
+                    UIApplication.shared.open(url, options: [:]) { success in
+                        cont.resume(returning: success)
+                    }
+                }
+            }
+
+            if opened {
+                // TODO: align with android on app switch event names, communicate with analytics team on new events
+                analyticsService?.sendEvent("paypal-web-payments:checkout:app-switch-open:succeeded")
+                return .launched
+            } else {
+                analyticsService?.sendEvent("paypal-web-payments:checkout:app-switch-open:failed")
+                // We attempted to launch but couldn't. Clear the saved completion so a stray return URL can't complete.
+                await MainActor.run { [weak self] in
+                    self?.appSwitchCompletion = nil
+                }
+                return .fallback("cannot_open_url")
+            }
+        } catch {
+            analyticsService?.sendEvent("paypal-web-payments:checkout:app-switch-eligibility:error")
+            return .fallback("patch_or_lsat_failed")
         }
     }
 
@@ -377,4 +461,4 @@ extension PayPalWebCheckoutClient: ASWebAuthenticationPresentationContextProvidi
         }
     }
 }
-// swiftlint:enable type_body_length
+// swiftlint:enable type_body_length file_length

@@ -17,6 +17,7 @@
 		3B29C3972B9148F70077741D /* PayPalVaultRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B29C3962B9148F70077741D /* PayPalVaultRequest.swift */; };
 		3B3C511E2B2395B5009125FE /* PayPalVaultResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3C511D2B2395B5009125FE /* PayPalVaultResult.swift */; };
 		3B3EB0622E8380EA00B1D552 /* PayPalClients_AppSwitch_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3EB0612E8380D600B1D552 /* PayPalClients_AppSwitch_Tests.swift */; };
+		3B3EB0642E8491D100B1D552 /* MockPatchCCOAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3EB0632E8491C400B1D552 /* MockPatchCCOAPI.swift */; };
 		3B783DC32B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B783DC22B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift */; };
 		3B79E4F72A8503CA00C01D06 /* UpdateVaultVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B79E4F62A8503C900C01D06 /* UpdateVaultVariables.swift */; };
 		3B80D50C2A27979000D2EAC4 /* FailingJSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */; };
@@ -206,6 +207,7 @@
 		3B29C3962B9148F70077741D /* PayPalVaultRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalVaultRequest.swift; sourceTree = "<group>"; };
 		3B3C511D2B2395B5009125FE /* PayPalVaultResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalVaultResult.swift; sourceTree = "<group>"; };
 		3B3EB0612E8380D600B1D552 /* PayPalClients_AppSwitch_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalClients_AppSwitch_Tests.swift; sourceTree = "<group>"; };
+		3B3EB0632E8491C400B1D552 /* MockPatchCCOAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPatchCCOAPI.swift; sourceTree = "<group>"; };
 		3B783DC22B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeUpdateSetupTokenResponse.swift; sourceTree = "<group>"; };
 		3B79E4F62A8503C900C01D06 /* UpdateVaultVariables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateVaultVariables.swift; sourceTree = "<group>"; };
 		3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailingJSONEncoder.swift; sourceTree = "<group>"; };
@@ -570,6 +572,7 @@
 		80E743F9270E40CE00BACECA /* TestShared */ = {
 			isa = PBXGroup;
 			children = (
+				3B3EB0632E8491C400B1D552 /* MockPatchCCOAPI.swift */,
 				3B95C9842E6BA124004C6F65 /* MockAuthenticationSecureTokenServiceAPI.swift */,
 				3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */,
 				80E743FF270E40F300BACECA /* FakeRequests.swift */,
@@ -1250,6 +1253,7 @@
 				802C4A742945670400896A5D /* MockHTTP.swift in Sources */,
 				CB4BE28C2851427600EA2DD1 /* MockViewController.swift in Sources */,
 				803C31B9270E4C560067D36E /* MockURLSession.swift in Sources */,
+				3B3EB0642E8491D100B1D552 /* MockPatchCCOAPI.swift in Sources */,
 				CB4BE28B2851423900EA2DD1 /* MockWebAuthenticationSession.swift in Sources */,
 				CB4BE28A28512A9800EA2DD1 /* MockQuededURLSession.swift in Sources */,
 				3BF06F432E16480F002CA7B4 /* MockUpdateClientConfigAPI.swift in Sources */,

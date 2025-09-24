@@ -188,4 +188,9 @@ class PayPalWebViewModel: ObservableObject {
         order = nil
         checkoutResult = nil
     }
+
+    func handleUniversalLinkReturn(_ url: URL) {
+        guard let payPalWebCheckoutClient else {return}
+        payPalWebCheckoutClient.handleReturnURL(url)
+    }
 }

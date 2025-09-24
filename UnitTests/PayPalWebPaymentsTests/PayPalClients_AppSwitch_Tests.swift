@@ -11,6 +11,7 @@ class PayPalClient_AppSwitch_Tests: XCTestCase {
     var payPalClient: PayPalWebCheckoutClient!
     var mockNetworkingClient: MockNetworkingClient!
     var mockClientConfigAPI: MockClientConfigAPI!
+    var mockPatchCCOAPI: MockPatchCCOAPI!
 
 
     override func setUp() {
@@ -19,12 +20,14 @@ class PayPalClient_AppSwitch_Tests: XCTestCase {
         mockWebAuthenticationSession = MockWebAuthenticationSession()
         mockNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: config))
         mockClientConfigAPI = MockClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)
+        mockPatchCCOAPI = MockPatchCCOAPI(coreConfig: config)
 
 
         payPalClient = PayPalWebCheckoutClient(
             config: config,
             networkingClient: mockNetworkingClient,
             clientConfigAPI: mockClientConfigAPI,
+            patchCCOAPI: mockPatchCCOAPI,
             webAuthenticationSession: mockWebAuthenticationSession
         )
     }
