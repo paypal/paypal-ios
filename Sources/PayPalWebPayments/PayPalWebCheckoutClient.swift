@@ -185,13 +185,7 @@ public class PayPalWebCheckoutClient: NSObject {
             }
 
             // Try to open the PayPal app (or deep link). If opening fails, fall back.
-            let opened: Bool = await withCheckedContinuation { (cont: CheckedContinuation<Bool, Never>) in
-                DispatchQueue.main.async {
-                    UIApplication.shared.open(url, options: [:]) { success in
-                        cont.resume(returning: success)
-                    }
-                }
-            }
+            let opened = await openURL(url)
 
             if opened {
                 // TODO: align with android on app switch event names, communicate with analytics team on new events
@@ -399,6 +393,15 @@ public class PayPalWebCheckoutClient: NSObject {
             notifyCheckoutFailure(with: PayPalError.malformedResultError, completion: completion)
         } else {
             // No pending flow; ignore.
+        }
+    }
+
+    @MainActor
+    private func openURL(_ url: URL) async -> Bool {
+        await withCheckedContinuation { continuation in
+            application.open(url) { success in
+                continuation.resume(returning: success)
+            }
         }
     }
 
