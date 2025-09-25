@@ -4,7 +4,7 @@ import AuthenticationServices
 @testable import PayPalWebPayments
 @testable import TestShared
 
-class PayPalClient_AppSwitch_Tests: XCTestCase {
+class PayPalClient_HandleReturnURL_Tests: XCTestCase {
 
     var config: CoreConfig!
     var mockWebAuthenticationSession: MockWebAuthenticationSession!
