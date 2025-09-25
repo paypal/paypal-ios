@@ -15,7 +15,7 @@ extension UIApplication: URLOpener {
         return canOpenURL(payPalURL)
     }
 
-    public func open (_ url: URL, completionHandler completion: ((Bool) -> Void)?) {
+    public func open(_ url: URL, completionHandler completion: ((Bool) -> Void)?) {
         UIApplication.shared.open(url, options: [:], completionHandler: completion)
     }
 }
