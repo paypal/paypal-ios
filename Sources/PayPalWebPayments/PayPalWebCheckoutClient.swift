@@ -11,6 +11,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
     var appSwitchCompletion: ((Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void)?
     var vaultAppSwitchCompletion: ((Result<PayPalVaultResult, CoreSDKError>) -> Void)?
+    var application: URLOpener = UIApplication.shared
 
     private let clientConfigAPI: UpdateClientConfigAPI
     private let webAuthenticationSession: WebAuthenticationSession
@@ -58,10 +59,10 @@ public class PayPalWebCheckoutClient: NSObject {
         analyticsService?.sendEvent("paypal-web-payments:checkout:started")
 
         let completionOnce = makeCompletionOnce(completion)
+        let appInstalled = self.application.isPayPalAppInstalled()
 
         Task {
-            // TODO: check device for paypal app
-            if request.appSwitchIfEligible {
+            if request.appSwitchIfEligible && appInstalled {
                 switch await attemptAppSwitchIfEligible(request: request, completionOnce: completionOnce) {
                 case .launched:
                     // Do nothing here. We will complete when handleReturnURL is invoked.
