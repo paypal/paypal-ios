@@ -3,6 +3,7 @@ import CorePayments
 import PayPalWebPayments
 import FraudProtection
 
+@MainActor
 class PayPalWebViewModel: ObservableObject {
 
     @Published var state = PayPalPaymentState()
