@@ -46,4 +46,7 @@ class PayPalClient_CheckoutAppSwitch_Toggle_tests: XCTestCase {
 
     func test_AppSwitchIfEligible_True_App_Installed_True_Eligible_Invokes_AppFlow() {
     }
+
+    func test_AppSwitch_Failure_Invokes_WebFlow() {
+    }
 }
