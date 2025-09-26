@@ -89,7 +89,39 @@ class PayPalClient_CheckoutAppSwitch_Toggle_tests: XCTestCase {
         XCTAssertEqual(result.payerID, expectedResult.payerID)
     }
 
-    func test_AppSwitchIfEligible_True_App_Installed_True_Eligible_Invokes_AppFlow() {
+    func test_AppSwitchIfEligible_True_App_Installed_True_Eligible_Invokes_AppFlow() async throws {
+        mockURLOpener.mockIsPayPalAppInstalled = true
+
+        let request = PayPalWebCheckoutRequest(orderID: "test-order-id", appSwitchIfEligible: true)
+
+        let eligibleResponse = AppSwitchEligibility(
+            appSwitchEligible: true,
+            redirectURL: "paypal-app-switch-checkout://token=test-order-id",
+            ineligibleReason: nil
+        )
+        mockPatchCCOAPI.stubEligibilityResponse = eligibleResponse
+        mockURLOpener.mockOpenURLSuccess = true
+
+        let expectation = XCTestExpectation(description: "App switch flow completion")
+
+        let urlOpenedExpectation = XCTestExpectation(description: "URL opened")
+        mockURLOpener.didOpenURLHandler = {
+            urlOpenedExpectation.fulfill()
+        }
+
+        payPalClient.start(request: request) { _ in
+            expectation.fulfill()
+        }
+
+        await fulfillment(of: [urlOpenedExpectation], timeout: 1.0)
+
+        XCTAssertNil(self.mockWebAuthenticationSession.lastLaunchedURL)
+        XCTAssertNotNil(self.mockURLOpener.lastOpenedURL)
+
+        let returnURL = URL(string: "app-callback-scheme://x-callback-url/paypal-sdk/paypal-checkout?token=test-order-id&PayerID=test-payer-id")!
+        payPalClient.handleReturnURL(returnURL)
+
+        await fulfillment(of: [expectation], timeout: 1.0)
     }
 
     func test_AppSwitch_Failure_Invokes_WebFlow() async throws {
