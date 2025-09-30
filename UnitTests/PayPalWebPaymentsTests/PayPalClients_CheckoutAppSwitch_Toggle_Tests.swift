@@ -129,10 +129,9 @@ class PayPalClient_CheckoutAppSwitch_Toggle_tests: XCTestCase {
 
         let request = PayPalWebCheckoutRequest(orderID: "test-order-id", appSwitchIfEligible: true)
 
-        // check this
         let eligibleResponse = AppSwitchEligibility(
             appSwitchEligible: true,
-            redirectURL: "paypal-app-switch-checkout://token=test-order-id",
+            redirectURL: "https://www.sandbox.paypal.com/app-switch-checkout?appSwitchEligible=true&token=test-order-id&tokenType=ORDER_ID",
             ineligibleReason: nil
         )
         mockPatchCCOAPI.stubEligibilityResponse = eligibleResponse
