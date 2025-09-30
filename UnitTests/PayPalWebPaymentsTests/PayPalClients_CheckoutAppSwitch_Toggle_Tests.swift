@@ -46,7 +46,7 @@ class PayPalClient_CheckoutAppSwitch_Toggle_tests: XCTestCase {
         mockURLOpener.mockIsPayPalAppInstalled = true
         let request = PayPalWebCheckoutRequest(orderID: "test-order-id", appSwitchIfEligible: false)
         let expectedResult = PayPalWebCheckoutResult(orderID: "test-order-id", payerID: "test-payer-id")
-        mockWebAuthenticationSession.cannedResponseURL = URL(string: "https://example.com?token=test-order-id&PayerID=test-payer-id")
+        mockWebAuthenticationSession.cannedResponseURL = URL(string: "sdk.ios.paypal://x-callback-url/paypal-sdk/paypal-checkout?token=test-order-id&PayerID=test-payer-id")
 
         let result = try await payPalClient.start(request: request)
 
@@ -62,7 +62,7 @@ class PayPalClient_CheckoutAppSwitch_Toggle_tests: XCTestCase {
         let request = PayPalWebCheckoutRequest(orderID: "test-order-id", appSwitchIfEligible: true)
 
         let expectedResult = PayPalWebCheckoutResult(orderID: "test-order-id", payerID: "test-payer-id")
-        mockWebAuthenticationSession.cannedResponseURL = URL(string: "https://example.com?token=test-order-id&PayerID=test-payer-id")
+        mockWebAuthenticationSession.cannedResponseURL = URL(string: "sdk.ios.paypal://x-callback-url/paypal-sdk/paypal-checkout?token=test-order-id&PayerID=test-payer-id")
 
         let result = try await payPalClient.start(request: request)
         XCTAssertNotNil(self.mockWebAuthenticationSession.lastLaunchedURL)
@@ -80,7 +80,7 @@ class PayPalClient_CheckoutAppSwitch_Toggle_tests: XCTestCase {
         mockPatchCCOAPI.stubEligibilityResponse = ineligibleResponse
 
         let expectedResult = PayPalWebCheckoutResult(orderID: "test-order-id", payerID: "test-payer-id")
-        mockWebAuthenticationSession.cannedResponseURL = URL(string: "https://example.com?token=test-order-id&PayerID=test-payer-id")
+        mockWebAuthenticationSession.cannedResponseURL = URL(string: "sdk.ios.paypal://x-callback-url/paypal-sdk/paypal-checkout?token=test-order-id&PayerID=test-payer-id")
 
         let result = try await payPalClient.start(request: request)
         XCTAssertNotNil(mockWebAuthenticationSession.lastLaunchedURL)
@@ -96,7 +96,7 @@ class PayPalClient_CheckoutAppSwitch_Toggle_tests: XCTestCase {
 
         let eligibleResponse = AppSwitchEligibility(
             appSwitchEligible: true,
-            redirectURL: "paypal-app-switch-checkout://token=test-order-id",
+            redirectURL: "https://www.sandbox.paypal.com/app-switch-checkout?appSwitchEligible=true&token=test-order-id&tokenType=ORDER_ID",
             ineligibleReason: nil
         )
         mockPatchCCOAPI.stubEligibilityResponse = eligibleResponse
@@ -118,7 +118,7 @@ class PayPalClient_CheckoutAppSwitch_Toggle_tests: XCTestCase {
         XCTAssertNil(self.mockWebAuthenticationSession.lastLaunchedURL)
         XCTAssertNotNil(self.mockURLOpener.lastOpenedURL)
 
-        let returnURL = URL(string: "app-callback-scheme://x-callback-url/paypal-sdk/paypal-checkout?token=test-order-id&PayerID=test-payer-id")!
+        let returnURL = URL(string: "https://appSwitch.com/success?token=test-order-id&PayerID=test-payer-id")!
         payPalClient.handleReturnURL(returnURL)
 
         await fulfillment(of: [expectation], timeout: 1.0)
@@ -129,6 +129,7 @@ class PayPalClient_CheckoutAppSwitch_Toggle_tests: XCTestCase {
 
         let request = PayPalWebCheckoutRequest(orderID: "test-order-id", appSwitchIfEligible: true)
 
+        // check this
         let eligibleResponse = AppSwitchEligibility(
             appSwitchEligible: true,
             redirectURL: "paypal-app-switch-checkout://token=test-order-id",
@@ -139,7 +140,7 @@ class PayPalClient_CheckoutAppSwitch_Toggle_tests: XCTestCase {
         mockURLOpener.mockOpenURLSuccess = false
 
         let expectedResult = PayPalWebCheckoutResult(orderID: "test-order-id", payerID: "test-payer-id")
-        mockWebAuthenticationSession.cannedResponseURL = URL(string: "https://example.com?token=test-order-id&PayerID=test-payer-id")
+        mockWebAuthenticationSession.cannedResponseURL = URL(string: "sdk.ios.paypal://x-callback-url/paypal-sdk/paypal-checkout?token=test-order-id&PayerID=test-payer-id")
 
         let result = try await payPalClient.start(request: request)
         XCTAssertNotNil(self.mockURLOpener.lastOpenedURL)
