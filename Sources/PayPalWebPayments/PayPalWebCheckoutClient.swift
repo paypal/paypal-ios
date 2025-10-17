@@ -56,7 +56,8 @@ public class PayPalWebCheckoutClient: NSObject {
                     fundingSource: request.fundingSource.rawValue
                 )
             } catch {
-                print("error in calling graphQL: \(error.localizedDescription)")
+                // fail silently; we don't want CCO updates to prevent web authentication session
+                // from starting
             }
             
             let baseURLString = config.environment.payPalBaseURL.absoluteString

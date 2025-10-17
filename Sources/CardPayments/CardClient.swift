@@ -8,7 +8,8 @@ public class CardClient: NSObject {
     
     private let checkoutOrdersAPI: CheckoutOrdersAPI
     private let vaultAPI: VaultPaymentTokensAPI
-    
+    private let clientConfigAPI: UpdateClientConfigAPI
+
     private let config: CoreConfig
     private let webAuthenticationSession: WebAuthenticationSession
     private var analyticsService: AnalyticsService?
@@ -20,6 +21,7 @@ public class CardClient: NSObject {
         self.checkoutOrdersAPI = CheckoutOrdersAPI(coreConfig: config)
         self.vaultAPI = VaultPaymentTokensAPI(coreConfig: config)
         self.webAuthenticationSession = WebAuthenticationSession()
+        self.clientConfigAPI = UpdateClientConfigAPI(coreConfig: config)
     }
 
     /// For internal use for testing/mocking purpose
@@ -27,12 +29,14 @@ public class CardClient: NSObject {
         config: CoreConfig,
         checkoutOrdersAPI: CheckoutOrdersAPI,
         vaultAPI: VaultPaymentTokensAPI,
+        clientConfigAPI: UpdateClientConfigAPI,
         webAuthenticationSession: WebAuthenticationSession
     ) {
         self.config = config
         self.checkoutOrdersAPI = checkoutOrdersAPI
         self.vaultAPI = vaultAPI
         self.webAuthenticationSession = webAuthenticationSession
+        self.clientConfigAPI = clientConfigAPI
     }
 
     /// Updates a setup token with a payment method. Performs
@@ -61,6 +65,16 @@ public class CardClient: NSObject {
                         return
                     }
                     analyticsService?.sendEvent("card-payments:vault-wo-purchase:auth-challenge-required")
+                    // update CCO
+                    do {
+                        _ = try await clientConfigAPI.updateClientConfig(
+                            token: result.id,
+                            fundingSource: "card"
+                        )
+                    } catch {
+                        // fail silently; we don't want CCO updates to prevent web authentication session
+                        // from starting
+                    }
                     startVaultThreeDSecureChallenge(url: url, setupTokenID: vaultRequest.setupTokenID, completion: completion)
                 } else {
                     let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status, didAttemptThreeDSecureAuthentication: false)
@@ -123,6 +137,17 @@ public class CardClient: NSObject {
                     }
                 
                     analyticsService?.sendEvent("card-payments:approve-order:auth-challenge-required")
+                    
+                    // update CCO
+                    do {
+                        _ = try await clientConfigAPI.updateClientConfig(
+                            token: result.id,
+                            fundingSource: "card"
+                        )
+                    } catch {
+                        // fail silently; we don't want CCO updates to prevent web authentication session
+                        // from starting
+                    }
                     startThreeDSecureChallenge(url: url, orderId: result.id, completion: completion)
                 } else {
                     let cardResult = CardResult(orderID: result.id, status: result.status, didAttemptThreeDSecureAuthentication: false)
@@ -161,7 +186,7 @@ public class CardClient: NSObject {
         orderId: String,
         completion: @escaping (Result<CardResult, CoreSDKError>) -> Void
     ) {
-        
+
         webAuthenticationSession.start(
             url: url,
             context: self,
