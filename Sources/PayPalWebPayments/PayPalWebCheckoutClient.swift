@@ -45,7 +45,10 @@ public class PayPalWebCheckoutClient: NSObject {
     ///                   - `orderID`: The ID of the approved order.
     ///                   - `payerID`: Payer ID (or user id) associated with the transaction
     ///                 - `.failure(CoreSDKError)`: Describes the reason for failure.
-    public func start(request: PayPalWebCheckoutRequest, completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void) {
+    public func start(
+        request: PayPalWebCheckoutRequest,
+        completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
+    ) {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         analyticsService?.sendEvent("paypal-web-payments:checkout:started")
 
@@ -83,17 +86,14 @@ public class PayPalWebCheckoutClient: NSObject {
                 },
                 sessionDidComplete: { url, error in
                     if let error = error {
+                        let sdkError: CoreSDKError
                         switch error {
                         case ASWebAuthenticationSessionError.canceledLogin:
-                            self.notifyCheckoutCancelWithError(
-                                with: PayPalError.checkoutCanceledError,
-                                completion: completion
-                            )
-                            return
+                            sdkError = PayPalError.checkoutCanceledError
                         default:
-                            self.notifyCheckoutFailure(with: PayPalError.webSessionError(error), completion: completion)
-                            return
+                            sdkError = PayPalError.webSessionError(error)
                         }
+                        self.notifyCheckoutFailure(with: sdkError, completion: completion)
                     }
                     
                     if let url = url {
@@ -191,17 +191,14 @@ public class PayPalWebCheckoutClient: NSObject {
                 },
                 sessionDidComplete: { url, error in
                     if let error = error {
+                        let sdkError: CoreSDKError
                         switch error {
                         case ASWebAuthenticationSessionError.canceledLogin:
-                            self.notifyVaultCancelWithError(
-                                with: PayPalError.vaultCanceledError,
-                                completion: completion
-                            )
-                            return
+                            sdkError = PayPalError.vaultCanceledError
                         default:
-                            self.notifyVaultFailure(with: PayPalError.webSessionError(error), completion: completion)
-                            return
+                            sdkError = PayPalError.webSessionError(error)
                         }
+                        self.notifyVaultCancelWithError(with: sdkError, completion: completion)
                     }
 
                     if let url = url {
