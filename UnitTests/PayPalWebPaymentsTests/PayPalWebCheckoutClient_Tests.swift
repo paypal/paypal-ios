@@ -329,12 +329,12 @@ class PayPalClient_Tests: XCTestCase {
         let expectation = self.expectation(description: "Call back invoked with error")
         payPalClient.start(request: request) { result in
             switch result {
-            case .success(let result):
+            case .success:
                 XCTFail("Expected failure with error")
             case .failure(let error):
                 XCTAssertEqual(error.domain, PayPalError.domain)
-                XCTAssertEqual(error.code, PayPalError.Code.vaultCanceledError.rawValue)
-                XCTAssertEqual(error.localizedDescription, "PayPal vault has been canceled by the user")
+                XCTAssertEqual(error.code, PayPalError.Code.checkoutCanceledError.rawValue)
+                XCTAssertEqual(error.localizedDescription, "PayPal checkout has been canceled by the user")
             }
             expectation.fulfill()
         }

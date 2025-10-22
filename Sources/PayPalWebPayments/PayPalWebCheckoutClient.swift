@@ -95,16 +95,20 @@ public class PayPalWebCheckoutClient: NSObject {
                             return
                         }
                     }
-
+                    
                     if let url = url {
-                        guard let orderID = self.getQueryStringParameter(url: url.absoluteString, param: "token"),
-                            let payerID = self.getQueryStringParameter(url: url.absoluteString, param: "PayerID") else {
+                        if let opType = self.getQueryStringParameter(url: url.absoluteString, param: "opType"), opType == "cancel" {
+                            self.notifyCheckoutCancelWithError(
+                                with: PayPalError.checkoutCanceledError,
+                                completion: completion
+                            )
+                        } else if let orderID = self.getQueryStringParameter(url: url.absoluteString, param: "token"),
+                            let payerID = self.getQueryStringParameter(url: url.absoluteString, param: "PayerID") {
+                            let result = PayPalWebCheckoutResult(orderID: orderID, payerID: payerID)
+                            self.notifyCheckoutSuccess(for: result, completion: completion)
+                        } else {
                             self.notifyCheckoutFailure(with: PayPalError.malformedResultError, completion: completion)
-                            return
                         }
-
-                        let result = PayPalWebCheckoutResult(orderID: orderID, payerID: payerID)
-                        self.notifyCheckoutSuccess(for: result, completion: completion)
                     }
                 }
             )
@@ -201,16 +205,19 @@ public class PayPalWebCheckoutClient: NSObject {
                     }
 
                     if let url = url {
-                        guard let tokenID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_token_id"),
+                        if url.path.contains("cancel") {
+                            self.notifyVaultCancelWithError(
+                                with: PayPalError.vaultCanceledError,
+                                completion: completion
+                            )
+                        } else if let tokenID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_token_id"),
                             let approvalSessionID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_session_id"),
-                            !tokenID.isEmpty, !approvalSessionID.isEmpty
-                        else {
+                            !tokenID.isEmpty, !approvalSessionID.isEmpty {
+                            let paypalVaultResult = PayPalVaultResult(tokenID: tokenID, approvalSessionID: approvalSessionID)
+                            self.notifyVaultSuccess(for: paypalVaultResult, completion: completion)
+                        } else {
                             self.notifyVaultFailure(with: PayPalError.payPalVaultResponseError, completion: completion)
-                            return
                         }
-
-                        let paypalVaultResult = PayPalVaultResult(tokenID: tokenID, approvalSessionID: approvalSessionID)
-                        self.notifyVaultSuccess(for: paypalVaultResult, completion: completion)
                     }
                 }
             )
