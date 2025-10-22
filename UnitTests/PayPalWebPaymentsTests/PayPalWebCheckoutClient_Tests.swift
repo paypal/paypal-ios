@@ -87,6 +87,29 @@ class PayPalClient_Tests: XCTestCase {
 
         waitForExpectations(timeout: 2, handler: nil)
     }
+    
+    func testVault_whenCancelUrl_ReturnsVaultToken() {
+
+        mockWebAuthenticationSession.cannedResponseURL =
+            URL(string: "sdk.ios.paypal://testurl.com/checkout/cancel?approval_session_id=$approvalSessionId")
+
+        let expectation = expectation(description: "vault(url:) completed")
+
+        let vaultRequest = PayPalVaultRequest(setupTokenID: "fakeTokenID")
+        payPalClient.vault(vaultRequest) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure with error")
+            case .failure(let error):
+                XCTAssertEqual(error.domain, PayPalError.domain)
+                XCTAssertEqual(error.code, PayPalError.Code.vaultCanceledError.rawValue)
+                XCTAssertEqual(error.localizedDescription, "PayPal vault has been canceled by the user")
+            }
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 2, handler: nil)
+    }
 
     func testVault_whenWebSession_cancelled() {
 
@@ -296,6 +319,29 @@ class PayPalClient_Tests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
+    func testStart_whenWebResultIsCancelled_returnsCancellationError() {
+        let request = PayPalWebCheckoutRequest(orderID: "1234")
+
+        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
+        mockWebAuthenticationSession.cannedResponseURL =
+            URL(string: "sdk.ios.paypal://testurl.com/checkout?opType=cancel")
+        
+        let expectation = self.expectation(description: "Call back invoked with error")
+        payPalClient.start(request: request) { result in
+            switch result {
+            case .success(let result):
+                XCTFail("Expected failure with error")
+            case .failure(let error):
+                XCTAssertEqual(error.domain, PayPalError.domain)
+                XCTAssertEqual(error.code, PayPalError.Code.vaultCanceledError.rawValue)
+                XCTAssertEqual(error.localizedDescription, "PayPal vault has been canceled by the user")
+            }
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 2, handler: nil)
+    }
+    
     func testStart_whenWebResultIsSuccessful_returnsSuccessfulResult() {
         let request = PayPalWebCheckoutRequest(orderID: "1234")
 
