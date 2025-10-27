@@ -33,7 +33,7 @@ public class UpdateClientConfigAPI {
         }
     }
 
-    private func sendCCOUpdateRequest(token: String, fundingSource: String) async throws -> ClientConfigResponse {
+    func sendCCOUpdateRequest(token: String, fundingSource: String) async throws -> ClientConfigResponse {
 
         let queryString = """
             mutation UpdateClientConfig(
