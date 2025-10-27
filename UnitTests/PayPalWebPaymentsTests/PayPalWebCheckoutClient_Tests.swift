@@ -60,6 +60,23 @@ class PayPalClient_Tests: XCTestCase {
         XCTAssertEqual(mockWebAuthenticationSession.lastLaunchedURL?.absoluteString, "https://paypal.com/agreements/approve?approval_session_id=fake-token&integration_artifact=MOBILE_SDK")
     }
     
+    func testVault_attemptsCCOPatch() {
+        let vaultRequest = PayPalVaultRequest(setupTokenID: "fake-token")
+        let started = expectation(description: "ASWebAuthenticationSession Started")
+        mockWebAuthenticationSession.onStart = { started.fulfill() }
+
+        payPalClient.vault(vaultRequest) { _ in }
+        wait(for: [started], timeout: 1.0)
+
+        XCTAssertTrue(
+            mockClientConfigAPI.didCallUpdateClientConfig(
+                withToken: "fake-token",
+                fundingSource: "paypal"
+            ),
+            "Expected call to updateClientConfig with 'paypal'"
+        )
+    }
+
     func testVault_whenSuccessUrl_ReturnsVaultToken() {
 
         mockWebAuthenticationSession.cannedResponseURL = URL(string: "sdk.ios.paypal://vault/success?approval_token_id=fakeTokenID&approval_session_id=fakeSessionID")
@@ -206,6 +223,20 @@ class PayPalClient_Tests: XCTestCase {
         }
         
         waitForExpectations(timeout: 10)
+    }
+    
+    func testStart_attemptsCCOPatch() {
+        let started = expectation(description: "ASWebAuthenticationSession Started")
+        mockWebAuthenticationSession.onStart = { started.fulfill() }
+
+        let request = PayPalWebCheckoutRequest(orderID: "fake-order-id", fundingSource: .paylater)
+        payPalClient.start(request: request) { _ in }
+        wait(for: [started], timeout: 1.0)
+
+        XCTAssertTrue(
+            mockClientConfigAPI.didCallUpdateClientConfig(withToken: "fake-order-id", fundingSource: "paylater"),
+            "Expected call to updateClientConfig with 'paylater'"
+        )
     }
 
     func testStart_whenWebAuthenticationSessionCancelCalled_returnsCancellationError() {
