@@ -23,8 +23,17 @@ public class UpdateClientConfigAPI {
     }
 
     // MARK: - Internal Methods
+    public func updateClientConfig(token: String, fundingSource: String) {
+        Task {
+            do {
+                _ = try await sendCCOUpdateRequest(token: token, fundingSource: fundingSource)
+            } catch {
+                print("error in calling graphQL: \(error.localizedDescription)")
+            }
+        }
+    }
 
-    public func updateClientConfig(token: String, fundingSource: String) async throws -> ClientConfigResponse {
+    private func sendCCOUpdateRequest(token: String, fundingSource: String) async throws -> ClientConfigResponse {
 
         let queryString = """
             mutation UpdateClientConfig(
