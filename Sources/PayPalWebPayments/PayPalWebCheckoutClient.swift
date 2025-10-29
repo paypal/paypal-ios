@@ -160,65 +160,54 @@ public class PayPalWebCheckoutClient: NSObject {
         analyticsService = AnalyticsService(coreConfig: config, setupToken: vaultRequest.setupTokenID)
         analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:started")
 
-        Task {
-            do {
-                _ = try await clientConfigAPI.updateClientConfig(
-                    token: vaultRequest.setupTokenID,
-                    fundingSource: PayPalWebCheckoutFundingSource.paypal.rawValue
-                )
-            } catch {
-                print("error in calling graphQL: \(error.localizedDescription)")
-            }
-            
-            var vaultURLComponents = URLComponents(url: config.environment.paypalVaultCheckoutURL, resolvingAgainstBaseURL: false)
-            let queryItems = [URLQueryItem(name: "approval_session_id", value: vaultRequest.setupTokenID)]
-            vaultURLComponents?.queryItems = queryItems
+        var vaultURLComponents = URLComponents(url: config.environment.paypalVaultCheckoutURL, resolvingAgainstBaseURL: false)
+        let queryItems = [URLQueryItem(name: "approval_session_id", value: vaultRequest.setupTokenID)]
+        vaultURLComponents?.queryItems = queryItems
 
-            guard let vaultCheckoutURL = vaultURLComponents?.url else {
-                notifyVaultFailure(with: PayPalError.payPalURLError, completion: completion)
-                return
-            }
+        guard let vaultCheckoutURL = vaultURLComponents?.url else {
+            notifyVaultFailure(with: PayPalError.payPalURLError, completion: completion)
+            return
+        }
 
-            webAuthenticationSession.start(
-                url: vaultCheckoutURL,
-                context: self,
-                sessionDidDisplay: { [weak self] didDisplay in
-                    if didDisplay {
-                        self?.analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:auth-challenge-presentation:succeeded")
+        webAuthenticationSession.start(
+            url: vaultCheckoutURL,
+            context: self,
+            sessionDidDisplay: { [weak self] didDisplay in
+                if didDisplay {
+                    self?.analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:auth-challenge-presentation:succeeded")
+                } else {
+                    self?.analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:auth-challenge-presentation:failed")
+                }
+            },
+            sessionDidComplete: { url, error in
+                if let error = error {
+                    let sdkError: CoreSDKError
+                    switch error {
+                    case ASWebAuthenticationSessionError.canceledLogin:
+                        sdkError = PayPalError.vaultCanceledError
+                    default:
+                        sdkError = PayPalError.webSessionError(error)
+                    }
+                    self.notifyVaultCancelWithError(with: sdkError, completion: completion)
+                }
+
+                if let url = url {
+                    if url.path.contains("cancel") {
+                        self.notifyVaultCancelWithError(
+                            with: PayPalError.vaultCanceledError,
+                            completion: completion
+                        )
+                    } else if let tokenID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_token_id"),
+                        let approvalSessionID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_session_id"),
+                        !tokenID.isEmpty, !approvalSessionID.isEmpty {
+                        let paypalVaultResult = PayPalVaultResult(tokenID: tokenID, approvalSessionID: approvalSessionID)
+                        self.notifyVaultSuccess(for: paypalVaultResult, completion: completion)
                     } else {
-                        self?.analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:auth-challenge-presentation:failed")
-                    }
-                },
-                sessionDidComplete: { url, error in
-                    if let error = error {
-                        let sdkError: CoreSDKError
-                        switch error {
-                        case ASWebAuthenticationSessionError.canceledLogin:
-                            sdkError = PayPalError.vaultCanceledError
-                        default:
-                            sdkError = PayPalError.webSessionError(error)
-                        }
-                        self.notifyVaultCancelWithError(with: sdkError, completion: completion)
-                    }
-
-                    if let url = url {
-                        if url.path.contains("cancel") {
-                            self.notifyVaultCancelWithError(
-                                with: PayPalError.vaultCanceledError,
-                                completion: completion
-                            )
-                        } else if let tokenID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_token_id"),
-                            let approvalSessionID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_session_id"),
-                            !tokenID.isEmpty, !approvalSessionID.isEmpty {
-                            let paypalVaultResult = PayPalVaultResult(tokenID: tokenID, approvalSessionID: approvalSessionID)
-                            self.notifyVaultSuccess(for: paypalVaultResult, completion: completion)
-                        } else {
-                            self.notifyVaultFailure(with: PayPalError.payPalVaultResponseError, completion: completion)
-                        }
+                        self.notifyVaultFailure(with: PayPalError.payPalVaultResponseError, completion: completion)
                     }
                 }
-            )
-        }
+            }
+        )
     }
 
     /// Starts a web session for vaulting PayPal Payment Method
