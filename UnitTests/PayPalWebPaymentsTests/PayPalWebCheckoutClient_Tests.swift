@@ -40,7 +40,7 @@ class PayPalClient_Tests: XCTestCase {
         payPalClient.vault(vaultRequest) { _ in }
         wait(for: [started], timeout: 1.0)
 
-        XCTAssertEqual(mockWebAuthenticationSession.lastLaunchedURL?.absoluteString, "https://sandbox.paypal.com/agreements/approve?approval_session_id=fake-token")
+        XCTAssertEqual(mockWebAuthenticationSession.lastLaunchedURL?.absoluteString, "https://sandbox.paypal.com/agreements/approve?approval_session_id=fake-token&integration_artifact=MOBILE_SDK")
     }
     
     func testVault_whenLive_launchesCorrectURLInWebSession() {
@@ -61,7 +61,7 @@ class PayPalClient_Tests: XCTestCase {
         payPalClient.vault(vaultRequest) { _ in }
         wait(for: [started], timeout: 1.0)
 
-        XCTAssertEqual(mockWebAuthenticationSession.lastLaunchedURL?.absoluteString, "https://paypal.com/agreements/approve?approval_session_id=fake-token")
+        XCTAssertEqual(mockWebAuthenticationSession.lastLaunchedURL?.absoluteString, "https://paypal.com/agreements/approve?approval_session_id=fake-token&integration_artifact=MOBILE_SDK")
     }
     
     func testVault_whenSuccessUrl_ReturnsVaultToken() {

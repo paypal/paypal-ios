@@ -65,8 +65,8 @@ public class PayPalWebCheckoutClient: NSObject {
             let baseURLString = config.environment.payPalBaseURL.absoluteString
             let payPalCheckoutURLString =
                 "\(baseURLString)/checkoutnow?token=\(request.orderID)" +
-                "&fundingSource=\(request.fundingSource.rawValue)"
-
+                "&fundingSource=\(request.fundingSource.rawValue)&integration_artifact=MOBILE_SDK"
+            
             guard let payPalCheckoutURL = URL(string: payPalCheckoutURLString),
                 let payPalCheckoutURLComponents = payPalCheckoutReturnURL(payPalCheckoutURL: payPalCheckoutURL)
             else {
@@ -160,8 +160,12 @@ public class PayPalWebCheckoutClient: NSObject {
         analyticsService = AnalyticsService(coreConfig: config, setupToken: vaultRequest.setupTokenID)
         analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:started")
 
-        var vaultURLComponents = URLComponents(url: config.environment.paypalVaultCheckoutURL, resolvingAgainstBaseURL: false)
-        let queryItems = [URLQueryItem(name: "approval_session_id", value: vaultRequest.setupTokenID)]
+        let vaultURL = config.environment.paypalVaultCheckoutURL
+        var vaultURLComponents = URLComponents(url: vaultURL, resolvingAgainstBaseURL: false)
+        let queryItems = [
+            URLQueryItem(name: "approval_session_id", value: vaultRequest.setupTokenID),
+            URLQueryItem(name: "integration_artifact", value: "MOBILE_SDK")
+        ]
         vaultURLComponents?.queryItems = queryItems
 
         guard let vaultCheckoutURL = vaultURLComponents?.url else {
