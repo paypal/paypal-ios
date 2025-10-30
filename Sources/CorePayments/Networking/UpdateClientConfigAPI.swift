@@ -62,16 +62,7 @@ public class UpdateClientConfigAPI {
         )
 
         let httpResponse = try await networkingClient.fetch(request: graphQLRequest, clientContext: token)
-        
-        #if DEBUG
-        print("HTTP Response Status: \(httpResponse.status)")
-        if let bodyData = httpResponse.body, let responseBody = String(data: bodyData, encoding: .utf8) {
-            print("HTTP Response Body: \(responseBody)")
-        } else {
-            print("HTTP Response Body: (error - could not parse)")
-        }
-        #endif
-        
+
         return try HTTPResponseParser().parseGraphQL(httpResponse, as: ClientConfigResponse.self)
     }
 }
