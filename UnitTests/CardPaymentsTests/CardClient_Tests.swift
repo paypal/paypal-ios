@@ -25,6 +25,7 @@ class CardClient_Tests: XCTestCase {
     var mockNetworkingClient: MockNetworkingClient!
     var mockCheckoutOrdersAPI: MockCheckoutOrdersAPI!
     var mockVaultAPI: MockVaultPaymentTokensAPI!
+    var mockClientConfigAPI: MockClientConfigAPI!
 
     var sut: CardClient!
     
@@ -37,13 +38,14 @@ class CardClient_Tests: XCTestCase {
         cardVaultRequest = CardVaultRequest(card: card, setupTokenID: "testSetupTokenId")
 
         mockCheckoutOrdersAPI = MockCheckoutOrdersAPI(coreConfig: config, networkingClient: mockNetworkingClient)
-        
         mockVaultAPI = MockVaultPaymentTokensAPI(coreConfig: config, networkingClient: mockNetworkingClient)
+        mockClientConfigAPI = MockClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)
         
         sut = CardClient(
             config: config,
             checkoutOrdersAPI: mockCheckoutOrdersAPI,
             vaultAPI: mockVaultAPI,
+            clientConfigAPI: mockClientConfigAPI,
             webAuthenticationSession: mockWebAuthSession
         )
     }

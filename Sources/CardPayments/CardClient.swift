@@ -8,7 +8,8 @@ public class CardClient: NSObject {
     
     private let checkoutOrdersAPI: CheckoutOrdersAPI
     private let vaultAPI: VaultPaymentTokensAPI
-    
+    private let clientConfigAPI: UpdateClientConfigAPI
+
     private let config: CoreConfig
     private let webAuthenticationSession: WebAuthenticationSession
     private var analyticsService: AnalyticsService?
@@ -20,6 +21,7 @@ public class CardClient: NSObject {
         self.checkoutOrdersAPI = CheckoutOrdersAPI(coreConfig: config)
         self.vaultAPI = VaultPaymentTokensAPI(coreConfig: config)
         self.webAuthenticationSession = WebAuthenticationSession()
+        self.clientConfigAPI = UpdateClientConfigAPI(coreConfig: config)
     }
 
     /// For internal use for testing/mocking purpose
@@ -27,12 +29,14 @@ public class CardClient: NSObject {
         config: CoreConfig,
         checkoutOrdersAPI: CheckoutOrdersAPI,
         vaultAPI: VaultPaymentTokensAPI,
+        clientConfigAPI: UpdateClientConfigAPI,
         webAuthenticationSession: WebAuthenticationSession
     ) {
         self.config = config
         self.checkoutOrdersAPI = checkoutOrdersAPI
         self.vaultAPI = vaultAPI
         self.webAuthenticationSession = webAuthenticationSession
+        self.clientConfigAPI = clientConfigAPI
     }
 
     /// Updates a setup token with a payment method. Performs
@@ -110,6 +114,14 @@ public class CardClient: NSObject {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         analyticsService?.sendEvent("card-payments:approve-order:started")
         Task {
+            do {
+                _ = try await clientConfigAPI.updateClientConfig(
+                    token: request.orderID,
+                    fundingSource: "card"
+                )
+            } catch {
+                print("error in calling graphQL: \(error.localizedDescription)")
+            }
             do {
                 let result = try await checkoutOrdersAPI.confirmPaymentSource(cardRequest: request)
                 
