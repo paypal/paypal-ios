@@ -65,6 +65,16 @@ public class CardClient: NSObject {
                         return
                     }
                     analyticsService?.sendEvent("card-payments:vault-wo-purchase:auth-challenge-required")
+                    // update CCO
+                    do {
+                        _ = try await clientConfigAPI.updateClientConfig(
+                            token: result.id,
+                            fundingSource: "card"
+                        )
+                    } catch {
+                        // fail silently; we don't want CCO updates to prevent web authentication session
+                        // from starting
+                    }
                     startVaultThreeDSecureChallenge(url: url, setupTokenID: vaultRequest.setupTokenID, completion: completion)
                 } else {
                     let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status, didAttemptThreeDSecureAuthentication: false)
@@ -135,6 +145,17 @@ public class CardClient: NSObject {
                     }
                 
                     analyticsService?.sendEvent("card-payments:approve-order:auth-challenge-required")
+                    
+                    // update CCO
+                    do {
+                        _ = try await clientConfigAPI.updateClientConfig(
+                            token: result.id,
+                            fundingSource: "card"
+                        )
+                    } catch {
+                        // fail silently; we don't want CCO updates to prevent web authentication session
+                        // from starting
+                    }
                     startThreeDSecureChallenge(url: url, orderId: result.id, completion: completion)
                 } else {
                     let cardResult = CardResult(orderID: result.id, status: result.status, didAttemptThreeDSecureAuthentication: false)
@@ -173,7 +194,7 @@ public class CardClient: NSObject {
         orderId: String,
         completion: @escaping (Result<CardResult, CoreSDKError>) -> Void
     ) {
-        
+
         webAuthenticationSession.start(
             url: url,
             context: self,
