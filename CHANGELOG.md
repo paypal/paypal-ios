@@ -1,7 +1,7 @@
 
 # PayPal iOS SDK Release Notes
 
-## unreleased
+## 2.0.1 (2025-11-03)
 
 * PayPalWebPayments
   * Update `PayPalWebCheckoutClient.start()` to recognize `cancel` opType in the deep link urls (fixes #361)
