@@ -173,17 +173,17 @@ public class PayPalWebCheckoutClient: NSObject {
                 token: request.orderID,
                 tokenType: "ORDER_ID"
             )
-
+            
             guard eligibility.appSwitchEligible == true,
-                let urlString = eligibility.redirectURL,
-                let url = URL(string: urlString)
+                  let urlString = eligibility.redirectURL,
+                  let url = URL(string: urlString)
             else {
                 return .fallback(eligibility.ineligibleReason ?? "ineligible")
             }
             await MainActor.run {
                 appSwitchCompletion = completionOnce
             }
-
+            
             // Try to open the PayPal app (or deep link). If opening fails, fall back.
             let opened = await openURL(url)
 
