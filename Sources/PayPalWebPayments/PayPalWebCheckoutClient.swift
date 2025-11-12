@@ -4,21 +4,36 @@ import AuthenticationServices
 import CorePayments
 #endif
 
+public enum PayPalWebCheckoutStartResult {
+    case success(PayPalWebCheckoutResult), failure(CoreSDKError), appSwitchLaunched
+}
+
+enum PayPalWebCheckoutSessionState {
+    case checkout, vault
+}
+
+class PayPalWebCheckoutSessionStore {
+    
+    let state: PayPalWebCheckoutSessionState
+    init(state: PayPalWebCheckoutSessionState) {
+        self.state = state
+    }
+}
+
 // swiftlint: disable type_body_length file_length
 public class PayPalWebCheckoutClient: NSObject {
 
     let config: CoreConfig
-
-    var appSwitchCompletion: ((Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void)?
-    var vaultAppSwitchCompletion: ((Result<PayPalVaultResult, CoreSDKError>) -> Void)?
     var application: URLOpener = UIApplication.shared
 
     private let clientConfigAPI: UpdateClientConfigAPI
     private let webAuthenticationSession: WebAuthenticationSession
     private let networkingClient: NetworkingClient
     private let patchCCOAPI: PatchCCOWithAppSwitchEligibility
+    
     private var analyticsService: AnalyticsService?
-
+    private var sessionStore: PayPalWebCheckoutSessionStore?
+    
     /// Initialize a PayPalWebCheckoutClient to process PayPal transaction
     /// - Parameters:
     ///   - config: The CoreConfig object
@@ -57,13 +72,14 @@ public class PayPalWebCheckoutClient: NSObject {
     public func start(request: PayPalWebCheckoutRequest, completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void) {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         analyticsService?.sendEvent("paypal-web-payments:checkout:started")
-
+        sessionStore = PayPalWebCheckoutSessionStore(state: .checkout)
+        
         let completionOnce = makeCompletionOnce(completion)
         let appInstalled = self.application.isPayPalAppInstalled()
 
         Task {
             if request.appSwitchIfEligible && appInstalled {
-                switch await attemptAppSwitchIfEligible(request: request, completionOnce: completionOnce) {
+                switch await attemptAppSwitchIfEligible(request: request) {
                 case .launched:
                     // Do nothing here. We will complete when handleReturnURL is invoked.
                     return
@@ -77,7 +93,41 @@ public class PayPalWebCheckoutClient: NSObject {
             }
         }
     }
+    
+    public func startWithAppSwitch(request: PayPalWebCheckoutRequest, completion: @escaping (PayPalWebCheckoutStartResult) -> Void) {
+        analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
+        analyticsService?.sendEvent("paypal-web-payments:checkout:started")
+        sessionStore = PayPalWebCheckoutSessionStore(state: .checkout)
+        
+        var shouldDoFallback = false
+        let appInstalled = self.application.isPayPalAppInstalled()
+        Task {
+            if request.appSwitchIfEligible && appInstalled {
+                switch await attemptAppSwitchIfEligible(request: request) {
+                case .launched:
+                    completion(.appSwitchLaunched)
 
+                case .fallback(let reason):
+                    analyticsService?.sendEvent("paypal-web-payments:checkout:fallback-to-web:\(reason)")
+                    shouldDoFallback = true
+                }
+            } else {
+                shouldDoFallback = true
+            }
+            
+            if shouldDoFallback {
+                startWebCheckoutFlow(request: request) { result in
+                    switch result {
+                    case .success(let checkoutResult):
+                        completion(.success(checkoutResult))
+                    case .failure(let checkoutError):
+                        completion(.failure(checkoutError))
+                    }
+                }
+            }
+        }
+    }
+    
     // MARK: - Single-shot completion wrapper
 
     private func makeCompletionOnce(
@@ -164,10 +214,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
     private enum AppSwitchAttempt { case launched, fallback(String) }
 
-    private func attemptAppSwitchIfEligible(
-        request: PayPalWebCheckoutRequest,
-        completionOnce: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
-    ) async -> AppSwitchAttempt {
+    private func attemptAppSwitchIfEligible(request: PayPalWebCheckoutRequest) async -> AppSwitchAttempt {
         do {
             let eligibility = try await patchCCOAPI.patchCCOWithAppSwitchEligibility(
                 token: request.orderID,
@@ -180,9 +227,6 @@ public class PayPalWebCheckoutClient: NSObject {
             else {
                 return .fallback(eligibility.ineligibleReason ?? "ineligible")
             }
-            await MainActor.run {
-                appSwitchCompletion = completionOnce
-            }
             
             // Try to open the PayPal app (or deep link). If opening fails, fall back.
             let opened = await openURL(url)
@@ -193,10 +237,6 @@ public class PayPalWebCheckoutClient: NSObject {
                 return .launched
             } else {
                 analyticsService?.sendEvent("paypal-web-payments:checkout:app-switch-open:failed")
-                // We attempted to launch but couldn't. Clear the saved completion so a stray return URL can't complete.
-                await MainActor.run { [weak self] in
-                    self?.appSwitchCompletion = nil
-                }
                 return .fallback("cannot_open_url")
             }
         } catch {
@@ -274,7 +314,9 @@ public class PayPalWebCheckoutClient: NSObject {
                 context: self,
                 sessionDidDisplay: { [weak self] didDisplay in
                     if didDisplay {
-                        self?.analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:auth-challenge-presentation:succeeded")
+                        self?.analyticsService?.sendEvent(
+                            "paypal-web-payments:vault-wo-purchase:auth-challenge-presentation:succeeded"
+                        )
                     } else {
                         self?.analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:auth-challenge-presentation:failed")
                     }
@@ -331,8 +373,13 @@ public class PayPalWebCheckoutClient: NSObject {
     }
 
     // MARK: - App Switch Method
-
-    public func handleReturnURL(_ url: URL) {
+    public enum AppSwitchResult {
+        case checkoutSuccess(PayPalWebCheckoutResult),
+             vaultSuccess(PayPalVaultResult),
+             failure(CoreSDKError)
+    }
+    
+    public func handleReturnURL(_ url: URL) -> AppSwitchResult? {
 
         let comps = URLComponents(url: url, resolvingAgainstBaseURL: false)
         let items = comps?.queryItems ?? []
@@ -353,47 +400,45 @@ public class PayPalWebCheckoutClient: NSObject {
         let hasCheckoutSuccess = (orderID?.isEmpty == false) && (payerID?.isEmpty == false)
 
         if isCancel {
-            if let completion = vaultAppSwitchCompletion {
-                vaultAppSwitchCompletion = nil
-                notifyVaultCancelWithError(with: PayPalError.vaultCanceledError, completion: completion)
-                return
+            if sessionStore?.state == .vault {
+                analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:canceled")
+                sessionStore = nil
+                // TODO: make separate cases for vault and checkout
+                return .failure(PayPalError.vaultCanceledError)
             }
-            if let completion = appSwitchCompletion {
-                appSwitchCompletion = nil
-                notifyCheckoutCancelWithError(with: PayPalError.checkoutCanceledError, completion: completion)
-                return
+            
+            if sessionStore?.state == .checkout {
+                analyticsService?.sendEvent("paypal-web-payments:checkout:canceled")
+                sessionStore = nil
+                // TODO: make separate cases for vault and checkout
+                return .failure(PayPalError.checkoutCanceledError)
             }
             // No pending flow; nothing to do.
-            return
+            return nil
         }
 
         if hasVaultSuccess, let tokenID = vaultTokenID, let sessionID = vaultSessionID {
-            if let completion = vaultAppSwitchCompletion {
-                vaultAppSwitchCompletion = nil
-                let result = PayPalVaultResult(tokenID: tokenID, approvalSessionID: sessionID)
-                notifyVaultSuccess(for: result, completion: completion)
-                return
-            }
+            let result = PayPalVaultResult(tokenID: tokenID, approvalSessionID: sessionID)
+            analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:succeeded")
+            return .vaultSuccess(result)
         }
 
         if hasCheckoutSuccess, let oid = orderID, let pid = payerID {
-            if let completion = appSwitchCompletion {
-                appSwitchCompletion = nil
-                let result = PayPalWebCheckoutResult(orderID: oid, payerID: pid)
-                notifyCheckoutSuccess(for: result, completion: completion)
-                return
-            }
+            let result = PayPalWebCheckoutResult(orderID: oid, payerID: pid)
+            self.analyticsService?.sendEvent("paypal-web-payments:checkout:succeeded")
+            return .checkoutSuccess(result)
         }
 
-        if let completion = vaultAppSwitchCompletion {
-            vaultAppSwitchCompletion = nil
-            notifyVaultFailure(with: PayPalError.malformedResultError, completion: completion)
-        } else if let completion = appSwitchCompletion {
-            appSwitchCompletion = nil
-            notifyCheckoutFailure(with: PayPalError.malformedResultError, completion: completion)
+        if sessionStore?.state == .vault {
+            analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:failed")
+        } else if sessionStore?.state == .checkout {
+            self.analyticsService?.sendEvent("paypal-web-payments:checkout:failed")
+            sessionStore = nil
+            return .failure(PayPalError.malformedResultError)
         } else {
             // No pending flow; ignore.
         }
+        return nil
     }
 
     @MainActor

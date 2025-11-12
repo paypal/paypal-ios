@@ -87,25 +87,19 @@ class PayPalWebViewModel: ObservableObject {
 
                 if let orderID = state.createOrder?.id {
                     let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding, appSwitchIfEligible: appSwitch)
-                    payPalWebCheckoutClient.start(request: payPalRequest) { result in
+                    payPalWebCheckoutClient.startWithAppSwitch(request: payPalRequest) { [weak self] result in
                         switch result {
                         case .success(let paypalResult):
                             DispatchQueue.main.async {
-                                self.state.approveResultResponse = .loaded(
-                                    PayPalPaymentState.ApprovalResult(id: paypalResult.orderID, status: "APPROVED")
-                                )
-                                self.checkoutResult = paypalResult
-                                print("✅ Checkout result: \(String(describing: paypalResult))")
+                                self?.handleCheckoutResult(paypalResult)
                             }
                         case .failure(let error):
                             DispatchQueue.main.async {
-                                if error == PayPalError.checkoutCanceledError {
-                                    print("Canceled")
-                                    self.state.approveResultResponse = .idle
-                                } else {
-                                    self.state.approveResultResponse = .error(message: error.localizedDescription)
-                                }
+                                self?.handleCheckoutError(error)
                             }
+                        case .appSwitchLaunched:
+                            // app switch successful; make sure to handle the deep link back into the app
+                            break
                         }
                     }
                 }
@@ -189,10 +183,37 @@ class PayPalWebViewModel: ObservableObject {
         order = nil
         checkoutResult = nil
     }
-
+    
+    private func handleCheckoutResult(_ paypalResult: PayPalWebCheckoutResult) {
+        state.approveResultResponse = .loaded(
+            PayPalPaymentState.ApprovalResult(id: paypalResult.orderID, status: "APPROVED")
+        )
+        checkoutResult = paypalResult
+        print("✅ Checkout result: \(String(describing: paypalResult))")
+    }
+    
+    private func handleCheckoutError(_ error: CoreSDKError) {
+        if error == PayPalError.checkoutCanceledError {
+            print("Canceled")
+            self.state.approveResultResponse = .idle
+        } else {
+            self.state.approveResultResponse = .error(message: error.localizedDescription)
+        }
+    }
+    
     // for testing until singleton router class is implemented
     func handleUniversalLinkReturn(_ url: URL) {
         guard let payPalWebCheckoutClient else {return}
-        payPalWebCheckoutClient.handleReturnURL(url)
+        if let result = payPalWebCheckoutClient.handleReturnURL(url) {
+            switch result {
+            case .checkoutSuccess(let paypalResult):
+                handleCheckoutResult(paypalResult)
+            case .vaultSuccess(_):
+                // TODO: handle vault success
+                break
+            case .failure(let reason):
+                handleCheckoutError(reason)
+            }
+        }
     }
 }
