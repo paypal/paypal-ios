@@ -11,6 +11,9 @@ extension CoreConfig {
             return .SANDBOX
         case .live:
             return .LIVE
+        case .custom:
+            // TODO: determine if this is correct, or if Magnes also needs to be custom
+            return .SANDBOX
         }
     }
 }
