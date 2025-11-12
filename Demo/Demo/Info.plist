@@ -4,6 +4,10 @@
 <dict>
 	<key>CFBundleShortVersionString</key>
 	<string>2.0.0</string>
+    <key>LSApplicationQueriesSchemes</key>
+        <array>
+            <string>paypal-app-switch-checkout</string>
+        </array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

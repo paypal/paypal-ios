@@ -39,5 +39,11 @@ struct PayPalWebPaymentsView: View {
                 }
             }
         }
+        .onOpenURL { url in
+            // for testing, this will be moved to app level with singleton router
+            print("returned url: \(url.absoluteString)")
+            print("placeholder for breakpoint")
+            payPalWebViewModel.handleUniversalLinkReturn(url)
+        }
     }
 }
