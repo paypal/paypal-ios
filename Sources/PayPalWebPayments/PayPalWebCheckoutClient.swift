@@ -104,7 +104,7 @@ public class PayPalWebCheckoutClient: NSObject {
     ) {
         Task {
             do {
-                _ = try await self.clientConfigAPI.updateClientConfig(
+                _ = try await clientConfigAPI.updateClientConfig(
                     token: request.orderID,
                     fundingSource: request.fundingSource.rawValue
                 )
