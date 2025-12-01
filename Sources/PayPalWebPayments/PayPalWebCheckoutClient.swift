@@ -6,7 +6,10 @@ import CorePayments
 
 // swiftlint: disable type_body_length file_length
 public class PayPalWebCheckoutClient: NSObject {
-
+    
+    static let serialDispatchQueue =
+        DispatchQueue(label: "com.paypal.ios.PayPalWebCheckoutClient.serialDispatchQueue")
+    
     let config: CoreConfig
 
     var appSwitchCompletion: ((Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void)?
@@ -83,14 +86,15 @@ public class PayPalWebCheckoutClient: NSObject {
     private func makeCompletionOnce(
         _ completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
     ) -> (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void {
-        let lock = NSLock()
-        var called = false
+        var shouldInvokeCompletion = true
         return { result in
-            lock.lock()
-            defer { lock.unlock() }
-            guard !called else { return }
-            called = true
-            completion(result)
+            Self.serialDispatchQueue.async {
+                guard shouldInvokeCompletion else { return }
+                shouldInvokeCompletion = false
+                DispatchQueue.main.async {
+                    completion(result)
+                }
+            }
         }
     }
 
