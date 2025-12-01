@@ -192,7 +192,7 @@ class PayPalWebViewModel: ObservableObject {
 
     // for testing until singleton router class is implemented
     func handleUniversalLinkReturn(_ url: URL) {
-        guard let payPalWebCheckoutClient else {return}
+        guard let payPalWebCheckoutClient else { return }
         payPalWebCheckoutClient.handleReturnURL(url)
     }
 }

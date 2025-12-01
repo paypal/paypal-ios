@@ -9,7 +9,7 @@ public protocol URLOpener {
 extension UIApplication: URLOpener {
 
     public func isPayPalAppInstalled() -> Bool {
-        guard let payPalURL = URL(string: "paypal-app-switch-checkout://") else {
+        guard let payPalURL = URL(string: "paypal://") else {
             return false
         }
         return canOpenURL(payPalURL)
