@@ -5,6 +5,7 @@ enum PaymentType {
     case card
 }
 
+@MainActor
 class VaultViewModel: ObservableObject {
 
     @Published var state = VaultState()
