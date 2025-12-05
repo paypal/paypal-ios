@@ -2,6 +2,7 @@ import UIKit
 import PayPalWebPayments
 import CorePayments
 
+@MainActor
 class PayPalVaultViewModel: VaultViewModel {
 
     let configManager = CoreConfigManager(domain: "PayPal Vault")

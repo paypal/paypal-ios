@@ -3,6 +3,7 @@ import CorePayments
 import PayPalWebPayments
 import FraudProtection
 
+@MainActor
 class PayPalWebViewModel: ObservableObject {
 
     @Published var state = PayPalPaymentState()
@@ -187,5 +188,11 @@ class PayPalWebViewModel: ObservableObject {
         self.state = PayPalPaymentState()
         order = nil
         checkoutResult = nil
+    }
+
+    // for testing until singleton router class is implemented
+    func handleUniversalLinkReturn(_ url: URL) {
+        guard let payPalWebCheckoutClient else { return }
+        payPalWebCheckoutClient.handleReturnURL(url)
     }
 }

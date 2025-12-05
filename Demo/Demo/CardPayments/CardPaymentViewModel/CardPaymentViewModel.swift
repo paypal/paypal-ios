@@ -3,6 +3,7 @@ import CardPayments
 import CorePayments
 import FraudProtection
 
+@MainActor
 class CardPaymentViewModel: ObservableObject {
 
     @Published var state = CardPaymentState()
