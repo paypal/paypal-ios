@@ -9,7 +9,6 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
 
     private var sut: PatchCCOWithAppSwitchEligibility!
     private var mockNetworkingClient: MockNetworkingClient!
-    private var mockAuthSTS: MockAuthenticationSecureTokenServiceAPI!
     private let coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
     private let expectedQueryString = """
         mutation PatchCcoWithAppSwitchEligibility(
@@ -52,18 +51,15 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
         super.setUp()
         let mockHTTP = MockHTTP(coreConfig: coreConfig)
         mockNetworkingClient = MockNetworkingClient(http: mockHTTP)
-        mockAuthSTS = MockAuthenticationSecureTokenServiceAPI(coreConfig: coreConfig)
         sut = PatchCCOWithAppSwitchEligibility(
             coreConfig: coreConfig,
             networkingClient: mockNetworkingClient,
-            authenticationSecureTokenServiceAPI: mockAuthSTS
         )
     }
 
     override func tearDown() {
         sut = nil
         mockNetworkingClient = nil
-        mockAuthSTS = nil
         super.tearDown()
     }
 
@@ -73,8 +69,6 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
 
         let token = "ctx_abc123"
         let tokenType = "CLIENT_TOKEN"
-        let lsat = "lsat_test_value"
-        mockAuthSTS.stubbedAccessToken = lsat
 
         let successJSON = """
         {
@@ -120,11 +114,9 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
         XCTAssertEqual(vars.paypalNativeAppInstalled, true)
 
         XCTAssertEqual(mockNetworkingClient.capturedClientContext, token)
-        XCTAssertEqual(mockNetworkingClient.capturedAdditionalHeaders?[.authorization], "Bearer \(lsat)")
     }
 
     func test_patchCCO_bubblesNetworkingError() async {
-        mockAuthSTS.stubbedAccessToken = "lsat_ok"
         mockNetworkingClient.stubHTTPError = CoreSDKError(code: 999, domain: "networking", errorDescription: "boom")
 
         do {
@@ -140,8 +132,6 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
     }
 
     func test_patchCCO_bubblesAuthError() async {
-        mockAuthSTS.stubbedError = CoreSDKError(code: 401, domain: "auth", errorDescription: "unauthorized")
-
         do {
             _ = try await sut.patchCCOWithAppSwitchEligibility(token: "t", tokenType: "CLIENT_TOKEN")
             XCTFail("Expected auth error")
@@ -155,8 +145,6 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
     }
 
     func test_patchCCO_whenMissingEligibility_throwsNoGraphQLDataKey() async {
-        mockAuthSTS.stubbedAccessToken = "lsat_ok"
-
         let missingEligibilityJSON = """
         {
           "data": {
@@ -182,8 +170,6 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
     }
 
     func test_patchCCO_success_returnsParsedEligibility_falseReasoned() async throws {
-        mockAuthSTS.stubbedAccessToken = "lsat_ok"
-
         let body = """
         {
           "data": {

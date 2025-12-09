@@ -8,7 +8,6 @@ public class PatchCCOWithAppSwitchEligibility {
 
     private let coreConfig: CoreConfig
     private let networkingClient: NetworkingClient
-    private let authenticationSecureTokenServiceAPI: AuthenticationSecureTokenServiceAPI
 
     private let patchCCOQuery = """
         mutation PatchCcoWithAppSwitchEligibility(
@@ -52,18 +51,15 @@ public class PatchCCOWithAppSwitchEligibility {
     public init(coreConfig: CoreConfig) {
         self.coreConfig = coreConfig
         self.networkingClient = NetworkingClient(coreConfig: coreConfig)
-        self.authenticationSecureTokenServiceAPI = AuthenticationSecureTokenServiceAPI(coreConfig: coreConfig)
     }
 
     /// Exposed for injecting MockNetworkingClient in tests
     init(
         coreConfig: CoreConfig,
         networkingClient: NetworkingClient,
-        authenticationSecureTokenServiceAPI: AuthenticationSecureTokenServiceAPI
     ) {
         self.coreConfig = coreConfig
         self.networkingClient = networkingClient
-        self.authenticationSecureTokenServiceAPI = authenticationSecureTokenServiceAPI
     }
 
     // MARK: - Internal Methods
@@ -72,8 +68,6 @@ public class PatchCCOWithAppSwitchEligibility {
         token: String,
         tokenType: String
     ) async throws -> AppSwitchEligibility {
-
-        let lsat = try await authenticationSecureTokenServiceAPI.createLowScopedAccessToken().accessToken
 
         let variables = PatchCcoWithAppSwitchEligibilityVariables(
             contextId: token,
@@ -95,7 +89,6 @@ public class PatchCCOWithAppSwitchEligibility {
         let httpResponse = try await networkingClient.fetch(
             request: graphQLRequest,
             clientContext: token,
-            additionalHeaders: [.authorization: "Bearer \(lsat)"]
         )
 
         let parsed: PatchCcoWithAppSwitchEligibilityResponse =

@@ -21,14 +21,12 @@
 		3B783DC32B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B783DC22B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift */; };
 		3B79E4F72A8503CA00C01D06 /* UpdateVaultVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B79E4F62A8503C900C01D06 /* UpdateVaultVariables.swift */; };
 		3B80D50C2A27979000D2EAC4 /* FailingJSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */; };
-		3B857B172E69E9D8006F3CBC /* AuthenticationTokenServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B857B162E69E99E006F3CBC /* AuthenticationTokenServiceAPI.swift */; };
 		3B857B192E69FACA006F3CBC /* AuthenticationSecureTokenServiceAPI_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B857B182E69FAB9006F3CBC /* AuthenticationSecureTokenServiceAPI_Tests.swift */; };
 		3B857B1B2E6A02F5006F3CBC /* AuthenticationTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B857B1A2E6A02ED006F3CBC /* AuthenticationTokenResponse.swift */; };
 		3B857B1D2E6B6661006F3CBC /* PatchCCOWithAppSwitchEligibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B857B1C2E6B663F006F3CBC /* PatchCCOWithAppSwitchEligibility.swift */; };
 		3B857B1F2E6B7A76006F3CBC /* PatchCcoWithAppSwitchEligibilityVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B857B1E2E6B7A64006F3CBC /* PatchCcoWithAppSwitchEligibilityVariables.swift */; };
 		3B8F848C2D93380B00A151AC /* TestShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E743F8270E40CE00BACECA /* TestShared.framework */; };
 		3B95C9832E6B9B77004C6F65 /* PatchCcoWithAppSwitchEligibilityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95C9822E6B9B77004C6F65 /* PatchCcoWithAppSwitchEligibilityResponse.swift */; };
-		3B95C9852E6BA139004C6F65 /* MockAuthenticationSecureTokenServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95C9842E6BA124004C6F65 /* MockAuthenticationSecureTokenServiceAPI.swift */; };
 		3B95C9872E6BA266004C6F65 /* PatchCCOWithAppSwitchEligibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95C9862E6BA266004C6F65 /* PatchCCOWithAppSwitchEligibility.swift */; };
 		3BB1A3142E86F3FE000FB9D6 /* MockURLOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB1A3132E86F3F4000FB9D6 /* MockURLOpener.swift */; };
 		3BBD50E82E85ACA60049C4D5 /* PayPalClients_CheckoutAppSwitch_Toggle_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBD50E72E85AC910049C4D5 /* PayPalClients_CheckoutAppSwitch_Toggle_Tests.swift */; };
@@ -214,7 +212,6 @@
 		3B783DC22B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeUpdateSetupTokenResponse.swift; sourceTree = "<group>"; };
 		3B79E4F62A8503C900C01D06 /* UpdateVaultVariables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateVaultVariables.swift; sourceTree = "<group>"; };
 		3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailingJSONEncoder.swift; sourceTree = "<group>"; };
-		3B857B162E69E99E006F3CBC /* AuthenticationTokenServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationTokenServiceAPI.swift; sourceTree = "<group>"; };
 		3B857B182E69FAB9006F3CBC /* AuthenticationSecureTokenServiceAPI_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationSecureTokenServiceAPI_Tests.swift; sourceTree = "<group>"; };
 		3B857B1A2E6A02ED006F3CBC /* AuthenticationTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationTokenResponse.swift; sourceTree = "<group>"; };
 		3B857B1C2E6B663F006F3CBC /* PatchCCOWithAppSwitchEligibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchCCOWithAppSwitchEligibility.swift; sourceTree = "<group>"; };
@@ -222,7 +219,6 @@
 		3B8F84852D93318D00A151AC /* UpdateClientConfigAP_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateClientConfigAP_Tests.swift; sourceTree = "<group>"; };
 		3B8F84912D933FAE00A151AC /* MockUpdateClientConfigAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUpdateClientConfigAPI.swift; sourceTree = "<group>"; };
 		3B95C9822E6B9B77004C6F65 /* PatchCcoWithAppSwitchEligibilityResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchCcoWithAppSwitchEligibilityResponse.swift; sourceTree = "<group>"; };
-		3B95C9842E6BA124004C6F65 /* MockAuthenticationSecureTokenServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthenticationSecureTokenServiceAPI.swift; sourceTree = "<group>"; };
 		3B95C9862E6BA266004C6F65 /* PatchCCOWithAppSwitchEligibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchCCOWithAppSwitchEligibility.swift; sourceTree = "<group>"; };
 		3BB1A3132E86F3F4000FB9D6 /* MockURLOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLOpener.swift; sourceTree = "<group>"; };
 		3BBD50E72E85AC910049C4D5 /* PayPalClients_CheckoutAppSwitch_Toggle_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalClients_CheckoutAppSwitch_Toggle_Tests.swift; sourceTree = "<group>"; };
@@ -581,7 +577,6 @@
 			children = (
 				3BB1A3132E86F3F4000FB9D6 /* MockURLOpener.swift */,
 				3B3EB0632E8491C400B1D552 /* MockPatchCCOAPI.swift */,
-				3B95C9842E6BA124004C6F65 /* MockAuthenticationSecureTokenServiceAPI.swift */,
 				3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */,
 				80E743FF270E40F300BACECA /* FakeRequests.swift */,
 				E64763702899B60C00074113 /* MockNetworkingClient.swift */,
@@ -713,7 +708,6 @@
 			isa = PBXGroup;
 			children = (
 				3B857B1A2E6A02ED006F3CBC /* AuthenticationTokenResponse.swift */,
-				3B857B162E69E99E006F3CBC /* AuthenticationTokenServiceAPI.swift */,
 				E646231928369B71008AC8E1 /* GraphQL */,
 				BEA100E626EF9EDA0036A6A5 /* NetworkingClient.swift */,
 				804E628529380B04004B9FEF /* AnalyticsService.swift */,
@@ -1229,7 +1223,6 @@
 				8021B69029144E6D000FBC54 /* PayPalCoreConstants.swift in Sources */,
 				807D56B02A869F97009E591D /* GraphQLErrorResponse.swift in Sources */,
 				80DB2F762980795D00CFB86A /* CorePaymentsError.swift in Sources */,
-				3B857B172E69E9D8006F3CBC /* AuthenticationTokenServiceAPI.swift in Sources */,
 				06CE009926F3D1660000CC46 /* CoreConfig.swift in Sources */,
 				BEA100EC26EFA7790036A6A5 /* HTTPMethod.swift in Sources */,
 				BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */,
@@ -1269,7 +1262,6 @@
 				CB4BE28A28512A9800EA2DD1 /* MockQuededURLSession.swift in Sources */,
 				3BF06F432E16480F002CA7B4 /* MockUpdateClientConfigAPI.swift in Sources */,
 				80E74400270E40F300BACECA /* FakeRequests.swift in Sources */,
-				3B95C9852E6BA139004C6F65 /* MockAuthenticationSecureTokenServiceAPI.swift in Sources */,
 				E64763712899B60C00074113 /* MockNetworkingClient.swift in Sources */,
 				3B80D50C2A27979000D2EAC4 /* FailingJSONEncoder.swift in Sources */,
 			);

@@ -205,7 +205,7 @@ public class PayPalWebCheckoutClient: NSObject {
             }
         } catch {
             analyticsService?.sendEvent("paypal-web-payments:checkout:app-switch-eligibility:error")
-            return .fallback("patch_or_lsat_failed")
+            return .fallback("patch_failed")
         }
     }
 
