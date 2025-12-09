@@ -13,7 +13,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
-      - name: Use Xcode
+      - name: Select Xcode Version
         run: sudo xcode-select -switch /Applications/Xcode_16.4.0.app
       - name: Run pod lib lint
         run: pod lib lint
@@ -26,8 +26,8 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
-      - name: Use Xcode 15.1
-        run: sudo xcode-select -switch /Applications/Xcode_15.1.app
+      - name: Select Xcode Version
+        run: sudo xcode-select -switch /Applications/Xcode_16.4.0.app
       - name: Use current branch
         run: sed -i '' 's/branch = .*/branch = \"'"${GITHUB_HEAD_REF//\//\/}"'\";/' SampleApps/SPMTest/SPMTest.xcodeproj/project.pbxproj
       - name: Run swift package resolve
