@@ -11,7 +11,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
       - name: Select Xcode Version
-        run: sudo xcode-select -switch /Applications/Xcode_16.4.app/Contents/Developer
+        run: sudo xcode-select -switch /Applications/Xcode_26.0.1.app/Contents/Developer
       - name: Install SwiftLint
         run: brew install swiftlint
       - name: Run SwiftLint
