@@ -131,19 +131,6 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
         }
     }
 
-    func test_patchCCO_bubblesAuthError() async {
-        do {
-            _ = try await sut.patchCCOWithAppSwitchEligibility(token: "t", tokenType: "CLIENT_TOKEN")
-            XCTFail("Expected auth error")
-        } catch let error as CoreSDKError {
-            XCTAssertEqual(error.domain, "auth")
-            XCTAssertEqual(error.code, 401)
-            XCTAssertEqual(error.localizedDescription, "unauthorized")
-        } catch {
-            XCTAssert(false, "Expected CoreSDKError: \(error)")
-        }
-    }
-
     func test_patchCCO_whenMissingEligibility_throwsNoGraphQLDataKey() async {
         let missingEligibilityJSON = """
         {

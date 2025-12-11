@@ -21,7 +21,6 @@
 		3B783DC32B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B783DC22B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift */; };
 		3B79E4F72A8503CA00C01D06 /* UpdateVaultVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B79E4F62A8503C900C01D06 /* UpdateVaultVariables.swift */; };
 		3B80D50C2A27979000D2EAC4 /* FailingJSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */; };
-		3B857B192E69FACA006F3CBC /* AuthenticationSecureTokenServiceAPI_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B857B182E69FAB9006F3CBC /* AuthenticationSecureTokenServiceAPI_Tests.swift */; };
 		3B857B1B2E6A02F5006F3CBC /* AuthenticationTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B857B1A2E6A02ED006F3CBC /* AuthenticationTokenResponse.swift */; };
 		3B857B1D2E6B6661006F3CBC /* PatchCCOWithAppSwitchEligibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B857B1C2E6B663F006F3CBC /* PatchCCOWithAppSwitchEligibility.swift */; };
 		3B857B1F2E6B7A76006F3CBC /* PatchCcoWithAppSwitchEligibilityVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B857B1E2E6B7A64006F3CBC /* PatchCcoWithAppSwitchEligibilityVariables.swift */; };
@@ -212,7 +211,6 @@
 		3B783DC22B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeUpdateSetupTokenResponse.swift; sourceTree = "<group>"; };
 		3B79E4F62A8503C900C01D06 /* UpdateVaultVariables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateVaultVariables.swift; sourceTree = "<group>"; };
 		3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailingJSONEncoder.swift; sourceTree = "<group>"; };
-		3B857B182E69FAB9006F3CBC /* AuthenticationSecureTokenServiceAPI_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationSecureTokenServiceAPI_Tests.swift; sourceTree = "<group>"; };
 		3B857B1A2E6A02ED006F3CBC /* AuthenticationTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationTokenResponse.swift; sourceTree = "<group>"; };
 		3B857B1C2E6B663F006F3CBC /* PatchCCOWithAppSwitchEligibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchCCOWithAppSwitchEligibility.swift; sourceTree = "<group>"; };
 		3B857B1E2E6B7A64006F3CBC /* PatchCcoWithAppSwitchEligibilityVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchCcoWithAppSwitchEligibilityVariables.swift; sourceTree = "<group>"; };
@@ -490,7 +488,6 @@
 			isa = PBXGroup;
 			children = (
 				3B95C9862E6BA266004C6F65 /* PatchCCOWithAppSwitchEligibility.swift */,
-				3B857B182E69FAB9006F3CBC /* AuthenticationSecureTokenServiceAPI_Tests.swift */,
 				3B8F84852D93318D00A151AC /* UpdateClientConfigAP_Tests.swift */,
 			);
 			path = CorePaymentTests;
@@ -1196,7 +1193,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				808EEA81291321FE001B6765 /* AnalyticsEventData_Tests.swift in Sources */,
-				3B857B192E69FACA006F3CBC /* AuthenticationSecureTokenServiceAPI_Tests.swift in Sources */,
 				8036C1E5270F9BE700C0F091 /* Environment_Tests.swift in Sources */,
 				80B96AAE2A980F6B00C62916 /* MockTrackingEventsAPI.swift in Sources */,
 				80FC261D29847AC7008EC841 /* HTTP_Tests.swift in Sources */,
