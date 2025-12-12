@@ -6,28 +6,28 @@ concurrency:
 jobs:
   cocoapods:
     name: CocoaPods
-    runs-on: macOS-13
+    runs-on: macos-26
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
-      - name: Use Xcode 15.1
-        run: sudo xcode-select -switch /Applications/Xcode_15.1.app
+      - name: Select Xcode Version
+        run: sudo xcode-select -switch /Applications/Xcode_26.0.1.app/Contents/Developer
       - name: Run pod lib lint
         run: pod lib lint
   spm:
     name: Swift Package Manager
-    runs-on: macOS-13
+    runs-on: macos-26
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
-      - name: Use Xcode 15.1
-        run: sudo xcode-select -switch /Applications/Xcode_15.1.app
+      - name: Select Xcode Version
+        run: sudo xcode-select -switch /Applications/Xcode_26.0.1.app/Contents/Developer
       - name: Use current branch
         run: sed -i '' 's/branch = .*/branch = \"'"${GITHUB_HEAD_REF//\//\/}"'\";/' SampleApps/SPMTest/SPMTest.xcodeproj/project.pbxproj
       - name: Run swift package resolve
