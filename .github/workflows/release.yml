@@ -8,14 +8,14 @@ on:
 jobs:
   release:
     name: Release
-    runs-on: macOS-13
+    runs-on: macos-26
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Use Xcode 15.1
-        run: sudo xcode-select -switch /Applications/Xcode_15.1.app
+      - name: Select Xcode Version
+        run: sudo xcode-select -switch /Applications/Xcode_26.0.1.app/Contents/Developer
       - name: Check for unreleased section in changelog
         run: grep "## unreleased" CHANGELOG.md || (echo "::error::No unreleased section found in CHANGELOG" && exit 1)
       - name: Set git username and email
