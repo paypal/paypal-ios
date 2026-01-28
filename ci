@@ -1,0 +1,177 @@
+#!/usr/bin/env bash
+
+command_name="$1"
+
+case $command_name in
+  generate_docs)
+    echo "Installing documentation tools..."
+    gem install jazzy
+    brew install sourcekitten
+
+    # Create docs directory
+    mkdir -p docs
+
+    echo "Generating documentation for CorePayments..."
+    sourcekitten doc -- -workspace PayPal.xcworkspace -scheme CorePayments -destination 'platform=iOS Simulator,name=iPhone 17' > corepayments.json
+    jazzy \
+      --sourcekitten-sourcefile corepayments.json \
+      --author PayPal \
+      --author_url https://developer.paypal.com \
+      --github_url https://github.com/paypal/paypal-ios \
+      --module CorePayments \
+      --module-version 2.0.1 \
+      --theme fullwidth \
+      --output docs/CorePayments
+    rm -f corepayments.json
+
+    echo "Generating documentation for CardPayments..."
+    sourcekitten doc -- -workspace PayPal.xcworkspace -scheme CardPayments -destination 'platform=iOS Simulator,name=iPhone 17' > cardpayments.json
+    jazzy \
+      --sourcekitten-sourcefile cardpayments.json \
+      --author PayPal \
+      --author_url https://developer.paypal.com \
+      --github_url https://github.com/paypal/paypal-ios \
+      --module CardPayments \
+      --module-version 2.0.1 \
+      --theme fullwidth \
+      --output docs/CardPayments
+    rm -f cardpayments.json
+
+    echo "Generating documentation for PaymentButtons..."
+    sourcekitten doc -- -workspace PayPal.xcworkspace -scheme PaymentButtons -destination 'platform=iOS Simulator,name=iPhone 17' > paymentbuttons.json
+    jazzy \
+      --sourcekitten-sourcefile paymentbuttons.json \
+      --author PayPal \
+      --author_url https://developer.paypal.com \
+      --github_url https://github.com/paypal/paypal-ios \
+      --module PaymentButtons \
+      --module-version 2.0.1 \
+      --theme fullwidth \
+      --output docs/PaymentButtons
+    rm -f paymentbuttons.json
+
+    echo "Generating documentation for PayPalWebPayments..."
+    sourcekitten doc -- -workspace PayPal.xcworkspace -scheme PayPalWebPayments -destination 'platform=iOS Simulator,name=iPhone 17' > paypalwebpayments.json
+    jazzy \
+      --sourcekitten-sourcefile paypalwebpayments.json \
+      --author PayPal \
+      --author_url https://developer.paypal.com \
+      --github_url https://github.com/paypal/paypal-ios \
+      --module PayPalWebPayments \
+      --module-version 2.0.1 \
+      --theme fullwidth \
+      --output docs/PayPalWebPayments
+    rm -f paypalwebpayments.json
+
+    echo "Generating documentation for FraudProtection..."
+    sourcekitten doc -- -workspace PayPal.xcworkspace -scheme FraudProtection -destination 'platform=iOS Simulator,name=iPhone 17' > fraudprotection.json
+    jazzy \
+      --sourcekitten-sourcefile fraudprotection.json \
+      --author PayPal \
+      --author_url https://developer.paypal.com \
+      --github_url https://github.com/paypal/paypal-ios \
+      --module FraudProtection \
+      --module-version 2.0.1 \
+      --theme fullwidth \
+      --output docs/FraudProtection
+    rm -f fraudprotection.json
+
+    echo "Creating landing page..."
+    cat > docs/index.html << 'EOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayPal iOS SDK Documentation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #0070ba;
+            border-bottom: 2px solid #0070ba;
+            padding-bottom: 10px;
+        }
+        .module-list {
+            list-style: none;
+            padding: 0;
+        }
+        .module-item {
+            margin: 15px 0;
+            padding: 20px;
+            background: #f7f7f7;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .module-item:hover {
+            background: #e8e8e8;
+        }
+        .module-item a {
+            color: #0070ba;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: 500;
+        }
+        .module-item a:hover {
+            text-decoration: underline;
+        }
+        .module-description {
+            color: #666;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <h1>PayPal iOS SDK Documentation</h1>
+    <p>Welcome to the PayPal iOS SDK reference documentation. Select a module below to view its API documentation.</p>
+
+    <ul class="module-list">
+        <li class="module-item">
+            <a href="CorePayments/index.html">CorePayments</a>
+            <div class="module-description">Core networking, configuration, and analytics functionality</div>
+        </li>
+        <li class="module-item">
+            <a href="CardPayments/index.html">CardPayments</a>
+            <div class="module-description">Card payment processing and vault functionality</div>
+        </li>
+        <li class="module-item">
+            <a href="PaymentButtons/index.html">PaymentButtons</a>
+            <div class="module-description">PayPal payment button components</div>
+        </li>
+        <li class="module-item">
+            <a href="PayPalWebPayments/index.html">PayPalWebPayments</a>
+            <div class="module-description">PayPal web-based payment flows</div>
+        </li>
+        <li class="module-item">
+            <a href="FraudProtection/index.html">FraudProtection</a>
+            <div class="module-description">Fraud detection and risk management</div>
+        </li>
+    </ul>
+</body>
+</html>
+EOF
+
+    echo "✅ Documentation generated in ./docs directory"
+    echo "You can open ./docs/index.html to view the landing page"
+    echo ""
+    echo "Module documentation:"
+    echo "  - CorePayments: ./docs/CorePayments/index.html"
+    echo "  - CardPayments: ./docs/CardPayments/index.html"
+    echo "  - PaymentButtons: ./docs/PaymentButtons/index.html"
+    echo "  - PayPalWebPayments: ./docs/PayPalWebPayments/index.html"
+    echo "  - FraudProtection: ./docs/FraudProtection/index.html"
+    ;;
+
+  *)
+    echo "Usage: ./ci <command>"
+    echo ""
+    echo "Available commands:"
+    echo "  generate_docs    Generate API reference documentation locally"
+    ;;
+esac

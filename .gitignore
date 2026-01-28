@@ -38,3 +38,7 @@ Carthage/
 .build
 SampleApps/SPMTest/SPMTest.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
 
+# Documentation generation artifacts
+docs/
+*.json
+!Package.swift

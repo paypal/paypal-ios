@@ -52,3 +52,169 @@ jobs:
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
         run: pod trunk push PayPal.podspec
+      - name: Publish reference docs
+        run: |
+          gem install jazzy
+          brew install sourcekitten
+
+          # Create version directory
+          mkdir -p ${{ github.event.inputs.version }}
+
+          # Generate separate docs for each module
+          echo "Generating CorePayments documentation..."
+          sourcekitten doc -- -workspace PayPal.xcworkspace -scheme CorePayments -destination 'platform=iOS Simulator,name=iPhone 17' > corepayments.json
+          jazzy \
+            --sourcekitten-sourcefile corepayments.json \
+            --author PayPal \
+            --author_url https://developer.paypal.com \
+            --github_url https://github.com/paypal/paypal-ios \
+            --github-file-prefix https://github.com/paypal/paypal-ios/tree/${{ github.event.inputs.version }} \
+            --module CorePayments \
+            --module-version ${{ github.event.inputs.version }} \
+            --theme fullwidth \
+            --output ${{ github.event.inputs.version }}/CorePayments
+          rm -f corepayments.json
+
+          echo "Generating CardPayments documentation..."
+          sourcekitten doc -- -workspace PayPal.xcworkspace -scheme CardPayments -destination 'platform=iOS Simulator,name=iPhone 17' > cardpayments.json
+          jazzy \
+            --sourcekitten-sourcefile cardpayments.json \
+            --author PayPal \
+            --author_url https://developer.paypal.com \
+            --github_url https://github.com/paypal/paypal-ios \
+            --github-file-prefix https://github.com/paypal/paypal-ios/tree/${{ github.event.inputs.version }} \
+            --module CardPayments \
+            --module-version ${{ github.event.inputs.version }} \
+            --theme fullwidth \
+            --output ${{ github.event.inputs.version }}/CardPayments
+          rm -f cardpayments.json
+
+          echo "Generating PaymentButtons documentation..."
+          sourcekitten doc -- -workspace PayPal.xcworkspace -scheme PaymentButtons -destination 'platform=iOS Simulator,name=iPhone 17' > paymentbuttons.json
+          jazzy \
+            --sourcekitten-sourcefile paymentbuttons.json \
+            --author PayPal \
+            --author_url https://developer.paypal.com \
+            --github_url https://github.com/paypal/paypal-ios \
+            --github-file-prefix https://github.com/paypal/paypal-ios/tree/${{ github.event.inputs.version }} \
+            --module PaymentButtons \
+            --module-version ${{ github.event.inputs.version }} \
+            --theme fullwidth \
+            --output ${{ github.event.inputs.version }}/PaymentButtons
+          rm -f paymentbuttons.json
+
+          echo "Generating PayPalWebPayments documentation..."
+          sourcekitten doc -- -workspace PayPal.xcworkspace -scheme PayPalWebPayments -destination 'platform=iOS Simulator,name=iPhone 17' > paypalwebpayments.json
+          jazzy \
+            --sourcekitten-sourcefile paypalwebpayments.json \
+            --author PayPal \
+            --author_url https://developer.paypal.com \
+            --github_url https://github.com/paypal/paypal-ios \
+            --github-file-prefix https://github.com/paypal/paypal-ios/tree/${{ github.event.inputs.version }} \
+            --module PayPalWebPayments \
+            --module-version ${{ github.event.inputs.version }} \
+            --theme fullwidth \
+            --output ${{ github.event.inputs.version }}/PayPalWebPayments
+          rm -f paypalwebpayments.json
+
+          echo "Generating FraudProtection documentation..."
+          sourcekitten doc -- -workspace PayPal.xcworkspace -scheme FraudProtection -destination 'platform=iOS Simulator,name=iPhone 17' > fraudprotection.json
+          jazzy \
+            --sourcekitten-sourcefile fraudprotection.json \
+            --author PayPal \
+            --author_url https://developer.paypal.com \
+            --github_url https://github.com/paypal/paypal-ios \
+            --github-file-prefix https://github.com/paypal/paypal-ios/tree/${{ github.event.inputs.version }} \
+            --module FraudProtection \
+            --module-version ${{ github.event.inputs.version }} \
+            --theme fullwidth \
+            --output ${{ github.event.inputs.version }}/FraudProtection
+          rm -f fraudprotection.json
+
+          # Create landing page
+          cat > ${{ github.event.inputs.version }}/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>PayPal iOS SDK Documentation</title>
+              <style>
+                  body {
+                      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+                      max-width: 800px;
+                      margin: 50px auto;
+                      padding: 20px;
+                      line-height: 1.6;
+                  }
+                  h1 {
+                      color: #0070ba;
+                      border-bottom: 2px solid #0070ba;
+                      padding-bottom: 10px;
+                  }
+                  .module-list {
+                      list-style: none;
+                      padding: 0;
+                  }
+                  .module-item {
+                      margin: 15px 0;
+                      padding: 20px;
+                      background: #f7f7f7;
+                      border-radius: 8px;
+                      transition: background 0.2s;
+                  }
+                  .module-item:hover {
+                      background: #e8e8e8;
+                  }
+                  .module-item a {
+                      color: #0070ba;
+                      text-decoration: none;
+                      font-size: 1.2em;
+                      font-weight: 500;
+                  }
+                  .module-item a:hover {
+                      text-decoration: underline;
+                  }
+                  .module-description {
+                      color: #666;
+                      margin-top: 5px;
+                      font-size: 0.9em;
+                  }
+              </style>
+          </head>
+          <body>
+              <h1>PayPal iOS SDK Documentation</h1>
+              <p>Welcome to the PayPal iOS SDK reference documentation. Select a module below to view its API documentation.</p>
+
+              <ul class="module-list">
+                  <li class="module-item">
+                      <a href="CorePayments/index.html">CorePayments</a>
+                      <div class="module-description">Core networking, configuration, and analytics functionality</div>
+                  </li>
+                  <li class="module-item">
+                      <a href="CardPayments/index.html">CardPayments</a>
+                      <div class="module-description">Card payment processing and vault functionality</div>
+                  </li>
+                  <li class="module-item">
+                      <a href="PaymentButtons/index.html">PaymentButtons</a>
+                      <div class="module-description">PayPal payment button components</div>
+                  </li>
+                  <li class="module-item">
+                      <a href="PayPalWebPayments/index.html">PayPalWebPayments</a>
+                      <div class="module-description">PayPal web-based payment flows</div>
+                  </li>
+                  <li class="module-item">
+                      <a href="FraudProtection/index.html">FraudProtection</a>
+                      <div class="module-description">Fraud detection and risk management</div>
+                  </li>
+              </ul>
+          </body>
+          </html>
+          EOF
+
+          # Publish to GitHub Pages
+          git checkout gh-pages
+          ln -sfn ${{ github.event.inputs.version }} current
+          git add current ${{ github.event.inputs.version }}
+          git commit -m "Publish ${{ github.event.inputs.version }} docs to GitHub Pages"
+          git push
