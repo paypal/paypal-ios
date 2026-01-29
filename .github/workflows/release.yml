@@ -52,3 +52,148 @@ jobs:
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
         run: pod trunk push PayPal.podspec
+      - name: Publish reference docs
+        run: |
+          # Create docs directory
+          mkdir -p docs
+
+          # Modules to generate documentation for
+          MODULES=("CorePayments" "CardPayments" "PaymentButtons" "PayPalWebPayments" "FraudProtection")
+
+          # Create landing page
+          cat > docs/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>PayPal iOS SDK Documentation</title>
+              <style>
+                  body {
+                      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+                      max-width: 800px;
+                      margin: 50px auto;
+                      padding: 20px;
+                      line-height: 1.6;
+                  }
+                  h1 {
+                      color: #0070ba;
+                      border-bottom: 2px solid #0070ba;
+                      padding-bottom: 10px;
+                  }
+                  .module-list {
+                      list-style: none;
+                      padding: 0;
+                  }
+                  .module-item {
+                      margin: 15px 0;
+                      padding: 20px;
+                      background: #f7f7f7;
+                      border-radius: 8px;
+                      transition: background 0.2s;
+                  }
+                  .module-item:hover {
+                      background: #e8e8e8;
+                  }
+                  .module-item a {
+                      color: #0070ba;
+                      text-decoration: none;
+                      font-size: 1.2em;
+                      font-weight: 500;
+                  }
+                  .module-item a:hover {
+                      text-decoration: underline;
+                  }
+                  .module-description {
+                      color: #666;
+                      margin-top: 5px;
+                      font-size: 0.9em;
+                  }
+              </style>
+          </head>
+          <body>
+              <h1>PayPal iOS SDK Documentation</h1>
+              <p>Welcome to the PayPal iOS SDK reference documentation built with DocC. Select a module below to view its API documentation.</p>
+
+              <ul class="module-list">
+                  <li class="module-item">
+                      <a href="CorePayments/documentation/corepayments">CorePayments</a>
+                      <div class="module-description">Core networking, configuration, and analytics functionality</div>
+                  </li>
+                  <li class="module-item">
+                      <a href="CardPayments/documentation/cardpayments">CardPayments</a>
+                      <div class="module-description">Card payment processing and vault functionality</div>
+                  </li>
+                  <li class="module-item">
+                      <a href="PaymentButtons/documentation/paymentbuttons">PaymentButtons</a>
+                      <div class="module-description">PayPal payment button components</div>
+                  </li>
+                  <li class="module-item">
+                      <a href="PayPalWebPayments/documentation/paypalwebpayments">PayPalWebPayments</a>
+                      <div class="module-description">PayPal web-based payment flows</div>
+                  </li>
+                  <li class="module-item">
+                      <a href="FraudProtection/documentation/fraudprotection">FraudProtection</a>
+                      <div class="module-description">Fraud detection and risk management</div>
+                  </li>
+              </ul>
+          </body>
+          </html>
+          EOF
+
+          # Build and process documentation for each module
+          echo "Building and processing documentation for each module..."
+
+          for module in "${MODULES[@]}"; do
+            echo "================================================"
+            echo "Building documentation for $module..."
+            echo "================================================"
+
+            # Build documentation for this module
+            xcodebuild docbuild \
+              -scheme "$module" \
+              -destination 'platform=iOS Simulator,name=iPhone 17' \
+              -derivedDataPath ./DerivedData
+
+            # Find the .doccarchive for this module
+            ARCHIVE=$(find ./DerivedData -name "*.doccarchive" -type d | head -n 1)
+
+            if [ -z "$ARCHIVE" ]; then
+              echo "Error: No .doccarchive found for $module"
+              exit 1
+            fi
+
+            echo "Converting $module documentation to static HTML..."
+
+            # Convert to static HTML with version-specific path
+            xcrun docc process-archive transform-for-static-hosting \
+              "$ARCHIVE" \
+              --output-path "docs/$module" \
+              --hosting-base-path "paypal-ios/${{ github.event.inputs.version }}/$module"
+
+            echo "$module documentation generated"
+
+            # Clean up DerivedData for next module
+            rm -rf ./DerivedData
+          done
+
+          echo "All documentation generated successfully"
+
+          # Switch to gh-pages branch and publish
+          git fetch origin gh-pages:gh-pages || git checkout --orphan gh-pages
+          git checkout gh-pages
+
+          # Create version directory if it doesn't exist
+          mkdir -p ${{ github.event.inputs.version }}
+
+          # Copy generated docs to version directory
+          cp -R docs/* ${{ github.event.inputs.version }}/
+
+          # Update 'current' symlink to point to latest version
+          rm -f current
+          ln -s ${{ github.event.inputs.version }} current
+
+          # Add and commit changes
+          git add ${{ github.event.inputs.version }} current
+          git commit -m "Publish ${{ github.event.inputs.version }} documentation to GitHub Pages"
+          git push origin gh-pages
