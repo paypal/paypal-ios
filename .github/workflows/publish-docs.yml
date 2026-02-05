@@ -1,0 +1,243 @@
+name: Publish Documentation
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deploy to production or preview'
+        required: true
+        type: choice
+        options:
+          - production
+          - preview
+jobs:
+  publish-docs:
+    name: Publish Documentation
+    runs-on: macos-26
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Select Xcode Version
+        run: sudo xcode-select -switch /Applications/Xcode_26.0.1.app/Contents/Developer
+      - name: Set git username and email
+        run: |
+          git config user.name paypalsdks
+          git config user.email sdks@paypal.com
+      - name: Generate documentation
+        run: |
+          # Create output directories
+          mkdir -p docs archives
+          rm -rf ./DerivedData
+
+          # Modules to generate documentation for
+          MODULES=("CorePayments" "CardPayments" "PaymentButtons" "PayPalWebPayments" "FraudProtection")
+
+          # Build documentation archives for each module
+          echo ""
+          echo "Building documentation archives for each module..."
+          echo ""
+
+          for module in "${MODULES[@]}"; do
+            echo "================================================"
+            echo "Building documentation archive for $module..."
+            echo "================================================"
+
+            # Build documentation for this module
+            xcodebuild docbuild \
+              -scheme "$module" \
+              -destination 'platform=iOS Simulator,name=iPhone 17' \
+              -derivedDataPath ./DerivedData
+
+            # Find the .doccarchive for this module
+            ARCHIVE=$(find ./DerivedData -name "*.doccarchive" -type d | head -n 1)
+
+            if [ -z "$ARCHIVE" ]; then
+              echo "Error: No .doccarchive found for $module"
+              rm -rf ./DerivedData archives
+              exit 1
+            fi
+
+            # Save the archive
+            cp -R "$ARCHIVE" "archives/$module.doccarchive"
+            echo "$module archive saved"
+
+            # Clean up DerivedData for next module
+            rm -rf ./DerivedData
+            echo ""
+          done
+
+          # Merge all archives into a combined archive
+          echo "================================================"
+          echo "Merging all documentation archives..."
+          echo "================================================"
+
+          xcrun docc merge \
+            archives/CorePayments.doccarchive \
+            archives/CardPayments.doccarchive \
+            archives/PaymentButtons.doccarchive \
+            archives/PayPalWebPayments.doccarchive \
+            archives/FraudProtection.doccarchive \
+            --output-path archives/PayPal.doccarchive \
+            --synthesized-landing-page-name "PayPal iOS SDK"
+
+          if [ ! -d "archives/PayPal.doccarchive" ]; then
+            echo "Error: Failed to merge documentation archives"
+            rm -rf archives
+            exit 1
+          fi
+
+          echo "Documentation archives merged successfully"
+          echo ""
+
+          # Convert merged archive to static HTML
+          echo "================================================"
+          echo "Converting to static HTML..."
+          echo "================================================"
+
+          # Set hosting base path based on environment
+          if [ "${{ github.event.inputs.environment }}" == "preview" ]; then
+            BASE_PATH="paypal-ios/preview"
+          else
+            BASE_PATH="paypal-ios"
+          fi
+
+          xcrun docc process-archive transform-for-static-hosting \
+            archives/PayPal.doccarchive \
+            --output-path docs \
+            --hosting-base-path "$BASE_PATH"
+
+          # Clean up archives
+          rm -rf archives
+
+          # Add custom CSS to hide module icons
+          echo "================================================"
+          echo "Hiding module icons..."
+          echo "================================================"
+
+          cat > docs/css/custom-hide-icons.css << 'EOF'
+          /* Hide module icon containers completely */
+          .reference-card-grid-item__image,
+          .card-cover,
+          .TopicTypeIcon,
+          .reference-card-grid-item__icon {
+            display: none !important;
+          }
+          EOF
+
+          # Inject custom CSS into all HTML files
+          find docs -name "*.html" -type f -exec sed -i '' 's|</head>|<link rel="stylesheet" href="/css/custom-hide-icons.css"></head>|g' {} \;
+
+          echo "Module icons hidden"
+          echo ""
+
+          # Add environment badge to documentation
+          echo "================================================"
+          echo "Adding environment badge..."
+          echo "================================================"
+
+          COMMIT_SHA=$(git rev-parse --short HEAD)
+          TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+
+          if [ "${{ github.event.inputs.environment }}" == "preview" ]; then
+            BADGE_COLOR="#ff9800"
+            BADGE_TEXT="PREVIEW"
+            ENV_MESSAGE="Preview documentation generated from commit $COMMIT_SHA on $TIMESTAMP"
+          else
+            BADGE_COLOR="#4caf50"
+            BADGE_TEXT="PRODUCTION"
+            ENV_MESSAGE="Documentation generated from commit $COMMIT_SHA on $TIMESTAMP"
+          fi
+
+          # Add custom CSS for environment badge
+          cat >> docs/css/custom-hide-icons.css << EOF
+
+          /* Environment badge */
+          body::before {
+            content: "$BADGE_TEXT";
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: $BADGE_COLOR;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
+            z-index: 10000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+          }
+
+          /* Environment footer */
+          body::after {
+            content: "$ENV_MESSAGE";
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            z-index: 10000;
+          }
+          EOF
+
+          echo "Environment badge added"
+          echo ""
+          echo "================================================"
+          echo "Documentation generated successfully!"
+          echo "================================================"
+          echo ""
+
+      - name: Publish to GitHub Pages
+        run: |
+          # Switch to gh-pages branch and publish
+          git fetch origin gh-pages:gh-pages || git checkout --orphan gh-pages
+          git checkout gh-pages
+
+          if [ "${{ github.event.inputs.environment }}" == "preview" ]; then
+            echo "Publishing to preview environment..."
+
+            # Create preview directory
+            mkdir -p preview
+
+            # Remove existing preview content
+            rm -rf preview/*
+
+            # Copy generated docs to preview directory
+            cp -R docs/* preview/
+
+            # Add and commit changes
+            git add preview
+            git commit -m "Publish preview documentation (commit: ${{ github.sha }})"
+
+            echo ""
+            echo "================================================"
+            echo "Preview documentation published!"
+            echo "================================================"
+            echo "URL: https://paypal.github.io/paypal-ios/preview/documentation/"
+            echo ""
+          else
+            echo "Publishing to production environment..."
+
+            # Remove all existing content except preview directory
+            find . -maxdepth 1 ! -name '.git' ! -name 'preview' ! -name '.' -exec rm -rf {} +
+
+            # Copy generated docs to root
+            cp -R docs/* .
+
+            # Add and commit changes
+            git add .
+            git commit -m "Publish production documentation (commit: ${{ github.sha }})"
+
+            echo ""
+            echo "================================================"
+            echo "Production documentation published!"
+            echo "================================================"
+            echo "URL: https://paypal.github.io/paypal-ios/documentation/"
+            echo ""
+          fi
+
+          git push origin gh-pages --force
