@@ -1,5 +1,6 @@
 import Foundation
 
+@_documentation(visibility: private)
 public enum HTTPHeader: String {
     case accept = "Accept"
     case acceptLanguage = "Accept-Language"

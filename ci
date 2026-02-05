@@ -1,0 +1,141 @@
+#!/usr/bin/env bash
+
+command_name="$1"
+
+case $command_name in
+  generate_docs)
+    # Optional parameter for hosting base path (used by CI)
+    HOSTING_BASE_PATH="${2:-}"
+
+    echo "Generating combined DocC documentation for PayPal iOS SDK..."
+
+    # Create output directory
+    mkdir -p docs archives
+    rm -rf ./DerivedData
+
+    # Modules to generate documentation for
+    MODULES=("CorePayments" "CardPayments" "PaymentButtons" "PayPalWebPayments" "FraudProtection")
+
+    # Build documentation archives for each module
+    echo ""
+    echo "Building documentation archives for each module..."
+    echo ""
+
+    for module in "${MODULES[@]}"; do
+      echo "================================================"
+      echo "Building documentation archive for $module..."
+      echo "================================================"
+
+      # Build documentation for this module
+      xcodebuild docbuild \
+        -scheme "$module" \
+        -destination 'platform=iOS Simulator,name=iPhone 17' \
+        -derivedDataPath ./DerivedData
+
+      # Find the .doccarchive for this module
+      ARCHIVE=$(find ./DerivedData -name "*.doccarchive" -type d | head -n 1)
+
+      if [ -z "$ARCHIVE" ]; then
+        echo "❌ Error: No .doccarchive found for $module"
+        rm -rf ./DerivedData archives
+        exit 1
+      fi
+
+      # Save the archive
+      cp -R "$ARCHIVE" "archives/$module.doccarchive"
+      echo "✅ $module archive saved"
+
+      # Clean up DerivedData for next module
+      rm -rf ./DerivedData
+      echo ""
+    done
+
+    # Merge all archives into a combined archive
+    echo "================================================"
+    echo "Merging all documentation archives..."
+    echo "================================================"
+
+    xcrun docc merge \
+      archives/CorePayments.doccarchive \
+      archives/CardPayments.doccarchive \
+      archives/PaymentButtons.doccarchive \
+      archives/PayPalWebPayments.doccarchive \
+      archives/FraudProtection.doccarchive \
+      --output-path archives/PayPal.doccarchive \
+      --synthesized-landing-page-name "PayPal iOS SDK"
+
+    if [ ! -d "archives/PayPal.doccarchive" ]; then
+      echo "❌ Error: Failed to merge documentation archives"
+      rm -rf archives
+      exit 1
+    fi
+
+    echo "✅ Documentation archives merged successfully"
+    echo ""
+
+    # Convert merged archive to static HTML
+    echo "================================================"
+    echo "Converting to static HTML..."
+    echo "================================================"
+
+    # Build transform command with optional hosting base path
+    TRANSFORM_CMD="xcrun docc process-archive transform-for-static-hosting archives/PayPal.doccarchive --output-path docs"
+    if [ -n "$HOSTING_BASE_PATH" ]; then
+      TRANSFORM_CMD="$TRANSFORM_CMD --hosting-base-path $HOSTING_BASE_PATH"
+    fi
+
+    eval $TRANSFORM_CMD
+
+    # Clean up archives
+    rm -rf archives
+
+    # Add custom CSS to hide module icons
+    echo "================================================"
+    echo "Hiding module icons..."
+    echo "================================================"
+
+    cat > docs/css/custom-hide-icons.css << 'EOF'
+/* Hide module icon containers completely */
+.reference-card-grid-item__image,
+.card-cover,
+.TopicTypeIcon,
+.reference-card-grid-item__icon {
+  display: none !important;
+}
+EOF
+
+    # Inject custom CSS into all HTML files
+    find docs -name "*.html" -type f -exec sed -i '' 's|</head>|<link rel="stylesheet" href="/css/custom-hide-icons.css"></head>|g' {} \;
+
+    echo "✅ Module icons hidden"
+    echo ""
+    echo "================================================"
+    echo "✅ Documentation generated successfully!"
+    echo "================================================"
+    echo ""
+    echo "Documentation landing page: ./docs/documentation/index.html"
+    echo ""
+    echo "To view documentation:"
+    echo "  1. Run: ./ci serve_docs"
+    echo "  2. Open: http://localhost:8000/documentation/"
+    ;;
+
+  serve_docs)
+    echo "Starting local web server to view documentation..."
+    echo ""
+    echo "Documentation will be available at:"
+    echo "  http://localhost:8000/index.html"
+    echo ""
+    echo "Press Ctrl+C to stop the server"
+    echo ""
+    cd docs && python3 -m http.server 8000
+    ;;
+
+  *)
+    echo "Usage: ./ci <command>"
+    echo ""
+    echo "Available commands:"
+    echo "  generate_docs    Generate DocC reference documentation locally"
+    echo "  serve_docs       Start a local web server to view the documentation"
+    ;;
+esac

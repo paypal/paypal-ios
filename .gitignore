@@ -38,3 +38,6 @@ Carthage/
 .build
 SampleApps/SPMTest/SPMTest.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
 
+# DocC Documentation
+docs/
+*.doccarchive

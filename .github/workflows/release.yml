@@ -52,3 +52,33 @@ jobs:
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
         run: pod trunk push PayPal.podspec
+      - name: Clean up preview documentation
+        run: |
+          git config user.name paypalsdks
+          git config user.email sdks@paypal.com
+
+          # Switch to gh-pages branch
+          git fetch origin gh-pages:gh-pages || git checkout --orphan gh-pages
+          git checkout gh-pages
+
+          echo "Cleaning up preview documentation..."
+
+          # Remove preview directory if it exists
+          if [ -d "preview" ]; then
+            rm -rf preview
+            git add preview
+            git commit -m "Remove preview documentation (automated cleanup during release ${{ github.event.inputs.version }})" || echo "No preview directory to remove"
+            git push origin gh-pages
+
+            echo ""
+            echo "================================================"
+            echo "Preview documentation removed!"
+            echo "================================================"
+            echo ""
+          else
+            echo ""
+            echo "================================================"
+            echo "No preview documentation found to remove"
+            echo "================================================"
+            echo ""
+          fi
