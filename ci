@@ -4,6 +4,9 @@ command_name="$1"
 
 case $command_name in
   generate_docs)
+    # Optional parameter for hosting base path (used by CI)
+    HOSTING_BASE_PATH="${2:-}"
+
     echo "Generating combined DocC documentation for PayPal iOS SDK..."
 
     # Create output directory
@@ -75,9 +78,13 @@ case $command_name in
     echo "Converting to static HTML..."
     echo "================================================"
 
-    xcrun docc process-archive transform-for-static-hosting \
-      archives/PayPal.doccarchive \
-      --output-path docs
+    # Build transform command with optional hosting base path
+    TRANSFORM_CMD="xcrun docc process-archive transform-for-static-hosting archives/PayPal.doccarchive --output-path docs"
+    if [ -n "$HOSTING_BASE_PATH" ]; then
+      TRANSFORM_CMD="$TRANSFORM_CMD --hosting-base-path $HOSTING_BASE_PATH"
+    fi
+
+    eval $TRANSFORM_CMD
 
     # Clean up archives
     rm -rf archives

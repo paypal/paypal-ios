@@ -3,12 +3,13 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Deploy to production or preview'
+        description: 'Deploy to production, preview, or cleanup preview'
         required: true
         type: choice
         options:
           - production
           - preview
+          - cleanup-preview
 jobs:
   publish-docs:
     name: Publish Documentation
@@ -25,76 +26,8 @@ jobs:
           git config user.name paypalsdks
           git config user.email sdks@paypal.com
       - name: Generate documentation
+        if: github.event.inputs.environment != 'cleanup-preview'
         run: |
-          # Create output directories
-          mkdir -p docs archives
-          rm -rf ./DerivedData
-
-          # Modules to generate documentation for
-          MODULES=("CorePayments" "CardPayments" "PaymentButtons" "PayPalWebPayments" "FraudProtection")
-
-          # Build documentation archives for each module
-          echo ""
-          echo "Building documentation archives for each module..."
-          echo ""
-
-          for module in "${MODULES[@]}"; do
-            echo "================================================"
-            echo "Building documentation archive for $module..."
-            echo "================================================"
-
-            # Build documentation for this module
-            xcodebuild docbuild \
-              -scheme "$module" \
-              -destination 'platform=iOS Simulator,name=iPhone 17' \
-              -derivedDataPath ./DerivedData
-
-            # Find the .doccarchive for this module
-            ARCHIVE=$(find ./DerivedData -name "*.doccarchive" -type d | head -n 1)
-
-            if [ -z "$ARCHIVE" ]; then
-              echo "Error: No .doccarchive found for $module"
-              rm -rf ./DerivedData archives
-              exit 1
-            fi
-
-            # Save the archive
-            cp -R "$ARCHIVE" "archives/$module.doccarchive"
-            echo "$module archive saved"
-
-            # Clean up DerivedData for next module
-            rm -rf ./DerivedData
-            echo ""
-          done
-
-          # Merge all archives into a combined archive
-          echo "================================================"
-          echo "Merging all documentation archives..."
-          echo "================================================"
-
-          xcrun docc merge \
-            archives/CorePayments.doccarchive \
-            archives/CardPayments.doccarchive \
-            archives/PaymentButtons.doccarchive \
-            archives/PayPalWebPayments.doccarchive \
-            archives/FraudProtection.doccarchive \
-            --output-path archives/PayPal.doccarchive \
-            --synthesized-landing-page-name "PayPal iOS SDK"
-
-          if [ ! -d "archives/PayPal.doccarchive" ]; then
-            echo "Error: Failed to merge documentation archives"
-            rm -rf archives
-            exit 1
-          fi
-
-          echo "Documentation archives merged successfully"
-          echo ""
-
-          # Convert merged archive to static HTML
-          echo "================================================"
-          echo "Converting to static HTML..."
-          echo "================================================"
-
           # Set hosting base path based on environment
           if [ "${{ github.event.inputs.environment }}" == "preview" ]; then
             BASE_PATH="paypal-ios/preview"
@@ -102,34 +35,8 @@ jobs:
             BASE_PATH="paypal-ios"
           fi
 
-          xcrun docc process-archive transform-for-static-hosting \
-            archives/PayPal.doccarchive \
-            --output-path docs \
-            --hosting-base-path "$BASE_PATH"
-
-          # Clean up archives
-          rm -rf archives
-
-          # Add custom CSS to hide module icons
-          echo "================================================"
-          echo "Hiding module icons..."
-          echo "================================================"
-
-          cat > docs/css/custom-hide-icons.css << 'EOF'
-          /* Hide module icon containers completely */
-          .reference-card-grid-item__image,
-          .card-cover,
-          .TopicTypeIcon,
-          .reference-card-grid-item__icon {
-            display: none !important;
-          }
-          EOF
-
-          # Inject custom CSS into all HTML files
-          find docs -name "*.html" -type f -exec sed -i '' 's|</head>|<link rel="stylesheet" href="/css/custom-hide-icons.css"></head>|g' {} \;
-
-          echo "Module icons hidden"
-          echo ""
+          # Generate documentation using shared script
+          ./ci generate_docs "$BASE_PATH"
 
           # Add environment badge to documentation
           echo "================================================"
@@ -197,7 +104,29 @@ jobs:
           git fetch origin gh-pages:gh-pages || git checkout --orphan gh-pages
           git checkout gh-pages
 
-          if [ "${{ github.event.inputs.environment }}" == "preview" ]; then
+          if [ "${{ github.event.inputs.environment }}" == "cleanup-preview" ]; then
+            echo "Cleaning up preview documentation..."
+
+            # Remove preview directory if it exists
+            if [ -d "preview" ]; then
+              rm -rf preview
+              git add preview
+              git commit -m "Remove preview documentation" || echo "No preview directory to remove"
+
+              echo ""
+              echo "================================================"
+              echo "Preview documentation removed!"
+              echo "================================================"
+              echo ""
+            else
+              echo ""
+              echo "================================================"
+              echo "No preview documentation found to remove"
+              echo "================================================"
+              echo ""
+            fi
+
+          elif [ "${{ github.event.inputs.environment }}" == "preview" ]; then
             echo "Publishing to preview environment..."
 
             # Create preview directory
@@ -219,6 +148,7 @@ jobs:
             echo "================================================"
             echo "URL: https://paypal.github.io/paypal-ios/preview/documentation/"
             echo ""
+
           else
             echo "Publishing to production environment..."
 
