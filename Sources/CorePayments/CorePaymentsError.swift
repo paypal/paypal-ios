@@ -1,3 +1,4 @@
+@_documentation(visibility: private)
 public enum CorePaymentsError {
 
     static let domain = "CorePaymentsErrorDomain"

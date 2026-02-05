@@ -3,6 +3,7 @@ import Foundation
 import CorePayments
 #endif
 
+@_documentation(visibility: private)
 public struct PaymentSource: Decodable {
 
     /// The card used as payment
@@ -26,12 +27,14 @@ public struct PaymentSource: Decodable {
     }
 }
 
+@_documentation(visibility: private)
 public struct AuthenticationResult: Decodable {
 
     public let liabilityShift: String?
     public let threeDSecure: ThreeDSecure?
 }
 
+@_documentation(visibility: private)
 public struct ThreeDSecure: Decodable {
 
     public let enrollmentStatus, authenticationStatus: String?

@@ -1,5 +1,6 @@
 import Foundation
 
+@_documentation(visibility: private)
 public enum NetworkingError {
 
     static let domain = "NetworkingClientErrorDomain"
