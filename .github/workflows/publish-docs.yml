@@ -101,8 +101,12 @@ jobs:
       - name: Publish to GitHub Pages
         run: |
           # Switch to gh-pages branch and publish
-          git fetch origin gh-pages:gh-pages || git checkout --orphan gh-pages
-          git checkout gh-pages
+          if git fetch origin gh-pages:gh-pages 2>/dev/null; then
+            git checkout gh-pages
+          else
+            git checkout --orphan gh-pages
+            git rm -rf .
+          fi
 
           if [ "${{ github.event.inputs.environment }}" == "cleanup-preview" ]; then
             echo "Cleaning up preview documentation..."
