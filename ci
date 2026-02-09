@@ -29,7 +29,7 @@ case $command_name in
       # Build documentation for this module
       xcodebuild docbuild \
         -scheme "$module" \
-        -destination 'platform=iOS Simulator,name=iPhone 17' \
+        -destination 'generic/platform=iOS Simulator' \
         -derivedDataPath ./DerivedData
 
       # Find the .doccarchive for this module
