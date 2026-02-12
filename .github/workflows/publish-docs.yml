@@ -21,6 +21,9 @@ jobs:
 
       - name: Publish to GitHub Pages
         run: |
+          # Save generated docs to a temporary location
+          cp -R docs /tmp/docs-temp
+
           # Switch to gh-pages branch and publish
           if git fetch origin gh-pages:gh-pages 2>/dev/null; then
             git checkout gh-pages
@@ -34,8 +37,8 @@ jobs:
           # Remove all existing content
           find . -maxdepth 1 ! -name '.git' ! -name '.' -exec rm -rf {} +
 
-          # Copy generated docs to root
-          cp -R docs/* .
+          # Copy generated docs from temporary location to root
+          cp -R /tmp/docs-temp/* .
 
           # Add and commit changes
           git add .
