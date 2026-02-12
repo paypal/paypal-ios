@@ -52,6 +52,37 @@ jobs:
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
         run: pod trunk push PayPal.podspec
+      - name: Publish production documentation
+        run: |
+          # Generate documentation using shared script
+          ./ci generate_docs "paypal-ios"
+
+          # Switch to gh-pages branch
+          git fetch origin gh-pages:gh-pages || git checkout --orphan gh-pages
+          git checkout gh-pages
+
+          echo "Publishing production documentation..."
+
+          # Remove all existing content except preview directory
+          find . -maxdepth 1 ! -name '.git' ! -name 'preview' ! -name '.' -exec rm -rf {} +
+
+          # Copy generated docs to root
+          cp -R docs/* .
+
+          # Add and commit changes
+          git add .
+          git commit -m "Publish production documentation for release ${{ github.event.inputs.version }}"
+          git push origin gh-pages
+
+          echo ""
+          echo "================================================"
+          echo "Production documentation published!"
+          echo "================================================"
+          echo "URL: https://paypal.github.io/paypal-ios/documentation/"
+          echo ""
+
+          # Switch back to main branch
+          git checkout -
       - name: Clean up preview documentation
         run: |
           git config user.name paypalsdks

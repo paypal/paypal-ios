@@ -1,15 +1,6 @@
 name: Publish Documentation
 on:
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Deploy to production, preview, or cleanup preview'
-        required: true
-        type: choice
-        options:
-          - production
-          - preview
-          - cleanup-preview
 jobs:
   publish-docs:
     name: Publish Documentation
@@ -26,20 +17,13 @@ jobs:
           git config user.name paypalsdks
           git config user.email sdks@paypal.com
       - name: Generate documentation
-        if: github.event.inputs.environment != 'cleanup-preview'
-        run: |
-          # Set hosting base path based on environment
-          if [ "${{ github.event.inputs.environment }}" == "preview" ]; then
-            BASE_PATH="paypal-ios/preview"
-          else
-            BASE_PATH="paypal-ios"
-          fi
-
-          # Generate documentation using shared script
-          ./ci generate_docs "$BASE_PATH"
+        run: ./ci generate_docs "paypal-ios"
 
       - name: Publish to GitHub Pages
         run: |
+          # Save generated docs to a temporary location
+          cp -R docs /tmp/docs-temp
+
           # Switch to gh-pages branch and publish
           if git fetch origin gh-pages:gh-pages 2>/dev/null; then
             git checkout gh-pages
@@ -48,70 +32,23 @@ jobs:
             git rm -rf .
           fi
 
-          if [ "${{ github.event.inputs.environment }}" == "cleanup-preview" ]; then
-            echo "Cleaning up preview documentation..."
+          echo "Publishing documentation..."
 
-            # Remove preview directory if it exists
-            if [ -d "preview" ]; then
-              rm -rf preview
-              git add preview
-              git commit -m "Remove preview documentation" || echo "No preview directory to remove"
+          # Remove all existing content
+          find . -maxdepth 1 ! -name '.git' ! -name '.' -exec rm -rf {} +
 
-              echo ""
-              echo "================================================"
-              echo "Preview documentation removed!"
-              echo "================================================"
-              echo ""
-            else
-              echo ""
-              echo "================================================"
-              echo "No preview documentation found to remove"
-              echo "================================================"
-              echo ""
-            fi
+          # Copy generated docs from temporary location to root
+          cp -R /tmp/docs-temp/* .
 
-          elif [ "${{ github.event.inputs.environment }}" == "preview" ]; then
-            echo "Publishing to preview environment..."
+          # Add and commit changes
+          git add .
+          git commit -m "Publish documentation (commit: ${{ github.sha }})"
 
-            # Create preview directory
-            mkdir -p preview
-
-            # Remove existing preview content
-            rm -rf preview/*
-
-            # Copy generated docs to preview directory
-            cp -R docs/* preview/
-
-            # Add and commit changes
-            git add preview
-            git commit -m "Publish preview documentation (commit: ${{ github.sha }})"
-
-            echo ""
-            echo "================================================"
-            echo "Preview documentation published!"
-            echo "================================================"
-            echo "URL: https://paypal.github.io/paypal-ios/preview/documentation/"
-            echo ""
-
-          else
-            echo "Publishing to production environment..."
-
-            # Remove all existing content except preview directory
-            find . -maxdepth 1 ! -name '.git' ! -name 'preview' ! -name '.' -exec rm -rf {} +
-
-            # Copy generated docs to root
-            cp -R docs/* .
-
-            # Add and commit changes
-            git add .
-            git commit -m "Publish production documentation (commit: ${{ github.sha }})"
-
-            echo ""
-            echo "================================================"
-            echo "Production documentation published!"
-            echo "================================================"
-            echo "URL: https://paypal.github.io/paypal-ios/documentation/"
-            echo ""
-          fi
+          echo ""
+          echo "================================================"
+          echo "Documentation published!"
+          echo "================================================"
+          echo "URL: https://paypal.github.io/paypal-ios/documentation/"
+          echo ""
 
           git push origin gh-pages --force
