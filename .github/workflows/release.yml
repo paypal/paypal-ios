@@ -13,7 +13,6 @@
 # - Validation enforced before any operations occur
 #
 # Security References:
-# - Jira: LI-144104, LI-121611, LI-143136
 # - GitHub Discussion: https://github.com/orgs/community/discussions/48373#discussioncomment-7543209
 # - SemVer Regex: https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
 

@@ -4,7 +4,6 @@
 # All GitHub context variables are validated and isolated in environment variables before shell execution.
 #
 # Security References:
-# - Jira: LI-144104, LI-121611, LI-143136
 
 name: Publish Documentation
 on:
