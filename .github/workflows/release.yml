@@ -1,9 +1,28 @@
+# Release SDK Workflow
+#
+# Security: This workflow has been hardened against code injection vulnerabilities (CWE-94)
+# All user inputs are validated and isolated in environment variables before shell execution.
+#
+# Version Input Requirements:
+# - Must follow Semantic Versioning 2.0.0 specification (https://semver.org/)
+# - Supported formats:
+#   * Standard releases: 1.0.0, 2.1.3, 10.20.30
+#   * Pre-release versions: 1.0.0-alpha, 1.0.0-beta.1, 1.0.0-rc.1
+#   * Build metadata: 1.0.0+20130313144700, 1.0.0-beta+exp.sha.5114f85
+# - Maximum length: 100 characters
+# - Validation enforced before any operations occur
+#
+# Security References:
+# - Jira: LI-144104, LI-121611, LI-143136
+# - GitHub Discussion: https://github.com/orgs/community/discussions/48373#discussioncomment-7543209
+# - SemVer Regex: https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
+
 name: Release SDK
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Version to release"
+        description: "Version to release (e.g., 1.0.0, 1.0.0-beta, 1.0.0+build)"
         required: true
 jobs:
   release:
