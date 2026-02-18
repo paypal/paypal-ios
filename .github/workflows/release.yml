@@ -22,19 +22,40 @@ jobs:
         run: |
           git config user.name paypalsdks
           git config user.email sdks@paypal.com
+      - name: Validate version input
+        env:
+          VERSION_INPUT: ${{ github.event.inputs.version }}
+        run: |
+          # Validate version format (semantic versioning: X.Y.Z or X.Y.Z-suffix)
+          if ! echo "$VERSION_INPUT" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.-]+)?$'; then
+            echo "::error::Invalid version format. Expected semantic version (e.g., 1.2.3 or 1.2.3-beta)"
+            exit 1
+          fi
+
+          # Additional length validation (prevent excessively long inputs)
+          if [ ${#VERSION_INPUT} -gt 50 ]; then
+            echo "::error::Version string too long (max 50 characters)"
+            exit 1
+          fi
+
+          echo "Version validation passed: $VERSION_INPUT"
       - name: Update version
+        env:
+          VERSION_INPUT: ${{ github.event.inputs.version }}
         run: |
           today=$(date +'%Y-%m-%d')
-          sed -i '' 's/## unreleased.*/## '"${{ github.event.inputs.version }}"' ('"$today"')/' CHANGELOG.md
-          sed -i '' 's/\(s\.version *= *\).*/\1"'"${{ github.event.inputs.version }}"'\"/' PayPal.podspec
-          sed -i '' 's/payPalSDKVersion: String =.*/payPalSDKVersion: String = "${{ github.event.inputs.version }}"/' Sources/CorePayments/PayPalCoreConstants.swift
-          plutil -replace CFBundleShortVersionString -string ${{ github.event.inputs.version }} -- 'Demo/Demo/Info.plist'
+          sed -i '' 's/## unreleased.*/## '"${VERSION_INPUT}"' ('"$today"')/' CHANGELOG.md
+          sed -i '' 's/\(s\.version *= *\).*/\1"'"${VERSION_INPUT}"'\"/' PayPal.podspec
+          sed -i '' 's/payPalSDKVersion: String =.*/payPalSDKVersion: String = "'"${VERSION_INPUT}"'"/' Sources/CorePayments/PayPalCoreConstants.swift
+          plutil -replace CFBundleShortVersionString -string "${VERSION_INPUT}" -- 'Demo/Demo/Info.plist'
 
           git add .
-          git commit -m 'Bump version to ${{ github.event.inputs.version }}'
-          git tag ${{ github.event.inputs.version }} -a -m 'Release ${{ github.event.inputs.version }}'
+          git commit -m "Bump version to ${VERSION_INPUT}"
+          git tag "${VERSION_INPUT}" -a -m "Release ${VERSION_INPUT}"
       - name: Push commits and tag
-        run: git push origin HEAD ${{ github.event.inputs.version }}
+        env:
+          VERSION_INPUT: ${{ github.event.inputs.version }}
+        run: git push origin HEAD "${VERSION_INPUT}"
       - name: Save changelog entries to a file
         run: sed -e '1,/##/d' -e '/##/,$d' CHANGELOG.md > changelog_entries.md
       - name: Create GitHub release
@@ -42,9 +63,10 @@ jobs:
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION_INPUT: ${{ github.event.inputs.version }}
         with:
-          tag_name: ${{ github.event.inputs.version }}
-          release_name: ${{ github.event.inputs.version }}
+          tag_name: ${{ env.VERSION_INPUT }}
+          release_name: ${{ env.VERSION_INPUT }}
           body_path: changelog_entries.md
           draft: false
           prerelease: false
@@ -53,6 +75,8 @@ jobs:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
         run: pod trunk push PayPal.podspec
       - name: Publish production documentation
+        env:
+          VERSION_INPUT: ${{ github.event.inputs.version }}
         run: |
           # Generate documentation using shared script
           ./ci generate_docs "paypal-ios"
@@ -71,7 +95,7 @@ jobs:
 
           # Add and commit changes
           git add .
-          git commit -m "Publish production documentation for release ${{ github.event.inputs.version }}"
+          git commit -m "Publish production documentation for release ${VERSION_INPUT}"
           git push origin gh-pages
 
           echo ""
@@ -84,6 +108,8 @@ jobs:
           # Switch back to main branch
           git checkout -
       - name: Clean up preview documentation
+        env:
+          VERSION_INPUT: ${{ github.event.inputs.version }}
         run: |
           git config user.name paypalsdks
           git config user.email sdks@paypal.com
@@ -98,7 +124,7 @@ jobs:
           if [ -d "preview" ]; then
             rm -rf preview
             git add preview
-            git commit -m "Remove preview documentation (automated cleanup during release ${{ github.event.inputs.version }})" || echo "No preview directory to remove"
+            git commit -m "Remove preview documentation (automated cleanup during release ${VERSION_INPUT})" || echo "No preview directory to remove"
             git push origin gh-pages
 
             echo ""
