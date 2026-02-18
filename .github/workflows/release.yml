@@ -26,15 +26,19 @@ jobs:
         env:
           VERSION_INPUT: ${{ github.event.inputs.version }}
         run: |
-          # Validate version format (semantic versioning: X.Y.Z or X.Y.Z-suffix)
-          if ! echo "$VERSION_INPUT" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.-]+)?$'; then
-            echo "::error::Invalid version format. Expected semantic version (e.g., 1.2.3 or 1.2.3-beta)"
+          # Ref: https://github.com/orgs/community/discussions/48373#discussioncomment-7543209
+          # Ref: https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
+          # Validate version format using official semantic versioning regex
+          # Format: MAJOR.MINOR.PATCH[-PRERELEASE][+BUILD]
+          # Examples: 1.0.0, 1.0.0-alpha, 1.0.0-beta.1, 1.0.0+20130313144700
+          if ! echo "$VERSION_INPUT" | grep -qE '^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-((0|[1-9][0-9]*|[0-9]*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9][0-9]*|[0-9]*[a-zA-Z-][0-9a-zA-Z-]*))*))?(\+([0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*))?$'; then
+            echo "::error::Invalid version format. Expected semantic version (e.g., 1.2.3, 1.2.3-beta, 1.2.3+build)"
             exit 1
           fi
 
           # Additional length validation (prevent excessively long inputs)
-          if [ ${#VERSION_INPUT} -gt 50 ]; then
-            echo "::error::Version string too long (max 50 characters)"
+          if [ ${#VERSION_INPUT} -gt 100 ]; then
+            echo "::error::Version string too long (max 100 characters)"
             exit 1
           fi
 
