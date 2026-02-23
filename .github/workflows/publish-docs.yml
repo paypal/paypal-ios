@@ -2,7 +2,6 @@
 #
 # Security: This workflow has been hardened against code injection vulnerabilities (CWE-94)
 # User-controlled inputs are validated and exported to GITHUB_ENV before shell execution.
-# GitHub-provided context variables (github.sha) are trusted platform values and don't require validation.
 #
 # Security References:
 
@@ -24,15 +23,6 @@ jobs:
         run: |
           git config user.name paypalsdks
           git config user.email sdks@paypal.com
-      - name: Export commit SHA to environment
-        env:
-          COMMIT_SHA: ${{ github.sha }}
-        run: |
-          # Export commit SHA to GitHub Actions environment for consistency
-          # Note: github.sha is a trusted platform value and doesn't require validation
-          # Ref: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands#example-of-writing-an-environment-variable-to-github_env
-          echo "COMMIT_SHA_ENV=${COMMIT_SHA}" >> "$GITHUB_ENV"
-
       - name: Generate documentation
         run: ./ci generate_docs "paypal-ios"
 
@@ -59,7 +49,7 @@ jobs:
 
           # Add and commit changes
           git add .
-          git commit -m "Publish documentation (commit: ${COMMIT_SHA_ENV})"
+          git commit -m "Publish documentation (commit: ${{ github.sha }})"
 
           echo ""
           echo "================================================"
