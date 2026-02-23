@@ -1,7 +1,7 @@
 # Publish Documentation Workflow
 #
 # Security: This workflow has been hardened against code injection vulnerabilities (CWE-94)
-# All GitHub context variables are validated and isolated in environment variables before shell execution.
+# User-controlled inputs are validated and exported to GITHUB_ENV before shell execution.
 #
 # Security References:
 
@@ -27,15 +27,7 @@ jobs:
         run: ./ci generate_docs "paypal-ios"
 
       - name: Publish to GitHub Pages
-        env:
-          COMMIT_SHA: ${{ github.sha }}
         run: |
-          # Validate commit SHA format (must be 40 character hexadecimal string)
-          if ! echo "$COMMIT_SHA" | grep -qE '^[0-9a-f]{40}$'; then
-            echo "::error::Invalid commit SHA format"
-            exit 1
-          fi
-
           # Save generated docs to a temporary location
           cp -R docs /tmp/docs-temp
 
@@ -57,7 +49,7 @@ jobs:
 
           # Add and commit changes
           git add .
-          git commit -m "Publish documentation (commit: ${COMMIT_SHA})"
+          git commit -m "Publish documentation (commit: ${{ github.sha }})"
 
           echo ""
           echo "================================================"
