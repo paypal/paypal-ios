@@ -23,10 +23,7 @@ jobs:
         run: |
           git config user.name paypalsdks
           git config user.email sdks@paypal.com
-      - name: Generate documentation
-        run: ./ci generate_docs "paypal-ios"
-
-      - name: Publish to GitHub Pages
+      - name: Validate commit SHA
         env:
           COMMIT_SHA: ${{ github.sha }}
         run: |
@@ -36,6 +33,17 @@ jobs:
             exit 1
           fi
 
+          echo "Commit SHA validation passed: $COMMIT_SHA"
+
+          # Export validated commit SHA to GitHub Actions environment
+          # Ref: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands#example-of-writing-an-environment-variable-to-github_env
+          echo "VALIDATED_COMMIT_SHA=${COMMIT_SHA}" >> "$GITHUB_ENV"
+
+      - name: Generate documentation
+        run: ./ci generate_docs "paypal-ios"
+
+      - name: Publish to GitHub Pages
+        run: |
           # Save generated docs to a temporary location
           cp -R docs /tmp/docs-temp
 
@@ -57,7 +65,7 @@ jobs:
 
           # Add and commit changes
           git add .
-          git commit -m "Publish documentation (commit: ${COMMIT_SHA})"
+          git commit -m "Publish documentation (commit: ${VALIDATED_COMMIT_SHA})"
 
           echo ""
           echo "================================================"
