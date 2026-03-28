@@ -1,5 +1,6 @@
 # PayPal iOS SDK
 
+
 Welcome to PayPal's iOS SDK. This library will help you accept card and PayPal payment methods in your iOS app.
 
 ## FAQ
@@ -18,7 +19,7 @@ This SDK supports:
 
 ### Languages
 
-This SDK supports Swift 5.9+. This SDK is written in Swift.
+This SDK supports Swift 5.9.1+. This SDK is written in Swift.
 
 ### UI Frameworks
 This SDK supports:
