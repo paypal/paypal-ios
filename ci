@@ -29,7 +29,7 @@ case $command_name in
       # Build documentation for this module
       xcodebuild docbuild \
         -scheme "$module" \
-        -destination 'platform=iOS Simulator,name=iPhone 17' \
+        -destination 'generic/platform=iOS Simulator' \
         -derivedDataPath ./DerivedData
 
       # Find the .doccarchive for this module
@@ -89,26 +89,6 @@ case $command_name in
     # Clean up archives
     rm -rf archives
 
-    # Add custom CSS to hide module icons
-    echo "================================================"
-    echo "Hiding module icons..."
-    echo "================================================"
-
-    cat > docs/css/custom-hide-icons.css << 'EOF'
-/* Hide module icon containers completely */
-.reference-card-grid-item__image,
-.card-cover,
-.TopicTypeIcon,
-.reference-card-grid-item__icon {
-  display: none !important;
-}
-EOF
-
-    # Inject custom CSS into all HTML files
-    find docs -name "*.html" -type f -exec sed -i '' 's|</head>|<link rel="stylesheet" href="/css/custom-hide-icons.css"></head>|g' {} \;
-
-    echo "✅ Module icons hidden"
-    echo ""
     echo "================================================"
     echo "✅ Documentation generated successfully!"
     echo "================================================"
