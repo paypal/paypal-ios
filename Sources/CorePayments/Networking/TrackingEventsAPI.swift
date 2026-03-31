@@ -18,7 +18,7 @@ class TrackingEventsAPI {
         self.networkingClient = HTTPNetworkingClient(coreConfig: coreConfig)
     }
     
-    /// Exposed for injecting MockHTTPNetworkingClient in tests
+    /// Exposed for injecting MockNetworkingClient in tests
     init(coreConfig: CoreConfig, networkingClient: HTTPNetworkingClient) {
         self.coreConfig = coreConfig
         self.networkingClient = networkingClient
