@@ -25,10 +25,7 @@ class HTTP_Tests: XCTestCase {
         mockURLSession.cannedURLResponse = nil
         mockURLSession.cannedJSONData = nil
         
-        sut = URLSessionHTTPClient(
-            urlSession: mockURLSession,
-            coreConfig: config
-        )
+        sut = URLSessionHTTPClient(urlSession: mockURLSession, coreConfig: config)
     }
     
     // MARK: - performRequest()
