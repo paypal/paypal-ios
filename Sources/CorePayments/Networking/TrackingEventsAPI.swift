@@ -8,7 +8,7 @@ class TrackingEventsAPI {
     // MARK: - Internal Properties
 
     var coreConfig: CoreConfig // exposed for testing
-    private var networkingClient: HTTPNetworkingClient
+    private var networkingClient: NetworkingClient
 
     // MARK: - Initializer
     
@@ -19,7 +19,7 @@ class TrackingEventsAPI {
     }
     
     /// Exposed for injecting MockNetworkingClient in tests
-    init(coreConfig: CoreConfig, networkingClient: HTTPNetworkingClient) {
+    init(coreConfig: CoreConfig, networkingClient: NetworkingClient) {
         self.coreConfig = coreConfig
         self.networkingClient = networkingClient
     }

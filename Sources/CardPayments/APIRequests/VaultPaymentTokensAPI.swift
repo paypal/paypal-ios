@@ -9,7 +9,7 @@ class VaultPaymentTokensAPI {
     // MARK: - Private Properties
     
     private let coreConfig: CoreConfig
-    private let networkingClient: HTTPNetworkingClient
+    private let networkingClient: NetworkingClient
     
     // MARK: - Initializer
     
@@ -19,7 +19,7 @@ class VaultPaymentTokensAPI {
     }
     
     /// Exposed for injecting MockNetworkingClient in tests
-    init(coreConfig: CoreConfig, networkingClient: HTTPNetworkingClient) {
+    init(coreConfig: CoreConfig, networkingClient: NetworkingClient) {
         self.coreConfig = coreConfig
         self.networkingClient = networkingClient
     }
@@ -57,7 +57,8 @@ class VaultPaymentTokensAPI {
             queryNameForURL: "UpdateVaultSetupToken"
         )
 
-        let httpResponse = try await networkingClient.fetch(request: graphQLRequest)
+        let httpResponse =
+            try await networkingClient.fetch(request: graphQLRequest, clientContext: nil)
         
         return try HTTPResponseParser().parseGraphQL(httpResponse, as: UpdateSetupTokenResponse.self)
     }

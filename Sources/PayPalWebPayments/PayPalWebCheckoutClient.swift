@@ -10,7 +10,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
     private let clientConfigAPI: UpdateClientConfigAPI
     private let webAuthenticationSession: WebAuthenticationSession
-    private let networkingClient: HTTPNetworkingClient
+    private let networkingClient: NetworkingClient
     private var analyticsService: AnalyticsService?
 
     /// Initialize a PayPalWebCheckoutClient to process PayPal transaction
@@ -26,7 +26,7 @@ public class PayPalWebCheckoutClient: NSObject {
     /// For internal use for testing/mocking purpose
     init(
         config: CoreConfig,
-        networkingClient: HTTPNetworkingClient,
+        networkingClient: NetworkingClient,
         clientConfigAPI: UpdateClientConfigAPI,
         webAuthenticationSession: WebAuthenticationSession
     ) {

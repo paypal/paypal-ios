@@ -4,7 +4,7 @@ import Foundation
 ///
 /// `HTTPNetworkingClient` transforms REST & GraphQL requests into the proper HTTP format and executes network requests.
 @_documentation(visibility: private)
-public class HTTPNetworkingClient {
+public class HTTPNetworkingClient: NetworkingClient {
         
     // MARK: - Internal Properties
     
