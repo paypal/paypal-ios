@@ -14,7 +14,7 @@ public class HTTPNetworkingClient: NetworkingClient {
     // MARK: - Public Initializer
 
     public convenience init(coreConfig: CoreConfig) {
-        self.init(http: HTTP(coreConfig: coreConfig), coreConfig: coreConfig)
+        self.init(http: URLSessionHTTPClient(coreConfig: coreConfig), coreConfig: coreConfig)
     }
 
     // MARK: - Internal Initializer
