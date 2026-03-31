@@ -8,7 +8,7 @@ public class NetworkingClient {
         
     // MARK: - Internal Properties
     
-    private var http: HTTP
+    private var http: HTTPClient
     private let coreConfig: CoreConfig
     
     // MARK: - Public Initializer
@@ -21,9 +21,9 @@ public class NetworkingClient {
     // MARK: - Internal Initializer
 
     /// Exposed for testing
-    init(http: HTTP) {
+    init(http: HTTPClient, coreConfig: CoreConfig) {
         self.http = http
-        self.coreConfig = http.coreConfig
+        self.coreConfig = coreConfig
     }
     
     // MARK: - Public Methods

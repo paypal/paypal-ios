@@ -1,7 +1,7 @@
 import Foundation
 
 /// `HTTP` constructs `URLRequest`s and interfaces directly with `URLSession` to execute network requests.
-class HTTP {
+class HTTP: HTTPClient {
     
     let coreConfig: CoreConfig
     private var urlSession: URLSessionProtocol
