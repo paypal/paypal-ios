@@ -2,22 +2,21 @@ import Foundation
 
 /// This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
 ///
-/// `NetworkingClient` transforms REST & GraphQL requests into the proper HTTP format and executes network requests.
+/// `HTTPNetworkingClient` transforms REST & GraphQL requests into the proper HTTP format and executes network requests.
 @_documentation(visibility: private)
-public class NetworkingClient {
+public class HTTPNetworkingClient {
         
     // MARK: - Internal Properties
     
-    private var http: HTTPClient
+    private let http: HTTPClient
     private let coreConfig: CoreConfig
     
     // MARK: - Public Initializer
 
-    public init(coreConfig: CoreConfig) {
-        self.http = HTTP(coreConfig: coreConfig)
-        self.coreConfig = coreConfig
+    public convenience init(coreConfig: CoreConfig) {
+        self.init(http: HTTP(coreConfig: coreConfig), coreConfig: coreConfig)
     }
-    
+
     // MARK: - Internal Initializer
 
     /// Exposed for testing

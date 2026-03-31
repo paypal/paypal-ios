@@ -11,17 +11,17 @@ class CheckoutOrdersAPI {
     // MARK: - Private Properties
 
     private let coreConfig: CoreConfig
-    private let networkingClient: NetworkingClient
+    private let networkingClient: HTTPNetworkingClient
     
     // MARK: - Initializer
     
     init(coreConfig: CoreConfig) {
         self.coreConfig = coreConfig
-        self.networkingClient = NetworkingClient(coreConfig: coreConfig)
+        self.networkingClient = HTTPNetworkingClient(coreConfig: coreConfig)
     }
     
-    /// Exposed for injecting MockNetworkingClient in tests
-    init(coreConfig: CoreConfig, networkingClient: NetworkingClient) {
+    /// Exposed for injecting MockHTTPNetworkingClient in tests
+    init(coreConfig: CoreConfig, networkingClient: HTTPNetworkingClient) {
         self.coreConfig = coreConfig
         self.networkingClient = networkingClient
     }
