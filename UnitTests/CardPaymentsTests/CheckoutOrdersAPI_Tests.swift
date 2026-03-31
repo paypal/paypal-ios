@@ -26,8 +26,7 @@ class CheckoutOrdersAPI_Tests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        let mockHTTP = MockHTTP(coreConfig: coreConfig)
-        mockNetworkingClient = MockNetworkingClient(http: mockHTTP)
+        mockNetworkingClient = MockNetworkingClient()
         sut = CheckoutOrdersAPI(coreConfig: coreConfig, networkingClient: mockNetworkingClient)
     }
     

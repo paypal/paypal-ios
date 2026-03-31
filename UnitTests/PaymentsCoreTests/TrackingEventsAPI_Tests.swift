@@ -25,8 +25,7 @@ class TrackingEventsAPI_Tests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        let mockHTTP = MockHTTP(coreConfig: coreConfig)
-        mockNetworkingClient = MockNetworkingClient(http: mockHTTP)
+        mockNetworkingClient = MockNetworkingClient()
         mockNetworkingClient.stubHTTPResponse = stubHTTPResponse
         sut = TrackingEventsAPI(coreConfig: coreConfig, networkingClient: mockNetworkingClient)
     }

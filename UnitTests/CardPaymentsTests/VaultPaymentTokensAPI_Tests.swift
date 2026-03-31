@@ -27,8 +27,7 @@ class VaultPaymentTokensAPI_Tests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        let mockHTTP = MockHTTP(coreConfig: coreConfig)
-        mockNetworkingClient = MockNetworkingClient(http: mockHTTP)
+        mockNetworkingClient = MockNetworkingClient()
         sut = VaultPaymentTokensAPI(coreConfig: coreConfig, networkingClient: mockNetworkingClient)
     }
     

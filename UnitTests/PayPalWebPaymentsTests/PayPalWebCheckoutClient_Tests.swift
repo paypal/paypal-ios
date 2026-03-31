@@ -18,7 +18,7 @@ class PayPalClient_Tests: XCTestCase {
         super.setUp()
         config = CoreConfig(clientID: "testClientID", environment: .sandbox)
         mockWebAuthenticationSession = MockWebAuthenticationSession()
-        mockNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: config))
+        mockNetworkingClient = MockNetworkingClient()
         mockClientConfigAPI = MockClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)
 
 

@@ -16,8 +16,7 @@ class UpdateClientConfigAPI_Tests: XCTestCase {
     override func setUp() {
         super.setUp()
 
-        let mockHTTP = MockHTTP(coreConfig: coreConfig)
-        mockNetworkingClient = MockNetworkingClient(http: mockHTTP)
+        mockNetworkingClient = MockNetworkingClient()
         sut = UpdateClientConfigAPI(coreConfig: coreConfig, networkingClient: mockNetworkingClient)
     }
 
