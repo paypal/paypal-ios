@@ -11,27 +11,46 @@ struct CreateSetupTokenParam: Encodable {
     }
 }
 
+let baseReturnHost = "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
+
 struct VaultExperienceContext: Encodable {
 
-    let returnUrl = "sdk.ios.paypal://vault/success"
-    let cancelUrl = "sdk.ios.paypal://vault/cancel"
+    var appSwitchContext: AppSwitchContext?
+    var returnUrl: String
+    var cancelUrl: String
+
+    init(appSwitchContext: AppSwitchContext? = nil) {
+        self.appSwitchContext = appSwitchContext
+        if appSwitchContext != nil {
+            self.returnUrl = baseReturnHost + "/success"
+            self.cancelUrl = baseReturnHost + "/cancel"
+        } else {
+            self.returnUrl = "sdk.ios.paypal://vault/success"
+            self.cancelUrl = "sdk.ios.paypal://vault/cancel"
+        }
+    }
 }
 
 struct PayPal: Encodable {
 
     var usageType: String
-    let experienceContext = VaultExperienceContext()
+    let experienceContext: VaultExperienceContext
 }
 
 struct SetupTokenCard: Encodable {
 
-    let experienceContext = VaultExperienceContext()
+    let experienceContext: VaultExperienceContext
     let verificationMethod: String?
+
+    init(verificationMethod: String?, experienceContext: VaultExperienceContext) {
+        self.verificationMethod = verificationMethod
+        self.experienceContext = experienceContext
+    }
 }
 
 enum PaymentSourceType: Encodable {
-    case card(verification: String?)
-    case paypal(usageType: String)
+    case card(verification: String?, experienceContext: VaultExperienceContext)
+    case paypal(usageType: String, experienceContext: VaultExperienceContext)
 
     private enum CodingKeys: String, CodingKey {
         case card, paypal
@@ -40,10 +59,10 @@ enum PaymentSourceType: Encodable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
-        case .card(let verification):
-            try container.encode(SetupTokenCard(verificationMethod: verification), forKey: .card)
-        case .paypal(let usageType):
-            try container.encode(PayPal(usageType: usageType), forKey: .paypal)
+        case let .card(verification, experienceContext):
+            try container.encode(SetupTokenCard(verificationMethod: verification, experienceContext: experienceContext), forKey: .card)
+        case let .paypal(usageType, experienceContext):
+            try container.encode(PayPal(usageType: usageType, experienceContext: experienceContext), forKey: .paypal)
         }
     }
 }

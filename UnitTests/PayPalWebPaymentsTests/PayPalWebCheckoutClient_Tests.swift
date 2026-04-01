@@ -12,6 +12,7 @@ class PayPalClient_Tests: XCTestCase {
     var payPalClient: PayPalWebCheckoutClient!
     var mockNetworkingClient: MockNetworkingClient!
     var mockClientConfigAPI: MockClientConfigAPI!
+    var mockPatchCCOAPI: MockPatchCCOAPI!
 
 
     override func setUp() {
@@ -20,12 +21,14 @@ class PayPalClient_Tests: XCTestCase {
         mockWebAuthenticationSession = MockWebAuthenticationSession()
         mockNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: config))
         mockClientConfigAPI = MockClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)
+        mockPatchCCOAPI = MockPatchCCOAPI(coreConfig: config)
 
 
         payPalClient = PayPalWebCheckoutClient(
             config: config,
             networkingClient: mockNetworkingClient,
             clientConfigAPI: mockClientConfigAPI,
+            patchCCOAPI: mockPatchCCOAPI,
             webAuthenticationSession: mockWebAuthenticationSession
         )
     }
@@ -42,7 +45,7 @@ class PayPalClient_Tests: XCTestCase {
 
         XCTAssertEqual(mockWebAuthenticationSession.lastLaunchedURL?.absoluteString, "https://sandbox.paypal.com/agreements/approve?approval_session_id=fake-token&integration_artifact=MOBILE_SDK")
     }
-    
+
     func testVault_whenLive_launchesCorrectURLInWebSession() {
         config = CoreConfig(clientID: "testClientID", environment: .live)
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
@@ -54,16 +57,17 @@ class PayPalClient_Tests: XCTestCase {
             config: config,
             networkingClient: mockNetworkingClient,
             clientConfigAPI: mockClientConfigAPI,
+            patchCCOAPI: mockPatchCCOAPI,
             webAuthenticationSession: mockWebAuthenticationSession
         )
-        
+
         let vaultRequest = PayPalVaultRequest(setupTokenID: "fake-token")
         payPalClient.vault(vaultRequest) { _ in }
         wait(for: [started], timeout: 1.0)
 
         XCTAssertEqual(mockWebAuthenticationSession.lastLaunchedURL?.absoluteString, "https://paypal.com/agreements/approve?approval_session_id=fake-token&integration_artifact=MOBILE_SDK")
     }
-    
+
     func testVault_whenSuccessUrl_ReturnsVaultToken() {
 
         mockWebAuthenticationSession.cannedResponseURL = URL(string: "sdk.ios.paypal://vault/success?approval_token_id=fakeTokenID&approval_session_id=fakeSessionID")
@@ -196,7 +200,7 @@ class PayPalClient_Tests: XCTestCase {
             domain: PayPalError.domain,
             errorDescription: PayPalError.payPalVaultResponseError.errorDescription
         )
-        
+
         let vaultRequest = PayPalVaultRequest(setupTokenID: "fakeTokenID")
         payPalClient.vault(vaultRequest) { result in
             switch result {
@@ -208,7 +212,7 @@ class PayPalClient_Tests: XCTestCase {
             }
             expectation.fulfill()
         }
-        
+
         waitForExpectations(timeout: 10)
     }
 
