@@ -155,15 +155,15 @@ public class PayPalWebCheckoutClient: NSObject {
                                 completion: completion
                             )
                         } else if let orderID = self.getQueryStringParameter(url: url.absoluteString, param: "token"),
-                            let payerID = self.getQueryStringParameter(url: url.absoluteString, param: "PayerID") {
+                                  let payerID = self.getQueryStringParameter(url: url.absoluteString, param: "PayerID") {
                             let result = PayPalWebCheckoutResult(orderID: orderID, payerID: payerID)
                             self.notifyCheckoutSuccess(for: result, completion: completion)
                         } else {
                             self.notifyCheckoutFailure(with: PayPalError.malformedResultError, completion: completion)
                         }
                     }
-                )
-            }
+                }
+            )
         }
     }
 
