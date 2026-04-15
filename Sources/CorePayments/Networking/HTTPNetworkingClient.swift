@@ -1,13 +1,12 @@
 import Foundation
 
-/// This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
+/// This class is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
 ///
 /// `HTTPNetworkingClient` transforms REST & GraphQL requests into the proper HTTP format and executes network requests.
 @_documentation(visibility: private)
 public class HTTPNetworkingClient: NetworkingClient {
         
-    // MARK: - Internal Properties
-    
+    // MARK: - Private Properties
     private let http: HTTPClient
     private let coreConfig: CoreConfig
     
