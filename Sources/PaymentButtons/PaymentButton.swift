@@ -46,7 +46,7 @@ public class PaymentButton: UIButton {
         self.size = size
         self.insets = insets
         self.label = label
-        self.analyticsService.sendEvent("payment-button:initialized", buttonType: fundingSource.rawValue)
+        self.analyticsService.sendEvent(PaymentButtonAnalyticsEvent.initialized, buttonType: fundingSource.rawValue)
         super.init(frame: .zero)
         UIFont.registerFont()
         customizeAppearance()
@@ -174,7 +174,7 @@ public class PaymentButton: UIButton {
     // MARK: - Private
 
     @objc private func onTap() {
-        analyticsService.sendEvent("payment-button:tapped", buttonType: fundingSource.rawValue)
+        analyticsService.sendEvent(PaymentButtonAnalyticsEvent.tapped, buttonType: fundingSource.rawValue)
     }
 
     // MARK: - Configuration

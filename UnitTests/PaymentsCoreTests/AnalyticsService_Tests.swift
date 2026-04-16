@@ -51,4 +51,21 @@ class AnalyticsService_Tests: XCTestCase {
     func testSendEvent_whenAPIRequestFails_logsErrorToConsole() {
         // We currently have no way to validate our console logging
     }
+
+    // MARK: - sendEvent(AnalyticsEventName)
+
+    /// Minimal in-test event to exercise the enum-based entry point without
+    /// pulling module-specific event catalogs into the CorePayments test target.
+    private enum TestEvent: String, AnalyticsEventName {
+        case fakeEvent = "core-payments:test:fake-event"
+
+        var eventName: String { rawValue }
+    }
+
+    func testSendEvent_withAnalyticsEventName_forwardsEventName() async {
+        await sut.performEventRequest(TestEvent.fakeEvent.eventName, correlationID: "corr-id")
+
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.eventName, "core-payments:test:fake-event")
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.correlationID, "corr-id")
+    }
 }
