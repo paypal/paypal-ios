@@ -5,24 +5,41 @@ final class CardAnalyticsEvent_Tests: XCTestCase {
 
     /// Locks the FPTI event name for every case. If you change a string here,
     /// you are changing an analytics contract that downstream dashboards depend on.
-    func testEventName_matchesFPTIContract() {
-        XCTAssertEqual(CardAnalyticsEvent.approveOrderStarted.eventName, "card-payments:approve-order:started")
-        XCTAssertEqual(CardAnalyticsEvent.approveOrderAuthChallengeRequired.eventName, "card-payments:approve-order:auth-challenge-required")
-        XCTAssertEqual(CardAnalyticsEvent.approveOrderAuthChallengePresentationSucceeded.eventName, "card-payments:approve-order:auth-challenge-presentation:succeeded")
-        XCTAssertEqual(CardAnalyticsEvent.approveOrderAuthChallengePresentationFailed.eventName, "card-payments:approve-order:auth-challenge-presentation:failed")
-        XCTAssertEqual(CardAnalyticsEvent.approveOrderSucceeded.eventName, "card-payments:approve-order:succeeded")
-        XCTAssertEqual(CardAnalyticsEvent.approveOrderFailed.eventName, "card-payments:approve-order:failed")
-        XCTAssertEqual(CardAnalyticsEvent.approveOrderAuthChallengeSucceeded.eventName, "card-payments:approve-order:auth-challenge:succeeded")
-        XCTAssertEqual(CardAnalyticsEvent.approveOrderAuthChallengeFailed.eventName, "card-payments:approve-order:auth-challenge:failed")
-        XCTAssertEqual(CardAnalyticsEvent.approveOrderAuthChallengeCanceled.eventName, "card-payments:approve-order:auth-challenge:canceled")
-        XCTAssertEqual(CardAnalyticsEvent.vaultStarted.eventName, "card-payments:vault-wo-purchase:started")
-        XCTAssertEqual(CardAnalyticsEvent.vaultAuthChallengeRequired.eventName, "card-payments:vault-wo-purchase:auth-challenge-required")
-        XCTAssertEqual(CardAnalyticsEvent.vaultAuthChallengePresentationSucceeded.eventName, "card-payments:vault-wo-purchase:auth-challenge-presentation:succeeded")
-        XCTAssertEqual(CardAnalyticsEvent.vaultAuthChallengePresentationFailed.eventName, "card-payments:vault-wo-purchase:auth-challenge-presentation:failed")
-        XCTAssertEqual(CardAnalyticsEvent.vaultSucceeded.eventName, "card-payments:vault-wo-purchase:succeeded")
-        XCTAssertEqual(CardAnalyticsEvent.vaultFailed.eventName, "card-payments:vault-wo-purchase:failed")
-        XCTAssertEqual(CardAnalyticsEvent.vaultAuthChallengeSucceeded.eventName, "card-payments:vault-wo-purchase:auth-challenge:succeeded")
-        XCTAssertEqual(CardAnalyticsEvent.vaultAuthChallengeFailed.eventName, "card-payments:vault-wo-purchase:auth-challenge:failed")
-        XCTAssertEqual(CardAnalyticsEvent.vaultAuthChallengeCanceled.eventName, "card-payments:vault-wo-purchase:auth-challenge:canceled")
+    func testApproveOrderEventNames_matchFPTIContract() {
+        let approveOrder = CardAnalyticsEvent.ApproveOrder.self
+        XCTAssertEqual(approveOrder.started.eventName, "card-payments:approve-order:started")
+        XCTAssertEqual(approveOrder.authChallengeRequired.eventName, "card-payments:approve-order:auth-challenge-required")
+        XCTAssertEqual(
+            approveOrder.authChallengePresentationSucceeded.eventName,
+            "card-payments:approve-order:auth-challenge-presentation:succeeded"
+        )
+        XCTAssertEqual(
+            approveOrder.authChallengePresentationFailed.eventName,
+            "card-payments:approve-order:auth-challenge-presentation:failed"
+        )
+        XCTAssertEqual(approveOrder.succeeded.eventName, "card-payments:approve-order:succeeded")
+        XCTAssertEqual(approveOrder.failed.eventName, "card-payments:approve-order:failed")
+        XCTAssertEqual(approveOrder.authChallengeSucceeded.eventName, "card-payments:approve-order:auth-challenge:succeeded")
+        XCTAssertEqual(approveOrder.authChallengeFailed.eventName, "card-payments:approve-order:auth-challenge:failed")
+        XCTAssertEqual(approveOrder.authChallengeCanceled.eventName, "card-payments:approve-order:auth-challenge:canceled")
+    }
+
+    func testVaultEventNames_matchFPTIContract() {
+        let vault = CardAnalyticsEvent.Vault.self
+        XCTAssertEqual(vault.started.eventName, "card-payments:vault-wo-purchase:started")
+        XCTAssertEqual(vault.authChallengeRequired.eventName, "card-payments:vault-wo-purchase:auth-challenge-required")
+        XCTAssertEqual(
+            vault.authChallengePresentationSucceeded.eventName,
+            "card-payments:vault-wo-purchase:auth-challenge-presentation:succeeded"
+        )
+        XCTAssertEqual(
+            vault.authChallengePresentationFailed.eventName,
+            "card-payments:vault-wo-purchase:auth-challenge-presentation:failed"
+        )
+        XCTAssertEqual(vault.succeeded.eventName, "card-payments:vault-wo-purchase:succeeded")
+        XCTAssertEqual(vault.failed.eventName, "card-payments:vault-wo-purchase:failed")
+        XCTAssertEqual(vault.authChallengeSucceeded.eventName, "card-payments:vault-wo-purchase:auth-challenge:succeeded")
+        XCTAssertEqual(vault.authChallengeFailed.eventName, "card-payments:vault-wo-purchase:auth-challenge:failed")
+        XCTAssertEqual(vault.authChallengeCanceled.eventName, "card-payments:vault-wo-purchase:auth-challenge:canceled")
     }
 }

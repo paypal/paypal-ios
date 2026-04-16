@@ -53,7 +53,7 @@ public class CardClient: NSObject {
     ///                 - `.failure(CoreSDKError)`: Describes the reason for failure.
     public func vault(_ vaultRequest: CardVaultRequest, completion: @escaping (Result<CardVaultResult, CoreSDKError>) -> Void) {
         analyticsService = AnalyticsService(coreConfig: config, setupToken: vaultRequest.setupTokenID)
-        analyticsService?.sendEvent(CardAnalyticsEvent.vaultStarted)
+        analyticsService?.sendEvent(CardAnalyticsEvent.Vault.started)
         Task {
             do {
                 let result = try await vaultAPI.updateSetupToken(cardVaultRequest: vaultRequest).updateVaultSetupToken
@@ -64,7 +64,7 @@ public class CardClient: NSObject {
                         self.notify3dsVaultFailure(with: CardError.threeDSecureURLError, completion: completion)
                         return
                     }
-                    analyticsService?.sendEvent(CardAnalyticsEvent.vaultAuthChallengeRequired)
+                    analyticsService?.sendEvent(CardAnalyticsEvent.Vault.authChallengeRequired)
                     startVaultThreeDSecureChallenge(url: url, setupTokenID: vaultRequest.setupTokenID, completion: completion)
                 } else {
                     let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status, didAttemptThreeDSecureAuthentication: false)
@@ -112,7 +112,7 @@ public class CardClient: NSObject {
     ///                 - `.failure(CoreSDKError)`: Describes the reason for failure.
     public func approveOrder(request: CardRequest, completion: @escaping (Result<CardResult, CoreSDKError>) -> Void) {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
-        analyticsService?.sendEvent(CardAnalyticsEvent.approveOrderStarted)
+        analyticsService?.sendEvent(CardAnalyticsEvent.ApproveOrder.started)
         Task {
             do {
                 _ = try await clientConfigAPI.updateClientConfig(
@@ -134,7 +134,7 @@ public class CardClient: NSObject {
                         return
                     }
                 
-                    analyticsService?.sendEvent(CardAnalyticsEvent.approveOrderAuthChallengeRequired)
+                    analyticsService?.sendEvent(CardAnalyticsEvent.ApproveOrder.authChallengeRequired)
                     startThreeDSecureChallenge(url: url, orderId: result.id, completion: completion)
                 } else {
                     let cardResult = CardResult(orderID: result.id, status: result.status, didAttemptThreeDSecureAuthentication: false)
@@ -179,9 +179,9 @@ public class CardClient: NSObject {
             context: self,
             sessionDidDisplay: { [weak self] didDisplay in
                 if didDisplay {
-                    self?.analyticsService?.sendEvent(CardAnalyticsEvent.approveOrderAuthChallengePresentationSucceeded)
+                    self?.analyticsService?.sendEvent(CardAnalyticsEvent.ApproveOrder.authChallengePresentationSucceeded)
                 } else {
-                    self?.analyticsService?.sendEvent(CardAnalyticsEvent.approveOrderAuthChallengePresentationFailed)
+                    self?.analyticsService?.sendEvent(CardAnalyticsEvent.ApproveOrder.authChallengePresentationFailed)
                 }
             },
             sessionDidComplete: { _, error in
@@ -219,9 +219,9 @@ public class CardClient: NSObject {
             sessionDidDisplay: { [weak self] didDisplay in
                 if didDisplay {
                     // TODO: analytics for card vault
-                    self?.analyticsService?.sendEvent(CardAnalyticsEvent.vaultAuthChallengePresentationSucceeded)
+                    self?.analyticsService?.sendEvent(CardAnalyticsEvent.Vault.authChallengePresentationSucceeded)
                 } else {
-                    self?.analyticsService?.sendEvent(CardAnalyticsEvent.vaultAuthChallengePresentationFailed)
+                    self?.analyticsService?.sendEvent(CardAnalyticsEvent.Vault.authChallengePresentationFailed)
                 }
             },
             sessionDidComplete: { _, error in
@@ -243,52 +243,52 @@ public class CardClient: NSObject {
     }
 
     private func notifyCheckoutSuccess(for result: CardResult, completion: (Result<CardResult, CoreSDKError>) -> Void) {
-        analyticsService?.sendEvent(CardAnalyticsEvent.approveOrderSucceeded)
+        analyticsService?.sendEvent(CardAnalyticsEvent.ApproveOrder.succeeded)
         completion(.success(result))
     }
 
     private func notify3dsCheckoutSuccess(for result: CardResult, completion: (Result<CardResult, CoreSDKError>) -> Void) {
-        analyticsService?.sendEvent(CardAnalyticsEvent.approveOrderAuthChallengeSucceeded)
+        analyticsService?.sendEvent(CardAnalyticsEvent.ApproveOrder.authChallengeSucceeded)
         completion(.success(result))
     }
 
     private func notifyCheckoutFailure(with error: CoreSDKError, completion: (Result<CardResult, CoreSDKError>) -> Void) {
-        analyticsService?.sendEvent(CardAnalyticsEvent.approveOrderFailed)
+        analyticsService?.sendEvent(CardAnalyticsEvent.ApproveOrder.failed)
         completion(.failure(error))
     }
 
     private func notify3dsCheckoutFailure(with error: CoreSDKError, completion: (Result<CardResult, CoreSDKError>) -> Void) {
-        analyticsService?.sendEvent(CardAnalyticsEvent.approveOrderAuthChallengeFailed)
+        analyticsService?.sendEvent(CardAnalyticsEvent.ApproveOrder.authChallengeFailed)
         completion(.failure(error))
     }
 
     private func notify3dsCheckoutCancelWithError(with error: CoreSDKError, completion: (Result<CardResult, CoreSDKError>) -> Void) {
-        analyticsService?.sendEvent(CardAnalyticsEvent.approveOrderAuthChallengeCanceled)
+        analyticsService?.sendEvent(CardAnalyticsEvent.ApproveOrder.authChallengeCanceled)
         completion(.failure(error))
     }
 
     private func notifyVaultSuccess(for vaultResult: CardVaultResult, completion: (Result<CardVaultResult, CoreSDKError>) -> Void) {
-        analyticsService?.sendEvent(CardAnalyticsEvent.vaultSucceeded)
+        analyticsService?.sendEvent(CardAnalyticsEvent.Vault.succeeded)
         completion(.success(vaultResult))
     }
 
     private func notify3dsVaultSuccess(for vaultResult: CardVaultResult, completion: (Result<CardVaultResult, CoreSDKError>) -> Void) {
-        analyticsService?.sendEvent(CardAnalyticsEvent.vaultAuthChallengeSucceeded)
+        analyticsService?.sendEvent(CardAnalyticsEvent.Vault.authChallengeSucceeded)
         completion(.success(vaultResult))
     }
 
     private func notifyVaultFailure(with vaultError: CoreSDKError, completion: (Result<CardVaultResult, CoreSDKError>) -> Void) {
-        analyticsService?.sendEvent(CardAnalyticsEvent.vaultFailed)
+        analyticsService?.sendEvent(CardAnalyticsEvent.Vault.failed)
         completion(.failure(vaultError))
     }
 
     private func notify3dsVaultFailure(with vaultError: CoreSDKError, completion: (Result<CardVaultResult, CoreSDKError>) -> Void) {
-        analyticsService?.sendEvent(CardAnalyticsEvent.vaultAuthChallengeFailed)
+        analyticsService?.sendEvent(CardAnalyticsEvent.Vault.authChallengeFailed)
         completion(.failure(vaultError))
     }
 
     private func notify3dsVaultCancelWithError(with vaultError: CoreSDKError, completion: (Result<CardVaultResult, CoreSDKError>) -> Void) {
-        analyticsService?.sendEvent(CardAnalyticsEvent.vaultAuthChallengeCanceled)
+        analyticsService?.sendEvent(CardAnalyticsEvent.Vault.authChallengeCanceled)
         completion(.failure(vaultError))
     }
 }

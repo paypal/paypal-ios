@@ -50,7 +50,7 @@ public class PayPalWebCheckoutClient: NSObject {
         completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
     ) {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
-        analyticsService?.sendEvent(PayPalWebAnalyticsEvent.checkoutStarted)
+        analyticsService?.sendEvent(PayPalWebAnalyticsEvent.Checkout.started)
 
         Task {
             do {
@@ -79,9 +79,9 @@ public class PayPalWebCheckoutClient: NSObject {
                 context: self,
                 sessionDidDisplay: { [weak self] didDisplay in
                     if didDisplay {
-                        self?.analyticsService?.sendEvent(PayPalWebAnalyticsEvent.checkoutAuthChallengePresentationSucceeded)
+                        self?.analyticsService?.sendEvent(PayPalWebAnalyticsEvent.Checkout.authChallengePresentationSucceeded)
                     } else {
-                        self?.analyticsService?.sendEvent(PayPalWebAnalyticsEvent.checkoutAuthChallengePresentationFailed)
+                        self?.analyticsService?.sendEvent(PayPalWebAnalyticsEvent.Checkout.authChallengePresentationFailed)
                     }
                 },
                 sessionDidComplete: { url, error in
@@ -158,7 +158,7 @@ public class PayPalWebCheckoutClient: NSObject {
     ///                 - `.failure(CoreSDKError)`: Describes the reason for failure.
     public func vault(_ vaultRequest: PayPalVaultRequest, completion: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void) {
         analyticsService = AnalyticsService(coreConfig: config, setupToken: vaultRequest.setupTokenID)
-        analyticsService?.sendEvent(PayPalWebAnalyticsEvent.vaultStarted)
+        analyticsService?.sendEvent(PayPalWebAnalyticsEvent.Vault.started)
 
         let vaultURL = config.environment.paypalVaultCheckoutURL
         var vaultURLComponents = URLComponents(url: vaultURL, resolvingAgainstBaseURL: false)
@@ -178,9 +178,9 @@ public class PayPalWebCheckoutClient: NSObject {
             context: self,
             sessionDidDisplay: { [weak self] didDisplay in
                 if didDisplay {
-                    self?.analyticsService?.sendEvent(PayPalWebAnalyticsEvent.vaultAuthChallengePresentationSucceeded)
+                    self?.analyticsService?.sendEvent(PayPalWebAnalyticsEvent.Vault.authChallengePresentationSucceeded)
                 } else {
-                    self?.analyticsService?.sendEvent(PayPalWebAnalyticsEvent.vaultAuthChallengePresentationFailed)
+                    self?.analyticsService?.sendEvent(PayPalWebAnalyticsEvent.Vault.authChallengePresentationFailed)
                 }
             },
             sessionDidComplete: { url, error in
@@ -242,7 +242,7 @@ public class PayPalWebCheckoutClient: NSObject {
         for result: PayPalWebCheckoutResult,
         completion: (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
     ) {
-        self.analyticsService?.sendEvent(PayPalWebAnalyticsEvent.checkoutSucceeded)
+        self.analyticsService?.sendEvent(PayPalWebAnalyticsEvent.Checkout.succeeded)
         completion(.success(result))
     }
 
@@ -250,7 +250,7 @@ public class PayPalWebCheckoutClient: NSObject {
         with error: CoreSDKError,
         completion: (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
     ) {
-        self.analyticsService?.sendEvent(PayPalWebAnalyticsEvent.checkoutFailed)
+        self.analyticsService?.sendEvent(PayPalWebAnalyticsEvent.Checkout.failed)
         completion(.failure(error))
     }
 
@@ -258,22 +258,22 @@ public class PayPalWebCheckoutClient: NSObject {
         with error: CoreSDKError,
         completion: (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
     ) {
-        analyticsService?.sendEvent(PayPalWebAnalyticsEvent.checkoutCanceled)
+        analyticsService?.sendEvent(PayPalWebAnalyticsEvent.Checkout.canceled)
         completion(.failure(error))
     }
 
     private func notifyVaultSuccess(for result: PayPalVaultResult, completion: (Result<PayPalVaultResult, CoreSDKError>) -> Void) {
-        analyticsService?.sendEvent(PayPalWebAnalyticsEvent.vaultSucceeded)
+        analyticsService?.sendEvent(PayPalWebAnalyticsEvent.Vault.succeeded)
         completion(.success(result))
     }
 
     private func notifyVaultFailure(with error: CoreSDKError, completion: (Result<PayPalVaultResult, CoreSDKError>) -> Void) {
-        analyticsService?.sendEvent(PayPalWebAnalyticsEvent.vaultFailed)
+        analyticsService?.sendEvent(PayPalWebAnalyticsEvent.Vault.failed)
         completion(.failure(error))
     }
 
     private func notifyVaultCancelWithError(with vaultError: CoreSDKError, completion: (Result<PayPalVaultResult, CoreSDKError>) -> Void) {
-        analyticsService?.sendEvent(PayPalWebAnalyticsEvent.vaultCanceled)
+        analyticsService?.sendEvent(PayPalWebAnalyticsEvent.Vault.canceled)
         completion(.failure(vaultError))
     }
 }
