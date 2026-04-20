@@ -13,7 +13,7 @@ public class UpdateClientConfigAPI {
 
     public init(coreConfig: CoreConfig) {
         self.coreConfig = coreConfig
-        self.networkingClient = NetworkingClient(coreConfig: coreConfig)
+        self.networkingClient = HTTPNetworkingClient(coreConfig: coreConfig)
     }
 
     /// Exposed for injecting MockNetworkingClient in tests

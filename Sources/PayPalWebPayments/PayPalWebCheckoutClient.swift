@@ -19,7 +19,7 @@ public class PayPalWebCheckoutClient: NSObject {
     public init(config: CoreConfig) {
         self.config = config
         self.webAuthenticationSession = WebAuthenticationSession()
-        self.networkingClient = NetworkingClient(coreConfig: config)
+        self.networkingClient = HTTPNetworkingClient(coreConfig: config)
         self.clientConfigAPI = UpdateClientConfigAPI(coreConfig: config)
     }
     

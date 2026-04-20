@@ -1,14 +1,14 @@
 @testable import CorePayments
 import Foundation
 
-class MockHTTP: HTTP {
+class MockHTTPClient: HTTPClient {
         
     var stubHTTPResponse: HTTPResponse?
     var stubHTTPError: Error?
     
     var capturedHTTPRequest: HTTPRequest?
     
-    override func performRequest(_ httpRequest: HTTPRequest) async throws -> HTTPResponse {
+    func performRequest(_ httpRequest: HTTPRequest) async throws -> HTTPResponse {
         capturedHTTPRequest = httpRequest
         
         if let stubHTTPError {

@@ -17,7 +17,7 @@ class CheckoutOrdersAPI {
     
     init(coreConfig: CoreConfig) {
         self.coreConfig = coreConfig
-        self.networkingClient = NetworkingClient(coreConfig: coreConfig)
+        self.networkingClient = HTTPNetworkingClient(coreConfig: coreConfig)
     }
     
     /// Exposed for injecting MockNetworkingClient in tests

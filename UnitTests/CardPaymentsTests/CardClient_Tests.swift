@@ -33,7 +33,7 @@ class CardClient_Tests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        mockNetworkingClient = MockNetworkingClient(coreConfig: config)
+        mockNetworkingClient = MockNetworkingClient()
         cardRequest = CardRequest(orderID: "testOrderId", card: card)
         cardVaultRequest = CardVaultRequest(card: card, setupTokenID: "testSetupTokenId")
 

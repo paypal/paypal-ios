@@ -11,7 +11,7 @@ class HTTP_Tests: XCTestCase {
     
     let config = CoreConfig(clientID: "mockClientID", environment: .sandbox)
     var mockURLSession: MockURLSession!
-    var sut: HTTP!
+    var sut: URLSessionHTTPClient!
     
     // MARK: - Test lifecycle
     
@@ -25,10 +25,7 @@ class HTTP_Tests: XCTestCase {
         mockURLSession.cannedURLResponse = nil
         mockURLSession.cannedJSONData = nil
         
-        sut = HTTP(
-            urlSession: mockURLSession,
-            coreConfig: config
-        )
+        sut = URLSessionHTTPClient(urlSession: mockURLSession, coreConfig: config)
     }
     
     // MARK: - performRequest()

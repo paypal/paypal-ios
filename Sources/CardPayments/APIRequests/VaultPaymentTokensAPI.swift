@@ -15,7 +15,7 @@ class VaultPaymentTokensAPI {
     
     init(coreConfig: CoreConfig) {
         self.coreConfig = coreConfig
-        self.networkingClient = NetworkingClient(coreConfig: coreConfig)
+        self.networkingClient = HTTPNetworkingClient(coreConfig: coreConfig)
     }
     
     /// Exposed for injecting MockNetworkingClient in tests
@@ -57,7 +57,8 @@ class VaultPaymentTokensAPI {
             queryNameForURL: "UpdateVaultSetupToken"
         )
 
-        let httpResponse = try await networkingClient.fetch(request: graphQLRequest)
+        let httpResponse =
+            try await networkingClient.fetch(request: graphQLRequest, clientContext: nil)
         
         return try HTTPResponseParser().parseGraphQL(httpResponse, as: UpdateSetupTokenResponse.self)
     }
