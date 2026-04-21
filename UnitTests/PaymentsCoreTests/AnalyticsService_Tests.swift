@@ -22,7 +22,7 @@ class AnalyticsService_Tests: XCTestCase {
     // MARK: - sendEvent()
         
     func testSendEvent_sendsAppropriateAnalyticsEventData() async {
-        await sut.performEventRequest("some-event", correlationID: "fake-correlation-id")
+        await sut.performTrackRequest("some-event", correlationID: "fake-correlation-id")
 
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.eventName, "some-event")
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.clientID, "some-client-id")
@@ -37,13 +37,13 @@ class AnalyticsService_Tests: XCTestCase {
             trackingEventsAPI: mockTrackingEventsAPI
         )
         
-        await sut.performEventRequest("some-event")
+        await sut.performTrackRequest("some-event")
         
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.environment, "live")
     }
     
     func testSendEvent_whenSandbox_sendsAppropriateEnvName() async {
-        await sut.performEventRequest("some-event")
+        await sut.performTrackRequest("some-event")
         
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.environment, "sandbox")
     }
@@ -63,7 +63,7 @@ class AnalyticsService_Tests: XCTestCase {
     }
 
     func testSendEvent_withAnalyticsEventName_forwardsEventName() async {
-        await sut.performEventRequest(TestEvent.fakeEvent.eventName, correlationID: "corr-id")
+        await sut.performTrackRequest(TestEvent.fakeEvent.eventName, correlationID: "corr-id")
 
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.eventName, "core-payments:test:fake-event")
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.correlationID, "corr-id")

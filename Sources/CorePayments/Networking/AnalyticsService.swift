@@ -2,16 +2,26 @@ import Foundation
 
 /// Constructs `AnalyticsEventData` models and sends FPTI analytics events.
 @_documentation(visibility: private)
-public struct AnalyticsService {
-    
+public class AnalyticsService {
+
     // MARK: - Internal Properties
-    
+
     private let coreConfig: CoreConfig
     private let trackingEventsAPI: TrackingEventsAPI
-    private let orderID: String?
-    private let setupToken: String?
+    public var orderID: String?
+    public var setupToken: String?
+
     // MARK: - Initializer
-    
+
+    /// Primary initializer — clients hold a single `let` reference and
+    /// set `orderID` / `setupToken` per-flow.
+    public init(coreConfig: CoreConfig) {
+        self.coreConfig = coreConfig
+        self.trackingEventsAPI = TrackingEventsAPI(coreConfig: coreConfig)
+        self.orderID = nil
+        self.setupToken = nil
+    }
+
     public init(coreConfig: CoreConfig, orderID: String) {
         self.coreConfig = coreConfig
         self.trackingEventsAPI = TrackingEventsAPI(coreConfig: coreConfig)
@@ -35,7 +45,7 @@ public struct AnalyticsService {
         self.orderID = orderID
         self.setupToken = nil
     }
-    
+
     // MARK: - Public Methods
 
     /// This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
@@ -43,8 +53,8 @@ public struct AnalyticsService {
     /// - Parameter event: A type-safe analytics event defined by a PayPal SDK module.
     /// - Parameter correlationID: correlation ID associated with the request
     /// - Parameter buttonType: The type of button
-    public func sendEvent(_ event: AnalyticsEventName, correlationID: String? = nil, buttonType: String? = nil) {
-        sendEvent(event.eventName, correlationID: correlationID, buttonType: buttonType)
+    public func track(_ event: AnalyticsEventName, correlationID: String? = nil, buttonType: String? = nil) {
+        track(event.eventName, correlationID: correlationID, buttonType: buttonType)
     }
 
     // MARK: - Internal Methods
@@ -54,9 +64,9 @@ public struct AnalyticsService {
     /// Prefer the `AnalyticsEventName` overload. This string-based entry point is
     /// retained for cross-module internal use and unit tests that need to inspect
     /// the emitted event name directly.
-    func sendEvent(_ name: String, correlationID: String? = nil, buttonType: String? = nil) {
+    func track(_ name: String, correlationID: String? = nil, buttonType: String? = nil) {
         Task(priority: .background) {
-            await performEventRequest(name, correlationID: correlationID, buttonType: buttonType)
+            await performTrackRequest(name, correlationID: correlationID, buttonType: buttonType)
         }
     }
 
@@ -65,10 +75,10 @@ public struct AnalyticsService {
     ///   - name: Event name string used to identify this unique event in FPTI
     ///   - correlationID: correlation ID associated with the request
     ///   - buttonType: The type of button
-    func performEventRequest(_ name: String, correlationID: String? = nil, buttonType: String? = nil) async {
+    func performTrackRequest(_ name: String, correlationID: String? = nil, buttonType: String? = nil) async {
         do {
             let clientID = coreConfig.clientID
-            
+
             let eventData = AnalyticsEventData(
                 environment: coreConfig.environment.toString,
                 eventName: name,
@@ -78,7 +88,7 @@ public struct AnalyticsService {
                 setupToken: setupToken,
                 buttonType: buttonType
             )
-            
+
             let (_) = try await trackingEventsAPI.sendEvent(with: eventData)
         } catch {
             NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription)
