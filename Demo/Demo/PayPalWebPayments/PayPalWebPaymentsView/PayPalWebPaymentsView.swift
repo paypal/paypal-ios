@@ -28,7 +28,6 @@ struct PayPalWebPaymentsView: View {
                     Text("")
                         .id("bottomView")
                 }
-                .environmentObject(payPalWebViewModel)
                 .onChange(of: payPalWebViewModel.state) { _ in
                     withAnimation {
                         scrollView.scrollTo("bottomView")
@@ -36,5 +35,6 @@ struct PayPalWebPaymentsView: View {
                 }
             }
         }
+        .environmentObject(payPalWebViewModel)
     }
 }
