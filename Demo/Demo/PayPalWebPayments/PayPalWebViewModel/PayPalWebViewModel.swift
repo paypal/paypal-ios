@@ -15,7 +15,7 @@ class PayPalWebViewModel: ObservableObject {
     var orderID: String? {
         order?.id
     }
-
+    
     let configManager = CoreConfigManager(domain: "PayPalWeb Payments")
     private var payPalDataCollector: PayPalDataCollector?
 
