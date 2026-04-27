@@ -68,6 +68,7 @@
 		BC23E2C22F9FC939009F7BFE /* FormGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC23E2C12F9FC936009F7BFE /* FormGroup.swift */; };
 		BC23E2C42F9FCBF3009F7BFE /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC23E2C32F9FCBEF009F7BFE /* ContainerView.swift */; };
 		BC23E2C62F9FD0E1009F7BFE /* DemoOrderRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC23E2C52F9FD0DD009F7BFE /* DemoOrderRequest.swift */; };
+		BC23E2C82F9FF273009F7BFE /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC23E2C72F9FF26F009F7BFE /* OrderView.swift */; };
 		BC6460CD2A12A2A0002B974B /* EmptyBodyParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6460CC2A12A2A0002B974B /* EmptyBodyParams.swift */; };
 		BC9D4D2227C554090089E5B1 /* LaunchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2127C554090089E5B1 /* LaunchApp.swift */; };
 		BC9D4D2427C58B8D0089E5B1 /* XCUIApplication+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */; };
@@ -193,6 +194,7 @@
 		BC23E2C12F9FC936009F7BFE /* FormGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormGroup.swift; sourceTree = "<group>"; };
 		BC23E2C32F9FCBEF009F7BFE /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
 		BC23E2C52F9FD0DD009F7BFE /* DemoOrderRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoOrderRequest.swift; sourceTree = "<group>"; };
+		BC23E2C72F9FF26F009F7BFE /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
 		BC6460CC2A12A2A0002B974B /* EmptyBodyParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyBodyParams.swift; sourceTree = "<group>"; };
 		BC9D4D1527C54F3F0089E5B1 /* DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC9D4D2127C554090089E5B1 /* LaunchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchApp.swift; sourceTree = "<group>"; };
@@ -411,6 +413,7 @@
 		3BCCFE472A9D962E00C5102F /* CommonComponents */ = {
 			isa = PBXGroup;
 			children = (
+				BC23E2C72F9FF26F009F7BFE /* OrderView.swift */,
 				BC23E2C32F9FCBEF009F7BFE /* ContainerView.swift */,
 				BC23E2C12F9FC936009F7BFE /* FormGroup.swift */,
 				BC23E2BF2F9FC414009F7BFE /* ButtonWithProgress.swift */,
@@ -751,6 +754,7 @@
 				3B6472A72AFAEB3A004745C4 /* PayPalWebTransactionView.swift in Sources */,
 				5301468C28918B4D00184F22 /* ApprovalResult.swift in Sources */,
 				3BC6220B2A97204E00251B85 /* CircularProgressView.swift in Sources */,
+				BC23E2C82F9FF273009F7BFE /* OrderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

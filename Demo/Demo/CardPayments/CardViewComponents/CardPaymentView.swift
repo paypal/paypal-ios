@@ -3,32 +3,26 @@ import SwiftUI
 struct CardPaymentView: View {
 
     @StateObject var cardPaymentViewModel = CardPaymentViewModel()
-    @State var order: Order?
-    @State var isCreatingOrder = false
-
+    @State var createOrderState: LoadingState<Order> = .idle
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
                 CreateOrderForm(onCreateOrderPress: { request in
-                    isCreatingOrder = true
+                    createOrderState = .loading
                     Task {
-                        do {
-                            order = try await cardPaymentViewModel.createOrder(using: request)
-                            isCreatingOrder = false
-                        } catch {
-                            print("❌ failed to fetch orderID: \(error)")
-                        }
+                        createOrderState = await cardPaymentViewModel.createOrder(using: request)
                     }
-                }, isLoading: isCreatingOrder)
-                if let order {
-                    OrderCreateCardResultView(cardPaymentViewModel: cardPaymentViewModel)
-                    NavigationLink {
-                        CardOrderApproveView(orderID: order.id, cardPaymentViewModel: cardPaymentViewModel)
-                    } label: {
-                        Text("Approve Order with Card")
-                    }
-                    .buttonStyle(RoundedBlueButtonStyle())
-                    .padding()
+                }, isLoading: createOrderState.isLoading)
+                if case .loaded(let order) = createOrderState {
+                    OrderView(order: order)
+//                    NavigationLink {
+//                        CardOrderApproveView(orderID: order.id, cardPaymentViewModel: cardPaymentViewModel)
+//                    } label: {
+//                        Text("Approve Order with Card")
+//                    }
+//                    .buttonStyle(RoundedBlueButtonStyle())
+//                    .padding()
                 }
             }
         }
