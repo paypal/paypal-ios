@@ -97,6 +97,21 @@ class CardPaymentViewModel: ObservableObject {
             }
         }
     }
+    
+    func captureOrder(orderID: String) async -> LoadingState<Order> {
+        do {
+            let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
+            let order = try await DemoMerchantAPI.sharedService.captureOrder(
+                orderID: orderID,
+                selectedMerchantIntegration: DemoSettings.merchantIntegration,
+                payPalClientMetadataID: payPalClientMetadataID
+            )
+            return .loaded(order)
+        } catch {
+            print("Error capturing order: \(error.localizedDescription)")
+            return .error(message: error.localizedDescription)
+        }
+    }
 
     func captureOrder(orderID: String, selectedMerchantIntegration: MerchantIntegration) async throws {
         do {

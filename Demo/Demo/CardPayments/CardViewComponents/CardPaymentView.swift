@@ -20,6 +20,7 @@ struct CardPaymentView: View {
     @StateObject var cardPaymentViewModel = CardPaymentViewModel()
     @State var createOrderState: LoadingState<Order> = .idle
     @State var approveOrderResult: LoadingState<CardResult> = .idle
+    @State var captureAuthorizeResult: LoadingState<Order> = .idle
 
     var body: some View {
         ScrollView {
@@ -44,6 +45,19 @@ struct CardPaymentView: View {
                     )
                     if let cardResult = approveOrderResult.value {
                         CardResultView(cardResult: cardResult)
+                        // TODO: grab intent from state somewhere
+                        CaptureAuthorizeForm(onCaptureAuthorizeRequest: {
+                            captureAuthorizeResult = .loading
+                                Task {
+                                    captureAuthorizeResult = await cardPaymentViewModel.captureOrder(orderID: order.id)
+                                }
+                            },
+                            intent: .capture,
+                            isLoading: captureAuthorizeResult.isLoading
+                        )
+                        if let captureResult = captureAuthorizeResult.value {
+                            OrderView(order: captureResult)
+                        }
                     }
                     
 //                    NavigationLink {
@@ -146,6 +160,23 @@ struct CardResultView: View {
             }
             LeadingText("didAttemptThreeDSecureAuthentication", weight: .bold)
             LeadingText("\(cardResult.didAttemptThreeDSecureAuthentication)")
+        }
+    }
+}
+
+struct CaptureAuthorizeForm: View {
+    
+    let onCaptureAuthorizeRequest: () -> Void
+    let intent: Intent
+    let isLoading: Bool
+    
+    var body: some View {
+        let capitalizedIntent = intent.rawValue.capitalized
+        FormGroup {
+            StepHeader(text: "\(capitalizedIntent) Order")
+            ButtonWithProgress(label: capitalizedIntent, state: isLoading ? .loading : .idle) {
+                onCaptureAuthorizeRequest()
+            }
         }
     }
 }
