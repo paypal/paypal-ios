@@ -60,5 +60,11 @@ enum LoadingState<T: Decodable & Equatable>: Equatable {
     case error(message: String)
     case loaded(_ value: T)
     
+    var value: T? {
+        switch self {
+        case .loaded(let value): return value
+        default: return nil
+        }
+    }
     var isLoading: Bool { return self == .loading }
 }

@@ -4,7 +4,6 @@ import CardPayments
 struct CardPaymentState: Equatable {
 
     struct CardResult: Decodable, Equatable {
-
         let id: String
         let status: String?
         let didAttemptThreeDSecureAuthentication: Bool

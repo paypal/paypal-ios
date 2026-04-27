@@ -12,7 +12,7 @@ class CardPaymentViewModel: ObservableObject {
 
     private var cardClient: CardClient?
     
-    func createOrder(using request: DemoOrderRequest) async -> LoadingState<Order> {
+    func createOrder(using request: DemoCreateOrderRequest) async -> LoadingState<Order> {
         var vaultCardPaymentSource: VaultCardPaymentSource?
         if request.shouldVault {
             let customerID = request.vaultCustomerID
@@ -139,6 +139,30 @@ class CardPaymentViewModel: ObservableObject {
                 self.state.authorizedOrderResponse = .error(message: error.localizedDescription)
             }
             print("Error capturing order: \(error.localizedDescription)")
+        }
+    }
+    
+    func approveOrder(using request: DemoApproveOrderRequest) async -> LoadingState<CardPaymentView.CardResult> {
+        do {
+            let config = try await configManager.getCoreConfig()
+            let cardClient = CardClient(config: config)
+            payPalDataCollector = PayPalDataCollector(config: config)
+            let cardRequest = CardRequest(orderID: request.orderID, card: request.card, sca: request.sca)
+            
+            let result = try await cardClient.approveOrder(request: cardRequest)
+            let mappedResult = CardPaymentView.CardResult(
+                id: result.orderID,
+                status: result.status,
+                didAttemptThreeDSecureAuthentication: result.didAttemptThreeDSecureAuthentication
+            )
+            
+            // TODO: figure out a way to make CardClient non-null
+            self.cardClient = cardClient
+            return .loaded(mappedResult)
+        } catch {
+            print("failed in checkout with card. \(error.localizedDescription)")
+            // TODO: differentiate error from cancellation state
+            return .error(message: error.localizedDescription)
         }
     }
 
