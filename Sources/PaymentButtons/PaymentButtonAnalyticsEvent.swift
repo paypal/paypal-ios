@@ -1,5 +1,8 @@
 import Foundation
+
+#if canImport(CorePayments)
 import CorePayments
+#endif
 
 /// FPTI analytics events emitted by the `PaymentButtons` module.
 ///
