@@ -20,13 +20,7 @@ struct CreateOrderCardPaymentView: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            HStack {
-                Text("Create an Order")
-                    .font(.system(size: 20))
-                Spacer()
-            }
-            .frame(maxWidth: .infinity)
-            .font(.headline)
+            StepHeader(text: "Create an Order")
             Picker("Intent", selection: $selectedIntent) {
                 Text("AUTHORIZE").tag(Intent.authorize)
                 Text("CAPTURE").tag(Intent.capture)

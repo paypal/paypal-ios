@@ -26,3 +26,30 @@ struct CardPaymentView: View {
         }
     }
 }
+
+struct Step1_CreateOrder: View {
+    
+    let onCreateOrderPress: () -> Void
+    let isLoading: Bool
+    
+    @State var intent: Intent = .capture
+    @State var shouldVaultSelected = false
+    @State private var vaultCustomerID: String = ""
+
+    var body: some View {
+        StepHeader(text: "Create Order")
+        SegmentedEnumPicker(selection: $intent)
+        Toggle("Should Vault with Purchase", isOn: $shouldVaultSelected)
+        FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $vaultCustomerID)
+        ButtonWithProgress(
+            label: "Create an Order",
+            state: isLoading ? .loading : .idle,
+            action: onCreateOrderPress
+        )
+    }
+}
+
+
+#Preview {
+    Step1_CreateOrder(onCreateOrderPress: {}, isLoading: false)
+}
