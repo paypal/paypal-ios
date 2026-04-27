@@ -157,29 +157,6 @@ class CardPaymentViewModel: ObservableObject {
         }
     }
     
-    func approveOrder(using request: DemoApproveOrderRequest) async -> LoadingState<CardPaymentView.CardResult> {
-        do {
-            let config = try await configManager.getCoreConfig()
-            let cardClient = CardClient(config: config)
-            payPalDataCollector = PayPalDataCollector(config: config)
-            let cardRequest = CardRequest(orderID: request.orderID, card: request.card, sca: request.sca)
-            
-            let result = try await cardClient.approveOrder(request: cardRequest)
-            let mappedResult = CardPaymentView.CardResult(
-                id: result.orderID,
-                status: result.status,
-                didAttemptThreeDSecureAuthentication: result.didAttemptThreeDSecureAuthentication
-            )
-            
-            // TODO: figure out a way to make CardClient non-null
-            self.cardClient = cardClient
-            return .loaded(mappedResult)
-        } catch {
-            print("failed in checkout with card. \(error.localizedDescription)")
-            // TODO: differentiate error from cancellation state
-            return .error(message: error.localizedDescription)
-        }
-    }
 
     func checkoutWith(card: Card, orderID: String, sca: SCA) async {
         do {

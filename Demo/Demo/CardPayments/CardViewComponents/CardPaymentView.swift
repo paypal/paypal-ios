@@ -9,7 +9,9 @@ extension SCA: @retroactive CaseIterable {
 struct CardPaymentView: View {
     
     @StateObject var viewModel = CardPaymentViewModelV2()
+    
     @StateObject var createOrderRequest = DemoCreateOrderRequest()
+    @StateObject var approveOrderRequest = DemoApproveOrderRequest()
 
     // TODO: there should be a way for us to prevent having to create a new shadow type; we need
     // to remove the requirement to have loading state require Decodable and Equatable conformance
@@ -28,10 +30,10 @@ struct CardPaymentView: View {
                 CreateOrderForm(request: createOrderRequest)
                 if let order = viewModel.createOrderState.value {
                     OrderView(order: order)
-                    ApproveOrderForm()
+                    ApproveOrderForm(request: approveOrderRequest)
                     if let cardResult = viewModel.approveOrderResult.value {
                         CardResultView(cardResult: cardResult)
-                        CaptureAuthorizeForm()
+                        CaptureAuthorizeForm(request: createOrderRequest)
                         if let captureResult = viewModel.captureAuthorizeResult.value {
                             OrderView(order: captureResult)
                         }
@@ -45,9 +47,8 @@ struct CardPaymentView: View {
 
 struct CreateOrderForm: View {
     
-    @EnvironmentObject var viewModel: CardPaymentViewModelV2
-    
     @ObservedObject var request: DemoCreateOrderRequest
+    @EnvironmentObject var viewModel: CardPaymentViewModelV2
     
     var body: some View {
         FormGroup {
@@ -66,12 +67,8 @@ struct CreateOrderForm: View {
 
 struct ApproveOrderForm: View {
     
+    @ObservedObject var request: DemoApproveOrderRequest
     @EnvironmentObject var viewModel: CardPaymentViewModelV2
-
-    @State private var cardNumberText: String = "4111 1111 1111 1111"
-    @State private var expirationDateText: String = "01 / 27"
-    @State private var cvvText: String = "123"
-    @State private var sca: SCA = .scaAlways
 
     let cardSections: [CardSection] = [
         CardSection(title: "Successful Authentication Visa", numbers: ["4868 7194 6070 7704"]),
@@ -87,25 +84,16 @@ struct ApproveOrderForm: View {
             StepHeader(text: "Enter Card Information")
             CardFormView(
                 cardSections: cardSections,
-                cardNumberText: $cardNumberText,
-                expirationDateText: $expirationDateText,
-                cvvText: $cvvText
+                cardNumberText: $request.cardNumber,
+                expirationDateText: $request.cardExpirationDate,
+                cvvText: $request.cardCVV
             )
-            SegmentedEnumPicker(selection: $sca)
+            SegmentedEnumPicker(selection: $request.sca)
                 .frame(height: 48)
             
             let isLoading = viewModel.approveOrderResult.isLoading
             ButtonWithProgress(label: "Approve Order", state: isLoading ? .loading : .idle) {
-                let card = Card.createCard(
-                    cardNumber: cardNumberText,
-                    expirationDate: expirationDateText,
-                    cvv: cvvText
-                )
-                if let order = viewModel.createOrderState.value {
-                    let approveOrderRequest =
-                    DemoApproveOrderRequest(card: card, orderID: order.id, sca: sca)
-                    viewModel.approveOrder(using: approveOrderRequest)
-                }
+                viewModel.approveOrder(using: request)
             }
         }
     }
@@ -132,18 +120,17 @@ struct CardResultView: View {
 
 struct CaptureAuthorizeForm: View {
     
+    @ObservedObject var request: DemoCreateOrderRequest
     @EnvironmentObject var viewModel: CardPaymentViewModelV2
 
-    // TODO: grab intent from state somewhere
-    let intent: Intent = .capture
-
     var body: some View {
+        let intent: Intent = request.intent
         let capitalizedIntent = intent.rawValue.capitalized
         FormGroup {
             StepHeader(text: "Complete Order")
             let isLoading = viewModel.captureAuthorizeResult.isLoading
             ButtonWithProgress(label: "\(capitalizedIntent) Order", state: isLoading ? .loading : .idle) {
-                viewModel.completeOrder()
+                viewModel.completeOrder(intent: intent)
             }
         }
     }

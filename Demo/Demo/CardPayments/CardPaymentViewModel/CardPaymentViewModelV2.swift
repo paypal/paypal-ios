@@ -51,13 +51,23 @@ class CardPaymentViewModelV2: ObservableObject {
     }
     
     func approveOrder(using request: DemoApproveOrderRequest) {
+        guard let orderID = createOrderState.value?.id else {
+            approveOrderResult = .error(message: "Order ID Required.")
+            return
+        }
         Task {
             do {
                 approveOrderResult = .loading
                 let config = try await configManager.getCoreConfig()
                 let cardClient = CardClient(config: config)
                 payPalDataCollector = PayPalDataCollector(config: config)
-                let cardRequest = CardRequest(orderID: request.orderID, card: request.card, sca: request.sca)
+                
+                let card = Card.createCard(
+                    cardNumber: request.cardNumber,
+                    expirationDate: request.cardExpirationDate,
+                    cvv: request.cardCVV
+                )
+                let cardRequest = CardRequest(orderID: orderID, card: card, sca: request.sca)
                 
                 let result = try await cardClient.approveOrder(request: cardRequest)
                 let mappedResult = CardPaymentView.CardResult(
@@ -77,20 +87,29 @@ class CardPaymentViewModelV2: ObservableObject {
         }
     }
     
-    func completeOrder() {
+    func completeOrder(intent: Intent) {
         Task {
             if let order = createOrderState.value {
                 captureAuthorizeResult = .loading
                 do {
                     let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
                     
-                    // TODO: grab intent from the UI layer
-                    let order = try await DemoMerchantAPI.sharedService.captureOrder(
-                        orderID: order.id,
-                        selectedMerchantIntegration: DemoSettings.merchantIntegration,
-                        payPalClientMetadataID: payPalClientMetadataID
-                    )
-                    captureAuthorizeResult = .loaded(order)
+                    let completedOrder: Order
+                    switch intent {
+                    case .capture:
+                        completedOrder = try await DemoMerchantAPI.sharedService.captureOrder(
+                            orderID: order.id,
+                            selectedMerchantIntegration: DemoSettings.merchantIntegration,
+                            payPalClientMetadataID: payPalClientMetadataID
+                        )
+                    case .authorize:
+                        completedOrder = try await DemoMerchantAPI.sharedService.authorizeOrder(
+                            orderID: order.id,
+                            selectedMerchantIntegration: DemoSettings.merchantIntegration,
+                            payPalClientMetadataID: payPalClientMetadataID
+                        )
+                    }
+                    captureAuthorizeResult = .loaded(completedOrder)
                 } catch {
                     print("Error capturing order: \(error.localizedDescription)")
                     captureAuthorizeResult = .error(message: error.localizedDescription)

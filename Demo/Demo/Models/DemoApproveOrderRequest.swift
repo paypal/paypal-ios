@@ -1,9 +1,10 @@
 import Foundation
 import CardPayments
 
-struct DemoApproveOrderRequest {
+class DemoApproveOrderRequest: ObservableObject {
     
-    let card: Card
-    let orderID: String
-    let sca: SCA
+    @Published var cardNumber: String = "4111 1111 1111 1111"
+    @Published var cardExpirationDate: String = "01 / 28"
+    @Published var cardCVV: String = "123"
+    @Published var sca: SCA = .scaAlways
 }
