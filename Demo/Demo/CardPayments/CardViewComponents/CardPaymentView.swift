@@ -33,7 +33,7 @@ struct CardPaymentView: View {
                     ApproveOrderForm(request: approveOrderRequest)
                     if let cardResult = viewModel.approveOrderResult.value {
                         CardResultView(cardResult: cardResult)
-                        CaptureAuthorizeForm(request: createOrderRequest)
+                        CompleteOrder(request: createOrderRequest)
                         if let captureResult = viewModel.captureAuthorizeResult.value {
                             OrderView(order: captureResult)
                         }
@@ -118,7 +118,7 @@ struct CardResultView: View {
     }
 }
 
-struct CaptureAuthorizeForm: View {
+struct CompleteOrder: View {
     
     @ObservedObject var request: DemoCreateOrderRequest
     @EnvironmentObject var viewModel: CardPaymentViewModelV2
@@ -135,8 +135,3 @@ struct CaptureAuthorizeForm: View {
         }
     }
 }
-
-
-//#Preview {
-//    CreateOrderForm()
-//}
