@@ -8,6 +8,8 @@ extension SCA: @retroactive CaseIterable {
 
 struct CardPaymentView: View {
     
+    @StateObject var viewModel = CardPaymentViewModelV2()
+
     // TODO: there should be a way for us to prevent having to create a new shadow type; we need
     // to remove the requirement to have loading state require Decodable and Equatable conformance
     struct CardResult: Decodable, Equatable {
@@ -18,65 +20,31 @@ struct CardPaymentView: View {
     }
 
     @StateObject var cardPaymentViewModel = CardPaymentViewModel()
-    @State var createOrderState: LoadingState<Order> = .idle
-    @State var approveOrderResult: LoadingState<CardResult> = .idle
-    @State var captureAuthorizeResult: LoadingState<Order> = .idle
 
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                CreateOrderForm(onCreateOrderRequest: { request in
-                    createOrderState = .loading
-                    Task {
-                        createOrderState = await cardPaymentViewModel.createOrder(using: request)
-                    }
-                }, isLoading: createOrderState.isLoading)
-                if let order = createOrderState.value {
+                CreateOrderForm()
+                if let order = viewModel.createOrderState.value {
                     OrderView(order: order)
-                    ApproveOrderForm(
-                        onApproveOrderRequest: { request in
-                            approveOrderResult = .loading
-                            Task {
-                                approveOrderResult = await cardPaymentViewModel.approveOrder(using: request)
-                            }
-                        },
-                        orderID: order.id,
-                        isLoading: approveOrderResult.isLoading
-                    )
-                    if let cardResult = approveOrderResult.value {
+                    ApproveOrderForm()
+                    if let cardResult = viewModel.approveOrderResult.value {
                         CardResultView(cardResult: cardResult)
-                        // TODO: grab intent from state somewhere
-                        CaptureAuthorizeForm(onCaptureAuthorizeRequest: {
-                            captureAuthorizeResult = .loading
-                                Task {
-                                    captureAuthorizeResult = await cardPaymentViewModel.captureOrder(orderID: order.id)
-                                }
-                            },
-                            intent: .capture,
-                            isLoading: captureAuthorizeResult.isLoading
-                        )
-                        if let captureResult = captureAuthorizeResult.value {
+                        CaptureAuthorizeForm()
+                        if let captureResult = viewModel.captureAuthorizeResult.value {
                             OrderView(order: captureResult)
                         }
                     }
-                    
-//                    NavigationLink {
-//                        CardOrderApproveView(orderID: order.id, cardPaymentViewModel: cardPaymentViewModel)
-//                    } label: {
-//                        Text("Approve Order with Card")
-//                    }
-//                    .buttonStyle(RoundedBlueButtonStyle())
-//                    .padding()
                 }
             }
         }
+        .environmentObject(viewModel)
     }
 }
 
 struct CreateOrderForm: View {
     
-    let onCreateOrderRequest: (DemoCreateOrderRequest) -> Void
-    let isLoading: Bool
+    @EnvironmentObject var viewModel: CardPaymentViewModelV2
     
     @State var intent: Intent = .capture
     @State var shouldVault = false
@@ -88,19 +56,23 @@ struct CreateOrderForm: View {
             SegmentedEnumPicker(selection: $intent)
             Toggle("Should Vault with Purchase", isOn: $shouldVault)
             FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $vaultCustomerID)
+            
+            let isLoading = viewModel.createOrderState.isLoading
             ButtonWithProgress(label: "Create an Order", state: isLoading ? .loading : .idle) {
                 let demoOrder = DemoCreateOrderRequest(
                     intent: intent,
                     shouldVault: shouldVault,
                     vaultCustomerID: vaultCustomerID
                 )
-                onCreateOrderRequest(demoOrder)
+                viewModel.createOrder(using: demoOrder)
             }
         }
     }
 }
 
 struct ApproveOrderForm: View {
+    
+    @EnvironmentObject var viewModel: CardPaymentViewModelV2
 
     @State private var cardNumberText: String = "4111 1111 1111 1111"
     @State private var expirationDateText: String = "01 / 27"
@@ -116,10 +88,6 @@ struct ApproveOrderForm: View {
         CardSection(title: "No Challenge", numbers: ["4111 1111 1111 1111"])
     ]
     
-    let onApproveOrderRequest: (DemoApproveOrderRequest) -> Void
-    let orderID: String
-    let isLoading: Bool
-    
     var body: some View {
         FormGroup {
             StepHeader(text: "Enter Card Information")
@@ -131,15 +99,19 @@ struct ApproveOrderForm: View {
             )
             SegmentedEnumPicker(selection: $sca)
                 .frame(height: 48)
+            
+            let isLoading = viewModel.approveOrderResult.isLoading
             ButtonWithProgress(label: "Approve Order", state: isLoading ? .loading : .idle) {
                 let card = Card.createCard(
                     cardNumber: cardNumberText,
                     expirationDate: expirationDateText,
                     cvv: cvvText
                 )
-                let approveOrderRequest =
-                    DemoApproveOrderRequest(card: card, orderID: orderID, sca: sca)
-                onApproveOrderRequest(approveOrderRequest)
+                if let order = viewModel.createOrderState.value {
+                    let approveOrderRequest =
+                    DemoApproveOrderRequest(card: card, orderID: order.id, sca: sca)
+                    viewModel.approveOrder(using: approveOrderRequest)
+                }
             }
         }
     }
@@ -166,22 +138,24 @@ struct CardResultView: View {
 
 struct CaptureAuthorizeForm: View {
     
-    let onCaptureAuthorizeRequest: () -> Void
-    let intent: Intent
-    let isLoading: Bool
-    
+    @EnvironmentObject var viewModel: CardPaymentViewModelV2
+
+    // TODO: grab intent from state somewhere
+    let intent: Intent = .capture
+
     var body: some View {
         let capitalizedIntent = intent.rawValue.capitalized
         FormGroup {
-            StepHeader(text: "\(capitalizedIntent) Order")
-            ButtonWithProgress(label: capitalizedIntent, state: isLoading ? .loading : .idle) {
-                onCaptureAuthorizeRequest()
+            StepHeader(text: "Complete Order")
+            let isLoading = viewModel.captureAuthorizeResult.isLoading
+            ButtonWithProgress(label: "\(capitalizedIntent) Order", state: isLoading ? .loading : .idle) {
+                viewModel.completeOrder()
             }
         }
     }
 }
 
 
-#Preview {
-    CreateOrderForm(onCreateOrderRequest: { _ in }, isLoading: false)
-}
+//#Preview {
+//    CreateOrderForm()
+//}
