@@ -1,8 +1,8 @@
 import Foundation
 
-struct DemoCreateOrderRequest {
+class DemoCreateOrderRequest: ObservableObject {
     
-    let intent: Intent
-    let shouldVault: Bool
-    let vaultCustomerID: String
+    @Published var intent: Intent = .authorize
+    @Published var shouldVault = false
+    @Published var vaultCustomerID = ""
 }

@@ -9,6 +9,7 @@ extension SCA: @retroactive CaseIterable {
 struct CardPaymentView: View {
     
     @StateObject var viewModel = CardPaymentViewModelV2()
+    @StateObject var createOrderRequest = DemoCreateOrderRequest()
 
     // TODO: there should be a way for us to prevent having to create a new shadow type; we need
     // to remove the requirement to have loading state require Decodable and Equatable conformance
@@ -24,7 +25,7 @@ struct CardPaymentView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                CreateOrderForm()
+                CreateOrderForm(request: createOrderRequest)
                 if let order = viewModel.createOrderState.value {
                     OrderView(order: order)
                     ApproveOrderForm()
@@ -46,25 +47,18 @@ struct CreateOrderForm: View {
     
     @EnvironmentObject var viewModel: CardPaymentViewModelV2
     
-    @State var intent: Intent = .capture
-    @State var shouldVault = false
-    @State private var vaultCustomerID: String = ""
-
+    @ObservedObject var request: DemoCreateOrderRequest
+    
     var body: some View {
         FormGroup {
             StepHeader(text: "Create Order")
-            SegmentedEnumPicker(selection: $intent)
-            Toggle("Should Vault with Purchase", isOn: $shouldVault)
-            FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $vaultCustomerID)
+            SegmentedEnumPicker(selection: $request.intent)
+            Toggle("Should Vault with Purchase", isOn: $request.shouldVault)
+            FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $request.vaultCustomerID)
             
             let isLoading = viewModel.createOrderState.isLoading
             ButtonWithProgress(label: "Create an Order", state: isLoading ? .loading : .idle) {
-                let demoOrder = DemoCreateOrderRequest(
-                    intent: intent,
-                    shouldVault: shouldVault,
-                    vaultCustomerID: vaultCustomerID
-                )
-                viewModel.createOrder(using: demoOrder)
+                viewModel.createOrder(using: request)
             }
         }
     }
