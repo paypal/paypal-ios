@@ -2,7 +2,7 @@ import SwiftUI
 
 struct PayPalWebCreateOrderView: View {
 
-    @ObservedObject var payPalWebViewModel: PayPalWebViewModel
+    @EnvironmentObject var payPalWebViewModel: PayPalWebViewModel
 
     @State private var selectedIntent: Intent = .authorize
     @State var shouldVaultSelected = false

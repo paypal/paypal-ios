@@ -2,8 +2,8 @@ import SwiftUI
 
 struct PayPalOrderCompletionResultView: View {
     
-    @ObservedObject var payPalWebViewModel: PayPalWebViewModel
-    
+    @EnvironmentObject var payPalWebViewModel: PayPalWebViewModel
+
     var body: some View {
         VStack {
             if case .loaded(let authorizedOrder) = payPalWebViewModel.state.authorizedOrderResponse {
