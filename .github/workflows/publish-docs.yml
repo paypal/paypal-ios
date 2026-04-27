@@ -18,7 +18,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Select Xcode Version
-        run: sudo xcode-select -switch /Applications/Xcode_26.4.0.app/Contents/Developer
+        run: sudo xcode-select -switch /Applications/Xcode_26.4.1.app/Contents/Developer
       - name: Set git username and email
         run: |
           git config user.name paypalsdks
