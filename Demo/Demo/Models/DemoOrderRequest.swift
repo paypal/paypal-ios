@@ -1,6 +1,6 @@
 import Foundation
 
-struct DemoOrder {
+struct DemoOrderRequest {
     
     let intent: Intent
     let shouldVault: Bool

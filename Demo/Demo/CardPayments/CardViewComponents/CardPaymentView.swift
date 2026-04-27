@@ -3,24 +3,24 @@ import SwiftUI
 struct CardPaymentView: View {
 
     @StateObject var cardPaymentViewModel = CardPaymentViewModel()
+    @State var order: Order?
+    @State var isCreatingOrder = false
 
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                Step1_CreateOrder(onCreateOrderPress: { demoOrder in
+                CreateOrderForm(onCreateOrderPress: { request in
+                    isCreatingOrder = true
                     Task {
-                        let vaultCustomerID = demoOrder.vaultCustomerID
-                        try await cardPaymentViewModel.createOrder(
-                            amount: "10.00",
-                            selectedMerchantIntegration: DemoSettings.merchantIntegration,
-                            intent: demoOrder.intent.rawValue,
-                            shouldVault: demoOrder.shouldVault,
-                            customerID: vaultCustomerID.isEmpty ? nil : vaultCustomerID
-                        )
-                        // TODO: update UI
+                        do {
+                            order = try await cardPaymentViewModel.createOrder(using: request)
+                            isCreatingOrder = false
+                        } catch {
+                            print("❌ failed to fetch orderID: \(error)")
+                        }
                     }
-                }, isLoading: false)
-                if let order = cardPaymentViewModel.state.createOrder {
+                }, isLoading: isCreatingOrder)
+                if let order {
                     OrderCreateCardResultView(cardPaymentViewModel: cardPaymentViewModel)
                     NavigationLink {
                         CardOrderApproveView(orderID: order.id, cardPaymentViewModel: cardPaymentViewModel)
@@ -35,9 +35,9 @@ struct CardPaymentView: View {
     }
 }
 
-struct Step1_CreateOrder: View {
+struct CreateOrderForm: View {
     
-    let onCreateOrderPress: (DemoOrder) -> Void
+    let onCreateOrderPress: (DemoOrderRequest) -> Void
     let isLoading: Bool
     
     @State var intent: Intent = .capture
@@ -52,7 +52,7 @@ struct Step1_CreateOrder: View {
             FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $vaultCustomerID)
             
             ButtonWithProgress(label: "Create an Order", state: isLoading ? .loading : .idle) {
-                let demoOrder = DemoOrder(
+                let demoOrder = DemoOrderRequest(
                     intent: intent,
                     shouldVault: shouldVault,
                     vaultCustomerID: vaultCustomerID
@@ -65,5 +65,5 @@ struct Step1_CreateOrder: View {
 
 
 #Preview {
-    Step1_CreateOrder(onCreateOrderPress: { _ in }, isLoading: false)
+    CreateOrderForm(onCreateOrderPress: { _ in }, isLoading: false)
 }

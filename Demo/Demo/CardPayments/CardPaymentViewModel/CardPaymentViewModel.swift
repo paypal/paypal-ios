@@ -11,6 +11,34 @@ class CardPaymentViewModel: ObservableObject {
     let configManager = CoreConfigManager(domain: "Card Payments")
 
     private var cardClient: CardClient?
+    
+    func createOrder(using request: DemoOrderRequest) async throws -> Order {
+        var vaultCardPaymentSource: VaultCardPaymentSource?
+        if request.shouldVault {
+            let customerID = request.vaultCustomerID
+            let customer = customerID.isEmpty ? nil : Customer(id: customerID)
+            let attributes = Attributes(vault: Vault(storeInVault: "ON_SUCCESS"), customer: customer)
+            let card = VaultCard(attributes: attributes)
+            vaultCardPaymentSource = VaultCardPaymentSource(card: card)
+        }
+
+        var vaultPaymentSource: VaultPaymentSource?
+        if let vaultCardPaymentSource {
+            vaultPaymentSource = .card(vaultCardPaymentSource)
+        }
+
+        // TODO: might need to pass in payee as payee object or as auth header
+        let amountRequest = Amount(currencyCode: "USD", value: "10.00")
+        let orderRequestParams = CreateOrderParams(
+            applicationContext: nil,
+            intent: request.intent.rawValue,
+            purchaseUnits: [PurchaseUnit(amount: amountRequest)],
+            paymentSource: vaultPaymentSource
+        )
+        return try await DemoMerchantAPI.sharedService.createOrder(
+            orderParams: orderRequestParams, selectedMerchantIntegration: DemoSettings.merchantIntegration
+        )
+    }
 
     func createOrder(
         amount: String,
