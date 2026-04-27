@@ -7,11 +7,19 @@ struct CardPaymentView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                CreateOrderCardPaymentView(
-                    cardPaymentViewModel: cardPaymentViewModel,
-                    selectedMerchantIntegration: DemoSettings.merchantIntegration
-                )
-                
+                Step1_CreateOrder(onCreateOrderPress: { demoOrder in
+                    Task {
+                        let vaultCustomerID = demoOrder.vaultCustomerID
+                        try await cardPaymentViewModel.createOrder(
+                            amount: "10.00",
+                            selectedMerchantIntegration: DemoSettings.merchantIntegration,
+                            intent: demoOrder.intent.rawValue,
+                            shouldVault: demoOrder.shouldVault,
+                            customerID: vaultCustomerID.isEmpty ? nil : vaultCustomerID
+                        )
+                        // TODO: update UI
+                    }
+                }, isLoading: false)
                 if let order = cardPaymentViewModel.state.createOrder {
                     OrderCreateCardResultView(cardPaymentViewModel: cardPaymentViewModel)
                     NavigationLink {
@@ -29,27 +37,33 @@ struct CardPaymentView: View {
 
 struct Step1_CreateOrder: View {
     
-    let onCreateOrderPress: () -> Void
+    let onCreateOrderPress: (DemoOrder) -> Void
     let isLoading: Bool
     
     @State var intent: Intent = .capture
-    @State var shouldVaultSelected = false
+    @State var shouldVault = false
     @State private var vaultCustomerID: String = ""
 
     var body: some View {
-        StepHeader(text: "Create Order")
-        SegmentedEnumPicker(selection: $intent)
-        Toggle("Should Vault with Purchase", isOn: $shouldVaultSelected)
-        FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $vaultCustomerID)
-        ButtonWithProgress(
-            label: "Create an Order",
-            state: isLoading ? .loading : .idle,
-            action: onCreateOrderPress
-        )
+        FormGroup {
+            StepHeader(text: "Create Order")
+            SegmentedEnumPicker(selection: $intent)
+            Toggle("Should Vault with Purchase", isOn: $shouldVault)
+            FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $vaultCustomerID)
+            
+            ButtonWithProgress(label: "Create an Order", state: isLoading ? .loading : .idle) {
+                let demoOrder = DemoOrder(
+                    intent: intent,
+                    shouldVault: shouldVault,
+                    vaultCustomerID: vaultCustomerID
+                )
+                onCreateOrderPress(demoOrder)
+            }
+        }
     }
 }
 
 
 #Preview {
-    Step1_CreateOrder(onCreateOrderPress: {}, isLoading: false)
+    Step1_CreateOrder(onCreateOrderPress: { _ in }, isLoading: false)
 }

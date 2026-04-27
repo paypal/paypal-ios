@@ -9,13 +9,15 @@ struct ButtonWithProgress: View {
     let action: () -> Void
     
     var body: some View {
-        Button(action: action) {
-            Group {
-                if state == .idle {
-                    Text(label)
-                } else {
-                    CircularProgressView()
-                }
+        let isLabelVisible = state == .idle
+        ZStack {
+            Button(action: action) {
+                Text(label)
+            }
+            .buttonStyle(RoundedBlueButtonStyle(isLabelVisible: isLabelVisible))
+            if state == .loading {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
             }
         }
     }
