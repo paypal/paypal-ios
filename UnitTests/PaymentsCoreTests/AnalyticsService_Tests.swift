@@ -22,7 +22,7 @@ class AnalyticsService_Tests: XCTestCase {
     // MARK: - sendEvent()
         
     func testSendEvent_sendsAppropriateAnalyticsEventData() async {
-        await sut.performEventRequest("some-event", correlationID: "fake-correlation-id")
+        await sut.sendEvent("some-event", correlationID: "fake-correlation-id")
 
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.eventName, "some-event")
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.clientID, "some-client-id")
@@ -37,18 +37,35 @@ class AnalyticsService_Tests: XCTestCase {
             trackingEventsAPI: mockTrackingEventsAPI
         )
         
-        await sut.performEventRequest("some-event")
+        await sut.sendEvent("some-event")
         
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.environment, "live")
     }
     
     func testSendEvent_whenSandbox_sendsAppropriateEnvName() async {
-        await sut.performEventRequest("some-event")
+        await sut.sendEvent("some-event")
         
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.environment, "sandbox")
     }
     
     func testSendEvent_whenAPIRequestFails_logsErrorToConsole() {
         // We currently have no way to validate our console logging
+    }
+
+    // MARK: - sendEvent(AnalyticsEventName)
+
+    /// Minimal in-test event to exercise the enum-based entry point without
+    /// pulling module-specific event catalogs into the CorePayments test target.
+    private enum TestEvent: String, AnalyticsEventName {
+        case fakeEvent = "core-payments:test:fake-event"
+
+        var eventName: String { rawValue }
+    }
+
+    func testSendEvent_withAnalyticsEventName_forwardsEventName() async {
+        await sut.sendEvent(TestEvent.fakeEvent.eventName, correlationID: "corr-id")
+
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.eventName, "core-payments:test:fake-event")
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.correlationID, "corr-id")
     }
 }

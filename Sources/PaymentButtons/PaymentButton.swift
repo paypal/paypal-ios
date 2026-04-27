@@ -25,7 +25,7 @@ public class PaymentButton: UIButton {
     #endif
 
     // Use an empty config and default to live environment for button analytics
-    private let analyticsService = AnalyticsService(
+    private let analytics = AnalyticsService(
         coreConfig: .init(clientID: "N/A", environment: .live),
         orderID: "N/A"
     )
@@ -46,7 +46,7 @@ public class PaymentButton: UIButton {
         self.size = size
         self.insets = insets
         self.label = label
-        self.analyticsService.sendEvent("payment-button:initialized", buttonType: fundingSource.rawValue)
+        self.analytics.track(PaymentButtonAnalyticsEvent.initialized, buttonType: fundingSource.rawValue)
         super.init(frame: .zero)
         UIFont.registerFont()
         customizeAppearance()
@@ -174,7 +174,7 @@ public class PaymentButton: UIButton {
     // MARK: - Private
 
     @objc private func onTap() {
-        analyticsService.sendEvent("payment-button:tapped", buttonType: fundingSource.rawValue)
+        analytics.track(PaymentButtonAnalyticsEvent.tapped, buttonType: fundingSource.rawValue)
     }
 
     // MARK: - Configuration
