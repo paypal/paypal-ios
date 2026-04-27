@@ -66,7 +66,7 @@ public class AnalyticsService {
     /// the emitted event name directly.
     func track(_ name: String, correlationID: String? = nil, buttonType: String? = nil) {
         Task(priority: .background) {
-            await performTrackRequest(name, correlationID: correlationID, buttonType: buttonType)
+            await sendEvent(name, correlationID: correlationID, buttonType: buttonType)
         }
     }
 
@@ -75,7 +75,7 @@ public class AnalyticsService {
     ///   - name: Event name string used to identify this unique event in FPTI
     ///   - correlationID: correlation ID associated with the request
     ///   - buttonType: The type of button
-    func performTrackRequest(_ name: String, correlationID: String? = nil, buttonType: String? = nil) async {
+    func sendEvent(_ name: String, correlationID: String? = nil, buttonType: String? = nil) async {
         do {
             let clientID = coreConfig.clientID
 
