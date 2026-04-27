@@ -53,7 +53,7 @@ struct CreateOrderForm: View {
     var body: some View {
         FormGroup {
             StepHeader(text: "Create Order")
-            SegmentedEnumPicker(selection: $request.intent)
+            SegmentedEnumPicker(label: "Intent", selection: $request.intent)
             Toggle("Should Vault with Purchase", isOn: $request.shouldVault)
             FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $request.vaultCustomerID)
             
@@ -88,7 +88,7 @@ struct ApproveOrderForm: View {
                 expirationDateText: $request.cardExpirationDate,
                 cvvText: $request.cardCVV
             )
-            SegmentedEnumPicker(selection: $request.sca)
+            SegmentedEnumPicker(label: "SCA", selection: $request.sca)
                 .frame(height: 48)
             
             let isLoading = viewModel.approveOrderResult.isLoading
