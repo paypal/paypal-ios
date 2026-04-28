@@ -8,7 +8,9 @@ class CardPaymentViewModelV2: ObservableObject {
     @Published var createOrderState: AsyncState<Order> = .idle
     @Published var approveOrderResult: AsyncState<CardResult> = .idle
     @Published var captureAuthorizeResult: AsyncState<Order> = .idle
-    @Published var stepNumber: Int = 0
+    
+    // HACK: this is used to drive the scroll-to-bottom animation
+    @Published var stepCount: Int = 0
 
     private var cardClient: CardClient?
     private var payPalDataCollector: PayPalDataCollector?
@@ -48,13 +50,14 @@ class CardPaymentViewModelV2: ObservableObject {
             } catch {
                 createOrderState = .error(message: error.localizedDescription)
             }
-            stepNumber += 1
+            incrementStepCounter()
         }
     }
     
     func approveOrder(using request: DemoApproveOrderRequest) {
         guard let orderID = createOrderState.value?.id else {
             approveOrderResult = .error(message: "Order ID Required.")
+            incrementStepCounter()
             return
         }
         Task {
@@ -81,13 +84,14 @@ class CardPaymentViewModelV2: ObservableObject {
                 // TODO: differentiate error from cancellation state
                 approveOrderResult = .error(message: error.localizedDescription)
             }
-            stepNumber += 1
+            incrementStepCounter()
         }
     }
     
     func completeOrder(intent: Intent) {
         guard let order = createOrderState.value else {
             captureAuthorizeResult = .error(message: "Order ID Required.")
+            incrementStepCounter()
             return
         }
         Task {
@@ -115,7 +119,11 @@ class CardPaymentViewModelV2: ObservableObject {
                 print("Error capturing order: \(error.localizedDescription)")
                 captureAuthorizeResult = .error(message: error.localizedDescription)
             }
-            stepNumber += 1
+            incrementStepCounter()
         }
+    }
+    
+    private func incrementStepCounter() {
+        stepCount += 1
     }
 }
