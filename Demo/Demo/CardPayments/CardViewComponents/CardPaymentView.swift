@@ -31,13 +31,13 @@ struct CardPaymentView: View {
                 if let order = viewModel.createOrderState.value {
                     OrderView(order: order)
                     ApproveOrderForm(request: approveOrderRequest)
-                    if let cardResult = viewModel.approveOrderResult.value {
-                        CardResultView(cardResult: cardResult)
-                        CompleteOrder(request: createOrderRequest)
-                        if let captureResult = viewModel.captureAuthorizeResult.value {
-                            OrderView(order: captureResult)
-                        }
-                    }
+                }
+                if let cardResult = viewModel.approveOrderResult.value {
+                    CardResultView(cardResult: cardResult)
+                    CompleteOrder(request: createOrderRequest)
+                }
+                if let captureResult = viewModel.captureAuthorizeResult.value {
+                    OrderView(order: captureResult)
                 }
             }
         }
@@ -58,7 +58,7 @@ struct CreateOrderForm: View {
             FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $request.vaultCustomerID)
             
             let isLoading = viewModel.createOrderState.isLoading
-            ButtonWithProgress(label: "Create an Order", state: isLoading ? .loading : .idle) {
+            ButtonWithProgress(label: "Create an Order", isLoading: isLoading) {
                 viewModel.createOrder(using: request)
             }
         }
@@ -92,7 +92,7 @@ struct ApproveOrderForm: View {
                 .frame(height: 48)
             
             let isLoading = viewModel.approveOrderResult.isLoading
-            ButtonWithProgress(label: "Approve Order", state: isLoading ? .loading : .idle) {
+            ButtonWithProgress(label: "Approve Order", isLoading: isLoading) {
                 viewModel.approveOrder(using: request)
             }
         }
@@ -128,8 +128,9 @@ struct CompleteOrder: View {
         let capitalizedIntent = intent.rawValue.capitalized
         FormGroup {
             StepHeader(text: "Complete Order")
+            let buttonLabel = "\(capitalizedIntent) Order"
             let isLoading = viewModel.captureAuthorizeResult.isLoading
-            ButtonWithProgress(label: "\(capitalizedIntent) Order", state: isLoading ? .loading : .idle) {
+            ButtonWithProgress(label: buttonLabel, isLoading: isLoading) {
                 viewModel.completeOrder(intent: intent)
             }
         }
