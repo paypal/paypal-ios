@@ -40,9 +40,9 @@ class CardPaymentViewModel: ObservableObject {
             purchaseUnits: [PurchaseUnit(amount: amountRequest)],
             paymentSource: vaultPaymentSource
         )
+        createOrderState = .loading
         Task {
             do {
-                createOrderState = .loading
                 let order = try await DemoMerchantAPI.sharedService.createOrder(
                     orderParams: orderRequestParams, selectedMerchantIntegration: DemoSettings.merchantIntegration
                 )
@@ -60,9 +60,9 @@ class CardPaymentViewModel: ObservableObject {
             incrementStepCounter()
             return
         }
+        approveOrderResult = .loading
         Task {
             do {
-                approveOrderResult = .loading
                 let config = try await configManager.getCoreConfig()
                 let cardClient = CardClient(config: config)
                 payPalDataCollector = PayPalDataCollector(config: config)
@@ -94,8 +94,8 @@ class CardPaymentViewModel: ObservableObject {
             incrementStepCounter()
             return
         }
+        captureAuthorizeResult = .loading
         Task {
-            captureAuthorizeResult = .loading
             do {
                 let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
                 
