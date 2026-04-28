@@ -258,8 +258,8 @@
 		1001E2B82CF643350023A03C /* CardPayments */ = {
 			isa = PBXGroup;
 			children = (
-				1001E2BB2CF6449B0023A03C /* CardPaymentViewModel */,
-				3BA56FEA2A9DCBB30081D14F /* CardViewComponents */,
+				BC23E2CB2FA007CA009F7BFE /* CardPaymentViewModel.swift */,
+				3BA56FF32A9DCD790081D14F /* CardPaymentView.swift */,
 			);
 			path = CardPayments;
 			sourceTree = "<group>";
@@ -280,14 +280,6 @@
 				1001E2C02CFFC72E0023A03C /* PayPalPaymentState.swift */,
 			);
 			path = PayPalWebViewModel;
-			sourceTree = "<group>";
-		};
-		1001E2BB2CF6449B0023A03C /* CardPaymentViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				BC23E2CB2FA007CA009F7BFE /* CardPaymentViewModel.swift */,
-			);
-			path = CardPaymentViewModel;
 			sourceTree = "<group>";
 		};
 		1001E2BC2CF644BE0023A03C /* PayPalVaultViewModel */ = {
@@ -354,14 +346,6 @@
 				3BF999752A8AC093009CBDF2 /* UpdateSetupTokenResultView.swift */,
 			);
 			path = CardVaultViews;
-			sourceTree = "<group>";
-		};
-		3BA56FEA2A9DCBB30081D14F /* CardViewComponents */ = {
-			isa = PBXGroup;
-			children = (
-				3BA56FF32A9DCD790081D14F /* CardPaymentView.swift */,
-			);
-			path = CardViewComponents;
 			sourceTree = "<group>";
 		};
 		3BA56FFF2A9FF6630081D14F /* PayPalWebPaymentsView */ = {
