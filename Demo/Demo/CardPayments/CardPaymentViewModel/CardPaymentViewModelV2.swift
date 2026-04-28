@@ -2,16 +2,6 @@ import Foundation
 import CardPayments
 import FraudProtection
 
-private let millisPerNanosecond: UInt64 = 1000000
-
-private func animationDelay() async {
-    do {
-        try await Task.sleep(nanoseconds: millisPerNanosecond * 250)
-    } catch {
-        // do nothing
-    }
-}
-
 @MainActor
 class CardPaymentViewModelV2: ObservableObject {
     
@@ -58,7 +48,6 @@ class CardPaymentViewModelV2: ObservableObject {
             } catch {
                 createOrderState = .error(message: error.localizedDescription)
             }
-            await animationDelay()
             stepNumber += 1
         }
     }
@@ -97,7 +86,6 @@ class CardPaymentViewModelV2: ObservableObject {
                 // TODO: differentiate error from cancellation state
                 approveOrderResult = .error(message: error.localizedDescription)
             }
-            await animationDelay()
             stepNumber += 1
         }
     }
@@ -132,7 +120,6 @@ class CardPaymentViewModelV2: ObservableObject {
                 print("Error capturing order: \(error.localizedDescription)")
                 captureAuthorizeResult = .error(message: error.localizedDescription)
             }
-            await animationDelay()
             stepNumber += 1
         }
     }
