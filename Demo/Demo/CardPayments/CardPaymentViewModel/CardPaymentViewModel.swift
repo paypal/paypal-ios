@@ -3,7 +3,7 @@ import CardPayments
 import FraudProtection
 
 @MainActor
-class CardPaymentViewModelV2: ObservableObject {
+class CardPaymentViewModel: ObservableObject {
     
     @Published var createOrderState: AsyncState<Order> = .idle
     @Published var approveOrderResult: AsyncState<CardResult> = .idle

@@ -8,7 +8,7 @@ extension SCA: @retroactive CaseIterable {
 
 struct CardPaymentView: View {
     
-    @StateObject var viewModel = CardPaymentViewModelV2()
+    @StateObject var viewModel = CardPaymentViewModel()
     @StateObject var createOrderRequest = DemoCreateOrderRequest()
     @StateObject var approveOrderRequest = DemoApproveOrderRequest()
 
@@ -44,7 +44,7 @@ struct CardPaymentView: View {
 struct CreateOrderForm: View {
     
     @ObservedObject var request: DemoCreateOrderRequest
-    @EnvironmentObject var viewModel: CardPaymentViewModelV2
+    @EnvironmentObject var viewModel: CardPaymentViewModel
     
     var body: some View {
         FormGroup {
@@ -64,7 +64,7 @@ struct CreateOrderForm: View {
 struct ApproveOrderForm: View {
     
     @ObservedObject var request: DemoApproveOrderRequest
-    @EnvironmentObject var viewModel: CardPaymentViewModelV2
+    @EnvironmentObject var viewModel: CardPaymentViewModel
 
     let cardSections: [CardSection] = [
         CardSection(title: "Successful Authentication Visa", numbers: ["4868 7194 6070 7704"]),
@@ -117,7 +117,7 @@ struct CardResultView: View {
 struct CompleteOrder: View {
     
     @ObservedObject var request: DemoCreateOrderRequest
-    @EnvironmentObject var viewModel: CardPaymentViewModelV2
+    @EnvironmentObject var viewModel: CardPaymentViewModel
 
     var body: some View {
         let intent: Intent = request.intent

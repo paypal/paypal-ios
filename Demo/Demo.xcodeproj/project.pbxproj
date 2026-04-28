@@ -61,7 +61,7 @@
 		BC23E2C62F9FD0E1009F7BFE /* DemoCreateOrderRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC23E2C52F9FD0DD009F7BFE /* DemoCreateOrderRequest.swift */; };
 		BC23E2C82F9FF273009F7BFE /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC23E2C72F9FF26F009F7BFE /* OrderView.swift */; };
 		BC23E2CA2F9FF902009F7BFE /* DemoApproveOrderRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC23E2C92F9FF8FE009F7BFE /* DemoApproveOrderRequest.swift */; };
-		BC23E2CC2FA007D0009F7BFE /* CardPaymentViewModelV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC23E2CB2FA007CA009F7BFE /* CardPaymentViewModelV2.swift */; };
+		BC23E2CC2FA007D0009F7BFE /* CardPaymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC23E2CB2FA007CA009F7BFE /* CardPaymentViewModel.swift */; };
 		BC6460CD2A12A2A0002B974B /* EmptyBodyParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6460CC2A12A2A0002B974B /* EmptyBodyParams.swift */; };
 		BC9D4D2227C554090089E5B1 /* LaunchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2127C554090089E5B1 /* LaunchApp.swift */; };
 		BC9D4D2427C58B8D0089E5B1 /* XCUIApplication+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */; };
@@ -182,7 +182,7 @@
 		BC23E2C52F9FD0DD009F7BFE /* DemoCreateOrderRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCreateOrderRequest.swift; sourceTree = "<group>"; };
 		BC23E2C72F9FF26F009F7BFE /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
 		BC23E2C92F9FF8FE009F7BFE /* DemoApproveOrderRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoApproveOrderRequest.swift; sourceTree = "<group>"; };
-		BC23E2CB2FA007CA009F7BFE /* CardPaymentViewModelV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPaymentViewModelV2.swift; sourceTree = "<group>"; };
+		BC23E2CB2FA007CA009F7BFE /* CardPaymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPaymentViewModel.swift; sourceTree = "<group>"; };
 		BC6460CC2A12A2A0002B974B /* EmptyBodyParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyBodyParams.swift; sourceTree = "<group>"; };
 		BC9D4D1527C54F3F0089E5B1 /* DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC9D4D2127C554090089E5B1 /* LaunchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchApp.swift; sourceTree = "<group>"; };
@@ -285,7 +285,7 @@
 		1001E2BB2CF6449B0023A03C /* CardPaymentViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				BC23E2CB2FA007CA009F7BFE /* CardPaymentViewModelV2.swift */,
+				BC23E2CB2FA007CA009F7BFE /* CardPaymentViewModel.swift */,
 			);
 			path = CardPaymentViewModel;
 			sourceTree = "<group>";
@@ -726,7 +726,7 @@
 				5301468C28918B4D00184F22 /* ApprovalResult.swift in Sources */,
 				3BC6220B2A97204E00251B85 /* CircularProgressView.swift in Sources */,
 				BC23E2C82F9FF273009F7BFE /* OrderView.swift in Sources */,
-				BC23E2CC2FA007D0009F7BFE /* CardPaymentViewModelV2.swift in Sources */,
+				BC23E2CC2FA007D0009F7BFE /* CardPaymentViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
