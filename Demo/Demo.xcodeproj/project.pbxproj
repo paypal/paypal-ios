@@ -66,6 +66,7 @@
 		BC9D4D2227C554090089E5B1 /* LaunchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2127C554090089E5B1 /* LaunchApp.swift */; };
 		BC9D4D2427C58B8D0089E5B1 /* XCUIApplication+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */; };
 		BC9D4D2627C6D1720089E5B1 /* XCUIElement+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2527C6D1720089E5B1 /* XCUIElement+Helpers.swift */; };
+		BCBC0CF32FA1150F001E2363 /* SCA+CaseIterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBC0CF22FA11507001E2363 /* SCA+CaseIterable.swift */; };
 		BCCAEC872FA108D900C88FE7 /* ScrollAnchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEC862FA108D600C88FE7 /* ScrollAnchor.swift */; };
 		BCCAEC892FA10B0B00C88FE7 /* AsyncState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEC882FA10B0800C88FE7 /* AsyncState.swift */; };
 		BCF89C2D2F9FAEF100224BEC /* StepHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF89C2C2F9FAEEB00224BEC /* StepHeader.swift */; };
@@ -188,6 +189,7 @@
 		BC9D4D2127C554090089E5B1 /* LaunchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchApp.swift; sourceTree = "<group>"; };
 		BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+Helpers.swift"; sourceTree = "<group>"; };
 		BC9D4D2527C6D1720089E5B1 /* XCUIElement+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+Helpers.swift"; sourceTree = "<group>"; };
+		BCBC0CF22FA11507001E2363 /* SCA+CaseIterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCA+CaseIterable.swift"; sourceTree = "<group>"; };
 		BCCAEC862FA108D600C88FE7 /* ScrollAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollAnchor.swift; sourceTree = "<group>"; };
 		BCCAEC882FA10B0800C88FE7 /* AsyncState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncState.swift; sourceTree = "<group>"; };
 		BCE8A7ED27EA2B1E00AC301B /* PayPalWebCheckout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PayPalWebCheckout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -533,6 +535,7 @@
 		BEDE3048275EA31800D275FD /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				BCBC0CF22FA11507001E2363 /* SCA+CaseIterable.swift */,
 				CB9ED44B283FDA900081F4DE /* PaymentButtonEnums+Extension.swift */,
 				3BCCFE452A9D47AC00C5102F /* CardExtensions.swift */,
 			);
@@ -711,6 +714,7 @@
 				3BC6220B2A97204E00251B85 /* CircularProgressView.swift in Sources */,
 				BC23E2C82F9FF273009F7BFE /* OrderView.swift in Sources */,
 				BC23E2CC2FA007D0009F7BFE /* CardPaymentViewModel.swift in Sources */,
+				BCBC0CF32FA1150F001E2363 /* SCA+CaseIterable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

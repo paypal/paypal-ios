@@ -1,11 +1,6 @@
 import SwiftUI
 import CardPayments
 
-extension SCA: @retroactive CaseIterable {
-    
-    public static var allCases: [SCA] = [.scaAlways, .scaWhenRequired]
-}
-
 struct CardPaymentView: View {
     
     @StateObject var viewModel = CardPaymentViewModel()
