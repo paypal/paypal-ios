@@ -2,12 +2,23 @@ import Foundation
 import CardPayments
 import FraudProtection
 
+private let millisPerNanosecond: UInt64 = 1000000
+
+private func animationDelay() async {
+    do {
+        try await Task.sleep(nanoseconds: millisPerNanosecond * 250)
+    } catch {
+        // do nothing
+    }
+}
+
 @MainActor
 class CardPaymentViewModelV2: ObservableObject {
     
     @Published var createOrderState: LoadingState<Order> = .idle
     @Published var approveOrderResult: LoadingState<CardPaymentView.CardResult> = .idle
     @Published var captureAuthorizeResult: LoadingState<Order> = .idle
+    @Published var stepNumber: Int = 0
 
     private var cardClient: CardClient?
     private var payPalDataCollector: PayPalDataCollector?
@@ -47,6 +58,8 @@ class CardPaymentViewModelV2: ObservableObject {
             } catch {
                 createOrderState = .error(message: error.localizedDescription)
             }
+            await animationDelay()
+            stepNumber += 1
         }
     }
     
@@ -84,37 +97,43 @@ class CardPaymentViewModelV2: ObservableObject {
                 // TODO: differentiate error from cancellation state
                 approveOrderResult = .error(message: error.localizedDescription)
             }
+            await animationDelay()
+            stepNumber += 1
         }
     }
     
     func completeOrder(intent: Intent) {
+        guard let order = createOrderState.value else {
+            captureAuthorizeResult = .error(message: "Order ID Required.")
+            return
+        }
         Task {
-            if let order = createOrderState.value {
-                captureAuthorizeResult = .loading
-                do {
-                    let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
-                    
-                    let completedOrder: Order
-                    switch intent {
-                    case .capture:
-                        completedOrder = try await DemoMerchantAPI.sharedService.captureOrder(
-                            orderID: order.id,
-                            selectedMerchantIntegration: DemoSettings.merchantIntegration,
-                            payPalClientMetadataID: payPalClientMetadataID
-                        )
-                    case .authorize:
-                        completedOrder = try await DemoMerchantAPI.sharedService.authorizeOrder(
-                            orderID: order.id,
-                            selectedMerchantIntegration: DemoSettings.merchantIntegration,
-                            payPalClientMetadataID: payPalClientMetadataID
-                        )
-                    }
-                    captureAuthorizeResult = .loaded(completedOrder)
-                } catch {
-                    print("Error capturing order: \(error.localizedDescription)")
-                    captureAuthorizeResult = .error(message: error.localizedDescription)
+            captureAuthorizeResult = .loading
+            do {
+                let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
+                
+                let completedOrder: Order
+                switch intent {
+                case .capture:
+                    completedOrder = try await DemoMerchantAPI.sharedService.captureOrder(
+                        orderID: order.id,
+                        selectedMerchantIntegration: DemoSettings.merchantIntegration,
+                        payPalClientMetadataID: payPalClientMetadataID
+                    )
+                case .authorize:
+                    completedOrder = try await DemoMerchantAPI.sharedService.authorizeOrder(
+                        orderID: order.id,
+                        selectedMerchantIntegration: DemoSettings.merchantIntegration,
+                        payPalClientMetadataID: payPalClientMetadataID
+                    )
                 }
+                captureAuthorizeResult = .loaded(completedOrder)
+            } catch {
+                print("Error capturing order: \(error.localizedDescription)")
+                captureAuthorizeResult = .error(message: error.localizedDescription)
             }
+            await animationDelay()
+            stepNumber += 1
         }
     }
 }

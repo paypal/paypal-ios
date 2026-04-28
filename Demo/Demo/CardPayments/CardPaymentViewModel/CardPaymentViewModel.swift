@@ -6,6 +6,7 @@ import FraudProtection
 class CardPaymentViewModel: ObservableObject {
 
     @Published var state = CardPaymentState()
+    
     private var payPalDataCollector: PayPalDataCollector?
 
     let configManager = CoreConfigManager(domain: "Card Payments")

@@ -22,22 +22,28 @@ struct CardPaymentView: View {
         let didAttemptThreeDSecureAuthentication: Bool
     }
 
-    @StateObject var cardPaymentViewModel = CardPaymentViewModel()
-
     var body: some View {
-        ScrollView {
-            VStack(spacing: 16) {
-                CreateOrderForm(request: createOrderRequest)
-                if let order = viewModel.createOrderState.value {
-                    OrderView(order: order)
-                    ApproveOrderForm(request: approveOrderRequest)
+        ScrollViewReader { proxy in
+            ScrollView {
+                VStack(spacing: 16) {
+                    CreateOrderForm(request: createOrderRequest)
+                    if let order = viewModel.createOrderState.value {
+                        OrderView(order: order)
+                        ApproveOrderForm(request: approveOrderRequest)
+                    }
+                    if let cardResult = viewModel.approveOrderResult.value {
+                        CardResultView(cardResult: cardResult)
+                        CompleteOrder(request: createOrderRequest)
+                    }
+                    if let captureResult = viewModel.captureAuthorizeResult.value {
+                        OrderView(order: captureResult)
+                    }
+                    ScrollAnchor(id: "bottomAnchor")
                 }
-                if let cardResult = viewModel.approveOrderResult.value {
-                    CardResultView(cardResult: cardResult)
-                    CompleteOrder(request: createOrderRequest)
-                }
-                if let captureResult = viewModel.captureAuthorizeResult.value {
-                    OrderView(order: captureResult)
+                .onChange(of: viewModel.stepNumber) { _ in
+                    withAnimation {
+                        proxy.scrollTo("bottomAnchor")
+                    }
                 }
             }
         }
