@@ -53,18 +53,11 @@ struct VaultState: Equatable {
     }
 }
 
+// TODO: replace with AsyncState once UI Streamline Refactor is complete
 enum LoadingState<T: Decodable & Equatable>: Equatable {
 
     case idle
     case loading
     case error(message: String)
     case loaded(_ value: T)
-    
-    var value: T? {
-        switch self {
-        case .loaded(let value): return value
-        default: return nil
-        }
-    }
-    var isLoading: Bool { return self == .loading }
 }
