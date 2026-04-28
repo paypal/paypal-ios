@@ -9,18 +9,8 @@ extension SCA: @retroactive CaseIterable {
 struct CardPaymentView: View {
     
     @StateObject var viewModel = CardPaymentViewModelV2()
-    
     @StateObject var createOrderRequest = DemoCreateOrderRequest()
     @StateObject var approveOrderRequest = DemoApproveOrderRequest()
-
-    // TODO: there should be a way for us to prevent having to create a new shadow type; we need
-    // to remove the requirement to have loading state require Decodable and Equatable conformance
-    struct CardResult: Decodable, Equatable {
-        
-        let id: String
-        let status: String?
-        let didAttemptThreeDSecureAuthentication: Bool
-    }
 
     var body: some View {
         ScrollViewReader { proxy in
@@ -107,13 +97,13 @@ struct ApproveOrderForm: View {
 
 struct CardResultView: View {
     
-    let cardResult: CardPaymentView.CardResult
+    let cardResult: CardResult
     
     var body: some View {
         FormGroup {
             StepHeader(text: "Card Approval Result")
             LeadingText("ID", weight: .bold)
-            LeadingText("\(cardResult.id)")
+            LeadingText("\(cardResult.orderID)")
             if let status = cardResult.status {
                 LeadingText("Order Status", weight: .bold)
                 LeadingText("\(status)")

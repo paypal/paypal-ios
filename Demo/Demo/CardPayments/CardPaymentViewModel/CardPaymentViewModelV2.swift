@@ -5,9 +5,9 @@ import FraudProtection
 @MainActor
 class CardPaymentViewModelV2: ObservableObject {
     
-    @Published var createOrderState: LoadingState<Order> = .idle
-    @Published var approveOrderResult: LoadingState<CardPaymentView.CardResult> = .idle
-    @Published var captureAuthorizeResult: LoadingState<Order> = .idle
+    @Published var createOrderState: AsyncState<Order> = .idle
+    @Published var approveOrderResult: AsyncState<CardResult> = .idle
+    @Published var captureAuthorizeResult: AsyncState<Order> = .idle
     @Published var stepNumber: Int = 0
 
     private var cardClient: CardClient?
@@ -70,17 +70,12 @@ class CardPaymentViewModelV2: ObservableObject {
                     cvv: request.cardCVV
                 )
                 let cardRequest = CardRequest(orderID: orderID, card: card, sca: request.sca)
-                
                 let result = try await cardClient.approveOrder(request: cardRequest)
-                let mappedResult = CardPaymentView.CardResult(
-                    id: result.orderID,
-                    status: result.status,
-                    didAttemptThreeDSecureAuthentication: result.didAttemptThreeDSecureAuthentication
-                )
+                approveOrderResult = .loaded(result)
                 
-                // TODO: figure out a way to make CardClient non-null
+                // update card client reference
+                // TODO: make CardClient non-null
                 self.cardClient = cardClient
-                approveOrderResult = .loaded(mappedResult)
             } catch {
                 print("failed in checkout with card. \(error.localizedDescription)")
                 // TODO: differentiate error from cancellation state
