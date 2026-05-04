@@ -7,7 +7,7 @@ struct CardPaymentState: Equatable {
 
         let id: String
         let status: String?
-        let didAttemptThreeDSecureAuthentication: Bool
+        let didAttempt3DSecure: Bool
     }
 
     var createOrder: Order?

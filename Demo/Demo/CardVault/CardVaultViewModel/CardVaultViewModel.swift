@@ -44,7 +44,7 @@ class CardVaultViewModel: VaultViewModel {
                     UpdateSetupTokenResult(
                         id: vaultResult.setupTokenID,
                         status: vaultResult.status,
-                        didAttemptThreeDSecureAuthentication: vaultResult.didAttemptThreeDSecureAuthentication
+                        didAttempt3DSecure: vaultResult.didAttempt3DSecure
                     )
                 )
             } else if let vaultError {

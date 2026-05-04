@@ -125,7 +125,7 @@ class CardPaymentViewModel: ObservableObject {
                         approveResult: CardPaymentState.CardResult(
                             id: cardResult.orderID,
                             status: cardResult.status,
-                            didAttemptThreeDSecureAuthentication: cardResult.didAttemptThreeDSecureAuthentication
+                            didAttempt3DSecure: cardResult.didAttempt3DSecure
                         )
                     )
                 case .failure(let error):

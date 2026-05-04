@@ -42,7 +42,7 @@ public class CardClient: NSObject {
     }
 
     /// Updates a setup token with a payment method. Performs
-    /// 3DS verification if required. If verification is performed, SDK returns a property `didAttemptThreeDSecureAuthentication`.
+    /// 3DS verification if required. If verification is performed, SDK returns a property `didAttempt3DSecure`.
     /// If `didAttempt3DSecureVerification` is `true`, check verification status with `/v3/vault/setup-token/{id}` in your server.
     /// - Parameters:
     ///   - vaultRequest: The request containing setupTokenID and card
@@ -51,7 +51,7 @@ public class CardClient: NSObject {
     ///                 - `.success(CardVaultResult)` containing:
     ///                   - `setupTokenID`: The ID of the token that was updated.
     ///                   - `status`: The setup token status.
-    ///                   - `didAttemptThreeDSecureAuthentication`: A flag indicating if 3D Secure authentication was attempted.
+    ///                   - `didAttempt3DSecure`: A flag indicating if 3D Secure authentication was attempted.
     ///                 - `.failure(CoreSDKError)`: Describes the reason for failure.
     public func vault(_ vaultRequest: CardVaultRequest, completion: @escaping (Result<CardVaultResult, CoreSDKError>) -> Void) {
         analytics.orderID = nil
@@ -70,7 +70,7 @@ public class CardClient: NSObject {
                     analytics.track(CardAnalyticsEvent.Vault.authChallengeRequired)
                     startVaultThreeDSecureChallenge(url: url, setupTokenID: vaultRequest.setupTokenID, completion: completion)
                 } else {
-                    let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status, didAttemptThreeDSecureAuthentication: false)
+                    let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status, didAttempt3DSecure: false)
                     notifyVaultSuccess(for: vaultResult, completion: completion)
                 }
             } catch let error as CoreSDKError {
@@ -82,7 +82,7 @@ public class CardClient: NSObject {
     }
 
     /// Updates a setup token with a payment method. Performs
-    /// 3DS verification if required. If verification is performed, SDK returns a property `didAttemptThreeDSecureAuthentication`.
+    /// 3DS verification if required. If verification is performed, SDK returns a property `didAttempt3DSecure`.
     /// If `didAttempt3DSecureVerification` is `true`, check verification status with `/v3/vault/setup-token/{id}` in your server.
     /// - Parameters:
     ///   - vaultRequest: The request containing setupTokenID and card
@@ -111,7 +111,7 @@ public class CardClient: NSObject {
     ///                 - `.success(CardResult)` containing:
     ///                   - `orderID`: The ID of the approved order.
     ///                   - `status`: The approval status.
-    ///                   - `didAttemptThreeDSecureAuthentication`: A flag indicating if 3D Secure authentication was attempted.
+    ///                   - `didAttempt3DSecure`: A flag indicating if 3D Secure authentication was attempted.
     ///                 - `.failure(CoreSDKError)`: Describes the reason for failure.
     public func approveOrder(request: CardRequest, completion: @escaping (Result<CardResult, CoreSDKError>) -> Void) {
         analytics.setupToken = nil
@@ -141,7 +141,7 @@ public class CardClient: NSObject {
                     analytics.track(CardAnalyticsEvent.ApproveOrder.authChallengeRequired)
                     startThreeDSecureChallenge(url: url, orderId: result.id, completion: completion)
                 } else {
-                    let cardResult = CardResult(orderID: result.id, status: result.status, didAttemptThreeDSecureAuthentication: false)
+                    let cardResult = CardResult(orderID: result.id, status: result.status, didAttempt3DSecure: false)
                     notifyCheckoutSuccess(for: cardResult, completion: completion)
                 }
             } catch let error as CoreSDKError {
@@ -200,7 +200,7 @@ public class CardClient: NSObject {
                     }
                 }
 
-                let cardResult = CardResult(orderID: orderId, status: nil, didAttemptThreeDSecureAuthentication: true)
+                let cardResult = CardResult(orderID: orderId, status: nil, didAttempt3DSecure: true)
                 self.notify3dsCheckoutSuccess(for: cardResult, completion: completion)
             }
         )
@@ -240,7 +240,7 @@ public class CardClient: NSObject {
                     }
                 }
 
-                let cardVaultResult = CardVaultResult(setupTokenID: setupTokenID, status: nil, didAttemptThreeDSecureAuthentication: true)
+                let cardVaultResult = CardVaultResult(setupTokenID: setupTokenID, status: nil, didAttempt3DSecure: true)
                 self.notify3dsVaultSuccess(for: cardVaultResult, completion: completion)
             }
         )

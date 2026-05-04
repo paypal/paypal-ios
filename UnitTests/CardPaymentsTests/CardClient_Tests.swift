@@ -91,7 +91,7 @@ class CardClient_Tests: XCTestCase {
             case .success(let cardVaultResult):
                 XCTAssertEqual(cardVaultResult.setupTokenID, setupTokenID)
                 XCTAssertNil(cardVaultResult.status)
-                XCTAssertTrue(cardVaultResult.didAttemptThreeDSecureAuthentication)
+                XCTAssertTrue(cardVaultResult.didAttempt3DSecure)
             case .failure:
                 XCTFail("Expected success with CardVaultResult")
             }
@@ -184,7 +184,7 @@ class CardClient_Tests: XCTestCase {
             case .success(let cardVaultResult):
                 XCTAssertEqual(cardVaultResult.setupTokenID, "testSetupTokenId")
                 XCTAssertNil(cardVaultResult.status)
-                XCTAssertTrue(cardVaultResult.didAttemptThreeDSecureAuthentication)
+                XCTAssertTrue(cardVaultResult.didAttempt3DSecure)
             case .failure:
                 XCTFail("Expected success with CardVaultResult")
             }
@@ -276,7 +276,7 @@ class CardClient_Tests: XCTestCase {
             case .success(let cardResult):
                 XCTAssertEqual(cardResult.orderID, "testOrderId")
                 XCTAssertEqual(cardResult.status, "APPROVED")
-                XCTAssertFalse(cardResult.didAttemptThreeDSecureAuthentication)
+                XCTAssertFalse(cardResult.didAttempt3DSecure)
             case .failure:
                 XCTFail("Expected success with CardResult")
             }
@@ -340,7 +340,7 @@ class CardClient_Tests: XCTestCase {
             case .success(let cardResult):
                 XCTAssertEqual(cardResult.orderID, "testOrderId")
                 XCTAssertNil(cardResult.status)
-                XCTAssertTrue(cardResult.didAttemptThreeDSecureAuthentication)
+                XCTAssertTrue(cardResult.didAttempt3DSecure)
             case .failure:
                 XCTFail("Expected success with CardResult")
             }
