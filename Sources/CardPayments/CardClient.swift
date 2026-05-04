@@ -147,7 +147,7 @@ public class CardClient: NSObject {
             } catch let error as CoreSDKError {
                 notifyCheckoutFailure(with: error, completion: completion)
             } catch {
-                notifyCheckoutFailure(with: CardError.unknownError, completion: completion)
+                notifyCheckoutFailure(with: CardError.unknown, completion: completion)
             }
         }
     }

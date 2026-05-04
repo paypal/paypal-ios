@@ -42,7 +42,7 @@ public enum CardError {
         case threeDSecureCanceled
     }
 
-    public static let unknownError = CoreSDKError(
+    public static let unknown = CoreSDKError(
         code: Code.unknown.rawValue,
         domain: domain,
         errorDescription: "An unknown error has occured. Contact developer.paypal.com/support."
