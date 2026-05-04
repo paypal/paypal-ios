@@ -44,11 +44,11 @@ class CardVaultViewModel: VaultViewModel {
                     UpdateSetupTokenResult(
                         id: vaultResult.setupTokenID,
                         status: vaultResult.status,
-                        didAttemptThreeDSecureAuthentication: vaultResult.didAttemptThreeDSecureAuthentication
+                        didAttempt3DSecure: vaultResult.didAttempt3DSecure
                     )
                 )
             } else if let vaultError {
-                if let error = vaultError as? CoreSDKError, error == CardError.threeDSecureCanceledError {
+                if let error = vaultError as? CoreSDKError, error == CardError.threeDSecureCanceled {
                     print("Canceled")
                     self.state.updateSetupTokenResponse = .idle
                 } else {

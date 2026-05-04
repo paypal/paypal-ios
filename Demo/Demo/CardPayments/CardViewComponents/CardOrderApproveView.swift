@@ -44,8 +44,8 @@ struct CardOrderApproveView: View {
                         )
 
                         Picker("SCA", selection: $cardPaymentViewModel.state.scaSelection) {
-                            Text(SCA.scaWhenRequired.rawValue).tag(SCA.scaWhenRequired)
-                            Text(SCA.scaAlways.rawValue).tag(SCA.scaAlways)
+                            Text(SCA.whenRequired.rawValue).tag(SCA.whenRequired)
+                            Text(SCA.always.rawValue).tag(SCA.always)
                         }
                         .pickerStyle(SegmentedPickerStyle())
                         .frame(height: 50)

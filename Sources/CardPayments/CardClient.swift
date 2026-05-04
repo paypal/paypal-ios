@@ -42,7 +42,7 @@ public class CardClient: NSObject {
     }
 
     /// Updates a setup token with a payment method. Performs
-    /// 3DS verification if required. If verification is performed, SDK returns a property `didAttemptThreeDSecureAuthentication`.
+    /// 3DS verification if required. If verification is performed, SDK returns a property `didAttempt3DSecure`.
     /// If `didAttempt3DSecureVerification` is `true`, check verification status with `/v3/vault/setup-token/{id}` in your server.
     /// - Parameters:
     ///   - vaultRequest: The request containing setupTokenID and card
@@ -51,7 +51,7 @@ public class CardClient: NSObject {
     ///                 - `.success(CardVaultResult)` containing:
     ///                   - `setupTokenID`: The ID of the token that was updated.
     ///                   - `status`: The setup token status.
-    ///                   - `didAttemptThreeDSecureAuthentication`: A flag indicating if 3D Secure authentication was attempted.
+    ///                   - `didAttempt3DSecure`: A flag indicating if 3D Secure authentication was attempted.
     ///                 - `.failure(CoreSDKError)`: Describes the reason for failure.
     public func vault(_ vaultRequest: CardVaultRequest, completion: @escaping (Result<CardVaultResult, CoreSDKError>) -> Void) {
         analytics.orderID = nil
@@ -64,25 +64,25 @@ public class CardClient: NSObject {
                 if result.status == "PAYER_ACTION_REQUIRED",
                 let urlString = result.links.first(where: { $0.rel == "approve" })?.href {
                     guard urlString.contains("helios"), let url = URL(string: urlString) else {
-                        self.notify3dsVaultFailure(with: CardError.threeDSecureURLError, completion: completion)
+                        self.notify3dsVaultFailure(with: CardError.threeDSecureURL, completion: completion)
                         return
                     }
                     analytics.track(CardAnalyticsEvent.Vault.authChallengeRequired)
                     startVaultThreeDSecureChallenge(url: url, setupTokenID: vaultRequest.setupTokenID, completion: completion)
                 } else {
-                    let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status, didAttemptThreeDSecureAuthentication: false)
+                    let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status, didAttempt3DSecure: false)
                     notifyVaultSuccess(for: vaultResult, completion: completion)
                 }
             } catch let error as CoreSDKError {
                 notifyVaultFailure(with: error, completion: completion)
             } catch {
-                notifyVaultFailure(with: CardError.vaultTokenError, completion: completion)
+                notifyVaultFailure(with: CardError.vaultToken, completion: completion)
             }
         }
     }
 
     /// Updates a setup token with a payment method. Performs
-    /// 3DS verification if required. If verification is performed, SDK returns a property `didAttemptThreeDSecureAuthentication`.
+    /// 3DS verification if required. If verification is performed, SDK returns a property `didAttempt3DSecure`.
     /// If `didAttempt3DSecureVerification` is `true`, check verification status with `/v3/vault/setup-token/{id}` in your server.
     /// - Parameters:
     ///   - vaultRequest: The request containing setupTokenID and card
@@ -111,7 +111,7 @@ public class CardClient: NSObject {
     ///                 - `.success(CardResult)` containing:
     ///                   - `orderID`: The ID of the approved order.
     ///                   - `status`: The approval status.
-    ///                   - `didAttemptThreeDSecureAuthentication`: A flag indicating if 3D Secure authentication was attempted.
+    ///                   - `didAttempt3DSecure`: A flag indicating if 3D Secure authentication was attempted.
     ///                 - `.failure(CoreSDKError)`: Describes the reason for failure.
     public func approveOrder(request: CardRequest, completion: @escaping (Result<CardResult, CoreSDKError>) -> Void) {
         analytics.setupToken = nil
@@ -134,20 +134,20 @@ public class CardClient: NSObject {
                     guard getQueryStringParameter(url: url, param: "flow") == "3ds",
                         url.contains("helios"),
                         let url = URL(string: url) else {
-                        self.notify3dsCheckoutFailure(with: CardError.threeDSecureURLError, completion: completion)
+                        self.notify3dsCheckoutFailure(with: CardError.threeDSecureURL, completion: completion)
                         return
                     }
                 
                     analytics.track(CardAnalyticsEvent.ApproveOrder.authChallengeRequired)
                     startThreeDSecureChallenge(url: url, orderId: result.id, completion: completion)
                 } else {
-                    let cardResult = CardResult(orderID: result.id, status: result.status, didAttemptThreeDSecureAuthentication: false)
+                    let cardResult = CardResult(orderID: result.id, status: result.status, didAttempt3DSecure: false)
                     notifyCheckoutSuccess(for: cardResult, completion: completion)
                 }
             } catch let error as CoreSDKError {
                 notifyCheckoutFailure(with: error, completion: completion)
             } catch {
-                notifyCheckoutFailure(with: CardError.unknownError, completion: completion)
+                notifyCheckoutFailure(with: CardError.unknown, completion: completion)
             }
         }
     }
@@ -192,15 +192,15 @@ public class CardClient: NSObject {
                 if let error = error {
                     switch error {
                     case ASWebAuthenticationSessionError.canceledLogin:
-                        self.notify3dsCheckoutCancelWithError(with: CardError.threeDSecureCanceledError, completion: completion)
+                        self.notify3dsCheckoutCancelWithError(with: CardError.threeDSecureCanceled, completion: completion)
                         return
                     default:
-                        self.notify3dsCheckoutFailure(with: CardError.threeDSecureError(error), completion: completion)
+                        self.notify3dsCheckoutFailure(with: CardError.threeDSecure(error), completion: completion)
                         return
                     }
                 }
 
-                let cardResult = CardResult(orderID: orderId, status: nil, didAttemptThreeDSecureAuthentication: true)
+                let cardResult = CardResult(orderID: orderId, status: nil, didAttempt3DSecure: true)
                 self.notify3dsCheckoutSuccess(for: cardResult, completion: completion)
             }
         )
@@ -232,15 +232,15 @@ public class CardClient: NSObject {
                 if let error = error {
                     switch error {
                     case ASWebAuthenticationSessionError.canceledLogin:
-                        self.notify3dsVaultCancelWithError(with: CardError.threeDSecureCanceledError, completion: completion)
+                        self.notify3dsVaultCancelWithError(with: CardError.threeDSecureCanceled, completion: completion)
                         return
                     default:
-                        self.notify3dsVaultFailure(with: CardError.threeDSecureError(error), completion: completion)
+                        self.notify3dsVaultFailure(with: CardError.threeDSecure(error), completion: completion)
                         return
                     }
                 }
 
-                let cardVaultResult = CardVaultResult(setupTokenID: setupTokenID, status: nil, didAttemptThreeDSecureAuthentication: true)
+                let cardVaultResult = CardVaultResult(setupTokenID: setupTokenID, status: nil, didAttempt3DSecure: true)
                 self.notify3dsVaultSuccess(for: cardVaultResult, completion: completion)
             }
         )

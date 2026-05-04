@@ -12,82 +12,82 @@ public enum CardError {
         case unknown
 
         /// 1. An error occurred encoding an HTTP request body.
-        case encodingError
+        case encoding
 
         /// 2. An error occurred during 3DS challenge.
-        case threeDSecureError
-        
+        case threeDSecure
+
         /// 3 . An invalid 3DS challenge URL was returned by `/confirm-payment-source`
-        case threeDSecureURLError
-        
+        case threeDSecureURL
+
         /// 4. No data was returned from updating setup token
-        case noVaultTokenDataError
-        
+        case vaultTokenDataMissing
+
         /// 5. An error occurred during updating setup token
-        case vaultTokenError
+        case vaultToken
 
         /// 6. GraphQLClient is unexpectedly nil
-        case nilGraphQLClientError
-        
+        case graphQLClientUnavailable
+
         /// 7. An error from 3DS verification
-        case threeDSVerificationError
-        
+        case threeDSVerification
+
         /// 8. Missing Deeplink URL from 3DS
-        case missingDeeplinkURLError
-        
+        case deeplinkURLMissing
+
         /// 9. Malformed Deeplink URL from 3DS
-        case malformedDeeplinkURLError
+        case deeplinkURLMalformed
 
         /// 10. Cancellation from 3DS verification
-        case threeDSecureCanceledError
+        case threeDSecureCanceled
     }
 
-    public static let unknownError = CoreSDKError(
+    public static let unknown = CoreSDKError(
         code: Code.unknown.rawValue,
         domain: domain,
         errorDescription: "An unknown error has occured. Contact developer.paypal.com/support."
     )
-    
-    public static let encodingError = CoreSDKError(
-        code: Code.encodingError.rawValue,
+
+    public static let encoding = CoreSDKError(
+        code: Code.encoding.rawValue,
         domain: domain,
         errorDescription: "An error occured encoding HTTP request body data. Contact developer.paypal.com/support."
     )
 
-    public static let threeDSecureError: (Error) -> CoreSDKError = { error in
+    public static let threeDSecure: (Error) -> CoreSDKError = { error in
         CoreSDKError(
-            code: Code.threeDSecureError.rawValue,
+            code: Code.threeDSecure.rawValue,
             domain: domain,
             errorDescription: error.localizedDescription
         )
     }
-    
-    public static let threeDSecureURLError = CoreSDKError(
-        code: Code.threeDSecureURLError.rawValue,
+
+    public static let threeDSecureURL = CoreSDKError(
+        code: Code.threeDSecureURL.rawValue,
         domain: domain,
         errorDescription: "An invalid 3DS URL was returned. Contact developer.paypal.com/support."
     )
 
-    public static let threeDSecureCanceledError = CoreSDKError(
-        code: Code.threeDSecureCanceledError.rawValue,
+    public static let threeDSecureCanceled = CoreSDKError(
+        code: Code.threeDSecureCanceled.rawValue,
         domain: domain,
         errorDescription: "3DS verification has been canceled by the user."
     )
 
-    public static let noVaultTokenDataError = CoreSDKError(
-        code: Code.noVaultTokenDataError.rawValue,
+    public static let vaultTokenDataMissing = CoreSDKError(
+        code: Code.vaultTokenDataMissing.rawValue,
         domain: domain,
         errorDescription: "No data was returned from update setup token service."
     )
-    
-    public static let vaultTokenError = CoreSDKError(
-        code: Code.vaultTokenError.rawValue,
+
+    public static let vaultToken = CoreSDKError(
+        code: Code.vaultToken.rawValue,
         domain: domain,
         errorDescription: "An error occurred while vaulting a card."
     )
 
-    public static let nilGraphQLClientError = CoreSDKError(
-        code: Code.nilGraphQLClientError.rawValue,
+    public static let graphQLClientUnavailable = CoreSDKError(
+        code: Code.graphQLClientUnavailable.rawValue,
         domain: domain,
         errorDescription: "GraphQLClient is unexpectedly nil."
     )
@@ -97,6 +97,6 @@ public enum CardError {
         guard let error = error as? CoreSDKError else {
             return false
         }
-        return error.domain == CardError.domain && error.code == CardError.threeDSecureCanceledError.code
+        return error.domain == CardError.domain && error.code == CardError.threeDSecureCanceled.code
     }
 }

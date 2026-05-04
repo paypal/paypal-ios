@@ -27,13 +27,13 @@ class URLSessionHTTPClient: HTTPClient {
         do {
             (data, response) = try await urlSession.performRequest(with: urlRequest)
         } catch _ as URLError {
-            throw NetworkingError.urlSessionError
+            throw NetworkingError.urlSession
         } catch {
-            throw NetworkingError.unknownError
+            throw NetworkingError.unknown
         }
 
         guard let response = response as? HTTPURLResponse else {
-            throw NetworkingError.invalidURLResponseError
+            throw NetworkingError.invalidURLResponse
         }
         
         return HTTPResponse(status: response.statusCode, body: data)

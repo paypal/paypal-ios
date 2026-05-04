@@ -28,8 +28,8 @@ struct CardApprovalResultView: View {
                 LeadingText("Order Status", weight: .bold)
                 LeadingText("\(status)")
             }
-            LeadingText("didAttemptThreeDSecureAuthentication", weight: .bold)
-            LeadingText("\(approvalResult.didAttemptThreeDSecureAuthentication)")
+            LeadingText("didAttempt3DSecure", weight: .bold)
+            LeadingText("\(approvalResult.didAttempt3DSecure)")
         }
         .frame(maxWidth: .infinity)
         .padding()

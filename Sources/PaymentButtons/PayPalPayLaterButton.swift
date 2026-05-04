@@ -28,7 +28,7 @@ public final class PayPalPayLaterButton: PaymentButton {
         color: Color = .gold,
         edges: PaymentButtonEdges = .softEdges,
         size: PaymentButtonSize = .collapsed,
-        _ action: @escaping () -> Void = { }
+        action: @escaping () -> Void = { }
     ) {
         self.init(
             fundingSource: .payLater,
@@ -42,13 +42,13 @@ public final class PayPalPayLaterButton: PaymentButton {
 }
 
 public extension PayPalPayLaterButton {
-    
+
     /// PayPalPayLaterButton for SwiftUI
     struct Representable: UIViewRepresentable {
-        
+
         private let button: PayPalPayLaterButton
         private var action: () -> Void = { }
-        
+
         /// Initialize a PayPalPayLaterButton
         /// - Parameters:
         ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
@@ -60,7 +60,7 @@ public extension PayPalPayLaterButton {
             color: PayPalPayLaterButton.Color = .gold,
             edges: PaymentButtonEdges = .softEdges,
             size: PaymentButtonSize = .collapsed,
-            _ action: @escaping () -> Void = { }
+            action: @escaping () -> Void = { }
         ) {
             self.button = PayPalPayLaterButton(
                 fundingSource: .payLater,

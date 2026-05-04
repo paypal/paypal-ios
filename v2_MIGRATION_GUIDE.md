@@ -23,7 +23,7 @@ In v2.0, cancellations (e.g., 3DS cancellations, PayPal web flow cancellations) 
 - The `CoreSDKError` is now equatable, enabling direct comparison of errors:
 ```swift
 // Now possible in 2.0.0-beta2
-  if error == CardError.threeDSecureCanceledError {
+  if error == CardError.threeDSecureCanceled {
      // Handle 3DS Cancellation
   }
   
@@ -35,13 +35,13 @@ Previously internal error enums like `CardError` and `NetworkingError` are now p
 ```swift
 public enum CardError {
   public static let threeDSecureCanceledError: CoreSDKError
-  public static let encodingError: CoreSDKError
+  public static let encoding: CoreSDKError
   //...other error constants
 }
 
 public enum NetworkingError {
   public static let urlSessionError: CoreSDKError
-  public static let serverResponseError: (String) -> CoreSDKError
+  public static let serverResponse: (String) -> CoreSDKError
   //...other error constants
 }
 ```
@@ -55,9 +55,9 @@ cardClient.vault(request) { result, error in
    if let error {
    // You can now use the public error enums directly
       switch error {
-      case CardError.threeDSecureCanceledError:
+      case CardError.threeDSecureCanceled:
       // Handle 3DS cancellation
-      case NetworkingError.urlSessionError:
+      case NetworkingError.urlSession:
       // Handle netowrk error
       default:
       // Handle other errors
@@ -78,9 +78,9 @@ do {
    } catch let error as CoreSDKError {
       // Make sure to cast to CoreSDKError when using try-catch
       switch error {
-      case CardError.threeDSecureCanceledError:
+      case CardError.threeDSecureCanceled:
       // Handle 3DS cancellation
-      case NetworkingError.urlSessionError:
+      case NetworkingError.urlSession:
       // Handle netowrk error
       default:
       // Handle other errors
@@ -94,7 +94,7 @@ do {
      let result = try await cardClient.vault(request)
      // Handle success
      } catch let error as CoreSDKError {
-        if error == CardError.threeDSecureCanceledError {
+        if error == CardError.threeDSecureCanceled {
          // Handle 3DS Cancellation
         } else {
          // Handle other CoreSDKErrors

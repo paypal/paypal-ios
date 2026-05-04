@@ -15,8 +15,8 @@ public struct CardRequest {
     /// - Parameters:
     ///    - orderID: The order to be approved
     ///    - card: The card to be charged for this order
-    ///    - sca: Specificy to always launch 3DS or only when required. Defaults to `scaWhenRequired`.
-    public init(orderID: String, card: Card, sca: SCA = .scaWhenRequired) {
+    ///    - sca: Specificy to always launch 3DS or only when required. Defaults to `whenRequired`.
+    public init(orderID: String, card: Card, sca: SCA = .whenRequired) {
         self.orderID = orderID
         self.card = card
         self.sca = sca

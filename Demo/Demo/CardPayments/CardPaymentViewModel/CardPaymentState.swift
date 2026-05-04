@@ -7,14 +7,14 @@ struct CardPaymentState: Equatable {
 
         let id: String
         let status: String?
-        let didAttemptThreeDSecureAuthentication: Bool
+        let didAttempt3DSecure: Bool
     }
 
     var createOrder: Order?
     var authorizedOrder: Order?
     var capturedOrder: Order?
     var intent: Intent = .authorize
-    var scaSelection: SCA = .scaWhenRequired
+    var scaSelection: SCA = .whenRequired
     var approveResult: CardResult?
 
     var createdOrderResponse: LoadingState<Order> = .idle {
