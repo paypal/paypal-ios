@@ -1,7 +1,7 @@
 import UIKit
 
 /// Edges for the smart payment button, these affect the corner radius.
-public enum PaymentButtonEdges: Equatable {
+public enum PaymentButtonEdges: Equatable, CustomStringConvertible {
 
     /// Hard edges on button with 0 corner radius.
     case hardEdges
