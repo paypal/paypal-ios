@@ -129,7 +129,7 @@ class CardPaymentViewModel: ObservableObject {
                         )
                     )
                 case .failure(let error):
-                    if error == CardError.threeDSecureCanceledError {
+                    if error == CardError.threeDSecureCanceled {
                         self.setApprovalCancelResult()
                     } else {
                         self.setApprovalFailureResult(error: error)

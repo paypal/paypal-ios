@@ -102,7 +102,7 @@ class PayPalClient_Tests: XCTestCase {
                 XCTFail("Expected failure with error")
             case .failure(let error):
                 XCTAssertEqual(error.domain, PayPalError.domain)
-                XCTAssertEqual(error.code, PayPalError.Code.vaultCanceledError.rawValue)
+                XCTAssertEqual(error.code, PayPalError.Code.vaultCanceled.rawValue)
                 XCTAssertEqual(error.localizedDescription, "PayPal vault has been canceled by the user")
             }
             expectation.fulfill()
@@ -127,7 +127,7 @@ class PayPalClient_Tests: XCTestCase {
                 XCTFail("Expected failure with error")
             case .failure(let error):
                 XCTAssertEqual(error.domain, PayPalError.domain)
-                XCTAssertEqual(error.code, PayPalError.Code.vaultCanceledError.rawValue)
+                XCTAssertEqual(error.code, PayPalError.Code.vaultCanceled.rawValue)
                 XCTAssertEqual(error.localizedDescription, "PayPal vault has been canceled by the user")
             }
             expectation.fulfill()
@@ -162,9 +162,9 @@ class PayPalClient_Tests: XCTestCase {
     func testVault_whenWebSession_returnsDefaultError() {
 
         let expectedError = CoreSDKError(
-            code: PayPalError.Code.webSessionError.rawValue,
+            code: PayPalError.Code.webSession.rawValue,
             domain: PayPalError.domain,
-            errorDescription: PayPalError.payPalVaultResponseError.errorDescription
+            errorDescription: PayPalError.payPalVaultResponse.errorDescription
         )
         mockWebAuthenticationSession.cannedErrorResponse = expectedError
 
@@ -192,9 +192,9 @@ class PayPalClient_Tests: XCTestCase {
         let expectation = expectation(description: "vault(url:) completed")
         
         let expectedError = CoreSDKError(
-            code: PayPalError.payPalVaultResponseError.code,
+            code: PayPalError.payPalVaultResponse.code,
             domain: PayPalError.domain,
-            errorDescription: PayPalError.payPalVaultResponseError.errorDescription
+            errorDescription: PayPalError.payPalVaultResponse.errorDescription
         )
         
         let vaultRequest = PayPalVaultRequest(setupTokenID: "fakeTokenID")
@@ -232,8 +232,8 @@ class PayPalClient_Tests: XCTestCase {
                 XCTFail("Expected failure with error")
             case .failure(let error):
                 XCTAssertEqual(error.domain, PayPalError.domain)
-                XCTAssertEqual(error.code, PayPalError.checkoutCanceledError.code)
-                XCTAssertEqual(error.localizedDescription, PayPalError.checkoutCanceledError.localizedDescription)
+                XCTAssertEqual(error.code, PayPalError.checkoutCanceled.code)
+                XCTAssertEqual(error.localizedDescription, PayPalError.checkoutCanceled.localizedDescription)
             }
             expectation.fulfill()
         }
@@ -275,7 +275,7 @@ class PayPalClient_Tests: XCTestCase {
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
 
         mockWebAuthenticationSession.cannedErrorResponse = CoreSDKError(
-            code: PayPalError.Code.webSessionError.rawValue,
+            code: PayPalError.Code.webSession.rawValue,
             domain: PayPalError.domain,
             errorDescription: "Mock web session error description."
         )
@@ -288,7 +288,7 @@ class PayPalClient_Tests: XCTestCase {
                 XCTFail("Expected failure with error")
             case .failure(let error):
                 XCTAssertEqual(error.domain, PayPalError.domain)
-                XCTAssertEqual(error.code, PayPalError.Code.webSessionError.rawValue)
+                XCTAssertEqual(error.code, PayPalError.Code.webSession.rawValue)
                 XCTAssertEqual(error.localizedDescription, "Mock web session error description.")
             }
             expectation.fulfill()
@@ -310,7 +310,7 @@ class PayPalClient_Tests: XCTestCase {
                 XCTFail("Expected failure with error")
             case .failure(let error):
                 XCTAssertEqual(error.domain, PayPalError.domain)
-                XCTAssertEqual(error.code, PayPalError.Code.malformedResultError.rawValue)
+                XCTAssertEqual(error.code, PayPalError.Code.malformedResult.rawValue)
                 XCTAssertEqual(error.localizedDescription, "Result did not contain the expected data.")
             }
             expectation.fulfill()
@@ -333,7 +333,7 @@ class PayPalClient_Tests: XCTestCase {
                 XCTFail("Expected failure with error")
             case .failure(let error):
                 XCTAssertEqual(error.domain, PayPalError.domain)
-                XCTAssertEqual(error.code, PayPalError.Code.checkoutCanceledError.rawValue)
+                XCTAssertEqual(error.code, PayPalError.Code.checkoutCanceled.rawValue)
                 XCTAssertEqual(error.localizedDescription, "PayPal checkout has been canceled by the user")
             }
             expectation.fulfill()

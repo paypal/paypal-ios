@@ -21,7 +21,7 @@ struct PayPalWebButtonsView: View {
                 Picker("Funding Source", selection: $selectedFundingSource) {
                     Text("PayPal").tag(PayPalWebCheckoutFundingSource.paypal)
                     Text("PayPal Credit").tag(PayPalWebCheckoutFundingSource.paypalCredit)
-                    Text("Pay Later").tag(PayPalWebCheckoutFundingSource.paylater)
+                    Text("Pay Later").tag(PayPalWebCheckoutFundingSource.payLater)
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 ZStack {
@@ -30,9 +30,9 @@ struct PayPalWebButtonsView: View {
                         PayPalCreditButton.Representable(color: .black, size: .full) {
                             payPalWebViewModel.paymentButtonTapped(funding: .paypalCredit)
                         }
-                    case .paylater:
+                    case .payLater:
                         PayPalPayLaterButton.Representable(color: .silver, edges: .softEdges, size: .full) {
-                            payPalWebViewModel.paymentButtonTapped(funding: .paylater)
+                            payPalWebViewModel.paymentButtonTapped(funding: .payLater)
                         }
                     case .paypal:
                         PayPalButton.Representable(color: .blue, size: .full) {

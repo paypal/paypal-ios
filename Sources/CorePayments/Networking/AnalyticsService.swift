@@ -80,7 +80,7 @@ public class AnalyticsService {
             let clientID = coreConfig.clientID
 
             let eventData = AnalyticsEventData(
-                environment: coreConfig.environment.toString,
+                environment: coreConfig.environment.description,
                 eventName: name,
                 clientID: clientID,
                 orderID: orderID,

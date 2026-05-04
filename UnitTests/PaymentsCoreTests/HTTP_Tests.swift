@@ -56,7 +56,7 @@ class HTTP_Tests: XCTestCase {
             XCTFail("Request succeeded. Expected error.")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, NetworkingError.domain)
-            XCTAssertEqual(error.code, NetworkingError.Code.urlSessionError.rawValue)
+            XCTAssertEqual(error.code, NetworkingError.Code.urlSession.rawValue)
             XCTAssertEqual(error.localizedDescription, "An error occured during network call. Contact developer.paypal.com/support.")
         } catch {
             XCTFail("Unexpected error type")
