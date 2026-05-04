@@ -13,13 +13,13 @@ public struct Address: Codable, Equatable {
     }
 
     /// Optional. The first line of the address.
-    public var addressLine1: String?
+    public let addressLine1: String?
 
     /// Optional. The second line of the address.
-    public var addressLine2: String?
+    public let addressLine2: String?
 
     /// Optional. A city, town, or village. Smaller than `region`.
-    public var locality: String?
+    public let locality: String?
 
     /// Optional. The highest level sub-division in a country, which is usually a province or state. Format for postal delivery, for example, `CA` and not `California`. Value, by country, is:
     /// - UK: a county.
@@ -27,16 +27,16 @@ public struct Address: Codable, Equatable {
     /// - Canada: a province.
     /// - Japan: a prefecture.
     /// - Switzerland: a kanton.
-    public var region: String?
+    public let region: String?
 
     /// Optional. The postal code, which is the zip code or equivalent. Typically required for countries with a postal code or an equivalent.
     /// See [postal code](https://en.wikipedia.org/wiki/Postal_code).
-    public var postalCode: String?
+    public let postalCode: String?
 
     /// The [two-character ISO 3166-1 code](/docs/integration/direct/rest/country-codes/) that identifies the country or region.
     /// Note:
     /// - The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.
-    public var countryCode: String
+    public let countryCode: String
 
     public init(
         addressLine1: String? = nil,
