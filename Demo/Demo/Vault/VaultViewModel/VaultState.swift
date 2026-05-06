@@ -53,6 +53,7 @@ struct VaultState: Equatable {
     }
 }
 
+// TODO: replace with AsyncState once UI Streamline Refactor is complete
 enum LoadingState<T: Decodable & Equatable>: Equatable {
 
     case idle
