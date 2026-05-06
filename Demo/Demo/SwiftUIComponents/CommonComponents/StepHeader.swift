@@ -6,8 +6,7 @@ struct StepHeader: View {
     
     var body: some View {
         Text(text)
-            .font(.system(size: 20))
-            .frame(maxWidth: .infinity, alignment: .leading)
             .font(.headline)
+            .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
