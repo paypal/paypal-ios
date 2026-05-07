@@ -3,14 +3,49 @@ import CardPayments
 import FraudProtection
 
 @MainActor
-class CardPaymentViewModel: ObservableObject {
+@Observable
+class CardPaymentViewModel {
     
-    @Published var createOrderState: AsyncState<Order> = .idle
-    @Published var approveOrderResult: AsyncState<CardResult> = .idle
-    @Published var captureAuthorizeResult: AsyncState<Order> = .idle
+    let uiState = CardPaymentUiState()
+    
+    var createOrderRequest: DemoCreateOrderRequest {
+        get { uiState.createOrderRequest }
+        set { uiState.createOrderRequest = newValue }
+    }
+    
+    var approveOrderRequest: DemoApproveOrderRequest {
+        get { uiState.approveOrderRequest }
+        set { uiState.approveOrderRequest = newValue }
+    }
+    
+    var createOrderState: AsyncState<Order> {
+        get { uiState.createOrderState }
+        set { uiState.createOrderState = newValue }
+    }
+    
+    var approveOrderState: AsyncState<CardResult> {
+        get { uiState.approveOrderState }
+        set { uiState.approveOrderState = newValue }
+    }
+    
+    var completeOrderState: AsyncState<Order> {
+        get { uiState.completeOrderState }
+        set { uiState.completeOrderState = newValue }
+    }
     
     // HACK: this is used to drive the scroll-to-bottom animation
-    @Published var stepCount: Int = 0
+    var stepCount: Int {
+        if createOrderState.isIdleOrLoading {
+            return 0
+        }
+        if approveOrderState.isIdleOrLoading {
+            return 1
+        }
+        if completeOrderState.isIdleOrLoading {
+            return 2
+        }
+        return 3
+    }
 
     private var cardClient: CardClient?
     private var payPalDataCollector: PayPalDataCollector?
@@ -50,17 +85,15 @@ class CardPaymentViewModel: ObservableObject {
             } catch {
                 createOrderState = .error(message: error.localizedDescription)
             }
-            incrementStepCounter()
         }
     }
     
     func approveOrder(using request: DemoApproveOrderRequest) {
         guard let orderID = createOrderState.value?.id else {
-            approveOrderResult = .error(message: "Order ID Required.")
-            incrementStepCounter()
+            approveOrderState = .error(message: "Order ID Required.")
             return
         }
-        approveOrderResult = .loading
+        approveOrderState = .loading
         Task {
             do {
                 let config = try await configManager.getCoreConfig()
@@ -74,7 +107,7 @@ class CardPaymentViewModel: ObservableObject {
                 )
                 let cardRequest = CardRequest(orderID: orderID, card: card, sca: request.sca)
                 let result = try await cardClient.approveOrder(request: cardRequest)
-                approveOrderResult = .loaded(result)
+                approveOrderState = .loaded(result)
                 
                 // update card client reference
                 // TODO: make CardClient non-null
@@ -82,19 +115,17 @@ class CardPaymentViewModel: ObservableObject {
             } catch {
                 print("failed in checkout with card. \(error.localizedDescription)")
                 // TODO: differentiate error from cancellation state
-                approveOrderResult = .error(message: error.localizedDescription)
+                approveOrderState = .error(message: error.localizedDescription)
             }
-            incrementStepCounter()
         }
     }
     
     func completeOrder(intent: Intent) {
         guard let order = createOrderState.value else {
-            captureAuthorizeResult = .error(message: "Order ID Required.")
-            incrementStepCounter()
+            completeOrderState = .error(message: "Order ID Required.")
             return
         }
-        captureAuthorizeResult = .loading
+        completeOrderState = .loading
         Task {
             do {
                 let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
@@ -114,16 +145,11 @@ class CardPaymentViewModel: ObservableObject {
                         payPalClientMetadataID: payPalClientMetadataID
                     )
                 }
-                captureAuthorizeResult = .loaded(completedOrder)
+                completeOrderState = .loaded(completedOrder)
             } catch {
                 print("Error capturing order: \(error.localizedDescription)")
-                captureAuthorizeResult = .error(message: error.localizedDescription)
+                completeOrderState = .error(message: error.localizedDescription)
             }
-            incrementStepCounter()
         }
-    }
-    
-    private func incrementStepCounter() {
-        stepCount += 1
     }
 }

@@ -1,8 +1,9 @@
 import Foundation
 
-class DemoCreateOrderRequest: ObservableObject {
+@Observable
+class DemoCreateOrderRequest {
     
-    @Published var intent: Intent = .authorize
-    @Published var shouldVault = false
-    @Published var vaultCustomerID = ""
+    var intent: Intent = .authorize
+    var shouldVault = false
+    var vaultCustomerID = ""
 }

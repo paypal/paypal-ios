@@ -3,45 +3,44 @@ import CardPayments
 
 struct CardPaymentView: View {
     
-    @StateObject var viewModel = CardPaymentViewModel()
-    @StateObject var createOrderRequest = DemoCreateOrderRequest()
-    @StateObject var approveOrderRequest = DemoApproveOrderRequest()
-
+    @SwiftUI.Environment(CardPaymentViewModel.self)
+    var viewModel
+    
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView {
                 VStack(spacing: 16) {
-                    CreateOrderForm(request: createOrderRequest)
+                    CreateOrderForm()
                     if let order = viewModel.createOrderState.value {
                         OrderView(order: order)
-                        ApproveOrderForm(request: approveOrderRequest)
+                        ApproveOrderForm()
                     }
-                    if let cardResult = viewModel.approveOrderResult.value {
+                    if let cardResult = viewModel.approveOrderState.value {
                         CardResultView(cardResult: cardResult)
-                        CompleteOrder(request: createOrderRequest)
+                        CompleteOrder()
                     }
-                    if let captureResult = viewModel.captureAuthorizeResult.value {
+                    if let captureResult = viewModel.completeOrderState.value {
                         OrderView(order: captureResult)
                     }
                     ScrollAnchor(id: "bottomAnchor")
                 }
-                .onChange(of: viewModel.stepCount) { _ in
+                .onChange(of: viewModel.stepCount) { _, _ in
                     withAnimation {
                         proxy.scrollTo("bottomAnchor")
                     }
                 }
             }
         }
-        .environmentObject(viewModel)
     }
 }
 
 struct CreateOrderForm: View {
     
-    @ObservedObject var request: DemoCreateOrderRequest
-    @EnvironmentObject var viewModel: CardPaymentViewModel
+    @SwiftUI.Environment(CardPaymentViewModel.self)
+    var viewModel
     
     var body: some View {
+        @Bindable var request = viewModel.createOrderRequest
         FormGroup {
             StepHeader(text: "Create Order")
             SegmentedEnumPicker(label: "Intent", selection: $request.intent)
@@ -58,9 +57,9 @@ struct CreateOrderForm: View {
 
 struct ApproveOrderForm: View {
     
-    @ObservedObject var request: DemoApproveOrderRequest
-    @EnvironmentObject var viewModel: CardPaymentViewModel
-
+    @SwiftUI.Environment(CardPaymentViewModel.self)
+    var viewModel
+    
     let cardSections: [CardSection] = [
         CardSection(title: "Successful Authentication Visa", numbers: ["4868 7194 6070 7704"]),
         CardSection(title: "Vault with Purchase (no 3DS)", numbers: ["4000 0000 0000 0002"]),
@@ -71,6 +70,7 @@ struct ApproveOrderForm: View {
     ]
     
     var body: some View {
+        @Bindable var request: DemoApproveOrderRequest = viewModel.approveOrderRequest
         FormGroup {
             StepHeader(text: "Enter Card Information")
             CardFormView(
@@ -82,7 +82,7 @@ struct ApproveOrderForm: View {
             SegmentedEnumPicker(label: "SCA", selection: $request.sca)
                 .frame(height: 48)
             
-            let isLoading = viewModel.approveOrderResult.isLoading
+            let isLoading = viewModel.approveOrderState.isLoading
             ButtonWithProgress(label: "Approve Order", isLoading: isLoading) {
                 viewModel.approveOrder(using: request)
             }
@@ -111,16 +111,17 @@ struct CardResultView: View {
 
 struct CompleteOrder: View {
     
-    @ObservedObject var request: DemoCreateOrderRequest
-    @EnvironmentObject var viewModel: CardPaymentViewModel
-
+    @SwiftUI.Environment(CardPaymentViewModel.self)
+    var viewModel
+    
     var body: some View {
-        let intent: Intent = request.intent
-        let capitalizedIntent = intent.rawValue.capitalized
+        let request = viewModel.createOrderRequest
+        let intent = request.intent
+        let capitalizedIntent = request.intent.rawValue.capitalized
         FormGroup {
             StepHeader(text: "Complete Order")
             let buttonLabel = "\(capitalizedIntent) Order"
-            let isLoading = viewModel.captureAuthorizeResult.isLoading
+            let isLoading = viewModel.completeOrderState.isLoading
             ButtonWithProgress(label: buttonLabel, isLoading: isLoading) {
                 viewModel.completeOrder(intent: intent)
             }

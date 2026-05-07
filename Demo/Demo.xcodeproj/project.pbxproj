@@ -67,6 +67,7 @@
 		BC9D4D2427C58B8D0089E5B1 /* XCUIApplication+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */; };
 		BC9D4D2627C6D1720089E5B1 /* XCUIElement+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2527C6D1720089E5B1 /* XCUIElement+Helpers.swift */; };
 		BCBC0CF32FA1150F001E2363 /* SCA+CaseIterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBC0CF22FA11507001E2363 /* SCA+CaseIterable.swift */; };
+		BCBC0CF52FAD2FC1001E2363 /* CardPaymentUiState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBC0CF42FAD2FBB001E2363 /* CardPaymentUiState.swift */; };
 		BCCAEC872FA108D900C88FE7 /* ScrollAnchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEC862FA108D600C88FE7 /* ScrollAnchor.swift */; };
 		BCCAEC892FA10B0B00C88FE7 /* AsyncState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCAEC882FA10B0800C88FE7 /* AsyncState.swift */; };
 		BCF89C2D2F9FAEF100224BEC /* StepHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF89C2C2F9FAEEB00224BEC /* StepHeader.swift */; };
@@ -190,6 +191,7 @@
 		BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+Helpers.swift"; sourceTree = "<group>"; };
 		BC9D4D2527C6D1720089E5B1 /* XCUIElement+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+Helpers.swift"; sourceTree = "<group>"; };
 		BCBC0CF22FA11507001E2363 /* SCA+CaseIterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCA+CaseIterable.swift"; sourceTree = "<group>"; };
+		BCBC0CF42FAD2FBB001E2363 /* CardPaymentUiState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPaymentUiState.swift; sourceTree = "<group>"; };
 		BCCAEC862FA108D600C88FE7 /* ScrollAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollAnchor.swift; sourceTree = "<group>"; };
 		BCCAEC882FA10B0800C88FE7 /* AsyncState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncState.swift; sourceTree = "<group>"; };
 		BCE8A7ED27EA2B1E00AC301B /* PayPalWebCheckout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PayPalWebCheckout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -260,6 +262,7 @@
 		1001E2B82CF643350023A03C /* CardPayments */ = {
 			isa = PBXGroup;
 			children = (
+				BCBC0CF42FAD2FBB001E2363 /* CardPaymentUiState.swift */,
 				BC23E2CB2FA007CA009F7BFE /* CardPaymentViewModel.swift */,
 				3BA56FF32A9DCD790081D14F /* CardPaymentView.swift */,
 			);
@@ -662,6 +665,7 @@
 				3B4DD9A22A8982B000F4A716 /* CardFormView.swift in Sources */,
 				BC23E2C02F9FC42B009F7BFE /* ButtonWithProgress.swift in Sources */,
 				BED04233271084DF00C80954 /* CardFormatter.swift in Sources */,
+				BCBC0CF52FAD2FC1001E2363 /* CardPaymentUiState.swift in Sources */,
 				CB9ED44E28411B120081F4DE /* SwiftUIPaymentButtonDemo.swift in Sources */,
 				3BA570032AA053AE0081D14F /* PayPalWebCreateOrderView.swift in Sources */,
 				3B22E8BC2A84397600962E34 /* PaymentTokenResponse.swift in Sources */,
@@ -873,6 +877,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -904,6 +909,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
