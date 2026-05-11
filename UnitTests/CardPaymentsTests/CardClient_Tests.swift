@@ -118,8 +118,8 @@ class CardClient_Tests: XCTestCase {
                 XCTFail("Expected failure with error")
             case .failure(let error):
                 XCTAssertEqual(error.domain, CardError.domain)
-                XCTAssertEqual(error.code, CardError.threeDSecureURL.code)
-                XCTAssertEqual(error.localizedDescription, CardError.threeDSecureURL.localizedDescription)
+                XCTAssertEqual(error.code, CardError.invalidThreeDSecureURL.code)
+                XCTAssertEqual(error.localizedDescription, CardError.invalidThreeDSecureURL.localizedDescription)
             }
             expectation.fulfill()
         }
@@ -163,7 +163,7 @@ class CardClient_Tests: XCTestCase {
                 XCTFail("Expected failure with error")
             case .failure(let error):
                 XCTAssertEqual(error.domain, CardError.domain)
-                XCTAssertEqual(error.code, CardError.Code.vaultToken.rawValue)
+                XCTAssertEqual(error.code, CardError.Code.vaultTokenUpdateFailed.rawValue)
                 XCTAssertEqual(error.localizedDescription, "An error occurred while vaulting a card.")
             }
             expectation.fulfill()
@@ -223,7 +223,7 @@ class CardClient_Tests: XCTestCase {
         mockVaultAPI.stubSetupTokenResponse = FakeUpdateSetupTokenResponse.withValid3DSURL
 
         mockWebAuthSession.cannedErrorResponse = CoreSDKError(
-            code: CardError.Code.threeDSecure.rawValue,
+            code: CardError.Code.threeDSecureChallengeFailed.rawValue,
             domain: CardError.domain,
             errorDescription: "Mock web session error description."
         )
@@ -236,7 +236,7 @@ class CardClient_Tests: XCTestCase {
                 XCTFail("Expected failure with error")
             case .failure(let error):
                 XCTAssertEqual(error.domain, CardError.domain)
-                XCTAssertEqual(error.code, CardError.Code.threeDSecure.rawValue)
+                XCTAssertEqual(error.code, CardError.Code.threeDSecureChallengeFailed.rawValue)
                 XCTAssertEqual(error.localizedDescription, "Mock web session error description.")
             }
             expectation.fulfill()
@@ -379,7 +379,7 @@ class CardClient_Tests: XCTestCase {
         mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withValid3DSURL
 
         mockWebAuthSession.cannedErrorResponse = CoreSDKError(
-            code: CardError.Code.threeDSecure.rawValue,
+            code: CardError.Code.threeDSecureChallengeFailed.rawValue,
             domain: CardError.domain,
             errorDescription: "Mock web session error description."
         )
@@ -392,7 +392,7 @@ class CardClient_Tests: XCTestCase {
                 XCTFail("Expected failure with error")
             case .failure(let error):
                 XCTAssertEqual(error.domain, CardError.domain)
-                XCTAssertEqual(error.code, CardError.Code.threeDSecure.rawValue)
+                XCTAssertEqual(error.code, CardError.Code.threeDSecureChallengeFailed.rawValue)
                 XCTAssertEqual(error.localizedDescription, "Mock web session error description.")
             }
             expectation.fulfill()

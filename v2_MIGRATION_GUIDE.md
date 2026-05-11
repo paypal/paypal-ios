@@ -35,13 +35,13 @@ Previously internal error enums like `CardError` and `NetworkingError` are now p
 ```swift
 public enum CardError {
   public static let threeDSecureCanceledError: CoreSDKError
-  public static let encoding: CoreSDKError
+  public static let invalidEncoding: CoreSDKError
   //...other error constants
 }
 
 public enum NetworkingError {
-  public static let urlSessionError: CoreSDKError
-  public static let serverResponse: (String) -> CoreSDKError
+  public static let networkRequestFailed: CoreSDKError
+  public static let serverErrorReceived: (String) -> CoreSDKError
   //...other error constants
 }
 ```
@@ -57,7 +57,7 @@ cardClient.vault(request) { result, error in
       switch error {
       case CardError.threeDSecureCanceled:
       // Handle 3DS cancellation
-      case NetworkingError.urlSession:
+      case NetworkingError.networkRequestFailed:
       // Handle netowrk error
       default:
       // Handle other errors
@@ -80,7 +80,7 @@ do {
       switch error {
       case CardError.threeDSecureCanceled:
       // Handle 3DS cancellation
-      case NetworkingError.urlSession:
+      case NetworkingError.networkRequestFailed:
       // Handle netowrk error
       default:
       // Handle other errors

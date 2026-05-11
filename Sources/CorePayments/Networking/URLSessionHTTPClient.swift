@@ -27,7 +27,7 @@ class URLSessionHTTPClient: HTTPClient {
         do {
             (data, response) = try await urlSession.performRequest(with: urlRequest)
         } catch _ as URLError {
-            throw NetworkingError.urlSession
+            throw NetworkingError.networkRequestFailed
         } catch {
             throw NetworkingError.unknown
         }

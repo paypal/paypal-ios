@@ -44,14 +44,14 @@ public class HTTPResponseParser {
         do {
             if isGraphQL {
                 guard let data = try decoder.decode(GraphQLHTTPResponse<T>.self, from: data).data else {
-                    throw NetworkingError.noGraphQLDataKey
+                    throw NetworkingError.graphQLDataKeyMissing
                 }
                 return data
             } else {
                 return try decoder.decode(T.self, from: data)
             }
         } catch {
-            throw NetworkingError.jsonDecoding(error.localizedDescription)
+            throw NetworkingError.jsonDecodingFailed(error.localizedDescription)
         }
     }
     
@@ -59,13 +59,13 @@ public class HTTPResponseParser {
         do {
             if isGraphQL {
                 let errorData = try decoder.decode(GraphQLErrorResponse.self, from: data)
-                throw NetworkingError.serverResponse(errorData.error)
+                throw NetworkingError.serverErrorReceived(errorData.error)
             } else {
                 let errorData = try decoder.decode(ErrorResponse.self, from: data)
-                throw NetworkingError.serverResponse(errorData.readableDescription)
+                throw NetworkingError.serverErrorReceived(errorData.readableDescription)
             }
         } catch {
-            throw NetworkingError.jsonDecoding(error.localizedDescription)
+            throw NetworkingError.jsonDecodingFailed(error.localizedDescription)
         }
     }
 }
@@ -77,7 +77,7 @@ extension HTTPResponseParser {
     public func parseGraphQLDictionary(_ httpResponse: HTTPResponse) throws -> [String: Any] {
 
         guard httpResponse.status == 200 else {
-            throw NetworkingError.urlSession
+            throw NetworkingError.networkRequestFailed
         }
 
         guard let body = httpResponse.body else {

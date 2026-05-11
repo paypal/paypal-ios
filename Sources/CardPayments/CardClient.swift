@@ -64,7 +64,7 @@ public class CardClient: NSObject {
                 if result.status == "PAYER_ACTION_REQUIRED",
                 let urlString = result.links.first(where: { $0.rel == "approve" })?.href {
                     guard urlString.contains("helios"), let url = URL(string: urlString) else {
-                        self.notify3dsVaultFailure(with: CardError.threeDSecureURL, completion: completion)
+                        self.notify3dsVaultFailure(with: CardError.invalidThreeDSecureURL, completion: completion)
                         return
                     }
                     analytics.track(CardAnalyticsEvent.Vault.authChallengeRequired)
@@ -76,7 +76,7 @@ public class CardClient: NSObject {
             } catch let error as CoreSDKError {
                 notifyVaultFailure(with: error, completion: completion)
             } catch {
-                notifyVaultFailure(with: CardError.vaultToken, completion: completion)
+                notifyVaultFailure(with: CardError.vaultTokenUpdateFailed, completion: completion)
             }
         }
     }
@@ -134,7 +134,7 @@ public class CardClient: NSObject {
                     guard getQueryStringParameter(url: url, param: "flow") == "3ds",
                         url.contains("helios"),
                         let url = URL(string: url) else {
-                        self.notify3dsCheckoutFailure(with: CardError.threeDSecureURL, completion: completion)
+                        self.notify3dsCheckoutFailure(with: CardError.invalidThreeDSecureURL, completion: completion)
                         return
                     }
                 
@@ -195,7 +195,7 @@ public class CardClient: NSObject {
                         self.notify3dsCheckoutCancelWithError(with: CardError.threeDSecureCanceled, completion: completion)
                         return
                     default:
-                        self.notify3dsCheckoutFailure(with: CardError.threeDSecure(error), completion: completion)
+                        self.notify3dsCheckoutFailure(with: CardError.threeDSecureChallengeFailed(error), completion: completion)
                         return
                     }
                 }
@@ -235,7 +235,7 @@ public class CardClient: NSObject {
                         self.notify3dsVaultCancelWithError(with: CardError.threeDSecureCanceled, completion: completion)
                         return
                     default:
-                        self.notify3dsVaultFailure(with: CardError.threeDSecure(error), completion: completion)
+                        self.notify3dsVaultFailure(with: CardError.threeDSecureChallengeFailed(error), completion: completion)
                         return
                     }
                 }

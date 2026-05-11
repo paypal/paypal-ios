@@ -162,9 +162,9 @@ class PayPalClient_Tests: XCTestCase {
     func testVault_whenWebSession_returnsDefaultError() {
 
         let expectedError = CoreSDKError(
-            code: PayPalError.Code.webSession.rawValue,
+            code: PayPalError.Code.webSessionFailed.rawValue,
             domain: PayPalError.domain,
-            errorDescription: PayPalError.payPalVaultResponse.errorDescription
+            errorDescription: PayPalError.invalidVaultResponse.errorDescription
         )
         mockWebAuthenticationSession.cannedErrorResponse = expectedError
 
@@ -192,9 +192,9 @@ class PayPalClient_Tests: XCTestCase {
         let expectation = expectation(description: "vault(url:) completed")
         
         let expectedError = CoreSDKError(
-            code: PayPalError.payPalVaultResponse.code,
+            code: PayPalError.invalidVaultResponse.code,
             domain: PayPalError.domain,
-            errorDescription: PayPalError.payPalVaultResponse.errorDescription
+            errorDescription: PayPalError.invalidVaultResponse.errorDescription
         )
         
         let vaultRequest = PayPalVaultRequest(setupTokenID: "fakeTokenID")
@@ -275,7 +275,7 @@ class PayPalClient_Tests: XCTestCase {
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
 
         mockWebAuthenticationSession.cannedErrorResponse = CoreSDKError(
-            code: PayPalError.Code.webSession.rawValue,
+            code: PayPalError.Code.webSessionFailed.rawValue,
             domain: PayPalError.domain,
             errorDescription: "Mock web session error description."
         )
@@ -288,7 +288,7 @@ class PayPalClient_Tests: XCTestCase {
                 XCTFail("Expected failure with error")
             case .failure(let error):
                 XCTAssertEqual(error.domain, PayPalError.domain)
-                XCTAssertEqual(error.code, PayPalError.Code.webSession.rawValue)
+                XCTAssertEqual(error.code, PayPalError.Code.webSessionFailed.rawValue)
                 XCTAssertEqual(error.localizedDescription, "Mock web session error description.")
             }
             expectation.fulfill()

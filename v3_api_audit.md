@@ -29,12 +29,12 @@ the [Swift API Design Guidelines](https://www.swift.org/documentation/api-design
 | 6 | `CoreConfig.init(clientID:environment:)` | init | — | — | OK. Missing `///` doc comment. | — |
 | 7 | `CoreSDKError.init(code:domain:errorDescription:)` | init | — | — | OK. Missing `///` doc comment. | — |
 | 8 | `NetworkingError.unknownError` | static let | `unknownError` | `unknown` | Redundant "Error" suffix — the type is already `NetworkingError`. | Low — `@_documentation(visibility: private)`. |
-| 9 | `NetworkingError.urlSessionError` | static let | `urlSessionError` | `urlSession` | Same "Error" suffix redundancy. | Low |
-| 10 | `NetworkingError.jsonDecodingError` | static let (closure) | `jsonDecodingError` | `jsonDecoding` | Same. Also note: this is a closure `(String) -> CoreSDKError`, not a value — naming doesn't clarify that. | Low |
+| 9 | `NetworkingError.urlSessionError` | static let | `urlSessionError` | `networkRequestFailed` | Drop "Error" suffix + describe the condition (network transport failure). | Low |
+| 10 | `NetworkingError.jsonDecodingError` | static let (closure) | `jsonDecodingError` | `jsonDecodingFailed` | Drop "Error" suffix + use past participle to describe state. Closure `(String) -> CoreSDKError`. | Low |
 | 11 | `NetworkingError.invalidURLResponseError` | static let | `invalidURLResponseError` | `invalidURLResponse` | Same "Error" suffix. | Low |
 | 12 | `NetworkingError.noResponseDataError` | static let | `noResponseDataError` | `responseDataMissing` | "no" prefix reads awkwardly; use adjective form. Also drop "Error". | Low |
 | 13 | `NetworkingError.invalidURLRequestError` | static let | `invalidURLRequestError` | `invalidURLRequest` | Same "Error" suffix. | Low |
-| 14 | `NetworkingError.serverResponseError` | static let (closure) | `serverResponseError` | `serverResponse` | Same. Closure type — same concern as #10. | Low |
+| 14 | `NetworkingError.serverResponseError` | static let (closure) | `serverResponseError` | `serverErrorReceived` | Drop "Error" suffix + describe the condition (server returned an error). Closure type. | Low |
 | 15 | `CorePaymentsError.urlEncodingFailed` | static let | — | — | OK — no redundant suffix. | — |
 | 16 | `AnalyticsService.orderID` | public var | — | — | Missing `///` doc comment. | — |
 | 17 | `AnalyticsService.setupToken` | public var | — | — | Missing `///` doc comment. | — |
@@ -69,12 +69,12 @@ The following public symbols lack `///` doc comments:
 | 18 | `SCA.scaAlways` | enum case | `scaAlways` | `always` | Redundant type-name prefix — `SCA.scaAlways` stutters; `SCA.always` reads naturally. | **Medium** — public API, affects merchant call sites. |
 | 19 | `SCA.scaWhenRequired` | enum case | `scaWhenRequired` | `whenRequired` | Same prefix redundancy — `SCA.whenRequired` reads better. | **Medium** — same as above. |
 | 20 | `CardError.unknownError` | static let | `unknownError` | `unknown` | Redundant "Error" suffix in an error type. | Low |
-| 21 | `CardError.encodingError` | static let | `encodingError` | `encoding` | Same. | Low |
-| 22 | `CardError.threeDSecureError` | static let (closure) | `threeDSecureError` | `threeDSecure` | Same. Closure `(Error) -> CoreSDKError`. | Low |
-| 23 | `CardError.threeDSecureURLError` | static let | `threeDSecureURLError` | `threeDSecureURL` | Same. | Low |
+| 21 | `CardError.encodingError` | static let | `encodingError` | `invalidEncoding` | Adjective+noun — describes what's wrong. | Low |
+| 22 | `CardError.threeDSecureError` | static let (closure) | `threeDSecureError` | `threeDSecureChallengeFailed` | Noun+pastParticiple — describes the 3DS challenge session error. Closure `(Error) -> CoreSDKError`. | Low |
+| 23 | `CardError.threeDSecureURLError` | static let | `threeDSecureURLError` | `invalidThreeDSecureURL` | Adjective+noun — the 3DS URL is invalid. | Low |
 | 24 | `CardError.threeDSecureCanceledError` | static let | `threeDSecureCanceledError` | `threeDSecureCanceled` | Same. | Low |
 | 25 | `CardError.noVaultTokenDataError` | static let | `noVaultTokenDataError` | `vaultTokenDataMissing` | "no" prefix reads awkwardly + redundant "Error" suffix. | Low |
-| 26 | `CardError.vaultTokenError` | static let | `vaultTokenError` | `vaultToken` | Redundant "Error" suffix. | Low |
+| 26 | `CardError.vaultTokenError` | static let | `vaultTokenError` | `vaultTokenUpdateFailed` | Noun+pastParticiple — the vault token update failed. | Low |
 | 27 | `CardError.nilGraphQLClientError` | static let | `nilGraphQLClientError` | `graphQLClientUnavailable` | "nil" is an implementation detail; "unavailable" is user-facing language. Drop "Error" suffix. | Low |
 | 28 | `CardError` | enum | — | — | Missing `///` doc comment on the enum itself. | — |
 | 29 | `CardRequest` | struct | — | — | Missing `///` doc comment on the struct itself. | — |
@@ -96,10 +96,10 @@ The following public symbols lack `///` doc comments:
 | # | Symbol | Kind | Current | Proposed | Rationale | Risk |
 |---|--------|------|---------|----------|-----------|------|
 | 30 | `PayPalWebCheckoutFundingSource.paylater` | enum case | `paylater` | `payLater` | Violates camelCase — two words concatenated without capital. Already tagged `// NEXT_MAJOR_VERSION`. v3 is the right time. | **Medium** — public API, affects merchant call sites. Raw value `"paylater"` must be preserved for wire compatibility. |
-| 31 | `PayPalError.webSessionError` | static let (closure) | `webSessionError` | `webSession` | Redundant "Error" suffix. | Low |
-| 32 | `PayPalError.payPalURLError` | static let | `payPalURLError` | `payPalURL` | Same. | Low |
+| 31 | `PayPalError.webSessionError` | static let (closure) | `webSessionError` | `webSessionFailed` | Noun+pastParticiple — the web authentication session failed. | Low |
+| 32 | `PayPalError.payPalURLError` | static let | `payPalURLError` | `invalidPayPalURL` | Adjective+noun — the PayPal URL is invalid. | Low |
 | 33 | `PayPalError.malformedResultError` | static let | `malformedResultError` | `malformedResult` | Same. | Low |
-| 34 | `PayPalError.payPalVaultResponseError` | static let | `payPalVaultResponseError` | `payPalVaultResponse` | Same. | Low |
+| 34 | `PayPalError.payPalVaultResponseError` | static let | `payPalVaultResponseError` | `invalidVaultResponse` | Adjective+noun — the vault response is invalid. Drop redundant PayPal prefix. | Low |
 | 35 | `PayPalError.checkoutCanceledError` | static let | `checkoutCanceledError` | `checkoutCanceled` | Same. | Low |
 | 36 | `PayPalError.vaultCanceledError` | static let | `vaultCanceledError` | `vaultCanceled` | Same. | Low |
 | 37 | `PayPalWebCheckoutClient` | class | — | — | Missing `///` doc comment on the class itself. | — |
@@ -182,7 +182,7 @@ Affected: `AnalyticsService`, `AnalyticsEventName`, `PayPalCoreConstants`,
 | 4 | `Environment.toString` | `.description` (via `CustomStringConvertible`) | CorePayments | Java-style naming; Swift idiom is `description`. |
 | 5 | `CardError.noVaultTokenDataError` | `.vaultTokenDataMissing` | CardPayments | "no" prefix + redundant "Error" suffix. |
 | 6 | `CardError.nilGraphQLClientError` | `.graphQLClientUnavailable` | CardPayments | "nil" is an implementation detail leaked into API naming. |
-| 7 | `NetworkingError.noResponseDataError` | `.responseDataMissing` | CorePayments | "no" prefix + redundant "Error" suffix. |
+| 7 | `NetworkingError.noResponseDataError` | `.responseDataMissing` | CorePayments | "no" prefix + redundant "Error" suffix. Code enum also aligned to `responseDataMissing`. |
 | 8 | `PayPalVaultRequest.url` / `init(url:setupTokenID:)` | **Remove** | PayPalWebPayments | Deprecated property always `nil`. v3 is the breaking-change window. |
 | 9 | All `*Error` suffixed error constants (19 total) | Drop `Error` suffix | All | Systematic redundancy — type context already establishes these are errors. |
 | 10 | Button `init(..., _:)` closures (4 total) | `init(..., action:)` | PaymentButtons | Unnamed closure parameter hides purpose; `action:` label adds clarity. |

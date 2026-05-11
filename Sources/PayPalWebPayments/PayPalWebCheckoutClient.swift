@@ -73,7 +73,7 @@ public class PayPalWebCheckoutClient: NSObject {
             guard let payPalCheckoutURL = URL(string: payPalCheckoutURLString),
                 let payPalCheckoutURLComponents = payPalCheckoutReturnURL(payPalCheckoutURL: payPalCheckoutURL)
             else {
-                self.notifyCheckoutFailure(with: PayPalError.payPalURL, completion: completion)
+                self.notifyCheckoutFailure(with: PayPalError.invalidPayPalURL, completion: completion)
                 return
             }
 
@@ -94,7 +94,7 @@ public class PayPalWebCheckoutClient: NSObject {
                         case ASWebAuthenticationSessionError.canceledLogin:
                             sdkError = PayPalError.checkoutCanceled
                         default:
-                            sdkError = PayPalError.webSession(error)
+                            sdkError = PayPalError.webSessionFailed(error)
                         }
                         self.notifyCheckoutFailure(with: sdkError, completion: completion)
                     }
@@ -173,7 +173,7 @@ public class PayPalWebCheckoutClient: NSObject {
         vaultURLComponents?.queryItems = queryItems
 
         guard let vaultCheckoutURL = vaultURLComponents?.url else {
-            notifyVaultFailure(with: PayPalError.payPalURL, completion: completion)
+            notifyVaultFailure(with: PayPalError.invalidPayPalURL, completion: completion)
             return
         }
 
@@ -194,7 +194,7 @@ public class PayPalWebCheckoutClient: NSObject {
                     case ASWebAuthenticationSessionError.canceledLogin:
                         sdkError = PayPalError.vaultCanceled
                     default:
-                        sdkError = PayPalError.webSession(error)
+                        sdkError = PayPalError.webSessionFailed(error)
                     }
                     self.notifyVaultCancelWithError(with: sdkError, completion: completion)
                 }
@@ -211,7 +211,7 @@ public class PayPalWebCheckoutClient: NSObject {
                         let paypalVaultResult = PayPalVaultResult(tokenID: tokenID, approvalSessionID: approvalSessionID)
                         self.notifyVaultSuccess(for: paypalVaultResult, completion: completion)
                     } else {
-                        self.notifyVaultFailure(with: PayPalError.payPalVaultResponse, completion: completion)
+                        self.notifyVaultFailure(with: PayPalError.invalidVaultResponse, completion: completion)
                     }
                 }
             }

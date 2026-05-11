@@ -13,16 +13,16 @@ public enum PayPalError {
         case unknown
 
         /// 1. An error occurred during web authentication session.
-        case webSession
+        case webSessionFailed
 
         /// 2. Error constructing PayPal URL.
-        case payPalURL
+        case invalidPayPalURL
 
         /// 3. Result did not contain the expected data.
         case malformedResult
 
         /// 4. Vault result did not return a token id
-        case payPalVaultResponse
+        case invalidVaultResponse
 
         /// 5. Checkout websession is cancelled by the user
         case checkoutCanceled
@@ -31,16 +31,16 @@ public enum PayPalError {
         case vaultCanceled
     }
 
-    public static let webSession: (Error) -> CoreSDKError = { error in
+    public static let webSessionFailed: (Error) -> CoreSDKError = { error in
         CoreSDKError(
-            code: Code.webSession.rawValue,
+            code: Code.webSessionFailed.rawValue,
             domain: domain,
             errorDescription: error.localizedDescription
         )
     }
 
-    public static let payPalURL = CoreSDKError(
-        code: Code.payPalURL.rawValue,
+    public static let invalidPayPalURL = CoreSDKError(
+        code: Code.invalidPayPalURL.rawValue,
         domain: domain,
         errorDescription: "Error constructing URL for PayPal request."
     )
@@ -51,8 +51,8 @@ public enum PayPalError {
         errorDescription: "Result did not contain the expected data."
     )
 
-    public static let payPalVaultResponse = CoreSDKError(
-        code: Code.payPalVaultResponse.rawValue,
+    public static let invalidVaultResponse = CoreSDKError(
+        code: Code.invalidVaultResponse.rawValue,
         domain: domain,
         errorDescription: "Error parsing PayPal vault response"
     )

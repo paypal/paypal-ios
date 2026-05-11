@@ -12,25 +12,25 @@ public enum CardError {
         case unknown
 
         /// 1. An error occurred encoding an HTTP request body.
-        case encoding
+        case invalidEncoding
 
         /// 2. An error occurred during 3DS challenge.
-        case threeDSecure
+        case threeDSecureChallengeFailed
 
         /// 3 . An invalid 3DS challenge URL was returned by `/confirm-payment-source`
-        case threeDSecureURL
+        case invalidThreeDSecureURL
 
         /// 4. No data was returned from updating setup token
         case vaultTokenDataMissing
 
         /// 5. An error occurred during updating setup token
-        case vaultToken
+        case vaultTokenUpdateFailed
 
         /// 6. GraphQLClient is unexpectedly nil
         case graphQLClientUnavailable
 
         /// 7. An error from 3DS verification
-        case threeDSVerification
+        case threeDSVerificationFailed
 
         /// 8. Missing Deeplink URL from 3DS
         case deeplinkURLMissing
@@ -48,22 +48,22 @@ public enum CardError {
         errorDescription: "An unknown error has occured. Contact developer.paypal.com/support."
     )
 
-    public static let encoding = CoreSDKError(
-        code: Code.encoding.rawValue,
+    public static let invalidEncoding = CoreSDKError(
+        code: Code.invalidEncoding.rawValue,
         domain: domain,
         errorDescription: "An error occured encoding HTTP request body data. Contact developer.paypal.com/support."
     )
 
-    public static let threeDSecure: (Error) -> CoreSDKError = { error in
+    public static let threeDSecureChallengeFailed: (Error) -> CoreSDKError = { error in
         CoreSDKError(
-            code: Code.threeDSecure.rawValue,
+            code: Code.threeDSecureChallengeFailed.rawValue,
             domain: domain,
             errorDescription: error.localizedDescription
         )
     }
 
-    public static let threeDSecureURL = CoreSDKError(
-        code: Code.threeDSecureURL.rawValue,
+    public static let invalidThreeDSecureURL = CoreSDKError(
+        code: Code.invalidThreeDSecureURL.rawValue,
         domain: domain,
         errorDescription: "An invalid 3DS URL was returned. Contact developer.paypal.com/support."
     )
@@ -80,8 +80,8 @@ public enum CardError {
         errorDescription: "No data was returned from update setup token service."
     )
 
-    public static let vaultToken = CoreSDKError(
-        code: Code.vaultToken.rawValue,
+    public static let vaultTokenUpdateFailed = CoreSDKError(
+        code: Code.vaultTokenUpdateFailed.rawValue,
         domain: domain,
         errorDescription: "An error occurred while vaulting a card."
     )
