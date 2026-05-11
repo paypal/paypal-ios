@@ -33,7 +33,7 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
                         countryCode: "some-country"
                     )
                 ),
-                sca: .scaAlways
+                sca: .always
             )
         )
         
@@ -71,7 +71,7 @@ class ConfirmPaymentSourceRequest_Tests: XCTestCase {
                     securityCode: "some-code",
                     cardholderName: "some-name"
                 ),
-                sca: .scaAlways
+                sca: .always
             )
         )
         

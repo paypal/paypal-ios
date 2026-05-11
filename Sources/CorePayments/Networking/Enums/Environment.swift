@@ -1,7 +1,7 @@
 import Foundation
 
 // swiftlint:disable force_unwrapping
-public enum Environment {
+public enum Environment: CustomStringConvertible {
     case sandbox
     case live
 
@@ -22,9 +22,9 @@ public enum Environment {
             return URL(string: "https://www.paypal.com/graphql")!
         }
     }
-    
+
     /// URL used to display the PayPal Vault w/o Purchase experience in web browser
-    public var paypalVaultCheckoutURL: URL {
+    public var payPalVaultCheckoutURL: URL {
         switch self {
         case .sandbox:
             return URL(string: "https://sandbox.paypal.com/agreements/approve")!
@@ -32,8 +32,8 @@ public enum Environment {
             return URL(string: "https://paypal.com/agreements/approve")!
         }
     }
-    
-    public var toString: String {
+
+    public var description: String {
         switch self {
         case .sandbox:
             return "sandbox"

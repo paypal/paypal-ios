@@ -96,7 +96,7 @@ class PayPalWebViewModel: ObservableObject {
                             }
                         case .failure(let error):
                             DispatchQueue.main.async {
-                                if error == PayPalError.checkoutCanceledError {
+                                if error == PayPalError.checkoutCanceled {
                                     print("Canceled")
                                     self.state.approveResultResponse = .idle
                                 } else {

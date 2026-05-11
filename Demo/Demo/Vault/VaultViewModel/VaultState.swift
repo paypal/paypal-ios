@@ -6,7 +6,7 @@ struct UpdateSetupTokenResult: Decodable, Equatable {
 
     var id: String
     var status: String?
-    var didAttemptThreeDSecureAuthentication: Bool
+    var didAttempt3DSecure: Bool
 }
 
 struct VaultState: Equatable {

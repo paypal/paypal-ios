@@ -61,7 +61,7 @@ public extension PayPalCreditButton {
             color: PayPalCreditButton.Color = .darkBlue,
             edges: PaymentButtonEdges = .softEdges,
             size: PaymentButtonSize = .collapsed,
-            _ action: @escaping () -> Void = { }
+            action: @escaping () -> Void = { }
         ) {
             self.button = PayPalCreditButton(
                 fundingSource: .credit,

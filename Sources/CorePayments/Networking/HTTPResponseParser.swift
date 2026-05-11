@@ -16,7 +16,7 @@ public class HTTPResponseParser {
 
     public func parseREST<T: Decodable>(_ httpResponse: HTTPResponse, as type: T.Type) throws -> T {
         guard let data = httpResponse.body else {
-            throw NetworkingError.noResponseDataError
+            throw NetworkingError.responseDataMissing
         }
         
         if httpResponse.isSuccessful {
@@ -28,7 +28,7 @@ public class HTTPResponseParser {
     
     public func parseGraphQL<T: Decodable>(_ httpResponse: HTTPResponse, as type: T.Type) throws -> T {
         guard let data = httpResponse.body else {
-            throw NetworkingError.noResponseDataError
+            throw NetworkingError.responseDataMissing
         }
         
         if httpResponse.isSuccessful {
@@ -44,14 +44,14 @@ public class HTTPResponseParser {
         do {
             if isGraphQL {
                 guard let data = try decoder.decode(GraphQLHTTPResponse<T>.self, from: data).data else {
-                    throw NetworkingError.noGraphQLDataKey
+                    throw NetworkingError.graphQLDataKeyMissing
                 }
                 return data
             } else {
                 return try decoder.decode(T.self, from: data)
             }
         } catch {
-            throw NetworkingError.jsonDecodingError(error.localizedDescription)
+            throw NetworkingError.jsonDecodingFailed(error.localizedDescription)
         }
     }
     
@@ -59,13 +59,13 @@ public class HTTPResponseParser {
         do {
             if isGraphQL {
                 let errorData = try decoder.decode(GraphQLErrorResponse.self, from: data)
-                throw NetworkingError.serverResponseError(errorData.error)
+                throw NetworkingError.serverErrorReceived(errorData.error)
             } else {
                 let errorData = try decoder.decode(ErrorResponse.self, from: data)
-                throw NetworkingError.serverResponseError(errorData.readableDescription)
+                throw NetworkingError.serverErrorReceived(errorData.readableDescription)
             }
         } catch {
-            throw NetworkingError.jsonDecodingError(error.localizedDescription)
+            throw NetworkingError.jsonDecodingFailed(error.localizedDescription)
         }
     }
 }
@@ -77,16 +77,16 @@ extension HTTPResponseParser {
     public func parseGraphQLDictionary(_ httpResponse: HTTPResponse) throws -> [String: Any] {
 
         guard httpResponse.status == 200 else {
-            throw NetworkingError.urlSessionError
+            throw NetworkingError.networkRequestFailed
         }
 
         guard let body = httpResponse.body else {
-            throw NetworkingError.noResponseDataError
+            throw NetworkingError.responseDataMissing
         }
 
         let jsonObject = try JSONSerialization.jsonObject(with: body, options: [])
         guard let topLevel = jsonObject as? [String: Any] else {
-            throw NetworkingError.invalidURLResponseError
+            throw NetworkingError.invalidURLResponse
         }
 
         return topLevel

@@ -85,7 +85,7 @@ public extension PayPalButton {
             edges: PaymentButtonEdges = .softEdges,
             size: PaymentButtonSize = .collapsed,
             label: PayPalButton.Label? = nil,
-            _ action: @escaping () -> Void = { }
+            action: @escaping () -> Void = { }
         ) {
             button = PayPalButton(
                 fundingSource: .payPal,

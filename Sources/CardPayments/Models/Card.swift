@@ -4,22 +4,22 @@ import Foundation
 public struct Card: Encodable {
 
     /// The primary account number (PAN) for the payment card.
-    public var number: String
+    public let number: String
 
     /// The 2-digit card expiration month in `MM` format
-    public var expirationMonth: String
+    public let expirationMonth: String
 
     /// The 4-digit card expiration year in `YYYY` format
-    public var expirationYear: String
+    public let expirationYear: String
 
     /// The three- or four-digit security code of the card. Also known as the CVV, CVC, CVN, CVE, or CID.
-    public var securityCode: String
+    public let securityCode: String
 
     /// Optional. The card holder's name as it appears on the card.
-    public var cardholderName: String?
+    public let cardholderName: String?
 
     /// Optional. The billing address
-    public var billingAddress: Address?
+    public let billingAddress: Address?
 
     /// This is exposed for convenience in copying card contents to UpdateSetupTokenQuery
     /// The expiration year and month, in ISO-8601 `YYYY-MM` date format.
