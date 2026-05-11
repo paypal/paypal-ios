@@ -12,6 +12,7 @@ public struct CoreSDKError: Error, LocalizedError, Equatable {
     /// A string containing the localized description of the error.
     public let errorDescription: String?
 
+    @_documentation(visibility: private)
     public init(code: Int, domain: String, errorDescription: String?) {
         self.code = code
         self.domain = domain
