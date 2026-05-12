@@ -7,7 +7,7 @@ public class AnalyticsService {
     // MARK: - Internal Properties
 
     private let coreConfig: CoreConfig
-    private let trackingEventsAPI: TrackingEventsAPI
+    private let trackingEventsAPI: TrackingEventsAPIProtocol
     public var orderID: String?
     public var setupToken: String?
 
@@ -39,7 +39,7 @@ public class AnalyticsService {
     // MARK: - Internal Initializer
 
     /// Exposed for testing
-    init(coreConfig: CoreConfig, orderID: String, trackingEventsAPI: TrackingEventsAPI) {
+    init(coreConfig: CoreConfig, orderID: String, trackingEventsAPI: TrackingEventsAPIProtocol) {
         self.coreConfig = coreConfig
         self.trackingEventsAPI = trackingEventsAPI
         self.orderID = orderID
