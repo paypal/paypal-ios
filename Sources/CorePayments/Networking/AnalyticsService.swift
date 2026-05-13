@@ -89,7 +89,7 @@ public class AnalyticsService {
                 buttonType: buttonType
             )
 
-            let (_) = try await trackingEventsAPI.sendEvent(with: eventData)
+            _ = try await trackingEventsAPI.sendEvent(with: eventData)
         } catch {
             NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription)
         }

@@ -7,8 +7,10 @@ class MockTrackingEventsAPI: TrackingEventsAPIProtocol {
     var stubError: Error?
 
     var capturedAnalyticsEventData: AnalyticsEventData?
+    private(set) var sendEventCallCount = 0
 
     func sendEvent(with analyticsEventData: AnalyticsEventData) async throws -> HTTPResponse {
+        sendEventCallCount += 1
         capturedAnalyticsEventData = analyticsEventData
 
         if let stubError {

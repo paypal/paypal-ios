@@ -7,8 +7,8 @@ class TrackingEventsAPI: TrackingEventsAPIProtocol {
         
     // MARK: - Internal Properties
 
-    var coreConfig: CoreConfig // exposed for testing
-    private var networkingClient: NetworkingClient
+    private(set) var coreConfig: CoreConfig
+    private let networkingClient: NetworkingClient
 
     // MARK: - Initializer
     
