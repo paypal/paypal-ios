@@ -1,7 +1,7 @@
 import Foundation
 @testable import CorePayments
 
-class MockTrackingEventsAPI: AnalyticsEventTracking {
+class MockAnalyticsEventTrackingAPI: AnalyticsEventTracking {
 
     var stubHTTPResponse: HTTPResponse?
     var stubError: Error?

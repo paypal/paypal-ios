@@ -3,7 +3,7 @@ import Foundation
 /// This class coordinates networking logic for communicating with the v1/tracking/events API.
 ///
 /// Details on this PayPal API can be found in PPaaS under Infrastructure > Experimentation > Tracking Events > v1.
-class TrackingEventsAPI: TrackingEventsAPIProtocol {
+class TrackingEventsAPI: AnalyticsEventTracking {
         
     // MARK: - Internal Properties
 
