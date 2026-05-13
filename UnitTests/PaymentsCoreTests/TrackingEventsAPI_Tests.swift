@@ -32,9 +32,14 @@ class TrackingEventsAPI_Tests: XCTestCase {
     
     // MARK: - sendEvent() REST
 
-    func testSendEvent_alwaysUsesLiveConfig() {
-        let sut = TrackingEventsAPI(coreConfig: coreConfig)
-        XCTAssertEqual(sut.coreConfig.environment, .live)
+    func testSendEvent_alwaysUsesLiveConfig() async throws {
+        let sandboxConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
+        let sut = TrackingEventsAPI(coreConfig: sandboxConfig, networkingClient: mockNetworkingClient)
+
+        _ = try await sut.sendEvent(with: fakeAnalyticsEventData)
+
+        XCTAssertNotNil(mockNetworkingClient.capturedRESTRequest, "Expected a REST request to be sent even with sandbox config")
+        XCTAssertEqual(mockNetworkingClient.capturedRESTRequest?.path, "v1/tracking/events")
     }
     
     func testSendEvent_constructsRESTRequestForV1Tracking() async throws {

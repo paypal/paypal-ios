@@ -7,7 +7,7 @@ class TrackingEventsAPI: AnalyticsEventTracking {
         
     // MARK: - Internal Properties
 
-    private(set) var coreConfig: CoreConfig
+    private let coreConfig: CoreConfig
     private let networkingClient: NetworkingClient
 
     // MARK: - Initializer
