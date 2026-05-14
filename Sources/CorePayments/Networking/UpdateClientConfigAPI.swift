@@ -2,7 +2,7 @@ import Foundation
 
 /// This class coordinates networking logic for communicating with the /graphql?UpdateClientConfig API.
 @_documentation(visibility: private)
-public class UpdateClientConfigAPI {
+public class UpdateClientConfigAPI: ClientConfigUpdating {
 
     // MARK: - Private Properties
 
@@ -11,9 +11,8 @@ public class UpdateClientConfigAPI {
 
     // MARK: - Initializer
 
-    public init(coreConfig: CoreConfig) {
-        self.coreConfig = coreConfig
-        self.networkingClient = HTTPNetworkingClient(coreConfig: coreConfig)
+    public convenience init(coreConfig: CoreConfig) {
+        self.init(coreConfig: coreConfig, networkingClient: HTTPNetworkingClient(coreConfig: coreConfig))
     }
 
     /// Exposed for injecting MockNetworkingClient in tests
@@ -22,7 +21,7 @@ public class UpdateClientConfigAPI {
         self.networkingClient = networkingClient
     }
 
-    // MARK: - Internal Methods
+    // MARK: - Public Methods
 
     public func updateClientConfig(token: String, fundingSource: String) async throws -> ClientConfigResponse {
 

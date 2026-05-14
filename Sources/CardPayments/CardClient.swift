@@ -8,7 +8,7 @@ public class CardClient: NSObject {
     
     private let checkoutOrdersAPI: CheckoutOrderConfirming
     private let vaultAPI: VaultPaymentTokensAPI
-    private let clientConfigAPI: UpdateClientConfigAPI
+    private let clientConfigAPI: ClientConfigUpdating
 
     private let config: CoreConfig
     private let webAuthenticationSession: WebAuthenticationSession
@@ -30,7 +30,7 @@ public class CardClient: NSObject {
         config: CoreConfig,
         checkoutOrdersAPI: CheckoutOrderConfirming,
         vaultAPI: VaultPaymentTokensAPI,
-        clientConfigAPI: UpdateClientConfigAPI,
+        clientConfigAPI: ClientConfigUpdating,
         webAuthenticationSession: WebAuthenticationSession
     ) {
         self.config = config

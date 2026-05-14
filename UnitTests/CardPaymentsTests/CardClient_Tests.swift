@@ -25,7 +25,7 @@ class CardClient_Tests: XCTestCase {
     var mockNetworkingClient: MockNetworkingClient!
     var mockCheckoutOrdersAPI: MockCheckoutOrderConfirmingAPI!
     var mockVaultAPI: MockVaultPaymentTokensAPI!
-    var mockClientConfigAPI: MockClientConfigAPI!
+    var mockClientConfigAPI: MockClientConfigUpdatingAPI!
 
     var sut: CardClient!
     
@@ -39,7 +39,7 @@ class CardClient_Tests: XCTestCase {
 
         mockCheckoutOrdersAPI = MockCheckoutOrderConfirmingAPI()
         mockVaultAPI = MockVaultPaymentTokensAPI(coreConfig: config, networkingClient: mockNetworkingClient)
-        mockClientConfigAPI = MockClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)
+        mockClientConfigAPI = MockClientConfigUpdatingAPI()
         
         sut = CardClient(
             config: config,
