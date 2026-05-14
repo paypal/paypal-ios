@@ -7,7 +7,7 @@ public class AnalyticsService {
     // MARK: - Internal Properties
 
     private let coreConfig: CoreConfig
-    private let trackingEventsAPI: TrackingEventsAPI
+    private let trackingEventsAPI: AnalyticsEventTracking
     public var orderID: String?
     public var setupToken: String?
 
@@ -39,7 +39,7 @@ public class AnalyticsService {
     // MARK: - Internal Initializer
 
     /// Exposed for testing
-    init(coreConfig: CoreConfig, orderID: String, trackingEventsAPI: TrackingEventsAPI) {
+    init(coreConfig: CoreConfig, orderID: String, trackingEventsAPI: AnalyticsEventTracking) {
         self.coreConfig = coreConfig
         self.trackingEventsAPI = trackingEventsAPI
         self.orderID = orderID
@@ -89,7 +89,7 @@ public class AnalyticsService {
                 buttonType: buttonType
             )
 
-            let (_) = try await trackingEventsAPI.sendEvent(with: eventData)
+            _ = try await trackingEventsAPI.sendEvent(with: eventData)
         } catch {
             NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription)
         }

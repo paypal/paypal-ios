@@ -7,7 +7,7 @@ class AnalyticsService_Tests: XCTestCase {
     // MARK: - Helper properties
 
     var sut: AnalyticsService!
-    var mockTrackingEventsAPI: MockTrackingEventsAPI!
+    var mockTrackingEventsAPI: MockAnalyticsEventTrackingAPI!
     var coreConfig = CoreConfig(clientID: "some-client-id", environment: .sandbox)
 
     // MARK: - Test lifecycle
@@ -15,7 +15,7 @@ class AnalyticsService_Tests: XCTestCase {
     override func setUp() {
         super.setUp()
                 
-        mockTrackingEventsAPI = MockTrackingEventsAPI(coreConfig: coreConfig)
+        mockTrackingEventsAPI = MockAnalyticsEventTrackingAPI()
         sut = AnalyticsService(coreConfig: coreConfig, orderID: "some-order-id", trackingEventsAPI: mockTrackingEventsAPI)
     }
 
@@ -24,6 +24,7 @@ class AnalyticsService_Tests: XCTestCase {
     func testSendEvent_sendsAppropriateAnalyticsEventData() async {
         await sut.sendEvent("some-event", correlationID: "fake-correlation-id")
 
+        XCTAssertEqual(mockTrackingEventsAPI.sendEventCallCount, 1)
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.eventName, "some-event")
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.clientID, "some-client-id")
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.orderID, "some-order-id")
@@ -62,10 +63,17 @@ class AnalyticsService_Tests: XCTestCase {
         var eventName: String { rawValue }
     }
 
-    func testSendEvent_withAnalyticsEventName_forwardsEventName() async {
+    func testTrack_withAnalyticsEventName_forwardsEventName() async {
         await sut.sendEvent(TestEvent.fakeEvent.eventName, correlationID: "corr-id")
 
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.eventName, "core-payments:test:fake-event")
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.correlationID, "corr-id")
+    }
+
+    func testTrack_withAnalyticsEventName_sendsCorrectButtonType() async {
+        await sut.sendEvent(TestEvent.fakeEvent.eventName, buttonType: "pay")
+
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.eventName, "core-payments:test:fake-event")
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.buttonType, "pay")
     }
 }
