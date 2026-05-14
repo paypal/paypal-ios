@@ -212,6 +212,24 @@ class PayPalClient_Tests: XCTestCase {
         waitForExpectations(timeout: 10)
     }
 
+    func testStart_callsUpdateClientConfigWithCorrectParameters() {
+        let request = PayPalWebCheckoutRequest(orderID: "1234")
+
+        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
+
+        mockWebAuthenticationSession.cannedResponseURL = URL(string: "https://fakeURL?token=1234&PayerID=98765")
+        let expectation = self.expectation(description: "start() completed")
+        payPalClient.start(request: request) { _ in
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 2, handler: nil)
+
+        XCTAssertEqual(mockClientConfigAPI.updateClientConfigCallCount, 1)
+        XCTAssertEqual(mockClientConfigAPI.capturedToken, "1234")
+        XCTAssertEqual(mockClientConfigAPI.capturedFundingSource, "paypal")
+    }
+
     func testStart_whenWebAuthenticationSessionCancelCalled_returnsCancellationError() {
         let request = PayPalWebCheckoutRequest(orderID: "1234")
 

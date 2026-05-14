@@ -261,6 +261,21 @@ class CardClient_Tests: XCTestCase {
         XCTAssertEqual(mockCheckoutOrdersAPI.capturedCardRequest?.orderID, "testOrderId")
     }
 
+    func testApproveOrder_callsUpdateClientConfigWithCorrectParameters() {
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.without3DS
+        let expectation = expectation(description: "approveOrder() completed")
+
+        sut.approveOrder(request: cardRequest) { _ in
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 2, handler: nil)
+
+        XCTAssertEqual(mockClientConfigAPI.updateClientConfigCallCount, 1)
+        XCTAssertEqual(mockClientConfigAPI.capturedToken, "testOrderId")
+        XCTAssertEqual(mockClientConfigAPI.capturedFundingSource, "card")
+    }
+
     func testApproveOrder_withInvalid3DSURL_returnsError() {
         mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withInvalid3DSURL
         
