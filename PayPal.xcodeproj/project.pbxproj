@@ -59,7 +59,7 @@
 		807D56AC2A869044009E591D /* GraphQLHTTPPostBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807D56AB2A869044009E591D /* GraphQLHTTPPostBody.swift */; };
 		807D56AE2A869064009E591D /* GraphQLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807D56AD2A869064009E591D /* GraphQLRequest.swift */; };
 		807D56B02A869F97009E591D /* GraphQLErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807D56AF2A869F97009E591D /* GraphQLErrorResponse.swift */; };
-		808E3EDD2A981F240017FE46 /* MockCheckoutOrdersAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E3EDC2A981F240017FE46 /* MockCheckoutOrdersAPI.swift */; };
+		808E3EDD2A981F240017FE46 /* MockCheckoutOrderConfirmingAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E3EDC2A981F240017FE46 /* MockCheckoutOrderConfirmingAPI.swift */; };
 		808E3EDF2A981F390017FE46 /* MockVaultPaymentTokensAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808E3EDE2A981F390017FE46 /* MockVaultPaymentTokensAPI.swift */; };
 		808EEA81291321FE001B6765 /* AnalyticsEventData_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808EEA80291321FE001B6765 /* AnalyticsEventData_Tests.swift */; };
 		80B27AF12A9E9EE60008EA45 /* VaultPaymentTokensAPI_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B27AF02A9E9EE60008EA45 /* VaultPaymentTokensAPI_Tests.swift */; };
@@ -69,6 +69,7 @@
 		80DCC59E2719DB6F00EC7C5A /* CardError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DCC59D2719DB6F00EC7C5A /* CardError.swift */; };
 		80E237DF2A84434B00FF18CA /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E237DE2A84434B00FF18CA /* HTTPRequest.swift */; };
 		80E2FDBE2A83528B0045593D /* CheckoutOrdersAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E2FDBD2A83528B0045593D /* CheckoutOrdersAPI.swift */; };
+		BE0000092E1D000000000001 /* CheckoutOrderConfirming.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0000082E1D000000000001 /* CheckoutOrderConfirming.swift */; };
 		80E2FDC12A83535A0045593D /* TrackingEventsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E2FDBF2A8353550045593D /* TrackingEventsAPI.swift */; };
 		80E2FDC32A8354AD0045593D /* RESTRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E2FDC22A8354AD0045593D /* RESTRequest.swift */; };
 		80E643832A1EBBD2008FD705 /* HTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E643822A1EBBD2008FD705 /* HTTPResponse.swift */; };
@@ -244,7 +245,7 @@
 		807D56AB2A869044009E591D /* GraphQLHTTPPostBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLHTTPPostBody.swift; sourceTree = "<group>"; };
 		807D56AD2A869064009E591D /* GraphQLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLRequest.swift; sourceTree = "<group>"; };
 		807D56AF2A869F97009E591D /* GraphQLErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLErrorResponse.swift; sourceTree = "<group>"; };
-		808E3EDC2A981F240017FE46 /* MockCheckoutOrdersAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCheckoutOrdersAPI.swift; sourceTree = "<group>"; };
+		808E3EDC2A981F240017FE46 /* MockCheckoutOrderConfirmingAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCheckoutOrderConfirmingAPI.swift; sourceTree = "<group>"; };
 		808E3EDE2A981F390017FE46 /* MockVaultPaymentTokensAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVaultPaymentTokensAPI.swift; sourceTree = "<group>"; };
 		808EEA80291321FE001B6765 /* AnalyticsEventData_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventData_Tests.swift; sourceTree = "<group>"; };
 		80B27AF02A9E9EE60008EA45 /* VaultPaymentTokensAPI_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultPaymentTokensAPI_Tests.swift; sourceTree = "<group>"; };
@@ -254,6 +255,7 @@
 		80DCC59D2719DB6F00EC7C5A /* CardError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardError.swift; sourceTree = "<group>"; };
 		80E237DE2A84434B00FF18CA /* HTTPRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
 		80E2FDBD2A83528B0045593D /* CheckoutOrdersAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutOrdersAPI.swift; sourceTree = "<group>"; };
+		BE0000082E1D000000000001 /* CheckoutOrderConfirming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutOrderConfirming.swift; sourceTree = "<group>"; };
 		80E2FDBF2A8353550045593D /* TrackingEventsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingEventsAPI.swift; sourceTree = "<group>"; };
 		80E2FDC22A8354AD0045593D /* RESTRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RESTRequest.swift; sourceTree = "<group>"; };
 		80E643822A1EBBD2008FD705 /* HTTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPResponse.swift; sourceTree = "<group>"; };
@@ -520,7 +522,7 @@
 			isa = PBXGroup;
 			children = (
 				CB16E6D7285B7A2B00FD6F52 /* FakeConfirmPaymentResponse.swift */,
-				808E3EDC2A981F240017FE46 /* MockCheckoutOrdersAPI.swift */,
+				808E3EDC2A981F240017FE46 /* MockCheckoutOrderConfirmingAPI.swift */,
 				808E3EDE2A981F390017FE46 /* MockVaultPaymentTokensAPI.swift */,
 				3B783DC22B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift */,
 			);
@@ -559,6 +561,7 @@
 				06CE009F26F3DF100000CC46 /* ConfirmPaymentSourceRequest.swift */,
 				06CE00A226F3E32A0000CC46 /* ConfirmPaymentSourceResponse.swift */,
 				80E2FDBD2A83528B0045593D /* CheckoutOrdersAPI.swift */,
+				BE0000082E1D000000000001 /* CheckoutOrderConfirming.swift */,
 				3BD82DBA2A835AF900CBE764 /* UpdateSetupTokenResponse.swift */,
 				80B8B2FB2A8EBBFD00AB60CD /* VaultPaymentTokensAPI.swift */,
 			);
@@ -1259,6 +1262,7 @@
 			files = (
 				06CE009B26F3D5A40000CC46 /* CardClient.swift in Sources */,
 				80E2FDBE2A83528B0045593D /* CheckoutOrdersAPI.swift in Sources */,
+				BE0000092E1D000000000001 /* CheckoutOrderConfirming.swift in Sources */,
 				3B79E4F72A8503CA00C01D06 /* UpdateVaultVariables.swift in Sources */,
 				8048D28C270B9DE00072214A /* ConfirmPaymentSourceResponse.swift in Sources */,
 				3D1763A22720722A00652E1C /* CardResult.swift in Sources */,
@@ -1287,7 +1291,7 @@
 				CB16E6D8285B7A2B00FD6F52 /* FakeConfirmPaymentResponse.swift in Sources */,
 				3B783DC32B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift in Sources */,
 				BC0A82A6270B9954006E9A21 /* ConfirmPaymentSourceRequest_Tests.swift in Sources */,
-				808E3EDD2A981F240017FE46 /* MockCheckoutOrdersAPI.swift in Sources */,
+				808E3EDD2A981F240017FE46 /* MockCheckoutOrderConfirmingAPI.swift in Sources */,
 				808E3EDF2A981F390017FE46 /* MockVaultPaymentTokensAPI.swift in Sources */,
 				AE8A7766634621232904A26D /* CardAnalyticsEvent_Tests.swift in Sources */,
 			);

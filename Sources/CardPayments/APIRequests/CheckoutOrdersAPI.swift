@@ -6,26 +6,25 @@ import CorePayments
 /// This class coordinates networking logic for communicating with the v2/checkout/orders API.
 ///
 /// Details on this PayPal API can be found in PPaaS under Merchant > Checkout > Orders > v2.
-class CheckoutOrdersAPI {
+class CheckoutOrdersAPI: CheckoutOrderConfirming {
 
     // MARK: - Private Properties
 
     private let coreConfig: CoreConfig
     private let networkingClient: NetworkingClient
-    
+
     // MARK: - Initializer
-    
-    init(coreConfig: CoreConfig) {
-        self.coreConfig = coreConfig
-        self.networkingClient = HTTPNetworkingClient(coreConfig: coreConfig)
+
+    convenience init(coreConfig: CoreConfig) {
+        self.init(coreConfig: coreConfig, networkingClient: HTTPNetworkingClient(coreConfig: coreConfig))
     }
-    
+
     /// Exposed for injecting MockNetworkingClient in tests
     init(coreConfig: CoreConfig, networkingClient: NetworkingClient) {
         self.coreConfig = coreConfig
         self.networkingClient = networkingClient
     }
-    
+
     // MARK: - Internal Methods
         
     func confirmPaymentSource(cardRequest: CardRequest) async throws -> ConfirmPaymentSourceResponse {

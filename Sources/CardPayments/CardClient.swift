@@ -6,7 +6,7 @@ import CorePayments
 
 public class CardClient: NSObject {
     
-    private let checkoutOrdersAPI: CheckoutOrdersAPI
+    private let checkoutOrdersAPI: CheckoutOrderConfirming
     private let vaultAPI: VaultPaymentTokensAPI
     private let clientConfigAPI: UpdateClientConfigAPI
 
@@ -28,7 +28,7 @@ public class CardClient: NSObject {
     /// For internal use for testing/mocking purpose
     init(
         config: CoreConfig,
-        checkoutOrdersAPI: CheckoutOrdersAPI,
+        checkoutOrdersAPI: CheckoutOrderConfirming,
         vaultAPI: VaultPaymentTokensAPI,
         clientConfigAPI: UpdateClientConfigAPI,
         webAuthenticationSession: WebAuthenticationSession
