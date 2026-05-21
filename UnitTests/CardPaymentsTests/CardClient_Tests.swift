@@ -25,7 +25,7 @@ class CardClient_Tests: XCTestCase {
     var mockNetworkingClient: MockNetworkingClient!
     var mockCheckoutOrdersAPI: MockCheckoutOrderConfirmingAPI!
     var mockVaultAPI: MockVaultPaymentTokensAPI!
-    var mockClientConfigAPI: MockClientConfigAPI!
+    var mockClientConfigAPI: MockClientConfigUpdatingAPI!
 
     var sut: CardClient!
     
@@ -39,7 +39,7 @@ class CardClient_Tests: XCTestCase {
 
         mockCheckoutOrdersAPI = MockCheckoutOrderConfirmingAPI()
         mockVaultAPI = MockVaultPaymentTokensAPI(coreConfig: config, networkingClient: mockNetworkingClient)
-        mockClientConfigAPI = MockClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)
+        mockClientConfigAPI = MockClientConfigUpdatingAPI()
         
         sut = CardClient(
             config: config,
@@ -259,6 +259,21 @@ class CardClient_Tests: XCTestCase {
 
         XCTAssertEqual(mockCheckoutOrdersAPI.confirmPaymentSourceCallCount, 1)
         XCTAssertEqual(mockCheckoutOrdersAPI.capturedCardRequest?.orderID, "testOrderId")
+    }
+
+    func testApproveOrder_callsUpdateClientConfigWithCorrectParameters() {
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.without3DS
+        let expectation = expectation(description: "approveOrder() completed")
+
+        sut.approveOrder(request: cardRequest) { _ in
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 2, handler: nil)
+
+        XCTAssertEqual(mockClientConfigAPI.updateClientConfigCallCount, 1)
+        XCTAssertEqual(mockClientConfigAPI.capturedToken, "testOrderId")
+        XCTAssertEqual(mockClientConfigAPI.capturedFundingSource, "card")
     }
 
     func testApproveOrder_withInvalid3DSURL_returnsError() {

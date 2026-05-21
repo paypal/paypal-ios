@@ -31,7 +31,7 @@
 		3BF06F3D2E15CAB4002CA7B4 /* UpdateClientConfigAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF06F3C2E15CAAD002CA7B4 /* UpdateClientConfigAPI.swift */; };
 		3BF06F3F2E15CC35002CA7B4 /* ClientConfigResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF06F3E2E15CC35002CA7B4 /* ClientConfigResponse.swift */; };
 		3BF06F412E1633D7002CA7B4 /* UpdateClientConfigAP_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8F84852D93318D00A151AC /* UpdateClientConfigAP_Tests.swift */; };
-		3BF06F432E16480F002CA7B4 /* MockUpdateClientConfigAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8F84912D933FAE00A151AC /* MockUpdateClientConfigAPI.swift */; };
+		3BF06F432E16480F002CA7B4 /* MockClientConfigUpdatingAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8F84912D933FAE00A151AC /* MockClientConfigUpdatingAPI.swift */; };
 		3D1763A22720722A00652E1C /* CardResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1763A12720722A00652E1C /* CardResult.swift */; };
 		3DC42BA927187E8300B71645 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC42BA827187E8300B71645 /* ErrorResponse.swift */; };
 		3EE92DE4655CDA2D0A6B588B /* PaymentButtonAnalyticsEvent_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F71D0570849A6ADA3D27B87 /* PaymentButtonAnalyticsEvent_Tests.swift */; };
@@ -118,6 +118,7 @@
 		BCFAC71F27ED04C800C3AF00 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDB7FE32788AB8E00CEA554 /* Coordinator.swift */; };
 		BE0000012E1A000000000001 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0000002E1A000000000001 /* HTTPClient.swift */; };
 		BE0000052E1B000000000001 /* AnalyticsEventTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0000042E1B000000000001 /* AnalyticsEventTracking.swift */; };
+		BE0000072E1C000000000001 /* ClientConfigUpdating.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0000062E1C000000000001 /* ClientConfigUpdating.swift */; };
 		BE4F785327EB656400FF4C0E /* Environment+PayPalWebCheckout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4F784327EB629100FF4C0E /* Environment+PayPalWebCheckout.swift */; };
 		BE4F785427EB656400FF4C0E /* PayPalWebCheckoutClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4F784627EB629100FF4C0E /* PayPalWebCheckoutClient.swift */; };
 		BE4F785527EB656400FF4C0E /* PayPalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4F784427EB629100FF4C0E /* PayPalError.swift */; };
@@ -212,7 +213,7 @@
 		3B79E4F62A8503C900C01D06 /* UpdateVaultVariables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateVaultVariables.swift; sourceTree = "<group>"; };
 		3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailingJSONEncoder.swift; sourceTree = "<group>"; };
 		3B8F84852D93318D00A151AC /* UpdateClientConfigAP_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateClientConfigAP_Tests.swift; sourceTree = "<group>"; };
-		3B8F84912D933FAE00A151AC /* MockUpdateClientConfigAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUpdateClientConfigAPI.swift; sourceTree = "<group>"; };
+		3B8F84912D933FAE00A151AC /* MockClientConfigUpdatingAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockClientConfigUpdatingAPI.swift; sourceTree = "<group>"; };
 		3BD82DBA2A835AF900CBE764 /* UpdateSetupTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSetupTokenResponse.swift; sourceTree = "<group>"; };
 		3BDB34932A80CE6E008100D7 /* CardVaultRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultRequest.swift; sourceTree = "<group>"; };
 		3BE738622B9A482800598F05 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -299,6 +300,7 @@
 		BCFAC71827ED043200C3AF00 /* PayPalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PayPalUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE0000002E1A000000000001 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		BE0000042E1B000000000001 /* AnalyticsEventTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventTracking.swift; sourceTree = "<group>"; };
+		BE0000062E1C000000000001 /* ClientConfigUpdating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientConfigUpdating.swift; sourceTree = "<group>"; };
 		BE00B79B2742F96200758C63 /* PayPalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalButton.swift; sourceTree = "<group>"; };
 		BE00B79D2742F9F000758C63 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BE00B7A82743F6AF00758C63 /* PayPalCreditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalCreditButton.swift; sourceTree = "<group>"; };
@@ -576,7 +578,7 @@
 				802C4A732945670400896A5D /* MockHTTPClient.swift */,
 				BC55C0812F7C6DA900631E5F /* MockNetworkingClient.swift */,
 				CB4BE28928512A9800EA2DD1 /* MockQuededURLSession.swift */,
-				3B8F84912D933FAE00A151AC /* MockUpdateClientConfigAPI.swift */,
+				3B8F84912D933FAE00A151AC /* MockClientConfigUpdatingAPI.swift */,
 				803C31B8270E4C560067D36E /* MockURLSession.swift */,
 				BCE8A7F427EA544000AC301B /* MockViewController.swift */,
 				BCE8A7F627EA54A000AC301B /* MockWebAuthenticationSession.swift */,
@@ -712,6 +714,7 @@
 				3BF06F3E2E15CC35002CA7B4 /* ClientConfigResponse.swift */,
 				80E2FDBF2A8353550045593D /* TrackingEventsAPI.swift */,
 				BE0000042E1B000000000001 /* AnalyticsEventTracking.swift */,
+				BE0000062E1C000000000001 /* ClientConfigUpdating.swift */,
 				804E62812937EBCE004B9FEF /* URLSessionHTTPClient.swift */,
 				BE0000002E1A000000000001 /* HTTPClient.swift */,
 				80E237DE2A84434B00FF18CA /* HTTPRequest.swift */,
@@ -1220,6 +1223,7 @@
 				CB4BE27E2847EA7D00EA2DD1 /* WebAuthenticationSession.swift in Sources */,
 				80E2FDC12A83535A0045593D /* TrackingEventsAPI.swift in Sources */,
 				BE0000052E1B000000000001 /* AnalyticsEventTracking.swift in Sources */,
+				BE0000072E1C000000000001 /* ClientConfigUpdating.swift in Sources */,
 				BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */,
 				3BF06F3B2E15CA7E002CA7B4 /* UpdateClientConfigVariables.swift in Sources */,
 				BEA100F026EFA7C20036A6A5 /* NetworkingError.swift in Sources */,
@@ -1249,7 +1253,7 @@
 				803C31B9270E4C560067D36E /* MockURLSession.swift in Sources */,
 				CB4BE28B2851423900EA2DD1 /* MockWebAuthenticationSession.swift in Sources */,
 				CB4BE28A28512A9800EA2DD1 /* MockQuededURLSession.swift in Sources */,
-				3BF06F432E16480F002CA7B4 /* MockUpdateClientConfigAPI.swift in Sources */,
+				3BF06F432E16480F002CA7B4 /* MockClientConfigUpdatingAPI.swift in Sources */,
 				80E74400270E40F300BACECA /* FakeRequests.swift in Sources */,
 				BC55C0822F7C6DA900631E5F /* MockNetworkingClient.swift in Sources */,
 				3B80D50C2A27979000D2EAC4 /* FailingJSONEncoder.swift in Sources */,

@@ -8,7 +8,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
     let config: CoreConfig
 
-    private let clientConfigAPI: UpdateClientConfigAPI
+    private let clientConfigAPI: ClientConfigUpdating
     private let webAuthenticationSession: WebAuthenticationSession
     private let networkingClient: NetworkingClient
     private let analytics: AnalyticsService
@@ -28,7 +28,7 @@ public class PayPalWebCheckoutClient: NSObject {
     init(
         config: CoreConfig,
         networkingClient: NetworkingClient,
-        clientConfigAPI: UpdateClientConfigAPI,
+        clientConfigAPI: ClientConfigUpdating,
         webAuthenticationSession: WebAuthenticationSession
     ) {
         self.config = config

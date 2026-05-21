@@ -1,12 +1,18 @@
 import Foundation
 @testable import CorePayments
 
-class MockClientConfigAPI: UpdateClientConfigAPI {
+class MockClientConfigUpdatingAPI: ClientConfigUpdating {
 
     var stubUpdateClientConfigResponse: ClientConfigResponse?
     var stubError: Error?
+    private(set) var updateClientConfigCallCount = 0
+    var capturedToken: String?
+    var capturedFundingSource: String?
 
-    override func updateClientConfig(token: String, fundingSource: String) async throws -> ClientConfigResponse {
+    func updateClientConfig(token: String, fundingSource: String) async throws -> ClientConfigResponse {
+        updateClientConfigCallCount += 1
+        capturedToken = token
+        capturedFundingSource = fundingSource
 
         if let stubError {
             throw stubError
