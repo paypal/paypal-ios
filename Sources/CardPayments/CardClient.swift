@@ -11,7 +11,7 @@ public class CardClient: NSObject {
     private let clientConfigAPI: ClientConfigUpdating
 
     private let config: CoreConfig
-    private let webAuthenticationSession: WebAuthenticationSession
+    private let webAuthenticationSession: WebAuthenticating
     private let analytics: AnalyticsService
 
     /// Initialize a CardClient to process card payment
@@ -32,7 +32,7 @@ public class CardClient: NSObject {
         checkoutOrdersAPI: CheckoutOrderConfirming,
         vaultAPI: VaultedTokenSaving,
         clientConfigAPI: ClientConfigUpdating,
-        webAuthenticationSession: WebAuthenticationSession
+        webAuthenticationSession: WebAuthenticating
     ) {
         self.config = config
         self.checkoutOrdersAPI = checkoutOrdersAPI
