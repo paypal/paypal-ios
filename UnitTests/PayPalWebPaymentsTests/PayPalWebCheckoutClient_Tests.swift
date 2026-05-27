@@ -40,9 +40,10 @@ class PayPalClient_Tests: XCTestCase {
         payPalClient.vault(vaultRequest) { _ in }
         wait(for: [started], timeout: 1.0)
 
+        XCTAssertEqual(mockWebAuthenticationSession.startCallCount, 1)
         XCTAssertEqual(mockWebAuthenticationSession.lastLaunchedURL?.absoluteString, "https://sandbox.paypal.com/agreements/approve?approval_session_id=fake-token&integration_artifact=MOBILE_SDK")
     }
-    
+
     func testVault_whenLive_launchesCorrectURLInWebSession() {
         config = CoreConfig(clientID: "testClientID", environment: .live)
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)

@@ -381,6 +381,22 @@ class CardClient_Tests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
 
+    func testApproveOrder_withThreeDSecure_callsWebAuthSessionWithCorrectURL() {
+        mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withValid3DSURL
+        mockWebAuthSession.cannedResponseURL = .init(string: "sdk.ios.paypal://card/success")
+
+        let expectation = expectation(description: "approveOrder() completed")
+
+        sut.approveOrder(request: cardRequest) { _ in
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 2, handler: nil)
+
+        XCTAssertEqual(mockWebAuthSession.startCallCount, 1)
+        XCTAssertEqual(mockWebAuthSession.lastLaunchedURL?.absoluteString, "https://fakeURL/helios?flow=3ds")
+    }
+
     func testApproveOrder_withThreeDSecure_browserSwitchLaunches_getOrderReturnsSuccess() {
         mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withValid3DSURL
 

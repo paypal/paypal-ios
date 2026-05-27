@@ -2,7 +2,7 @@ import Foundation
 import AuthenticationServices
 
 @_documentation(visibility: private)
-public class WebAuthenticationSession: NSObject {
+public class WebAuthenticationSession: NSObject, WebAuthenticating {
 
     public func start(
         url: URL,
