@@ -7,7 +7,7 @@ import CorePayments
 public class CardClient: NSObject {
     
     private let checkoutOrdersAPI: CheckoutOrderConfirming
-    private let vaultAPI: VaultPaymentTokensAPI
+    private let vaultAPI: VaultedTokenSaving
     private let clientConfigAPI: ClientConfigUpdating
 
     private let config: CoreConfig
@@ -16,20 +16,21 @@ public class CardClient: NSObject {
 
     /// Initialize a CardClient to process card payment
     /// - Parameter config: The CoreConfig object
-    public init(config: CoreConfig) {
-        self.config = config
-        self.checkoutOrdersAPI = CheckoutOrdersAPI(coreConfig: config)
-        self.vaultAPI = VaultPaymentTokensAPI(coreConfig: config)
-        self.webAuthenticationSession = WebAuthenticationSession()
-        self.clientConfigAPI = UpdateClientConfigAPI(coreConfig: config)
-        self.analytics = AnalyticsService(coreConfig: config)
+    public convenience init(config: CoreConfig) {
+        self.init(
+            config: config,
+            checkoutOrdersAPI: CheckoutOrdersAPI(coreConfig: config),
+            vaultAPI: VaultPaymentTokensAPI(coreConfig: config),
+            clientConfigAPI: UpdateClientConfigAPI(coreConfig: config),
+            webAuthenticationSession: WebAuthenticationSession()
+        )
     }
 
     /// For internal use for testing/mocking purpose
     init(
         config: CoreConfig,
         checkoutOrdersAPI: CheckoutOrderConfirming,
-        vaultAPI: VaultPaymentTokensAPI,
+        vaultAPI: VaultedTokenSaving,
         clientConfigAPI: ClientConfigUpdating,
         webAuthenticationSession: WebAuthenticationSession
     ) {

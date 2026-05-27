@@ -4,7 +4,7 @@ import CorePayments
 #endif
 
 /// This class coordinates networking logic for communicating with the /graphql?UpdateVaultSetupToken API.
-class VaultPaymentTokensAPI {
+class VaultPaymentTokensAPI: VaultedTokenSaving {
     
     // MARK: - Private Properties
     
@@ -12,12 +12,11 @@ class VaultPaymentTokensAPI {
     private let networkingClient: NetworkingClient
     
     // MARK: - Initializer
-    
-    init(coreConfig: CoreConfig) {
-        self.coreConfig = coreConfig
-        self.networkingClient = HTTPNetworkingClient(coreConfig: coreConfig)
+
+    convenience init(coreConfig: CoreConfig) {
+        self.init(coreConfig: coreConfig, networkingClient: HTTPNetworkingClient(coreConfig: coreConfig))
     }
-    
+
     /// Exposed for injecting MockNetworkingClient in tests
     init(coreConfig: CoreConfig, networkingClient: NetworkingClient) {
         self.coreConfig = coreConfig

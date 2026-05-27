@@ -24,7 +24,7 @@ class CardClient_Tests: XCTestCase {
     let mockWebAuthSession = MockWebAuthenticationSession()
     var mockNetworkingClient: MockNetworkingClient!
     var mockCheckoutOrdersAPI: MockCheckoutOrderConfirmingAPI!
-    var mockVaultAPI: MockVaultPaymentTokensAPI!
+    var mockVaultAPI: MockVaultedTokenSavingAPI!
     var mockClientConfigAPI: MockClientConfigUpdatingAPI!
 
     var sut: CardClient!
@@ -38,7 +38,7 @@ class CardClient_Tests: XCTestCase {
         cardVaultRequest = CardVaultRequest(card: card, setupTokenID: "testSetupTokenId")
 
         mockCheckoutOrdersAPI = MockCheckoutOrderConfirmingAPI()
-        mockVaultAPI = MockVaultPaymentTokensAPI(coreConfig: config, networkingClient: mockNetworkingClient)
+        mockVaultAPI = MockVaultedTokenSavingAPI()
         mockClientConfigAPI = MockClientConfigUpdatingAPI()
         
         sut = CardClient(
@@ -170,6 +170,29 @@ class CardClient_Tests: XCTestCase {
         }
 
         waitForExpectations(timeout: 2, handler: nil)
+    }
+
+    func testVault_callsUpdateSetupTokenWithCorrectRequest() {
+        let setupTokenID = "testSetupTokenId"
+        let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
+        mockVaultAPI.stubSetupTokenResponse = UpdateSetupTokenResponse(
+            updateVaultSetupToken: TokenDetails(
+                id: setupTokenID,
+                status: "APPROVED",
+                links: [TokenDetails.Link(rel: "self", href: "https://example.com")]
+            )
+        )
+
+        let expectation = expectation(description: "vault() completed")
+
+        sut.vault(vaultRequest) { _ in
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 2, handler: nil)
+
+        XCTAssertEqual(mockVaultAPI.updateSetupTokenCallCount, 1)
+        XCTAssertEqual(mockVaultAPI.capturedCardVaultRequest?.setupTokenID, setupTokenID)
     }
 
     func test_vault_withThreeDSecure_browserSwitchLaunches_vaultReturnsSuccess() {
