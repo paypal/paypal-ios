@@ -1,4 +1,5 @@
 import Foundation
+import VenmoPayments
 
 struct VenmoPaymentState: Equatable {
 
@@ -9,8 +10,9 @@ struct VenmoPaymentState: Equatable {
     }
 
     var createOrder: Order?
+    var authorizedOrder: Order?
     var capturedOrder: Order?
-    var intent: Intent = .capture
+    var intent: Intent = .authorize
     var approveResult: ApprovalResult?
 
     var createdOrderResponse: LoadingState<Order> = .idle {
@@ -33,6 +35,14 @@ struct VenmoPaymentState: Equatable {
         didSet {
             if case .loaded(let value) = capturedOrderResponse {
                 capturedOrder = value
+            }
+        }
+    }
+
+    var authorizedOrderResponse: LoadingState<Order> = .idle {
+        didSet {
+            if case .loaded(let value) = authorizedOrderResponse {
+                authorizedOrder = value
             }
         }
     }

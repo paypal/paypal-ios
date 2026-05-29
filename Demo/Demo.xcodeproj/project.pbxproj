@@ -89,6 +89,17 @@
 		CB9ED44E28411B120081F4DE /* SwiftUIPaymentButtonDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9ED44D28411B110081F4DE /* SwiftUIPaymentButtonDemo.swift */; };
 		CBDEEA222989990200A460A6 /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBDEEA212989990200A460A6 /* CorePayments.framework */; };
 		CBDEEA232989990200A460A6 /* CorePayments.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CBDEEA212989990200A460A6 /* CorePayments.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D2F3E4000000000000000E /* VenmoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F3E40000000000000005 /* VenmoViewModel.swift */; };
+		D2F3E4000000000000000F /* VenmoPaymentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F3E40000000000000006 /* VenmoPaymentState.swift */; };
+		D2F3E40000000000000010 /* VenmoPaymentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F3E40000000000000007 /* VenmoPaymentsView.swift */; };
+		D2F3E40000000000000011 /* VenmoCreateOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F3E40000000000000008 /* VenmoCreateOrderView.swift */; };
+		D2F3E40000000000000012 /* VenmoButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F3E40000000000000009 /* VenmoButtonsView.swift */; };
+		D2F3E40000000000000013 /* VenmoOrderCreateResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F3E4000000000000000A /* VenmoOrderCreateResultView.swift */; };
+		D2F3E40000000000000014 /* VenmoApprovalResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F3E4000000000000000B /* VenmoApprovalResultView.swift */; };
+		D2F3E40000000000000015 /* VenmoTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F3E4000000000000000C /* VenmoTransactionView.swift */; };
+		D2F3E40000000000000016 /* VenmoOrderCompletionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F3E4000000000000000D /* VenmoOrderCompletionResultView.swift */; };
+		D2F3E40000000000000018 /* VenmoPayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2F3E40000000000000017 /* VenmoPayments.framework */; };
+		D2F3E40000000000000019 /* VenmoPayments.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D2F3E40000000000000017 /* VenmoPayments.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +125,7 @@
 				8052E2A629B684BA00B33FBC /* PPRiskMagnes.xcframework in Embed Frameworks */,
 				CB1AC3C82982E32D0081AED6 /* FraudProtection.framework in Embed Frameworks */,
 				CB1AC3B92982AAD70081AED6 /* CardPayments.framework in Embed Frameworks */,
+				D2F3E40000000000000019 /* VenmoPayments.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -207,6 +219,16 @@
 		CB9ED44B283FDA900081F4DE /* PaymentButtonEnums+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PaymentButtonEnums+Extension.swift"; sourceTree = "<group>"; };
 		CB9ED44D28411B110081F4DE /* SwiftUIPaymentButtonDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIPaymentButtonDemo.swift; sourceTree = "<group>"; };
 		CBDEEA212989990200A460A6 /* CorePayments.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CorePayments.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2F3E40000000000000005 /* VenmoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoViewModel.swift; sourceTree = "<group>"; };
+		D2F3E40000000000000006 /* VenmoPaymentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoPaymentState.swift; sourceTree = "<group>"; };
+		D2F3E40000000000000007 /* VenmoPaymentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoPaymentsView.swift; sourceTree = "<group>"; };
+		D2F3E40000000000000008 /* VenmoCreateOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoCreateOrderView.swift; sourceTree = "<group>"; };
+		D2F3E40000000000000009 /* VenmoButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoButtonsView.swift; sourceTree = "<group>"; };
+		D2F3E4000000000000000A /* VenmoOrderCreateResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoOrderCreateResultView.swift; sourceTree = "<group>"; };
+		D2F3E4000000000000000B /* VenmoApprovalResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoApprovalResultView.swift; sourceTree = "<group>"; };
+		D2F3E4000000000000000C /* VenmoTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoTransactionView.swift; sourceTree = "<group>"; };
+		D2F3E4000000000000000D /* VenmoOrderCompletionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoOrderCompletionResultView.swift; sourceTree = "<group>"; };
+		D2F3E40000000000000017 /* VenmoPayments.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = VenmoPayments.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +242,7 @@
 				CBDEEA222989990200A460A6 /* CorePayments.framework in Frameworks */,
 				8052E2A529B684BA00B33FBC /* PPRiskMagnes.xcframework in Frameworks */,
 				CB1AC3C72982E32D0081AED6 /* FraudProtection.framework in Frameworks */,
+				D2F3E40000000000000018 /* VenmoPayments.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,6 +442,7 @@
 				CB1AC3C62982E32D0081AED6 /* FraudProtection.framework */,
 				CB1AC3C32982DBA10081AED6 /* PayPalNativePayments.framework */,
 				CB1AC3BF2982C4030081AED6 /* PayPalWebPayments.framework */,
+				D2F3E40000000000000017 /* VenmoPayments.framework */,
 				CB1AC3BA2982BB130081AED6 /* PaymentButtons.framework */,
 				CB1AC3B72982AAD70081AED6 /* CardPayments.framework */,
 				536A5CA22898A48C005C053D /* PayPalNativeCheckout.framework */,
@@ -455,6 +479,7 @@
 			children = (
 				1001E2BF2CF6590E0023A03C /* Vault */,
 				1001E2B92CF6433C0023A03C /* PayPalWebPayments */,
+				D2F3E40000000000000001 /* VenmoPayments */,
 				1001E2B72CF6432F0023A03C /* PayPalVault */,
 				1001E2B82CF643350023A03C /* CardPayments */,
 				1001E2B62CF643270023A03C /* CardVault */,
@@ -555,6 +580,46 @@
 				3BCCFE452A9D47AC00C5102F /* CardExtensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		D2F3E40000000000000001 /* VenmoPayments */ = {
+			isa = PBXGroup;
+			children = (
+				D2F3E40000000000000002 /* VenmoViewModel */,
+				D2F3E40000000000000003 /* VenmoPaymentsView */,
+			);
+			path = VenmoPayments;
+			sourceTree = "<group>";
+		};
+		D2F3E40000000000000002 /* VenmoViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				D2F3E40000000000000005 /* VenmoViewModel.swift */,
+				D2F3E40000000000000006 /* VenmoPaymentState.swift */,
+			);
+			path = VenmoViewModel;
+			sourceTree = "<group>";
+		};
+		D2F3E40000000000000003 /* VenmoPaymentsView */ = {
+			isa = PBXGroup;
+			children = (
+				D2F3E40000000000000004 /* VenmoResultViews */,
+				D2F3E40000000000000007 /* VenmoPaymentsView.swift */,
+				D2F3E40000000000000008 /* VenmoCreateOrderView.swift */,
+				D2F3E40000000000000009 /* VenmoButtonsView.swift */,
+			);
+			path = VenmoPaymentsView;
+			sourceTree = "<group>";
+		};
+		D2F3E40000000000000004 /* VenmoResultViews */ = {
+			isa = PBXGroup;
+			children = (
+				D2F3E4000000000000000A /* VenmoOrderCreateResultView.swift */,
+				D2F3E4000000000000000B /* VenmoApprovalResultView.swift */,
+				D2F3E4000000000000000C /* VenmoTransactionView.swift */,
+				D2F3E4000000000000000D /* VenmoOrderCompletionResultView.swift */,
+			);
+			path = VenmoResultViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -727,6 +792,15 @@
 				3B6472A72AFAEB3A004745C4 /* PayPalWebTransactionView.swift in Sources */,
 				5301468C28918B4D00184F22 /* ApprovalResult.swift in Sources */,
 				3BC6220B2A97204E00251B85 /* CircularProgressView.swift in Sources */,
+				D2F3E4000000000000000E /* VenmoViewModel.swift in Sources */,
+				D2F3E4000000000000000F /* VenmoPaymentState.swift in Sources */,
+				D2F3E40000000000000010 /* VenmoPaymentsView.swift in Sources */,
+				D2F3E40000000000000011 /* VenmoCreateOrderView.swift in Sources */,
+				D2F3E40000000000000012 /* VenmoButtonsView.swift in Sources */,
+				D2F3E40000000000000013 /* VenmoOrderCreateResultView.swift in Sources */,
+				D2F3E40000000000000014 /* VenmoApprovalResultView.swift in Sources */,
+				D2F3E40000000000000015 /* VenmoTransactionView.swift in Sources */,
+				D2F3E40000000000000016 /* VenmoOrderCompletionResultView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

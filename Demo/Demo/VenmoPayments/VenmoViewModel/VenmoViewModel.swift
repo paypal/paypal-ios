@@ -6,34 +6,43 @@ import VenmoPayments
 class VenmoViewModel: ObservableObject {
 
     @Published var state = VenmoPaymentState()
+    @Published var intent: Intent = .authorize
     @Published var order: Order?
     @Published var checkoutResult: VenmoCheckoutResult?
 
     var venmoClient: VenmoClient?
 
+    var orderID: String? {
+        order?.id
+    }
+
     let configManager = CoreConfigManager(domain: "Venmo Payments")
 
-    func createOrder() async {
+    func createOrder() async throws {
         let amountRequest = Amount(currencyCode: "USD", value: "10.00")
 
         let params = CreateOrderParams(
             applicationContext: nil,
-            intent: Intent.capture.rawValue,
+            intent: intent.rawValue,
             purchaseUnits: [PurchaseUnit(amount: amountRequest)],
             paymentSource: nil
         )
 
         do {
-            state.createdOrderResponse = .loading
+            DispatchQueue.main.async { self.state.createdOrderResponse = .loading }
             let order = try await DemoMerchantAPI.sharedService.createOrder(
                 orderParams: params,
                 selectedMerchantIntegration: DemoSettings.merchantIntegration
             )
-            self.order = order
-            state.createdOrderResponse = .loaded(order)
+            DispatchQueue.main.async {
+                self.order = order
+                self.state.createdOrderResponse = .loaded(order)
+            }
             print("Fetched orderID: \(order.id) with status: \(order.status)")
         } catch {
-            state.createdOrderResponse = .error(message: error.localizedDescription)
+            DispatchQueue.main.async {
+                self.state.createdOrderResponse = .error(message: error.localizedDescription)
+            }
             print("Failed to create order: \(error.localizedDescription)")
         }
     }
@@ -41,29 +50,34 @@ class VenmoViewModel: ObservableObject {
     func venmoButtonTapped() {
         Task {
             do {
-                state.approveResultResponse = .loading
+                DispatchQueue.main.async {
+                    self.state.approveResultResponse = .loading
+                }
                 venmoClient = try await getVenmoClient()
-
                 guard let venmoClient else {
-                    state.approveResultResponse = .error(message: "Error initializing VenmoClient")
+                    print("Error initializing VenmoClient")
                     return
                 }
 
                 if let orderID = state.createOrder?.id {
                     let request = VenmoCheckoutRequest(orderID: orderID)
                     let venmoResult = try await venmoClient.start(request)
-                    state.approveResultResponse = .loaded(
-                        VenmoPaymentState.ApprovalResult(id: venmoResult.orderID, status: "APPROVED")
-                    )
-                    checkoutResult = venmoResult
-                    print("Venmo checkout result: orderID=\(venmoResult.orderID), payerID=\(venmoResult.payerID)")
+                    DispatchQueue.main.async {
+                        self.state.approveResultResponse = .loaded(
+                            VenmoPaymentState.ApprovalResult(id: venmoResult.orderID, status: "APPROVED")
+                        )
+                        self.checkoutResult = venmoResult
+                        print("Venmo checkout result: orderID=\(venmoResult.orderID), payerID=\(venmoResult.payerID)")
+                    }
                 }
             } catch {
-                if VenmoError.isCheckoutCanceled(error) {
-                    print("Venmo checkout canceled")
-                    state.approveResultResponse = .idle
-                } else {
-                    state.approveResultResponse = .error(message: error.localizedDescription)
+                DispatchQueue.main.async {
+                    if VenmoError.isCheckoutCanceled(error) {
+                        print("Venmo checkout canceled")
+                        self.state.approveResultResponse = .idle
+                    } else {
+                        self.state.approveResultResponse = .error(message: error.localizedDescription)
+                    }
                 }
             }
         }
@@ -74,30 +88,65 @@ class VenmoViewModel: ObservableObject {
             let config = try await configManager.getCoreConfig()
             return VenmoClient(config: config)
         } catch {
-            state.createdOrderResponse = .error(message: error.localizedDescription)
+            DispatchQueue.main.async {
+                self.state.createdOrderResponse = .error(message: error.localizedDescription)
+            }
             print("Failed to create VenmoClient: \(error.localizedDescription)")
             return nil
         }
     }
 
-    func completeTransaction() async {
+    func completeTransaction() async throws {
         do {
-            state.capturedOrderResponse = .loading
+            setLoadingState()
             if let orderID = state.createOrder?.id {
                 let order = try await DemoMerchantAPI.sharedService.completeOrder(
-                    intent: .capture,
+                    intent: intent,
                     orderID: orderID
                 )
-                state.capturedOrderResponse = .loaded(order)
+                setOrderCompletionLoadedState(order: order)
             }
         } catch {
-            state.capturedOrderResponse = .error(message: error.localizedDescription)
-            print("Error capturing order: \(error.localizedDescription)")
+            setErrorState(message: error.localizedDescription)
+            print("Error with \(intent) order: \(error.localizedDescription)")
+        }
+    }
+
+    private func setLoadingState() {
+        DispatchQueue.main.async {
+            switch self.intent {
+            case .authorize:
+                self.state.authorizedOrderResponse = .loading
+            case .capture:
+                self.state.capturedOrderResponse = .loading
+            }
+        }
+    }
+
+    private func setOrderCompletionLoadedState(order: Order) {
+        DispatchQueue.main.async {
+            switch self.intent {
+            case .authorize:
+                self.state.authorizedOrderResponse = .loaded(order)
+            case .capture:
+                self.state.capturedOrderResponse = .loaded(order)
+            }
+        }
+    }
+
+    private func setErrorState(message: String) {
+        DispatchQueue.main.async {
+            switch self.intent {
+            case .authorize:
+                self.state.authorizedOrderResponse = .error(message: message)
+            case .capture:
+                self.state.capturedOrderResponse = .error(message: message)
+            }
         }
     }
 
     func resetState() {
-        state = VenmoPaymentState()
+        self.state = VenmoPaymentState()
         order = nil
         checkoutResult = nil
     }
