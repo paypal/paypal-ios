@@ -10,10 +10,6 @@
   * Add `VenmoCheckoutResult` with `orderID` and `payerID` properties
   * Add `VenmoError` with error codes for URL errors, malformed results, cancellation, funding eligibility, and unimplemented
   * Add `VenmoError.isCheckoutCanceled(_:)` helper to distinguish user cancellation
-* PaymentButtons
-  * Add `VenmoButton` with blue, white, and black color options
-  * Add `.venmo` funding source to `PaymentButtonFundingSource`
-  * Add `.venmoBlue` color to `PaymentButtonColor`
 
 ## 2.0.1 (2025-11-03)
 

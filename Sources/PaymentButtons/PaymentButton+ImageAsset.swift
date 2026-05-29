@@ -11,9 +11,6 @@ extension PaymentButton {
     var imageAccessibilityLabel: String {
         // NEXT_MAJOR_VERSION: - To be replaced with translation strings.
 
-        if fundingSource == .venmo {
-            return "Venmo"
-        }
         return fileName.starts(with: "credit") ? "PayPal Credit" : "PayPal"
     }
     
@@ -35,17 +32,10 @@ extension PaymentButton {
 
         case .credit:
             imageAssetString += "credit_"
-
-        case .venmo:
-            imageAssetString += "venmo_"
-
-            if size == .mini {
-                imageAssetString += "monogram_"
-            }
         }
 
         switch color {
-        case .gold, .white, .silver, .venmoBlue:
+        case .gold, .white, .silver:
             imageAssetString += "color"
 
         case .black, .darkBlue:
