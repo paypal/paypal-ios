@@ -149,6 +149,16 @@
 		CBC16DD529E99B4600307117 /* PaymentSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4BE285284802C200EA2DD1 /* PaymentSource.swift */; };
 		E6022E802857C6BE008B0E27 /* GraphQLHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64623222836A69E008AC8E1 /* GraphQLHTTPResponse.swift */; };
 		E64763712899B60C00074113 /* MockNetworkingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64763702899B60C00074113 /* MockNetworkingClient.swift */; };
+		D1E2F300000000000000000B /* VenmoCheckoutRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2F3000000000000000001 /* VenmoCheckoutRequest.swift */; };
+		D1E2F300000000000000000C /* VenmoCheckoutResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2F3000000000000000002 /* VenmoCheckoutResult.swift */; };
+		D1E2F300000000000000000D /* VenmoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2F3000000000000000003 /* VenmoError.swift */; };
+		D1E2F300000000000000000E /* VenmoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2F3000000000000000004 /* VenmoClient.swift */; };
+		D1E2F300000000000000000F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D1E2F3000000000000000005 /* PrivacyInfo.xcprivacy */; };
+		D1E2F3000000000000000010 /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; platformFilter = ios; };
+		D1E2F3000000000000000011 /* VenmoCheckoutRequest_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2F3000000000000000008 /* VenmoCheckoutRequest_Tests.swift */; };
+		D1E2F3000000000000000012 /* VenmoError_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2F3000000000000000009 /* VenmoError_Tests.swift */; };
+		D1E2F3000000000000000013 /* VenmoClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2F300000000000000000A /* VenmoClient_Tests.swift */; };
+		D1E2F3000000000000000014 /* TestShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E743F8270E40CE00BACECA /* TestShared.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -193,6 +203,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = BCFAC6EB27ED042500C3AF00;
 			remoteInfo = PayPalUI;
+		};
+		D1E2F300000000000000001F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D1E2F300000000000000001D;
+			remoteInfo = VenmoPayments;
+		};
+		D1E2F3000000000000000020 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 80E743F7270E40CE00BACECA;
+			remoteInfo = TestShared;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -340,6 +364,16 @@
 		E64763702899B60C00074113 /* MockNetworkingClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkingClient.swift; sourceTree = "<group>"; };
 		OBJ_16 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		D1E2F3000000000000000001 /* VenmoCheckoutRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoCheckoutRequest.swift; sourceTree = "<group>"; };
+		D1E2F3000000000000000002 /* VenmoCheckoutResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoCheckoutResult.swift; sourceTree = "<group>"; };
+		D1E2F3000000000000000003 /* VenmoError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoError.swift; sourceTree = "<group>"; };
+		D1E2F3000000000000000004 /* VenmoClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoClient.swift; sourceTree = "<group>"; };
+		D1E2F3000000000000000005 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		D1E2F3000000000000000006 /* VenmoPayments.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VenmoPayments.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1E2F3000000000000000007 /* VenmoPaymentsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VenmoPaymentsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1E2F3000000000000000008 /* VenmoCheckoutRequest_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoCheckoutRequest_Tests.swift; sourceTree = "<group>"; };
+		D1E2F3000000000000000009 /* VenmoError_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoError_Tests.swift; sourceTree = "<group>"; };
+		D1E2F300000000000000000A /* VenmoClient_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoClient_Tests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -434,6 +468,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D1E2F3000000000000000019 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D1E2F3000000000000000010 /* CorePayments.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1E2F300000000000000001C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				D1E2F3000000000000000014 /* TestShared.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -462,6 +512,7 @@
 				BCF735F427D2708E00A52E03 /* FraudProtectionTests */,
 				BCFAC72227ED05D900C3AF00 /* PaymentButtonsTests */,
 				BCE8A7F027EA52BF00AC301B /* PayPalWebPaymentsTests */,
+				D1E2F3000000000000000016 /* VenmoPaymentsTests */,
 				80E743F9270E40CE00BACECA /* TestShared */,
 			);
 			path = UnitTests;
@@ -770,6 +821,8 @@
 				BCD5C49427E9201400B074D5 /* PayPalWebCheckoutTests.xctest */,
 				BCFAC70927ED042500C3AF00 /* PaymentButtons.framework */,
 				BCFAC71827ED043200C3AF00 /* PayPalUITests.xctest */,
+				D1E2F3000000000000000006 /* VenmoPayments.framework */,
+				D1E2F3000000000000000007 /* VenmoPaymentsTests.xctest */,
 			);
 			name = Products;
 			path = ..;
@@ -796,9 +849,33 @@
 				BCF735C127D157CD00A52E03 /* FraudProtection */,
 				BCFAC71927ED044300C3AF00 /* PaymentButtons */,
 				BE4F784227EB627100FF4C0E /* PayPalWebPayments */,
+				D1E2F3000000000000000015 /* VenmoPayments */,
 			);
 			name = Sources;
 			sourceTree = SOURCE_ROOT;
+		};
+		D1E2F3000000000000000015 /* VenmoPayments */ = {
+			isa = PBXGroup;
+			children = (
+				D1E2F3000000000000000001 /* VenmoCheckoutRequest.swift */,
+				D1E2F3000000000000000002 /* VenmoCheckoutResult.swift */,
+				D1E2F3000000000000000004 /* VenmoClient.swift */,
+				D1E2F3000000000000000003 /* VenmoError.swift */,
+				D1E2F3000000000000000005 /* PrivacyInfo.xcprivacy */,
+			);
+			name = VenmoPayments;
+			path = Sources/VenmoPayments;
+			sourceTree = "<group>";
+		};
+		D1E2F3000000000000000016 /* VenmoPaymentsTests */ = {
+			isa = PBXGroup;
+			children = (
+				D1E2F3000000000000000008 /* VenmoCheckoutRequest_Tests.swift */,
+				D1E2F300000000000000000A /* VenmoClient_Tests.swift */,
+				D1E2F3000000000000000009 /* VenmoError_Tests.swift */,
+			);
+			path = VenmoPaymentsTests;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -818,6 +895,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		BCFAC6EE27ED042500C3AF00 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1E2F3000000000000000017 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1026,6 +1110,44 @@
 			productReference = BCFAC71827ED043200C3AF00 /* PayPalUITests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		D1E2F300000000000000001D /* VenmoPayments */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D1E2F3000000000000000027 /* Build configuration list for PBXNativeTarget "VenmoPayments" */;
+			buildPhases = (
+				D1E2F3000000000000000017 /* Headers */,
+				D1E2F3000000000000000018 /* Sources */,
+				D1E2F3000000000000000019 /* Frameworks */,
+				D1E2F300000000000000001A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VenmoPayments;
+			packageProductDependencies = (
+			);
+			productName = VenmoPayments;
+			productReference = D1E2F3000000000000000006 /* VenmoPayments.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		D1E2F300000000000000001E /* VenmoPaymentsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D1E2F3000000000000000028 /* Build configuration list for PBXNativeTarget "VenmoPaymentsTests" */;
+			buildPhases = (
+				D1E2F300000000000000001B /* Sources */,
+				D1E2F300000000000000001C /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D1E2F3000000000000000021 /* PBXTargetDependency */,
+				D1E2F3000000000000000022 /* PBXTargetDependency */,
+			);
+			name = VenmoPaymentsTests;
+			productName = VenmoPaymentsTests;
+			productReference = D1E2F3000000000000000007 /* VenmoPaymentsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1098,6 +1220,8 @@
 				BCD5C46727E9200800B074D5 /* PayPalWebPayments */,
 				BCD5C48627E9201400B074D5 /* PayPalWebPaymentsTests */,
 				80E743F7270E40CE00BACECA /* TestShared */,
+				D1E2F300000000000000001D /* VenmoPayments */,
+				D1E2F300000000000000001E /* VenmoPaymentsTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1170,6 +1294,14 @@
 				3BE7386C2B9A66FC00598F05 /* PrivacyInfo.xcprivacy in Resources */,
 				BCFAC70527ED042500C3AF00 /* Assets.xcassets in Resources */,
 				045386092B5CB9AA0057AFDA /* PayPalOpen-Regular.otf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1E2F300000000000000001A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D1E2F300000000000000000F /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1395,6 +1527,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D1E2F3000000000000000018 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D1E2F300000000000000000B /* VenmoCheckoutRequest.swift in Sources */,
+				D1E2F300000000000000000C /* VenmoCheckoutResult.swift in Sources */,
+				D1E2F300000000000000000D /* VenmoError.swift in Sources */,
+				D1E2F300000000000000000E /* VenmoClient.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1E2F300000000000000001B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				D1E2F3000000000000000011 /* VenmoCheckoutRequest_Tests.swift in Sources */,
+				D1E2F3000000000000000012 /* VenmoError_Tests.swift in Sources */,
+				D1E2F3000000000000000013 /* VenmoClient_Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1435,6 +1588,24 @@
 			isa = PBXTargetDependency;
 			target = BCFAC6EB27ED042500C3AF00 /* PaymentButtons */;
 			targetProxy = BCFAC72027ED059C00C3AF00 /* PBXContainerItemProxy */;
+		};
+		D1E2F3000000000000000021 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			platformFilters = (
+				driverkit,
+				ios,
+				macos,
+				tvos,
+				watchos,
+				xros,
+			);
+			target = D1E2F300000000000000001D /* VenmoPayments */;
+			targetProxy = D1E2F300000000000000001F /* PBXContainerItemProxy */;
+		};
+		D1E2F3000000000000000022 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 80E743F7270E40CE00BACECA /* TestShared */;
+			targetProxy = D1E2F3000000000000000020 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2961,6 +3132,224 @@
 			};
 			name = Release;
 		};
+		D1E2F3000000000000000023 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 43253H4X22;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.VenmoPayments";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		D1E2F3000000000000000024 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 43253H4X22;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.VenmoPayments";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		D1E2F3000000000000000025 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DRIVERKIT_DEPLOYMENT_TARGET = 19.0;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.VenmoPaymentsTests";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = VenmoPaymentsTests;
+			};
+			name = Debug;
+		};
+		D1E2F3000000000000000026 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DRIVERKIT_DEPLOYMENT_TARGET = 19.0;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paypal.ios-sdk.VenmoPaymentsTests";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = VenmoPaymentsTests;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -3068,6 +3457,24 @@
 			buildConfigurations = (
 				OBJ_3 /* Debug */,
 				OBJ_4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D1E2F3000000000000000027 /* Build configuration list for PBXNativeTarget "VenmoPayments" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1E2F3000000000000000023 /* Debug */,
+				D1E2F3000000000000000024 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D1E2F3000000000000000028 /* Build configuration list for PBXNativeTarget "VenmoPaymentsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1E2F3000000000000000025 /* Debug */,
+				D1E2F3000000000000000026 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

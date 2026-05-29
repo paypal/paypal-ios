@@ -50,6 +50,12 @@ struct FeatureSelectionView: View {
                         Text("PayPal Vaulting")
                     }
                     NavigationLink {
+                        VenmoPaymentsView()
+                            .navigationTitle("Venmo")
+                    } label: {
+                        Text("Venmo")
+                    }
+                    NavigationLink {
                         SwiftUIPaymentButtonDemo()
                     } label: {
                         Text("Payment Button")

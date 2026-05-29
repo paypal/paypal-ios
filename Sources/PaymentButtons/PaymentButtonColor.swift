@@ -20,6 +20,9 @@ public enum PaymentButtonColor: String {
     /// The dark blue background with PayPal Credit wordmark and monogram.
     case darkBlue
 
+    /// The Venmo blue background with white wordmark and white text.
+    case venmoBlue
+
     var color: UIColor {
         switch self {
         case .gold:
@@ -39,6 +42,9 @@ public enum PaymentButtonColor: String {
 
         case .darkBlue:
             return UIColor(hexString: "#073990")
+
+        case .venmoBlue:
+            return UIColor(hexString: "#008CFF")
         }
     }
 
@@ -47,7 +53,7 @@ public enum PaymentButtonColor: String {
         case .gold, .white, .silver:
             return .black
 
-        case .blue, .black, .darkBlue:
+        case .blue, .black, .darkBlue, .venmoBlue:
             return .white
         }
     }
@@ -71,6 +77,9 @@ public enum PaymentButtonColor: String {
 
         case .darkBlue:
             return "Dark blue"
+
+        case .venmoBlue:
+            return "Venmo blue"
         }
     }
 }
