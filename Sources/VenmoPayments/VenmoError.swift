@@ -24,9 +24,6 @@ public enum VenmoError {
 
         /// 4. Venmo is not eligible as a funding source.
         case fundingEligibilityError
-
-        /// 5. The operation is not yet implemented.
-        case unimplemented
     }
 
     /// An error constructing the Venmo checkout URL.
@@ -67,13 +64,6 @@ public enum VenmoError {
             errorDescription: "Venmo is not eligible as a funding source: \(reason)"
         )
     }
-
-    /// The Venmo checkout flow is not yet implemented.
-    public static let unimplemented = CoreSDKError(
-        code: Code.unimplemented.rawValue,
-        domain: domain,
-        errorDescription: "VenmoClient.start() is not yet implemented."
-    )
 
     /// Determines whether an error represents a Venmo checkout cancellation.
     /// - Parameter error: The error to check.

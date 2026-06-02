@@ -1,6 +1,6 @@
 import Foundation
 
-/// Used to configure options for approving a Venmo order.
+/// Used to configure options for a Venmo checkout transaction.
 public struct VenmoCheckoutRequest {
 
     /// The order ID associated with the request.

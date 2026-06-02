@@ -98,7 +98,7 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D1E2F300000000000000001E"
+               BlueprintIdentifier = "ADD4A68A33031418B3676FB6"
                BuildableName = "VenmoPaymentsTests.xctest"
                BlueprintName = "VenmoPaymentsTests"
                ReferencedContainer = "container:PayPal.xcodeproj">
@@ -177,7 +177,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D1E2F300000000000000001E"
+               BlueprintIdentifier = "ADD4A68A33031418B3676FB6"
                BuildableName = "VenmoPaymentsTests.xctest"
                BlueprintName = "VenmoPaymentsTests"
                ReferencedContainer = "container:PayPal.xcodeproj">
