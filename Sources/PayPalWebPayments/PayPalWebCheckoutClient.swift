@@ -190,13 +190,14 @@ public class PayPalWebCheckoutClient: NSObject {
             }
 
             // Try to open the PayPal app (or deep link). If opening fails, fall back.
-            let opened = await openURL(url)
+            let opened = await openURLAppSwitchOnly(url)
 
             if opened {
                 // TODO: align with android on app switch event names, communicate with analytics team on new events
                 analyticsService?.sendEvent("paypal-web-payments:checkout:app-switch-open:succeeded")
                 return .launched
             } else {
+                // Universal Link cannot be resolved
                 analyticsService?.sendEvent("paypal-web-payments:checkout:app-switch-open:failed")
                 // We attempted to launch but couldn't. Clear the saved completion so a stray return URL can't complete.
                 await MainActor.run { [weak self] in
@@ -395,9 +396,9 @@ public class PayPalWebCheckoutClient: NSObject {
     }
 
     @MainActor
-    private func openURL(_ url: URL) async -> Bool {
+    private func openURLAppSwitchOnly(_ url: URL) async -> Bool {
         await withCheckedContinuation { continuation in
-            application.open(url, options: [:]) { success in
+            application.open(url, options: [.universalLinksOnly: true]) { success in
                 continuation.resume(returning: success)
             }
         }
