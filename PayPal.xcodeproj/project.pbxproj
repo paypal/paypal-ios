@@ -166,6 +166,7 @@
 		E6022E802857C6BE008B0E27 /* GraphQLHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64623222836A69E008AC8E1 /* GraphQLHTTPResponse.swift */; };
 		E64763712899B60C00074113 /* MockNetworkingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64763702899B60C00074113 /* MockNetworkingClient.swift */; };
 		FDBEA5EAD794C0B59F93C836 /* MockGetFundingEligibilityAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6773E7F8681CC15FCBB2DBC1 /* MockGetFundingEligibilityAPI.swift */; };
+		D1E2F30000000000000000F2 /* Environment+VenmoCheckout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2F30000000000000000F1 /* Environment+VenmoCheckout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -394,6 +395,7 @@
 		FBF53B243A9ADEE64E0E6318 /* VenmoPayments.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VenmoPayments.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_16 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		D1E2F30000000000000000F1 /* Environment+VenmoCheckout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment+VenmoCheckout.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -589,6 +591,7 @@
 				E21E0B47F7D2831B139C86CD /* VenmoCheckoutResult.swift */,
 				2A79BE2B972741D91FD77DAB /* VenmoError.swift */,
 				F8DAF2A39411FD5DD19C4FDB /* Environment+Venmo.swift */,
+				D1E2F30000000000000000F1 /* Environment+VenmoCheckout.swift */,
 				5C300FB6F44415CD05E38B43 /* PrivacyInfo.xcprivacy */,
 			);
 			name = VenmoPayments;
@@ -1506,6 +1509,7 @@
 				19F5B40C66ABF99FF490D1C2 /* VenmoCheckoutResult.swift in Sources */,
 				38E9AC9D77F66CC399231E49 /* VenmoError.swift in Sources */,
 				C2EB01B5CEF1CD10B1034178 /* Environment+Venmo.swift in Sources */,
+				D1E2F30000000000000000F2 /* Environment+VenmoCheckout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,3 +1,4 @@
+import Foundation
 import UIKit
 
 #if canImport(CorePayments)
@@ -83,6 +84,26 @@ public class VenmoClient {
                 }
             }
         }
+    }
+
+    /// Build the Venmo checkout URL for app-switch.
+    /// - Parameter orderID: The order ID for the transaction.
+    /// - Returns: The fully constructed checkout URL.
+    /// - Throws: `VenmoError.venmoURLError` if URL construction fails.
+    func buildCheckoutURL(orderID: String) throws -> URL {
+        let baseURL = config.environment.venmoBaseURL
+        var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)
+        components?.path = "/go/web/paypal"
+        components?.queryItems = [
+            URLQueryItem(name: "token", value: orderID),
+            // TODO: (2026-06-02) return_flow=AUTO may become removable once Direct API is fully rolled out
+            URLQueryItem(name: "return_flow", value: "AUTO")
+        ]
+
+        guard let url = components?.url else {
+            throw VenmoError.venmoURLError
+        }
+        return url
     }
 
     // MARK: - Return URL Handling
@@ -190,8 +211,8 @@ public class VenmoClient {
             analyticsService?.sendEvent("venmo-payments:checkout:update-client-config:failed")
         }
 
-        // Step 3: Construct checkout URL
-        guard let checkoutURL = constructCheckoutURL(request: request) else {
+        // Step 3: Construct checkout URL using new Direct API contract
+        guard let checkoutURL = try? buildCheckoutURL(orderID: request.orderID) else {
             notifyFailure(with: VenmoError.venmoURLError, completion: completion)
             return
         }
@@ -221,31 +242,6 @@ public class VenmoClient {
             }
             notifyFailure(with: VenmoError.venmoURLError, completion: completion)
         }
-    }
-
-    private func constructCheckoutURL(request: VenmoCheckoutRequest) -> URL? {
-        let baseURL = config.environment.venmoCheckoutBaseURL
-
-        var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)
-
-        let callbackScheme = PayPalCoreConstants.callbackURLScheme
-        let returnURL = "\(callbackScheme)://x-callback-url/paypal-sdk/venmo-checkout"
-
-        components?.queryItems = [
-            URLQueryItem(name: "buttonSessionID", value: UUID().uuidString),
-            URLQueryItem(name: "buyerCountry", value: request.buyerCountry),
-            URLQueryItem(name: "channel", value: "MOBILE"),
-            URLQueryItem(name: "commit", value: "true"),
-            URLQueryItem(name: "domain", value: "sdk.paypal.com"),
-            URLQueryItem(name: "enableFunding", value: "venmo"),
-            URLQueryItem(name: "env", value: config.environment.venmoEnvironmentString),
-            URLQueryItem(name: "fundingSource", value: "venmo"),
-            URLQueryItem(name: "orderID", value: request.orderID),
-            URLQueryItem(name: "pageUrl", value: returnURL),
-            URLQueryItem(name: "sessionUID", value: UUID().uuidString)
-        ]
-
-        return components?.url
     }
 
     @MainActor

@@ -261,4 +261,91 @@ class VenmoClient_Tests: XCTestCase {
         let nsError = NSError(domain: "test", code: 0)
         XCTAssertFalse(VenmoError.isCheckoutCanceled(nsError))
     }
+
+    // MARK: - buildCheckoutURL Tests (Direct API URL contract)
+
+    func testBuildCheckoutURL_sandbox_hasCorrectHost() throws {
+        let sandboxConfig = CoreConfig(clientID: "testClientID", environment: .sandbox)
+        let client = VenmoClient(
+            config: sandboxConfig,
+            clientConfigAPI: mockClientConfigAPI,
+            fundingEligibilityAPI: mockFundingEligibilityAPI
+        )
+
+        let url = try client.buildCheckoutURL(orderID: "ORDER-123")
+        XCTAssertEqual(url.host, "account.qa.venmo.com")
+    }
+
+    func testBuildCheckoutURL_live_hasCorrectHost() throws {
+        let liveConfig = CoreConfig(clientID: "testClientID", environment: .live)
+        let liveNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: liveConfig))
+        let liveClientConfigAPI = MockClientConfigAPI(coreConfig: liveConfig, networkingClient: liveNetworkingClient)
+        let liveFundingEligibilityAPI = MockGetFundingEligibilityAPI(coreConfig: liveConfig)
+        let client = VenmoClient(
+            config: liveConfig,
+            clientConfigAPI: liveClientConfigAPI,
+            fundingEligibilityAPI: liveFundingEligibilityAPI
+        )
+
+        let url = try client.buildCheckoutURL(orderID: "ORDER-123")
+        XCTAssertEqual(url.host, "account.venmo.com")
+    }
+
+    func testBuildCheckoutURL_hasCorrectPath() throws {
+        let url = try venmoClient.buildCheckoutURL(orderID: "ORDER-123")
+        XCTAssertEqual(url.path, "/go/web/paypal")
+    }
+
+    func testBuildCheckoutURL_hasTokenParam() throws {
+        let url = try venmoClient.buildCheckoutURL(orderID: "ORDER-ABC")
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        let tokenItem = components?.queryItems?.first { $0.name == "token" }
+
+        XCTAssertNotNil(tokenItem)
+        XCTAssertEqual(tokenItem?.value, "ORDER-ABC")
+    }
+
+    func testBuildCheckoutURL_doesNotHaveOrderIDParam() throws {
+        let url = try venmoClient.buildCheckoutURL(orderID: "ORDER-ABC")
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        let orderIDItem = components?.queryItems?.first { $0.name == "orderID" }
+
+        XCTAssertNil(orderIDItem)
+    }
+
+    func testBuildCheckoutURL_hasReturnFlowAUTO() throws {
+        let url = try venmoClient.buildCheckoutURL(orderID: "ORDER-123")
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        let returnFlowItem = components?.queryItems?.first { $0.name == "return_flow" }
+
+        XCTAssertNotNil(returnFlowItem)
+        XCTAssertEqual(returnFlowItem?.value, "AUTO")
+    }
+
+    func testBuildCheckoutURL_hasExactlyTwoQueryParams() throws {
+        let url = try venmoClient.buildCheckoutURL(orderID: "ORDER-123")
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+
+        XCTAssertEqual(components?.queryItems?.count, 2)
+    }
+
+    func testBuildCheckoutURL_sandbox_fullURL() throws {
+        let url = try venmoClient.buildCheckoutURL(orderID: "MY-ORDER")
+        XCTAssertEqual(url.absoluteString, "https://account.qa.venmo.com/go/web/paypal?token=MY-ORDER&return_flow=AUTO")
+    }
+
+    func testBuildCheckoutURL_live_fullURL() throws {
+        let liveConfig = CoreConfig(clientID: "testClientID", environment: .live)
+        let liveNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: liveConfig))
+        let liveClientConfigAPI = MockClientConfigAPI(coreConfig: liveConfig, networkingClient: liveNetworkingClient)
+        let liveFundingEligibilityAPI = MockGetFundingEligibilityAPI(coreConfig: liveConfig)
+        let client = VenmoClient(
+            config: liveConfig,
+            clientConfigAPI: liveClientConfigAPI,
+            fundingEligibilityAPI: liveFundingEligibilityAPI
+        )
+
+        let url = try client.buildCheckoutURL(orderID: "MY-ORDER")
+        XCTAssertEqual(url.absoluteString, "https://account.venmo.com/go/web/paypal?token=MY-ORDER&return_flow=AUTO")
+    }
 }
