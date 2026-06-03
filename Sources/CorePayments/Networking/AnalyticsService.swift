@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 /// Constructs `AnalyticsEventData` models and sends FPTI analytics events.
 @_documentation(visibility: private)
@@ -49,14 +49,47 @@ public struct AnalyticsService {
         }
     }
 
+    /// Sends an analytics event and requests additional runtime if the app enters the background before
+    /// the network request completes. Delivery is best-effort and not guaranteed.
+    public func sendEventWithBackgroundProtection(
+        _ name: String,
+        correlationID: String? = nil,
+        buttonType: String? = nil
+    ) {
+        Task { @MainActor in
+            var bgTaskID: UIBackgroundTaskIdentifier = .invalid
+            var eventTask: Task<Void, Never>?
+
+            func endBackgroundTaskIfNeeded() {
+                guard bgTaskID != .invalid else { return }
+                UIApplication.shared.endBackgroundTask(bgTaskID)
+                bgTaskID = .invalid
+            }
+
+            bgTaskID = UIApplication.shared.beginBackgroundTask(withName: "fpti-event") {
+                eventTask?.cancel()
+                endBackgroundTaskIfNeeded()
+            }
+
+            eventTask = Task(priority: .utility) {
+                await performEventRequest(name, correlationID: correlationID, buttonType: buttonType)
+            }
+
+            await eventTask?.value
+            endBackgroundTaskIfNeeded()
+        }
+    }
+
     // MARK: - Internal Methods
-    
+
     /// Exposed to be able to execute this function synchronously in unit tests
     /// - Parameters:
     ///   - name: Event name string used to identify this unique event in FPTI
     ///   - correlationID: correlation ID associated with the request
     ///   - buttonType: The type of button
     func performEventRequest(_ name: String, correlationID: String? = nil, buttonType: String? = nil) async {
+        guard !Task.isCancelled else { return }
+
         do {
             let clientID = coreConfig.clientID
             
@@ -72,6 +105,9 @@ public struct AnalyticsService {
             
             let (_) = try await trackingEventsAPI.sendEvent(with: eventData)
         } catch {
+            if Task.isCancelled || error is CancellationError {
+                return
+            }
             NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription)
         }
     }

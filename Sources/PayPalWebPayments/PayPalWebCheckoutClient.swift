@@ -194,7 +194,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
             if opened {
                 // TODO: align with android on app switch event names, communicate with analytics team on new events
-                analyticsService?.sendEvent("paypal-web-payments:checkout:app-switch-open:succeeded")
+                analyticsService?.sendEventWithBackgroundProtection("paypal-web-payments:checkout:app-switch-open:succeeded")
                 return .launched
             } else {
                 analyticsService?.sendEvent("paypal-web-payments:checkout:app-switch-open:failed")
