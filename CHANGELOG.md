@@ -1,6 +1,13 @@
 
 # PayPal iOS SDK Release Notes
 
+## UNRELEASED
+
+* CorePayments
+  * Add `sendEventWithBackgroundProtection(_:correlationID:buttonType:)` to `AnalyticsService` to request additional runtime via `beginBackgroundTask` when sending analytics during app backgrounding
+* PayPalWebPayments
+  * Use background-protected analytics delivery for the App Switch open success event to improve delivery when the merchant app transitions to the background
+
 ## 2.0.1 (2025-11-03)
 
 * PayPalWebPayments
