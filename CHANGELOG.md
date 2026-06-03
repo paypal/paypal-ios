@@ -1,6 +1,11 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+
+* CorePayments
+  * Add `options` parameter to `URLOpener openURL()` method
+
 ## 2.0.1 (2025-11-03)
 
 * PayPalWebPayments
