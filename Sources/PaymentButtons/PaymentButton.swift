@@ -24,11 +24,8 @@ public class PaymentButton: UIButton {
     static let bundle = Bundle(for: PaymentButton.self)
     #endif
 
-    // Use an empty config and default to live environment for button analytics
-    private let analyticsService = AnalyticsService(
-        coreConfig: .init(clientID: "N/A", environment: .live),
-        orderID: "N/A"
-    )
+    // Defer AnalyticsService creation until a real CoreConfig and orderID are available
+    private var analyticsService: AnalyticsService?
 
     // MARK: - Init
 
@@ -46,7 +43,7 @@ public class PaymentButton: UIButton {
         self.size = size
         self.insets = insets
         self.label = label
-        self.analyticsService.sendEvent("payment-button:initialized", buttonType: fundingSource.rawValue)
+        self.analyticsService?.sendEvent("payment-button:initialized", buttonType: fundingSource.rawValue)
         super.init(frame: .zero)
         UIFont.registerFont()
         customizeAppearance()
@@ -174,7 +171,7 @@ public class PaymentButton: UIButton {
     // MARK: - Private
 
     @objc private func onTap() {
-        analyticsService.sendEvent("payment-button:tapped", buttonType: fundingSource.rawValue)
+        analyticsService?.sendEvent("payment-button:tapped", buttonType: fundingSource.rawValue)
     }
 
     // MARK: - Configuration
