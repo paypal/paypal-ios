@@ -11,4 +11,8 @@ public enum PayPalCoreConstants {
     public static let callbackURLScheme: String = "sdk.ios.paypal"
     
     public static let integrationArtifact: String = "MOBILE_SDK"
+    
+    public static let osType = "IOS"
+    
+    static let integrationChannel = "PPCP_NATIVE_SDK"
 }
