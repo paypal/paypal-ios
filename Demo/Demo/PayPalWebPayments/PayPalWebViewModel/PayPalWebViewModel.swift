@@ -12,7 +12,7 @@ class PayPalWebViewModel: ObservableObject {
     @Published var checkoutResult: PayPalWebCheckoutResult?
     @Published var appSwitch = false
 
-    let appSwitchURL = "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
+    let appSwitchURL = Environment.sandbox.baseURL
 
     var payPalWebCheckoutClient: PayPalWebCheckoutClient?
 
@@ -28,7 +28,7 @@ class PayPalWebViewModel: ObservableObject {
     /// S3: PayPal vault (no app-switch)  -> attributes.vault + experienceContext
     /// S4: PayPal vault + app-switch     -> attributes.vault + experienceContext.appSwitchContext
     func createOrder(shouldVault: Bool) async throws {
-        let amountRequest = Amount(currencyCode: "USD", value: "10.00")
+        let amountRequest = Amount.defaultAmount
 
         var paymentSource: OrderPaymentSource?
 
@@ -40,7 +40,7 @@ class PayPalWebViewModel: ObservableObject {
             )
 
             let attributes: Attributes? = shouldVault
-            ? Attributes(vault: Vault(storeInVault: "ON_SUCCESS", usageType: "MERCHANT", customerType: "CONSUMER"))
+            ? Attributes(vault: Vault.defaultVault)
             : nil
 
             let paypal = PayPalSource(attributes: attributes, experienceContext: experience)
