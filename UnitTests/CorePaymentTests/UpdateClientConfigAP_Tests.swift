@@ -50,7 +50,7 @@ class UpdateClientConfigAPI_Tests: XCTestCase {
 
         let variables = mockNetworkingClient.capturedGraphQLRequest?.variables as! UpdateClientConfigVariables
         XCTAssertEqual(variables.token, "testID")
-        XCTAssertEqual(variables.integrationArtifact, "MOBILE_SDK")
+        XCTAssertEqual(variables.integrationArtifact, PayPalCoreConstants.integrationArtifact)
         XCTAssertEqual(variables.userExperienceFlow, "INCONTEXT")
         XCTAssertEqual(variables.productFlow, "HERMES")
         XCTAssertEqual(variables.channel, "MOBILE_APP")

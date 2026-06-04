@@ -83,7 +83,7 @@ public class PatchCCOWithAppSwitchEligibility {
             merchantOptInForAppSwitch: true,
             token: token,
             tokenType: tokenType,
-            integrationArtifact: "MOBILE_SDK",
+            integrationArtifact: PayPalCoreConstants.integrationArtifact,
             paypalNativeAppInstalled: paypalNativeAppInstalled
         )
 

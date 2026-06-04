@@ -116,7 +116,7 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
         XCTAssertTrue(vars.merchantOptInForAppSwitch)
         XCTAssertEqual(vars.token, token)
         XCTAssertEqual(vars.tokenType, tokenType)
-        XCTAssertEqual(vars.integrationArtifact, "MOBILE_SDK")
+        XCTAssertEqual(vars.integrationArtifact, PayPalCoreConstants.integrationArtifact)
         XCTAssertEqual(vars.paypalNativeAppInstalled, true)
 
         XCTAssertEqual(mockNetworkingClient.capturedClientContext, token)

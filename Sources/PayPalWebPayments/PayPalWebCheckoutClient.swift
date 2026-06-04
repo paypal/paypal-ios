@@ -261,7 +261,7 @@ public class PayPalWebCheckoutClient: NSObject {
         var vaultURLComponents = URLComponents(url: vaultURL, resolvingAgainstBaseURL: false)
         let queryItems = [
             URLQueryItem(name: "approval_session_id", value: vaultRequest.setupTokenID),
-            URLQueryItem(name: "integration_artifact", value: "MOBILE_SDK")
+            URLQueryItem(name: "integration_artifact", value: PayPalCoreConstants.integrationArtifact)
         ]
         vaultURLComponents?.queryItems = queryItems
 
