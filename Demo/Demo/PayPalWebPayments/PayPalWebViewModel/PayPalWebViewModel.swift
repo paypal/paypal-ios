@@ -16,6 +16,8 @@ class PayPalWebViewModel: ObservableObject {
 
     var payPalWebCheckoutClient: PayPalWebCheckoutClient?
 
+    @Published var coreConfig: CoreConfig?
+
     var orderID: String? {
         order?.id
     }
@@ -64,6 +66,7 @@ class PayPalWebViewModel: ObservableObject {
                 self.order = order
                 self.state.createdOrderResponse = .loaded(order)
             }
+            coreConfig = try? await configManager.getCoreConfig()
             print("✅ fetched orderID: \(order.id) with status: \(order.status)")
         } catch {
             DispatchQueue.main.async {
@@ -121,6 +124,7 @@ class PayPalWebViewModel: ObservableObject {
     func getPayPalClient() async throws -> PayPalWebCheckoutClient? {
         do {
             let config = try await configManager.getCoreConfig()
+            coreConfig = config
             let payPalClient = PayPalWebCheckoutClient(config: config)
             payPalDataCollector = PayPalDataCollector(config: config)
             return payPalClient
@@ -188,6 +192,7 @@ class PayPalWebViewModel: ObservableObject {
         self.state = PayPalPaymentState()
         order = nil
         checkoutResult = nil
+        coreConfig = nil
     }
 
     // for testing until singleton router class is implemented

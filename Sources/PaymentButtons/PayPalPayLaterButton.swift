@@ -1,3 +1,4 @@
+import CorePayments
 import UIKit
 import SwiftUI
 
@@ -48,7 +49,9 @@ public extension PayPalPayLaterButton {
         
         private let button: PayPalPayLaterButton
         private var action: () -> Void = { }
-        
+        private let coreConfig: CoreConfig?
+        private let orderID: String?
+
         /// Initialize a PayPalPayLaterButton
         /// - Parameters:
         ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
@@ -60,6 +63,8 @@ public extension PayPalPayLaterButton {
             color: PayPalPayLaterButton.Color = .gold,
             edges: PaymentButtonEdges = .softEdges,
             size: PaymentButtonSize = .collapsed,
+            coreConfig: CoreConfig? = nil,
+            orderID: String? = nil,
             _ action: @escaping () -> Void = { }
         ) {
             self.button = PayPalPayLaterButton(
@@ -70,6 +75,8 @@ public extension PayPalPayLaterButton {
                 insets: insets,
                 label: .payLater
             )
+            self.coreConfig = coreConfig
+            self.orderID = orderID
             self.action = action
         }
 
@@ -82,11 +89,17 @@ public extension PayPalPayLaterButton {
 
         public func makeUIView(context: Context) -> PaymentButton {
             button.addTarget(context.coordinator, action: #selector(Coordinator.onAction(_:)), for: .touchUpInside)
+            if let coreConfig {
+                button.configure(coreConfig: coreConfig, orderID: orderID)
+            }
             return button
         }
 
         public func updateUIView(_ uiView: PaymentButton, context: Context) {
             context.coordinator.action = action
+            if let coreConfig {
+                uiView.configure(coreConfig: coreConfig, orderID: orderID)
+            }
         }
     }
 }

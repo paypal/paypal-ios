@@ -12,7 +12,7 @@ public struct AnalyticsService {
     private let setupToken: String?
     // MARK: - Initializer
     
-    public init(coreConfig: CoreConfig, orderID: String) {
+    public init(coreConfig: CoreConfig, orderID: String?) {
         self.coreConfig = coreConfig
         self.trackingEventsAPI = TrackingEventsAPI(coreConfig: coreConfig)
         self.orderID = orderID

@@ -24,8 +24,8 @@ public class PaymentButton: UIButton {
     static let bundle = Bundle(for: PaymentButton.self)
     #endif
 
-    // Defer AnalyticsService creation until a real CoreConfig and orderID are available
     private var analyticsService: AnalyticsService?
+    private var didConfigureAnalytics = false
 
     // MARK: - Init
 
@@ -43,7 +43,6 @@ public class PaymentButton: UIButton {
         self.size = size
         self.insets = insets
         self.label = label
-        self.analyticsService?.sendEvent("payment-button:initialized", buttonType: fundingSource.rawValue)
         super.init(frame: .zero)
         UIFont.registerFont()
         customizeAppearance()
@@ -120,6 +119,18 @@ public class PaymentButton: UIButton {
 
     /// The label displayed next to the button's logo.
     public private(set) var label: PaymentButtonLabel?
+
+    /// Configures the button's analytics once a `CoreConfig` is available.
+    /// Only the first call has an effect, guaranteeing `payment-button:initialized` is sent at most once.
+    /// - Parameters:
+    ///   - coreConfig: SDK configuration used for checkout.
+    ///   - orderID: PayPal order ID associated with this button session, if available.
+    public func configure(coreConfig: CoreConfig, orderID: String?) {
+        guard !didConfigureAnalytics else { return }
+        didConfigureAnalytics = true
+        analyticsService = AnalyticsService(coreConfig: coreConfig, orderID: orderID)
+        analyticsService?.sendEvent("payment-button:initialized", buttonType: fundingSource.rawValue)
+    }
 
     private var imageHeight: CGFloat {
         // For pay later or paypal credit return different image height

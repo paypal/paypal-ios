@@ -27,15 +27,31 @@ struct PayPalWebButtonsView: View {
                 ZStack {
                     switch selectedFundingSource {
                     case .paypalCredit:
-                        PayPalCreditButton.Representable(color: .black, size: .full) {
+                        PayPalCreditButton.Representable(
+                            color: .black,
+                            size: .full,
+                            coreConfig: payPalWebViewModel.coreConfig,
+                            orderID: payPalWebViewModel.orderID
+                        ) {
                             payPalWebViewModel.paymentButtonTapped(funding: .paypalCredit)
                         }
                     case .paylater:
-                        PayPalPayLaterButton.Representable(color: .silver, edges: .softEdges, size: .full) {
+                        PayPalPayLaterButton.Representable(
+                            color: .silver,
+                            edges: .softEdges,
+                            size: .full,
+                            coreConfig: payPalWebViewModel.coreConfig,
+                            orderID: payPalWebViewModel.orderID
+                        ) {
                             payPalWebViewModel.paymentButtonTapped(funding: .paylater)
                         }
                     case .paypal:
-                        PayPalButton.Representable(color: .blue, size: .full) {
+                        PayPalButton.Representable(
+                            color: .blue,
+                            size: .full,
+                            coreConfig: payPalWebViewModel.coreConfig,
+                            orderID: payPalWebViewModel.orderID
+                        ) {
                             payPalWebViewModel.paymentButtonTapped(funding: .paypal)
                         }
                     }

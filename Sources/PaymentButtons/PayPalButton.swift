@@ -1,3 +1,4 @@
+import CorePayments
 import UIKit
 import SwiftUI
 
@@ -71,7 +72,9 @@ public extension PayPalButton {
         private var action: () -> Void = { }
     
         private let button: PayPalButton
-        
+        private let coreConfig: CoreConfig?
+        private let orderID: String?
+
         /// Initialize a PayPalButton
         /// - Parameters:
         ///   - insets: Edge insets of the button, defining the spacing of the button's edges relative to its content.
@@ -79,12 +82,16 @@ public extension PayPalButton {
         ///   - edges: Edges of the button. Default to softEdges if not provided.
         ///   - size: Size of the button. Default to collapsed if not provided.
         ///   - label: Label displayed next to the button's logo. Default to no label.
+        ///   - coreConfig: SDK configuration used to initialize button analytics. Omit if unavailable.
+        ///   - orderID: Order ID associated with this button session, if available.
         public init(
             insets: NSDirectionalEdgeInsets? = nil,
             color: PayPalButton.Color = .gold,
             edges: PaymentButtonEdges = .softEdges,
             size: PaymentButtonSize = .collapsed,
             label: PayPalButton.Label? = nil,
+            coreConfig: CoreConfig? = nil,
+            orderID: String? = nil,
             _ action: @escaping () -> Void = { }
         ) {
             button = PayPalButton(
@@ -95,6 +102,8 @@ public extension PayPalButton {
                 insets: insets,
                 label: label?.label
             )
+            self.coreConfig = coreConfig
+            self.orderID = orderID
             self.action = action
         }
        
@@ -107,11 +116,17 @@ public extension PayPalButton {
 
         public func makeUIView(context: Context) -> PaymentButton {
             button.addTarget(context.coordinator, action: #selector(Coordinator.onAction(_:)), for: .touchUpInside)
+            if let coreConfig {
+                button.configure(coreConfig: coreConfig, orderID: orderID)
+            }
             return button
         }
 
         public func updateUIView(_ uiView: PaymentButton, context: Context) {
             context.coordinator.action = action
+            if let coreConfig {
+                uiView.configure(coreConfig: coreConfig, orderID: orderID)
+            }
         }
     }
 }
