@@ -4,6 +4,11 @@ import AuthenticationServices
 import CorePayments
 #endif
 
+enum PayPalCheckoutCallbackURL {
+    static let path = "x-callback-url/paypal-sdk/paypal-checkout"
+    static let redirectURL = "\(PayPalCoreConstants.callbackURLScheme)://\(path)"
+}
+
 // swiftlint: disable type_body_length file_length
 public class PayPalWebCheckoutClient: NSObject {
     
@@ -231,8 +236,7 @@ public class PayPalWebCheckoutClient: NSObject {
     }
 
     func payPalCheckoutReturnURL(payPalCheckoutURL: URL) -> URL? {
-        let bundleID = PayPalCoreConstants.callbackURLScheme
-        let redirectURLString = "\(bundleID)://x-callback-url/paypal-sdk/paypal-checkout"
+        let redirectURLString = PayPalCheckoutCallbackURL.redirectURL
         let redirectQueryItem = URLQueryItem(name: "redirect_uri", value: redirectURLString)
         let nativeXOQueryItem = URLQueryItem(name: "native_xo", value: "1")
 
