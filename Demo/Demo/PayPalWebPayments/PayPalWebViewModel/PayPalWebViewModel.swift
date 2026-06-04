@@ -66,7 +66,7 @@ class PayPalWebViewModel: ObservableObject {
                 self.order = order
                 self.state.createdOrderResponse = .loaded(order)
             }
-            coreConfig = try? await configManager.getCoreConfig()
+            coreConfig = try? await resolvedCoreConfig()
             print("✅ fetched orderID: \(order.id) with status: \(order.status)")
         } catch {
             DispatchQueue.main.async {
@@ -121,10 +121,19 @@ class PayPalWebViewModel: ObservableObject {
         }
     }
 
+    /// Returns the cached `CoreConfig` if available, otherwise fetches it once and caches it.
+    func resolvedCoreConfig() async throws -> CoreConfig {
+        if let coreConfig {
+            return coreConfig
+        }
+        let config = try await configManager.getCoreConfig()
+        coreConfig = config
+        return config
+    }
+
     func getPayPalClient() async throws -> PayPalWebCheckoutClient? {
         do {
-            let config = try await configManager.getCoreConfig()
-            coreConfig = config
+            let config = try await resolvedCoreConfig()
             let payPalClient = PayPalWebCheckoutClient(config: config)
             payPalDataCollector = PayPalDataCollector(config: config)
             return payPalClient
