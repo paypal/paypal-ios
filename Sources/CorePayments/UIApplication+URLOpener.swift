@@ -4,33 +4,27 @@ import UIKit
 public protocol URLOpener {
     func open(
         _ url: URL,
-        options: [UIApplication.OpenExternalURLOptionsKey: Any],
+        universalLinksOnly: Bool,
         completionHandler completion: ((Bool) -> Void)?
     )
     func isPayPalAppInstalled() -> Bool
 }
 
-@_documentation(visibility: private)
-internal struct DefaultURLOpener: URLOpener {
-
-    private let application: UIApplication
-
-    public init(application: UIApplication = .shared) {
-        self.application = application
-    }
-
-    public func open(
-        _ url: URL,
-        options: [UIApplication.OpenExternalURLOptionsKey: Any],
-        completionHandler completion: ((Bool) -> Void)?
-    ) {
-        application.open(url, options: options, completionHandler: completion)
-    }
+extension UIApplication: URLOpener {
 
     public func isPayPalAppInstalled() -> Bool {
         guard let payPalURL = URL(string: "paypal://") else {
             return false
         }
-        return application.canOpenURL(payPalURL)
+        return canOpenURL(payPalURL)
+    }
+
+    public func open(
+        _ url: URL,
+        universalLinksOnly: Bool,
+        completionHandler completion: ((Bool) -> Void)?
+    ) {
+        let options: [UIApplication.OpenExternalURLOptionsKey: Any] = universalLinksOnly ? [.universalLinksOnly: true] : [:]
+        open(url, options: options, completionHandler: completion)
     }
 }

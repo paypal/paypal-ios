@@ -14,7 +14,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
     var appSwitchCompletion: ((Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void)?
     var vaultAppSwitchCompletion: ((Result<PayPalVaultResult, CoreSDKError>) -> Void)?
-    var urlOpener: URLOpener = DefaultURLOpener()
+    var urlOpener: URLOpener = UIApplication.shared
 
     private let clientConfigAPI: UpdateClientConfigAPI
     private let webAuthenticationSession: WebAuthenticationSession
@@ -398,7 +398,7 @@ public class PayPalWebCheckoutClient: NSObject {
     @MainActor
     private func openURLAppSwitchOnly(_ url: URL) async -> Bool {
         await withCheckedContinuation { continuation in
-            urlOpener.open(url, options: [.universalLinksOnly: true]) { success in
+            urlOpener.open(url, universalLinksOnly: true) { success in
                 continuation.resume(returning: success)
             }
         }
