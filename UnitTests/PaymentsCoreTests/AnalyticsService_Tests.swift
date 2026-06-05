@@ -47,6 +47,19 @@ class AnalyticsService_Tests: XCTestCase {
         
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.environment, "sandbox")
     }
+
+    func testSendEvent_whenOrderIDIsNil_sendsNilOrderID() async {
+        let sut = AnalyticsService(
+            coreConfig: coreConfig,
+            orderID: nil,
+            trackingEventsAPI: mockTrackingEventsAPI
+        )
+
+        await sut.performEventRequest("some-event")
+
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.eventName, "some-event")
+        XCTAssertNil(mockTrackingEventsAPI.capturedAnalyticsEventData?.orderID)
+    }
     
     func testSendEvent_whenAPIRequestFails_logsErrorToConsole() {
         // We currently have no way to validate our console logging
