@@ -11,7 +11,7 @@ public protocol URLOpener {
 }
 
 @_documentation(visibility: private)
-public struct DefaultURLOpener: URLOpener {
+internal struct DefaultURLOpener: URLOpener {
 
     private let application: UIApplication
 
