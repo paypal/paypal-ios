@@ -1,6 +1,14 @@
 
 # PayPal iOS SDK Release Notes
 
+## Unreleased
+
+* PaymentButtons
+  * Add `configure(coreConfig:orderID:)` to `PaymentButton` to initialize button analytics with a real `CoreConfig` and optional `orderID`, replacing the placeholder configuration
+  * Add optional `coreConfig` and `orderID` parameters to the SwiftUI `Representable` initializers for `PayPalButton`, `PayPalCreditButton`, and `PayPalPayLaterButton`
+* CorePayments
+  * Update `AnalyticsService.init(coreConfig:orderID:)` to accept an optional `orderID`
+
 ## 2.0.1 (2025-11-03)
 
 * PayPalWebPayments
