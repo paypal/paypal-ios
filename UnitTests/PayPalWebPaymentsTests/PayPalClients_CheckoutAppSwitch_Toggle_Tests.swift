@@ -33,7 +33,7 @@ class PayPalClient_CheckoutAppSwitch_Toggle_tests: XCTestCase {
             patchCCOAPI: mockPatchCCOAPI,
             webAuthenticationSession: mockWebAuthenticationSession
         )
-        payPalClient.application = mockURLOpener
+        payPalClient.urlOpener = mockURLOpener
     }
 
     func test_AppSwitchIfEligible_IsFalseByDefault() {
