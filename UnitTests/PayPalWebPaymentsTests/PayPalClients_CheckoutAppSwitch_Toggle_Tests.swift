@@ -124,6 +124,32 @@ class PayPalClient_CheckoutAppSwitch_Toggle_tests: XCTestCase {
         await fulfillment(of: [expectation], timeout: 1.0)
     }
 
+    func test_AppSwitch_Eligible_OpensURLWithUniversalLinksOnly() async throws {
+        mockURLOpener.mockIsPayPalAppInstalled = true
+
+        let request = PayPalWebCheckoutRequest(orderID: "test-order-id", appSwitchIfEligible: true)
+
+        let eligibleResponse = AppSwitchEligibility(
+            appSwitchEligible: true,
+            redirectURL: "https://www.sandbox.paypal.com/app-switch-checkout?appSwitchEligible=true&token=test-order-id&tokenType=ORDER_ID",
+            ineligibleReason: nil
+        )
+        mockPatchCCOAPI.stubEligibilityResponse = eligibleResponse
+        mockURLOpener.mockOpenURLSuccess = true
+
+        let urlOpenedExpectation = XCTestExpectation(description: "URL opened")
+        mockURLOpener.didOpenURLHandler = {
+            urlOpenedExpectation.fulfill()
+        }
+
+        payPalClient.start(request: request) { _ in }
+
+        await fulfillment(of: [urlOpenedExpectation], timeout: 1.0)
+
+        XCTAssertNotNil(mockURLOpener.lastOpenedURL)
+        XCTAssertEqual(mockURLOpener.lastUniversalLinksOnly, true)
+    }
+
     func test_AppSwitch_Failure_Invokes_WebFlow() async throws {
         mockURLOpener.mockIsPayPalAppInstalled = true
 

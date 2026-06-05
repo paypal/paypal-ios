@@ -1,4 +1,4 @@
-import UIKit
+import Foundation
 @testable import CorePayments
 
 class MockURLOpener: URLOpener {
@@ -6,6 +6,7 @@ class MockURLOpener: URLOpener {
     var mockIsPayPalAppInstalled = false
     var mockOpenURLSuccess = true
     var lastOpenedURL: URL?
+    var lastUniversalLinksOnly: Bool?
 
     var didOpenURLHandler: (() -> Void)?
 
@@ -15,6 +16,7 @@ class MockURLOpener: URLOpener {
 
     func open(_ url: URL, universalLinksOnly: Bool, completionHandler completion: ((Bool) -> Void)?) {
         lastOpenedURL = url
+        lastUniversalLinksOnly = universalLinksOnly
         completion?(mockOpenURLSuccess)
         didOpenURLHandler?()
     }
