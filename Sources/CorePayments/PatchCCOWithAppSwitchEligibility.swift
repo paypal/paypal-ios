@@ -1,11 +1,5 @@
 import Foundation
 
-@_documentation(visibility: private)
-public enum TokenType: String {
-    case orderId = "ORDER_ID"
-    case clientToken = "CLIENT_TOKEN"
-}
-
 /// This class coordinates networking logic for communicating with the /graphql API for patching CCO with app switch eligibility.
 @_documentation(visibility: private)
 public class PatchCCOWithAppSwitchEligibility {
