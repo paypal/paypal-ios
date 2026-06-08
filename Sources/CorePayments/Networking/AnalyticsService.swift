@@ -29,10 +29,10 @@ public struct AnalyticsService {
     // MARK: - Internal Initializer
 
     /// Exposed for testing
-    init(coreConfig: CoreConfig, orderID: String?, trackingEventsAPI: TrackingEventsAPI) {
+    init(coreConfig: CoreConfig, trackingEventsAPI: TrackingEventsAPI) {
         self.coreConfig = coreConfig
         self.trackingEventsAPI = trackingEventsAPI
-        self.orderID = orderID
+        self.orderID = nil
         self.setupToken = nil
     }
     

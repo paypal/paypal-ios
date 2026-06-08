@@ -16,7 +16,7 @@ class AnalyticsService_Tests: XCTestCase {
         super.setUp()
                 
         mockTrackingEventsAPI = MockTrackingEventsAPI(coreConfig: coreConfig)
-        sut = AnalyticsService(coreConfig: coreConfig, orderID: "some-order-id", trackingEventsAPI: mockTrackingEventsAPI)
+        sut = AnalyticsService(coreConfig: coreConfig, trackingEventsAPI: mockTrackingEventsAPI)
     }
 
     // MARK: - sendEvent()
@@ -26,14 +26,12 @@ class AnalyticsService_Tests: XCTestCase {
 
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.eventName, "some-event")
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.clientID, "some-client-id")
-        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.orderID, "some-order-id")
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.correlationID, "fake-correlation-id")
     }
     
     func testSendEvent_whenLive_sendsAppropriateEnvName() async {
         let sut = AnalyticsService(
             coreConfig: CoreConfig(clientID: "some-client-id", environment: .live),
-            orderID: "some-order-id",
             trackingEventsAPI: mockTrackingEventsAPI
         )
         
@@ -51,7 +49,6 @@ class AnalyticsService_Tests: XCTestCase {
     func testSendEvent_whenOrderIDIsNil_sendsNilOrderID() async {
         let sut = AnalyticsService(
             coreConfig: coreConfig,
-            orderID: nil,
             trackingEventsAPI: mockTrackingEventsAPI
         )
 
