@@ -74,7 +74,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
         Task {
             if request.appSwitchIfEligible && appInstalled {
-                switch await attemptAppSwitchIfEligible(request: request, paypalNativeAppInstalled: appInstalled, completionOnce: completionOnce) {
+                switch await attemptAppSwitchIfEligible(request: request, completionOnce: completionOnce) {
                 case .launched:
                     // Do nothing here. We will complete when handleReturnURL is invoked.
                     return
@@ -176,14 +176,12 @@ public class PayPalWebCheckoutClient: NSObject {
 
     private func attemptAppSwitchIfEligible(
         request: PayPalWebCheckoutRequest,
-        paypalNativeAppInstalled: Bool,
         completionOnce: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
     ) async -> AppSwitchAttempt {
         do {
             let eligibility = try await patchCCOAPI.patchCCOWithAppSwitchEligibility(
                 token: request.orderID,
-                tokenType: TokenType.orderId,
-                paypalNativeAppInstalled: paypalNativeAppInstalled
+                tokenType: TokenType.orderId
             )
 
             guard eligibility.appSwitchEligible == true,

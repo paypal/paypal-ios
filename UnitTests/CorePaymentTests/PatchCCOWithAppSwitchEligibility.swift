@@ -93,7 +93,7 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
         """
 
         mockNetworkingClient.stubHTTPResponse = HTTPResponse(status: 200, body: successJSON.data(using: .utf8))
-        let result = try await sut.patchCCOWithAppSwitchEligibility(token: token, tokenType: tokenType, paypalNativeAppInstalled: true)
+        let result = try await sut.patchCCOWithAppSwitchEligibility(token: token, tokenType: tokenType)
         XCTAssertEqual(result.appSwitchEligible, true)
         XCTAssertEqual(result.redirectURL, "paypal://app-switch")
         XCTAssertNil(result.ineligibleReason)
@@ -128,7 +128,7 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
         mockNetworkingClient.stubHTTPError = CoreSDKError(code: 999, domain: "networking", errorDescription: "boom")
 
         do {
-            _ = try await sut.patchCCOWithAppSwitchEligibility(token: "t", tokenType: TokenType.clientToken, paypalNativeAppInstalled: true)
+            _ = try await sut.patchCCOWithAppSwitchEligibility(token: "t", tokenType: TokenType.clientToken)
             XCTFail("Expected error")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, "networking")
@@ -143,7 +143,7 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
         mockAuthSTS.stubbedError = CoreSDKError(code: 401, domain: "auth", errorDescription: "unauthorized")
 
         do {
-            _ = try await sut.patchCCOWithAppSwitchEligibility(token: "t", tokenType: TokenType.clientToken, paypalNativeAppInstalled: true)
+            _ = try await sut.patchCCOWithAppSwitchEligibility(token: "t", tokenType: TokenType.clientToken)
             XCTFail("Expected auth error")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, "auth")
@@ -170,7 +170,7 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
         mockNetworkingClient.stubHTTPResponse = HTTPResponse(status: 200, body: missingEligibilityJSON.data(using: .utf8))
 
         do {
-            _ = try await sut.patchCCOWithAppSwitchEligibility(token: "t", tokenType: TokenType.clientToken, paypalNativeAppInstalled: true)
+            _ = try await sut.patchCCOWithAppSwitchEligibility(token: "t", tokenType: TokenType.clientToken)
             XCTFail("Expected NetworkingError.noGraphQLDataKey")
         } catch let error as CoreSDKError {
             guard NetworkingError.noGraphQLDataKey == error else {
@@ -201,7 +201,7 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
         """
         mockNetworkingClient.stubHTTPResponse = HTTPResponse(status: 200, body: body.data(using: .utf8))
 
-        let response = try await sut.patchCCOWithAppSwitchEligibility(token: "tok", tokenType: TokenType.clientToken, paypalNativeAppInstalled: false)
+        let response = try await sut.patchCCOWithAppSwitchEligibility(token: "tok", tokenType: TokenType.clientToken)
 
         XCTAssertEqual(response.appSwitchEligible, false)
         XCTAssertNil(response.redirectURL)

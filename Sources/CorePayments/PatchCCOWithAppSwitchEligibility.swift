@@ -70,8 +70,7 @@ public class PatchCCOWithAppSwitchEligibility {
 
     public func patchCCOWithAppSwitchEligibility(
         token: String,
-        tokenType: String,
-        paypalNativeAppInstalled: Bool
+        tokenType: String
     ) async throws -> AppSwitchEligibility {
 
         let lsat = try await authenticationSecureTokenServiceAPI.createLowScopedAccessToken().accessToken
@@ -84,7 +83,7 @@ public class PatchCCOWithAppSwitchEligibility {
             token: token,
             tokenType: tokenType,
             integrationArtifact: PayPalCoreConstants.integrationArtifact,
-            paypalNativeAppInstalled: paypalNativeAppInstalled
+            paypalNativeAppInstalled: true
         )
 
         let graphQLRequest = GraphQLRequest(

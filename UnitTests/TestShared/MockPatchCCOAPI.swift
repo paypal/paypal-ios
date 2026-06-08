@@ -8,8 +8,7 @@ class MockPatchCCOAPI: PatchCCOWithAppSwitchEligibility {
 
     override func patchCCOWithAppSwitchEligibility(
         token: String,
-        tokenType: String,
-        paypalNativeAppInstalled: Bool
+        tokenType: String
     ) async throws -> AppSwitchEligibility {
 
         if let stubError {
