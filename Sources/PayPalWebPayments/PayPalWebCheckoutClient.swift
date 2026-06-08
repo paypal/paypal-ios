@@ -398,7 +398,7 @@ public class PayPalWebCheckoutClient: NSObject {
     @MainActor
     private func openURLAppSwitchOnly(_ url: URL) async -> Bool {
         await withCheckedContinuation { continuation in
-            urlOpener.open(url, universalLinksOnly: true) { success in
+            urlOpener.open(url) { success in
                 continuation.resume(returning: success)
             }
         }
