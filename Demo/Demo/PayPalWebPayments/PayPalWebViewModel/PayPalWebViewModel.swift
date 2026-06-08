@@ -5,6 +5,11 @@ import FraudProtection
 
 @MainActor
 class PayPalWebViewModel: ObservableObject {
+    
+    private enum DemoFixtures {
+        static let amount = Amount(currencyCode: "USD", value: "10.00")
+        static let vault = Vault(storeInVault: "ON_SUCCESS", usageType: "MERCHANT", customerType: "CONSUMER")
+    }
 
     @Published var state = PayPalPaymentState()
     @Published var intent: Intent = .authorize
@@ -28,7 +33,7 @@ class PayPalWebViewModel: ObservableObject {
     /// S3: PayPal vault (no app-switch)  -> attributes.vault + experienceContext
     /// S4: PayPal vault + app-switch     -> attributes.vault + experienceContext.appSwitchContext
     func createOrder(shouldVault: Bool) async throws {
-        let amountRequest = Amount.defaultAmount
+        let amountRequest = DemoFixtures.amount
 
         var paymentSource: OrderPaymentSource?
 
@@ -40,7 +45,7 @@ class PayPalWebViewModel: ObservableObject {
             )
 
             let attributes: Attributes? = shouldVault
-            ? Attributes(vault: Vault.defaultVault)
+            ? Attributes(vault: DemoFixtures.vault)
             : nil
 
             let paypal = PayPalSource(attributes: attributes, experienceContext: experience)
