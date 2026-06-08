@@ -12,7 +12,7 @@ public enum PayPalCoreConstants {
     
     public static let integrationArtifact: String = "MOBILE_SDK"
     
-    public static let osType = "IOS"
+    public static let osType: String = "IOS"
     
-    static let integrationChannel = "PPCP_NATIVE_SDK"
+    static let integrationChannel: String = "PPCP_NATIVE_SDK"
 }
