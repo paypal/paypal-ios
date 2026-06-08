@@ -1,15 +1,6 @@
 
 # PayPal iOS SDK Release Notes
 
-## Unreleased
-
-* CorePayments
-  * Update `PatchCCOWithAppSwitchEligibility.patchCCOWithAppSwitchEligibility` to accept a `paypalNativeAppInstalled` parameter so app switch eligibility reflects whether the PayPal app is actually installed instead of always sending `true`
-  * Add `TokenType` enum (`orderId`, `clientToken`) to replace hardcoded token-type string values
-  * Add `integrationArtifact`, `osType`, and `integrationChannel` constants to `PayPalCoreConstants`
-* PayPalWebPayments
-  * Replace hardcoded string literals with shared constants for the checkout redirect URL, integration artifact, and token type
-
 ## 2.0.1 (2025-11-03)
 
 * PayPalWebPayments
