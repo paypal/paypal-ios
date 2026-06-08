@@ -373,7 +373,7 @@ class PayPalClient_Tests: XCTestCase {
 
         XCTAssertEqual(
             checkoutURL,
-            URL(string: "https://sandbox.paypal.com/checkoutnow?token=1234&redirect_uri=\(PayPalCheckoutCallbackURL.redirectURL)&native_xo=1")
+            URL(string: "https://sandbox.paypal.com/checkoutnow?token=1234&redirect_uri=\(PayPalWebCheckoutClient.PayPalCheckoutCallbackURL.redirectURL)&native_xo=1")
         )
     }
 }

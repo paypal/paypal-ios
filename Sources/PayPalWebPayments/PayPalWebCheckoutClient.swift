@@ -4,14 +4,14 @@ import AuthenticationServices
 import CorePayments
 #endif
 
-enum PayPalCheckoutCallbackURL {
-    static let path = "x-callback-url/paypal-sdk/paypal-checkout"
-    static let redirectURL = "\(PayPalCoreConstants.callbackURLScheme)://\(path)"
-}
-
 // swiftlint: disable type_body_length file_length
 public class PayPalWebCheckoutClient: NSObject {
     
+    enum PayPalCheckoutCallbackURL {
+        static let path = "x-callback-url/paypal-sdk/paypal-checkout"
+        static let redirectURL = "\(PayPalCoreConstants.callbackURLScheme)://\(path)"
+    }
+
     static let serialDispatchQueue =
         DispatchQueue(label: "com.paypal.ios.PayPalWebCheckoutClient.serialDispatchQueue")
     
