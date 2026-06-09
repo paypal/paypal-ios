@@ -111,12 +111,12 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
             mockNetworkingClient.capturedGraphQLRequest?.variables as? PatchCcoWithAppSwitchEligibilityVariables
         )
         XCTAssertEqual(vars.contextId, token)
-        XCTAssertEqual(vars.experimentationContext?.integrationChannel, PayPalCoreConstants.integrationChannel)
-        XCTAssertEqual(vars.osType, PayPalCoreConstants.osType)
+        XCTAssertEqual(vars.experimentationContext?.integrationChannel, "PPCP_NATIVE_SDK")
+        XCTAssertEqual(vars.osType, "IOS")
         XCTAssertTrue(vars.merchantOptInForAppSwitch)
         XCTAssertEqual(vars.token, token)
         XCTAssertEqual(vars.tokenType, tokenType)
-        XCTAssertEqual(vars.integrationArtifact, PayPalCoreConstants.integrationArtifact)
+        XCTAssertEqual(vars.integrationArtifact, "MOBILE_SDK")
         XCTAssertEqual(vars.paypalNativeAppInstalled, true)
 
         XCTAssertEqual(mockNetworkingClient.capturedClientContext, token)

@@ -1,5 +1,3 @@
-import CorePayments
-
 struct CreateOrderParams: Encodable {
 
     var applicationContext: ApplicationContext?
@@ -64,7 +62,7 @@ struct PayPalExperienceContext: Encodable {
 struct AppSwitchContext: Encodable {
 
     let nativeApp: NativeApp
-    init(appUrl: String, osType: String = PayPalCoreConstants.osType) {
+    init(appUrl: String, osType: String = "IOS") {
         self.nativeApp = NativeApp(osType: osType, appUrl: appUrl)
     }
 }
