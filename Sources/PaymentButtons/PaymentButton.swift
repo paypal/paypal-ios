@@ -25,8 +25,7 @@ public class PaymentButton: UIButton {
     #endif
 
     private var analyticsService: AnalyticsService?
-    private var didConfigureAnalytics = false
-
+    
     // MARK: - Init
 
     required init(
@@ -126,8 +125,7 @@ public class PaymentButton: UIButton {
     ///   - coreConfig: SDK configuration used for checkout.
     ///   - orderID: PayPal order ID associated with this button session, if available.
     public func configure(coreConfig: CoreConfig, orderID: String?) {
-        guard !didConfigureAnalytics else { return }
-        didConfigureAnalytics = true
+        guard analyticsService == nil else { return }
         analyticsService = AnalyticsService(coreConfig: coreConfig, orderID: orderID)
         analyticsService?.sendEvent("payment-button:initialized", buttonType: fundingSource.rawValue)
     }
