@@ -43,15 +43,25 @@ public struct AnalyticsService {
     /// - Parameter name: Event name string used to identify this unique event in FPTI.
     /// - Parameter correlationID: correlation ID associated with the request
     /// - Parameter buttonType: The type of button
-    public func sendEvent(_ name: String, correlationID: String? = nil, buttonType: String? = nil) {
+    /// - Parameter withBackgroundProtection: When `true`, requests additional runtime if the app enters
+    ///   the background before the network request completes. Delivery is best-effort and not guaranteed.
+    public func sendEvent(
+        _ name: String,
+        correlationID: String? = nil,
+        buttonType: String? = nil,
+        withBackgroundProtection: Bool = false
+    ) {
+        guard !withBackgroundProtection else {
+            sendEventWithBackgroundProtection(name, correlationID: correlationID, buttonType: buttonType)
+            return
+        }
+
         Task(priority: .background) {
             await performEventRequest(name, correlationID: correlationID, buttonType: buttonType)
         }
     }
 
-    /// Sends an analytics event and requests additional runtime if the app enters the background before
-    /// the network request completes. Delivery is best-effort and not guaranteed.
-    public func sendEventWithBackgroundProtection(
+    private func sendEventWithBackgroundProtection(
         _ name: String,
         correlationID: String? = nil,
         buttonType: String? = nil
