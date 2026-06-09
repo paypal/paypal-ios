@@ -125,9 +125,11 @@ public class PaymentButton: UIButton {
     ///   - coreConfig: SDK configuration used for checkout.
     ///   - orderID: PayPal order ID associated with this button session, if available.
     public func configure(coreConfig: CoreConfig, orderID: String?) {
-        guard analyticsService == nil else { return }
+        let shouldSendInitializedEvent = analyticsService == nil
         analyticsService = AnalyticsService(coreConfig: coreConfig, orderID: orderID)
-        analyticsService?.sendEvent("payment-button:initialized", buttonType: fundingSource.rawValue)
+        if shouldSendInitializedEvent {
+            analyticsService?.sendEvent("payment-button:initialized", buttonType: fundingSource.rawValue)
+        }
     }
 
     private var imageHeight: CGFloat {
