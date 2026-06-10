@@ -71,7 +71,7 @@ public class PatchCCOWithAppSwitchEligibility {
     public func patchCCOWithAppSwitchEligibility(
         token: String,
         tokenType: String,
-        paypalNativeAppInstalled: Bool = true
+        canSwitchToApp paypalNativeAppInstalled: Bool = true
     ) async throws -> AppSwitchEligibility {
 
         let lsat = try await authenticationSecureTokenServiceAPI.createLowScopedAccessToken().accessToken
