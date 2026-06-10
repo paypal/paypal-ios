@@ -171,7 +171,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
     private func attemptAppSwitchIfEligible(
         request: PayPalWebCheckoutRequest,
-        paypalNativeAppInstalled: Bool,
+        paypalNativeAppInstalled: Bool = true,
         completionOnce: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
     ) async -> AppSwitchAttempt {
         do {
