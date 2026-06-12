@@ -29,6 +29,9 @@ public enum PayPalError {
 
         /// 6. Vault websession is cancelled by the user
         case vaultCanceledError
+
+        /// 7. Request used an invalid user action for the flow
+        case invalidUserActionError
     }
 
     public static let webSessionError: (Error) -> CoreSDKError = { error in
@@ -69,7 +72,13 @@ public enum PayPalError {
         errorDescription: "PayPal vault has been canceled by the user"
     )
 
-    // Helper function that allows handling of PayPal checkout cancel errors separately without having to cast the error to CoreSDKError and checking code and domain properties.
+    public static let invalidUserActionError = CoreSDKError(
+        code: Code.invalidUserActionError.rawValue,
+        domain: domain,
+        errorDescription: "PayPalUserAction.setupNow is only valid for vault flows."
+    )
+
+    // Helper function that allows handling of PayPal checkout cancel errors separately
     public static func isCheckoutCanceled(_ error: Error) -> Bool {
         guard let error = error as? CoreSDKError else {
             return false

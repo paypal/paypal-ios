@@ -8,7 +8,7 @@ class NetworkingClient_Tests: XCTestCase {
     
     var sut: NetworkingClient!
     var mockHTTP: MockHTTP!
-    var coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
+    var coreConfig = CoreConfig(clientID: "fake-client-id", merchantID: "test-merchant-id", environment: .sandbox)
     let base64EncodedFakeClientID = "ZmFrZS1jbGllbnQtaWQ6" // "fake-client-id" encoded
     let stubHTTPResponse = HTTPResponse(status: 200, body: nil)
     
@@ -25,7 +25,7 @@ class NetworkingClient_Tests: XCTestCase {
     // MARK: - fetch() REST
     
     func testFetchREST_whenLive_usesProperPayPalURL() async throws {
-        let mockHTTP = MockHTTP(coreConfig: CoreConfig(clientID: "123", environment: .live))
+        let mockHTTP = MockHTTP(coreConfig: CoreConfig(clientID: "123", merchantID: "test-merchant-id", environment: .live))
         mockHTTP.stubHTTPResponse = HTTPResponse(status: 200, body: nil)
         let sut = NetworkingClient(http: mockHTTP)
         
@@ -102,7 +102,7 @@ class NetworkingClient_Tests: XCTestCase {
     // MARK: - fetch() GraphQL
     
     func testFetchGraphQL_whenLive_usesProperPayPalURL() async throws {
-        let mockHTTP = MockHTTP(coreConfig: CoreConfig(clientID: "123", environment: .live))
+        let mockHTTP = MockHTTP(coreConfig: CoreConfig(clientID: "123", merchantID: "test-merchant-id", environment: .live))
         mockHTTP.stubHTTPResponse = HTTPResponse(status: 200, body: nil)
         let sut = NetworkingClient(http: mockHTTP)
         

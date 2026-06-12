@@ -7,8 +7,8 @@ class PayPalDataCollector_Tests: XCTestCase {
     private var deviceInspector = MockDeviceInspector()
     private var magnesSDK = MockMagnesSDK()
     
-    let sandboxConfig = CoreConfig(clientID: "mockClientID", environment: .sandbox)
-    let liveConfig = CoreConfig(clientID: "mockClientID", environment: .live)
+    let sandboxConfig = CoreConfig(clientID: "mockClientID", merchantID: "test-merchant-id", environment: .sandbox)
+    let liveConfig = CoreConfig(clientID: "mockClientID", merchantID: "test-merchant-id", environment: .live)
     
     func testCollectDeviceData_setsMagnesEnvironmentToSANDBOX() {
         let sut = PayPalDataCollector(config: sandboxConfig, magnesSDK: magnesSDK, deviceInspector: deviceInspector)

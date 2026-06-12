@@ -6,165 +6,147 @@ import AuthenticationServices
 
 // swiftlint: disable type_body_length
 class PayPalClient_Tests: XCTestCase {
-    
+
     var config: CoreConfig!
     var mockWebAuthenticationSession: MockWebAuthenticationSession!
     var payPalClient: PayPalWebCheckoutClient!
-    var mockNetworkingClient: MockNetworkingClient!
     var mockClientConfigAPI: MockClientConfigAPI!
     var mockPatchCCOAPI: MockPatchCCOAPI!
-
+    var mockCreateShopperSessionAPI: MockCreateShopperSessionAPI!
 
     override func setUp() {
         super.setUp()
-        config = CoreConfig(clientID: "testClientID", environment: .sandbox)
+        config = CoreConfig(clientID: "testClientID", merchantID: "test-merchant-id", environment: .sandbox)
         mockWebAuthenticationSession = MockWebAuthenticationSession()
-        mockNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: config))
-        mockClientConfigAPI = MockClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)
-        mockPatchCCOAPI = MockPatchCCOAPI(coreConfig: config)
-
+        mockClientConfigAPI = MockClientConfigAPI(
+            coreConfig: config,
+            networkingClient: MockNetworkingClient(http: MockHTTP(coreConfig: config))
+        )
+        mockPatchCCOAPI = MockPatchCCOAPI()
+        mockCreateShopperSessionAPI = MockCreateShopperSessionAPI()
+        mockCreateShopperSessionAPI.stubSession = .stub(ssidRouting: false)
 
         payPalClient = PayPalWebCheckoutClient(
             config: config,
-            networkingClient: mockNetworkingClient,
             clientConfigAPI: mockClientConfigAPI,
+            createShopperSessionAPI: mockCreateShopperSessionAPI,
             patchCCOAPI: mockPatchCCOAPI,
             webAuthenticationSession: mockWebAuthenticationSession
         )
     }
-    
-    func testVault_whenSandbox_launchesCorrectURLInWebSession() {
-        let vaultRequest = PayPalVaultRequest(setupTokenID: "fake-token")
+
+    private func stubPatchCCOIneligible() {
+        mockPatchCCOAPI.stubEligibilityResponse = AppSwitchEligibility(
+            appSwitchEligible: false,
+            redirectURL: nil,
+            ineligibleReason: "test-ineligible"
+        )
+    }
+
+    func testVault_whenSandbox_launchesCorrectURLInWebSession() async throws {
+        mockCreateShopperSessionAPI.stubSession = ShopperSessionWithAppSwitchEligibility.stub(
+            appSwitchEligible: false
+        )
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
 
         let started = expectation(description: "ASWebAuthenticationSession Started")
         mockWebAuthenticationSession.onStart = { started.fulfill() }
 
-        payPalClient.vault(vaultRequest) { _ in }
-        wait(for: [started], timeout: 1.0)
+        try await payPalClient.vault(.testDefault(), createSetupToken: { "fake-token" })
+        await fulfillment(of: [started], timeout: 1.0)
 
-        XCTAssertEqual(mockWebAuthenticationSession.lastLaunchedURL?.absoluteString, "https://sandbox.paypal.com/agreements/approve?approval_session_id=fake-token&integration_artifact=MOBILE_SDK")
+        XCTAssertEqual(
+            mockWebAuthenticationSession.lastLaunchedURL?.absoluteString,
+            "https://www.sandbox.paypal.com/web-approval?approval_session_id=fake-token&sessionID=ssid_test"
+        )
     }
 
-    func testVault_whenLive_launchesCorrectURLInWebSession() {
-        config = CoreConfig(clientID: "testClientID", environment: .live)
+    func testVault_whenLive_launchesCorrectURLInWebSession() async throws {
+        config = CoreConfig(clientID: "testClientID", merchantID: "test-merchant-id", environment: .live)
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
+        mockCreateShopperSessionAPI.stubSession = ShopperSessionWithAppSwitchEligibility.stub(
+            appSwitchEligible: false
+        )
 
         let started = expectation(description: "ASWebAuthenticationSession Started")
         mockWebAuthenticationSession.onStart = { started.fulfill() }
 
         let payPalClient = PayPalWebCheckoutClient(
             config: config,
-            networkingClient: mockNetworkingClient,
             clientConfigAPI: mockClientConfigAPI,
+            createShopperSessionAPI: mockCreateShopperSessionAPI,
             patchCCOAPI: mockPatchCCOAPI,
             webAuthenticationSession: mockWebAuthenticationSession
         )
 
-        let vaultRequest = PayPalVaultRequest(setupTokenID: "fake-token")
-        payPalClient.vault(vaultRequest) { _ in }
-        wait(for: [started], timeout: 1.0)
+        try await payPalClient.vault(.testDefault(), createSetupToken: { "fake-token" })
+        await fulfillment(of: [started], timeout: 1.0)
 
-        XCTAssertEqual(mockWebAuthenticationSession.lastLaunchedURL?.absoluteString, "https://paypal.com/agreements/approve?approval_session_id=fake-token&integration_artifact=MOBILE_SDK")
+        XCTAssertEqual(
+            mockWebAuthenticationSession.lastLaunchedURL?.absoluteString,
+            "https://www.sandbox.paypal.com/web-approval?approval_session_id=fake-token&sessionID=ssid_test"
+        )
     }
 
-    func testVault_whenSuccessUrl_ReturnsVaultToken() {
+    func testVault_whenSuccessUrl_ReturnsVaultToken() async throws {
+        mockCreateShopperSessionAPI.stubSession = .stub(appSwitchEligible: false)
+        mockWebAuthenticationSession.cannedResponseURL = URL(
+            string: "sdk.ios.paypal://vault/success?approval_token_id=fakeTokenID&approval_session_id=fakeSessionID"
+        )
 
-        mockWebAuthenticationSession.cannedResponseURL = URL(string: "sdk.ios.paypal://vault/success?approval_token_id=fakeTokenID&approval_session_id=fakeSessionID")
-
-        let expectation = expectation(description: "vault(url:) completed")
-
-        let expectedTokenIDResult = "fakeTokenID"
-        let expectedSessionIDResult = "fakeSessionID"
-
-        let vaultRequest = PayPalVaultRequest(setupTokenID: "fakeTokenID")
-        payPalClient.vault(vaultRequest) { result in
-            switch result {
-            case .success(let cardVaultResult):
-                XCTAssertEqual(expectedTokenIDResult, cardVaultResult.tokenID)
-                XCTAssertEqual(expectedSessionIDResult, cardVaultResult.approvalSessionID)
-            case .failure:
-                XCTFail("Expected success with CardVaultResult")
-            }
-            expectation.fulfill()
-        }
-
-        waitForExpectations(timeout: 2, handler: nil)
+        let result = try await payPalClient.vault(.testDefault(), createSetupToken: { "fakeTokenID" })
+        XCTAssertEqual(result.tokenID, "fakeTokenID")
+        XCTAssertEqual(result.approvalSessionID, "fakeSessionID")
     }
-    
-    func testVault_whenCancelUrl_ReturnsVaultToken() {
 
+    func testVault_whenCancelUrl_ReturnsVaultToken() async throws {
+        mockCreateShopperSessionAPI.stubSession = .stub(appSwitchEligible: false)
         mockWebAuthenticationSession.cannedResponseURL =
             URL(string: "sdk.ios.paypal://testurl.com/checkout/cancel?approval_session_id=$approvalSessionId")
 
-        let expectation = expectation(description: "vault(url:) completed")
-
-        let vaultRequest = PayPalVaultRequest(setupTokenID: "fakeTokenID")
-        payPalClient.vault(vaultRequest) { result in
-            switch result {
-            case .success:
-                XCTFail("Expected failure with error")
-            case .failure(let error):
-                XCTAssertEqual(error.domain, PayPalError.domain)
-                XCTAssertEqual(error.code, PayPalError.Code.vaultCanceledError.rawValue)
-                XCTAssertEqual(error.localizedDescription, "PayPal vault has been canceled by the user")
-            }
-            expectation.fulfill()
+        do {
+            _ = try await payPalClient.vault(.testDefault(), createSetupToken: { "fakeTokenID" })
+            XCTFail("Expected failure with error")
+        } catch let error as CoreSDKError {
+            XCTAssertEqual(error.domain, PayPalError.domain)
+            XCTAssertEqual(error.code, PayPalError.Code.vaultCanceledError.rawValue)
+            XCTAssertEqual(error.localizedDescription, "PayPal vault has been canceled by the user")
         }
-
-        waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testVault_whenWebSession_cancelled() {
-
+    func testVault_whenWebSession_cancelled() async throws {
+        mockCreateShopperSessionAPI.stubSession = .stub(appSwitchEligible: false)
         mockWebAuthenticationSession.cannedErrorResponse = ASWebAuthenticationSessionError(
             .canceledLogin,
             userInfo: ["Description": "Mock cancellation error description."]
         )
 
-        let expectation = expectation(description: "vault(url:) completed")
-
-        let vaultRequest = PayPalVaultRequest(setupTokenID: "fakeTokenID")
-        payPalClient.vault(vaultRequest) { result in
-            switch result {
-            case .success:
-                XCTFail("Expected failure with error")
-            case .failure(let error):
-                XCTAssertEqual(error.domain, PayPalError.domain)
-                XCTAssertEqual(error.code, PayPalError.Code.vaultCanceledError.rawValue)
-                XCTAssertEqual(error.localizedDescription, "PayPal vault has been canceled by the user")
-            }
-            expectation.fulfill()
+        do {
+            _ = try await payPalClient.vault(.testDefault(), createSetupToken: { "fakeTokenID" })
+            XCTFail("Expected failure with error")
+        } catch let error as CoreSDKError {
+            XCTAssertEqual(error.domain, PayPalError.domain)
+            XCTAssertEqual(error.code, PayPalError.Code.vaultCanceledError.rawValue)
         }
-
-        waitForExpectations(timeout: 10)
     }
 
-    func testVault_whenWebSession_cancelled_returnsIsVaultCanceledTrue() {
-
+    func testVault_whenWebSession_cancelled_returnsIsVaultCanceledTrue() async throws {
+        mockCreateShopperSessionAPI.stubSession = .stub(appSwitchEligible: false)
         mockWebAuthenticationSession.cannedErrorResponse = ASWebAuthenticationSessionError(
             .canceledLogin,
             userInfo: ["Description": "Mock cancellation error description."]
         )
 
-        let expectation = expectation(description: "vault(url:) completed")
-
-        let vaultRequest = PayPalVaultRequest(setupTokenID: "fakeTokenID")
-        payPalClient.vault(vaultRequest) { result in
-            switch result {
-            case .success:
-                XCTFail("Expected failure with cancellation error")
-            case .failure(let error):
-                XCTAssertTrue(PayPalError.isVaultCanceled(error))
-            }
-            expectation.fulfill()
+        do {
+            _ = try await payPalClient.vault(.testDefault(), createSetupToken: { "fakeTokenID" })
+            XCTFail("Expected failure with cancellation error")
+        } catch let error as CoreSDKError {
+            XCTAssertTrue(PayPalError.isVaultCanceled(error))
         }
-
-        waitForExpectations(timeout: 10)
     }
 
-    func testVault_whenWebSession_returnsDefaultError() {
-
+    func testVault_whenWebSession_returnsDefaultError() async throws {
+        mockCreateShopperSessionAPI.stubSession = .stub(appSwitchEligible: false)
         let expectedError = CoreSDKError(
             code: PayPalError.Code.webSessionError.rawValue,
             domain: PayPalError.domain,
@@ -172,55 +154,78 @@ class PayPalClient_Tests: XCTestCase {
         )
         mockWebAuthenticationSession.cannedErrorResponse = expectedError
 
-        let expectation = expectation(description: "vault(url:) completed")
-
-        let vaultRequest = PayPalVaultRequest(setupTokenID: "fakeTokenID")
-        payPalClient.vault(vaultRequest) { result in
-            switch result {
-            case .success:
-                XCTFail("Expected failure with error")
-            case .failure(let error):
-                XCTAssertEqual(error.domain, expectedError.domain)
-                XCTAssertEqual(error.code, expectedError.code)
-            }
-            expectation.fulfill()
+        do {
+            _ = try await payPalClient.vault(.testDefault(), createSetupToken: { "fakeTokenID" })
+            XCTFail("Expected failure with error")
+        } catch let error as CoreSDKError {
+            XCTAssertEqual(error.domain, expectedError.domain)
+            XCTAssertEqual(error.code, expectedError.code)
         }
-
-        waitForExpectations(timeout: 10)
     }
 
-    func testVault_whenSuccessUrl_missingToken_returnsError() {
-        
-        mockWebAuthenticationSession.cannedResponseURL = URL(string: "sdk.ios.paypal://vault/success?approval_token_id=&approval_session_id=fakeSessionID")
-        
-        let expectation = expectation(description: "vault(url:) completed")
-        
-        let expectedError = CoreSDKError(
-            code: PayPalError.payPalVaultResponseError.code,
-            domain: PayPalError.domain,
-            errorDescription: PayPalError.payPalVaultResponseError.errorDescription
+    func testVault_whenSuccessUrl_missingToken_returnsError() async throws {
+        mockCreateShopperSessionAPI.stubSession = .stub(appSwitchEligible: false)
+        mockWebAuthenticationSession.cannedResponseURL = URL(
+            string: "sdk.ios.paypal://vault/success?approval_token_id=&approval_session_id=fakeSessionID"
         )
 
-        let vaultRequest = PayPalVaultRequest(setupTokenID: "fakeTokenID")
-        payPalClient.vault(vaultRequest) { result in
-            switch result {
-            case .success:
-                XCTFail("Expected failure with error")
-            case .failure(let error):
-                XCTAssertEqual(error.domain, expectedError.domain)
-                XCTAssertEqual(error.code, expectedError.code)
-            }
-            expectation.fulfill()
+        do {
+            _ = try await payPalClient.vault(.testDefault(), createSetupToken: { "fakeTokenID" })
+            XCTFail("Expected failure with error")
+        } catch let error as CoreSDKError {
+            XCTAssertEqual(error.domain, PayPalError.domain)
+            XCTAssertEqual(error.code, PayPalError.payPalVaultResponseError.code)
         }
-
-        waitForExpectations(timeout: 10)
     }
 
-    func testStart_whenWebAuthenticationSessionCancelCalled_returnsCancellationError() {
-        let request = PayPalWebCheckoutRequest(orderID: "1234")
+    func testVault_whenSessionFails_fallsBackToLegacyWebVault() async throws {
+        mockCreateShopperSessionAPI.stubError = CoreSDKError(
+            code: 500,
+            domain: "session",
+            errorDescription: "session failed"
+        )
+        mockWebAuthenticationSession.cannedResponseURL = URL(
+            string: "sdk.ios.paypal://vault/success?approval_token_id=fakeTokenID&approval_session_id=fakeSessionID"
+        )
 
-        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
+        let result = try await payPalClient.vault(.testDefault(), createSetupToken: { "fakeTokenID" })
 
+        XCTAssertEqual(
+            mockWebAuthenticationSession.lastLaunchedURL?.absoluteString,
+            "https://sandbox.paypal.com/agreements/approve?approval_session_id=fakeTokenID&integration_artifact=MOBILE_SDK"
+        )
+        XCTAssertEqual(result.tokenID, "fakeTokenID")
+    }
+
+    func testVault_whenSsidRoutingFalse_usesLegacyWebVault() async throws {
+        mockCreateShopperSessionAPI.stubSession = .stub(ssidRouting: false)
+        mockWebAuthenticationSession.cannedResponseURL = URL(
+            string: "sdk.ios.paypal://vault/success?approval_token_id=fakeTokenID&approval_session_id=fakeSessionID"
+        )
+
+        let result = try await payPalClient.vault(.testDefault(), createSetupToken: { "fakeTokenID" })
+
+        XCTAssertEqual(
+            mockWebAuthenticationSession.lastLaunchedURL?.absoluteString,
+            "https://sandbox.paypal.com/agreements/approve?approval_session_id=fakeTokenID&integration_artifact=MOBILE_SDK"
+        )
+        XCTAssertEqual(result.tokenID, "fakeTokenID")
+    }
+
+    func testStart_whenSetupNowUserAction_returnsError() async throws {
+        do {
+            _ = try await payPalClient.start(
+                request: PayPalWebCheckoutRequest(urlConfig: .testDefault, userAction: .setupNow),
+                createOrder: { "1234" }
+            )
+            XCTFail("Expected invalid user action error")
+        } catch let error as CoreSDKError {
+            XCTAssertEqual(error.code, PayPalError.invalidUserActionError.code)
+        }
+    }
+
+    func testStart_whenWebAuthenticationSessionCancelCalled_returnsCancellationError() async throws {
+        stubPatchCCOIneligible()
         mockWebAuthenticationSession.cannedErrorResponse = ASWebAuthenticationSessionError(
             _bridgedNSError: NSError(
                 domain: ASWebAuthenticationSessionError.errorDomain,
@@ -229,28 +234,17 @@ class PayPalClient_Tests: XCTestCase {
             )
         )
 
-        let expectation = self.expectation(description: "Call back invoked with error")
-        payPalClient.start(request: request) { result in
-            switch result {
-            case .success:
-                XCTFail("Expected failure with error")
-            case .failure(let error):
-                XCTAssertEqual(error.domain, PayPalError.domain)
-                XCTAssertEqual(error.code, PayPalError.checkoutCanceledError.code)
-                XCTAssertEqual(error.localizedDescription, PayPalError.checkoutCanceledError.localizedDescription)
-            }
-            expectation.fulfill()
+        do {
+            _ = try await payPalClient.start(request: .testDefault(), createOrder: { "1234" })
+            XCTFail("Expected failure with error")
+        } catch let error as CoreSDKError {
+            XCTAssertEqual(error.domain, PayPalError.domain)
+            XCTAssertEqual(error.code, PayPalError.checkoutCanceledError.code)
         }
-
-        waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testStart_whenWebSession_cancelled_returnsIsCheckoutCanceledTrue() {
-
-        let request = PayPalWebCheckoutRequest(orderID: "1234")
-
-        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
-
+    func testStart_whenWebSession_cancelled_returnsIsCheckoutCanceledTrue() async throws {
+        stubPatchCCOIneligible()
         mockWebAuthenticationSession.cannedErrorResponse = ASWebAuthenticationSessionError(
             _bridgedNSError: NSError(
                 domain: ASWebAuthenticationSessionError.errorDomain,
@@ -259,112 +253,77 @@ class PayPalClient_Tests: XCTestCase {
             )
         )
 
-        let expectation = self.expectation(description: "Call back invoked with error")
-        payPalClient.start(request: request) { result in
-            switch result {
-            case .success:
-                XCTFail("Expected failure with error")
-            case .failure(let error):
-                XCTAssertTrue(PayPalError.isCheckoutCanceled(error))
-            }
-            expectation.fulfill()
+        do {
+            _ = try await payPalClient.start(request: .testDefault(), createOrder: { "1234" })
+            XCTFail("Expected failure with error")
+        } catch let error as CoreSDKError {
+            XCTAssertTrue(PayPalError.isCheckoutCanceled(error))
         }
-
-        waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testStart_whenWebAuthenticationSessions_returnsWebSessionError() {
-        let request = PayPalWebCheckoutRequest(orderID: "1234")
-
-        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
-
+    func testStart_whenWebAuthenticationSessions_returnsWebSessionError() async throws {
+        stubPatchCCOIneligible()
         mockWebAuthenticationSession.cannedErrorResponse = CoreSDKError(
             code: PayPalError.Code.webSessionError.rawValue,
             domain: PayPalError.domain,
             errorDescription: "Mock web session error description."
         )
 
-        let expectation = self.expectation(description: "Call back invoked with error")
-
-        payPalClient.start(request: request) { result in
-            switch result {
-            case .success:
-                XCTFail("Expected failure with error")
-            case .failure(let error):
-                XCTAssertEqual(error.domain, PayPalError.domain)
-                XCTAssertEqual(error.code, PayPalError.Code.webSessionError.rawValue)
-                XCTAssertEqual(error.localizedDescription, "Mock web session error description.")
-            }
-            expectation.fulfill()
+        do {
+            _ = try await payPalClient.start(request: .testDefault(), createOrder: { "1234" })
+            XCTFail("Expected failure with error")
+        } catch let error as CoreSDKError {
+            XCTAssertEqual(error.domain, PayPalError.domain)
+            XCTAssertEqual(error.code, PayPalError.Code.webSessionError.rawValue)
         }
-
-        waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testStart_whenResultURLMissingParameters_returnsMalformedResultError() {
-        let request = PayPalWebCheckoutRequest(orderID: "1234")
-
+    func testStart_whenResultURLMissingParameters_returnsMalformedResultError() async throws {
+        stubPatchCCOIneligible()
         mockWebAuthenticationSession.cannedResponseURL = URL(string: "https://fakeURL?PayerID=98765")
-        let expectation = self.expectation(description: "Call back invoked with error")
-        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: nil)
 
-        payPalClient.start(request: request) { result in
-            switch result {
-            case .success:
-                XCTFail("Expected failure with error")
-            case .failure(let error):
-                XCTAssertEqual(error.domain, PayPalError.domain)
-                XCTAssertEqual(error.code, PayPalError.Code.malformedResultError.rawValue)
-                XCTAssertEqual(error.localizedDescription, "Result did not contain the expected data.")
-            }
-            expectation.fulfill()
+        do {
+            _ = try await payPalClient.start(request: .testDefault(), createOrder: { "1234" })
+            XCTFail("Expected failure with error")
+        } catch let error as CoreSDKError {
+            XCTAssertEqual(error.domain, PayPalError.domain)
+            XCTAssertEqual(error.code, PayPalError.Code.malformedResultError.rawValue)
         }
-
-        waitForExpectations(timeout: 2, handler: nil)
     }
 
-    func testStart_whenWebResultIsCancelled_returnsCancellationError() {
-        let request = PayPalWebCheckoutRequest(orderID: "1234")
-
-        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
+    func testStart_whenWebResultIsCancelled_returnsCancellationError() async throws {
+        stubPatchCCOIneligible()
         mockWebAuthenticationSession.cannedResponseURL =
             URL(string: "sdk.ios.paypal://testurl.com/checkout?opType=cancel")
-        
-        let expectation = self.expectation(description: "Call back invoked with error")
-        payPalClient.start(request: request) { result in
-            switch result {
-            case .success:
-                XCTFail("Expected failure with error")
-            case .failure(let error):
-                XCTAssertEqual(error.domain, PayPalError.domain)
-                XCTAssertEqual(error.code, PayPalError.Code.checkoutCanceledError.rawValue)
-                XCTAssertEqual(error.localizedDescription, "PayPal checkout has been canceled by the user")
-            }
-            expectation.fulfill()
-        }
 
-        waitForExpectations(timeout: 2, handler: nil)
+        do {
+            _ = try await payPalClient.start(request: .testDefault(), createOrder: { "1234" })
+            XCTFail("Expected failure with error")
+        } catch let error as CoreSDKError {
+            XCTAssertEqual(error.domain, PayPalError.domain)
+            XCTAssertEqual(error.code, PayPalError.Code.checkoutCanceledError.rawValue)
+        }
     }
-    
-    func testStart_whenWebResultIsSuccessful_returnsSuccessfulResult() {
-        let request = PayPalWebCheckoutRequest(orderID: "1234")
 
-        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
-
+    func testStart_whenWebResultIsSuccessful_returnsSuccessfulResult() async throws {
+        stubPatchCCOIneligible()
         mockWebAuthenticationSession.cannedResponseURL = URL(string: "https://fakeURL?token=1234&PayerID=98765")
-        let expectation = self.expectation(description: "Call back invoked with error")
-        payPalClient.start(request: request) { result in
-            switch result {
-            case .success(let result):
-                XCTAssertEqual(result.orderID, "1234")
-                XCTAssertEqual(result.payerID, "98765")
-            case .failure:
-                XCTFail("Expected success with PayPalCheckoutResult")
-            }
-            expectation.fulfill()
-        }
 
-        waitForExpectations(timeout: 2, handler: nil)
+        let result = try await payPalClient.start(request: .testDefault(), createOrder: { "1234" })
+        XCTAssertEqual(result.orderID, "1234")
+        XCTAssertEqual(result.payerID, "98765")
+    }
+
+    func testStart_whenCreateOrderFails_returnsError() async throws {
+        do {
+            _ = try await payPalClient.start(request: .testDefault()) {
+                throw CoreSDKError(code: 400, domain: "order", errorDescription: "create order failed")
+            }
+            XCTFail("Expected failure")
+        } catch let error as CoreSDKError {
+            XCTAssertEqual(error.domain, "order")
+            XCTAssertEqual(error.code, 400)
+        }
     }
 
     func testpayPalCheckoutReturnURL_returnsCorrectURL() {

@@ -6,8 +6,16 @@ import CorePayments
 class PayPalVaultViewModel: VaultViewModel {
 
     let configManager = CoreConfigManager(domain: "PayPal Vault")
+    let returnURLBase = "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
 
     var paypalClient: PayPalWebCheckoutClient?
+
+    private var urlConfig: PayPalURLConfig {
+        PayPalURLConfig(
+            returnAppUrl: returnURLBase + "/success",
+            cancelAppUrl: returnURLBase + "/cancel"
+        )
+    }
 
     func vault(setupTokenID: String) async {
         DispatchQueue.main.async {
@@ -17,8 +25,12 @@ class PayPalVaultViewModel: VaultViewModel {
             let config = try await configManager.getCoreConfig()
             paypalClient = PayPalWebCheckoutClient(config: config)
             guard let paypalClient else { return }
-            let vaultRequest = PayPalVaultRequest(setupTokenID: setupTokenID, appSwitchIfEligible: appSwitch)
-            paypalClient.vault(vaultRequest) { result in
+
+            let vaultRequest = PayPalVaultRequest(
+                urlConfig: urlConfig,
+                userAction: .setupNow
+            )
+            paypalClient.vault(vaultRequest, createSetupToken: { setupTokenID }) { result in
                 switch result {
                 case .success(let cardVaultResult):
                     DispatchQueue.main.async {

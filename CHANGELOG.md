@@ -1,6 +1,21 @@
 
 # PayPal iOS SDK Release Notes
 
+## Unreleased
+
+* PayPalWebPayments
+  * Add Shopper Session ID (SSID) routing via `createShopperSessionWithAppSwitchEligibility` GraphQL mutation
+  * **Breaking:** `PayPalWebCheckoutRequest` and `PayPalVaultRequest` now take `userIdentity`, `urlConfig`, and `userAction` instead of `orderID`/`setupTokenID`/`appSwitchIfEligible`
+  * **Breaking:** `PayPalWebCheckoutClient.start(request:createOrder:completion:)` and `vault(_:createSetupToken:completion:)` require merchant-provided order/setup-token callbacks
+  * Checkout silently falls back to `patchCCOWithAppSwitchEligibility` when SSID session creation fails; vault silently falls back to the legacy web vault flow (patchCCO is checkout-only)
+  * Vault respects `ssidRouting`: when false or on session error, uses legacy `agreements/approve` web vault instead of SSID URLs
+  * `PayPalUserAction.setupNow` is rejected for checkout (`start()`)
+  * App-switch routing uses real PayPal/Venmo install detection and universal links
+* CorePayments
+  * **Breaking:** `CoreConfig` requires `merchantID`; optional `bnCode` added
+  * `patchCCOWithAppSwitchEligibility` sends `paypalNativeAppInstalled` from device state (fixes hardcoded `true`)
+  * `UIApplication.open(_:options:completionHandler:)` supports universal-link options
+
 ## 2.0.1 (2025-11-03)
 
 * PayPalWebPayments

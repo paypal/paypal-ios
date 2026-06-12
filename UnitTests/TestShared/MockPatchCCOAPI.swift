@@ -1,16 +1,18 @@
 import Foundation
 @testable import CorePayments
 
-class MockPatchCCOAPI: PatchCCOWithAppSwitchEligibility {
+class MockPatchCCOAPI: PatchCCOAPIProtocol {
 
     var stubEligibilityResponse: AppSwitchEligibility?
     var stubError: Error?
+    var capturedPaypalNativeAppInstalled: Bool?
 
-    override func patchCCOWithAppSwitchEligibility(
+    func patchCCOWithAppSwitchEligibility(
         token: String,
         tokenType: String,
-        canSwitchToApp paypalNativeAppInstalled: Bool = true
+        paypalNativeAppInstalled: Bool
     ) async throws -> AppSwitchEligibility {
+        capturedPaypalNativeAppInstalled = paypalNativeAppInstalled
 
         if let stubError {
             throw stubError

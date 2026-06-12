@@ -10,7 +10,7 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
     private var sut: PatchCCOWithAppSwitchEligibility!
     private var mockNetworkingClient: MockNetworkingClient!
     private var mockAuthSTS: MockAuthenticationSecureTokenServiceAPI!
-    private let coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
+    private let coreConfig = CoreConfig(clientID: "fake-client-id", merchantID: "test-merchant-id", environment: .sandbox)
     private let expectedQueryString = """
         mutation PatchCcoWithAppSwitchEligibility(
             $contextId: String!,
@@ -93,7 +93,11 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
         """
 
         mockNetworkingClient.stubHTTPResponse = HTTPResponse(status: 200, body: successJSON.data(using: .utf8))
-        let result = try await sut.patchCCOWithAppSwitchEligibility(token: token, tokenType: tokenType, canSwitchToApp: true)
+        let result = try await sut.patchCCOWithAppSwitchEligibility(
+            token: token,
+            tokenType: tokenType,
+            paypalNativeAppInstalled: true
+        )
         XCTAssertEqual(result.appSwitchEligible, true)
         XCTAssertEqual(result.redirectURL, "paypal://app-switch")
         XCTAssertNil(result.ineligibleReason)
@@ -112,7 +116,7 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
         )
         XCTAssertEqual(vars.contextId, token)
         XCTAssertEqual(vars.experimentationContext?.integrationChannel, "PPCP_NATIVE_SDK")
-        XCTAssertEqual(vars.osType, "IOS")
+        XCTAssertEqual(vars.osType, "iOS")
         XCTAssertTrue(vars.merchantOptInForAppSwitch)
         XCTAssertEqual(vars.token, token)
         XCTAssertEqual(vars.tokenType, tokenType)
@@ -128,7 +132,11 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
         mockNetworkingClient.stubHTTPError = CoreSDKError(code: 999, domain: "networking", errorDescription: "boom")
 
         do {
-            _ = try await sut.patchCCOWithAppSwitchEligibility(token: "t", tokenType: "CLIENT_TOKEN", canSwitchToApp: true)
+            _ = try await sut.patchCCOWithAppSwitchEligibility(
+                token: "t",
+                tokenType: "CLIENT_TOKEN",
+                paypalNativeAppInstalled: true
+            )
             XCTFail("Expected error")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, "networking")
@@ -143,7 +151,11 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
         mockAuthSTS.stubbedError = CoreSDKError(code: 401, domain: "auth", errorDescription: "unauthorized")
 
         do {
-            _ = try await sut.patchCCOWithAppSwitchEligibility(token: "t", tokenType: "CLIENT_TOKEN", canSwitchToApp: true)
+            _ = try await sut.patchCCOWithAppSwitchEligibility(
+                token: "t",
+                tokenType: "CLIENT_TOKEN",
+                paypalNativeAppInstalled: true
+            )
             XCTFail("Expected auth error")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, "auth")
@@ -170,7 +182,11 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
         mockNetworkingClient.stubHTTPResponse = HTTPResponse(status: 200, body: missingEligibilityJSON.data(using: .utf8))
 
         do {
-            _ = try await sut.patchCCOWithAppSwitchEligibility(token: "t", tokenType: "CLIENT_TOKEN", canSwitchToApp: true)
+            _ = try await sut.patchCCOWithAppSwitchEligibility(
+                token: "t",
+                tokenType: "CLIENT_TOKEN",
+                paypalNativeAppInstalled: true
+            )
             XCTFail("Expected NetworkingError.noGraphQLDataKey")
         } catch let error as CoreSDKError {
             guard NetworkingError.noGraphQLDataKey == error else {
@@ -201,7 +217,11 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
         """
         mockNetworkingClient.stubHTTPResponse = HTTPResponse(status: 200, body: body.data(using: .utf8))
 
-        let response = try await sut.patchCCOWithAppSwitchEligibility(token: "tok", tokenType: "CLIENT_TOKEN", canSwitchToApp: false)
+        let response = try await sut.patchCCOWithAppSwitchEligibility(
+            token: "tok",
+            tokenType: "CLIENT_TOKEN",
+            paypalNativeAppInstalled: true
+        )
 
         XCTAssertEqual(response.appSwitchEligible, false)
         XCTAssertNil(response.redirectURL)

@@ -28,10 +28,6 @@ struct PayPalWebCreateOrderView: View {
                 Toggle("Should Vault with Purchase", isOn: $shouldVaultSelected)
                 Spacer()
             }
-            HStack {
-                Toggle("Enable App Switch", isOn: $payPalWebViewModel.appSwitch)
-                Spacer()
-            }
             ZStack {
                 Button("Create an Order") {
                     Task {
