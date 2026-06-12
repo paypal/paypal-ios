@@ -10,9 +10,8 @@ class PayPalWebViewModel: ObservableObject {
     @Published var intent: Intent = .authorize
     @Published var order: Order?
     @Published var checkoutResult: PayPalWebCheckoutResult?
-    @Published var appSwitch = false
 
-    let appSwitchURL = "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
+    let returnURLBase = "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
 
     var payPalWebCheckoutClient: PayPalWebCheckoutClient?
 
@@ -23,26 +22,26 @@ class PayPalWebViewModel: ObservableObject {
     let configManager = CoreConfigManager(domain: "PayPalWeb Payments")
     private var payPalDataCollector: PayPalDataCollector?
 
-    /// S1: No payment source (non app-switch, non vault)
-    /// S2: PayPal app-switch (no vault) -> experienceContext with appSwitchContext
-    /// S3: PayPal vault (no app-switch)  -> attributes.vault + experienceContext
-    /// S4: PayPal vault + app-switch     -> attributes.vault + experienceContext.appSwitchContext
+    private var urlConfig: PayPalURLConfig {
+        PayPalURLConfig(
+            returnAppUrl: returnURLBase + "/success",
+            cancelAppUrl: returnURLBase + "/cancel"
+        )
+    }
+
     func createOrder(shouldVault: Bool) async throws {
         let amountRequest = Amount(currencyCode: "USD", value: "10.00")
 
         var paymentSource: OrderPaymentSource?
 
-        if appSwitch || shouldVault {
+        if shouldVault {
             let experience = PayPalExperienceContext(
-                returnUrl: appSwitchURL + "/success",
-                cancelUrl: appSwitchURL + "/cancel",
-                appSwitchContext: appSwitch ? AppSwitchContext(appUrl: appSwitchURL) : nil
+                returnUrl: returnURLBase + "/success",
+                cancelUrl: returnURLBase + "/cancel"
             )
-
-            let attributes: Attributes? = shouldVault
-            ? Attributes(vault: Vault(storeInVault: "ON_SUCCESS", usageType: "MERCHANT", customerType: "CONSUMER"))
-            : nil
-
+            let attributes = Attributes(
+                vault: Vault(storeInVault: "ON_SUCCESS", usageType: "MERCHANT", customerType: "CONSUMER")
+            )
             let paypal = PayPalSource(attributes: attributes, experienceContext: experience)
             paymentSource = .paypal(OrderPayPalPaymentSource(paypal: paypal))
         }
@@ -85,26 +84,32 @@ class PayPalWebViewModel: ObservableObject {
                     return
                 }
 
-                if let orderID = state.createOrder?.id {
-                    let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding, appSwitchIfEligible: appSwitch)
-                    payPalWebCheckoutClient.start(request: payPalRequest) { result in
-                        switch result {
-                        case .success(let paypalResult):
-                            DispatchQueue.main.async {
-                                self.state.approveResultResponse = .loaded(
-                                    PayPalPaymentState.ApprovalResult(id: paypalResult.orderID, status: "APPROVED")
-                                )
-                                self.checkoutResult = paypalResult
-                                print("✅ Checkout result: \(String(describing: paypalResult))")
-                            }
-                        case .failure(let error):
-                            DispatchQueue.main.async {
-                                if error == PayPalError.checkoutCanceledError {
-                                    print("Canceled")
-                                    self.state.approveResultResponse = .idle
-                                } else {
-                                    self.state.approveResultResponse = .error(message: error.localizedDescription)
-                                }
+                guard let orderID = state.createOrder?.id else { return }
+
+                let payPalRequest = PayPalWebCheckoutRequest(
+                    urlConfig: urlConfig,
+                    userAction: .continue
+                )
+                payPalWebCheckoutClient.start(
+                    request: payPalRequest,
+                    createOrder: { orderID }
+                ) { result in
+                    switch result {
+                    case .success(let paypalResult):
+                        DispatchQueue.main.async {
+                            self.state.approveResultResponse = .loaded(
+                                PayPalPaymentState.ApprovalResult(id: paypalResult.orderID, status: "APPROVED")
+                            )
+                            self.checkoutResult = paypalResult
+                            print("✅ Checkout result: \(String(describing: paypalResult))")
+                        }
+                    case .failure(let error):
+                        DispatchQueue.main.async {
+                            if error == PayPalError.checkoutCanceledError {
+                                print("Canceled")
+                                self.state.approveResultResponse = .idle
+                            } else {
+                                self.state.approveResultResponse = .error(message: error.localizedDescription)
                             }
                         }
                     }
@@ -190,7 +195,6 @@ class PayPalWebViewModel: ObservableObject {
         checkoutResult = nil
     }
 
-    // for testing until singleton router class is implemented
     func handleUniversalLinkReturn(_ url: URL) {
         guard let payPalWebCheckoutClient else { return }
         payPalWebCheckoutClient.handleReturnURL(url)

@@ -9,7 +9,7 @@ class TrackingEventsAPI_Tests: XCTestCase {
     
     var sut: TrackingEventsAPI!
     var mockNetworkingClient: MockNetworkingClient!
-    let coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
+    let coreConfig = CoreConfig(clientID: "fake-client-id", merchantID: "test-merchant-id", environment: .sandbox)
     let stubHTTPResponse = HTTPResponse(status: 200, body: nil)
     let fakeAnalyticsEventData = AnalyticsEventData(
         environment: "my-env",

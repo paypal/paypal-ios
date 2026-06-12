@@ -1,51 +1,22 @@
 import Foundation
 
+public protocol PatchCCOAPIProtocol {
+    func patchCCOWithAppSwitchEligibility(
+        token: String,
+        tokenType: String,
+        paypalNativeAppInstalled: Bool
+    ) async throws -> AppSwitchEligibility
+}
+
 /// This class coordinates networking logic for communicating with the /graphql API for patching CCO with app switch eligibility.
 @_documentation(visibility: private)
-public class PatchCCOWithAppSwitchEligibility {
+public class PatchCCOWithAppSwitchEligibility: PatchCCOAPIProtocol {
 
     // MARK: - Private Properties
 
     private let coreConfig: CoreConfig
     private let networkingClient: NetworkingClient
     private let authenticationSecureTokenServiceAPI: AuthenticationSecureTokenServiceAPI
-
-    private let patchCCOQuery = """
-        mutation PatchCcoWithAppSwitchEligibility(
-            $contextId: String!,
-            $experimentationContext: externalExperimentationContextInput,
-            $osType: externalOSType!,
-            $merchantOptInForAppSwitch: Boolean!,
-            $token: externalToken!,
-            $tokenType: externalTokenType!,
-            $integrationArtifact: externalIntegrationArtifactType!
-        ) {
-            external {
-                patchCcoWithAppSwitchEligibility(
-                    appSwitchEligibilityInput: {
-                        contextId: $contextId,
-                        experimentationContext: $experimentationContext,
-                        merchantOptInForAppSwitch: $merchantOptInForAppSwitch,
-                        osType: $osType,
-                        token: $token,
-                        tokenType: $tokenType
-                    },
-                    patchCcoInput: {
-                        token: $token,
-                        clientConfig: {
-                            integrationArtifact: $integrationArtifact
-                        }
-                    }
-                ) {
-                    appSwitchEligibility {
-                        appSwitchEligible
-                        redirectURL
-                        ineligibleReason
-                    }
-                }
-            }
-        }
-        """
 
     // MARK: - Initializer
 
@@ -70,24 +41,25 @@ public class PatchCCOWithAppSwitchEligibility {
 
     public func patchCCOWithAppSwitchEligibility(
         token: String,
-        tokenType: String
+        tokenType: String,
+        paypalNativeAppInstalled: Bool
     ) async throws -> AppSwitchEligibility {
 
         let lsat = try await authenticationSecureTokenServiceAPI.createLowScopedAccessToken().accessToken
 
         let variables = PatchCcoWithAppSwitchEligibilityVariables(
             contextId: token,
-            experimentationContext: ExperimentationContext(integrationChannel: "PPCP_NATIVE_SDK"),
-            osType: "IOS",
+            experimentationContext: ExperimentationContext(integrationChannel: PayPalCoreConstants.integrationChannel),
+            osType: PayPalCoreConstants.platform,
             merchantOptInForAppSwitch: true,
             token: token,
             tokenType: tokenType,
-            integrationArtifact: "MOBILE_SDK",
-            paypalNativeAppInstalled: true
+            integrationArtifact: PayPalCoreConstants.integrationArtifact,
+            paypalNativeAppInstalled: paypalNativeAppInstalled
         )
 
         let graphQLRequest = GraphQLRequest(
-            query: patchCCOQuery,
+            query: GraphQLQueries.patchCCOWithAppSwitchEligibility,
             variables: variables,
             queryNameForURL: nil
         )

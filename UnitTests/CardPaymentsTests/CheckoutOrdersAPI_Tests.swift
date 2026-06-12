@@ -10,7 +10,7 @@ class CheckoutOrdersAPI_Tests: XCTestCase {
     
     var sut: CheckoutOrdersAPI!
     var mockNetworkingClient: MockNetworkingClient!
-    let coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
+    let coreConfig = CoreConfig(clientID: "fake-client-id", merchantID: "test-merchant-id", environment: .sandbox)
     let cardRequest = CardRequest(
         orderID: "my-order-id",
         card: Card(

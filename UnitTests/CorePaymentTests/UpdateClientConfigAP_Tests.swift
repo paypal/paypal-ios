@@ -9,7 +9,7 @@ class UpdateClientConfigAPI_Tests: XCTestCase {
 
     var sut: UpdateClientConfigAPI!
     var mockNetworkingClient: MockNetworkingClient!
-    let coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
+    let coreConfig = CoreConfig(clientID: "fake-client-id", merchantID: "test-merchant-id", environment: .sandbox)
 
     // MARK: - Test Lifecycle
 

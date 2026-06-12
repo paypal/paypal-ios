@@ -21,6 +21,10 @@ class CoreConfigManager {
             throw CoreSDKError(code: 0, domain: domain, errorDescription: "Error getting clientID")
         }
         
-        return CoreConfig(clientID: clientID, environment: DemoSettings.environment.paypalSDKEnvironment)
+        return CoreConfig(
+            clientID: clientID,
+            merchantID: DemoSettings.merchantIntegration.merchantID,
+            environment: DemoSettings.environment.paypalSDKEnvironment
+        )
     }
 }

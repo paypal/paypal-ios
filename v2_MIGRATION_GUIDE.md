@@ -330,3 +330,89 @@ cardClient.approveOrder(request: cardRequest) { result in
 }
 ```
 - Async/await function signatures remain the same from 2.0.0 beta versions
+
+## Shopper Session ID (SSID) Migration
+
+SSID integration moves order/setup-token creation and app-switch routing into the SDK. Merchants provide tokens via callbacks and configure return/cancel URLs explicitly.
+
+### CoreConfig
+
+```swift
+// Before
+let config = CoreConfig(clientID: "<client-id>", environment: .sandbox)
+
+// After
+let config = CoreConfig(
+    clientID: "<client-id>",
+    merchantID: "<merchant-id>",
+    environment: .sandbox,
+    bnCode: "<bn-code>" // optional
+)
+```
+
+### PayPalWebCheckoutRequest / PayPalVaultRequest
+
+```swift
+let urlConfig = PayPalURLConfig(
+    returnAppUrl: "myapp://paypal/return",
+    cancelAppUrl: "myapp://paypal/cancel",
+    fallbackSchemeUrl: nil // optional
+)
+
+// Checkout
+let checkoutRequest = PayPalWebCheckoutRequest(
+    userIdentity: nil,
+    urlConfig: urlConfig,
+    userAction: .continue // .payNow maps to commit
+)
+
+// Vault
+let vaultRequest = PayPalVaultRequest(
+    urlConfig: urlConfig,
+    userAction: .setupNow
+)
+```
+
+Remove `orderID`, `setupTokenID`, `appSwitchIfEligible`, and `fundingSource` from SDK request types. App-switch eligibility is determined server-side via SSID (with silent `patchCCO` fallback for checkout).
+
+**Routing fallbacks (checkout vs vault):**
+- **Checkout:** SSID session failure or `ssidRouting=false` → silent `patchCCOWithAppSwitchEligibility` fallback. Merchant only fails if `createOrder` throws.
+- **Vault:** SSID session failure or `ssidRouting=false` → silent legacy web vault (`agreements/approve`). patchCCO is not used for vault. Merchant only fails if `createSetupToken` throws.
+- **`PayPalUserAction.setupNow`** is valid for vault only; `start()` rejects it with `PayPalError.invalidUserActionError`.
+
+### PayPalWebCheckoutClient
+
+```swift
+// Checkout — createOrder runs in parallel with SSID session creation
+payPalClient.start(request: checkoutRequest, createOrder: {
+    try await merchantAPI.createOrder()
+}) { result in
+    switch result {
+    case .success(let checkoutResult):
+        // checkoutResult.orderID, checkoutResult.payerID
+    case .failure(let error):
+        // handle error (checkout only fails if createOrder throws)
+    }
+}
+
+// Vault — createSetupToken runs in parallel with SSID session creation.
+// Session failures or ssidRouting=false silently fall back to legacy web vault.
+// Merchants only fail if createSetupToken throws.
+payPalClient.vault(vaultRequest, createSetupToken: {
+    try await merchantAPI.createSetupToken()
+}) { result in
+    switch result {
+    case .success(let vaultResult):
+        // vaultResult.tokenID, vaultResult.approvalSessionID
+    case .failure(let error):
+        // handle error (vault only fails if createSetupToken throws)
+    }
+}
+```
+
+Register a universal-link handler and forward return URLs to `handleReturnURL(_:)` for app-switch flows.
+
+### Demo app changes
+
+- Remove merchant-side `appSwitchIfEligible` toggles and `appSwitchContext` from order/setup-token REST payloads for PayPal flows.
+- Provide `PayPalURLConfig` return/cancel URLs matching your registered universal links.
