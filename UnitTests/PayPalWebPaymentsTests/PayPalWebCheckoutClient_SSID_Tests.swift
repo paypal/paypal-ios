@@ -53,7 +53,6 @@ class PayPalWebCheckoutClient_SSID_Tests: XCTestCase {
             mockURLOpener.lastOpenedURL?.absoluteString,
             "https://www.sandbox.paypal.com/app-checkout?token=test-order-id&source=pda&merchant=testClientID&flow_type=ecs&sessionID=ssid_test"
         )
-        XCTAssertEqual(mockURLOpener.lastOpenOptions?[.universalLinksOnly] as? Bool, true)
     }
 
     func test_ssidRouting_true_ineligible_invokesBrowserFlow() async throws {

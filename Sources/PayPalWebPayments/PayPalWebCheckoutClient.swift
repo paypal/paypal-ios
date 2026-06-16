@@ -258,7 +258,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
             await MainActor.run { appSwitchCompletion = completion }
 
-            let opened = await openURL(url, universalLinksOnly: true)
+            let opened = await openURL(url)
             if opened {
                 analyticsService?.sendEvent("paypal-web-payments:checkout:app-switch-open:succeeded")
             } else {
@@ -313,7 +313,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
             await MainActor.run { vaultAppSwitchCompletion = completion }
 
-            let opened = await openURL(url, universalLinksOnly: true)
+            let opened = await openURL(url)
             if !opened,
                 let webBase = session.checkoutUrls?.webApprovalUrl,
                 let sessionID = session.sessionId {
@@ -374,7 +374,7 @@ public class PayPalWebCheckoutClient: NSObject {
                 let urlString = eligibility.redirectURL,
                 let url = URL(string: urlString) {
                 await MainActor.run { appSwitchCompletion = completion }
-                let opened = await openURL(url, universalLinksOnly: true)
+                let opened = await openURL(url)
                 if opened {
                     analyticsService?.sendEvent("paypal-web-payments:checkout:app-switch-open:succeeded")
                 } else {
@@ -587,11 +587,9 @@ public class PayPalWebCheckoutClient: NSObject {
     }
 
     @MainActor
-    private func openURL(_ url: URL, universalLinksOnly: Bool) async -> Bool {
-        let options: [UIApplication.OpenExternalURLOptionsKey: Any] =
-            universalLinksOnly ? [.universalLinksOnly: true] : [:]
-        return await withCheckedContinuation { continuation in
-            application.open(url, options: options) { success in
+    private func openURL(_ url: URL) async -> Bool {
+        await withCheckedContinuation { continuation in
+            application.open(url) { success in
                 continuation.resume(returning: success)
             }
         }

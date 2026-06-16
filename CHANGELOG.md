@@ -14,7 +14,6 @@
 * CorePayments
   * **Breaking:** `CoreConfig` requires `merchantID`; optional `bnCode` added
   * `patchCCOWithAppSwitchEligibility` sends `paypalNativeAppInstalled` from device state (fixes hardcoded `true`)
-  * `UIApplication.open(_:options:completionHandler:)` supports universal-link options
 
 ## 2.0.1 (2025-11-03)
 
