@@ -24,7 +24,7 @@ class PayPalClient_Tests: XCTestCase {
         )
         mockPatchCCOAPI = MockPatchCCOAPI()
         mockCreateShopperSessionAPI = MockCreateShopperSessionAPI()
-        mockCreateShopperSessionAPI.stubSession = .stub(ssidRouting: false)
+        mockCreateShopperSessionAPI.stubSession = ShopperSessionWithAppSwitchEligibility.stub(ssidRouting: false)
 
         payPalClient = PayPalWebCheckoutClient(
             config: config,
@@ -48,6 +48,9 @@ class PayPalClient_Tests: XCTestCase {
             appSwitchEligible: false
         )
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
+        mockWebAuthenticationSession.cannedResponseURL = URL(
+            string: "sdk.ios.paypal://vault/success?approval_token_id=fake-token&approval_session_id=fake-session-id"
+        )
 
         let started = expectation(description: "ASWebAuthenticationSession Started")
         mockWebAuthenticationSession.onStart = { started.fulfill() }
@@ -66,6 +69,9 @@ class PayPalClient_Tests: XCTestCase {
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
         mockCreateShopperSessionAPI.stubSession = ShopperSessionWithAppSwitchEligibility.stub(
             appSwitchEligible: false
+        )
+        mockWebAuthenticationSession.cannedResponseURL = URL(
+            string: "sdk.ios.paypal://vault/success?approval_token_id=fake-token&approval_session_id=fake-session-id"
         )
 
         let started = expectation(description: "ASWebAuthenticationSession Started")
@@ -89,7 +95,7 @@ class PayPalClient_Tests: XCTestCase {
     }
 
     func testVault_whenSuccessUrl_ReturnsVaultToken() async throws {
-        mockCreateShopperSessionAPI.stubSession = .stub(appSwitchEligible: false)
+        mockCreateShopperSessionAPI.stubSession = ShopperSessionWithAppSwitchEligibility.stub(appSwitchEligible: false)
         mockWebAuthenticationSession.cannedResponseURL = URL(
             string: "sdk.ios.paypal://vault/success?approval_token_id=fakeTokenID&approval_session_id=fakeSessionID"
         )
@@ -100,7 +106,7 @@ class PayPalClient_Tests: XCTestCase {
     }
 
     func testVault_whenCancelUrl_ReturnsVaultToken() async throws {
-        mockCreateShopperSessionAPI.stubSession = .stub(appSwitchEligible: false)
+        mockCreateShopperSessionAPI.stubSession = ShopperSessionWithAppSwitchEligibility.stub(appSwitchEligible: false)
         mockWebAuthenticationSession.cannedResponseURL =
             URL(string: "sdk.ios.paypal://testurl.com/checkout/cancel?approval_session_id=$approvalSessionId")
 
@@ -115,7 +121,7 @@ class PayPalClient_Tests: XCTestCase {
     }
 
     func testVault_whenWebSession_cancelled() async throws {
-        mockCreateShopperSessionAPI.stubSession = .stub(appSwitchEligible: false)
+        mockCreateShopperSessionAPI.stubSession = ShopperSessionWithAppSwitchEligibility.stub(appSwitchEligible: false)
         mockWebAuthenticationSession.cannedErrorResponse = ASWebAuthenticationSessionError(
             .canceledLogin,
             userInfo: ["Description": "Mock cancellation error description."]
@@ -131,7 +137,7 @@ class PayPalClient_Tests: XCTestCase {
     }
 
     func testVault_whenWebSession_cancelled_returnsIsVaultCanceledTrue() async throws {
-        mockCreateShopperSessionAPI.stubSession = .stub(appSwitchEligible: false)
+        mockCreateShopperSessionAPI.stubSession = ShopperSessionWithAppSwitchEligibility.stub(appSwitchEligible: false)
         mockWebAuthenticationSession.cannedErrorResponse = ASWebAuthenticationSessionError(
             .canceledLogin,
             userInfo: ["Description": "Mock cancellation error description."]
@@ -146,7 +152,7 @@ class PayPalClient_Tests: XCTestCase {
     }
 
     func testVault_whenWebSession_returnsDefaultError() async throws {
-        mockCreateShopperSessionAPI.stubSession = .stub(appSwitchEligible: false)
+        mockCreateShopperSessionAPI.stubSession = ShopperSessionWithAppSwitchEligibility.stub(appSwitchEligible: false)
         let expectedError = CoreSDKError(
             code: PayPalError.Code.webSessionError.rawValue,
             domain: PayPalError.domain,
@@ -164,7 +170,7 @@ class PayPalClient_Tests: XCTestCase {
     }
 
     func testVault_whenSuccessUrl_missingToken_returnsError() async throws {
-        mockCreateShopperSessionAPI.stubSession = .stub(appSwitchEligible: false)
+        mockCreateShopperSessionAPI.stubSession = ShopperSessionWithAppSwitchEligibility.stub(appSwitchEligible: false)
         mockWebAuthenticationSession.cannedResponseURL = URL(
             string: "sdk.ios.paypal://vault/success?approval_token_id=&approval_session_id=fakeSessionID"
         )
@@ -198,7 +204,7 @@ class PayPalClient_Tests: XCTestCase {
     }
 
     func testVault_whenSsidRoutingFalse_usesLegacyWebVault() async throws {
-        mockCreateShopperSessionAPI.stubSession = .stub(ssidRouting: false)
+        mockCreateShopperSessionAPI.stubSession = ShopperSessionWithAppSwitchEligibility.stub(ssidRouting: false)
         mockWebAuthenticationSession.cannedResponseURL = URL(
             string: "sdk.ios.paypal://vault/success?approval_token_id=fakeTokenID&approval_session_id=fakeSessionID"
         )

@@ -116,7 +116,7 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
         )
         XCTAssertEqual(vars.contextId, token)
         XCTAssertEqual(vars.experimentationContext?.integrationChannel, "PPCP_NATIVE_SDK")
-        XCTAssertEqual(vars.osType, "IOS")
+        XCTAssertEqual(vars.osType, "iOS")
         XCTAssertTrue(vars.merchantOptInForAppSwitch)
         XCTAssertEqual(vars.token, token)
         XCTAssertEqual(vars.tokenType, tokenType)

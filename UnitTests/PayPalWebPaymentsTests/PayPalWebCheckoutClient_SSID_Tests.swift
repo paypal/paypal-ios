@@ -37,7 +37,7 @@ class PayPalWebCheckoutClient_SSID_Tests: XCTestCase {
 
     func test_ssidRouting_true_eligible_appInstalled_invokesAppSwitch() async throws {
         mockURLOpener.mockIsPayPalAppInstalled = true
-        mockCreateShopperSessionAPI.stubSession = .stub(ssidRouting: true, appSwitchEligible: true)
+        mockCreateShopperSessionAPI.stubSession = ShopperSessionWithAppSwitchEligibility.stub(ssidRouting: true, appSwitchEligible: true)
         mockURLOpener.mockOpenURLSuccess = true
 
         let urlOpened = expectation(description: "URL opened")
@@ -57,7 +57,7 @@ class PayPalWebCheckoutClient_SSID_Tests: XCTestCase {
 
     func test_ssidRouting_true_ineligible_invokesBrowserFlow() async throws {
         mockURLOpener.mockIsPayPalAppInstalled = true
-        mockCreateShopperSessionAPI.stubSession = .stub(ssidRouting: true, appSwitchEligible: false)
+        mockCreateShopperSessionAPI.stubSession = ShopperSessionWithAppSwitchEligibility.stub(ssidRouting: true, appSwitchEligible: false)
         mockWebAuthenticationSession.cannedResponseURL = URL(
             string: "sdk.ios.paypal://x-callback-url/paypal-sdk/paypal-checkout?token=test-order-id&PayerID=test-payer-id"
         )
@@ -75,7 +75,7 @@ class PayPalWebCheckoutClient_SSID_Tests: XCTestCase {
     }
 
     func test_ssidRouting_false_fallsBackToPatchCCO() async throws {
-        mockCreateShopperSessionAPI.stubSession = .stub(ssidRouting: false)
+        mockCreateShopperSessionAPI.stubSession = ShopperSessionWithAppSwitchEligibility.stub(ssidRouting: false)
         mockPatchCCOAPI.stubEligibilityResponse = AppSwitchEligibility(
             appSwitchEligible: false,
             redirectURL: nil,
@@ -108,7 +108,7 @@ class PayPalWebCheckoutClient_SSID_Tests: XCTestCase {
 
     func test_appSwitchOpenFailure_fallsBackToBrowser() async throws {
         mockURLOpener.mockIsPayPalAppInstalled = true
-        mockCreateShopperSessionAPI.stubSession = .stub(ssidRouting: true, appSwitchEligible: true)
+        mockCreateShopperSessionAPI.stubSession = ShopperSessionWithAppSwitchEligibility.stub(ssidRouting: true, appSwitchEligible: true)
         mockURLOpener.mockOpenURLSuccess = false
         mockWebAuthenticationSession.cannedResponseURL = URL(
             string: "sdk.ios.paypal://x-callback-url/paypal-sdk/paypal-checkout?token=test-order-id&PayerID=test-payer-id"
@@ -123,7 +123,7 @@ class PayPalWebCheckoutClient_SSID_Tests: XCTestCase {
 
     func test_patchCCO_passesPayPalAppInstalledFlag() async throws {
         mockURLOpener.mockIsPayPalAppInstalled = true
-        mockCreateShopperSessionAPI.stubSession = .stub(ssidRouting: false)
+        mockCreateShopperSessionAPI.stubSession = ShopperSessionWithAppSwitchEligibility.stub(ssidRouting: false)
         mockPatchCCOAPI.stubEligibilityResponse = AppSwitchEligibility(
             appSwitchEligible: false,
             redirectURL: nil,
@@ -138,18 +138,19 @@ class PayPalWebCheckoutClient_SSID_Tests: XCTestCase {
     }
 
     func test_vault_ssidRouting_false_usesLegacyWebVault() async throws {
-        mockCreateShopperSessionAPI.stubSession = .stub(ssidRouting: false)
+        mockCreateShopperSessionAPI.stubSession = ShopperSessionWithAppSwitchEligibility.stub(ssidRouting: false)
         mockWebAuthenticationSession.cannedResponseURL = URL(
-            string: "sdk.ios.paypal://x-callback-url/paypal-sdk/paypal-checkout?token=test-order-id&PayerID=test-payer-id"
+            string: "sdk.ios.paypal://vault/success?approval_token_id=test-setup-token&approval_session_id=test-session-id"
         )
 
-        _ = try await payPalClient.vault(.testDefault(), createSetupToken: { "test-setup-token" })
+        let result = try await payPalClient.vault(.testDefault(), createSetupToken: { "test-setup-token" })
 
         XCTAssertEqual(
             mockWebAuthenticationSession.lastLaunchedURL?.absoluteString,
             "https://sandbox.paypal.com/agreements/approve?approval_session_id=test-setup-token&integration_artifact=MOBILE_SDK"
         )
         XCTAssertNil(mockURLOpener.lastOpenedURL)
+        XCTAssertEqual(result.tokenID, "test-setup-token")
     }
 
     func test_vault_sessionError_fallsBackToLegacyWebVault() async throws {
@@ -167,7 +168,7 @@ class PayPalWebCheckoutClient_SSID_Tests: XCTestCase {
     }
 
     func test_parallelExecution_callsSessionAndCreateOrder() async throws {
-        mockCreateShopperSessionAPI.stubSession = .stub(ssidRouting: true, appSwitchEligible: false)
+        mockCreateShopperSessionAPI.stubSession = ShopperSessionWithAppSwitchEligibility.stub(ssidRouting: true, appSwitchEligible: false)
         mockWebAuthenticationSession.cannedResponseURL = URL(
             string: "sdk.ios.paypal://x-callback-url/paypal-sdk/paypal-checkout?token=order-1&PayerID=payer-1"
         )
