@@ -20,7 +20,7 @@ enum MerchantIntegration: Hashable {
 
     var clientID: String {
         switch self {
-        case .direct(let clientID):
+        case .direct(let clientID, _):
             return clientID
         }
     }
