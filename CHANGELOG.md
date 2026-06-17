@@ -4,16 +4,14 @@
 ## Unreleased
 
 * PayPalWebPayments
-  * Add Shopper Session ID (SSID) routing via `createShopperSessionWithAppSwitchEligibility` GraphQL mutation
+  * Add Shopper Session ID (SSID) support for checkout and vault with server-driven app-switch routing
   * **Breaking:** `PayPalWebCheckoutRequest` and `PayPalVaultRequest` now take `userIdentity`, `urlConfig`, and `userAction` instead of `orderID`/`setupTokenID`/`appSwitchIfEligible`
   * **Breaking:** `PayPalWebCheckoutClient.start(request:createOrder:completion:)` and `vault(_:createSetupToken:completion:)` require merchant-provided order/setup-token callbacks
-  * Checkout silently falls back to `patchCCOWithAppSwitchEligibility` when SSID session creation fails; vault silently falls back to the legacy web vault flow (patchCCO is checkout-only)
-  * Vault respects `ssidRouting`: when false or on session error, uses legacy `agreements/approve` web vault instead of SSID URLs
-  * `PayPalUserAction.setupNow` is rejected for checkout (`start()`)
-  * App-switch routing uses real PayPal/Venmo install detection and universal links
+  * Checkout falls back to the previous checkout routing when the shopper session cannot be created; vault falls back to the legacy web vault flow when the shopper session is unavailable
+  * `PayPalUserAction.setupNow` is not supported for checkout (`start()`)
+  * App-switch routing reflects whether the PayPal app is installed on the device
 * CorePayments
   * **Breaking:** `CoreConfig` requires `merchantID`; optional `bnCode` added
-  * `patchCCOWithAppSwitchEligibility` sends `paypalNativeAppInstalled` from device state (fixes hardcoded `true`)
 
 ## 2.0.1 (2025-11-03)
 
