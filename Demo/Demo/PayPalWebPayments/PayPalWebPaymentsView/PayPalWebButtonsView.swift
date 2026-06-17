@@ -53,6 +53,14 @@ struct PayPalWebButtonsView: View {
                     .stroke(.gray, lineWidth: 2)
                     .padding(5)
             )
+#if DEBUG
+            if DemoSettings.manualTesting {
+                Text("Manual SSID testing: GraphQL is stubbed.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 20)
+            }
+#endif
         }
         // for testing, this will be moved to app level with singleton router
         .onOpenURL { url in

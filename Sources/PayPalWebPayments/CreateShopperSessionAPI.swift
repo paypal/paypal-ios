@@ -79,6 +79,11 @@ public class CreateShopperSessionAPI: CreateShopperSessionAPIProtocol {
         paypalAppInstalled: Bool,
         venmoAppInstalled: Bool
     ) async throws -> ShopperSessionWithAppSwitchEligibility {
+#if DEBUG
+        if PayPalWebPaymentsManualTesting.isEnabled {
+            return PayPalWebPaymentsManualTesting.stubShopperSession(for: coreConfig.environment)
+        }
+#endif
         let lsat = try await authenticationSecureTokenServiceAPI.createLowScopedAccessToken().accessToken
 
         let input = CreateShopperSessionWithAppSwitchEligibilityInput.make(
