@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F1A2B3C71E2F4001AABBCC02 /* PayPalWebPaymentsManualTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A2B3C61E2F4001AABBCC02 /* PayPalWebPaymentsManualTesting.swift */; };
 		045386092B5CB9AA0057AFDA /* PayPalOpen-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 045386082B5CB9AA0057AFDA /* PayPalOpen-Regular.otf */; };
 		0647E70E2714962800F8E517 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0647E70D2714962800F8E517 /* Address.swift */; };
 		065A4DBC26FCD8090007014A /* CoreSDKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DBB26FCD8080007014A /* CoreSDKError.swift */; };
@@ -207,6 +208,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F1A2B3C61E2F4001AABBCC02 /* PayPalWebPaymentsManualTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebPaymentsManualTesting.swift; sourceTree = "<group>"; };
 		045386082B5CB9AA0057AFDA /* PayPalOpen-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PayPalOpen-Regular.otf"; sourceTree = "<group>"; };
 		0647E70D2714962800F8E517 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		065A4DBB26FCD8080007014A /* CoreSDKError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreSDKError.swift; sourceTree = "<group>"; };
@@ -715,9 +717,18 @@
 			path = PaymentButtonsTests;
 			sourceTree = "<group>";
 		};
+		F1A2B3CA1E2F4001AABBCC05 /* ManualTesting */ = {
+			isa = PBXGroup;
+			children = (
+				F1A2B3C61E2F4001AABBCC02 /* PayPalWebPaymentsManualTesting.swift */,
+			);
+			path = ManualTesting;
+			sourceTree = "<group>";
+		};
 		BE4F784227EB627100FF4C0E /* PayPalWebPayments */ = {
 			isa = PBXGroup;
 			children = (
+				F1A2B3CA1E2F4001AABBCC05 /* ManualTesting */,
 				3EE04881FD0E495FB90EBAAC /* Models */,
 				648D0D1C03EF4D708117831F /* GraphQL */,
 				92DCB5C0349B423D9113E108 /* CreateShopperSessionAPI.swift */,
@@ -1380,6 +1391,7 @@
 				584EE8B7157A4C9282094435 /* PayPalUserAction.swift in Sources */,
 				429289EA7B2149B5B2D5DF7E /* PayPalUserIdentity.swift in Sources */,
 				012BB5DD2FF54106A51F1CC4 /* CreateShopperSessionWithAppSwitchEligibility.swift in Sources */,
+				F1A2B3C71E2F4001AABBCC02 /* PayPalWebPaymentsManualTesting.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

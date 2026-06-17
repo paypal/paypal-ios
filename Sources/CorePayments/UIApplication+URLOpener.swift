@@ -24,6 +24,6 @@ extension UIApplication: URLOpener {
     }
 
     public func open(_ url: URL, completionHandler completion: ((Bool) -> Void)?) {
-        UIApplication.shared.open(url, options: [:], completionHandler: completion)
+        UIApplication.shared.open(url, options: [.universalLinksOnly: true], completionHandler: completion)
     }
 }

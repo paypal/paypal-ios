@@ -4,6 +4,9 @@ struct FeatureSelectionView: View {
 
     @State private var selectedEnvironment: Environment = DemoSettings.environment
     @State private var selectedIntegration: MerchantIntegration = DemoSettings.merchantIntegration
+#if DEBUG
+    @State private var manualTestingEnabled: Bool = DemoSettings.manualTesting
+#endif
 
     var body: some View {
         NavigationView {
@@ -22,6 +25,10 @@ struct FeatureSelectionView: View {
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
+
+#if DEBUG
+                    Toggle("Manual SSID Testing (stub APIs)", isOn: $manualTestingEnabled.onChange(updateManualTesting))
+#endif
                 }
 
                 Section(header: Text("Features")) {
@@ -68,6 +75,12 @@ struct FeatureSelectionView: View {
     func updateIntegration(newIntegration: MerchantIntegration) {
         DemoSettings.merchantIntegration = newIntegration
     }
+
+#if DEBUG
+    func updateManualTesting(isEnabled: Bool) {
+        DemoSettings.manualTesting = isEnabled
+    }
+#endif
 }
 
 extension Binding {
