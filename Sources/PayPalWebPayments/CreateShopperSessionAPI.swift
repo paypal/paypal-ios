@@ -86,7 +86,7 @@ public class CreateShopperSessionAPI: CreateShopperSessionAPIProtocol {
 #endif
         let lsat = try await authenticationSecureTokenServiceAPI.createLowScopedAccessToken().accessToken
 
-        let input = CreateShopperSessionWithAppSwitchEligibilityInput.make(
+        let input = await CreateShopperSessionWithAppSwitchEligibilityInput.make(
             config: coreConfig,
             sdkVersion: PayPalCoreConstants.payPalSDKVersion,
             osVersion: UIDevice.current.systemVersion,
