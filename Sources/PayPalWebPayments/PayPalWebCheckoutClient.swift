@@ -174,8 +174,6 @@ public class PayPalWebCheckoutClient: NSObject {
     // MARK: - App Switch Method
 
     public func handleReturnURL(_ url: URL) {
-        let comps = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        let items = comps?.queryItems ?? []
         func queryValue(_ name: String) -> String? {
             getQueryStringParameter(url: url.absoluteString, param: name)
         }
