@@ -8,7 +8,7 @@ class PayPalWebViewModel: ObservableObject {
     
     private enum DemoFixtures {
         static let amount = Amount(currencyCode: "USD", value: "10.00")
-        static let vault = Vault(storeInVault: "ON_SUCCESS", usageType: "MERCHANT", customerType: "CONSUMER")
+        static let vaultAttributes = Vault(storeInVault: "ON_SUCCESS", usageType: "MERCHANT", customerType: "CONSUMER")
     }
 
     @Published var state = PayPalPaymentState()
@@ -44,9 +44,7 @@ class PayPalWebViewModel: ObservableObject {
                 appSwitchContext: appSwitch ? AppSwitchContext(appUrl: appSwitchURL) : nil
             )
 
-            let attributes: Attributes? = shouldVault
-            ? Attributes(vault: DemoFixtures.vault)
-            : nil
+            let attributes: Attributes? = shouldVault ? Attributes(vault: DemoFixtures.vaultAttributes) : nil
 
             let paypal = PayPalSource(attributes: attributes, experienceContext: experience)
             paymentSource = .paypal(OrderPayPalPaymentSource(paypal: paypal))
