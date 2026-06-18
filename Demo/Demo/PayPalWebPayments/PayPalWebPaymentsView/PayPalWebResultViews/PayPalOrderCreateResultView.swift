@@ -2,7 +2,7 @@ import SwiftUI
 
 struct PayPalOrderCreateResultView: View {
 
-    @ObservedObject var payPalWebViewModel: PayPalWebViewModel
+    @EnvironmentObject var payPalWebViewModel: PayPalWebViewModel
 
     var body: some View {
         switch payPalWebViewModel.state.createdOrderResponse {

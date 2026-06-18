@@ -2,7 +2,7 @@ import SwiftUI
 
 struct PayPalWebTransactionView: View {
 
-    @ObservedObject var payPalWebViewModel: PayPalWebViewModel
+    @EnvironmentObject var payPalWebViewModel: PayPalWebViewModel
 
     var body: some View {
         VStack {

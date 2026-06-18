@@ -8,26 +8,22 @@ struct PayPalWebPaymentsView: View {
         ScrollView {
             ScrollViewReader { scrollView in
                 VStack(spacing: 16) {
-                    
-                    PayPalWebCreateOrderView(payPalWebViewModel: payPalWebViewModel)
-                    
+                    PayPalWebCreateOrderView()
                     if case .loaded = payPalWebViewModel.state.createdOrderResponse {
-                        PayPalOrderCreateResultView(payPalWebViewModel: payPalWebViewModel)
-                        
-                        PayPalWebButtonsView(payPalWebViewModel: payPalWebViewModel)
+                        PayPalOrderCreateResultView()
+                        PayPalWebButtonsView()
                     }
                     
                     if case .loaded = payPalWebViewModel.state.approveResultResponse {
-                        PayPalApprovalResultView(payPalWebViewModel: payPalWebViewModel)
-                        
-                        PayPalWebTransactionView(payPalWebViewModel: payPalWebViewModel)
+                        PayPalApprovalResultView()
+                        PayPalWebTransactionView()
                             .padding(.bottom, 20)
                     }
                     
                     if case .loaded = payPalWebViewModel.state.capturedOrderResponse {
-                        PayPalOrderCompletionResultView(payPalWebViewModel: payPalWebViewModel)
+                        PayPalOrderCompletionResultView()
                     } else if case .loaded = payPalWebViewModel.state.authorizedOrderResponse {
-                        PayPalOrderCompletionResultView(payPalWebViewModel: payPalWebViewModel)
+                        PayPalOrderCompletionResultView()
                     }
                     Text("")
                         .id("bottomView")
@@ -39,5 +35,6 @@ struct PayPalWebPaymentsView: View {
                 }
             }
         }
+        .environmentObject(payPalWebViewModel)
     }
 }
