@@ -25,7 +25,7 @@ public enum PayPalWebPaymentsManualTesting {
           "checkoutUrls": {
             "appCheckout": "\(base)/app-switch-checkout",
             "webCheckoutWeb": "\(base)/web-checkout",
-            "appApprovalUrl": "\(base)/app-approval",
+            "appApprovalUrl": "\(base)/app-switch-checkout",
             "webApprovalUrl": "\(base)/web-approval"
           },
           "paymentMethodConfig": {
