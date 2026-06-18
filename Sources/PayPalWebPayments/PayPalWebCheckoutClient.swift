@@ -65,7 +65,7 @@ public class PayPalWebCheckoutClient: NSObject {
         analyticsService?.sendEvent("paypal-web-payments:checkout:started")
 
         let completionOnce = makeCompletionOnce(completion)
-        let appInstalled = self.urlOpener.isPayPalAppInstalled()
+        let appInstalled = urlOpener.isPayPalAppInstalled()
 
         Task {
             if request.appSwitchIfEligible && appInstalled {
@@ -190,7 +190,7 @@ public class PayPalWebCheckoutClient: NSObject {
             }
 
             // Try to open the PayPal app (or deep link). If opening fails, fall back.
-            let opened = await openURLAppSwitchOnly(url)
+            let opened = await attemptAppSwitch(with: url)
 
             if opened {
                 // TODO: align with android on app switch event names, communicate with analytics team on new events
@@ -396,7 +396,7 @@ public class PayPalWebCheckoutClient: NSObject {
     }
 
     @MainActor
-    private func openURLAppSwitchOnly(_ url: URL) async -> Bool {
+    private func attemptAppSwitch(with url: URL) async -> Bool {
         await withCheckedContinuation { continuation in
             urlOpener.open(url) { success in
                 continuation.resume(returning: success)
