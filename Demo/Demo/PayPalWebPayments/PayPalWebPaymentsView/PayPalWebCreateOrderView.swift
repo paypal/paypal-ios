@@ -1,16 +1,23 @@
 import SwiftUI
 
+// TODO: Replace with PayPalUserAction from SDK when feature/shopper-session-id merges
+enum UserActionSelection: String, CaseIterable {
+    case `continue` = "CONTINUE"
+    case payNow = "PAY NOW"
+}
+
 struct PayPalWebCreateOrderView: View {
 
     @ObservedObject var payPalWebViewModel: PayPalWebViewModel
 
     @State private var selectedIntent: Intent = .authorize
+    @State private var selectedUserAction: UserActionSelection = .payNow
     @State var shouldVaultSelected = false
 
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text("Create an Order")
+                Text("Checkout")
                     .font(.system(size: 20))
                 Spacer()
                 Button("Reset") {
@@ -24,16 +31,17 @@ struct PayPalWebCreateOrderView: View {
                 Text("CAPTURE").tag(Intent.capture)
             }
             .pickerStyle(SegmentedPickerStyle())
+            Picker("User Action", selection: $selectedUserAction) {
+                Text("PAY NOW").tag(UserActionSelection.payNow)
+                Text("CONTINUE").tag(UserActionSelection.continue)
+            }
+            .pickerStyle(SegmentedPickerStyle())
             HStack {
                 Toggle("Should Vault with Purchase", isOn: $shouldVaultSelected)
                 Spacer()
             }
-            HStack {
-                Toggle("Enable App Switch", isOn: $payPalWebViewModel.appSwitch)
-                Spacer()
-            }
             ZStack {
-                Button("Create an Order") {
+                Button("Checkout") {
                     Task {
                         do {
                             payPalWebViewModel.intent = selectedIntent
@@ -48,6 +56,12 @@ struct PayPalWebCreateOrderView: View {
                     CircularProgressView()
                 }
             }
+        }
+        .onAppear {
+            UISegmentedControl.appearance().selectedSegmentTintColor = .systemBlue
+            UISegmentedControl.appearance().setTitleTextAttributes(
+                [.foregroundColor: UIColor.white], for: .selected
+            )
         }
         .padding()
         .background(
