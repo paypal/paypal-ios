@@ -18,7 +18,7 @@ public enum PayPalCoreConstants {
 }
 
 @_documentation(visibility: private)
-public enum TokenType {
+public enum ExternalTokenKind {
     public static let orderId = "ORDER_ID"
     public static let clientToken = "CLIENT_TOKEN"
 }

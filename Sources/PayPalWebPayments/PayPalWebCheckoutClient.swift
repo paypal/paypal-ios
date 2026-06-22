@@ -181,7 +181,7 @@ public class PayPalWebCheckoutClient: NSObject {
         do {
             let eligibility = try await patchCCOAPI.patchCCOWithAppSwitchEligibility(
                 token: request.orderID,
-                tokenType: TokenType.orderId
+                tokenType: ExternalTokenKind.orderId
             )
 
             guard eligibility.appSwitchEligible == true,
