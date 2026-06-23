@@ -14,7 +14,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
     var appSwitchCompletion: ((Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void)?
     var vaultAppSwitchCompletion: ((Result<PayPalVaultResult, CoreSDKError>) -> Void)?
-    var application: URLOpener = UIApplication.shared
+    var urlOpener: URLOpener = UIApplication.shared
 
     private let clientConfigAPI: UpdateClientConfigAPI
     private let webAuthenticationSession: WebAuthenticationSession
@@ -65,7 +65,7 @@ public class PayPalWebCheckoutClient: NSObject {
         analyticsService?.sendEvent("paypal-web-payments:checkout:started")
 
         let completionOnce = makeCompletionOnce(completion)
-        let appInstalled = self.application.isPayPalAppInstalled()
+        let appInstalled = urlOpener.isPayPalAppInstalled()
 
         Task {
             if request.appSwitchIfEligible && appInstalled {
@@ -190,13 +190,14 @@ public class PayPalWebCheckoutClient: NSObject {
             }
 
             // Try to open the PayPal app (or deep link). If opening fails, fall back.
-            let opened = await openURL(url)
+            let opened = await attemptAppSwitch(with: url)
 
             if opened {
                 // TODO: align with android on app switch event names, communicate with analytics team on new events
                 analyticsService?.sendEvent("paypal-web-payments:checkout:app-switch-open:succeeded")
                 return .launched
             } else {
+                // Universal Link cannot be resolved
                 analyticsService?.sendEvent("paypal-web-payments:checkout:app-switch-open:failed")
                 // We attempted to launch but couldn't. Clear the saved completion so a stray return URL can't complete.
                 await MainActor.run { [weak self] in
@@ -395,9 +396,9 @@ public class PayPalWebCheckoutClient: NSObject {
     }
 
     @MainActor
-    private func openURL(_ url: URL) async -> Bool {
+    private func attemptAppSwitch(with url: URL) async -> Bool {
         await withCheckedContinuation { continuation in
-            application.open(url) { success in
+            urlOpener.open(url) { success in
                 continuation.resume(returning: success)
             }
         }
