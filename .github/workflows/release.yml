@@ -29,7 +29,7 @@ jobs:
     runs-on: macos-26
     steps:
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: Select Xcode Version
@@ -81,16 +81,9 @@ jobs:
       - name: Save changelog entries to a file
         run: sed -e '1,/##/d' -e '/##/,$d' CHANGELOG.md > changelog_entries.md
       - name: Create GitHub release
-        id: create_release
-        uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ env.VALIDATED_VERSION }}
-          release_name: ${{ env.VALIDATED_VERSION }}
-          body_path: changelog_entries.md
-          draft: false
-          prerelease: false
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create "${VALIDATED_VERSION}" --title "${VALIDATED_VERSION}" --notes-file changelog_entries.md
       - name: Publish to CocoaPods
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
