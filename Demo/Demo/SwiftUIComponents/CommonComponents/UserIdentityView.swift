@@ -20,9 +20,9 @@ struct UserIdentityView: View {
                 .font(.subheadline)
                 .foregroundColor(.secondary)
             Picker("User Identity", selection: $selectedUserIdentity) {
-                Text("None").tag(UserIdentitySelection.none)
-                Text("Email/Phone").tag(UserIdentitySelection.buyerHints)
-                Text("SSID").tag(UserIdentitySelection.ssid)
+                ForEach(UserIdentitySelection.allCases, id: \.self) {
+                    Text($0.rawValue).tag($0)
+                }
             }
             .pickerStyle(SegmentedPickerStyle())
             switch selectedUserIdentity {
