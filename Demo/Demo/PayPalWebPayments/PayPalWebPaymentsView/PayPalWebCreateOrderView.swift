@@ -12,6 +12,10 @@ struct PayPalWebCreateOrderView: View {
 
     @State private var selectedIntent: Intent = .authorize
     @State private var selectedUserAction: UserActionSelection = .payNow
+    @State private var selectedUserIdentity: UserIdentitySelection = .none
+    @State private var email: String = ""
+    @State private var phone: String = ""
+    @State private var ssid: String = ""
     @State var shouldVaultSelected = false
 
     var body: some View {
@@ -36,6 +40,12 @@ struct PayPalWebCreateOrderView: View {
                 Text("CONTINUE").tag(UserActionSelection.continue)
             }
             .pickerStyle(SegmentedPickerStyle())
+            UserIdentityView(
+                selectedUserIdentity: $selectedUserIdentity,
+                email: $email,
+                phone: $phone,
+                ssid: $ssid
+            )
             HStack {
                 Toggle("Should Vault with Purchase", isOn: $shouldVaultSelected)
                 Spacer()
