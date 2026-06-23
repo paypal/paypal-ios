@@ -18,7 +18,7 @@ struct UserIdentityView: View {
         VStack(alignment: .leading, spacing: 8) {
             Text("User Identity (optional)")
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(.primary)
             Picker("User Identity", selection: $selectedUserIdentity) {
                 ForEach(UserIdentitySelection.allCases, id: \.self) {
                     Text($0.rawValue).tag($0)
@@ -29,17 +29,11 @@ struct UserIdentityView: View {
             case .none:
                 EmptyView()
             case .buyerHints:
-                TextField("Email (optional)", text: $email)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .keyboardType(.emailAddress)
+                FloatingLabelTextField(placeholder: "Email (optional)", text: $email, keyboardType: .emailAddress)
                     .autocapitalization(.none)
-                TextField("Phone (optional)", text: $phone)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .keyboardType(.phonePad)
+                FloatingLabelTextField(placeholder: "Phone (optional)", text: $phone, keyboardType: .phonePad)
             case .ssid:
-                TextField("Server-side Shopper Session ID", text: $ssid)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .autocapitalization(.none)
+                FloatingLabelTextField(placeholder: "Server-side Shopper Session ID", text: $ssid)
             }
         }
     }
