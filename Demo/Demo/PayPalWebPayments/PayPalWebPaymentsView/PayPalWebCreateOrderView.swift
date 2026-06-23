@@ -30,16 +30,26 @@ struct PayPalWebCreateOrderView: View {
             }
             .frame(maxWidth: .infinity)
             .font(.headline)
-            Picker("Intent", selection: $selectedIntent) {
-                Text("AUTHORIZE").tag(Intent.authorize)
-                Text("CAPTURE").tag(Intent.capture)
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Intent")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                Picker("Intent", selection: $selectedIntent) {
+                    Text("AUTHORIZE").tag(Intent.authorize)
+                    Text("CAPTURE").tag(Intent.capture)
+                }
+                .pickerStyle(SegmentedPickerStyle())
             }
-            .pickerStyle(SegmentedPickerStyle())
-            Picker("User Action", selection: $selectedUserAction) {
-                Text("PAY NOW").tag(UserActionSelection.payNow)
-                Text("CONTINUE").tag(UserActionSelection.continue)
+            VStack(alignment: .leading, spacing: 8) {
+                Text("User Action")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                Picker("User Action", selection: $selectedUserAction) {
+                    Text("PAY NOW").tag(UserActionSelection.payNow)
+                    Text("CONTINUE").tag(UserActionSelection.continue)
+                }
+                .pickerStyle(SegmentedPickerStyle())
             }
-            .pickerStyle(SegmentedPickerStyle())
             UserIdentityView(
                 selectedUserIdentity: $selectedUserIdentity,
                 email: $email,

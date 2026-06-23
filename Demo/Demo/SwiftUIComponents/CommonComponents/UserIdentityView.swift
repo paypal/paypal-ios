@@ -16,7 +16,7 @@ struct UserIdentityView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("User Identity")
+            Text("User Identity (optional)")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
             Picker("User Identity", selection: $selectedUserIdentity) {
@@ -29,11 +29,11 @@ struct UserIdentityView: View {
             case .none:
                 EmptyView()
             case .buyerHints:
-                TextField("Email", text: $email)
+                TextField("Email (optional)", text: $email)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .keyboardType(.emailAddress)
                     .autocapitalization(.none)
-                TextField("Phone", text: $phone)
+                TextField("Phone (optional)", text: $phone)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .keyboardType(.phonePad)
             case .ssid:
