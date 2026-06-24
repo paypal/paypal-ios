@@ -69,7 +69,12 @@ public class PayPalWebCheckoutClient: NSObject {
 
         Task {
             if request.appSwitchIfEligible && appInstalled {
-                switch await attemptAppSwitchIfEligible(request: request, paypalNativeAppInstalled: appInstalled, completionOnce: completionOnce) {
+                let result = await attemptAppSwitchIfEligible(
+                    request: request,
+                    paypalNativeAppInstalled: appInstalled,
+                    completionOnce: completionOnce
+                )
+                switch result {
                 case .launched:
                     // Do nothing here. We will complete when handleReturnURL is invoked.
                     return

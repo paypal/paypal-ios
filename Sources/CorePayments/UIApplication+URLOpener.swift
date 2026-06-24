@@ -11,6 +11,7 @@ public protocol URLOpener {
 }
 
 public extension URLOpener {
+
     func open(_ url: URL, completionHandler: ((Bool) -> Void)? = nil) {
         open(url, universalLinksOnly: true, completionHandler: completionHandler)
     }
