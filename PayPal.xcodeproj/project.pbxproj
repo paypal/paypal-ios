@@ -44,6 +44,8 @@
 		3BF06F3D2E15CAB4002CA7B4 /* UpdateClientConfigAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF06F3C2E15CAAD002CA7B4 /* UpdateClientConfigAPI.swift */; };
 		3BF06F3F2E15CC35002CA7B4 /* ClientConfigResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF06F3E2E15CC35002CA7B4 /* ClientConfigResponse.swift */; };
 		3BF06F412E1633D7002CA7B4 /* UpdateClientConfigAP_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8F84852D93318D00A151AC /* UpdateClientConfigAP_Tests.swift */; };
+		773C762F38154C4BB6DDD2DE /* CoreConfig_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB86FB9532BC4C2B934D2D4D /* CoreConfig_Tests.swift */; };
+		773C762F38154C4BB6DDD2DE /* CoreConfig_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB86FB9532BC4C2B934D2D4D /* CoreConfig_Tests.swift */; };
 		3BF06F432E16480F002CA7B4 /* MockUpdateClientConfigAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8F84912D933FAE00A151AC /* MockUpdateClientConfigAPI.swift */; };
 		3D1763A22720722A00652E1C /* CardResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1763A12720722A00652E1C /* CardResult.swift */; };
 		3DC42BA927187E8300B71645 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC42BA827187E8300B71645 /* ErrorResponse.swift */; };
@@ -104,6 +106,7 @@
 		BCD5C47E27E9200800B074D5 /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; platformFilter = ios; };
 		BCE8A7F927EA555800AC301B /* PayPalWebCheckoutClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE8A7F827EA555800AC301B /* PayPalWebCheckoutClient_Tests.swift */; };
 		BCE8A7FB27EA5B1D00AC301B /* Environment+PayPalWebCheckout_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE8A7FA27EA5B1D00AC301B /* Environment+PayPalWebCheckout_Tests.swift */; };
+		CCBE557FBAD2401EAB2E3CD9 /* PayPalUserIdentity_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CE9EEF944B4E3F8FA0F452 /* PayPalUserIdentity_Tests.swift */; };
 		BCF735DB27D1583400A52E03 /* TestShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E743F8270E40CE00BACECA /* TestShared.framework */; platformFilter = ios; };
 		BCF735E327D158B400A52E03 /* PPRiskMagnes.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCF735E227D158B400A52E03 /* PPRiskMagnes.xcframework */; platformFilter = ios; };
 		BCF735E427D158E900A52E03 /* PPRiskMagnes.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCF735E227D158B400A52E03 /* PPRiskMagnes.xcframework */; platformFilter = ios; };
@@ -299,6 +302,8 @@
 		BCE8A7F627EA54A000AC301B /* MockWebAuthenticationSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWebAuthenticationSession.swift; sourceTree = "<group>"; };
 		BCE8A7F827EA555800AC301B /* PayPalWebCheckoutClient_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebCheckoutClient_Tests.swift; sourceTree = "<group>"; };
 		BCE8A7FA27EA5B1D00AC301B /* Environment+PayPalWebCheckout_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment+PayPalWebCheckout_Tests.swift"; sourceTree = "<group>"; };
+		A5CE9EEF944B4E3F8FA0F452 /* PayPalUserIdentity_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalUserIdentity_Tests.swift; sourceTree = "<group>"; };
+		BB86FB9532BC4C2B934D2D4D /* CoreConfig_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreConfig_Tests.swift; sourceTree = "<group>"; };
 		BCF735D227D1583200A52E03 /* FraudProtection.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FraudProtection.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCF735E127D1583400A52E03 /* FraudProtectionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FraudProtectionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCF735E227D158B400A52E03 /* PPRiskMagnes.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:XEZPTDFLAS:changching chi"; lastKnownFileType = wrapper.xcframework; name = PPRiskMagnes.xcframework; path = Frameworks/XCFrameworks/PPRiskMagnes.xcframework; sourceTree = "<group>"; };
@@ -504,6 +509,7 @@
 				3B95C9862E6BA266004C6F65 /* PatchCCOWithAppSwitchEligibility.swift */,
 				3B857B182E69FAB9006F3CBC /* AuthenticationSecureTokenServiceAPI_Tests.swift */,
 				3B8F84852D93318D00A151AC /* UpdateClientConfigAP_Tests.swift */,
+				BB86FB9532BC4C2B934D2D4D /* CoreConfig_Tests.swift */,
 			);
 			path = CorePaymentTests;
 			sourceTree = "<group>";
@@ -646,6 +652,7 @@
 				3B3EB0612E8380D600B1D552 /* PayPalClients_HandleRequestURL_Tests.swift */,
 				BCE8A7FA27EA5B1D00AC301B /* Environment+PayPalWebCheckout_Tests.swift */,
 				BCE8A7F827EA555800AC301B /* PayPalWebCheckoutClient_Tests.swift */,
+				A5CE9EEF944B4E3F8FA0F452 /* PayPalUserIdentity_Tests.swift */,
 			);
 			path = PayPalWebPaymentsTests;
 			sourceTree = "<group>";
@@ -1229,6 +1236,7 @@
 				802EFBDB2A96B47A00AB709D /* TrackingEventsAPI_Tests.swift in Sources */,
 				802C4A762945676E00896A5D /* AnalyticsService_Tests.swift in Sources */,
 				3BF06F412E1633D7002CA7B4 /* UpdateClientConfigAP_Tests.swift in Sources */,
+				773C762F38154C4BB6DDD2DE /* CoreConfig_Tests.swift in Sources */,
 				807BF5912A2A5D48002F32B3 /* HTTPResponseParser_Tests.swift in Sources */,
 				3B95C9872E6BA266004C6F65 /* PatchCCOWithAppSwitchEligibility.swift in Sources */,
 				8036C1E4270F9BE700C0F091 /* NetworkingClient_Tests.swift in Sources */,
@@ -1360,6 +1368,7 @@
 				BCE8A7F927EA555800AC301B /* PayPalWebCheckoutClient_Tests.swift in Sources */,
 				3B3EB0622E8380EA00B1D552 /* PayPalClients_HandleRequestURL_Tests.swift in Sources */,
 				3BBD50E82E85ACA60049C4D5 /* PayPalClients_CheckoutAppSwitch_Toggle_Tests.swift in Sources */,
+				CCBE557FBAD2401EAB2E3CD9 /* PayPalUserIdentity_Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
