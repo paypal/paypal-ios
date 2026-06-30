@@ -5,6 +5,11 @@ import FraudProtection
 
 @MainActor
 class PayPalWebViewModel: ObservableObject {
+    
+    private enum DemoFixtures {
+        static let amount = Amount(currencyCode: "USD", value: "10.00")
+        static let vaultAttributes = Vault(storeInVault: "ON_SUCCESS", usageType: "MERCHANT", customerType: "CONSUMER")
+    }
 
     @Published var state = PayPalPaymentState()
     @Published var intent: Intent = .authorize
@@ -12,7 +17,7 @@ class PayPalWebViewModel: ObservableObject {
     @Published var checkoutResult: PayPalWebCheckoutResult?
     @Published var appSwitch = false
 
-    let appSwitchURL = "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
+    let appSwitchURL = Environment.sandbox.baseURL
 
     var payPalWebCheckoutClient: PayPalWebCheckoutClient?
 
@@ -28,7 +33,7 @@ class PayPalWebViewModel: ObservableObject {
     /// S3: PayPal vault (no app-switch)  -> attributes.vault + experienceContext
     /// S4: PayPal vault + app-switch     -> attributes.vault + experienceContext.appSwitchContext
     func createOrder(shouldVault: Bool) async throws {
-        let amountRequest = Amount(currencyCode: "USD", value: "10.00")
+        let amountRequest = DemoFixtures.amount
 
         var paymentSource: OrderPaymentSource?
 
@@ -39,9 +44,7 @@ class PayPalWebViewModel: ObservableObject {
                 appSwitchContext: appSwitch ? AppSwitchContext(appUrl: appSwitchURL) : nil
             )
 
-            let attributes: Attributes? = shouldVault
-            ? Attributes(vault: Vault(storeInVault: "ON_SUCCESS", usageType: "MERCHANT", customerType: "CONSUMER"))
-            : nil
+            let attributes: Attributes? = shouldVault ? Attributes(vault: DemoFixtures.vaultAttributes) : nil
 
             let paypal = PayPalSource(attributes: attributes, experienceContext: experience)
             paymentSource = .paypal(OrderPayPalPaymentSource(paypal: paypal))

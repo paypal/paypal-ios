@@ -3,7 +3,7 @@ import Foundation
 struct ExperimentationContext: Encodable {
 
     let integrationChannel: String?
-    init(integrationChannel: String? = "PPCP_NATIVE_SDK") {
+    init(integrationChannel: String? = PayPalCoreConstants.integrationChannel) {
         self.integrationChannel = integrationChannel
     }
 }

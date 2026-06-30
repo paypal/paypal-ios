@@ -7,6 +7,11 @@ import CorePayments
 // swiftlint: disable type_body_length file_length
 public class PayPalWebCheckoutClient: NSObject {
     
+    enum PayPalCheckoutCallbackURL {
+        static let path = "x-callback-url/paypal-sdk/paypal-checkout"
+        static let redirectURL = "\(PayPalCoreConstants.callbackURLScheme)://\(path)"
+    }
+
     static let serialDispatchQueue =
         DispatchQueue(label: "com.paypal.ios.PayPalWebCheckoutClient.serialDispatchQueue")
     
@@ -182,7 +187,7 @@ public class PayPalWebCheckoutClient: NSObject {
         do {
             let eligibility = try await patchCCOAPI.patchCCOWithAppSwitchEligibility(
                 token: request.orderID,
-                tokenType: "ORDER_ID",
+                tokenType: ExternalTokenKind.orderId,
                 canSwitchToApp: paypalNativeAppInstalled
             )
 
@@ -237,8 +242,7 @@ public class PayPalWebCheckoutClient: NSObject {
     }
 
     func payPalCheckoutReturnURL(payPalCheckoutURL: URL) -> URL? {
-        let bundleID = PayPalCoreConstants.callbackURLScheme
-        let redirectURLString = "\(bundleID)://x-callback-url/paypal-sdk/paypal-checkout"
+        let redirectURLString = PayPalCheckoutCallbackURL.redirectURL
         let redirectQueryItem = URLQueryItem(name: "redirect_uri", value: redirectURLString)
         let nativeXOQueryItem = URLQueryItem(name: "native_xo", value: "1")
 
@@ -267,7 +271,7 @@ public class PayPalWebCheckoutClient: NSObject {
         var vaultURLComponents = URLComponents(url: vaultURL, resolvingAgainstBaseURL: false)
         let queryItems = [
             URLQueryItem(name: "approval_session_id", value: vaultRequest.setupTokenID),
-            URLQueryItem(name: "integration_artifact", value: "MOBILE_SDK")
+            URLQueryItem(name: "integration_artifact", value: PayPalCoreConstants.integrationArtifact)
         ]
         vaultURLComponents?.queryItems = queryItems
 

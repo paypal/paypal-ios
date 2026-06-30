@@ -9,4 +9,16 @@ public enum PayPalCoreConstants {
     public static let payPalSDKVersion: String = "2.0.1"
     
     public static let callbackURLScheme: String = "sdk.ios.paypal"
+    
+    public static let integrationArtifact: String = "MOBILE_SDK"
+    
+    public static let osType: String = "IOS"
+    
+    static let integrationChannel: String = "PPCP_NATIVE_SDK"
+}
+
+@_documentation(visibility: private)
+public enum ExternalTokenKind {
+    public static let orderId = "ORDER_ID"
+    public static let clientToken = "CLIENT_TOKEN"
 }

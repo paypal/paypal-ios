@@ -78,12 +78,12 @@ public class PatchCCOWithAppSwitchEligibility {
 
         let variables = PatchCcoWithAppSwitchEligibilityVariables(
             contextId: token,
-            experimentationContext: ExperimentationContext(integrationChannel: "PPCP_NATIVE_SDK"),
-            osType: "IOS",
+            experimentationContext: ExperimentationContext(integrationChannel: PayPalCoreConstants.integrationChannel),
+            osType: PayPalCoreConstants.osType,
             merchantOptInForAppSwitch: true,
             token: token,
             tokenType: tokenType,
-            integrationArtifact: "MOBILE_SDK",
+            integrationArtifact: PayPalCoreConstants.integrationArtifact,
             paypalNativeAppInstalled: paypalNativeAppInstalled
         )
 
