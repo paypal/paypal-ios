@@ -1,6 +1,10 @@
 
 # PayPal iOS SDK Release Notes
 
+## Unreleased
+* CorePayments
+  * **Breaking:** `CoreConfig` requires `merchantID`parameter; optional `bnCode` parameter added
+
 ## 2.0.1 (2025-11-03)
 
 * PayPalWebPayments
