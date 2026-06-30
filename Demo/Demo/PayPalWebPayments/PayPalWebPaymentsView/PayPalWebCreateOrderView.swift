@@ -1,9 +1,17 @@
 import SwiftUI
+import PayPalWebPayments
 
-// TODO: Replace with PayPalUserAction from SDK when feature/shopper-session-id merges
-enum UserActionSelection: String, CaseIterable {
-    case payNow = "PAY NOW"
-    case `continue` = "CONTINUE"
+extension PayPalUserAction {
+    var title: String {
+        switch self {
+        case .continue:
+            return "CONTINUE"
+        case .payNow:
+            return "PAY NOW"
+        case .setupNow:
+            return "SETUP NOW"
+        }
+    }
 }
 
 struct PayPalWebCreateOrderView: View {
@@ -11,7 +19,7 @@ struct PayPalWebCreateOrderView: View {
     @ObservedObject var payPalWebViewModel: PayPalWebViewModel
 
     @State private var selectedIntent: Intent = .authorize
-    @State private var selectedUserAction: UserActionSelection = .payNow
+    @State private var selectedUserAction: PayPalUserAction = .payNow
     @State private var selectedUserIdentity: UserIdentitySelection = .none
     @State private var email: String = ""
     @State private var phone: String = ""
@@ -47,8 +55,8 @@ struct PayPalWebCreateOrderView: View {
                         .font(.subheadline)
                         .foregroundColor(.primary)
                     Picker("User Action", selection: $selectedUserAction) {
-                        ForEach(UserActionSelection.allCases, id: \.self) {
-                            Text($0.rawValue).tag($0)
+                        ForEach([PayPalUserAction.payNow, PayPalUserAction.continue], id: \.self) {
+                            Text($0.title).tag($0)
                         }
                     }
                     .pickerStyle(SegmentedPickerStyle())
