@@ -201,7 +201,9 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
         """
         mockNetworkingClient.stubHTTPResponse = HTTPResponse(status: 200, body: body.data(using: .utf8))
 
-        let response = try await sut.patchCCOWithAppSwitchEligibility(token: "tok", tokenType: ExternalTokenKind.clientToken, canSwitchToApp: false)
+        let response = try await sut.patchCCOWithAppSwitchEligibility(
+            token: "tok", tokenType: ExternalTokenKind.clientToken, canSwitchToApp: false
+        )
 
         XCTAssertEqual(response.appSwitchEligible, false)
         XCTAssertNil(response.redirectURL)
