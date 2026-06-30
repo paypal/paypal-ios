@@ -17,7 +17,7 @@ class CardClient_Tests: XCTestCase {
         expirationYear: "2021",
         securityCode: "123"
     )
-    let config = CoreConfig(clientID: "mockClientId", environment: .sandbox)
+    let config = CoreConfig(clientID: "mockClientId", environment: .sandbox, merchantID: "mockMerchantID")
     var cardRequest: CardRequest!
     var cardVaultRequest: CardVaultRequest!
 

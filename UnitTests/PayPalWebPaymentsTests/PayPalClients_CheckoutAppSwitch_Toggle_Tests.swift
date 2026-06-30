@@ -19,7 +19,7 @@ class PayPalClient_CheckoutAppSwitch_Toggle_tests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        config = CoreConfig(clientID: "testClientID", environment: .sandbox)
+        config = CoreConfig(clientID: "testClientID", environment: .sandbox, merchantID: "testMerchantID")
         mockWebAuthenticationSession = MockWebAuthenticationSession()
         mockNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: config))
         mockClientConfigAPI = MockClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)

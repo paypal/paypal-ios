@@ -10,7 +10,7 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
     private var sut: PatchCCOWithAppSwitchEligibility!
     private var mockNetworkingClient: MockNetworkingClient!
     private var mockAuthSTS: MockAuthenticationSecureTokenServiceAPI!
-    private let coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
+    private let coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox, merchantID: "fake-merchant-id")
     private let expectedQueryString = """
         mutation PatchCcoWithAppSwitchEligibility(
             $contextId: String!,
@@ -143,7 +143,7 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
         mockAuthSTS.stubbedError = CoreSDKError(code: 401, domain: "auth", errorDescription: "unauthorized")
 
         do {
-            _ = try await sut.patchCCOWithAppSwitchEligibility(token: "t", tokenType: ExternalTokenKind.clientToken, , canSwitchToApp: true)
+            _ = try await sut.patchCCOWithAppSwitchEligibility(token: "t", tokenType: ExternalTokenKind.clientToken, canSwitchToApp: true)
             XCTFail("Expected auth error")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, "auth")

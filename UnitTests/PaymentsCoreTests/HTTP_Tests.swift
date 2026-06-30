@@ -9,7 +9,7 @@ class HTTP_Tests: XCTestCase {
     let fakePostData = #"{ "fake": "data" }"#.data(using: .utf8)
     var fakeHTTPRequest: HTTPRequest!
     
-    let config = CoreConfig(clientID: "mockClientID", environment: .sandbox)
+    let config = CoreConfig(clientID: "mockClientID", environment: .sandbox, merchantID: "mockMerchantID")
     var mockURLSession: MockURLSession!
     var sut: HTTP!
     
