@@ -47,4 +47,3 @@ class PayPalUserIdentity_Tests: XCTestCase {
         XCTAssertNil(identity.serverSideShopperSessionId)
     }
 }
-
