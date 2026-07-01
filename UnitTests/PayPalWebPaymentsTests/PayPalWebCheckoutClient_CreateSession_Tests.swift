@@ -4,7 +4,7 @@ import AuthenticationServices
 @testable import PayPalWebPayments
 @testable import TestShared
 
-// swiftlint:disable type_body_length
+// swiftlint:disable type_body_length file_length
 class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
 
     // MARK: - Properties
@@ -409,4 +409,4 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
         waitForExpectations(timeout: 2)
     }
 }
-// swiftlint:enable type_body_length
+// swiftlint:enable type_body_length file_length

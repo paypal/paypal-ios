@@ -100,7 +100,7 @@ public class CreateShopperSessionAPI {
             .parseGraphQL(httpResponse, as: CreateShopperSessionResponse.self)
 
         guard let sessionID = parsed.external?
-            .createShopperSessionWithAppSwitchEligibility?
+            .sessionResult?
             .shopperSessionConfig?.id
         else {
             throw NetworkingError.noGraphQLDataKey

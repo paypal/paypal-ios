@@ -24,7 +24,7 @@ struct UserIdentityVariables: Encodable {
             serverSideShopperSessionId = id
             email = nil
             phone = nil
-        case .emailPhone(let email, let phone):
+        case let .emailPhone(email, phone):
             serverSideShopperSessionId = nil
             self.email = email
             self.phone = phone

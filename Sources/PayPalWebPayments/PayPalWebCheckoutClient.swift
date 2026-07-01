@@ -400,8 +400,7 @@ public class PayPalWebCheckoutClient: NSObject {
             }
 
             let baseURLString = config.environment.payPalBaseURL.absoluteString
-            let payPalCheckoutURLString =
-                "\(baseURLString)/checkoutnow?token=\(orderID)" +
+            let payPalCheckoutURLString = "\(baseURLString)/checkoutnow?token=\(orderID)" +
                 "&fundingSource=\(PayPalWebCheckoutFundingSource.paypal.rawValue)&integration_artifact=MOBILE_SDK"
 
             guard let payPalCheckoutURL = URL(string: payPalCheckoutURLString),
@@ -439,8 +438,7 @@ public class PayPalWebCheckoutClient: NSObject {
                             opType == "cancel" {
                             self.sessionTask = nil
                             self.notifyCheckoutCancelWithError(
-                                with: PayPalError.checkoutCanceledError,
-                                completion: completion
+                                with: PayPalError.checkoutCanceledError, completion: completion
                             )
                         } else if let orderID = self.getQueryStringParameter(url: url.absoluteString, param: "token"),
                             let payerID = self.getQueryStringParameter(url: url.absoluteString, param: "PayerID") {
