@@ -13,7 +13,6 @@ public class CreateShopperSessionAPI {
     private let coreConfig: CoreConfig
     private let networkingClient: NetworkingClient
 
-    // TODO: Replace with the finalized mutation once the GraphQL schema is published.
     private let createShopperSessionQuery = """
         mutation CreateShopperSessionWithAppSwitchEligibility(
             $returnUrl: String!,
@@ -40,8 +39,14 @@ public class CreateShopperSessionAPI {
                         userIdentity: $userIdentity
                     }
                 ) {
+                    appSwitchEligible
+                    redirectURL
+                    checkoutFallbackUrl
+                    ineligibleReason
+                    matchedAuthenticationMethods
                     shopperSessionConfig {
                         id
+                        expiresAt
                     }
                 }
             }
@@ -63,18 +68,18 @@ public class CreateShopperSessionAPI {
 
     // MARK: - Internal Methods
 
-    /// Creates a Shopper Session and returns its ID.
+    /// Creates a Shopper Session with app-switch eligibility and returns the full result.
     /// - Parameters:
     ///   - urlConfig: Return and cancel deep-link URLs registered with PayPal.
     ///   - userIdentity: Optional buyer identity for the session.
     ///   - userAction: The buyer action intent (default `.continue`).
-    /// - Returns: The opaque Shopper Session ID.
+    /// - Returns: A `ShopperSessionResult` containing eligibility, redirect URL, and session config.
     /// - Throws: A `CoreSDKError` if the network call or response parsing fails.
     func createShopperSessionWithAppSwitchEligibility(
         urlConfig: PayPalURLConfig,
         userIdentity: PayPalUserIdentity?,
         userAction: PayPalUserAction
-    ) async throws -> String {
+    ) async throws -> ShopperSessionResult {
         let identityVariables = userIdentity.map(UserIdentityVariables.init)
 
         let variables = CreateShopperSessionVariables(
@@ -99,13 +104,10 @@ public class CreateShopperSessionAPI {
         let parsed: CreateShopperSessionResponse = try HTTPResponseParser()
             .parseGraphQL(httpResponse, as: CreateShopperSessionResponse.self)
 
-        guard let sessionID = parsed.external?
-            .createShopperSessionWithAppSwitchEligibility?
-            .shopperSessionConfig?.id
-        else {
+        guard let result = parsed.external?.createShopperSessionWithAppSwitchEligibility else {
             throw NetworkingError.noGraphQLDataKey
         }
 
-        return sessionID
+        return result
     }
 }

@@ -4,7 +4,7 @@ import Foundation
 
 class MockCreateShopperSessionAPI: CreateShopperSessionAPI {
 
-    var stubSessionID: String?
+    var stubResponse: ShopperSessionResult?
     var stubError: Error?
 
     // Captured call arguments for assertion
@@ -17,7 +17,7 @@ class MockCreateShopperSessionAPI: CreateShopperSessionAPI {
         urlConfig: PayPalURLConfig,
         userIdentity: PayPalUserIdentity?,
         userAction: PayPalUserAction
-    ) async throws -> String {
+    ) async throws -> ShopperSessionResult {
         callCount += 1
         capturedURLConfig = urlConfig
         capturedUserIdentity = userIdentity
@@ -27,8 +27,8 @@ class MockCreateShopperSessionAPI: CreateShopperSessionAPI {
             throw stubError
         }
 
-        if let stubSessionID {
-            return stubSessionID
+        if let stubResponse {
+            return stubResponse
         }
 
         throw CoreSDKError(code: 0, domain: "", errorDescription: "Stubbed responses not implemented for this mock.")

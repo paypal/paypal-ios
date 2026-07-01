@@ -30,7 +30,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
     /// Holds the in-flight or completed Shopper Session fetch.
     /// Set by `createPayPalSession()`. Cleared automatically on checkout success, cancellation, or error.
-    private var sessionTask: Task<String, Error>?
+    private var sessionTask: Task<ShopperSessionResult, Error>?
 
     // MARK: - Initializer
 
@@ -127,10 +127,10 @@ public class PayPalWebCheckoutClient: NSObject {
 
         Task {
             do {
-                let sessionID = try await task.value
+                let session = try await task.value
                 sessionTask = nil
                 analyticsService?.sendEvent("paypal-web-payments:checkout:started")
-                launchCheckout(sessionID: sessionID, orderID: orderID, completion: completion)
+                launchCheckout(session: session, orderID: orderID, completion: completion)
             } catch {
                 sessionTask = nil
                 let sdkError = sdkError(from: error, fallback: "Session fetch failed.")
@@ -170,10 +170,10 @@ public class PayPalWebCheckoutClient: NSObject {
 
         Task {
             do {
-                let sessionID = try await task.value
+                let session = try await task.value
                 sessionTask = nil
                 analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:started")
-                launchVault(sessionID: sessionID, setupTokenID: setupTokenID, completion: completion)
+                launchVault(session: session, setupTokenID: setupTokenID, completion: completion)
             } catch {
                 sessionTask = nil
                 let sdkError = sdkError(from: error, fallback: "Session fetch failed.")
@@ -332,7 +332,7 @@ public class PayPalWebCheckoutClient: NSObject {
     // MARK: - Private: Session-based Launch
 
     private func launchCheckout(
-        sessionID: String,
+        session: ShopperSessionResult,
         orderID: String,
         completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
     ) {
@@ -340,14 +340,11 @@ public class PayPalWebCheckoutClient: NSObject {
         let appInstalled = urlOpener.isPayPalAppInstalled()
 
         Task {
-            if appInstalled {
-                // TODO: Replace with the finalized session-based app-switch URL once the schema is published.
-                // The session ID pre-warms eligibility server-side; construct the redirect URL accordingly.
-                let result = await attemptSessionAppSwitch(
-                    sessionID: sessionID,
-                    orderID: orderID,
-                    completionOnce: completionOnce
-                )
+            if appInstalled,
+               session.appSwitchEligible,
+               let urlString = session.redirectURL,
+               let url = URL(string: urlString) {
+                let result = await attemptSessionAppSwitch(url: url, completionOnce: completionOnce)
                 switch result {
                 case .launched:
                     return
@@ -360,11 +357,10 @@ public class PayPalWebCheckoutClient: NSObject {
     }
 
     private func launchVault(
-        sessionID: String,
+        session: ShopperSessionResult,
         setupTokenID: String,
         completion: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void
     ) {
-        // TODO: Incorporate sessionID into vault app-switch URL once the schema is published.
         startVaultWebAuthFlow(setupTokenID: setupTokenID, completion: completion)
     }
 
@@ -372,15 +368,25 @@ public class PayPalWebCheckoutClient: NSObject {
 
     private enum AppSwitchAttempt { case launched, fallback(String) }
 
-    /// Attempts a session-based app switch to the PayPal app.
+    /// Attempts a session-based app switch to the PayPal app using the redirect URL from the session response.
     private func attemptSessionAppSwitch(
-        sessionID: String,
-        orderID: String,
+        url: URL,
         completionOnce: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
     ) async -> AppSwitchAttempt {
-        // TODO: Construct the actual session-based app-switch URL using `sessionID` + `orderID`
-        // once the URL format is finalised in the LLD. For now, fall back to web checkout.
-        return .fallback("session_app_switch_not_yet_implemented")
+        await MainActor.run {
+            appSwitchCompletion = completionOnce
+        }
+        let opened = await attemptAppSwitch(with: url)
+        if opened {
+            analyticsService?.sendEvent("paypal-web-payments:checkout:app-switch-open:succeeded")
+            return .launched
+        } else {
+            analyticsService?.sendEvent("paypal-web-payments:checkout:app-switch-open:failed")
+            await MainActor.run { [weak self] in
+                self?.appSwitchCompletion = nil
+            }
+            return .fallback("cannot_open_url")
+        }
     }
 
     // MARK: - Private: Web Auth Flows
