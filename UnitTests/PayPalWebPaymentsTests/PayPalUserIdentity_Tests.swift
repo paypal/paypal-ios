@@ -3,47 +3,61 @@ import XCTest
 
 class PayPalUserIdentity_Tests: XCTestCase {
 
-    // MARK: - init(serverSideShopperSessionId:)
+    // MARK: - .serverSideShopperSession
 
-    func testInit_withServerSideShopperSessionId_setsSSIDField() {
-        let identity = PayPalUserIdentity(serverSideShopperSessionId: "test-ssid-123")
+    func testServerSideShopperSession_storesSessionID() {
+        let identity = PayPalUserIdentity.serverSideShopperSession(serverSideShopperSessionId: "test-ssid-123")
 
-        XCTAssertEqual(identity.serverSideShopperSessionId, "test-ssid-123")
+        guard case .serverSideShopperSession(let ssid) = identity else {
+            XCTFail("Expected .serverSideShopperSession case")
+            return
+        }
+        XCTAssertEqual(ssid, "test-ssid-123")
     }
 
-    func testInit_withServerSideShopperSessionId_nilsBuyerHints() {
-        let identity = PayPalUserIdentity(serverSideShopperSessionId: "test-ssid-123")
+    // MARK: - .email
 
-        XCTAssertNil(identity.email)
-        XCTAssertNil(identity.phone)
+    func testEmail_withEmailAndPhone_storesBothValues() {
+        let identity = PayPalUserIdentity.email(email: "buyer@example.com", phone: "5551234567")
+
+        guard case .email(let email, let phone) = identity else {
+            XCTFail("Expected .email case")
+            return
+        }
+        XCTAssertEqual(email, "buyer@example.com")
+        XCTAssertEqual(phone, "5551234567")
     }
 
-    // MARK: - init(email:phone:)
+    func testEmail_withEmailOnly_storesNilPhone() {
+        let identity = PayPalUserIdentity.email(email: "buyer@example.com", phone: nil)
 
-    func testInit_withEmailAndPhone_setsBothFields() {
-        let identity = PayPalUserIdentity(email: "buyer@example.com", phone: "5551234567")
-
-        XCTAssertEqual(identity.email, "buyer@example.com")
-        XCTAssertEqual(identity.phone, "5551234567")
+        guard case .email(let email, let phone) = identity else {
+            XCTFail("Expected .email case")
+            return
+        }
+        XCTAssertEqual(email, "buyer@example.com")
+        XCTAssertNil(phone)
     }
 
-    func testInit_withEmailOnly_setsEmailNilsPhone() {
-        let identity = PayPalUserIdentity(email: "buyer@example.com")
+    func testEmail_withPhoneOnly_storesNilEmail() {
+        let identity = PayPalUserIdentity.email(email: nil, phone: "5551234567")
 
-        XCTAssertEqual(identity.email, "buyer@example.com")
-        XCTAssertNil(identity.phone)
+        guard case .email(let email, let phone) = identity else {
+            XCTFail("Expected .email case")
+            return
+        }
+        XCTAssertNil(email)
+        XCTAssertEqual(phone, "5551234567")
     }
 
-    func testInit_withPhoneOnly_setsPhoneNilsEmail() {
-        let identity = PayPalUserIdentity(phone: "5551234567")
+    // MARK: - .none
 
-        XCTAssertNil(identity.email)
-        XCTAssertEqual(identity.phone, "5551234567")
-    }
+    func testNone_isNoneCase() {
+        let identity = PayPalUserIdentity.none
 
-    func testInit_withBuyerHints_nilsSSID() {
-        let identity = PayPalUserIdentity(email: "buyer@example.com", phone: "5551234567")
-
-        XCTAssertNil(identity.serverSideShopperSessionId)
+        guard case .none = identity else {
+            XCTFail("Expected .none case")
+            return
+        }
     }
 }
