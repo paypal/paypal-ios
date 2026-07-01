@@ -172,6 +172,13 @@
 			remoteGlobalIDString = BCD5C46727E9200800B074D5;
 			remoteInfo = PayPalWebPayments;
 		};
+		AA11223344556600AABB000C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BCD5C46727E9200800B074D5;
+			remoteInfo = PayPalWebPayments;
+		};
 		3B8F848E2D93380B00A151AC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
@@ -928,6 +935,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AA11223344556600AABB000D /* PBXTargetDependency */,
 			);
 			name = TestShared;
 			productName = TestShared;
@@ -1475,6 +1483,11 @@
 			);
 			target = BCD5C46727E9200800B074D5 /* PayPalWebPayments */;
 			targetProxy = 3B8F84892D9337FF00A151AC /* PBXContainerItemProxy */;
+		};
+		AA11223344556600AABB000D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BCD5C46727E9200800B074D5 /* PayPalWebPayments */;
+			targetProxy = AA11223344556600AABB000C /* PBXContainerItemProxy */;
 		};
 		3B8F848F2D93380B00A151AC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
