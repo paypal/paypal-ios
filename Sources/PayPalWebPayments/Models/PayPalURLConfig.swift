@@ -5,9 +5,9 @@ public struct PayPalURLConfig {
 
     public let returnAppUrl: String
     public let cancelAppUrl: String
-    public let fallbackSchemeUrl: String?
+    public let fallbackSchemeUrl: String
 
-    public init(returnAppUrl: String, cancelAppUrl: String, fallbackSchemeUrl: String? = nil) {
+    public init(returnAppUrl: String, cancelAppUrl: String, fallbackSchemeUrl: String) {
         self.returnAppUrl = returnAppUrl
         self.cancelAppUrl = cancelAppUrl
         self.fallbackSchemeUrl = fallbackSchemeUrl
