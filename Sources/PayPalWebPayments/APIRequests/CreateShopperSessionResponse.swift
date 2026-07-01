@@ -1,5 +1,6 @@
 import Foundation
 
+// TODO: full response will be in another PR
 struct CreateShopperSessionResponse: Decodable {
 
     let external: ExternalNode?
