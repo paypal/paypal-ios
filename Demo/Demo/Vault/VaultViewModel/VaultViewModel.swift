@@ -9,9 +9,13 @@ enum PaymentType {
 class VaultViewModel: ObservableObject {
 
     @Published var state = VaultState()
-    @Published var appSwitch = false
 
-    let appSwitchURL = "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
+    // TODO: Replace with PayPalUserAction/PayPalUserIdentity from SDK when feature/shopper-session-id merges
+    @Published var selectedUserAction: UserActionSelection = .payNow
+    @Published var selectedUserIdentity: UserIdentitySelection = .none
+    @Published var userEmail: String = ""
+    @Published var userPhone: String = ""
+    @Published var userSSID: String = ""
 
     func getSetupToken(
         customerID: String? = nil,
@@ -24,13 +28,7 @@ class VaultViewModel: ObservableObject {
                 self.state.setupTokenResponse = .loading
             }
 
-            var experienceContext: VaultExperienceContext
-
-            if appSwitch {
-                experienceContext = VaultExperienceContext(appSwitchContext: AppSwitchContext(appUrl: appSwitchURL))
-            } else {
-                experienceContext = VaultExperienceContext()
-            }
+            let experienceContext = VaultExperienceContext()
 
             var paymentSourceType: PaymentSourceType
             switch paymentType {
@@ -58,6 +56,11 @@ class VaultViewModel: ObservableObject {
 
     func resetState() {
         state = VaultState()
+        selectedUserAction = .payNow
+        selectedUserIdentity = .none
+        userEmail = ""
+        userPhone = ""
+        userSSID = ""
     }
 
     func getPaymentToken(

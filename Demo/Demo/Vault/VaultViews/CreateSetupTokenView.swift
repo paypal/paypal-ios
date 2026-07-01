@@ -36,11 +36,26 @@ struct CreateSetupTokenView: View {
             }
 
             if paymentType == .paypal {
-                Toggle("Enable App Switch", isOn: $vaultViewModel.appSwitch)
-                    .padding()
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("User Action")
+                        .font(.subheadline)
+                        .foregroundColor(.primary)
+                    Picker("User Action", selection: $vaultViewModel.selectedUserAction) {
+                        ForEach(UserActionSelection.allCases, id: \.self) {
+                            Text($0.rawValue).tag($0)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                }
+                UserIdentityView(
+                    selectedUserIdentity: $vaultViewModel.selectedUserIdentity,
+                    email: $vaultViewModel.userEmail,
+                    phone: $vaultViewModel.userPhone,
+                    ssid: $vaultViewModel.userSSID
+                )
             }
             ZStack {
-                Button("Create Setup Token") {
+                Button("Checkout") {
                     Task {
                         do {
                             try await vaultViewModel.getSetupToken(
@@ -59,6 +74,12 @@ struct CreateSetupTokenView: View {
                     CircularProgressView()
                 }
             }
+        }
+        .onAppear {
+            UISegmentedControl.appearance().selectedSegmentTintColor = .systemBlue
+            UISegmentedControl.appearance().setTitleTextAttributes(
+                [.foregroundColor: UIColor.white], for: .selected
+            )
         }
         .padding()
         .background(

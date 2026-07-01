@@ -143,7 +143,7 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
         mockAuthSTS.stubbedError = CoreSDKError(code: 401, domain: "auth", errorDescription: "unauthorized")
 
         do {
-            _ = try await sut.patchCCOWithAppSwitchEligibility(token: "t", tokenType: ExternalTokenKind.clientToken, , canSwitchToApp: true)
+            _ = try await sut.patchCCOWithAppSwitchEligibility(token: "t", tokenType: ExternalTokenKind.clientToken, canSwitchToApp: true)
             XCTFail("Expected auth error")
         } catch let error as CoreSDKError {
             XCTAssertEqual(error.domain, "auth")
@@ -201,7 +201,9 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
         """
         mockNetworkingClient.stubHTTPResponse = HTTPResponse(status: 200, body: body.data(using: .utf8))
 
-        let response = try await sut.patchCCOWithAppSwitchEligibility(token: "tok", tokenType: ExternalTokenKind.clientToken, canSwitchToApp: false)
+        let response = try await sut.patchCCOWithAppSwitchEligibility(
+            token: "tok", tokenType: ExternalTokenKind.clientToken, canSwitchToApp: false
+        )
 
         XCTAssertEqual(response.appSwitchEligible, false)
         XCTAssertNil(response.redirectURL)
