@@ -21,7 +21,7 @@ struct PayPalWebCreateOrderView: View {
 
     @State private var selectedIntent: Intent = .authorize
     @State private var selectedUserAction: PayPalUserAction = .payNow
-    @State private var selectedUserIdentity: UserIdentitySelection = .none
+    @State private var selectedUserIdentity: PayPalUserIdentity = .none
     @State private var email: String = ""
     @State private var phone: String = ""
     @State private var ssid: String = ""

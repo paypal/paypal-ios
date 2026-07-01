@@ -14,7 +14,7 @@ public enum PayPalCoreConstants {
     
     public static let osType: String = "IOS"
     
-    static let integrationChannel: String = "PPCP_NATIVE_SDK"
+    public static let integrationChannel: String = "PPCP_NATIVE_SDK"
 }
 
 @_documentation(visibility: private)
