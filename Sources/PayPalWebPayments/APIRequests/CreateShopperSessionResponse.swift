@@ -7,11 +7,8 @@ struct CreateShopperSessionResponse: Decodable {
 
     struct ExternalNode: Decodable {
 
-        let sessionResult: SessionResultNode?
-
-        private enum CodingKeys: String, CodingKey {
-            case sessionResult = "createShopperSessionWithAppSwitchEligibility"
-        }
+        // swiftlint:disable:next identifier_name
+        let createShopperSessionWithAppSwitchEligibility: SessionResultNode?
     }
 
     struct SessionResultNode: Decodable {
