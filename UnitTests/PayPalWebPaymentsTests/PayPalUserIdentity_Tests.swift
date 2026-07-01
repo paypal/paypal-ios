@@ -18,9 +18,9 @@ class PayPalUserIdentity_Tests: XCTestCase {
     // MARK: - .email
 
     func testEmail_withEmailAndPhone_storesBothValues() {
-        let identity = PayPalUserIdentity.email(email: "buyer@example.com", phone: "5551234567")
+        let identity = PayPalUserIdentity.emailPhone(email: "buyer@example.com", phone: "5551234567")
 
-        guard case .email(let email, let phone) = identity else {
+        guard case let .emailPhone(email, phone) = identity else {
             XCTFail("Expected .email case")
             return
         }
@@ -29,9 +29,9 @@ class PayPalUserIdentity_Tests: XCTestCase {
     }
 
     func testEmail_withEmailOnly_storesNilPhone() {
-        let identity = PayPalUserIdentity.email(email: "buyer@example.com", phone: nil)
+        let identity = PayPalUserIdentity.emailPhone(email: "buyer@example.com", phone: nil)
 
-        guard case .email(let email, let phone) = identity else {
+        guard case let .emailPhone(email, phone) = identity else {
             XCTFail("Expected .email case")
             return
         }
@@ -40,9 +40,9 @@ class PayPalUserIdentity_Tests: XCTestCase {
     }
 
     func testEmail_withPhoneOnly_storesNilEmail() {
-        let identity = PayPalUserIdentity.email(email: nil, phone: "5551234567")
+        let identity = PayPalUserIdentity.emailPhone(email: nil, phone: "5551234567")
 
-        guard case .email(let email, let phone) = identity else {
+        guard case let .emailPhone(email, phone) = identity else {
             XCTFail("Expected .email case")
             return
         }
