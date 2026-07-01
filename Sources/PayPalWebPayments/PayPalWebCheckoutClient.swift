@@ -140,24 +140,6 @@ public class PayPalWebCheckoutClient: NSObject {
         }
     }
 
-    /// Initiates the PayPal checkout flow (async/throws variant).
-    ///
-    /// `createPayPalSession()` **must** be called before this method.
-    ///
-    /// - Parameter orderID: The order ID to approve.
-    /// - Returns: A `PayPalWebCheckoutResult` containing `orderID` and `payerID`.
-    /// - Throws: A `CoreSDKError` describing the failure.
-    public func start(orderID: String) async throws -> PayPalWebCheckoutResult {
-        try await withCheckedThrowingContinuation { continuation in
-            start(orderID: orderID) { result in
-                switch result {
-                case .success(let value): continuation.resume(returning: value)
-                case .failure(let error): continuation.resume(throwing: error)
-                }
-            }
-        }
-    }
-
     // MARK: - Vault
 
     /// Initiates the PayPal vault flow for saving a payment method without a purchase.
@@ -197,24 +179,6 @@ public class PayPalWebCheckoutClient: NSObject {
                 let sdkError = sdkError(from: error, fallback: "Session fetch failed.")
                 analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:failed")
                 DispatchQueue.main.async { completion(.failure(sdkError)) }
-            }
-        }
-    }
-
-    /// Initiates the PayPal vault flow (async/throws variant).
-    ///
-    /// `createPayPalSession()` **must** be called before this method.
-    ///
-    /// - Parameter setupTokenID: The setup token ID returned by the PayPal setup-token API.
-    /// - Returns: A `PayPalVaultResult` containing `tokenID` and `approvalSessionID`.
-    /// - Throws: A `CoreSDKError` describing the failure.
-    public func vault(setupTokenID: String) async throws -> PayPalVaultResult {
-        try await withCheckedThrowingContinuation { continuation in
-            vault(setupTokenID: setupTokenID) { result in
-                switch result {
-                case .success(let value): continuation.resume(returning: value)
-                case .failure(let error): continuation.resume(throwing: error)
-                }
             }
         }
     }
