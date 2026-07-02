@@ -6,8 +6,8 @@ enum MerchantIntegration: Hashable {
 
     static var `default`: MerchantIntegration {
         return .direct(
-            clientID: "AQTfw2irFfemo-eWG4H5UY-b9auKihUpXQ2Engl4G1EsHJe2mkpfUv_SN3Mba0v3CfrL6Fk_ecwv9EOo",
-            merchantID: "test-merchant-id"
+            clientID: testClientID,
+            merchantID: testMerchantID
         )
     }
 
@@ -42,18 +42,21 @@ enum MerchantIntegration: Hashable {
     static var allCases: [MerchantIntegration] {
         return [
             .direct(
-                clientID: "AQTfw2irFfemo-eWG4H5UY-b9auKihUpXQ2Engl4G1EsHJe2mkpfUv_SN3Mba0v3CfrL6Fk_ecwv9EOo",
-                merchantID: "test-merchant-id"
+                clientID: testClientID,
+                merchantID: testMerchantID
             )
         ]
     }
+    
+    private static let testClientID = "AQTfw2irFfemo-eWG4H5UY-b9auKihUpXQ2Engl4G1EsHJe2mkpfUv_SN3Mba0v3CfrL6Fk_ecwv9EOo"
+    private static let testMerchantID = "test-merchant-id"
 
     static func from(displayName: String, withClientID clientID: String) -> MerchantIntegration? {
         switch displayName {
         case "direct":
             return .direct(
-                clientID: "AQTfw2irFfemo-eWG4H5UY-b9auKihUpXQ2Engl4G1EsHJe2mkpfUv_SN3Mba0v3CfrL6Fk_ecwv9EOo",
-                merchantID: "test-merchant-id"
+                clientID: testClientID,
+                merchantID: testMerchantID
             )
         default: return nil
         }

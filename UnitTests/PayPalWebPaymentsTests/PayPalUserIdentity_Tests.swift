@@ -53,9 +53,9 @@ class PayPalUserIdentity_Tests: XCTestCase {
     // MARK: - .none
 
     func testNone_isNoneCase() {
-        let identity = PayPalUserIdentity.none
+        let identity = PayPalUserIdentity.anonymous
 
-        guard case .none = identity else {
+        guard case .anonymous = identity else {
             XCTFail("Expected .none case")
             return
         }

@@ -10,8 +10,8 @@ class PayPalURLConfig_Tests: XCTestCase {
             fallbackSchemeUrl: "myapp://fallback"
         )
 
-        XCTAssertEqual(config.returnAppUrl, "myapp://return")
-        XCTAssertEqual(config.cancelAppUrl, "myapp://cancel")
-        XCTAssertEqual(config.fallbackSchemeUrl, "myapp://fallback")
+        XCTAssertEqual(config.returnAppURL, "myapp://return")
+        XCTAssertEqual(config.cancelAppURL, "myapp://cancel")
+        XCTAssertEqual(config.fallbackSchemeURL, "myapp://fallback")
     }
 }
