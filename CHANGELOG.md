@@ -1,6 +1,13 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+
+* CorePayments
+  * Add DEBUG-only `Environment.custom(baseURL:graphQLURL:)` case for pointing the SDK at a custom REST/GraphQL host during development. The case is compiled out of release builds, so merchants can only use `.sandbox` or `.live`.
+* Demo
+  * Add a "Custom" environment that lets you enter and persist a Client ID, SDK REST Base URL, and SDK GraphQL Base URL (DEBUG only).
+
 ## 2.0.1 (2025-11-03)
 
 * PayPalWebPayments
