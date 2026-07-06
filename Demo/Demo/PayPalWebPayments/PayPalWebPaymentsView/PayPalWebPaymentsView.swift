@@ -13,8 +13,6 @@ struct PayPalWebPaymentsView: View {
                     
                     if case .loaded = payPalWebViewModel.state.createdOrderResponse {
                         PayPalOrderCreateResultView(payPalWebViewModel: payPalWebViewModel)
-                        
-                        PayPalWebButtonsView(payPalWebViewModel: payPalWebViewModel)
                     }
                     
                     if case .loaded = payPalWebViewModel.state.approveResultResponse {
@@ -38,6 +36,10 @@ struct PayPalWebPaymentsView: View {
                     }
                 }
             }
+        }
+        // for testing, this will be moved to app level with singleton router
+        .onOpenURL { url in
+            payPalWebViewModel.handleUniversalLinkReturn(url)
         }
     }
 }

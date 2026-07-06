@@ -77,9 +77,18 @@ struct PayPalWebCreateOrderView: View {
                         Task {
                             do {
                                 payPalWebViewModel.intent = selectedIntent
-                                try await payPalWebViewModel.createOrder(shouldVault: shouldVaultSelected)
+                                try await payPalWebViewModel.checkout(
+                                    shouldVault: shouldVaultSelected,
+                                    userAction: selectedUserAction,
+                                    userIdentity: PayPalWebViewModel.makeUserIdentity(
+                                        selection: selectedUserIdentity,
+                                        email: email,
+                                        phone: phone,
+                                        ssid: ssid
+                                    )
+                                )
                             } catch {
-                                print("Error in getting setup token. \(error.localizedDescription)")
+                                print("Error in checkout. \(error.localizedDescription)")
                             }
                         }
                     }

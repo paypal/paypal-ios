@@ -80,6 +80,9 @@ public class CreateShopperSessionAPI {
         userIdentity: PayPalUserIdentity?,
         userAction: PayPalUserAction
     ) async throws -> ShopperSessionResult {
+        // TODO: for testing purposes only, will be removed
+        return FakeCreateShopperSessionSuccessResponse.success
+        
         let identityVariables = userIdentity.map(UserIdentityVariables.init)
 
         let variables = CreateShopperSessionVariables(

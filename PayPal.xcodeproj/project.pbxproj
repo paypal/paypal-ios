@@ -21,6 +21,7 @@
 		AA11223344556600AABB0002 /* CreateShopperSessionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA11223344556600AABB0001 /* CreateShopperSessionAPI.swift */; };
 		AA11223344556600AABB0004 /* CreateShopperSessionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA11223344556600AABB0003 /* CreateShopperSessionResponse.swift */; };
 		AA11223344556600AABB0006 /* CreateShopperSessionVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA11223344556600AABB0005 /* CreateShopperSessionVariables.swift */; };
+		AA11223344556600AABB0010 /* FakeCreateShopperSessionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA11223344556600AABB000F /* FakeCreateShopperSessionResponse.swift */; };
 		AA11223344556600AABB0008 /* MockCreateShopperSessionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA11223344556600AABB0007 /* MockCreateShopperSessionAPI.swift */; };
 		3B783DC32B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B783DC22B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift */; };
 		3B79E4F72A8503CA00C01D06 /* UpdateVaultVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B79E4F62A8503C900C01D06 /* UpdateVaultVariables.swift */; };
@@ -234,6 +235,7 @@
 		AA11223344556600AABB0001 /* CreateShopperSessionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateShopperSessionAPI.swift; sourceTree = "<group>"; };
 		AA11223344556600AABB0003 /* CreateShopperSessionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateShopperSessionResponse.swift; sourceTree = "<group>"; };
 		AA11223344556600AABB0005 /* CreateShopperSessionVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateShopperSessionVariables.swift; sourceTree = "<group>"; };
+		AA11223344556600AABB000F /* FakeCreateShopperSessionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeCreateShopperSessionResponse.swift; sourceTree = "<group>"; };
 		AA11223344556600AABB0007 /* MockCreateShopperSessionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCreateShopperSessionAPI.swift; sourceTree = "<group>"; };
 		3B783DC22B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeUpdateSetupTokenResponse.swift; sourceTree = "<group>"; };
 		3B79E4F62A8503C900C01D06 /* UpdateVaultVariables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateVaultVariables.swift; sourceTree = "<group>"; };
@@ -746,6 +748,7 @@
 				AA11223344556600AABB0001 /* CreateShopperSessionAPI.swift */,
 				AA11223344556600AABB0003 /* CreateShopperSessionResponse.swift */,
 				AA11223344556600AABB0005 /* CreateShopperSessionVariables.swift */,
+				AA11223344556600AABB000F /* FakeCreateShopperSessionResponse.swift */,
 			);
 			path = APIRequests;
 			sourceTree = "<group>";
@@ -1394,6 +1397,7 @@
 				AA11223344556600AABB0002 /* CreateShopperSessionAPI.swift in Sources */,
 				AA11223344556600AABB0004 /* CreateShopperSessionResponse.swift in Sources */,
 				AA11223344556600AABB0006 /* CreateShopperSessionVariables.swift in Sources */,
+				AA11223344556600AABB0010 /* FakeCreateShopperSessionResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
