@@ -17,7 +17,9 @@ class PayPalVaultViewModel: VaultViewModel {
             let config = try await configManager.getCoreConfig()
             paypalClient = PayPalWebCheckoutClient(config: config)
             guard let paypalClient else { return }
-            let vaultRequest = PayPalVaultRequest(setupTokenID: setupTokenID, appSwitchIfEligible: appSwitch)
+            // TODO: Pass userAction (selectedUserAction) and userIdentity
+            // when feature/shopper-session-id SDK changes merge (PayPalUserAction/PayPalUserIdentity)
+            let vaultRequest = PayPalVaultRequest(setupTokenID: setupTokenID)
             paypalClient.vault(vaultRequest) { result in
                 switch result {
                 case .success(let cardVaultResult):
