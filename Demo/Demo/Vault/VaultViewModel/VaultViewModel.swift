@@ -1,4 +1,5 @@
 import SwiftUI
+import PayPalWebPayments
 
 enum PaymentType {
     case paypal
@@ -10,8 +11,7 @@ class VaultViewModel: ObservableObject {
 
     @Published var state = VaultState()
 
-    // TODO: Replace with PayPalUserAction/PayPalUserIdentity from SDK when feature/shopper-session-id merges
-    @Published var selectedUserAction: UserActionSelection = .payNow
+    @Published var selectedUserAction: PayPalUserAction = .payNow
     @Published var selectedUserIdentity: UserIdentitySelection = .none
     @Published var userEmail: String = ""
     @Published var userPhone: String = ""

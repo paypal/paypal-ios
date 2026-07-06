@@ -1,4 +1,5 @@
 import SwiftUI
+import PayPalWebPayments
 
 struct CreateSetupTokenView: View {
 
@@ -41,8 +42,8 @@ struct CreateSetupTokenView: View {
                         .font(.subheadline)
                         .foregroundColor(.primary)
                     Picker("User Action", selection: $vaultViewModel.selectedUserAction) {
-                        ForEach(UserActionSelection.allCases, id: \.self) {
-                            Text($0.rawValue).tag($0)
+                        ForEach([PayPalUserAction.payNow, PayPalUserAction.continue], id: \.self) {
+                            Text($0.title).tag($0)
                         }
                     }
                     .pickerStyle(SegmentedPickerStyle())
