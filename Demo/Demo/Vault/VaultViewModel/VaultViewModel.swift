@@ -18,7 +18,7 @@ class VaultViewModel: ObservableObject {
     @Published var userSSID: String = ""
     @Published var customerID: String = ""
 
-    var resolvedUserIdentity: PayPalUserIdentity? {
+    var resolvedUserIdentity: PayPalUserIdentity {
         UserIdentityFactory.makeUserIdentity(
             selection: selectedUserIdentity,
             email: userEmail,

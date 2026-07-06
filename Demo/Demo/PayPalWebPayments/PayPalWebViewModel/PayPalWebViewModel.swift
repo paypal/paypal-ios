@@ -31,7 +31,7 @@ class PayPalWebViewModel: ObservableObject {
     func checkout(
         shouldVault: Bool,
         userAction: PayPalUserAction,
-        userIdentity: PayPalUserIdentity?
+        userIdentity: PayPalUserIdentity
     ) async throws {
         state.createdOrderResponse = .loading
 
