@@ -14,9 +14,7 @@ extension PayPalUserAction {
         }
     }
     
-    static var checkoutActions: [PayPalUserAction] {
-        [.payNow, .continue]
-    }
+    static let checkoutActions: [PayPalUserAction] = [.payNow, .continue]
 }
 
 struct PayPalWebCreateOrderView: View {
