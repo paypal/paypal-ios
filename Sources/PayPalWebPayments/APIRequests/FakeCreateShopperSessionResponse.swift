@@ -4,7 +4,7 @@ enum FakeCreateShopperSessionSuccessResponse {
 
     static let success = ShopperSessionResult(
         appSwitchEligible: true,
-        redirectURL: "https://www.sandbox.paypal.com/app-switch-checkout?appSwitchEligible=true&token=test-order-id&tokenType=ORDER_ID",
+        redirectURL: "https://www.sandbox.paypal.com/app-switch-checkout",
         checkoutFallbackUrl: "https://www.sandbox.paypal.com/checkoutnow",
         ineligibleReason: nil,
         matchedAuthenticationMethods: ["EMAIL"],

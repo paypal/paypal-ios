@@ -58,9 +58,11 @@ struct CreateSetupTokenView: View {
                 Button("Checkout") {
                     Task {
                         do {
-                            if paymentType == .paypal, let paypalVaultViewModel = vaultViewModel as? PayPalVaultViewModel {
+                            switch paymentType {
+                            case .paypal:
+                                guard let paypalVaultViewModel = vaultViewModel as? PayPalVaultViewModel else { return }
                                 try await paypalVaultViewModel.vault()
-                            } else {
+                            case .card:
                                 try await vaultViewModel.getSetupToken(
                                     customerID: vaultViewModel.customerID.isEmpty ? nil : vaultViewModel.customerID,
                                     selectedMerchantIntegration: selectedMerchantIntegration,
