@@ -2,6 +2,7 @@ import Foundation
 import CardPayments
 import CorePayments
 
+@MainActor
 class CardVaultViewModel: VaultViewModel {
 
     let configManager = CoreConfigManager(domain: "Card Vault")

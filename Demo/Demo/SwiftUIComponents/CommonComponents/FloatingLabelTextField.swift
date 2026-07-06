@@ -4,6 +4,7 @@ struct FloatingLabelTextField: View {
 
     let placeholder: String
     @Binding var text: String
+    var keyboardType: UIKeyboardType = .numberPad
 
     var body: some View {
         ZStack(alignment: .leading) {
@@ -13,7 +14,7 @@ struct FloatingLabelTextField: View {
                 .font(.system(text.isEmpty ? .title3 : .title3, design: .rounded))
                 .foregroundColor(.gray)
             TextField("", text: $text)
-                .keyboardType(.numberPad)
+                .keyboardType(keyboardType)
         }
         .padding(.top, text.isEmpty ? 0 : 18)
         .animation(.default, value: 0)

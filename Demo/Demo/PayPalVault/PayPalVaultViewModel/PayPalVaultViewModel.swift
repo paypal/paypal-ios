@@ -2,9 +2,12 @@ import UIKit
 import PayPalWebPayments
 import CorePayments
 
+@MainActor
 class PayPalVaultViewModel: VaultViewModel {
 
     let configManager = CoreConfigManager(domain: "PayPal Vault")
+
+    var paypalClient: PayPalWebCheckoutClient?
 
     func vault(setupTokenID: String) async {
         DispatchQueue.main.async {
@@ -12,7 +15,10 @@ class PayPalVaultViewModel: VaultViewModel {
         }
         do {
             let config = try await configManager.getCoreConfig()
-            let paypalClient = PayPalWebCheckoutClient(config: config)
+            paypalClient = PayPalWebCheckoutClient(config: config)
+            guard let paypalClient else { return }
+            // TODO: Pass userAction (selectedUserAction) and userIdentity
+            // when feature/shopper-session-id SDK changes merge (PayPalUserAction/PayPalUserIdentity)
             let vaultRequest = PayPalVaultRequest(setupTokenID: setupTokenID)
             paypalClient.vault(vaultRequest) { result in
                 switch result {

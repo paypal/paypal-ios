@@ -1,70 +1,84 @@
 struct CreateOrderParams: Encodable {
 
-    let applicationContext: ApplicationContext?
-    let intent: String
-    var purchaseUnits: [PurchaseUnit]?
-    var paymentSource: VaultPaymentSource?
+    var applicationContext: ApplicationContext?
+    var intent: String
+    var purchaseUnits: [PurchaseUnit]
+    var paymentSource: OrderPaymentSource?
 }
 
 struct ApplicationContext: Codable {
 
     let userAction: String
     let shippingPreference: String
-
-    enum CodingKeys: String, CodingKey {
-        case userAction
-        case shippingPreference
-    }
 }
 
-enum VaultPaymentSource: Encodable {
-    case card(VaultCardPaymentSource)
-    case paypal(VaultPayPalPaymentSource)
+// MARK: - Payment source (general, for both vault, and non-vault)
+
+enum OrderPaymentSource: Encodable {
+
+    case paypal(OrderPayPalPaymentSource)
+    case card(OrderCardPaymentSource)
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case .card(let cardSource):
-            try container.encode(cardSource)
-        case .paypal(let paypalSource):
-            try container.encode(paypalSource)
+        case .paypal(let source): try container.encode(source)
+        case .card(let source):   try container.encode(source)
         }
     }
 }
 
-struct VaultPayPalPaymentSource: Encodable {
+struct OrderPayPalPaymentSource: Encodable {
 
-    let paypal: VaultPayPal
+    let paypal: PayPalSource
 }
 
-struct VaultPayPal: Encodable {
+struct OrderCardPaymentSource: Encodable {
 
-    let attributes: Attributes
-    let experienceContext: ExperienceContext
+    let card: CardSource
 }
 
-struct ExperienceContext: Encodable {
+// Attributes are only for vault now
+struct PayPalSource: Encodable {
 
-    // these fields are not encoded for our SDK but are required for create order with PayPal vault option
+    var attributes: Attributes?
+    var experienceContext: PayPalExperienceContext?
+}
+
+struct CardSource: Encodable {
+
+    var attributes: Attributes?
+}
+
+// MARK: - PayPal experience context
+
+struct PayPalExperienceContext: Encodable {
+
     let returnUrl: String
     let cancelUrl: String
+    var appSwitchContext: AppSwitchContext?
 }
 
-struct VaultCardPaymentSource: Encodable {
+struct AppSwitchContext: Encodable {
 
-    let card: VaultCard
+    let nativeApp: NativeApp
+    init(appUrl: String, osType: String = "IOS") {
+        self.nativeApp = NativeApp(osType: osType, appUrl: appUrl)
+    }
 }
 
-struct VaultCard: Encodable {
+struct NativeApp: Encodable {
 
-    let attributes: Attributes
+    let osType: String
+    let appUrl: String
 }
+
+// MARK: - Vault attributes
 
 struct Attributes: Encodable {
 
     let vault: Vault
     let customer: Customer?
-
     init(vault: Vault, customer: Customer? = nil) {
         self.vault = vault
         self.customer = customer
@@ -76,7 +90,6 @@ struct Vault: Encodable {
     let storeInVault: String
     let usageType: String?
     let customerType: String?
-
     init(storeInVault: String, usageType: String? = nil, customerType: String? = nil) {
         self.storeInVault = storeInVault
         self.usageType = usageType
@@ -132,7 +145,7 @@ struct Amount: Encodable {
     let currencyCode: String
     let value: String
     var breakdown: Breakdown?
-    
+
     struct Breakdown: Encodable {
 
         let shipping: ItemTotal

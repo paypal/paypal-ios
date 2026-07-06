@@ -3,6 +3,7 @@ import CardPayments
 import CorePayments
 import FraudProtection
 
+@MainActor
 class CardPaymentViewModel: ObservableObject {
 
     @Published var state = CardPaymentState()
@@ -12,6 +13,9 @@ class CardPaymentViewModel: ObservableObject {
 
     private var cardClient: CardClient?
 
+    /// Card supports:
+    /// - S1: no vault (paymentSource = nil)
+    /// - S5: vault (paymentSource.card.attributes.vault)
     func createOrder(
         amount: String,
         selectedMerchantIntegration: MerchantIntegration,
@@ -21,37 +25,26 @@ class CardPaymentViewModel: ObservableObject {
     ) async throws {
 
         let amountRequest = Amount(currencyCode: "USD", value: amount)
-        // TODO: might need to pass in payee as payee object or as auth header
 
-        var vaultCardPaymentSource: VaultCardPaymentSource?
+        var paymentSource: OrderPaymentSource?
         if shouldVault {
-            var customer: Customer?
-            if let customerID {
-                customer = Customer(id: customerID)
-            }
+            let customer = customerID.map { Customer(id: $0) }
             let attributes = Attributes(vault: Vault(storeInVault: "ON_SUCCESS"), customer: customer)
-            let card = VaultCard(attributes: attributes)
-            vaultCardPaymentSource = VaultCardPaymentSource(card: card)
+            let card = CardSource(attributes: attributes)
+            paymentSource = .card(OrderCardPaymentSource(card: card))
         }
 
-        var vaultPaymentSource: VaultPaymentSource?
-        if let vaultCardPaymentSource {
-            vaultPaymentSource = .card(vaultCardPaymentSource)
-        }
-
-        let orderRequestParams = CreateOrderParams(
+        let params = CreateOrderParams(
             applicationContext: nil,
             intent: intent,
             purchaseUnits: [PurchaseUnit(amount: amountRequest)],
-            paymentSource: vaultPaymentSource
+            paymentSource: paymentSource
         )
 
         do {
-            DispatchQueue.main.async {
-                self.state.createdOrderResponse = .loading
-            }
+            DispatchQueue.main.async { self.state.createdOrderResponse = .loading }
             let order = try await DemoMerchantAPI.sharedService.createOrder(
-                orderParams: orderRequestParams, selectedMerchantIntegration: selectedMerchantIntegration
+                orderParams: params, selectedMerchantIntegration: selectedMerchantIntegration
             )
             DispatchQueue.main.async {
                 self.state.createdOrderResponse = .loaded(order)

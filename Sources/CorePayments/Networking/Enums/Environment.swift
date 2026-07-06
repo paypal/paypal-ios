@@ -1,6 +1,5 @@
 import Foundation
 
-// swiftlint:disable force_unwrapping
 public enum Environment {
     case sandbox
     case live
@@ -66,4 +65,3 @@ public enum Environment {
         }
     }
 }
-// swiftlint:enable force_unwrapping
