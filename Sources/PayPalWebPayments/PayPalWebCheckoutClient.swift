@@ -361,7 +361,7 @@ public class PayPalWebCheckoutClient: NSObject {
         setupTokenID: String,
         completion: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void
     ) {
-        let completionOnce = makeVaultCompletionOnce(completion)
+        let completionOnce = makeCompletionOnce(completion)
         let appInstalled = urlOpener.isPayPalAppInstalled()
 
         Task {
@@ -683,22 +683,9 @@ public class PayPalWebCheckoutClient: NSObject {
 
     // MARK: - Private: Single-shot Completion Wrapper
 
-    private func makeCompletionOnce(
-        _ completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
-    ) -> (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void {
-        var shouldInvokeCompletion = true
-        return { result in
-            Self.serialDispatchQueue.async {
-                guard shouldInvokeCompletion else { return }
-                shouldInvokeCompletion = false
-                DispatchQueue.main.async { completion(result) }
-            }
-        }
-    }
-
-    private func makeVaultCompletionOnce(
-        _ completion: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void
-    ) -> (Result<PayPalVaultResult, CoreSDKError>) -> Void {
+    private func makeCompletionOnce<T>(
+        _ completion: @escaping (Result<T, CoreSDKError>) -> Void
+    ) -> (Result<T, CoreSDKError>) -> Void {
         var shouldInvokeCompletion = true
         return { result in
             Self.serialDispatchQueue.async {
