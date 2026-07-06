@@ -77,29 +77,6 @@ class PayPalWebViewModel: ObservableObject {
         }
     }
 
-    static func makeUserIdentity(
-        selection: UserIdentitySelection,
-        email: String,
-        phone: String,
-        ssid: String
-    ) -> PayPalUserIdentity? {
-        switch selection {
-        case .none:
-            return nil
-        case .buyerHints:
-            let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
-            let trimmedPhone = phone.trimmingCharacters(in: .whitespacesAndNewlines)
-            let resolvedEmail = trimmedEmail.isEmpty ? nil : trimmedEmail
-            let resolvedPhone = trimmedPhone.isEmpty ? nil : trimmedPhone
-            guard resolvedEmail != nil || resolvedPhone != nil else { return nil }
-            return .emailPhone(email: resolvedEmail, phone: resolvedPhone)
-        case .ssid:
-            let trimmedSSID = ssid.trimmingCharacters(in: .whitespacesAndNewlines)
-            guard !trimmedSSID.isEmpty else { return nil }
-            return .serverSideShopperSession(serverSideShopperSessionId: trimmedSSID)
-        }
-    }
-
     private var shopperSessionURLConfig: PayPalURLConfig {
         let checkoutPath = "x-callback-url/paypal-sdk/paypal-checkout"
         let scheme = PayPalCoreConstants.callbackURLScheme

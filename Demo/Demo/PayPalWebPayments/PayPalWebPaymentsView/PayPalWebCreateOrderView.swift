@@ -80,7 +80,7 @@ struct PayPalWebCreateOrderView: View {
                                 try await payPalWebViewModel.checkout(
                                     shouldVault: shouldVaultSelected,
                                     userAction: selectedUserAction,
-                                    userIdentity: PayPalWebViewModel.makeUserIdentity(
+                                    userIdentity: UserIdentityFactory.makeUserIdentity(
                                         selection: selectedUserIdentity,
                                         email: email,
                                         phone: phone,

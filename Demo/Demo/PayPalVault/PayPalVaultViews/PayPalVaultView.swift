@@ -14,20 +14,6 @@ struct PayPalVaultView: View {
                         paymentType: .paypal
                     )
                     SetupTokenResultView(vaultViewModel: paypalVaultViewModel)
-                    if let setupTokenID = paypalVaultViewModel.state.setupToken?.id {
-                        ZStack {
-                            Button("Vault PayPal") {
-                                Task {
-                                    await paypalVaultViewModel.vault(setupTokenID: setupTokenID)
-                                }
-                            }
-                            .buttonStyle(RoundedBlueButtonStyle())
-                            .padding()
-                            if case .loading = paypalVaultViewModel.state.paypalVaultTokenResponse {
-                                CircularProgressView()
-                            }
-                        }
-                    }
                     PayPalVaultResultView(viewModel: paypalVaultViewModel)
                     if let paypalVaultResult = paypalVaultViewModel.state.paypalVaultToken {
                         CreatePaymentTokenView(
@@ -64,6 +50,10 @@ struct PayPalVaultView: View {
                         }
                 }
             }
+        }
+        // for testing, this will be moved to app level with singleton router
+        .onOpenURL { url in
+            paypalVaultViewModel.handleUniversalLinkReturn(url)
         }
     }
 }
