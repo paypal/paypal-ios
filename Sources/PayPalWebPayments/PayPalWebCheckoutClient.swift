@@ -342,8 +342,14 @@ public class PayPalWebCheckoutClient: NSObject {
         Task {
             if appInstalled,
                session.appSwitchEligible,
-               let urlString = session.redirectURL,
-               let url = URL(string: urlString) {
+               let base = session.redirectURL,
+               let sessionID = session.shopperSessionConfig?.id,
+               let url = URL(string: PayPalWebCheckoutURLBuilder.checkoutAppSwitchURL(
+                   base: base,
+                   orderID: orderID,
+                   clientID: config.clientID,
+                   sessionID: sessionID
+               )) {
                 let result = await attemptSessionAppSwitch(url: url, completionOnce: completionOnce)
                 switch result {
                 case .launched:
@@ -367,8 +373,14 @@ public class PayPalWebCheckoutClient: NSObject {
         Task {
             if appInstalled,
                session.appSwitchEligible,
-               let urlString = session.redirectURL,
-               let url = URL(string: urlString) {
+               let base = session.redirectURL,
+               let sessionID = session.shopperSessionConfig?.id,
+               let url = URL(string: PayPalWebCheckoutURLBuilder.vaultAppSwitchURL(
+                   base: base,
+                   setupTokenID: setupTokenID,
+                   clientID: config.clientID,
+                   sessionID: sessionID
+               )) {
                 let result = await attemptSessionVaultAppSwitch(url: url, completionOnce: completionOnce)
                 switch result {
                 case .launched:
