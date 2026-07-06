@@ -13,6 +13,10 @@ extension PayPalUserAction {
             return "SETUP NOW"
         }
     }
+    
+    static var checkoutActions: [PayPalUserAction] {
+        [.payNow, .continue]
+    }
 }
 
 struct PayPalWebCreateOrderView: View {
@@ -56,7 +60,7 @@ struct PayPalWebCreateOrderView: View {
                         .font(.subheadline)
                         .foregroundColor(.primary)
                     Picker("User Action", selection: $selectedUserAction) {
-                        ForEach([PayPalUserAction.payNow, PayPalUserAction.continue], id: \.self) {
+                        ForEach(PayPalUserAction.checkoutActions, id: \.self) {
                             Text($0.title).tag($0)
                         }
                     }
