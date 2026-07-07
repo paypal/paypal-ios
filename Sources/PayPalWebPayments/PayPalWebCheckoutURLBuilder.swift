@@ -9,8 +9,7 @@ enum PayPalWebCheckoutURLBuilder {
         clientID: String,
         sessionID: String
     ) -> String {
-        //TODO: append sessionID. &sessionID=\(sessionID)
-        "\(base)?token=\(orderID)&source=pda&merchant=\(clientID)&flow_type=ecs"
+        "\(base)?token=\(orderID)&source=pda&merchant=\(clientID)&flow_type=ecs&sessionID=\(sessionID)"
     }
 
     static func vaultAppSwitchURL(
@@ -19,6 +18,6 @@ enum PayPalWebCheckoutURLBuilder {
         clientID: String,
         sessionID: String
     ) -> String {
-        "\(base)?approval_session_id=\(setupTokenID)&source=pda&flow_type=va&merchant=\(clientID)"
+        "\(base)?approval_session_id=\(setupTokenID)&source=pda&flow_type=va&merchant=\(clientID)&sessionID=\(sessionID)"
     }
 }
