@@ -6,7 +6,11 @@ struct CreateShopperSessionResponse: Decodable {
 
     struct ExternalNode: Decodable {
 
-        let createShopperSessionWithAppSwitchEligibility: ShopperSessionResult?
+        let shopperSession: ShopperSessionResult?
+
+        enum CodingKeys: String, CodingKey {
+            case shopperSession = "createShopperSessionWithAppSwitchEligibility"
+        }
     }
 }
 
@@ -32,6 +36,7 @@ struct ShopperSessionResult: Decodable {
     let shopperSessionConfig: ShopperSessionConfig?
 
     struct ShopperSessionConfig: Decodable {
+
         /// Opaque Shopper Session identifier.
         let id: String
         /// ISO-8601 expiry timestamp.

@@ -104,7 +104,7 @@ public class CreateShopperSessionAPI {
         let parsed: CreateShopperSessionResponse = try HTTPResponseParser()
             .parseGraphQL(httpResponse, as: CreateShopperSessionResponse.self)
 
-        guard let result = parsed.external?.createShopperSessionWithAppSwitchEligibility else {
+        guard let result = parsed.external?.shopperSession else {
             throw NetworkingError.noGraphQLDataKey
         }
 
