@@ -3,14 +3,14 @@ import Foundation
 struct CreateShopperSessionResponse: Decodable {
 
     let external: ExternalNode?
+}
 
-    struct ExternalNode: Decodable {
+struct ExternalNode: Decodable {
 
-        let shopperSession: ShopperSessionResult?
+    let shopperSession: ShopperSessionResult?
 
-        enum CodingKeys: String, CodingKey {
-            case shopperSession = "createShopperSessionWithAppSwitchEligibility"
-        }
+    enum CodingKeys: String, CodingKey {
+        case shopperSession = "createShopperSessionWithAppSwitchEligibility"
     }
 }
 
