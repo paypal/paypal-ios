@@ -3,13 +3,13 @@ import Foundation
 /// Deep link URLs used for app switch return and cancel flows.
 public struct PayPalURLConfig {
 
-    public let returnAppUrl: String
-    public let cancelAppUrl: String
-    public let fallbackSchemeUrl: String
+    public let returnAppURL: URL
+    public let cancelAppURL: URL
+    public let fallbackSchemeURL: URL
 
-    public init(returnAppUrl: String, cancelAppUrl: String, fallbackSchemeUrl: String) {
-        self.returnAppUrl = returnAppUrl
-        self.cancelAppUrl = cancelAppUrl
-        self.fallbackSchemeUrl = fallbackSchemeUrl
+    public init(returnAppURL: URL, cancelAppURL: URL, fallbackSchemeURL: URL) {
+        self.returnAppURL = returnAppURL
+        self.cancelAppURL = cancelAppURL
+        self.fallbackSchemeURL = fallbackSchemeURL
     }
 }

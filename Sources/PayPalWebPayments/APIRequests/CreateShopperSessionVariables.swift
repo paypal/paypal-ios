@@ -2,9 +2,9 @@ import Foundation
 
 struct CreateShopperSessionVariables: Encodable {
 
-    let returnUrl: String
-    let cancelUrl: String
-    let fallbackSchemeUrl: String?
+    let returnUrl: URL
+    let cancelUrl: URL
+    let fallbackSchemeUrl: URL
     let userAction: String
     let osType: String
     let integrationArtifact: String
@@ -19,20 +19,9 @@ struct UserIdentityVariables: Encodable {
     let phone: String?
 
     init(from identity: PayPalUserIdentity) {
-        switch identity {
-        case .serverSideShopperSession(let id):
-            serverSideShopperSessionId = id
-            email = nil
-            phone = nil
-        case let .emailPhone(email, phone):
-            serverSideShopperSessionId = nil
-            self.email = email
-            self.phone = phone
-        case .none:
-            serverSideShopperSessionId = nil
-            email = nil
-            phone = nil
-        }
+        serverSideShopperSessionId = identity.shopperSessionID
+        email = identity.email
+        phone = identity.phone
     }
 }
 
