@@ -10,21 +10,21 @@ enum UserIdentityFactory {
         email: String,
         phone: String,
         ssid: String
-    ) -> PayPalUserIdentity {
+    ) -> PayPalUserIdentity? {
         switch selection {
         case .none:
-            return PayPalUserIdentity.none
+            return nil
         case .buyerHints:
             let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
             let trimmedPhone = phone.trimmingCharacters(in: .whitespacesAndNewlines)
             let resolvedEmail = trimmedEmail.isEmpty ? nil : trimmedEmail
             let resolvedPhone = trimmedPhone.isEmpty ? nil : trimmedPhone
-            guard resolvedEmail != nil || resolvedPhone != nil else { return PayPalUserIdentity.none }
-            return .emailPhone(email: resolvedEmail, phone: resolvedPhone)
+            guard resolvedEmail != nil || resolvedPhone != nil else { return nil }
+            return .init(email: resolvedEmail, phone: resolvedPhone)
         case .ssid:
             let trimmedSSID = ssid.trimmingCharacters(in: .whitespacesAndNewlines)
-            guard !trimmedSSID.isEmpty else { return PayPalUserIdentity.none }
-            return .serverSideShopperSession(serverSideShopperSessionId: trimmedSSID)
+            guard !trimmedSSID.isEmpty else { return nil }
+            return .init(shopperSessionID: trimmedSSID)
         }
     }
 }

@@ -65,9 +65,9 @@ class PayPalVaultViewModel: VaultViewModel {
         let checkoutPath = "x-callback-url/paypal-sdk/paypal-checkout"
         let scheme = PayPalCoreConstants.callbackURLScheme
         return PayPalURLConfig(
-            returnAppUrl: "\(scheme)://\(checkoutPath)",
-            cancelAppUrl: "\(scheme)://\(checkoutPath)/cancel",
-            fallbackSchemeUrl: "\(scheme)://\(checkoutPath)"
+            returnAppURL: URL(string: "\(scheme)://\(checkoutPath)")!,
+            cancelAppURL: URL(string: "\(scheme)://\(checkoutPath)/cancel")!,
+            fallbackSchemeURL: URL(string: "\(scheme)://\(checkoutPath)")!
         )
     }
 
