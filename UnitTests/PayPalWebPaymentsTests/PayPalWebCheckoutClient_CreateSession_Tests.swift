@@ -18,9 +18,9 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
     var mockCreateShopperSessionAPI: MockCreateShopperSessionAPI!
 
     let fakeURLConfig = PayPalURLConfig(
-        returnAppUrl: "paypal://return",
-        cancelAppUrl: "paypal://cancel",
-        fallbackSchemeUrl: "paypal://fallback"
+        returnAppURL: URL(string: "paypal://return")!,
+        cancelAppURL: URL(string: "paypal://cancel")!,
+        fallbackSchemeURL: URL(string: "paypal://fallback")!
     )
 
     /// Convenience factory: ineligible session with a valid config ID.
@@ -250,18 +250,18 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
     func testCreatePayPalSession_passesURLConfigToAPI() {
         mockCreateShopperSessionAPI.stubResponse = makeIneligibleSession()
         let urlConfig = PayPalURLConfig(
-            returnAppUrl: "myapp://paypal/return",
-            cancelAppUrl: "myapp://paypal/cancel",
-            fallbackSchemeUrl: "myapp://fallback"
+            returnAppURL: URL(string: "myapp://paypal/return")!,
+            cancelAppURL: URL(string: "myapp://paypal/cancel")!,
+            fallbackSchemeURL: URL(string: "myapp://fallback")!
         )
 
         payPalClient.createPayPalSession(urlConfig: urlConfig)
 
         let expectation = expectation(description: "session task runs")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            XCTAssertEqual(self.mockCreateShopperSessionAPI.capturedURLConfig?.returnAppUrl, "myapp://paypal/return")
-            XCTAssertEqual(self.mockCreateShopperSessionAPI.capturedURLConfig?.cancelAppUrl, "myapp://paypal/cancel")
-            XCTAssertEqual(self.mockCreateShopperSessionAPI.capturedURLConfig?.fallbackSchemeUrl, "myapp://fallback")
+            XCTAssertEqual(self.mockCreateShopperSessionAPI.capturedURLConfig?.returnAppURL.absoluteString, "myapp://paypal/return")
+            XCTAssertEqual(self.mockCreateShopperSessionAPI.capturedURLConfig?.cancelAppURL.absoluteString, "myapp://paypal/cancel")
+            XCTAssertEqual(self.mockCreateShopperSessionAPI.capturedURLConfig?.fallbackSchemeURL.absoluteString, "myapp://fallback")
             expectation.fulfill()
         }
 
@@ -272,17 +272,14 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
         mockCreateShopperSessionAPI.stubResponse = makeIneligibleSession()
 
         payPalClient.createPayPalSession(
-            userIdentity: .emailPhone(email: "buyer@example.com", phone: nil),
+            userIdentity: .init(email: "buyer@example.com", phone: nil),
             urlConfig: fakeURLConfig
         )
 
         let expectation = expectation(description: "session task runs")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            if case .emailPhone(let email, _) = self.mockCreateShopperSessionAPI.capturedUserIdentity {
-                XCTAssertEqual(email, "buyer@example.com")
-            } else {
-                XCTFail("Expected .emailPhone identity")
-            }
+            let email = self.mockCreateShopperSessionAPI.capturedUserIdentity?.email
+            XCTAssertEqual(email, "buyer@example.com")
             expectation.fulfill()
         }
 
