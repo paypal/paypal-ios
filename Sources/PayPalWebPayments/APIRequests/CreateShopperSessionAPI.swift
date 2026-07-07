@@ -83,9 +83,9 @@ public class CreateShopperSessionAPI {
         let identityVariables = userIdentity.map(UserIdentityVariables.init)
 
         let variables = CreateShopperSessionVariables(
-            returnUrl: urlConfig.returnAppUrl,
-            cancelUrl: urlConfig.cancelAppUrl,
-            fallbackSchemeUrl: urlConfig.fallbackSchemeUrl,
+            returnUrl: urlConfig.returnAppURL,
+            cancelUrl: urlConfig.cancelAppURL,
+            fallbackSchemeUrl: urlConfig.fallbackSchemeURL,
             userAction: userAction.graphQLValue,
             osType: PayPalCoreConstants.osType,
             integrationArtifact: PayPalCoreConstants.integrationArtifact,
