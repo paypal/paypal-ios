@@ -18,15 +18,6 @@ class VaultViewModel: ObservableObject {
     @Published var userSSID: String = ""
     @Published var customerID: String = ""
 
-    var resolvedUserIdentity: PayPalUserIdentity {
-        UserIdentityFactory.makeUserIdentity(
-            selection: selectedUserIdentity,
-            email: userEmail,
-            phone: userPhone,
-            ssid: userSSID
-        )
-    }
-
     func getSetupToken(
         customerID: String? = nil,
         selectedMerchantIntegration: MerchantIntegration,

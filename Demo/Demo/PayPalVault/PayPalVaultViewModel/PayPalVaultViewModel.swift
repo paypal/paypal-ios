@@ -18,7 +18,13 @@ class PayPalVaultViewModel: VaultViewModel {
             throw VaultFlowError.clientInitializationFailed(message)
         }
         paypalClient = client
-
+        
+        let resolvedUserIdentity = UserIdentityFactory.makeUserIdentity(
+            selection: selectedUserIdentity,
+            email: userEmail,
+            phone: userPhone,
+            ssid: userSSID
+        )
         client.createPayPalSession(
             userIdentity: resolvedUserIdentity,
             urlConfig: shopperSessionURLConfig,
