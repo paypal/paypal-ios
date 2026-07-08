@@ -5,6 +5,7 @@ struct CustomEnvironmentConfig: Codable, Equatable {
     var clientID: String
     var restBaseURL: String
     var graphQLBaseURL: String
+    var merchantBaseURL: String?
 }
 #endif
 

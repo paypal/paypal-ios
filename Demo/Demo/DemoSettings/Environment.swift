@@ -16,11 +16,14 @@ enum Environment: String, CaseIterable {
             return "https://sdk-sample-merchant-server.herokuapp.com"
         #if DEBUG
         case .custom:
-            // The custom fields (REST/GraphQL/clientID) configure the CorePayments SDK only
+            // The custom REST/GraphQL/clientID fields configure the CorePayments SDK only
             // (see `paypalSDKEnvironment`). The merchant endpoints /orders, /setup-tokens and
-            // /payment-tokens are served by the sample merchant backend, not the PayPal API,
-            // so they keep using the existing sandbox merchant server.
-            return Environment.sandbox.baseURL
+            // /payment-tokens are served by the sample merchant backend, not the PayPal API.
+            // A custom merchant URL can be provided; when empty it falls back to the sandbox
+            // merchant server.
+            let merchantBaseURL = DemoSettings.customEnvironment?.merchantBaseURL?
+                .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            return merchantBaseURL.isEmpty ? Environment.sandbox.baseURL : merchantBaseURL
         #endif
         }
     }

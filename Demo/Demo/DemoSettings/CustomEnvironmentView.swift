@@ -11,6 +11,7 @@ struct CustomEnvironmentView: View {
     @State private var clientID: String
     @State private var restBaseURL: String
     @State private var graphQLBaseURL: String
+    @State private var merchantBaseURL: String
 
     init(onSave: @escaping () -> Void, onCancel: @escaping () -> Void) {
         self.onSave = onSave
@@ -19,6 +20,7 @@ struct CustomEnvironmentView: View {
         _clientID = State(initialValue: config?.clientID ?? "")
         _restBaseURL = State(initialValue: config?.restBaseURL ?? "")
         _graphQLBaseURL = State(initialValue: config?.graphQLBaseURL ?? "")
+        _merchantBaseURL = State(initialValue: config?.merchantBaseURL ?? "")
     }
 
     // MARK: - Validation
@@ -35,6 +37,10 @@ struct CustomEnvironmentView: View {
         graphQLBaseURL.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
+    private var trimmedMerchantBaseURL: String {
+        merchantBaseURL.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
     private var clientIDError: String? {
         trimmedClientID.isEmpty ? "Client ID is required" : nil
     }
@@ -47,8 +53,15 @@ struct CustomEnvironmentView: View {
         Self.urlError(trimmedGraphQLBaseURL)
     }
 
+    private var merchantBaseURLError: String? {
+        trimmedMerchantBaseURL.isEmpty ? nil : Self.urlError(trimmedMerchantBaseURL)
+    }
+
     private var isValid: Bool {
-        clientIDError == nil && restBaseURLError == nil && graphQLBaseURLError == nil
+        clientIDError == nil
+            && restBaseURLError == nil
+            && graphQLBaseURLError == nil
+            && merchantBaseURLError == nil
     }
 
     private static func urlError(_ value: String) -> String? {
@@ -91,6 +104,17 @@ struct CustomEnvironmentView: View {
                         .keyboardType(.URL)
                     errorText(graphQLBaseURLError)
                 }
+
+                Section(
+                    header: Text("Merchant Base URL"),
+                    footer: Text("Optional. Serves /orders, /setup-tokens and /payment-tokens. Leave empty to use the sandbox merchant server.")
+                ) {
+                    TextField("https://...", text: $merchantBaseURL)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+                        .keyboardType(.URL)
+                    errorText(merchantBaseURLError)
+                }
             }
             .navigationTitle("Custom Environment")
             .navigationBarTitleDisplayMode(.inline)
@@ -127,7 +151,8 @@ struct CustomEnvironmentView: View {
         DemoSettings.customEnvironment = CustomEnvironmentConfig(
             clientID: trimmedClientID,
             restBaseURL: trimmedRestBaseURL,
-            graphQLBaseURL: trimmedGraphQLBaseURL
+            graphQLBaseURL: trimmedGraphQLBaseURL,
+            merchantBaseURL: trimmedMerchantBaseURL.isEmpty ? nil : trimmedMerchantBaseURL
         )
         DemoSettings.environment = .custom
         onSave()
