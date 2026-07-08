@@ -3,21 +3,21 @@ import Foundation
 /// Buyer identity for Shopper Session creation.
 public struct PayPalUserIdentity {
 
-    let shopperSessionID: String?
+    let existingPayPalSessionID: String?
     let email: String?
     let phone: String?
 
-    private init(shopperSessionID: String?, email: String?, phone: String?) {
-        self.shopperSessionID = shopperSessionID
+    private init(existingPayPalSessionID: String?, email: String?, phone: String?) {
+        self.existingPayPalSessionID = existingPayPalSessionID
         self.email = email
         self.phone = phone
     }
 
-    public init(shopperSessionID: String) {
-        self.init(shopperSessionID: shopperSessionID, email: nil, phone: nil)
+    public init(existingPayPalSessionID: String) {
+        self.init(existingPayPalSessionID: existingPayPalSessionID, email: nil, phone: nil)
     }
 
     public init(email: String?, phone: String?) {
-        self.init(shopperSessionID: nil, email: email, phone: phone)
+        self.init(existingPayPalSessionID: nil, email: email, phone: phone)
     }
 }
