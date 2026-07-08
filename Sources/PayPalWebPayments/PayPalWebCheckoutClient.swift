@@ -170,7 +170,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
         Task {
             do {
-                let session = try await task.value
+                _ = try await task.value
                 sessionTask = nil
                 analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:started")
                 startVaultWebAuthFlow(setupTokenID: setupTokenID, completion: completion)
