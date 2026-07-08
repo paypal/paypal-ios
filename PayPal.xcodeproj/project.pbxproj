@@ -76,6 +76,9 @@
 		80B27AF12A9E9EE60008EA45 /* VaultPaymentTokensAPI_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B27AF02A9E9EE60008EA45 /* VaultPaymentTokensAPI_Tests.swift */; };
 		80B8B2FC2A8EBBFD00AB60CD /* VaultPaymentTokensAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B8B2FB2A8EBBFD00AB60CD /* VaultPaymentTokensAPI.swift */; };
 		80B96AAE2A980F6B00C62916 /* MockTrackingEventsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802EFBD72A9685DF00AB709D /* MockTrackingEventsAPI.swift */; };
+		A1B2C3D52F8E4001AABBCC01 /* HTTPResponseTiming.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D42F8E4001AABBCC01 /* HTTPResponseTiming.swift */; };
+		A1B2C3D72F8E4001AABBCC01 /* PayPalWebAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D62F8E4001AABBCC01 /* PayPalWebAnalytics.swift */; };
+		A1B2C3D92F8E4001AABBCC01 /* PayPalWebLatencyAnalytics_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D82F8E4001AABBCC01 /* PayPalWebLatencyAnalytics_Tests.swift */; };
 		80DB2F762980795D00CFB86A /* CorePaymentsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DB2F752980795D00CFB86A /* CorePaymentsError.swift */; };
 		80DCC59E2719DB6F00EC7C5A /* CardError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DCC59D2719DB6F00EC7C5A /* CardError.swift */; };
 		80E237DF2A84434B00FF18CA /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E237DE2A84434B00FF18CA /* HTTPRequest.swift */; };
@@ -249,6 +252,9 @@
 		802C4A732945670400896A5D /* MockHTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHTTP.swift; sourceTree = "<group>"; };
 		802C4A752945676E00896A5D /* AnalyticsService_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService_Tests.swift; sourceTree = "<group>"; };
 		802EFBD72A9685DF00AB709D /* MockTrackingEventsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTrackingEventsAPI.swift; sourceTree = "<group>"; };
+		A1B2C3D42F8E4001AABBCC01 /* HTTPResponseTiming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPResponseTiming.swift; sourceTree = "<group>"; };
+		A1B2C3D62F8E4001AABBCC01 /* PayPalWebAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebAnalytics.swift; sourceTree = "<group>"; };
+		A1B2C3D82F8E4001AABBCC01 /* PayPalWebLatencyAnalytics_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebLatencyAnalytics_Tests.swift; sourceTree = "<group>"; };
 		802EFBD92A968BCD00AB709D /* TrackingEventsAPI_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingEventsAPI_Tests.swift; sourceTree = "<group>"; };
 		8034A9E326B875C90055AF13 /* CorePaymentsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CorePaymentsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8036C1E0270F9BE700C0F091 /* NetworkingClient_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkingClient_Tests.swift; path = UnitTests/PaymentsCoreTests/NetworkingClient_Tests.swift; sourceTree = SOURCE_ROOT; };
@@ -522,7 +528,6 @@
 				8036F87F2A30E492005B6186 /* HTTPResponse_Tests.swift */,
 				807BF5902A2A5D48002F32B3 /* HTTPResponseParser_Tests.swift */,
 				802EFBD92A968BCD00AB709D /* TrackingEventsAPI_Tests.swift */,
-				80B96AAD2A9806B300C62916 /* Mocks */,
 			);
 			path = PaymentsCoreTests;
 			sourceTree = "<group>";
@@ -542,14 +547,6 @@
 				808E3EDC2A981F240017FE46 /* MockCheckoutOrdersAPI.swift */,
 				808E3EDE2A981F390017FE46 /* MockVaultPaymentTokensAPI.swift */,
 				3B783DC22B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift */,
-			);
-			path = Mocks;
-			sourceTree = "<group>";
-		};
-		80B96AAD2A9806B300C62916 /* Mocks */ = {
-			isa = PBXGroup;
-			children = (
-				802EFBD72A9685DF00AB709D /* MockTrackingEventsAPI.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -602,6 +599,7 @@
 				803C31B8270E4C560067D36E /* MockURLSession.swift */,
 				BCE8A7F427EA544000AC301B /* MockViewController.swift */,
 				BCE8A7F627EA54A000AC301B /* MockWebAuthenticationSession.swift */,
+				802EFBD72A9685DF00AB709D /* MockTrackingEventsAPI.swift */,
 			);
 			path = TestShared;
 			sourceTree = "<group>";
@@ -648,6 +646,7 @@
 				3B3EB0612E8380D600B1D552 /* PayPalClients_HandleRequestURL_Tests.swift */,
 				BCE8A7FA27EA5B1D00AC301B /* Environment+PayPalWebCheckout_Tests.swift */,
 				BCE8A7F827EA555800AC301B /* PayPalWebCheckoutClient_Tests.swift */,
+				A1B2C3D82F8E4001AABBCC01 /* PayPalWebLatencyAnalytics_Tests.swift */,
 				D3A1B2C4E5F6789012345678 /* PayPalURLConfig_Tests.swift */,
 			);
 			path = PayPalWebPaymentsTests;
@@ -720,6 +719,7 @@
 				950FA37B2FF45CE800F93D80 /* Models */,
 				BE4F784327EB629100FF4C0E /* Environment+PayPalWebCheckout.swift */,
 				BE4F784627EB629100FF4C0E /* PayPalWebCheckoutClient.swift */,
+				A1B2C3D62F8E4001AABBCC01 /* PayPalWebAnalytics.swift */,
 				BE4F784427EB629100FF4C0E /* PayPalError.swift */,
 				BE4F784527EB629100FF4C0E /* PayPalWebCheckoutRequest.swift */,
 				BE4F784727EB629100FF4C0E /* PayPalWebCheckoutResult.swift */,
@@ -745,6 +745,7 @@
 				804E62812937EBCE004B9FEF /* HTTP.swift */,
 				80E237DE2A84434B00FF18CA /* HTTPRequest.swift */,
 				80E643822A1EBBD2008FD705 /* HTTPResponse.swift */,
+				A1B2C3D42F8E4001AABBCC01 /* HTTPResponseTiming.swift */,
 				80E2FDC22A8354AD0045593D /* RESTRequest.swift */,
 				807BF58E2A2A5D19002F32B3 /* HTTPResponseParser.swift */,
 				BEA100EF26EFA7C20036A6A5 /* NetworkingError.swift */,
@@ -1227,7 +1228,6 @@
 				808EEA81291321FE001B6765 /* AnalyticsEventData_Tests.swift in Sources */,
 				3B857B192E69FACA006F3CBC /* AuthenticationSecureTokenServiceAPI_Tests.swift in Sources */,
 				8036C1E5270F9BE700C0F091 /* Environment_Tests.swift in Sources */,
-				80B96AAE2A980F6B00C62916 /* MockTrackingEventsAPI.swift in Sources */,
 				80FC261D29847AC7008EC841 /* HTTP_Tests.swift in Sources */,
 				802EFBDB2A96B47A00AB709D /* TrackingEventsAPI_Tests.swift in Sources */,
 				802C4A762945676E00896A5D /* AnalyticsService_Tests.swift in Sources */,
@@ -1245,6 +1245,7 @@
 			files = (
 				E6022E802857C6BE008B0E27 /* GraphQLHTTPResponse.swift in Sources */,
 				80E643832A1EBBD2008FD705 /* HTTPResponse.swift in Sources */,
+				A1B2C3D52F8E4001AABBCC01 /* HTTPResponseTiming.swift in Sources */,
 				3B857B1B2E6A02F5006F3CBC /* AuthenticationTokenResponse.swift in Sources */,
 				807C5E6929102D9800ECECD8 /* AnalyticsEventData.swift in Sources */,
 				3BF06F3D2E15CAB4002CA7B4 /* UpdateClientConfigAPI.swift in Sources */,
@@ -1296,6 +1297,7 @@
 				3B95C9852E6BA139004C6F65 /* MockAuthenticationSecureTokenServiceAPI.swift in Sources */,
 				E64763712899B60C00074113 /* MockNetworkingClient.swift in Sources */,
 				3B80D50C2A27979000D2EAC4 /* FailingJSONEncoder.swift in Sources */,
+				80B96AAE2A980F6B00C62916 /* MockTrackingEventsAPI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1346,6 +1348,7 @@
 				3B3C511E2B2395B5009125FE /* PayPalVaultResult.swift in Sources */,
 				BE4F785327EB656400FF4C0E /* Environment+PayPalWebCheckout.swift in Sources */,
 				BE4F785427EB656400FF4C0E /* PayPalWebCheckoutClient.swift in Sources */,
+				A1B2C3D72F8E4001AABBCC01 /* PayPalWebAnalytics.swift in Sources */,
 				BE4F785527EB656400FF4C0E /* PayPalError.swift in Sources */,
 				BE4F785727EB656400FF4C0E /* PayPalWebCheckoutRequest.swift in Sources */,
 				950FA3812FF45D8700F93D80 /* PayPalURLConfig.swift in Sources */,
@@ -1363,6 +1366,7 @@
 				BCE8A7F927EA555800AC301B /* PayPalWebCheckoutClient_Tests.swift in Sources */,
 				3B3EB0622E8380EA00B1D552 /* PayPalClients_HandleRequestURL_Tests.swift in Sources */,
 				3BBD50E82E85ACA60049C4D5 /* PayPalClients_CheckoutAppSwitch_Toggle_Tests.swift in Sources */,
+				A1B2C3D92F8E4001AABBCC01 /* PayPalWebLatencyAnalytics_Tests.swift in Sources */,
 				F1E2D3C4B5A6978601234567 /* PayPalURLConfig_Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
