@@ -173,7 +173,7 @@ public class PayPalWebCheckoutClient: NSObject {
                 let session = try await task.value
                 sessionTask = nil
                 analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:started")
-                launchVault(session: session, setupTokenID: setupTokenID, completion: completion)
+                startVaultWebAuthFlow(setupTokenID: setupTokenID, completion: completion)
             } catch {
                 sessionTask = nil
                 let sdkError = sdkError(from: error, fallback: "Session fetch failed.")
@@ -184,6 +184,7 @@ public class PayPalWebCheckoutClient: NSObject {
     }
 
     // MARK: - Deprecated API
+
 
     /// - Warning: Deprecated. Use `createPayPalSession(userIdentity:urlConfig:userAction:)` followed
     ///   by `start(orderID:completion:)` instead.
@@ -362,14 +363,6 @@ public class PayPalWebCheckoutClient: NSObject {
             }
             startWebCheckoutFlow(orderID: orderID, fundingSource: .paypal, completion: completionOnce)
         }
-    }
-
-    private func launchVault(
-        session: ShopperSessionResult,
-        setupTokenID: String,
-        completion: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void
-    ) {
-        startVaultWebAuthFlow(setupTokenID: setupTokenID, completion: completion)
     }
 
     // MARK: - Private: App Switch (Session-based)
