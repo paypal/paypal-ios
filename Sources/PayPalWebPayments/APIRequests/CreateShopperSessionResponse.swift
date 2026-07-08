@@ -23,9 +23,6 @@ struct ShopperSessionResult: Decodable {
     /// The app-switch redirect URL to open when eligible.
     let redirectURL: String?
 
-    /// Fallback web checkout URL if app-switch is unavailable.
-    let checkoutFallbackUrl: String?
-
     /// Reason the session is ineligible for app-switch (nil when eligible).
     let ineligibleReason: String?
 

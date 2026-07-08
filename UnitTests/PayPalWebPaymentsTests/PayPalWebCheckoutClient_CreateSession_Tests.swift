@@ -28,7 +28,6 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
         ShopperSessionResult(
             appSwitchEligible: false,
             redirectURL: nil,
-            checkoutFallbackUrl: nil,
             ineligibleReason: "TEST_INELIGIBLE",
             matchedAuthenticationMethods: nil,
             shopperSessionConfig: .init(id: id, expiresAt: "2026-12-31T00:00:00Z")
@@ -40,7 +39,6 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
         ShopperSessionResult(
             appSwitchEligible: true,
             redirectURL: redirectURL,
-            checkoutFallbackUrl: "https://paypal.com/checkoutnow",
             ineligibleReason: nil,
             matchedAuthenticationMethods: ["EMAIL"],
             shopperSessionConfig: .init(id: id, expiresAt: "2026-12-31T00:00:00Z")
