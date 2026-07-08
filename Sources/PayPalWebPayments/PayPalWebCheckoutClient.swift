@@ -543,21 +543,8 @@ public class PayPalWebCheckoutClient: NSObject {
             else {
                 return .fallback(eligibility.ineligibleReason ?? "ineligible")
             }
-            await MainActor.run {
-                appSwitchCompletion = completionOnce
-            }
 
-            let opened = await attemptAppSwitch(with: url)
-            if opened {
-                analyticsService?.sendEvent("paypal-web-payments:checkout:app-switch-open:succeeded")
-                return .launched
-            } else {
-                analyticsService?.sendEvent("paypal-web-payments:checkout:app-switch-open:failed")
-                await MainActor.run { [weak self] in
-                    self?.appSwitchCompletion = nil
-                }
-                return .fallback("cannot_open_url")
-            }
+            return await attemptSessionAppSwitch(url: url, completionOnce: completionOnce)
         } catch {
             analyticsService?.sendEvent("paypal-web-payments:checkout:app-switch-eligibility:error")
             return .fallback("patch_or_lsat_failed")
