@@ -64,6 +64,10 @@ struct CustomEnvironmentView: View {
             && merchantBaseURLError == nil
     }
 
+    private var isEmpty: Bool {
+        clientID.isEmpty && restBaseURL.isEmpty && graphQLBaseURL.isEmpty && merchantBaseURL.isEmpty
+    }
+
     private static func urlError(_ value: String) -> String? {
         if value.isEmpty {
             return "URL is required"
@@ -115,6 +119,16 @@ struct CustomEnvironmentView: View {
                         .keyboardType(.URL)
                     errorText(merchantBaseURLError)
                 }
+
+                Section {
+                    Button(role: .destructive) {
+                        clearFields()
+                    } label: {
+                        Text("Clear")
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    }
+                    .disabled(isEmpty)
+                }
             }
             .navigationTitle("Custom Environment")
             .navigationBarTitleDisplayMode(.inline)
@@ -142,6 +156,16 @@ struct CustomEnvironmentView: View {
                 .font(.caption)
                 .foregroundColor(.red)
         }
+    }
+
+    private func clearFields() {
+        clientID = ""
+        restBaseURL = ""
+        graphQLBaseURL = ""
+        merchantBaseURL = ""
+        // Also remove the persisted config; with no custom environment stored the app
+        // falls back to sandbox (see `DemoSettings.environment`).
+        DemoSettings.customEnvironment = nil
     }
 
     private func save() {
