@@ -212,10 +212,18 @@ public class PayPalWebCheckoutClient: NSObject {
 
                 case .fallback(let reason):
                     analyticsService?.sendEvent("paypal-web-payments:checkout:fallback-to-web:\(reason)")
-                    startWebCheckoutFlow(request: request, completion: completionOnce)
+                    startWebCheckoutFlow(
+                        orderID: request.orderID,
+                        fundingSource: request.fundingSource,
+                        completion: completionOnce
+                    )
                 }
             } else {
-                startWebCheckoutFlow(request: request, completion: completionOnce)
+                startWebCheckoutFlow(
+                    orderID: request.orderID,
+                    fundingSource: request.fundingSource,
+                    completion: completionOnce
+                )
             }
         }
     }
@@ -352,7 +360,7 @@ public class PayPalWebCheckoutClient: NSObject {
                     analyticsService?.sendEvent("paypal-web-payments:checkout:fallback-to-web:\(reason)")
                 }
             }
-            startWebCheckoutFlow(orderID: orderID, completion: completionOnce)
+            startWebCheckoutFlow(orderID: orderID, fundingSource: .paypal, completion: completionOnce)
         }
     }
 
@@ -393,13 +401,14 @@ public class PayPalWebCheckoutClient: NSObject {
 
     private func startWebCheckoutFlow(
         orderID: String,
+        fundingSource: PayPalWebCheckoutFundingSource,
         completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
     ) {
         Task {
             do {
                 _ = try await clientConfigAPI.updateClientConfig(
                     token: orderID,
-                    fundingSource: PayPalWebCheckoutFundingSource.paypal.rawValue
+                    fundingSource: fundingSource.rawValue
                 )
             } catch {
                 print("updateClientConfig error: \(error.localizedDescription)")
@@ -407,7 +416,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
             let baseURLString = config.environment.payPalBaseURL.absoluteString
             let payPalCheckoutURLString = "\(baseURLString)/checkoutnow?token=\(orderID)" +
-                "&fundingSource=\(PayPalWebCheckoutFundingSource.paypal.rawValue)&integration_artifact=MOBILE_SDK"
+                "&fundingSource=\(fundingSource.rawValue)&integration_artifact=MOBILE_SDK"
 
             guard let payPalCheckoutURL = URL(string: payPalCheckoutURLString),
                 let payPalCheckoutURLComponents = payPalCheckoutReturnURL(payPalCheckoutURL: payPalCheckoutURL)
@@ -521,77 +530,6 @@ public class PayPalWebCheckoutClient: NSObject {
                 }
             }
         )
-    }
-
-    // MARK: - Private: Legacy App Switch (used by deprecated `start(request:)`)
-
-    private func startWebCheckoutFlow(
-        request: PayPalWebCheckoutRequest,
-        completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
-    ) {
-        Task {
-            do {
-                _ = try await clientConfigAPI.updateClientConfig(
-                    token: request.orderID,
-                    fundingSource: request.fundingSource.rawValue
-                )
-            } catch {
-                print("updateClientConfig error: \(error.localizedDescription)")
-            }
-
-            let baseURLString = config.environment.payPalBaseURL.absoluteString
-            let payPalCheckoutURLString =
-                "\(baseURLString)/checkoutnow?token=\(request.orderID)" +
-                "&fundingSource=\(request.fundingSource.rawValue)&integration_artifact=MOBILE_SDK"
-
-            guard let payPalCheckoutURL = URL(string: payPalCheckoutURLString),
-                let payPalCheckoutURLComponents = payPalCheckoutReturnURL(payPalCheckoutURL: payPalCheckoutURL)
-            else {
-                notifyCheckoutFailure(with: PayPalError.payPalURLError, completion: completion)
-                return
-            }
-
-            webAuthenticationSession.start(
-                url: payPalCheckoutURLComponents,
-                context: self,
-                sessionDidDisplay: { [weak self] didDisplay in
-                    let event = didDisplay
-                        ? "paypal-web-payments:checkout:auth-challenge-presentation:succeeded"
-                        : "paypal-web-payments:checkout:auth-challenge-presentation:failed"
-                    self?.analyticsService?.sendEvent(event)
-                },
-                sessionDidComplete: { [weak self] url, error in
-                    guard let self else { return }
-                    if let error {
-                        let sdkError: CoreSDKError
-                        switch error {
-                        case ASWebAuthenticationSessionError.canceledLogin:
-                            sdkError = PayPalError.checkoutCanceledError
-                        default:
-                            sdkError = PayPalError.webSessionError(error)
-                        }
-                        self.notifyCheckoutFailure(with: sdkError, completion: completion)
-                    }
-
-                    if let url {
-                        if let opType = self.getQueryStringParameter(url: url.absoluteString, param: "opType"),
-                            opType == "cancel" {
-                            self.notifyCheckoutCancelWithError(
-                                with: PayPalError.checkoutCanceledError,
-                                completion: completion
-                            )
-                        } else if
-                            let orderID = self.getQueryStringParameter(url: url.absoluteString, param: "token"),
-                            let payerID = self.getQueryStringParameter(url: url.absoluteString, param: "PayerID") {
-                            let result = PayPalWebCheckoutResult(orderID: orderID, payerID: payerID)
-                            self.notifyCheckoutSuccess(for: result, completion: completion)
-                        } else {
-                            self.notifyCheckoutFailure(with: PayPalError.malformedResultError, completion: completion)
-                        }
-                    }
-                }
-            )
-        }
     }
 
     private func attemptAppSwitchIfEligible(
