@@ -2,6 +2,7 @@ import Foundation
 
 #if DEBUG
 struct CustomEnvironmentConfig: Codable, Equatable {
+
     var clientID: String
     var restBaseURL: String
     var graphQLBaseURL: String

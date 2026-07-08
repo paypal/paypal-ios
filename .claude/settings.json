@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(swift build *)",
+      "Bash(xcodebuild -list)",
+      "Bash(xcrun simctl *)",
+      "Bash(xcodebuild build *)",
+      "Bash(xcodebuild build-for-testing *)",
+      "Bash(xcodebuild test-without-building *)",
+      "Bash(xcodebuild test *)",
+      "Bash(xcodebuild -project Demo/Demo.xcodeproj -list)",
+      "Bash(xcodebuild -project Demo/Demo.xcodeproj -scheme Demo -resolvePackageDependencies)",
+      "Bash(echo \"exit: $?\")",
+      "Read(//opt/homebrew/bin/**)",
+      "Read(//usr/local/bin/**)",
+      "Bash(brew list *)",
+      "Bash(brew --version)",
+      "Bash(brew install *)",
+      "Bash(/opt/homebrew/bin/swiftlint version *)",
+      "Bash(sh scripts/swiftlint.sh)"
+    ]
+  }
+}

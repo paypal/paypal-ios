@@ -3,7 +3,8 @@ import SwiftUI
 
 struct CustomEnvironmentView: View {
 
-    @SwiftUI.Environment(\.presentationMode) private var presentationMode
+    @SwiftUI.Environment(\.presentationMode)
+    private var presentationMode
 
     var onSave: () -> Void
     var onCancel: () -> Void
@@ -111,7 +112,10 @@ struct CustomEnvironmentView: View {
 
                 Section(
                     header: Text("Merchant Base URL"),
-                    footer: Text("Optional. Serves /orders, /setup-tokens and /payment-tokens. Leave empty to use the sandbox merchant server.")
+                    footer: Text(
+                        "Optional. Serves /orders, /setup-tokens and /payment-tokens. " +
+                        "Leave empty to use the sandbox merchant server."
+                    )
                 ) {
                     TextField("https://...", text: $merchantBaseURL)
                         .autocapitalization(.none)
