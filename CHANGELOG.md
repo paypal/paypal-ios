@@ -2,6 +2,11 @@
 # PayPal iOS SDK Release Notes
 
 ## Unreleased
+* Analytics
+  * Add Latency Analytics Events for SSID Integration
+  * Add testing for new latency logic
+  * Move tests to a single shared file and delete old file to avoild duplicated symbols
+
 * CorePayments
   * **Breaking:** `CoreConfig` requires a `merchantID` parameter; optional `bnCode` parameter added. See the [v3 Migration Guide](v3_MIGRATION_GUIDE.md) for details.
 
