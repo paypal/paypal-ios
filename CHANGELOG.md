@@ -1,6 +1,10 @@
 
 # PayPal iOS SDK Release Notes
 
+## Unreleased
+* CorePayments
+  * **Breaking:** `CoreConfig` requires a `merchantID` parameter; optional `bnCode` parameter added. See the [v3 Migration Guide](v3_MIGRATION_GUIDE.md) for details.
+
 ## 2.0.1 (2025-11-03)
 
 * PayPalWebPayments

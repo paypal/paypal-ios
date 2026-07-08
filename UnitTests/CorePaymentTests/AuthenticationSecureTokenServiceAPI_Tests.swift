@@ -8,7 +8,7 @@ class AuthenticationSecureTokenServiceAPI_Tests: XCTestCase {
 
     var sut: AuthenticationSecureTokenServiceAPI!
     var mockNetworkingClient: MockNetworkingClient!
-    var coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
+    var coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox, merchantID: "fake-merchant-id")
 
     // MARK: - Test lifecycle
 

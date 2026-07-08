@@ -17,7 +17,7 @@ class PayPalClient_Tests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        config = CoreConfig(clientID: "testClientID", environment: .sandbox)
+        config = CoreConfig(clientID: "testClientID", environment: .sandbox, merchantID: "testMerchantID")
         mockWebAuthenticationSession = MockWebAuthenticationSession()
         mockNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: config))
         mockClientConfigAPI = MockClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)
@@ -47,7 +47,7 @@ class PayPalClient_Tests: XCTestCase {
     }
 
     func testVault_whenLive_launchesCorrectURLInWebSession() {
-        config = CoreConfig(clientID: "testClientID", environment: .live)
+        config = CoreConfig(clientID: "testClientID", environment: .live, merchantID: "testMerchantID")
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
 
         let started = expectation(description: "ASWebAuthenticationSession Started")

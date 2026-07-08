@@ -8,7 +8,7 @@ class AnalyticsService_Tests: XCTestCase {
 
     var sut: AnalyticsService!
     var mockTrackingEventsAPI: MockTrackingEventsAPI!
-    var coreConfig = CoreConfig(clientID: "some-client-id", environment: .sandbox)
+    var coreConfig = CoreConfig(clientID: "some-client-id", environment: .sandbox, merchantID: "some-merchant-id")
 
     // MARK: - Test lifecycle
     
@@ -32,7 +32,7 @@ class AnalyticsService_Tests: XCTestCase {
     
     func testSendEvent_whenLive_sendsAppropriateEnvName() async {
         let sut = AnalyticsService(
-            coreConfig: CoreConfig(clientID: "some-client-id", environment: .live),
+            coreConfig: CoreConfig(clientID: "some-client-id", environment: .live, merchantID: "some-mechant-id"),
             orderID: "some-order-id",
             trackingEventsAPI: mockTrackingEventsAPI
         )
