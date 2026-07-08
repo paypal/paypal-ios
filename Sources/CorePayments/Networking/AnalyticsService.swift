@@ -26,6 +26,13 @@ public struct AnalyticsService {
         self.orderID = nil
     }
 
+    public init(coreConfig: CoreConfig) {
+        self.coreConfig = coreConfig
+        self.trackingEventsAPI = TrackingEventsAPI(coreConfig: coreConfig)
+        self.orderID = nil
+        self.setupToken = nil
+    }
+
     // MARK: - Internal Initializer
 
     /// Exposed for testing
@@ -33,6 +40,22 @@ public struct AnalyticsService {
         self.coreConfig = coreConfig
         self.trackingEventsAPI = trackingEventsAPI
         self.orderID = orderID
+        self.setupToken = nil
+    }
+
+    /// Exposed for testing
+    init(coreConfig: CoreConfig, setupToken: String, trackingEventsAPI: TrackingEventsAPI) {
+        self.coreConfig = coreConfig
+        self.trackingEventsAPI = trackingEventsAPI
+        self.orderID = nil
+        self.setupToken = setupToken
+    }
+
+    /// Exposed for testing
+    init(coreConfig: CoreConfig, trackingEventsAPI: TrackingEventsAPI) {
+        self.coreConfig = coreConfig
+        self.trackingEventsAPI = trackingEventsAPI
+        self.orderID = nil
         self.setupToken = nil
     }
     
@@ -43,10 +66,51 @@ public struct AnalyticsService {
     /// - Parameter name: Event name string used to identify this unique event in FPTI.
     /// - Parameter correlationID: correlation ID associated with the request
     /// - Parameter buttonType: The type of button
-    public func sendEvent(_ name: String, correlationID: String? = nil, buttonType: String? = nil) {
+    public func sendEvent(
+        _ name: String,
+        correlationID: String? = nil,
+        buttonType: String? = nil,
+        startTime: Int64? = nil,
+        endTime: Int64? = nil,
+        endpoint: String? = nil,
+        presentationType: String? = nil,
+        flow: String? = nil
+    ) {
         Task(priority: .background) {
-            await performEventRequest(name, correlationID: correlationID, buttonType: buttonType)
+            await performEventRequest(
+                name,
+                correlationID: correlationID,
+                buttonType: buttonType,
+                startTime: startTime,
+                endTime: endTime,
+                endpoint: endpoint,
+                presentationType: presentationType,
+                flow: flow
+            )
         }
+    }
+
+    /// Sends an analytics event and waits for the request to complete.
+    public func sendEventAndAwaitDelivery(
+        _ name: String,
+        correlationID: String? = nil,
+        buttonType: String? = nil,
+        startTime: Int64? = nil,
+        endTime: Int64? = nil,
+        endpoint: String? = nil,
+        presentationType: String? = nil,
+        flow: String? = nil
+    ) async {
+        await performEventRequest(
+            name,
+            correlationID: correlationID,
+            buttonType: buttonType,
+            startTime: startTime,
+            endTime: endTime,
+            endpoint: endpoint,
+            presentationType: presentationType,
+            flow: flow
+        )
     }
 
     // MARK: - Internal Methods
@@ -56,10 +120,19 @@ public struct AnalyticsService {
     ///   - name: Event name string used to identify this unique event in FPTI
     ///   - correlationID: correlation ID associated with the request
     ///   - buttonType: The type of button
-    func performEventRequest(_ name: String, correlationID: String? = nil, buttonType: String? = nil) async {
+    func performEventRequest(
+        _ name: String,
+        correlationID: String? = nil,
+        buttonType: String? = nil,
+        startTime: Int64? = nil,
+        endTime: Int64? = nil,
+        endpoint: String? = nil,
+        presentationType: String? = nil,
+        flow: String? = nil
+    ) async {
         do {
             let clientID = coreConfig.clientID
-            
+
             let eventData = AnalyticsEventData(
                 environment: coreConfig.environment.toString,
                 eventName: name,
@@ -67,9 +140,14 @@ public struct AnalyticsService {
                 orderID: orderID,
                 correlationID: correlationID,
                 setupToken: setupToken,
-                buttonType: buttonType
+                buttonType: buttonType,
+                startTime: startTime,
+                endTime: endTime,
+                endpoint: endpoint,
+                presentationType: presentationType,
+                flow: flow
             )
-            
+
             let (_) = try await trackingEventsAPI.sendEvent(with: eventData)
         } catch {
             NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription)

@@ -32,6 +32,11 @@ struct AnalyticsEventData: Encodable {
         case setupToken = "vault_setup_token"
         case timestamp = "t"
         case tenantName = "tenant_name"
+        case startTime = "start_time"
+        case endTime = "end_time"
+        case endpoint = "endpoint"
+        case presentationType = "presentation_type"
+        case flow = "flow"
     }
     
     let appID: String = Bundle.main.infoDictionary?[kCFBundleIdentifierKey as String] as? String ?? "N/A"
@@ -99,6 +104,16 @@ struct AnalyticsEventData: Encodable {
 
     let buttonType: String?
 
+    let startTime: Int64?
+
+    let endTime: Int64?
+
+    let endpoint: String?
+
+    let presentationType: String?
+
+    let flow: String?
+
     init(
         environment: String,
         eventName: String,
@@ -106,7 +121,12 @@ struct AnalyticsEventData: Encodable {
         orderID: String?,
         correlationID: String?,
         setupToken: String?,
-        buttonType: String? = nil
+        buttonType: String? = nil,
+        startTime: Int64? = nil,
+        endTime: Int64? = nil,
+        endpoint: String? = nil,
+        presentationType: String? = nil,
+        flow: String? = nil
     ) {
         self.environment = environment
         self.eventName = eventName
@@ -115,6 +135,11 @@ struct AnalyticsEventData: Encodable {
         self.correlationID = correlationID
         self.setupToken = setupToken
         self.buttonType = buttonType
+        self.startTime = startTime
+        self.endTime = endTime
+        self.endpoint = endpoint
+        self.presentationType = presentationType
+        self.flow = flow
     }
     
     func encode(to encoder: Encoder) throws {
@@ -142,5 +167,11 @@ struct AnalyticsEventData: Encodable {
         try eventParameters.encode(timestamp, forKey: .timestamp)
         try eventParameters.encode(tenantName, forKey: .tenantName)
         try eventParameters.encode(setupToken, forKey: .setupToken)
+        try eventParameters.encodeIfPresent(buttonType, forKey: .buttonType)
+        try eventParameters.encodeIfPresent(startTime, forKey: .startTime)
+        try eventParameters.encodeIfPresent(endTime, forKey: .endTime)
+        try eventParameters.encodeIfPresent(endpoint, forKey: .endpoint)
+        try eventParameters.encodeIfPresent(presentationType, forKey: .presentationType)
+        try eventParameters.encodeIfPresent(flow, forKey: .flow)
     }
 }

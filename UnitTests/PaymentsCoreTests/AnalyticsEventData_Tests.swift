@@ -20,6 +20,30 @@ class AnalyticsEventData_Tests: XCTestCase {
         )
     }
 
+    func testEncode_includesLatencyFieldsWhenProvided() throws {
+        sut = AnalyticsEventData(
+            environment: "fake-env",
+            eventName: "paypal-web-payments:api-request-latency",
+            clientID: "fake-client-id",
+            orderID: "fake-order",
+            correlationID: nil,
+            setupToken: nil,
+            startTime: 1_700_000_000_000,
+            endTime: 1_700_000_000_500,
+            endpoint: "/v2/checkout/orders",
+            presentationType: nil,
+            flow: nil
+        )
+
+        let data = try JSONEncoder().encode(sut)
+        let json = try JSONSerialization.jsonObject(with: data) as? [String: [String: [String: Any]]]
+        let eventParams = try XCTUnwrap(json?["events"]?["event_params"])
+
+        XCTAssertEqual(eventParams["start_time"] as? Int64, 1_700_000_000_000)
+        XCTAssertEqual(eventParams["end_time"] as? Int64, 1_700_000_000_500)
+        XCTAssertEqual(eventParams["endpoint"] as? String, "/v2/checkout/orders")
+    }
+
     func testEncode_properlyFormatsJSON() throws {
         let data = try JSONEncoder().encode(sut)
         let json = try? JSONSerialization.jsonObject(with: data) as? [String: [String: [String: Any]]]
