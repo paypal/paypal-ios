@@ -16,7 +16,7 @@ public enum Environment {
             return URL(string: "https://api-m.paypal.com")!
         #if DEBUG
         case .custom(let baseURL, _):
-            return URL(string: baseURL)!
+            return URL(string: baseURL) ?? URL(fileURLWithPath: "")
         #endif
         }
     }
@@ -29,7 +29,7 @@ public enum Environment {
             return URL(string: "https://www.paypal.com/graphql")!
         #if DEBUG
         case .custom(_, let graphQLURL):
-            return URL(string: graphQLURL)!
+            return URL(string: graphQLURL) ?? URL(fileURLWithPath: "")
         #endif
         }
     }
