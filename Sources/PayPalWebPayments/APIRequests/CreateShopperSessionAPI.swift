@@ -41,7 +41,6 @@ class CreateShopperSessionAPI {
                 ) {
                     appSwitchEligible
                     redirectURL
-                    checkoutFallbackUrl
                     ineligibleReason
                     matchedAuthenticationMethods
                     shopperSessionConfig {
