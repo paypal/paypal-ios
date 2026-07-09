@@ -51,7 +51,6 @@ struct PayPalVaultView: View {
                 }
             }
         }
-        // for testing, this will be moved to app level with singleton router
         .onOpenURL { url in
             paypalVaultViewModel.handleUniversalLinkReturn(url)
         }
