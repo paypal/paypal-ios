@@ -3,55 +3,85 @@ import XCTest
 
 class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
 
-    func testCheckoutAppSwitchURL_buildsExpectedURLString() {
-        let urlString = PayPalWebCheckoutURLBuilder.checkoutAppSwitchURL(
-            base: "https://sandbox.paypal.com/app-switch-checkout",
-            orderID: "order-123",
-            clientID: "client-abc",
-            sessionID: "session-xyz"
-        )
-
-        XCTAssertEqual(
-            urlString,
-            "https://sandbox.paypal.com/app-switch-checkout?token=order-123&source=pda&merchant=client-abc" +
-                "&flow_type=ecs&sessionID=session-xyz"
-        )
+    private func queryValue(_ name: String, in url: URL) -> String? {
+        URLComponents(url: url, resolvingAgainstBaseURL: false)?
+            .queryItems?
+            .first { $0.name == name }?
+            .value
     }
 
-    func testCheckoutAppSwitchURL_producesValidURL() {
-        let urlString = PayPalWebCheckoutURLBuilder.checkoutAppSwitchURL(
-            base: "https://sandbox.paypal.com/app-switch-checkout",
-            orderID: "order-123",
-            clientID: "client-abc",
-            sessionID: "session-xyz"
+    // MARK: - checkoutAppSwitchURL
+
+    func testCheckoutAppSwitchURL_setsExpectedQueryItems() throws {
+        let url = try XCTUnwrap(
+            PayPalWebCheckoutURLBuilder.checkoutAppSwitchURL(
+                base: "https://sandbox.paypal.com/app-switch-checkout",
+                orderID: "order-123",
+                clientID: "client-abc",
+                sessionID: "session-xyz"
+            )
         )
 
-        XCTAssertNotNil(URL(string: urlString))
+        XCTAssertEqual(url.scheme, "https")
+        XCTAssertEqual(url.host, "sandbox.paypal.com")
+        XCTAssertEqual(url.path, "/app-switch-checkout")
+        XCTAssertEqual(queryValue("token", in: url), "order-123")
+        XCTAssertEqual(queryValue("source", in: url), "pda")
+        XCTAssertEqual(queryValue("merchant", in: url), "client-abc")
+        XCTAssertEqual(queryValue("flow_type", in: url), "ecs")
+        XCTAssertEqual(queryValue("sessionID", in: url), "session-xyz")
     }
 
-    func testVaultAppSwitchURL_buildsExpectedURLString() {
-        let urlString = PayPalWebCheckoutURLBuilder.vaultAppSwitchURL(
-            base: "https://sandbox.paypal.com/app-switch-vault",
-            setupTokenID: "setup-token-123",
-            clientID: "client-abc",
-            sessionID: "session-xyz"
+    func testCheckoutAppSwitchURL_preservesExistingQueryOnBase() throws {
+        let url = try XCTUnwrap(
+            PayPalWebCheckoutURLBuilder.checkoutAppSwitchURL(
+                base: "https://sandbox.paypal.com/app-switch-checkout?existing=1",
+                orderID: "order-123",
+                clientID: "client-abc",
+                sessionID: "session-xyz"
+            )
         )
 
-        XCTAssertEqual(
-            urlString,
-            "https://sandbox.paypal.com/app-switch-vault?approval_session_id=setup-token-123&source=pda" +
-                "&flow_type=va&merchant=client-abc&sessionID=session-xyz"
-        )
+        XCTAssertEqual(queryValue("existing", in: url), "1")
+        XCTAssertEqual(queryValue("token", in: url), "order-123")
     }
 
-    func testVaultAppSwitchURL_producesValidURL() {
-        let urlString = PayPalWebCheckoutURLBuilder.vaultAppSwitchURL(
-            base: "https://sandbox.paypal.com/app-switch-vault",
-            setupTokenID: "setup-token-123",
-            clientID: "client-abc",
-            sessionID: "session-xyz"
+    func testCheckoutAppSwitchURL_percentEncodesSpecialCharacters() throws {
+        let url = try XCTUnwrap(
+            PayPalWebCheckoutURLBuilder.checkoutAppSwitchURL(
+                base: "https://sandbox.paypal.com/app-switch-checkout",
+                orderID: "order-123",
+                clientID: "client & co",
+                sessionID: "session-xyz"
+            )
         )
 
-        XCTAssertNotNil(URL(string: urlString))
+        // Decoded query value round-trips to the original, unescaped string.
+        XCTAssertEqual(queryValue("merchant", in: url), "client & co")
+        // The raw query string must not contain a bare, unescaped "&" from the value
+        // (which would otherwise be mis-parsed as a new query parameter).
+        XCTAssertFalse(url.query?.contains("client & co") ?? true)
+    }
+
+    // MARK: - vaultAppSwitchURL
+
+    func testVaultAppSwitchURL_setsExpectedQueryItems() throws {
+        let url = try XCTUnwrap(
+            PayPalWebCheckoutURLBuilder.vaultAppSwitchURL(
+                base: "https://sandbox.paypal.com/app-switch-vault",
+                setupTokenID: "setup-token-123",
+                clientID: "client-abc",
+                sessionID: "session-xyz"
+            )
+        )
+
+        XCTAssertEqual(url.scheme, "https")
+        XCTAssertEqual(url.host, "sandbox.paypal.com")
+        XCTAssertEqual(url.path, "/app-switch-vault")
+        XCTAssertEqual(queryValue("approval_session_id", in: url), "setup-token-123")
+        XCTAssertEqual(queryValue("source", in: url), "pda")
+        XCTAssertEqual(queryValue("merchant", in: url), "client-abc")
+        XCTAssertEqual(queryValue("flow_type", in: url), "va")
+        XCTAssertEqual(queryValue("sessionID", in: url), "session-xyz")
     }
 }

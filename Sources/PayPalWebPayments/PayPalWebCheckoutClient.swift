@@ -353,12 +353,12 @@ public class PayPalWebCheckoutClient: NSObject {
                session.appSwitchEligible,
                let base = session.redirectURL,
                let sessionID = session.shopperSessionConfig?.id,
-               let url = URL(string: PayPalWebCheckoutURLBuilder.checkoutAppSwitchURL(
+               let url = PayPalWebCheckoutURLBuilder.checkoutAppSwitchURL(
                    base: base,
                    orderID: orderID,
                    clientID: config.clientID,
                    sessionID: sessionID
-               )) {
+               ) {
                 let result = await attemptSessionAppSwitch(
                     url: url,
                     completionOnce: completionOnce,
@@ -389,12 +389,12 @@ public class PayPalWebCheckoutClient: NSObject {
                session.appSwitchEligible,
                let base = session.redirectURL,
                let sessionID = session.shopperSessionConfig?.id,
-               let url = URL(string: PayPalWebCheckoutURLBuilder.vaultAppSwitchURL(
+               let url = PayPalWebCheckoutURLBuilder.vaultAppSwitchURL(
                    base: base,
                    setupTokenID: setupTokenID,
                    clientID: config.clientID,
                    sessionID: sessionID
-               )) {
+               ) {
                 let result = await attemptSessionAppSwitch(
                     url: url,
                     completionOnce: completionOnce,
