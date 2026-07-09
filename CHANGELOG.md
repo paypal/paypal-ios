@@ -2,6 +2,13 @@
 # PayPal iOS SDK Release Notes
 
 ## Unreleased
+
+* PayPalWebPayments
+  * Add `PayPalWebCheckoutClient.createPayPalSession(userIdentity, urlConfig, userAction)` — establishes a shopper session that must be created prior to calling `start()` or `vault()`
+  * Add `PayPalWebCheckoutClient.start(orderId, completion)` method — requires a prior call to `createPayPalSession()`
+  * Add `PayPalWebCheckoutClient.vault(setupTokenId, completion)` method — requires a prior call to `createPayPalSession()`
+  * Deprecate `PayPalWebCheckoutClient.start(request, completion)` — use `createPayPalSession()` followed by `start(orderId, completion)` instead
+  * Deprecate `PayPalWebCheckoutClient.vault(request, completion)` — use `createPayPalSession()` followed by `vault(setupTokenID, completion)` instead
 * CorePayments
   * **Breaking:** `CoreConfig` requires a `merchantID` parameter; optional `bnCode` parameter added. See the [v3 Migration Guide](v3_MIGRATION_GUIDE.md) for details.
 

@@ -12,6 +12,7 @@ class PayPalClient_CheckoutAppSwitch_Toggle_tests: XCTestCase {
     var mockNetworkingClient: MockNetworkingClient!
     var mockClientConfigAPI: MockClientConfigAPI!
     var mockPatchCCOAPI: MockPatchCCOAPI!
+    var mockCreateShopperSessionAPI: MockCreateShopperSessionAPI!
     var mockURLOpener: MockURLOpener!
     
     private let checkoutSuccessInboundDeepLink = "sdk.ios.paypal://x-callback-url/paypal-sdk/paypal-checkout?token=test-order-id&PayerID=test-payer-id"
@@ -24,8 +25,7 @@ class PayPalClient_CheckoutAppSwitch_Toggle_tests: XCTestCase {
         mockNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: config))
         mockClientConfigAPI = MockClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)
         mockPatchCCOAPI = MockPatchCCOAPI(coreConfig: config)
-
-
+        mockCreateShopperSessionAPI = MockCreateShopperSessionAPI(coreConfig: config)
         mockURLOpener = MockURLOpener()
 
         payPalClient = PayPalWebCheckoutClient(
@@ -33,6 +33,7 @@ class PayPalClient_CheckoutAppSwitch_Toggle_tests: XCTestCase {
             networkingClient: mockNetworkingClient,
             clientConfigAPI: mockClientConfigAPI,
             patchCCOAPI: mockPatchCCOAPI,
+            createShopperSessionAPI: mockCreateShopperSessionAPI,
             webAuthenticationSession: mockWebAuthenticationSession
         )
         payPalClient.urlOpener = mockURLOpener

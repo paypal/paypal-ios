@@ -11,7 +11,14 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
     var payPalClient: PayPalWebCheckoutClient!
     var mockClientConfigAPI: MockClientConfigAPI!
     var mockPatchCCOAPI: MockPatchCCOAPI!
+    var mockCreateShopperSessionAPI: MockCreateShopperSessionAPI!
     var mockURLOpener: MockURLOpener!
+
+    private let fakeURLConfig = PayPalURLConfig(
+        returnAppURL: URL(string: "paypal://return")!,
+        cancelAppURL: URL(string: "paypal://cancel")!,
+        fallbackSchemeURL: URL(string: "paypal://fallback")!
+    )
 
     private let checkoutSuccessInboundDeepLink =
         "sdk.ios.paypal://x-callback-url/paypal-sdk/paypal-checkout?token=test-order-id&PayerID=test-payer-id"
@@ -26,6 +33,7 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
             networkingClient: MockNetworkingClient(http: MockHTTP(coreConfig: config))
         )
         mockPatchCCOAPI = MockPatchCCOAPI(coreConfig: config)
+        mockCreateShopperSessionAPI = MockCreateShopperSessionAPI(coreConfig: config)
         mockURLOpener = MockURLOpener()
 
         payPalClient = PayPalWebCheckoutClient(
@@ -33,6 +41,7 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
             networkingClient: MockNetworkingClient(http: MockHTTP(coreConfig: config)),
             clientConfigAPI: mockClientConfigAPI,
             patchCCOAPI: mockPatchCCOAPI,
+            createShopperSessionAPI: mockCreateShopperSessionAPI,
             webAuthenticationSession: mockWebAuthenticationSession
         )
         payPalClient.urlOpener = mockURLOpener
@@ -55,10 +64,46 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
         }
     }
 
+    private func makeIneligibleSession() -> ShopperSessionResult {
+        ShopperSessionResult(
+            appSwitchEligible: false,
+            redirectURL: nil,
+            ineligibleReason: "TEST_INELIGIBLE",
+            matchedAuthenticationMethods: nil,
+            shopperSessionConfig: .init(id: "fake-session-id", expiresAt: "2026-12-31T00:00:00Z")
+        )
+    }
+
+    private func makeEligibleSession(redirectURL: String) -> ShopperSessionResult {
+        ShopperSessionResult(
+            appSwitchEligible: true,
+            redirectURL: redirectURL,
+            ineligibleReason: nil,
+            matchedAuthenticationMethods: ["EMAIL"],
+            shopperSessionConfig: .init(id: "fake-session-id", expiresAt: "2026-12-31T00:00:00Z")
+        )
+    }
+
     func test_start_sendsSystemLatencyForBrowserPresentation() async throws {
+        mockCreateShopperSessionAPI.stubResponse = makeIneligibleSession()
+        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
         mockWebAuthenticationSession.cannedResponseURL = URL(string: checkoutSuccessInboundDeepLink)
 
-        _ = try await payPalClient.start(request: PayPalWebCheckoutRequest(orderID: "test-order-id"))
+        payPalClient.createPayPalSession(urlConfig: fakeURLConfig)
+
+        let result = try await withCheckedThrowingContinuation {
+            (continuation: CheckedContinuation<PayPalWebCheckoutResult, Error>) in
+            payPalClient.start(orderID: "test-order-id") { checkoutResult in
+                switch checkoutResult {
+                case .success(let result):
+                    continuation.resume(returning: result)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+
+        XCTAssertEqual(result.orderID, "test-order-id")
 
         let systemLatencyEvent = try XCTUnwrap(
             mockTrackingEventsAPI.capturedAnalyticsEvents.first {
@@ -74,13 +119,9 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
 
     func test_start_sendsSystemLatencyForAppSwitchPresentation() async throws {
         mockURLOpener.mockIsPayPalAppInstalled = true
-
-        let eligibleResponse = AppSwitchEligibility(
-            appSwitchEligible: true,
-            redirectURL: "https://www.sandbox.paypal.com/app-switch-checkout?appSwitchEligible=true&token=test-order-id&tokenType=ORDER_ID",
-            ineligibleReason: nil
+        mockCreateShopperSessionAPI.stubResponse = makeEligibleSession(
+            redirectURL: "https://www.sandbox.paypal.com/app-switch-checkout?token=test-order-id"
         )
-        mockPatchCCOAPI.stubEligibilityResponse = eligibleResponse
         mockURLOpener.mockOpenURLSuccess = true
 
         let urlOpenedExpectation = XCTestExpectation(description: "URL opened")
@@ -88,9 +129,10 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
             urlOpenedExpectation.fulfill()
         }
 
-        payPalClient.start(request: PayPalWebCheckoutRequest(orderID: "test-order-id", appSwitchIfEligible: true)) { _ in }
+        payPalClient.createPayPalSession(urlConfig: fakeURLConfig)
+        payPalClient.start(orderID: "test-order-id") { _ in }
 
-        await fulfillment(of: [urlOpenedExpectation], timeout: 1.0)
+        await fulfillment(of: [urlOpenedExpectation], timeout: 2.0)
 
         let systemLatencyEvent = try XCTUnwrap(
             mockTrackingEventsAPI.capturedAnalyticsEvents.first {
@@ -103,19 +145,28 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
 
     func test_start_appSwitchFallbackToWeb_sendsSystemLatencyOnceAsAppSwitch() async throws {
         mockURLOpener.mockIsPayPalAppInstalled = true
-
-        let eligibleResponse = AppSwitchEligibility(
-            appSwitchEligible: true,
-            redirectURL: "https://www.sandbox.paypal.com/app-switch-checkout?appSwitchEligible=true&token=test-order-id&tokenType=ORDER_ID",
-            ineligibleReason: nil
+        mockCreateShopperSessionAPI.stubResponse = makeEligibleSession(
+            redirectURL: "https://www.sandbox.paypal.com/app-switch-checkout?token=test-order-id"
         )
-        mockPatchCCOAPI.stubEligibilityResponse = eligibleResponse
         mockURLOpener.mockOpenURLSuccess = false
+        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
         mockWebAuthenticationSession.cannedResponseURL = URL(string: checkoutSuccessInboundDeepLink)
 
-        _ = try await payPalClient.start(
-            request: PayPalWebCheckoutRequest(orderID: "test-order-id", appSwitchIfEligible: true)
-        )
+        payPalClient.createPayPalSession(urlConfig: fakeURLConfig)
+
+        let result = try await withCheckedThrowingContinuation {
+            (continuation: CheckedContinuation<PayPalWebCheckoutResult, Error>) in
+            payPalClient.start(orderID: "test-order-id") { checkoutResult in
+                switch checkoutResult {
+                case .success(let result):
+                    continuation.resume(returning: result)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+
+        XCTAssertEqual(result.orderID, "test-order-id")
 
         let systemLatencyEvents = mockTrackingEventsAPI.capturedAnalyticsEvents.filter {
             $0.eventName == PayPalWebAnalytics.systemLatency
@@ -125,12 +176,16 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
     }
 
     func test_vault_sendsSystemLatencyForBrowserPresentation() async throws {
+        mockCreateShopperSessionAPI.stubResponse = makeIneligibleSession()
         mockWebAuthenticationSession.cannedResponseURL = URL(
             string: "sdk.ios.paypal://vault/success?approval_token_id=token-id&approval_session_id=session-id"
         )
 
-        let result = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<PayPalVaultResult, Error>) in
-            payPalClient.vault(PayPalVaultRequest(setupTokenID: "setup-token-id")) { vaultResult in
+        payPalClient.createPayPalSession(urlConfig: fakeURLConfig)
+
+        let result = try await withCheckedThrowingContinuation {
+            (continuation: CheckedContinuation<PayPalVaultResult, Error>) in
+            payPalClient.vault(setupTokenID: "setup-token-id") { vaultResult in
                 switch vaultResult {
                 case .success(let result):
                     continuation.resume(returning: result)
