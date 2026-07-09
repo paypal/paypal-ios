@@ -408,6 +408,7 @@ public class PayPalWebCheckoutClient: NSObject {
     /// `eventPrefix` used by `attemptSessionAppSwitchOrFallback`/`attemptSessionAppSwitch`, so those
     /// functions can stay within SwiftLint's parameter count limit.
     private struct SessionAppSwitchHandlers<T> {
+
         let completionOnce: (Result<T, CoreSDKError>) -> Void
         let setCompletion: (((Result<T, CoreSDKError>) -> Void)?) -> Void
         let eventPrefix: String
