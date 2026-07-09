@@ -63,7 +63,7 @@ struct CreateSetupTokenView: View {
                                 guard let paypalVaultViewModel = vaultViewModel as? PayPalVaultViewModel else { return }
                                 try await paypalVaultViewModel.vault()
                             case .card:
-                                try await vaultViewModel.getSetupToken(
+                                try await vaultViewModel.fetchSetupToken(
                                     customerID: vaultViewModel.customerID.isEmpty ? nil : vaultViewModel.customerID,
                                     selectedMerchantIntegration: selectedMerchantIntegration,
                                     paymentType: paymentType,

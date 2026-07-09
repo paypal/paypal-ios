@@ -81,50 +81,46 @@ class PayPalWebViewModel: ObservableObject {
     /// S2: PayPal app-switch (no vault) -> experienceContext with appSwitchContext
     /// S3: PayPal vault (no app-switch)  -> attributes.vault + experienceContext
     /// S4: PayPal vault + app-switch     -> attributes.vault + experienceContext.appSwitchContext
-    func createOrder(shouldVault: Bool) async throws {
+    private func fetchOrder(shouldVault: Bool) async throws -> Order {
         do {
-            _ = try await fetchOrder(shouldVault: shouldVault)
+            let amountRequest = DemoFixtures.amount
+
+            var paymentSource: OrderPaymentSource?
+
+            if appSwitch || shouldVault {
+                let experience = PayPalExperienceContext(
+                    returnUrl: appSwitchURL + "/success",
+                    cancelUrl: appSwitchURL + "/cancel",
+                    appSwitchContext: appSwitch ? AppSwitchContext(appUrl: appSwitchURL) : nil
+                )
+
+                let attributes: Attributes? = shouldVault ? Attributes(vault: DemoFixtures.vaultAttributes) : nil
+
+                let paypal = PayPalSource(attributes: attributes, experienceContext: experience)
+                paymentSource = .paypal(OrderPayPalPaymentSource(paypal: paypal))
+            }
+
+            let params = CreateOrderParams(
+                applicationContext: nil,
+                intent: intent.rawValue,
+                purchaseUnits: [PurchaseUnit(amount: amountRequest)],
+                paymentSource: paymentSource
+            )
+
+            state.createdOrderResponse = .loading
+            let order = try await DemoMerchantAPI.sharedService.createOrder(
+                orderParams: params,
+                selectedMerchantIntegration: DemoSettings.merchantIntegration
+            )
+            self.order = order
+            state.createdOrderResponse = .loaded(order)
+            print("✅ fetched orderID: \(order.id) with status: \(order.status)")
+            return order
         } catch {
             state.createdOrderResponse = .error(message: error.localizedDescription)
             print("❌ failed to fetch orderID with error: \(error.localizedDescription)")
             throw error
         }
-    }
-
-    private func fetchOrder(shouldVault: Bool) async throws -> Order {
-        let amountRequest = DemoFixtures.amount
-
-        var paymentSource: OrderPaymentSource?
-
-        if appSwitch || shouldVault {
-            let experience = PayPalExperienceContext(
-                returnUrl: appSwitchURL + "/success",
-                cancelUrl: appSwitchURL + "/cancel",
-                appSwitchContext: appSwitch ? AppSwitchContext(appUrl: appSwitchURL) : nil
-            )
-
-            let attributes: Attributes? = shouldVault ? Attributes(vault: DemoFixtures.vaultAttributes) : nil
-
-            let paypal = PayPalSource(attributes: attributes, experienceContext: experience)
-            paymentSource = .paypal(OrderPayPalPaymentSource(paypal: paypal))
-        }
-
-        let params = CreateOrderParams(
-            applicationContext: nil,
-            intent: intent.rawValue,
-            purchaseUnits: [PurchaseUnit(amount: amountRequest)],
-            paymentSource: paymentSource
-        )
-
-        state.createdOrderResponse = .loading
-        let order = try await DemoMerchantAPI.sharedService.createOrder(
-            orderParams: params,
-            selectedMerchantIntegration: DemoSettings.merchantIntegration
-        )
-        self.order = order
-        state.createdOrderResponse = .loaded(order)
-        print("✅ fetched orderID: \(order.id) with status: \(order.status)")
-        return order
     }
 
     func paymentButtonTapped(funding: PayPalWebCheckoutFundingSource) {
