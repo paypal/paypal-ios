@@ -41,7 +41,6 @@ class CreateShopperSessionAPI {
                 ) {
                     appSwitchEligible
                     redirectURL
-                    checkoutFallbackUrl
                     ineligibleReason
                     matchedAuthenticationMethods
                     shopperSessionConfig {
@@ -80,15 +79,12 @@ class CreateShopperSessionAPI {
         userIdentity: PayPalUserIdentity?,
         userAction: PayPalUserAction
     ) async throws -> ShopperSessionResult {
-        // TODO: for testing purposes only, will be removed
-        return FakeCreateShopperSessionSuccessResponse.success
-        
         let identityVariables = userIdentity.map(UserIdentityVariables.init)
 
         let variables = CreateShopperSessionVariables(
-            returnUrl: urlConfig.returnAppURL,
-            cancelUrl: urlConfig.cancelAppURL,
-            fallbackSchemeUrl: urlConfig.fallbackSchemeURL,
+            returnURL: urlConfig.returnAppURL,
+            cancelURL: urlConfig.cancelAppURL,
+            fallbackSchemeURL: urlConfig.fallbackSchemeURL,
             userAction: userAction.graphQLValue,
             osType: PayPalCoreConstants.osType,
             integrationArtifact: PayPalCoreConstants.integrationArtifact,
