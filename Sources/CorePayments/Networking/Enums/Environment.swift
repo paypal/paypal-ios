@@ -1,10 +1,12 @@
 import Foundation
 
-// swiftlint:disable force_unwrapping
-public enum Environment {
+public enum Environment: Equatable {
     case sandbox
     case live
-    case custom(baseURL: String)
+
+    #if DEBUG
+    case custom(baseURL: String, graphQLURL: String)
+    #endif
 
     var baseURL: URL {
         switch self {
@@ -12,8 +14,10 @@ public enum Environment {
             return URL(string: "https://api-m.sandbox.paypal.com")!
         case .live:
             return URL(string: "https://api-m.paypal.com")!
-        case .custom(let baseURL):
-            return URL(string: baseURL)!
+        #if DEBUG
+        case .custom(let baseURL, _):
+            return URL(string: baseURL) ?? URL(fileURLWithPath: "")
+        #endif
         }
     }
 
@@ -23,8 +27,10 @@ public enum Environment {
             return URL(string: "https://www.sandbox.paypal.com/graphql")!
         case .live:
             return URL(string: "https://www.paypal.com/graphql")!
-        case .custom(let baseURL):
-            return URL(string: "/graphql", relativeTo: URL(string: baseURL))!
+        #if DEBUG
+        case .custom(_, let graphQLURL):
+            return URL(string: graphQLURL) ?? URL(fileURLWithPath: "")
+        #endif
         }
     }
 
@@ -35,8 +41,14 @@ public enum Environment {
             return URL(string: "https://sandbox.paypal.com/agreements/approve")!
         case .live:
             return URL(string: "https://paypal.com/agreements/approve")!
-        case .custom(let baseURL):
-            return URL(string: "/agreements/approve", relativeTo: URL(string: baseURL))!
+        #if DEBUG
+        case .custom(let baseURL, _):
+            if let host = URL(string: baseURL)?.host,
+                let url = URL(string: "https://\(host)/agreements/approve") {
+                return url
+            }
+            return URL(string: "https://paypal.com/agreements/approve")!
+        #endif
         }
     }
 
@@ -46,9 +58,10 @@ public enum Environment {
             return "sandbox"
         case .live:
             return "live"
-        case .custom(let baseURL):
-            return "custom with baseURL: \(baseURL)"
+        #if DEBUG
+        case .custom:
+            return "custom"
+        #endif
         }
     }
 }
-// swiftlint:enable force_unwrapping

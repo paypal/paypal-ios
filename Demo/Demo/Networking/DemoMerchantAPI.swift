@@ -126,6 +126,12 @@ final class DemoMerchantAPI {
             return injectedClientID
         }
 
+        #if DEBUG
+        if environment == .custom {
+            return DemoSettings.customEnvironment?.clientID
+        }
+        #endif
+
         return selectedMerchantIntegration.clientID
     }
 

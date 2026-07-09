@@ -3,31 +3,45 @@ import CorePayments
 enum Environment: String, CaseIterable {
     case sandbox
     case live
+    #if DEBUG
+    case custom
+    #endif
 
     var baseURL: String {
         switch self {
         case .sandbox:
-            // ⚠️ LOCAL QA TESTING — DO NOT COMMIT. Local sample merchant server.
-            // Use 127.0.0.1 (not "localhost"): the server binds IPv4 only, but "localhost"
-            // resolves to IPv6 ::1 first → connection refused. Simulator shares the Mac loopback.
-            // Original: https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com
-            // TODO(follow-up): remove once the #416-style Custom Environment UI lands; see PR notes.
-            return "http://127.0.0.1:8080"
+            return "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
         case .live:
             // we can replace during testing
             return "https://sdk-sample-merchant-server.herokuapp.com"
+        #if DEBUG
+        case .custom:
+            // The custom REST/GraphQL/clientID fields configure the CorePayments SDK only
+            // (see `paypalSDKEnvironment`). The merchant endpoints /orders, /setup-tokens and
+            // /payment-tokens are served by the sample merchant backend, not the PayPal API.
+            // A custom merchant URL can be provided; when empty it falls back to the sandbox
+            // merchant server.
+            let merchantBaseURL = DemoSettings.customEnvironment?.merchantBaseURL?
+                .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            return merchantBaseURL.isEmpty ? Environment.sandbox.baseURL : merchantBaseURL
+        #endif
         }
     }
 
     var paypalSDKEnvironment: CorePayments.Environment {
         switch self {
         case .sandbox:
-            // ⚠️ LOCAL QA TESTING — DO NOT COMMIT. Points the SDK at msmaster via Steven's .custom case.
-            // Original: return .sandbox
-            // TODO(follow-up): remove once the #416-style Custom Environment UI lands; see PR notes.
-            return .custom(baseURL: "https://msmaster.qa.paypal.com")
+            return .sandbox
         case .live:
             return .live
+        #if DEBUG
+        case .custom:
+            let config = DemoSettings.customEnvironment
+            return .custom(
+                baseURL: config?.restBaseURL ?? "",
+                graphQLURL: config?.graphQLBaseURL ?? ""
+            )
+        #endif
         }
     }
 }

@@ -11,9 +11,11 @@ extension CoreConfig {
             return .SANDBOX
         case .live:
             return .LIVE
+        #if DEBUG
         case .custom:
-            // TODO: determine if this is correct, or if Magnes also needs to be custom
+            // Magnes has no custom environment; use sandbox for local/QA testing.
             return .SANDBOX
+        #endif
         }
     }
 }

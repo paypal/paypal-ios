@@ -63,6 +63,7 @@
 		80F33CED26F8E7A9006811B1 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CEC26F8E7A9006811B1 /* Order.swift */; };
 		80F33CEF26F8E7CC006811B1 /* CreateOrderParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CEE26F8E7CC006811B1 /* CreateOrderParams.swift */; };
 		80F33CF326F8EA50006811B1 /* DemoSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CF226F8EA50006811B1 /* DemoSettings.swift */; };
+		9A8C7ADC2FF6FD1B00471F38 /* CustomEnvironmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8C7ADB2FF6FD0F00471F38 /* CustomEnvironmentView.swift */; };
 		BC6460CD2A12A2A0002B974B /* EmptyBodyParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6460CC2A12A2A0002B974B /* EmptyBodyParams.swift */; };
 		BC9D4D2227C554090089E5B1 /* LaunchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2127C554090089E5B1 /* LaunchApp.swift */; };
 		BC9D4D2427C58B8D0089E5B1 /* XCUIApplication+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */; };
@@ -194,6 +195,7 @@
 		80F33CEC26F8E7A9006811B1 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		80F33CEE26F8E7CC006811B1 /* CreateOrderParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrderParams.swift; sourceTree = "<group>"; };
 		80F33CF226F8EA50006811B1 /* DemoSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSettings.swift; sourceTree = "<group>"; };
+		9A8C7ADB2FF6FD0F00471F38 /* CustomEnvironmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEnvironmentView.swift; sourceTree = "<group>"; };
 		BC6460CC2A12A2A0002B974B /* EmptyBodyParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyBodyParams.swift; sourceTree = "<group>"; };
 		BC9D4D1527C54F3F0089E5B1 /* DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC9D4D2127C554090089E5B1 /* LaunchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchApp.swift; sourceTree = "<group>"; };
@@ -546,6 +548,7 @@
 		BECD849E27036D95007CCAE4 /* DemoSettings */ = {
 			isa = PBXGroup;
 			children = (
+				9A8C7ADB2FF6FD0F00471F38 /* CustomEnvironmentView.swift */,
 				80F33CF226F8EA50006811B1 /* DemoSettings.swift */,
 				BECD849F27036DC2007CCAE4 /* Environment.swift */,
 				BECD84A127036DDB007CCAE4 /* Intent.swift */,
@@ -764,6 +767,7 @@
 				3BA5700B2AA13C1C0081D14F /* CoreConfigManager.swift in Sources */,
 				80F33CE826F8DE29006811B1 /* DemoMerchantAPI.swift in Sources */,
 				80F33CEF26F8E7CC006811B1 /* CreateOrderParams.swift in Sources */,
+				9A8C7ADC2FF6FD1B00471F38 /* CustomEnvironmentView.swift in Sources */,
 				BECD84A227036DDB007CCAE4 /* Intent.swift in Sources */,
 				3BB7A9772A5CA6FD00C05140 /* MerchantIntegration.swift in Sources */,
 				3BA56FEE2A9DCC340081D14F /* OrderCreateCardResultView.swift in Sources */,
