@@ -207,4 +207,94 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
         XCTAssertNotNil(systemLatencyEvent.startTime)
         XCTAssertNotNil(systemLatencyEvent.endTime)
     }
+
+    func test_start_withCreateOrder_sendsAPIRequestLatencyForCreateOrder() async throws {
+        mockCreateShopperSessionAPI.stubResponse = makeIneligibleSession()
+        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
+        mockWebAuthenticationSession.cannedResponseURL = URL(string: checkoutSuccessInboundDeepLink)
+
+        payPalClient.createPayPalSession(urlConfig: fakeURLConfig)
+
+        _ = try await payPalClient.start(createOrder: { "test-order-id" })
+
+        let latencyEvent = try XCTUnwrap(
+            mockTrackingEventsAPI.capturedAnalyticsEvents.first {
+                $0.eventName == PayPalWebAnalytics.apiRequestLatency
+            }
+        )
+        XCTAssertEqual(latencyEvent.endpoint, PayPalWebAnalytics.createOrderEndpoint)
+        XCTAssertNotNil(latencyEvent.startTime)
+        XCTAssertNotNil(latencyEvent.endTime)
+        XCTAssertGreaterThanOrEqual(latencyEvent.endTime!, latencyEvent.startTime!)
+    }
+
+    func test_vault_withCreateSetupToken_sendsAPIRequestLatencyForCreateSession() async throws {
+        mockCreateShopperSessionAPI.stubResponse = makeIneligibleSession()
+        mockWebAuthenticationSession.cannedResponseURL = URL(
+            string: "sdk.ios.paypal://vault/success?approval_token_id=token-id&approval_session_id=session-id"
+        )
+
+        payPalClient.createPayPalSession(urlConfig: fakeURLConfig)
+
+        _ = try await payPalClient.vault(createSetupToken: { "setup-token-id" })
+
+        let latencyEvent = try XCTUnwrap(
+            mockTrackingEventsAPI.capturedAnalyticsEvents.first {
+                $0.eventName == PayPalWebAnalytics.apiRequestLatency
+            }
+        )
+        XCTAssertEqual(latencyEvent.endpoint, PayPalWebAnalytics.createSessionEndpoint)
+        XCTAssertNotNil(latencyEvent.startTime)
+        XCTAssertNotNil(latencyEvent.endTime)
+    }
+
+    func test_start_createOrderFailure_sendsAPIRequestLatencyAndSystemLatencyError() async {
+        struct CreateOrderError: Error {}
+        mockCreateShopperSessionAPI.stubResponse = makeIneligibleSession()
+
+        payPalClient.createPayPalSession(urlConfig: fakeURLConfig)
+
+        let expectation = expectation(description: "start fails")
+        payPalClient.start(createOrder: { throw CreateOrderError() }) { result in
+            if case .failure = result {
+                expectation.fulfill()
+            }
+        }
+
+        wait(for: [expectation], timeout: 2.0)
+
+        let apiLatencyEvent = mockTrackingEventsAPI.capturedAnalyticsEvents.first {
+            $0.eventName == PayPalWebAnalytics.apiRequestLatency
+        }
+        XCTAssertEqual(apiLatencyEvent?.endpoint, PayPalWebAnalytics.createOrderEndpoint)
+
+        let systemLatencyEvent = mockTrackingEventsAPI.capturedAnalyticsEvents.first {
+            $0.eventName == PayPalWebAnalytics.systemLatency
+        }
+        XCTAssertEqual(systemLatencyEvent?.presentationType, PayPalWebAnalytics.PresentationType.error)
+        XCTAssertEqual(systemLatencyEvent?.flow, PayPalWebAnalytics.Flow.checkout)
+    }
+
+    func test_start_withOrderID_doesNotSendAPIRequestLatency() async throws {
+        mockCreateShopperSessionAPI.stubResponse = makeIneligibleSession()
+        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
+        mockWebAuthenticationSession.cannedResponseURL = URL(string: checkoutSuccessInboundDeepLink)
+
+        payPalClient.createPayPalSession(urlConfig: fakeURLConfig)
+        _ = try await withCheckedThrowingContinuation {
+            (continuation: CheckedContinuation<PayPalWebCheckoutResult, Error>) in
+            payPalClient.start(orderID: "test-order-id") { result in
+                switch result {
+                case .success(let value): continuation.resume(returning: value)
+                case .failure(let error): continuation.resume(throwing: error)
+                }
+            }
+        }
+
+        XCTAssertNil(
+            mockTrackingEventsAPI.capturedAnalyticsEvents.first {
+                $0.eventName == PayPalWebAnalytics.apiRequestLatency
+            }
+        )
+    }
 }
