@@ -27,7 +27,7 @@ class PayPalVaultViewModel: VaultViewModel {
         )
         client.createPayPalSession(
             userIdentity: resolvedUserIdentity,
-            urlConfig: shopperSessionURLConfig,
+            urlConfig: ShopperSessionURLConfigFactory.urlConfig,
             userAction: selectedUserAction
         )
 
@@ -59,16 +59,6 @@ class PayPalVaultViewModel: VaultViewModel {
                 }
             }
         }
-    }
-
-    private var shopperSessionURLConfig: PayPalURLConfig {
-        let checkoutPath = "x-callback-url/paypal-sdk/paypal-checkout"
-        let scheme = PayPalCoreConstants.callbackURLScheme
-        return PayPalURLConfig(
-            returnAppURL: URL(string: "\(scheme)://\(checkoutPath)")!,
-            cancelAppURL: URL(string: "\(scheme)://\(checkoutPath)/cancel")!,
-            fallbackSchemeURL: URL(string: "\(scheme)://\(checkoutPath)")!
-        )
     }
 
     func getPayPalClient() async throws -> PayPalWebCheckoutClient? {

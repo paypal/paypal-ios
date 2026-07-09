@@ -44,7 +44,7 @@ class PayPalWebViewModel: ObservableObject {
 
         client.createPayPalSession(
             userIdentity: userIdentity,
-            urlConfig: shopperSessionURLConfig,
+            urlConfig: ShopperSessionURLConfigFactory.urlConfig,
             userAction: userAction
         )
 
@@ -77,16 +77,6 @@ class PayPalWebViewModel: ObservableObject {
         }
     }
 
-    private var shopperSessionURLConfig: PayPalURLConfig {
-        let checkoutPath = "x-callback-url/paypal-sdk/paypal-checkout"
-        let scheme = PayPalCoreConstants.callbackURLScheme
-        return PayPalURLConfig(
-            returnAppURL: URL(string: "\(scheme)://\(checkoutPath)")!,
-            cancelAppURL: URL(string: "\(scheme)://\(checkoutPath)/cancel")!,
-            fallbackSchemeURL: URL(string: "\(scheme)://\(checkoutPath)")!
-        )
-    }
-    
     /// S1: No payment source (non app-switch, non vault)
     /// S2: PayPal app-switch (no vault) -> experienceContext with appSwitchContext
     /// S3: PayPal vault (no app-switch)  -> attributes.vault + experienceContext
