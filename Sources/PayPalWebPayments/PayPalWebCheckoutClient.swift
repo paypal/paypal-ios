@@ -359,7 +359,12 @@ public class PayPalWebCheckoutClient: NSObject {
                    clientID: config.clientID,
                    sessionID: sessionID
                )) {
-                let result = await attemptSessionAppSwitch(url: url, completionOnce: completionOnce)
+                let result = await attemptSessionAppSwitch(
+                    url: url,
+                    completionOnce: completionOnce,
+                    setCompletion: { [weak self] in self?.appSwitchCompletion = $0 },
+                    eventPrefix: "paypal-web-payments:checkout"
+                )
                 switch result {
                 case .launched:
                     return
@@ -390,7 +395,12 @@ public class PayPalWebCheckoutClient: NSObject {
                    clientID: config.clientID,
                    sessionID: sessionID
                )) {
-                let result = await attemptSessionVaultAppSwitch(url: url, completionOnce: completionOnce)
+                let result = await attemptSessionAppSwitch(
+                    url: url,
+                    completionOnce: completionOnce,
+                    setCompletion: { [weak self] in self?.vaultAppSwitchCompletion = $0 },
+                    eventPrefix: "paypal-web-payments:vault-wo-purchase"
+                )
                 switch result {
                 case .launched:
                     return
@@ -407,43 +417,26 @@ public class PayPalWebCheckoutClient: NSObject {
     private enum AppSwitchAttempt { case launched, fallback(String) }
 
     /// Attempts a session-based app switch to the PayPal app using the redirect URL from the session response.
-    private func attemptSessionAppSwitch(
+    /// Shared by the checkout and vault-without-purchase flows: `setCompletion` stores/clears whichever
+    /// completion property (`appSwitchCompletion` or `vaultAppSwitchCompletion`) belongs to the caller, and
+    /// `eventPrefix` scopes the analytics events to that flow.
+    private func attemptSessionAppSwitch<T>(
         url: URL,
-        completionOnce: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
+        completionOnce: @escaping (Result<T, CoreSDKError>) -> Void,
+        setCompletion: @escaping (((Result<T, CoreSDKError>) -> Void)?) -> Void,
+        eventPrefix: String
     ) async -> AppSwitchAttempt {
         await MainActor.run {
-            appSwitchCompletion = completionOnce
+            setCompletion(completionOnce)
         }
         let opened = await attemptAppSwitch(with: url)
         if opened {
-            analyticsService?.sendEvent("paypal-web-payments:checkout:app-switch-open:succeeded")
+            analyticsService?.sendEvent("\(eventPrefix):app-switch-open:succeeded")
             return .launched
         } else {
-            analyticsService?.sendEvent("paypal-web-payments:checkout:app-switch-open:failed")
-            await MainActor.run { [weak self] in
-                self?.appSwitchCompletion = nil
-            }
-            return .fallback("cannot_open_url")
-        }
-    }
-
-    /// Attempts a session-based app switch to the PayPal app for the vault-without-purchase flow,
-    /// using the redirect URL from the session response.
-    private func attemptSessionVaultAppSwitch(
-        url: URL,
-        completionOnce: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void
-    ) async -> AppSwitchAttempt {
-        await MainActor.run {
-            vaultAppSwitchCompletion = completionOnce
-        }
-        let opened = await attemptAppSwitch(with: url)
-        if opened {
-            analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:app-switch-open:succeeded")
-            return .launched
-        } else {
-            analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:app-switch-open:failed")
-            await MainActor.run { [weak self] in
-                self?.vaultAppSwitchCompletion = nil
+            analyticsService?.sendEvent("\(eventPrefix):app-switch-open:failed")
+            await MainActor.run {
+                setCompletion(nil)
             }
             return .fallback("cannot_open_url")
         }
@@ -603,7 +596,12 @@ public class PayPalWebCheckoutClient: NSObject {
                 return .fallback(eligibility.ineligibleReason ?? "ineligible")
             }
 
-            return await attemptSessionAppSwitch(url: url, completionOnce: completionOnce)
+            return await attemptSessionAppSwitch(
+                url: url,
+                completionOnce: completionOnce,
+                setCompletion: { [weak self] in self?.appSwitchCompletion = $0 },
+                eventPrefix: "paypal-web-payments:checkout"
+            )
         } catch {
             analyticsService?.sendEvent("paypal-web-payments:checkout:app-switch-eligibility:error")
             return .fallback("patch_or_lsat_failed")
