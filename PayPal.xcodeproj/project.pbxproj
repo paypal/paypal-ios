@@ -160,6 +160,7 @@
 		E6022E802857C6BE008B0E27 /* GraphQLHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64623222836A69E008AC8E1 /* GraphQLHTTPResponse.swift */; };
 		E64763712899B60C00074113 /* MockNetworkingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64763702899B60C00074113 /* MockNetworkingClient.swift */; };
 		F1E2D3C4B5A6978601234567 /* PayPalURLConfig_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A1B2C4E5F6789012345678 /* PayPalURLConfig_Tests.swift */; };
+		43F17E16B04B9E3B8CDBDF1B /* PayPalWebCheckoutURLBuilder_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BDD03914091D1FC998DA06 /* PayPalWebCheckoutURLBuilder_Tests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -365,6 +366,7 @@
 		CB4BE28928512A9800EA2DD1 /* MockQuededURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockQuededURLSession.swift; sourceTree = "<group>"; };
 		CB51FF7127FCB947001A97F5 /* PayPalWebCheckoutFundingSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebCheckoutFundingSource.swift; sourceTree = "<group>"; };
 		D3A1B2C4E5F6789012345678 /* PayPalURLConfig_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalURLConfig_Tests.swift; sourceTree = "<group>"; };
+		33BDD03914091D1FC998DA06 /* PayPalWebCheckoutURLBuilder_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebCheckoutURLBuilder_Tests.swift; sourceTree = "<group>"; };
 		E64623222836A69E008AC8E1 /* GraphQLHTTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLHTTPResponse.swift; sourceTree = "<group>"; };
 		E64763702899B60C00074113 /* MockNetworkingClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkingClient.swift; sourceTree = "<group>"; };
 		OBJ_16 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -670,6 +672,7 @@
 				BCE8A7F827EA555800AC301B /* PayPalWebCheckoutClient_Tests.swift */,
 				AA11223344556600AABB000A /* PayPalWebCheckoutClient_CreateSession_Tests.swift */,
 				D3A1B2C4E5F6789012345678 /* PayPalURLConfig_Tests.swift */,
+				33BDD03914091D1FC998DA06 /* PayPalWebCheckoutURLBuilder_Tests.swift */,
 			);
 			path = PayPalWebPaymentsTests;
 			sourceTree = "<group>";
@@ -1404,6 +1407,7 @@
 				3B3EB0622E8380EA00B1D552 /* PayPalClients_HandleRequestURL_Tests.swift in Sources */,
 				3BBD50E82E85ACA60049C4D5 /* PayPalClients_CheckoutAppSwitch_Toggle_Tests.swift in Sources */,
 				F1E2D3C4B5A6978601234567 /* PayPalURLConfig_Tests.swift in Sources */,
+				43F17E16B04B9E3B8CDBDF1B /* PayPalWebCheckoutURLBuilder_Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
