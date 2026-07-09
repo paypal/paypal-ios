@@ -346,33 +346,25 @@ public class PayPalWebCheckoutClient: NSObject {
         completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
     ) {
         let completionOnce = makeCompletionOnce(completion)
-        let appInstalled = urlOpener.isPayPalAppInstalled()
 
         Task {
-            if appInstalled,
-               session.appSwitchEligible,
-               let base = session.redirectURL,
-               let sessionID = session.shopperSessionConfig?.id,
-               let url = PayPalWebCheckoutURLBuilder.checkoutAppSwitchURL(
-                   base: base,
-                   orderID: orderID,
-                   clientID: config.clientID,
-                   sessionID: sessionID
-               ) {
-                let result = await attemptSessionAppSwitch(
-                    url: url,
-                    completionOnce: completionOnce,
-                    setCompletion: { [weak self] in self?.appSwitchCompletion = $0 },
-                    eventPrefix: "paypal-web-payments:checkout"
-                )
-                switch result {
-                case .launched:
-                    return
-                case .fallback(let reason):
-                    analyticsService?.sendEvent("paypal-web-payments:checkout:fallback-to-web:\(reason)")
+            await attemptSessionAppSwitchOrFallback(
+                session: session,
+                completionOnce: completionOnce,
+                setCompletion: { [weak self] in self?.appSwitchCompletion = $0 },
+                eventPrefix: "paypal-web-payments:checkout",
+                makeURL: { base, sessionID in
+                    PayPalWebCheckoutURLBuilder.checkoutAppSwitchURL(
+                        base: base,
+                        orderID: orderID,
+                        clientID: self.config.clientID,
+                        sessionID: sessionID
+                    )
+                },
+                fallback: {
+                    self.startWebCheckoutFlow(orderID: orderID, fundingSource: .paypal, completion: completionOnce)
                 }
-            }
-            startWebCheckoutFlow(orderID: orderID, fundingSource: .paypal, completion: completionOnce)
+            )
         }
     }
 
@@ -382,39 +374,65 @@ public class PayPalWebCheckoutClient: NSObject {
         completion: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void
     ) {
         let completionOnce = makeCompletionOnce(completion)
-        let appInstalled = urlOpener.isPayPalAppInstalled()
 
         Task {
-            if appInstalled,
-               session.appSwitchEligible,
-               let base = session.redirectURL,
-               let sessionID = session.shopperSessionConfig?.id,
-               let url = PayPalWebCheckoutURLBuilder.vaultAppSwitchURL(
-                   base: base,
-                   setupTokenID: setupTokenID,
-                   clientID: config.clientID,
-                   sessionID: sessionID
-               ) {
-                let result = await attemptSessionAppSwitch(
-                    url: url,
-                    completionOnce: completionOnce,
-                    setCompletion: { [weak self] in self?.vaultAppSwitchCompletion = $0 },
-                    eventPrefix: "paypal-web-payments:vault-wo-purchase"
-                )
-                switch result {
-                case .launched:
-                    return
-                case .fallback(let reason):
-                    analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:fallback-to-web:\(reason)")
+            await attemptSessionAppSwitchOrFallback(
+                session: session,
+                completionOnce: completionOnce,
+                setCompletion: { [weak self] in self?.vaultAppSwitchCompletion = $0 },
+                eventPrefix: "paypal-web-payments:vault-wo-purchase",
+                makeURL: { base, sessionID in
+                    PayPalWebCheckoutURLBuilder.vaultAppSwitchURL(
+                        base: base,
+                        setupTokenID: setupTokenID,
+                        clientID: self.config.clientID,
+                        sessionID: sessionID
+                    )
+                },
+                fallback: {
+                    self.startVaultWebAuthFlow(setupTokenID: setupTokenID, completion: completionOnce)
                 }
-            }
-            startVaultWebAuthFlow(setupTokenID: setupTokenID, completion: completionOnce)
+            )
         }
     }
 
     // MARK: - Private: App Switch (Session-based)
 
     private enum AppSwitchAttempt { case launched, fallback(String) }
+
+    /// Resolves the session's redirect URL and session ID, attempts a session-based app switch, and
+    /// invokes `fallback` whenever app-switch isn't eligible/resolvable or fails to launch. Shared by
+    /// the checkout and vault-without-purchase flows via `makeURL` (flow-specific URL construction),
+    /// `setCompletion`/`eventPrefix` (passed through to `attemptSessionAppSwitch`), and `fallback`
+    /// (the flow-specific web auth flow to start instead).
+    private func attemptSessionAppSwitchOrFallback<T>(
+        session: ShopperSessionResult,
+        completionOnce: @escaping (Result<T, CoreSDKError>) -> Void,
+        setCompletion: @escaping (((Result<T, CoreSDKError>) -> Void)?) -> Void,
+        eventPrefix: String,
+        makeURL: (_ base: String, _ sessionID: String) -> URL?,
+        fallback: () -> Void
+    ) async {
+        if urlOpener.isPayPalAppInstalled(),
+           session.appSwitchEligible,
+           let base = session.redirectURL,
+           let sessionID = session.shopperSessionConfig?.id,
+           let url = makeURL(base, sessionID) {
+            let result = await attemptSessionAppSwitch(
+                url: url,
+                completionOnce: completionOnce,
+                setCompletion: setCompletion,
+                eventPrefix: eventPrefix
+            )
+            switch result {
+            case .launched:
+                return
+            case .fallback(let reason):
+                analyticsService?.sendEvent("\(eventPrefix):fallback-to-web:\(reason)")
+            }
+        }
+        fallback()
+    }
 
     /// Attempts a session-based app switch to the PayPal app using the redirect URL from the session response.
     /// Shared by the checkout and vault-without-purchase flows: `setCompletion` stores/clears whichever
