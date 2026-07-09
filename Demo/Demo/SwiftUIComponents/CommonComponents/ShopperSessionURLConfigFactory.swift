@@ -9,10 +9,16 @@ enum ShopperSessionURLConfigFactory {
     static let urlConfig: PayPalURLConfig = {
         let checkoutPath = "x-callback-url/paypal-sdk/paypal-checkout"
         let scheme = PayPalCoreConstants.callbackURLScheme
+
+        guard let returnAppURL = URL(string: "\(scheme)://\(checkoutPath)"),
+              let cancelAppURL = URL(string: "\(scheme)://\(checkoutPath)/cancel") else {
+            fatalError("Failed to construct Shopper Session callback URLs for scheme: \(scheme)")
+        }
+
         return PayPalURLConfig(
-            returnAppURL: URL(string: "\(scheme)://\(checkoutPath)")!,
-            cancelAppURL: URL(string: "\(scheme)://\(checkoutPath)/cancel")!,
-            fallbackSchemeURL: URL(string: "\(scheme)://\(checkoutPath)")!
+            returnAppURL: returnAppURL,
+            cancelAppURL: cancelAppURL,
+            fallbackSchemeURL: URL(string: "\(scheme)://\(checkoutPath)")
         )
     }()
 }

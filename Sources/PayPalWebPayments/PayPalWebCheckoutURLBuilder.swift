@@ -18,8 +18,7 @@ enum PayPalWebCheckoutURLBuilder {
     ) -> URL? {
         makeAppSwitchURL(
             base: base,
-            tokenName: "token",
-            token: orderID,
+            tokenItem: URLQueryItem(name: "token", value: orderID),
             flowType: .checkout,
             clientID: clientID,
             sessionID: sessionID
@@ -36,8 +35,7 @@ enum PayPalWebCheckoutURLBuilder {
     ) -> URL? {
         makeAppSwitchURL(
             base: base,
-            tokenName: "approval_session_id",
-            token: setupTokenID,
+            tokenItem: URLQueryItem(name: "approval_session_id", value: setupTokenID),
             flowType: .vault,
             clientID: clientID,
             sessionID: sessionID
@@ -49,8 +47,7 @@ enum PayPalWebCheckoutURLBuilder {
     /// present on `base` is preserved instead of being overwritten by a second `?`.
     private static func makeAppSwitchURL(
         base: String,
-        tokenName: String,
-        token: String,
+        tokenItem: URLQueryItem,
         flowType: FlowType,
         clientID: String,
         sessionID: String
@@ -58,7 +55,7 @@ enum PayPalWebCheckoutURLBuilder {
         guard var components = URLComponents(string: base) else { return nil }
 
         var queryItems = components.queryItems ?? []
-        queryItems.append(URLQueryItem(name: tokenName, value: token))
+        queryItems.append(tokenItem)
         queryItems.append(URLQueryItem(name: "source", value: "pda"))
         queryItems.append(URLQueryItem(name: "merchant", value: clientID))
         queryItems.append(URLQueryItem(name: "flow_type", value: flowType.rawValue))
