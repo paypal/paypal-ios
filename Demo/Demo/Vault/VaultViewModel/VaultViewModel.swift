@@ -16,6 +16,16 @@ class VaultViewModel: ObservableObject {
     @Published var userEmail: String = ""
     @Published var userPhone: String = ""
     @Published var userSSID: String = ""
+    @Published var customerID: String = ""
+
+    var resolvedUserIdentity: PayPalUserIdentity? {
+        UserIdentityFactory.makeUserIdentity(
+            selection: selectedUserIdentity,
+            email: userEmail,
+            phone: userPhone,
+            ssid: userSSID
+        )
+    }
 
     func getSetupToken(
         customerID: String? = nil,
@@ -24,43 +34,53 @@ class VaultViewModel: ObservableObject {
         sca: String = "SCA_WHEN_REQUIRED"
     ) async throws {
         do {
-            DispatchQueue.main.async {
-                self.state.setupTokenResponse = .loading
-            }
-
-            let experienceContext = VaultExperienceContext()
-
-            var paymentSourceType: PaymentSourceType
-            switch paymentType {
-            case .card:
-                paymentSourceType = PaymentSourceType.card(verification: sca, experienceContext: experienceContext)
-            case .paypal:
-                paymentSourceType = PaymentSourceType.paypal(usageType: "MERCHANT", experienceContext: experienceContext)
-            }
-
-            let setupTokenResult = try await DemoMerchantAPI.sharedService.createSetupToken(
+            _ = try await fetchSetupToken(
                 customerID: customerID,
                 selectedMerchantIntegration: selectedMerchantIntegration,
-                paymentSourceType: paymentSourceType
+                paymentType: paymentType,
+                sca: sca
             )
-            DispatchQueue.main.async {
-                self.state.setupTokenResponse = .loaded(setupTokenResult)
-            }
         } catch {
-            DispatchQueue.main.async {
-                self.state.setupTokenResponse = .error(message: error.localizedDescription)
-            }
+            state.setupTokenResponse = .error(message: error.localizedDescription)
             throw error
         }
     }
 
+    func fetchSetupToken(
+        customerID: String? = nil,
+        selectedMerchantIntegration: MerchantIntegration,
+        paymentType: PaymentType,
+        sca: String = "SCA_WHEN_REQUIRED"
+    ) async throws -> CreateSetupTokenResponse {
+        state.setupTokenResponse = .loading
+
+        let experienceContext = VaultExperienceContext()
+
+        let paymentSourceType: PaymentSourceType
+        switch paymentType {
+        case .card:
+            paymentSourceType = PaymentSourceType.card(verification: sca, experienceContext: experienceContext)
+        case .paypal:
+            paymentSourceType = PaymentSourceType.paypal(usageType: "MERCHANT", experienceContext: experienceContext)
+        }
+
+        let setupTokenResult = try await DemoMerchantAPI.sharedService.createSetupToken(
+            customerID: customerID,
+            selectedMerchantIntegration: selectedMerchantIntegration,
+            paymentSourceType: paymentSourceType
+        )
+        state.setupTokenResponse = .loaded(setupTokenResult)
+        return setupTokenResult
+    }
+
     func resetState() {
         state = VaultState()
-        selectedUserAction = .payNow
+        selectedUserAction = .setupNow
         selectedUserIdentity = .none
         userEmail = ""
         userPhone = ""
         userSSID = ""
+        customerID = ""
     }
 
     func getPaymentToken(
@@ -68,20 +88,14 @@ class VaultViewModel: ObservableObject {
         selectedMerchantIntegration: MerchantIntegration
     ) async throws {
         do {
-            DispatchQueue.main.async {
-                self.state.paymentTokenResponse = .loading
-            }
+            state.paymentTokenResponse = .loading
             let paymentTokenResult = try await DemoMerchantAPI.sharedService.createPaymentToken(
                 setupToken: setupToken,
                 selectedMerchantIntegration: selectedMerchantIntegration
             )
-            DispatchQueue.main.async {
-                self.state.paymentTokenResponse = .loaded(paymentTokenResult)
-            }
+            state.paymentTokenResponse = .loaded(paymentTokenResult)
         } catch {
-            DispatchQueue.main.async {
-                self.state.paymentTokenResponse = .error(message: error.localizedDescription)
-            }
+            state.paymentTokenResponse = .error(message: error.localizedDescription)
             throw error
         }
     }

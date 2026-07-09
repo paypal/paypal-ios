@@ -5,7 +5,6 @@ struct CreateSetupTokenView: View {
 
     let selectedMerchantIntegration: MerchantIntegration
 
-    @State private var vaultCustomerID: String = ""
     @State private var sca: String = "SCA_WHEN_REQUIRED"
     @State var paymentType: PaymentType
 
@@ -26,7 +25,7 @@ struct CreateSetupTokenView: View {
             }
             .frame(maxWidth: .infinity)
             .font(.headline)
-            FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $vaultCustomerID)
+            FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $vaultViewModel.customerID)
             if case .card = paymentType {
                 Picker("SCA", selection: $sca) {
                     Text("SCA_WHEN_REQUIRED").tag("SCA_WHEN_REQUIRED")
@@ -59,19 +58,25 @@ struct CreateSetupTokenView: View {
                 Button("Checkout") {
                     Task {
                         do {
-                            try await vaultViewModel.getSetupToken(
-                                customerID: vaultCustomerID.isEmpty ? nil : vaultCustomerID,
-                                selectedMerchantIntegration: selectedMerchantIntegration,
-                                paymentType: paymentType,
-                                sca: sca
-                            )
+                            if paymentType == .paypal, let paypalVaultViewModel = vaultViewModel as? PayPalVaultViewModel {
+                                try await paypalVaultViewModel.vault()
+                            } else {
+                                try await vaultViewModel.getSetupToken(
+                                    customerID: vaultViewModel.customerID.isEmpty ? nil : vaultViewModel.customerID,
+                                    selectedMerchantIntegration: selectedMerchantIntegration,
+                                    paymentType: paymentType,
+                                    sca: sca
+                                )
+                            }
                         } catch {
-                            print("Error in getting setup token. \(error.localizedDescription)")
+                            print("Error in vault flow. \(error.localizedDescription)")
                         }
                     }
                 }
                 .buttonStyle(RoundedBlueButtonStyle())
                 if case .loading = vaultViewModel.state.setupTokenResponse {
+                    CircularProgressView()
+                } else if paymentType == .paypal, case .loading = vaultViewModel.state.paypalVaultTokenResponse {
                     CircularProgressView()
                 }
             }

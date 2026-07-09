@@ -1,29 +1,33 @@
 import SwiftUI
 
 struct PayPalWebPaymentsView: View {
-    
+
     @StateObject var payPalWebViewModel = PayPalWebViewModel()
-    
+
     var body: some View {
         ScrollView {
             ScrollViewReader { scrollView in
                 VStack(spacing: 16) {
-                    
+
                     PayPalWebCreateOrderView(payPalWebViewModel: payPalWebViewModel)
-                    
-                    if case .loaded = payPalWebViewModel.state.createdOrderResponse {
-                        PayPalOrderCreateResultView(payPalWebViewModel: payPalWebViewModel)
-                        
+
+                    if payPalWebViewModel.isSessionPrepared {
                         PayPalWebButtonsView(payPalWebViewModel: payPalWebViewModel)
                     }
-                    
-                    if case .loaded = payPalWebViewModel.state.approveResultResponse {
+
+                    if case .loaded = payPalWebViewModel.state.createdOrderResponse {
+                        PayPalOrderCreateResultView(payPalWebViewModel: payPalWebViewModel)
+                    }
+
+                    if payPalWebViewModel.state.approveResultResponse != .idle {
                         PayPalApprovalResultView(payPalWebViewModel: payPalWebViewModel)
-                        
+                    }
+
+                    if case .loaded = payPalWebViewModel.state.approveResultResponse {
                         PayPalWebTransactionView(payPalWebViewModel: payPalWebViewModel)
                             .padding(.bottom, 20)
                     }
-                    
+
                     if case .loaded = payPalWebViewModel.state.capturedOrderResponse {
                         PayPalOrderCompletionResultView(payPalWebViewModel: payPalWebViewModel)
                     } else if case .loaded = payPalWebViewModel.state.authorizedOrderResponse {
@@ -38,6 +42,9 @@ struct PayPalWebPaymentsView: View {
                     }
                 }
             }
+        }
+        .onOpenURL { url in
+            payPalWebViewModel.handleUniversalLinkReturn(url)
         }
     }
 }

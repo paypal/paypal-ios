@@ -449,5 +449,56 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
 
         waitForExpectations(timeout: 2)
     }
+
+    func testCreateShopperSessionResponse_decodesNestedResponseShape() throws {
+        let json = """
+        {
+            "external": {
+                "createShopperSessionWithAppSwitchEligibility": {
+                    "appSwitchEligibilityResponse": {
+                        "appSwitchEligible": true,
+                        "redirectURL": "https://sandbox.paypal.com/app-switch",
+                        "ineligibleReason": null
+                    },
+                    "shopperSessionResponse": {
+                        "sessionId": "nested-session-id",
+                        "expiresAt": "2026-12-31T00:00:00Z"
+                    }
+                }
+            }
+        }
+        """.data(using: .utf8)!
+
+        let response = try JSONDecoder().decode(CreateShopperSessionResponse.self, from: json)
+        let session = try XCTUnwrap(response.resolvedShopperSession)
+
+        XCTAssertTrue(session.appSwitchEligible)
+        XCTAssertEqual(session.redirectURL, "https://sandbox.paypal.com/app-switch")
+        XCTAssertEqual(session.shopperSessionConfig?.id, "nested-session-id")
+    }
+
+    func testCreateShopperSessionResponse_decodesSessionIdInsideShopperSessionConfig() throws {
+        let json = """
+        {
+            "external": {
+                "createShopperSessionWithAppSwitchEligibility": {
+                    "appSwitchEligible": false,
+                    "redirectURL": null,
+                    "ineligibleReason": "TEST",
+                    "matchedAuthenticationMethods": null,
+                    "shopperSessionConfig": {
+                        "sessionId": "legacy-session-id",
+                        "expiresAt": "2026-12-31T00:00:00Z"
+                    }
+                }
+            }
+        }
+        """.data(using: .utf8)!
+
+        let response = try JSONDecoder().decode(CreateShopperSessionResponse.self, from: json)
+        let session = try XCTUnwrap(response.resolvedShopperSession)
+
+        XCTAssertEqual(session.shopperSessionConfig?.id, "legacy-session-id")
+    }
 }
 // swiftlint:enable type_body_length file_length

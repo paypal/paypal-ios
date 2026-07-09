@@ -1,6 +1,5 @@
 import SwiftUI
 
-// TODO: Replace with PayPalUserIdentity from SDK when feature/shopper-session-id merges
 enum UserIdentitySelection: String, CaseIterable {
     case none = "None"
     case buyerHints = "Email/Phone"

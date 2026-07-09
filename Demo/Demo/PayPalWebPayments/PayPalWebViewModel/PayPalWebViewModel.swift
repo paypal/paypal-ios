@@ -5,7 +5,7 @@ import FraudProtection
 
 @MainActor
 class PayPalWebViewModel: ObservableObject {
-    
+
     private enum DemoFixtures {
         static let amount = Amount(currencyCode: "USD", value: "10.00")
         static let vaultAttributes = Vault(storeInVault: "ON_SUCCESS", usageType: "MERCHANT", customerType: "CONSUMER")
@@ -16,10 +16,14 @@ class PayPalWebViewModel: ObservableObject {
     @Published var order: Order?
     @Published var checkoutResult: PayPalWebCheckoutResult?
     @Published var appSwitch = false
+    @Published private(set) var isSessionPrepared = false
+    @Published private(set) var isPreparingSession = false
 
     let appSwitchURL = Environment.sandbox.baseURL
 
     var payPalWebCheckoutClient: PayPalWebCheckoutClient?
+
+    private var shouldVaultCheckout = false
 
     var orderID: String? {
         order?.id
@@ -28,11 +32,111 @@ class PayPalWebViewModel: ObservableObject {
     let configManager = CoreConfigManager(domain: "PayPalWeb Payments")
     private var payPalDataCollector: PayPalDataCollector?
 
-    /// S1: No payment source (non app-switch, non vault)
-    /// S2: PayPal app-switch (no vault) -> experienceContext with appSwitchContext
-    /// S3: PayPal vault (no app-switch)  -> attributes.vault + experienceContext
-    /// S4: PayPal vault + app-switch     -> attributes.vault + experienceContext.appSwitchContext
-    func createOrder(shouldVault: Bool) async throws {
+    /// Starts the SSID session. Order creation happens when the PayPal button is tapped via
+    /// `start(createOrder:)` so the SDK can emit `api-request-latency`.
+    func prepareSession(
+        shouldVault: Bool,
+        userAction: PayPalUserAction,
+        userIdentity: PayPalUserIdentity?
+    ) async throws {
+        isPreparingSession = true
+        defer { isPreparingSession = false }
+
+        guard let client = try await getPayPalClient() else {
+            throw CheckoutError.clientInitializationFailed("Error initializing PayPalWebCheckoutClient")
+        }
+        payPalWebCheckoutClient = client
+        shouldVaultCheckout = shouldVault
+
+        client.createPayPalSession(
+            userIdentity: userIdentity,
+            urlConfig: PayPalDemoURLConfig.checkout,
+            userAction: userAction
+        )
+
+        isSessionPrepared = true
+        print("✅ PayPal session prepared — tap a PayPal button to create the order and checkout")
+    }
+
+    func paymentButtonTapped(funding: PayPalWebCheckoutFundingSource) {
+        Task {
+            do {
+                print("▶️ PayPal checkout button tapped with funding: \(funding.rawValue)")
+                state.approveResultResponse = .loading
+
+                if payPalWebCheckoutClient == nil {
+                    payPalWebCheckoutClient = try await getPayPalClient()
+                }
+                guard let payPalWebCheckoutClient else {
+                    state.approveResultResponse = .error(message: "Missing PayPal client")
+                    return
+                }
+
+                guard isSessionPrepared else {
+                    state.approveResultResponse = .error(message: "Tap Prepare Session before checkout.")
+                    return
+                }
+
+                print("📊 Using start(createOrder:) — emits paypal-web-payments:api-request-latency")
+                payPalWebCheckoutClient.start(createOrder: {
+                    let order = try await self.fetchOrder(shouldVault: self.shouldVaultCheckout)
+                    return order.id
+                }) { result in
+                    switch result {
+                    case .success(let checkoutResult):
+                        self.handleCheckoutResult(.success(checkoutResult))
+                    case .failure(let error):
+                        self.fallbackToLegacyCheckout(funding: funding, error: error)
+                    }
+                }
+            } catch {
+                print("❌ PayPal checkout failed to start: \(error.localizedDescription)")
+                state.approveResultResponse = .error(message: error.localizedDescription)
+            }
+        }
+    }
+
+    private func fallbackToLegacyCheckout(
+        funding: PayPalWebCheckoutFundingSource,
+        error: CoreSDKError
+    ) {
+        guard let payPalWebCheckoutClient, let orderID = state.createOrder?.id else {
+            print("❌ PayPal checkout failed: \(error.localizedDescription)")
+            handleCheckoutResult(.failure(error))
+            return
+        }
+
+        print("⚠️ SSID checkout failed after api-request-latency; falling back to legacy checkout: \(error.localizedDescription)")
+        let payPalRequest = PayPalWebCheckoutRequest(
+            orderID: orderID,
+            fundingSource: funding,
+            appSwitchIfEligible: appSwitch
+        )
+        payPalWebCheckoutClient.start(request: payPalRequest) { result in
+            self.handleCheckoutResult(result)
+        }
+    }
+
+    private func handleCheckoutResult(_ result: Result<PayPalWebCheckoutResult, CoreSDKError>) {
+        switch result {
+        case .success(let paypalResult):
+            state.approveResultResponse = .loaded(
+                PayPalPaymentState.ApprovalResult(id: paypalResult.orderID, status: "APPROVED")
+            )
+            checkoutResult = paypalResult
+            print("✅ Checkout result: \(String(describing: paypalResult))")
+        case .failure(let error):
+            if error == PayPalError.checkoutCanceledError {
+                print("Canceled")
+                state.approveResultResponse = .idle
+            } else {
+                print("❌ PayPal checkout failed: \(error.localizedDescription)")
+                state.approveResultResponse = .error(message: error.localizedDescription)
+            }
+        }
+    }
+
+    private func fetchOrder(shouldVault: Bool) async throws -> Order {
         let amountRequest = DemoFixtures.amount
 
         var paymentSource: OrderPaymentSource?
@@ -57,68 +161,15 @@ class PayPalWebViewModel: ObservableObject {
             paymentSource: paymentSource
         )
 
-        do {
-            DispatchQueue.main.async { self.state.createdOrderResponse = .loading }
-            let order = try await DemoMerchantAPI.sharedService.createOrder(
-                orderParams: params,
-                selectedMerchantIntegration: DemoSettings.merchantIntegration
-            )
-            DispatchQueue.main.async {
-                self.order = order
-                self.state.createdOrderResponse = .loaded(order)
-            }
-            print("✅ fetched orderID: \(order.id) with status: \(order.status)")
-        } catch {
-            DispatchQueue.main.async {
-                self.state.createdOrderResponse = .error(message: error.localizedDescription)
-            }
-            print("❌ failed to fetch orderID with error: \(error.localizedDescription)")
-        }
-    }
-
-    func paymentButtonTapped(funding: PayPalWebCheckoutFundingSource) {
-        Task {
-            do {
-                DispatchQueue.main.async {
-                    self.state.approveResultResponse = .loading
-                }
-                payPalWebCheckoutClient = try await getPayPalClient()
-                guard let payPalWebCheckoutClient else {
-                    print("Error initializing PayPalWebCheckoutClient")
-                    return
-                }
-
-                if let orderID = state.createOrder?.id {
-                    let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding, appSwitchIfEligible: appSwitch)
-                    payPalWebCheckoutClient.start(request: payPalRequest) { result in
-                        switch result {
-                        case .success(let paypalResult):
-                            DispatchQueue.main.async {
-                                self.state.approveResultResponse = .loaded(
-                                    PayPalPaymentState.ApprovalResult(id: paypalResult.orderID, status: "APPROVED")
-                                )
-                                self.checkoutResult = paypalResult
-                                print("✅ Checkout result: \(String(describing: paypalResult))")
-                            }
-                        case .failure(let error):
-                            DispatchQueue.main.async {
-                                if error == PayPalError.checkoutCanceledError {
-                                    print("Canceled")
-                                    self.state.approveResultResponse = .idle
-                                } else {
-                                    self.state.approveResultResponse = .error(message: error.localizedDescription)
-                                }
-                            }
-                        }
-                    }
-                }
-            } catch {
-                print("Error starting PayPalWebCheckoutClient")
-                DispatchQueue.main.async {
-                    self.state.createdOrderResponse = .error(message: error.localizedDescription)
-                }
-            }
-        }
+        state.createdOrderResponse = .loading
+        let order = try await DemoMerchantAPI.sharedService.createOrder(
+            orderParams: params,
+            selectedMerchantIntegration: DemoSettings.merchantIntegration
+        )
+        self.order = order
+        state.createdOrderResponse = .loaded(order)
+        print("✅ fetched orderID: \(order.id) with status: \(order.status)")
+        return order
     }
 
     func getPayPalClient() async throws -> PayPalWebCheckoutClient? {
@@ -128,9 +179,6 @@ class PayPalWebViewModel: ObservableObject {
             payPalDataCollector = PayPalDataCollector(config: config)
             return payPalClient
         } catch {
-            DispatchQueue.main.async {
-                self.state.createdOrderResponse = .error(message: error.localizedDescription)
-            }
             print("❌ failed to create PayPalWebCheckoutClient with error: \(error.localizedDescription)")
             return nil
         }
@@ -155,47 +203,67 @@ class PayPalWebViewModel: ObservableObject {
     }
 
     private func setLoadingState() {
-        DispatchQueue.main.async {
-            switch self.intent {
-            case .authorize:
-                self.state.authorizedOrderResponse = .loading
-            case .capture:
-                self.state.capturedOrderResponse = .loading
-            }
+        switch intent {
+        case .authorize:
+            state.authorizedOrderResponse = .loading
+        case .capture:
+            state.capturedOrderResponse = .loading
         }
     }
 
     private func setOrderCompletionLoadedState(order: Order) {
-        DispatchQueue.main.async {
-            switch self.intent {
-            case .authorize:
-                self.state.authorizedOrderResponse = .loaded(order)
-            case .capture:
-                self.state.capturedOrderResponse = .loaded(order)
-            }
+        switch intent {
+        case .authorize:
+            state.authorizedOrderResponse = .loaded(order)
+        case .capture:
+            state.capturedOrderResponse = .loaded(order)
         }
     }
 
     private func setErrorState(message: String) {
-        DispatchQueue.main.async {
-            switch self.intent {
-            case .authorize:
-                self.state.authorizedOrderResponse = .error(message: message)
-            case .capture:
-                self.state.capturedOrderResponse = .error(message: message)
-            }
+        switch intent {
+        case .authorize:
+            state.authorizedOrderResponse = .error(message: message)
+        case .capture:
+            state.capturedOrderResponse = .error(message: message)
         }
     }
 
     func resetState() {
-        self.state = PayPalPaymentState()
+        state = PayPalPaymentState()
         order = nil
         checkoutResult = nil
+        payPalWebCheckoutClient = nil
+        isSessionPrepared = false
+        isPreparingSession = false
+        shouldVaultCheckout = false
     }
 
-    // for testing until singleton router class is implemented
     func handleUniversalLinkReturn(_ url: URL) {
         guard let payPalWebCheckoutClient else { return }
         payPalWebCheckoutClient.handleReturnURL(url)
+    }
+}
+
+private enum CheckoutError: LocalizedError {
+    case clientInitializationFailed(String)
+
+    var errorDescription: String? {
+        switch self {
+        case .clientInitializationFailed(let message):
+            return message
+        }
+    }
+}
+
+enum PayPalDemoURLConfig {
+    static var checkout: PayPalURLConfig {
+        let checkoutPath = "x-callback-url/paypal-sdk/paypal-checkout"
+        let scheme = PayPalCoreConstants.callbackURLScheme
+        return PayPalURLConfig(
+            returnAppURL: URL(string: "\(scheme)://\(checkoutPath)")!,
+            cancelAppURL: URL(string: "\(scheme)://\(checkoutPath)/cancel")!,
+            fallbackSchemeURL: URL(string: "\(scheme)://\(checkoutPath)")
+        )
     }
 }

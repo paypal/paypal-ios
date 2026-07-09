@@ -9,41 +9,76 @@ class PayPalVaultViewModel: VaultViewModel {
 
     var paypalClient: PayPalWebCheckoutClient?
 
-    func vault(setupTokenID: String) async {
-        DispatchQueue.main.async {
-            self.state.paypalVaultTokenResponse = .loading
+    func vault() async throws {
+        state.setupTokenResponse = .loading
+
+        guard let client = try await getPayPalClient() else {
+            let message = "Error initializing PayPalWebCheckoutClient"
+            state.setupTokenResponse = .error(message: message)
+            throw VaultFlowError.clientInitializationFailed(message)
         }
-        do {
-            let config = try await configManager.getCoreConfig()
-            paypalClient = PayPalWebCheckoutClient(config: config)
-            guard let paypalClient else { return }
-            // TODO: Pass userAction (selectedUserAction) and userIdentity
-            // when feature/shopper-session-id SDK changes merge (PayPalUserAction/PayPalUserIdentity)
-            let vaultRequest = PayPalVaultRequest(setupTokenID: setupTokenID)
-            paypalClient.vault(vaultRequest) { result in
+        paypalClient = client
+
+        print("📊 Using vault(createSetupToken:) — emits paypal-web-payments:api-request-latency")
+        client.createPayPalSession(
+            userIdentity: resolvedUserIdentity,
+            urlConfig: PayPalDemoURLConfig.checkout,
+            userAction: selectedUserAction
+        )
+
+        state.paypalVaultTokenResponse = .loading
+
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+            client.vault(createSetupToken: {
+                try await self.fetchSetupToken(
+                    customerID: self.customerID.isEmpty ? nil : self.customerID,
+                    selectedMerchantIntegration: DemoSettings.merchantIntegration,
+                    paymentType: .paypal
+                ).id
+            }) { result in
                 switch result {
-                case .success(let cardVaultResult):
-                    DispatchQueue.main.async {
-                        self.state.paypalVaultTokenResponse = .loaded(cardVaultResult)
-                    }
+                case .success(let vaultResult):
+                    self.state.paypalVaultTokenResponse = .loaded(vaultResult)
+                    print("✅ Vault result: \(String(describing: vaultResult))")
+                    continuation.resume()
                 case .failure(let error):
                     if error == PayPalError.vaultCanceledError {
-                        DispatchQueue.main.async {
-                            print("Canceled")
-                            self.state.paypalVaultTokenResponse = .idle
-                        }
+                        print("Canceled")
+                        self.state.paypalVaultTokenResponse = .idle
+                        continuation.resume()
                     } else {
-                        DispatchQueue.main.async {
-                            self.state.paypalVaultTokenResponse = .error(message: error.localizedDescription)
-                        }
+                        self.state.paypalVaultTokenResponse = .error(message: error.localizedDescription)
+                        continuation.resume(throwing: error)
                     }
                 }
             }
+        }
+    }
+
+    func getPayPalClient() async throws -> PayPalWebCheckoutClient? {
+        do {
+            let config = try await configManager.getCoreConfig()
+            return PayPalWebCheckoutClient(config: config)
         } catch {
-            print("Error in vaulting PayPal Payment")
-            DispatchQueue.main.async {
-                self.state.paypalVaultTokenResponse = .error(message: error.localizedDescription)
-            }
+            state.setupTokenResponse = .error(message: error.localizedDescription)
+            print("❌ failed to create PayPalWebCheckoutClient with error: \(error.localizedDescription)")
+            return nil
+        }
+    }
+
+    func handleUniversalLinkReturn(_ url: URL) {
+        guard let paypalClient else { return }
+        paypalClient.handleReturnURL(url)
+    }
+}
+
+private enum VaultFlowError: LocalizedError {
+    case clientInitializationFailed(String)
+
+    var errorDescription: String? {
+        switch self {
+        case .clientInitializationFailed(let message):
+            return message
         }
     }
 }

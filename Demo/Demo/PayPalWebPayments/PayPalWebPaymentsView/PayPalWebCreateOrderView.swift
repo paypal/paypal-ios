@@ -75,18 +75,27 @@ struct PayPalWebCreateOrderView: View {
                     Spacer()
                 }
                 ZStack {
-                    Button("Checkout") {
+                    Button("Prepare Session") {
                         Task {
                             do {
                                 payPalWebViewModel.intent = selectedIntent
-                                try await payPalWebViewModel.createOrder(shouldVault: shouldVaultSelected)
+                                try await payPalWebViewModel.prepareSession(
+                                    shouldVault: shouldVaultSelected,
+                                    userAction: selectedUserAction,
+                                    userIdentity: UserIdentityFactory.makeUserIdentity(
+                                        selection: selectedUserIdentity,
+                                        email: email,
+                                        phone: phone,
+                                        ssid: ssid
+                                    )
+                                )
                             } catch {
-                                print("Error in getting setup token. \(error.localizedDescription)")
+                                print("Error preparing session. \(error.localizedDescription)")
                             }
                         }
                     }
                     .buttonStyle(RoundedBlueButtonStyle())
-                    if case .loading = payPalWebViewModel.state.createdOrderResponse {
+                    if payPalWebViewModel.isPreparingSession {
                         CircularProgressView()
                     }
                 }

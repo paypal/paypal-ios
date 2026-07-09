@@ -103,7 +103,7 @@ class CreateShopperSessionAPI {
         let parsed: CreateShopperSessionResponse = try HTTPResponseParser()
             .parseGraphQL(httpResponse, as: CreateShopperSessionResponse.self)
 
-        guard let result = parsed.external?.shopperSession else {
+        guard let result = parsed.resolvedShopperSession else {
             throw NetworkingError.noGraphQLDataKey
         }
 
