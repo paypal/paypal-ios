@@ -6,7 +6,7 @@ import CorePayments
 
 /// Coordinates the GraphQL call that pre-warms a Shopper Session with app-switch eligibility.
 @_documentation(visibility: private)
-public class CreateShopperSessionAPI {
+class CreateShopperSessionAPI {
 
     // MARK: - Private Properties
 

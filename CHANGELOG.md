@@ -2,6 +2,7 @@
 # PayPal iOS SDK Release Notes
 
 ## Unreleased
+
 * PayPalWebPayments
   * Add `PayPalWebCheckoutClient.createPayPalSession(userIdentity, urlConfig, userAction)` — establishes a shopper session that must be created prior to calling `start()` or `vault()`
   * Add `PayPalWebCheckoutClient.start(orderId, completion)` method — requires a prior call to `createPayPalSession()`

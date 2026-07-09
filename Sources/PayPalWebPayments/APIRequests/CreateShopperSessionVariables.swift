@@ -4,7 +4,7 @@ struct CreateShopperSessionVariables: Encodable {
 
     let returnUrl: URL
     let cancelUrl: URL
-    let fallbackSchemeUrl: URL
+    let fallbackSchemeUrl: URL?
     let userAction: String
     let osType: String
     let integrationArtifact: String
@@ -19,7 +19,7 @@ struct UserIdentityVariables: Encodable {
     let phone: String?
 
     init(from identity: PayPalUserIdentity) {
-        serverSideShopperSessionId = identity.shopperSessionID
+        serverSideShopperSessionId = identity.existingPayPalSessionID
         email = identity.email
         phone = identity.phone
     }

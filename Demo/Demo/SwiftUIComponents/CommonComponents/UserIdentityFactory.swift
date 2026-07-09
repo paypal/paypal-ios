@@ -24,7 +24,7 @@ enum UserIdentityFactory {
         case .ssid:
             let trimmedSSID = ssid.trimmingCharacters(in: .whitespacesAndNewlines)
             guard !trimmedSSID.isEmpty else { return nil }
-            return .init(shopperSessionID: trimmedSSID)
+            return .init(existingPayPalSessionID: trimmedSSID)
         }
     }
 }
