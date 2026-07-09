@@ -29,7 +29,7 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         XCTAssertEqual(queryValue("source", in: url), "pda")
         XCTAssertEqual(queryValue("merchant", in: url), "client-abc")
         XCTAssertEqual(queryValue("flow_type", in: url), "ecs")
-        XCTAssertEqual(queryValue("sessionID", in: url), "session-xyz")
+        XCTAssertEqual(queryValue("shoppersSessionId", in: url), "session-xyz")
     }
 
     func testCheckoutAppSwitchURL_preservesExistingQueryOnBase() throws {
@@ -63,6 +63,27 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         XCTAssertFalse(url.query?.contains("client & co") ?? true)
     }
 
+    func testCheckoutAppSwitchURL_setsSwitchInitiatedTimeNearNow() throws {
+        let beforeMillis = Int(round(Date().timeIntervalSince1970 * 1000))
+
+        let url = try XCTUnwrap(
+            PayPalWebCheckoutURLBuilder.checkoutAppSwitchURL(
+                base: "https://sandbox.paypal.com/app-switch-checkout",
+                orderID: "order-123",
+                clientID: "client-abc",
+                sessionID: "session-xyz"
+            )
+        )
+
+        let afterMillis = Int(round(Date().timeIntervalSince1970 * 1000))
+
+        let rawValue = try XCTUnwrap(queryValue("switch_initiated_time", in: url))
+        let switchInitiatedMillis = try XCTUnwrap(Int(rawValue))
+
+        XCTAssertGreaterThanOrEqual(switchInitiatedMillis, beforeMillis)
+        XCTAssertLessThanOrEqual(switchInitiatedMillis, afterMillis)
+    }
+
     // MARK: - vaultAppSwitchURL
 
     func testVaultAppSwitchURL_setsExpectedQueryItems() throws {
@@ -82,6 +103,27 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         XCTAssertEqual(queryValue("source", in: url), "pda")
         XCTAssertEqual(queryValue("merchant", in: url), "client-abc")
         XCTAssertEqual(queryValue("flow_type", in: url), "va")
-        XCTAssertEqual(queryValue("sessionID", in: url), "session-xyz")
+        XCTAssertEqual(queryValue("shoppersSessionId", in: url), "session-xyz")
+    }
+
+    func testVaultAppSwitchURL_setsSwitchInitiatedTimeNearNow() throws {
+        let beforeMillis = Int(round(Date().timeIntervalSince1970 * 1000))
+
+        let url = try XCTUnwrap(
+            PayPalWebCheckoutURLBuilder.vaultAppSwitchURL(
+                base: "https://sandbox.paypal.com/app-switch-vault",
+                setupTokenID: "setup-token-123",
+                clientID: "client-abc",
+                sessionID: "session-xyz"
+            )
+        )
+
+        let afterMillis = Int(round(Date().timeIntervalSince1970 * 1000))
+
+        let rawValue = try XCTUnwrap(queryValue("switch_initiated_time", in: url))
+        let switchInitiatedMillis = try XCTUnwrap(Int(rawValue))
+
+        XCTAssertGreaterThanOrEqual(switchInitiatedMillis, beforeMillis)
+        XCTAssertLessThanOrEqual(switchInitiatedMillis, afterMillis)
     }
 }

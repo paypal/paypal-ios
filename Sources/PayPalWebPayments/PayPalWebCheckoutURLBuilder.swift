@@ -55,11 +55,15 @@ enum PayPalWebCheckoutURLBuilder {
         guard var components = URLComponents(string: base) else { return nil }
 
         var queryItems = components.queryItems ?? []
-        queryItems.append(tokenItem)
-        queryItems.append(URLQueryItem(name: "source", value: "pda"))
-        queryItems.append(URLQueryItem(name: "merchant", value: clientID))
-        queryItems.append(URLQueryItem(name: "flow_type", value: flowType.rawValue))
-        queryItems.append(URLQueryItem(name: "sessionID", value: sessionID))
+        let additionalQueryItems: [URLQueryItem] = [
+            tokenItem,
+            URLQueryItem(name: "source", value: "pda"),
+            URLQueryItem(name: "merchant", value: clientID),
+            URLQueryItem(name: "flow_type", value: flowType.rawValue),
+            URLQueryItem(name: "shoppersSessionId", value: sessionID),
+            URLQueryItem(name: "switch_initiated_time", value: String(Int(round(Date().timeIntervalSince1970 * 1000)))),
+        ]
+        queryItems.append(contentsOf: additionalQueryItems)
         components.queryItems = queryItems
 
         return components.url
