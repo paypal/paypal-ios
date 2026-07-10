@@ -15,6 +15,8 @@ extension Environment {
             return URL(string: "https://www.sandbox.paypal.com/smart/checkout/venmo")!
         case .live:
             return URL(string: "https://www.paypal.com/smart/checkout/venmo")!
+        case .custom:
+            return URL(string: "https://www.sandbox.paypal.com/smart/checkout/venmo")!
         }
     }
 
@@ -25,6 +27,9 @@ extension Environment {
             return "sandbox"
         case .live:
             return "production"
+        case .custom:
+            // QA end-to-end: the custom environment targets the Venmo QA stack.
+            return "qa"
         }
     }
 

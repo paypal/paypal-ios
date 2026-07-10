@@ -11,6 +11,7 @@ class VenmoClient_Tests: XCTestCase {
     var mockFundingEligibilityAPI: MockGetFundingEligibilityAPI!
     var mockURLOpener: MockURLOpener!
     var mockNetworkingClient: MockNetworkingClient!
+    var mockWebAuthenticationSession: MockWebAuthenticationSession!
 
     override func setUp() {
         super.setUp()
@@ -19,11 +20,13 @@ class VenmoClient_Tests: XCTestCase {
         mockClientConfigAPI = MockClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)
         mockFundingEligibilityAPI = MockGetFundingEligibilityAPI(coreConfig: config)
         mockURLOpener = MockURLOpener()
+        mockWebAuthenticationSession = MockWebAuthenticationSession()
 
         venmoClient = VenmoClient(
             config: config,
             clientConfigAPI: mockClientConfigAPI,
-            fundingEligibilityAPI: mockFundingEligibilityAPI
+            fundingEligibilityAPI: mockFundingEligibilityAPI,
+            webAuthenticationSession: mockWebAuthenticationSession
         )
         venmoClient.application = mockURLOpener
     }
@@ -74,103 +77,100 @@ class VenmoClient_Tests: XCTestCase {
         waitForExpectations(timeout: 5)
     }
 
-    // MARK: - URL Construction Tests
+    // MARK: - Web Flow URL Construction Tests
 
-    func testStart_whenEligible_opensURL() {
+    func testStart_webFlow_whenEligible_launchesWebSessionWithSandboxURL() async throws {
         mockFundingEligibilityAPI.stubEligibilityResponse = VenmoFundingEligibility(eligible: true, reasons: nil)
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
-        mockURLOpener.mockOpenURLSuccess = true
+        // swiftlint:disable:next force_unwrapping
+        mockWebAuthenticationSession.cannedResponseURL = URL(
+            string: "sdk.ios.paypal://x-callback-url/paypal-sdk/venmo-checkout?token=ORDER-123&PayerID=PAYER-456&approved=true"
+        )!
 
-        let expectation = expectation(description: "URL opened")
-        mockURLOpener.didOpenURLHandler = {
-            expectation.fulfill()
-        }
-
+        // appSwitchIfEligible defaults to false -> web flow
         let request = VenmoCheckoutRequest(orderID: "ORDER-123")
-        venmoClient.start(request: request) { _ in }
+        let result = try await venmoClient.start(request: request)
 
-        waitForExpectations(timeout: 5)
-
-        guard let openedURL = mockURLOpener.lastOpenedURL else {
-            XCTFail("Expected URL to be opened")
+        guard let launchedURL = mockWebAuthenticationSession.lastLaunchedURL else {
+            XCTFail("Expected web authentication session to launch")
             return
         }
 
-        let urlString = openedURL.absoluteString
-        XCTAssertTrue(urlString.contains("sandbox.paypal.com/smart/checkout/venmo"))
-        XCTAssertTrue(urlString.contains("orderID=ORDER-123"))
+        let urlString = launchedURL.absoluteString
+        XCTAssertTrue(urlString.contains("www.sandbox.paypal.com/smart/checkout/venmo"))
+        XCTAssertTrue(urlString.contains("token=ORDER-123"))
         XCTAssertTrue(urlString.contains("fundingSource=venmo"))
         XCTAssertTrue(urlString.contains("env=sandbox"))
         XCTAssertTrue(urlString.contains("enableFunding=venmo"))
+        XCTAssertNil(mockURLOpener.lastOpenedURL)
+        XCTAssertEqual(result.orderID, "ORDER-123")
+        XCTAssertEqual(result.payerID, "PAYER-456")
     }
 
-    func testStart_whenLive_usesCorrectBaseURL() {
+    func testStart_webFlow_whenLive_usesCorrectBaseURL() async throws {
         let liveConfig = CoreConfig(clientID: "testClientID", environment: .live)
+        let liveFundingEligibilityAPI = MockGetFundingEligibilityAPI(coreConfig: liveConfig)
+        let liveNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: liveConfig))
+        let liveClientConfigAPI = MockClientConfigAPI(coreConfig: liveConfig, networkingClient: liveNetworkingClient)
+        let liveWebAuthenticationSession = MockWebAuthenticationSession()
         let liveClient = VenmoClient(
             config: liveConfig,
-            clientConfigAPI: mockClientConfigAPI,
-            fundingEligibilityAPI: mockFundingEligibilityAPI
+            clientConfigAPI: liveClientConfigAPI,
+            fundingEligibilityAPI: liveFundingEligibilityAPI,
+            webAuthenticationSession: liveWebAuthenticationSession
         )
         liveClient.application = mockURLOpener
 
-        mockFundingEligibilityAPI.stubEligibilityResponse = VenmoFundingEligibility(eligible: true, reasons: nil)
-        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
-        mockURLOpener.mockOpenURLSuccess = true
-
-        let expectation = expectation(description: "URL opened")
-        mockURLOpener.didOpenURLHandler = {
-            expectation.fulfill()
-        }
+        liveFundingEligibilityAPI.stubEligibilityResponse = VenmoFundingEligibility(eligible: true, reasons: nil)
+        liveClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
+        // swiftlint:disable:next force_unwrapping
+        liveWebAuthenticationSession.cannedResponseURL = URL(
+            string: "sdk.ios.paypal://x-callback-url/paypal-sdk/venmo-checkout?token=ORDER-456&PayerID=PAYER-456&approved=true"
+        )!
 
         let request = VenmoCheckoutRequest(orderID: "ORDER-456")
-        liveClient.start(request: request) { _ in }
+        _ = try await liveClient.start(request: request)
 
-        waitForExpectations(timeout: 5)
-
-        guard let openedURL = mockURLOpener.lastOpenedURL else {
-            XCTFail("Expected URL to be opened")
+        guard let launchedURL = liveWebAuthenticationSession.lastLaunchedURL else {
+            XCTFail("Expected web authentication session to launch")
             return
         }
 
-        let urlString = openedURL.absoluteString
+        let urlString = launchedURL.absoluteString
         XCTAssertTrue(urlString.contains("www.paypal.com/smart/checkout/venmo"))
         XCTAssertTrue(urlString.contains("env=production"))
     }
 
     // MARK: - App Switch Open Tests
 
-    func testStart_whenOpenURLFails_returnsError() {
+    func testStart_appSwitch_whenOpenURLFails_fallsBackToWebFlow() async throws {
+        mockURLOpener.mockIsVenmoAppInstalled = true
+        mockURLOpener.mockOpenURLSuccess = false
         mockFundingEligibilityAPI.stubEligibilityResponse = VenmoFundingEligibility(eligible: true, reasons: nil)
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
-        mockURLOpener.mockOpenURLSuccess = false
+        // swiftlint:disable:next force_unwrapping
+        mockWebAuthenticationSession.cannedResponseURL = URL(
+            string: "sdk.ios.paypal://x-callback-url/paypal-sdk/venmo-checkout?token=ORDER-123&PayerID=PAYER-456&approved=true"
+        )!
 
-        let expectation = expectation(description: "start(request:) completed")
+        let request = VenmoCheckoutRequest(orderID: "ORDER-123", appSwitchIfEligible: true)
+        let result = try await venmoClient.start(request: request)
 
-        let request = VenmoCheckoutRequest(orderID: "ORDER-123")
-        venmoClient.start(request: request) { result in
-            switch result {
-            case .success:
-                XCTFail("Expected failure when URL cannot be opened")
-            case .failure(let error):
-                XCTAssertEqual(error.domain, VenmoError.domain)
-                XCTAssertEqual(error.code, VenmoError.Code.venmoURLError.rawValue)
-            }
-            expectation.fulfill()
-        }
-
-        waitForExpectations(timeout: 5)
+        XCTAssertNotNil(mockURLOpener.lastOpenedURL)
+        XCTAssertNotNil(mockWebAuthenticationSession.lastLaunchedURL)
+        XCTAssertEqual(result.orderID, "ORDER-123")
+        XCTAssertEqual(result.payerID, "PAYER-456")
     }
 
     // MARK: - handleReturnURL Tests
 
     func testHandleReturnURL_success_returnsResult() {
-        mockFundingEligibilityAPI.stubEligibilityResponse = VenmoFundingEligibility(eligible: true, reasons: nil)
-        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
+        mockURLOpener.mockIsVenmoAppInstalled = true
         mockURLOpener.mockOpenURLSuccess = true
 
         let expectation = expectation(description: "checkout completed with result")
 
-        let request = VenmoCheckoutRequest(orderID: "ORDER-123")
+        let request = VenmoCheckoutRequest(orderID: "ORDER-123", appSwitchIfEligible: true)
         venmoClient.start(request: request) { result in
             switch result {
             case .success(let checkoutResult):
@@ -193,13 +193,12 @@ class VenmoClient_Tests: XCTestCase {
     }
 
     func testHandleReturnURL_cancel_returnsCanceledError() {
-        mockFundingEligibilityAPI.stubEligibilityResponse = VenmoFundingEligibility(eligible: true, reasons: nil)
-        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
+        mockURLOpener.mockIsVenmoAppInstalled = true
         mockURLOpener.mockOpenURLSuccess = true
 
         let expectation = expectation(description: "checkout canceled")
 
-        let request = VenmoCheckoutRequest(orderID: "ORDER-123")
+        let request = VenmoCheckoutRequest(orderID: "ORDER-123", appSwitchIfEligible: true)
         venmoClient.start(request: request) { result in
             switch result {
             case .success:
@@ -220,13 +219,12 @@ class VenmoClient_Tests: XCTestCase {
     }
 
     func testHandleReturnURL_malformed_returnsMalformedError() {
-        mockFundingEligibilityAPI.stubEligibilityResponse = VenmoFundingEligibility(eligible: true, reasons: nil)
-        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
+        mockURLOpener.mockIsVenmoAppInstalled = true
         mockURLOpener.mockOpenURLSuccess = true
 
         let expectation = expectation(description: "checkout returned malformed")
 
-        let request = VenmoCheckoutRequest(orderID: "ORDER-123")
+        let request = VenmoCheckoutRequest(orderID: "ORDER-123", appSwitchIfEligible: true)
         venmoClient.start(request: request) { result in
             switch result {
             case .success:
@@ -272,8 +270,8 @@ class VenmoClient_Tests: XCTestCase {
             fundingEligibilityAPI: mockFundingEligibilityAPI
         )
 
-        let url = try client.buildCheckoutURL(orderID: "ORDER-123")
-        XCTAssertEqual(url.host, "account.qa.venmo.com")
+        let url = try client.buildCheckoutURL(request: VenmoCheckoutRequest(orderID: "ORDER-123"))
+        XCTAssertEqual(url.host, "account.venmo.com")
     }
 
     func testBuildCheckoutURL_live_hasCorrectHost() throws {
@@ -287,65 +285,98 @@ class VenmoClient_Tests: XCTestCase {
             fundingEligibilityAPI: liveFundingEligibilityAPI
         )
 
-        let url = try client.buildCheckoutURL(orderID: "ORDER-123")
+        let url = try client.buildCheckoutURL(request: VenmoCheckoutRequest(orderID: "ORDER-123"))
+        XCTAssertEqual(url.host, "account.venmo.com")
+    }
+
+    func testBuildCheckoutURL_custom_hasProdHost() throws {
+        let customConfig = CoreConfig(clientID: "testClientID", environment: .custom(baseURL: "https://custom.example.com"))
+        let customNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: customConfig))
+        let customClientConfigAPI = MockClientConfigAPI(coreConfig: customConfig, networkingClient: customNetworkingClient)
+        let customFundingEligibilityAPI = MockGetFundingEligibilityAPI(coreConfig: customConfig)
+        let client = VenmoClient(
+            config: customConfig,
+            clientConfigAPI: customClientConfigAPI,
+            fundingEligibilityAPI: customFundingEligibilityAPI
+        )
+
+        let url = try client.buildCheckoutURL(request: VenmoCheckoutRequest(orderID: "ORDER-123"))
         XCTAssertEqual(url.host, "account.venmo.com")
     }
 
     func testBuildCheckoutURL_hasCorrectPath() throws {
-        let url = try venmoClient.buildCheckoutURL(orderID: "ORDER-123")
+        let url = try venmoClient.buildCheckoutURL(request: VenmoCheckoutRequest(orderID: "ORDER-123"))
         XCTAssertEqual(url.path, "/go/web/paypal")
     }
 
     func testBuildCheckoutURL_hasTokenParam() throws {
-        let url = try venmoClient.buildCheckoutURL(orderID: "ORDER-ABC")
-        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        let tokenItem = components?.queryItems?.first { $0.name == "token" }
-
-        XCTAssertNotNil(tokenItem)
-        XCTAssertEqual(tokenItem?.value, "ORDER-ABC")
+        let items = try queryItems(forOrderID: "ORDER-ABC")
+        XCTAssertEqual(items["token"], "ORDER-ABC")
     }
 
     func testBuildCheckoutURL_doesNotHaveOrderIDParam() throws {
-        let url = try venmoClient.buildCheckoutURL(orderID: "ORDER-ABC")
+        let items = try queryItems(forOrderID: "ORDER-ABC")
+        XCTAssertNil(items["orderID"])
+    }
+
+    func testBuildCheckoutURL_hasReturnFlowAuto() throws {
+        let items = try queryItems(forOrderID: "ORDER-123")
+        XCTAssertEqual(items["return_flow"], "auto")
+    }
+
+    func testBuildCheckoutURL_includesPaySheetBootstrapParams() throws {
+        let items = try queryItems(forOrderID: "ORDER-123")
+        XCTAssertEqual(items["fundingSource"], "venmo")
+        XCTAssertEqual(items["enableFunding"], "venmo")
+        XCTAssertEqual(items["channel"], "in-app")
+        XCTAssertEqual(items["commit"], "true")
+        XCTAssertEqual(items["domain"], "sdk.paypal.com")
+        XCTAssertEqual(items["env"], "sandbox")
+        XCTAssertEqual(items["buyerCountry"], "US")
+    }
+
+    func testBuildCheckoutURL_buttonSessionIDMatchesSessionUID() throws {
+        let items = try queryItems(forOrderID: "ORDER-123")
+        let buttonSessionID = try XCTUnwrap(items["buttonSessionID"])
+        let sessionUID = try XCTUnwrap(items["sessionUID"])
+        XCTAssertFalse(buttonSessionID.isEmpty)
+        XCTAssertEqual(buttonSessionID, sessionUID)
+    }
+
+    func testBuildCheckoutURL_withoutReturnURL_omitsPageUrl() throws {
+        let items = try queryItems(forOrderID: "ORDER-123")
+        XCTAssertNil(items["pageUrl"])
+    }
+
+    func testBuildCheckoutURL_withReturnURL_includesPageUrl() throws {
+        let request = VenmoCheckoutRequest(orderID: "ORDER-123", returnURL: "https://example.com/success")
+        let items = queryItems(from: try venmoClient.buildCheckoutURL(request: request))
+        XCTAssertEqual(items["pageUrl"], "https://example.com/success")
+    }
+
+    func testBuildCheckoutURL_usesCustomBuyerCountry() throws {
+        let request = VenmoCheckoutRequest(orderID: "ORDER-123", buyerCountry: "CA")
+        let items = queryItems(from: try venmoClient.buildCheckoutURL(request: request))
+        XCTAssertEqual(items["buyerCountry"], "CA")
+    }
+
+    func testBuildCheckoutURL_withoutReturnURL_hasElevenQueryParams() throws {
+        let url = try venmoClient.buildCheckoutURL(request: VenmoCheckoutRequest(orderID: "ORDER-123"))
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        let orderIDItem = components?.queryItems?.first { $0.name == "orderID" }
-
-        XCTAssertNil(orderIDItem)
+        XCTAssertEqual(components?.queryItems?.count, 11)
     }
 
-    func testBuildCheckoutURL_hasReturnFlowAUTO() throws {
-        let url = try venmoClient.buildCheckoutURL(orderID: "ORDER-123")
+    // MARK: buildCheckoutURL helpers
+
+    private func queryItems(forOrderID orderID: String) throws -> [String: String] {
+        queryItems(from: try venmoClient.buildCheckoutURL(request: VenmoCheckoutRequest(orderID: orderID)))
+    }
+
+    private func queryItems(from url: URL) -> [String: String] {
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        let returnFlowItem = components?.queryItems?.first { $0.name == "return_flow" }
-
-        XCTAssertNotNil(returnFlowItem)
-        XCTAssertEqual(returnFlowItem?.value, "AUTO")
-    }
-
-    func testBuildCheckoutURL_hasExactlyTwoQueryParams() throws {
-        let url = try venmoClient.buildCheckoutURL(orderID: "ORDER-123")
-        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-
-        XCTAssertEqual(components?.queryItems?.count, 2)
-    }
-
-    func testBuildCheckoutURL_sandbox_fullURL() throws {
-        let url = try venmoClient.buildCheckoutURL(orderID: "MY-ORDER")
-        XCTAssertEqual(url.absoluteString, "https://account.qa.venmo.com/go/web/paypal?token=MY-ORDER&return_flow=AUTO")
-    }
-
-    func testBuildCheckoutURL_live_fullURL() throws {
-        let liveConfig = CoreConfig(clientID: "testClientID", environment: .live)
-        let liveNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: liveConfig))
-        let liveClientConfigAPI = MockClientConfigAPI(coreConfig: liveConfig, networkingClient: liveNetworkingClient)
-        let liveFundingEligibilityAPI = MockGetFundingEligibilityAPI(coreConfig: liveConfig)
-        let client = VenmoClient(
-            config: liveConfig,
-            clientConfigAPI: liveClientConfigAPI,
-            fundingEligibilityAPI: liveFundingEligibilityAPI
+        return Dictionary(
+            (components?.queryItems ?? []).map { ($0.name, $0.value ?? "") },
+            uniquingKeysWith: { first, _ in first }
         )
-
-        let url = try client.buildCheckoutURL(orderID: "MY-ORDER")
-        XCTAssertEqual(url.absoluteString, "https://account.venmo.com/go/web/paypal?token=MY-ORDER&return_flow=AUTO")
     }
 }

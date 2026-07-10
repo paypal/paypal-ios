@@ -18,6 +18,7 @@
 		1BBD82F383149CCD79502557 /* TestShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E743F8270E40CE00BACECA /* TestShared.framework */; };
 		29608B4849FE4F01D758BAA6 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 5C300FB6F44415CD05E38B43 /* PrivacyInfo.xcprivacy */; };
 		35C0F92073BC176E41A1E423 /* VenmoClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F13C7FD2C7BD8D94AAC26DD /* VenmoClient_Tests.swift */; };
+		DF8FAA1471F6444D8BAD68DC /* VenmoClient_CheckoutAppSwitch_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2F603D80654F28A9B89C00 /* VenmoClient_CheckoutAppSwitch_Tests.swift */; };
 		38E9AC9D77F66CC399231E49 /* VenmoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A79BE2B972741D91FD77DAB /* VenmoError.swift */; };
 		3B22E8B82A841AEA00962E34 /* CardVaultResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22E8B72A841AEA00962E34 /* CardVaultResult.swift */; };
 		3B29C3972B9148F70077741D /* PayPalVaultRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B29C3962B9148F70077741D /* PayPalVaultRequest.swift */; };
@@ -246,6 +247,7 @@
 		06CE009F26F3DF100000CC46 /* ConfirmPaymentSourceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPaymentSourceRequest.swift; sourceTree = "<group>"; };
 		06CE00A226F3E32A0000CC46 /* ConfirmPaymentSourceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPaymentSourceResponse.swift; sourceTree = "<group>"; };
 		0F13C7FD2C7BD8D94AAC26DD /* VenmoClient_Tests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VenmoClient_Tests.swift; sourceTree = "<group>"; };
+		BD2F603D80654F28A9B89C00 /* VenmoClient_CheckoutAppSwitch_Tests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VenmoClient_CheckoutAppSwitch_Tests.swift; sourceTree = "<group>"; };
 		2A79BE2B972741D91FD77DAB /* VenmoError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VenmoError.swift; sourceTree = "<group>"; };
 		347121F20E501A21EA246408 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		3B22E8B72A841AEA00962E34 /* CardVaultResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultResult.swift; sourceTree = "<group>"; };
@@ -852,6 +854,7 @@
 			isa = PBXGroup;
 			children = (
 				0F13C7FD2C7BD8D94AAC26DD /* VenmoClient_Tests.swift */,
+				BD2F603D80654F28A9B89C00 /* VenmoClient_CheckoutAppSwitch_Tests.swift */,
 				EF758F964BAE2C65AD6E5D6E /* VenmoCheckoutRequest_Tests.swift */,
 				C32C36DA77D327B19669AEB1 /* Environment+Venmo_Tests.swift */,
 			);
@@ -1495,6 +1498,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				35C0F92073BC176E41A1E423 /* VenmoClient_Tests.swift in Sources */,
+				DF8FAA1471F6444D8BAD68DC /* VenmoClient_CheckoutAppSwitch_Tests.swift in Sources */,
 				D79860229D4A1C290AC46BA0 /* VenmoCheckoutRequest_Tests.swift in Sources */,
 				E548652E3BEC567532371C33 /* Environment+Venmo_Tests.swift in Sources */,
 			);

@@ -18,14 +18,27 @@ class VenmoViewModel: ObservableObject {
 
     let configManager = CoreConfigManager(domain: "Venmo Payments")
 
+    /// Return host used for the Venmo app-switch round trip. Matches the demo's associated-domain
+    /// (`applinks:`) entitlement so the universal link returns into the app.
+    let appSwitchURL = "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
+
     func createOrder() async throws {
         let amountRequest = Amount(currencyCode: "USD", value: "10.00")
+
+        let experienceContext = VenmoExperienceContext(
+            returnUrl: appSwitchURL + "/success",
+            cancelUrl: appSwitchURL + "/cancel",
+            appSwitchContext: VenmoAppSwitchContext(source: "NATIVE_APP")
+        )
+        let paymentSource: OrderPaymentSource = .venmo(
+            OrderVenmoPaymentSource(venmo: VenmoSource(experienceContext: experienceContext))
+        )
 
         let params = CreateOrderParams(
             applicationContext: nil,
             intent: intent.rawValue,
             purchaseUnits: [PurchaseUnit(amount: amountRequest)],
-            paymentSource: nil
+            paymentSource: paymentSource
         )
 
         do {
@@ -60,8 +73,12 @@ class VenmoViewModel: ObservableObject {
                 }
 
                 if let orderID = state.createOrder?.id {
-                    let request = VenmoCheckoutRequest(orderID: orderID)
-                    let venmoResult = try await venmoClient.start(request)
+                    let request = VenmoCheckoutRequest(
+                        orderID: orderID,
+                        appSwitchIfEligible: true,
+                        returnURL: appSwitchURL + "/success"
+                    )
+                    let venmoResult = try await venmoClient.start(request: request)
                     DispatchQueue.main.async {
                         self.state.approveResultResponse = .loaded(
                             VenmoPaymentState.ApprovalResult(id: venmoResult.orderID, status: "APPROVED")

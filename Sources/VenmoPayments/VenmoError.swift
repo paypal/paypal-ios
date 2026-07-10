@@ -54,6 +54,17 @@ public enum VenmoError {
         errorDescription: "Venmo is not eligible as a funding source for this transaction."
     )
 
+    /// An error occurred during the web authentication session.
+    /// - Parameter error: The underlying error from the web session.
+    /// - Returns: A `CoreSDKError` describing the web session failure.
+    public static func webSessionError(_ error: Error) -> CoreSDKError {
+        CoreSDKError(
+            code: Code.unknown.rawValue,
+            domain: domain,
+            errorDescription: error.localizedDescription
+        )
+    }
+
     /// Creates a funding eligibility error with a specific reason.
     /// - Parameter reason: The reason Venmo is not eligible.
     /// - Returns: A `CoreSDKError` describing the eligibility failure.
