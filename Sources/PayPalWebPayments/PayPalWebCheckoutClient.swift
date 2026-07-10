@@ -356,10 +356,10 @@ public class PayPalWebCheckoutClient: NSObject {
                     eventPrefix: "paypal-web-payments:checkout"
                 ),
                 makeURL: { base, sessionID in
-                    PayPalWebCheckoutURLBuilder.checkoutAppSwitchURL(
-                        base: base,
-                        orderID: orderID,
+                    PayPalWebCheckoutURLBuilder(base: base).checkoutAppSwitchURL(
                         clientID: self.config.clientID,
+                        fundingSource: .paypal,
+                        orderID: orderID,
                         sessionID: sessionID
                     )
                 },
@@ -386,11 +386,11 @@ public class PayPalWebCheckoutClient: NSObject {
                     eventPrefix: "paypal-web-payments:vault-wo-purchase"
                 ),
                 makeURL: { base, sessionID in
-                    PayPalWebCheckoutURLBuilder.vaultAppSwitchURL(
-                        base: base,
-                        setupTokenID: setupTokenID,
+                    PayPalWebCheckoutURLBuilder(base: base).vaultAppSwitchURL(
                         clientID: self.config.clientID,
-                        sessionID: sessionID
+                        fundingSource: .paypal,
+                        sessionID: sessionID,
+                        setupTokenID: setupTokenID
                     )
                 },
                 fallback: {
