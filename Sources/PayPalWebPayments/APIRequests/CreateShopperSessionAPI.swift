@@ -1,12 +1,16 @@
 import Foundation
 
+#if canImport(UIKit)
+import UIKit
+#endif
+
 #if canImport(CorePayments)
 import CorePayments
 #endif
 
 /// Coordinates the GraphQL call that pre-warms a Shopper Session with app-switch eligibility.
 @_documentation(visibility: private)
-class CreateShopperSessionAPI {
+public class CreateShopperSessionAPI {
 
     // MARK: - Private Properties
 
@@ -15,36 +19,24 @@ class CreateShopperSessionAPI {
 
     private let createShopperSessionQuery = """
         mutation CreateShopperSessionWithAppSwitchEligibility(
-            $returnUrl: String!,
-            $cancelUrl: String!,
-            $fallbackSchemeUrl: String,
-            $userAction: String!,
-            $osType: String!,
-            $integrationArtifact: String!,
-            $integrationChannel: String,
-            $userIdentity: UserIdentityInput
+            $appSwitchEligibilityInput: externalAppSwitchEligibilityInput
+            $shopperSessionInput: externalShopperSessionInput
         ) {
             external {
                 createShopperSessionWithAppSwitchEligibility(
-                    input: {
-                        urlConfig: {
-                            returnUrl: $returnUrl,
-                            cancelUrl: $cancelUrl,
-                            fallbackSchemeUrl: $fallbackSchemeUrl
-                        },
-                        userAction: $userAction,
-                        osType: $osType,
-                        integrationArtifact: $integrationArtifact,
-                        integrationChannel: $integrationChannel,
-                        userIdentity: $userIdentity
-                    }
+                    appSwitchEligibilityInput: $appSwitchEligibilityInput
+                    shopperSessionInput: $shopperSessionInput
                 ) {
-                    appSwitchEligible
-                    redirectURL
-                    ineligibleReason
-                    matchedAuthenticationMethods
-                    shopperSessionConfig {
-                        id
+                    appSwitchEligibilityResponse {
+                        appSwitchEligible
+                        ineligibleReason
+                        checkoutUrls {
+                            redirectURL
+                            checkoutFallbackUrl
+                        }
+                    }
+                    shopperSessionResponse {
+                        sessionId
                         expiresAt
                     }
                 }
@@ -69,27 +61,52 @@ class CreateShopperSessionAPI {
 
     /// Creates a Shopper Session with app-switch eligibility and returns the full result.
     /// - Parameters:
-    ///   - urlConfig: Return and cancel deep-link URLs registered with PayPal.
-    ///   - userIdentity: Optional buyer identity for the session.
-    ///   - userAction: The buyer action intent (default `.continue`).
+    ///   - contextId: A merchant-provided context identifier for the session (e.g. order ID or correlation ID).
+    ///   - token: The merchant token value (order ID or client token).
+    ///   - tokenType: The type of token — use `ExternalTokenKind.orderId` or `ExternalTokenKind.clientToken`.
+    ///   - urlConfig: Return, cancel, and fallback deep-link URLs registered with PayPal.
+    ///   - userIdentity: Optional buyer identity. The email address is forwarded to the GQL mutation.
     /// - Returns: A `ShopperSessionResult` containing eligibility, redirect URL, and session config.
     /// - Throws: A `CoreSDKError` if the network call or response parsing fails.
     func createShopperSessionWithAppSwitchEligibility(
+        contextId: String,
+        token: String,
+        tokenType: String,
         urlConfig: PayPalURLConfig,
-        userIdentity: PayPalUserIdentity?,
-        userAction: PayPalUserAction
+        userIdentity: PayPalUserIdentity?
     ) async throws -> ShopperSessionResult {
-        let identityVariables = userIdentity.map(UserIdentityVariables.init)
+
+        let experimentationContext = ExperimentationContext(
+            appSwitchSupported: true,
+            merchantCountry: "US",
+            integrationChannel: PayPalCoreConstants.integrationChannel,
+            isWebLLSEligible: false,
+            isWebView: false,
+            paymentType: "PAY",
+            buyerGUID: nil,
+            merchantAccountId: coreConfig.merchantID.isEmpty ? nil : coreConfig.merchantID
+        )
+
+        let appSwitchEligibilityInput = AppSwitchEligibilityInput(
+            contextId: contextId,
+            tokenType: tokenType,
+            osType: PayPalCoreConstants.osType,
+            merchantOptInForAppSwitch: true,
+            paypalNativeAppInstalled: true,
+            experimentationContext: experimentationContext,
+            buyerEmailAddressMerchantPassed: userIdentity?.email
+        )
+
+        let shopperSessionInput = ShopperSessionInput(
+            returnAppUrl: urlConfig.returnAppURL.absoluteString,
+            cancelAppUrl: urlConfig.cancelAppURL.absoluteString,
+            sdkVersion: PayPalCoreConstants.payPalSDKVersion,
+            fallbackUrlScheme: urlConfig.fallbackSchemeURL?.absoluteString
+        )
 
         let variables = CreateShopperSessionVariables(
-            returnURL: urlConfig.returnAppURL,
-            cancelURL: urlConfig.cancelAppURL,
-            fallbackSchemeURL: urlConfig.fallbackSchemeURL,
-            userAction: userAction.graphQLValue,
-            osType: PayPalCoreConstants.osType,
-            integrationArtifact: PayPalCoreConstants.integrationArtifact,
-            integrationChannel: PayPalCoreConstants.integrationChannel,
-            userIdentity: identityVariables
+            appSwitchEligibilityInput: appSwitchEligibilityInput,
+            shopperSessionInput: shopperSessionInput
         )
 
         let graphQLRequest = GraphQLRequest(
@@ -103,7 +120,7 @@ class CreateShopperSessionAPI {
         let parsed: CreateShopperSessionResponse = try HTTPResponseParser()
             .parseGraphQL(httpResponse, as: CreateShopperSessionResponse.self)
 
-        guard let result = parsed.external?.shopperSession else {
+        guard let result = parsed.shopperSession else {
             throw NetworkingError.noGraphQLDataKey
         }
 
