@@ -173,6 +173,7 @@ struct AnalyticsEventData: Encodable {
         try eventParameters.encode(timestamp, forKey: .timestamp)
         try eventParameters.encode(tenantName, forKey: .tenantName)
         try eventParameters.encode(setupToken, forKey: .setupToken)
+        try eventParameters.encode(buttonType, forKey: .buttonType)
         try eventParameters.encode(appSwitchURL, forKey: .appSwitchURL)
         try eventParameters.encode(errorDescription, forKey: .errorDescription)
         try eventParameters.encode(isCachedSession, forKey: .isCachedSession)

@@ -51,4 +51,39 @@ class AnalyticsService_Tests: XCTestCase {
     func testSendEvent_whenAPIRequestFails_logsErrorToConsole() {
         // We currently have no way to validate our console logging
     }
+
+    func testSendEvent_sendsNewAnalyticsFields() async {
+        let appSwitchURL = URL(string: "https://example.com/app-switch")!
+
+        await sut.performEventRequest(
+            "some-event",
+            correlationID: "fake-correlation-id",
+            buttonType: "fake-button-type",
+            appSwitchURL: appSwitchURL,
+            errorDescription: "fake-error-description",
+            isCachedSession: true,
+            isVaultRequest: true,
+            shopperSessionId: "fake-shopper-session-id",
+            startTime: 1_234_567_890
+        )
+
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.buttonType, "fake-button-type")
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.appSwitchURL, appSwitchURL)
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.errorDescription, "fake-error-description")
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.isCachedSession, true)
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.isVaultRequest, true)
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.shopperSessionId, "fake-shopper-session-id")
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.startTime, 1_234_567_890)
+    }
+
+    func testSendEvent_withoutNewAnalyticsFields_sendsThemAsNil() async {
+        await sut.performEventRequest("some-event", correlationID: "fake-correlation-id")
+
+        XCTAssertNil(mockTrackingEventsAPI.capturedAnalyticsEventData?.appSwitchURL)
+        XCTAssertNil(mockTrackingEventsAPI.capturedAnalyticsEventData?.errorDescription)
+        XCTAssertNil(mockTrackingEventsAPI.capturedAnalyticsEventData?.isCachedSession)
+        XCTAssertNil(mockTrackingEventsAPI.capturedAnalyticsEventData?.isVaultRequest)
+        XCTAssertNil(mockTrackingEventsAPI.capturedAnalyticsEventData?.shopperSessionId)
+        XCTAssertNil(mockTrackingEventsAPI.capturedAnalyticsEventData?.startTime)
+    }
 }
