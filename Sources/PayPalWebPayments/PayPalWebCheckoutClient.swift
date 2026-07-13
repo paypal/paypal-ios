@@ -586,7 +586,7 @@ public class PayPalWebCheckoutClient: NSObject {
         completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
     ) {
         analyticsService?.sendEvent(
-            "paypal-web-payments:checkout:browser-presentation:started",
+            "paypal-web-payments:checkout:auth-challenge-presentation:started",
             shopperSessionId: sessionID
         )
         Task {
@@ -607,7 +607,7 @@ public class PayPalWebCheckoutClient: NSObject {
                 let payPalCheckoutURLComponents = payPalCheckoutReturnURL(payPalCheckoutURL: payPalCheckoutURL)
             else {
                 analyticsService?.sendEvent(
-                    "paypal-web-payments:checkout:browser-presentation:failed",
+                    "paypal-web-payments:checkout:auth-challenge-presentation:failed",
                     errorDescription: PayPalError.payPalURLError.errorDescription
                 )
                 notifyCheckoutFailure(with: PayPalError.payPalURLError, completion: completion)
@@ -618,10 +618,12 @@ public class PayPalWebCheckoutClient: NSObject {
                 url: payPalCheckoutURLComponents,
                 context: self,
                 sessionDidDisplay: { [weak self] didDisplay in
-                    let event = didDisplay
-                        ? "paypal-web-payments:checkout:auth-challenge-presentation:succeeded"
-                        : "paypal-web-payments:checkout:auth-challenge-presentation:failed"
-                    self?.analyticsService?.sendEvent(event)
+                    if didDisplay {
+                        self?.analyticsService?.sendEvent(
+                            "paypal-web-payments:checkout:auth-challenge-presentation:succeeded",
+                            shopperSessionId: sessionID
+                        )
+                    }
                 },
                 sessionDidComplete: { [weak self] url, error in
                     guard let self else { return }
@@ -634,7 +636,7 @@ public class PayPalWebCheckoutClient: NSObject {
                             sdkError = PayPalError.webSessionError(error)
                         }
                         self.analyticsService?.sendEvent(
-                            "paypal-web-payments:checkout:browser-presentation:failed",
+                            "paypal-web-payments:checkout:auth-challenge-presentation:failed",
                             errorDescription: sdkError.errorDescription
                         )
                         self.sessionTask = nil
@@ -651,10 +653,6 @@ public class PayPalWebCheckoutClient: NSObject {
                         } else if let orderID = self.getQueryStringParameter(url: url.absoluteString, param: "token"),
                             let payerID = self.getQueryStringParameter(url: url.absoluteString, param: "PayerID") {
                             self.sessionTask = nil
-                            self.analyticsService?.sendEvent(
-                                "paypal-web-payments:checkout:browser-presentation:succeeded",
-                                shopperSessionId: sessionID
-                            )
                             let result = PayPalWebCheckoutResult(orderID: orderID, payerID: payerID)
                             self.notifyCheckoutSuccess(for: result, completion: completion)
                         } else {
