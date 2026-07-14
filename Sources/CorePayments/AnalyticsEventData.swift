@@ -117,7 +117,6 @@ struct AnalyticsEventData: Encodable {
 
     let startTime: Int?
 
-    // swiftlint:disable:next function_parameter_count
     init(
         environment: String,
         eventName: String,

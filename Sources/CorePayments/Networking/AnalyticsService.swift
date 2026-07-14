@@ -61,7 +61,6 @@ public struct AnalyticsService {
     /// - Parameter isVaultRequest: Whether this event is part of a vault (save payment method) request
     /// - Parameter shopperSessionId: The Shopper Session ID associated with this event
     /// - Parameter startTime: Start time of the operation being measured, in milliseconds since epoch
-    // swiftlint:disable:next function_parameter_count
     public func sendEvent(
         _ name: String,
         correlationID: String? = nil,
@@ -101,7 +100,6 @@ public struct AnalyticsService {
     ///   - isVaultRequest: Whether this event is part of a vault (save payment method) request
     ///   - shopperSessionId: The Shopper Session ID associated with this event
     ///   - startTime: Start time of the operation being measured, in milliseconds since epoch
-    // swiftlint:disable:next function_parameter_count
     func performEventRequest(
         _ name: String,
         correlationID: String? = nil,
