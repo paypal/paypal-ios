@@ -34,7 +34,8 @@ class PayPalVaultViewModel: VaultViewModel {
         async let setupTokenTask = fetchSetupToken(
             customerID: customerID.isEmpty ? nil : customerID,
             selectedMerchantIntegration: DemoSettings.merchantIntegration,
-            paymentType: .paypal
+            paymentType: .paypal,
+            appSwitchURL: Environment.sandbox.baseURL
         )
         let setupToken = try await setupTokenTask
 
