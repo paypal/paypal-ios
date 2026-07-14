@@ -18,7 +18,7 @@ enum ShopperSessionURLConfigFactory {
         return PayPalURLConfig(
             returnAppURL: returnAppURL,
             cancelAppURL: cancelAppURL,
-            fallbackSchemeURL: URL(string: "\(scheme)://\(checkoutPath)")
+            fallbackSchemeURL: URL(string: scheme)
         )
     }()
 }

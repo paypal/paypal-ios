@@ -54,17 +54,19 @@ enum PayPalWebCheckoutURLBuilder {
     ) -> URL? {
         guard var components = URLComponents(string: base) else { return nil }
 
-        var queryItems = components.queryItems ?? []
+        var queryItems = (components.queryItems ?? []).filter { !$0.name.isEmpty }
         let additionalQueryItems: [URLQueryItem] = [
             tokenItem,
-            URLQueryItem(name: "source", value: "pda"),
-            URLQueryItem(name: "merchant", value: clientID),
-            URLQueryItem(name: "flow_type", value: flowType.rawValue),
-            URLQueryItem(name: "shoppersSessionId", value: sessionID),
-            URLQueryItem(name: "switch_initiated_time", value: String(Int(round(Date().timeIntervalSince1970 * 1000))))
+//            URLQueryItem(name: "source", value: "pda"),
+//            URLQueryItem(name: "merchant", value: clientID),
+//            URLQueryItem(name: "flow_type", value: flowType.rawValue),
+            URLQueryItem(name: "shopperSessionId", value: sessionID),
+//            URLQueryItem(name: "switch_initiated_time", value: String(Int(round(Date().timeIntervalSince1970 * 1000))))
         ]
         queryItems.append(contentsOf: additionalQueryItems)
         components.queryItems = queryItems
+
+        print("📡 app-switch URL: \(components.url?.absoluteString ?? "nil")")
 
         return components.url
     }

@@ -144,21 +144,72 @@ final class DemoMerchantAPI {
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
         if method != "GET", let json = try? encoder.encode(body) {
-            print(String(data: json, encoding: .utf8) ?? "")
-                urlRequest.httpBody = json
+            urlRequest.httpBody = json
         }
 
         return urlRequest
     }
 
     private func data(for urlRequest: URLRequest) async throws -> Data {
+        #if DEBUG
+        Self.logRequest(urlRequest)
+        #endif
         do {
-            let (data, _) = try await URLSession.shared.data(for: urlRequest)
+            let (data, response) = try await URLSession.shared.data(for: urlRequest)
+            #if DEBUG
+            let status = (response as? HTTPURLResponse)?.statusCode ?? -1
+            let statusIcon = (200..<300).contains(status) ? "✅" : "⚠️"
+            let bodyString = String(data: data, encoding: .utf8) ?? "<\(data.count) bytes, non-UTF8>"
+            print(
+                """
+                📡 [Demo Merchant] ⬅️ RESPONSE \(statusIcon) \(status)
+                \(urlRequest.httpMethod ?? "?") \(urlRequest.url?.absoluteString ?? "?")
+                Body: \(bodyString)
+                """
+            )
+            #endif
             return data
         } catch {
+            #if DEBUG
+            print(
+                """
+                📡 [Demo Merchant] ❌ ERROR
+                \(urlRequest.httpMethod ?? "?") \(urlRequest.url?.absoluteString ?? "?")
+                Error: \(error.localizedDescription)
+                """
+            )
+            #endif
             throw URLResponseError.networkConnectionError
         }
     }
+
+    #if DEBUG
+    private static func logRequest(_ request: URLRequest) {
+        let headers = (request.allHTTPHeaderFields ?? [:])
+            .map { "\($0.key): \(redactedHeaderValue(key: $0.key, value: $0.value))" }
+            .sorted()
+        let bodyString = request.httpBody.flatMap { String(data: $0, encoding: .utf8) } ?? "<empty>"
+        var lines = [
+            "📡 [Demo Merchant] ➡️ REQUEST",
+            "\(request.httpMethod ?? "?") \(request.url?.absoluteString ?? "?")"
+        ]
+        if !headers.isEmpty {
+            lines.append("Headers:\n\(headers.joined(separator: "\n"))")
+        }
+        lines.append("Body: \(bodyString)")
+        print(lines.joined(separator: "\n"))
+    }
+
+    private static func redactedHeaderValue(key: String, value: String) -> String {
+        guard key.lowercased() == "authorization" else {
+            return value
+        }
+        if let scheme = value.split(separator: " ", maxSplits: 1).first {
+            return "\(scheme) <redacted>"
+        }
+        return "<redacted>"
+    }
+    #endif
 
     private func parse<T: Decodable>(from data: Data) throws -> T {
         do {

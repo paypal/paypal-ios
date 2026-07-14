@@ -51,6 +51,7 @@ public class HTTPResponseParser {
                 return try decoder.decode(T.self, from: data)
             }
         } catch {
+            Self.logDecodingFailure(type: T.self, isGraphQL: isGraphQL, data: data, error: error)
             throw NetworkingError.jsonDecodingError(error.localizedDescription)
         }
     }
@@ -65,9 +66,24 @@ public class HTTPResponseParser {
                 throw NetworkingError.serverResponseError(errorData.readableDescription)
             }
         } catch {
+            Self.logDecodingFailure(type: T.self, isGraphQL: isGraphQL, data: data, error: error)
             throw NetworkingError.jsonDecodingError(error.localizedDescription)
         }
     }
+
+    #if DEBUG
+    private static func logDecodingFailure<T>(type: T.Type, isGraphQL: Bool, data: Data, error: Error) {
+        let body = String(data: data, encoding: .utf8) ?? "<\(data.count) bytes, non-UTF8>"
+        print(
+            """
+            📡 [PayPal SDK] 🔴 DECODE FAILED
+            Expecting: \(isGraphQL ? "GraphQL<\(T.self)>" : "\(T.self)")
+            Error: \(error)
+            Raw body: \(body)
+            """
+        )
+    }
+    #endif
 }
 
 extension HTTPResponseParser {

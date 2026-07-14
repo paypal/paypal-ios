@@ -49,7 +49,7 @@ enum MerchantIntegration: Hashable {
     }
     
     private static let testClientID = "AQTfw2irFfemo-eWG4H5UY-b9auKihUpXQ2Engl4G1EsHJe2mkpfUv_SN3Mba0v3CfrL6Fk_ecwv9EOo"
-    private static let testMerchantID = "test-merchant-id"
+    private static let testMerchantID = "4781436711037045243"
 
     static func from(displayName: String, withClientID clientID: String) -> MerchantIntegration? {
         switch displayName {

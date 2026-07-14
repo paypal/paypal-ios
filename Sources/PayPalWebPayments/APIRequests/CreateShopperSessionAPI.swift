@@ -65,7 +65,8 @@ public class CreateShopperSessionAPI {
     ///   - token: The merchant token value (order ID or client token).
     ///   - tokenType: The type of token — use `ExternalTokenKind.orderId` or `ExternalTokenKind.clientToken`.
     ///   - urlConfig: Return, cancel, and fallback deep-link URLs registered with PayPal.
-    ///   - userIdentity: Optional buyer identity. The email address is forwarded to the GQL mutation.
+    ///   - userIdentity: Optional buyer identity. The email address and phone (split into
+    ///     `countryCode` / `nationalNumber`) are forwarded to the GQL mutation.
     /// - Returns: A `ShopperSessionResult` containing eligibility, redirect URL, and session config.
     /// - Throws: A `CoreSDKError` if the network call or response parsing fails.
     func createShopperSessionWithAppSwitchEligibility(
@@ -84,7 +85,7 @@ public class CreateShopperSessionAPI {
             isWebView: false,
             paymentType: "PAY",
             buyerGUID: nil,
-            merchantAccountId: coreConfig.merchantID.isEmpty ? nil : coreConfig.merchantID
+            merchantAccountId: ""
         )
 
         let appSwitchEligibilityInput = AppSwitchEligibilityInput(
@@ -97,11 +98,16 @@ public class CreateShopperSessionAPI {
             buyerEmailAddressMerchantPassed: userIdentity?.email
         )
 
+        let phoneInput = userIdentity?.phone.map {
+            PhoneInput(countryCode: $0.countryCode, nationalNumber: $0.nationalNumber)
+        }
+
         let shopperSessionInput = ShopperSessionInput(
             returnAppUrl: urlConfig.returnAppURL.absoluteString,
             cancelAppUrl: urlConfig.cancelAppURL.absoluteString,
             sdkVersion: PayPalCoreConstants.payPalSDKVersion,
-            fallbackUrlScheme: urlConfig.fallbackSchemeURL?.absoluteString
+            fallbackUrlScheme: urlConfig.fallbackSchemeURL?.absoluteString,
+            phone: phoneInput
         )
 
         let variables = CreateShopperSessionVariables(
