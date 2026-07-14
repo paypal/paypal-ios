@@ -68,21 +68,18 @@ public class CreateShopperSessionAPI {
 
     /// Creates a Shopper Session with app-switch eligibility and returns the full result.
     /// - Parameters:
-    ///   - contextId: A merchant-provided context identifier for the session (e.g. order ID or correlation ID).
-    ///   - token: The merchant token value (order ID or client token).
-    ///   - tokenType: The type of token — use `ExternalTokenKind.orderId` or `ExternalTokenKind.clientToken`.
     ///   - urlConfig: Return, cancel, and fallback deep-link URLs registered with PayPal.
     ///   - userIdentity: Optional buyer identity. The email address and phone (split into
     ///     `countryCode` / `nationalNumber`) are forwarded to the GQL mutation.
     /// - Returns: A `ShopperSessionResult` containing eligibility, redirect URL, and session config.
     /// - Throws: A `CoreSDKError` if the network call or response parsing fails.
     func createShopperSessionWithAppSwitchEligibility(
-        contextId: String,
-        token: String,
-        tokenType: String,
         urlConfig: PayPalURLConfig,
         userIdentity: PayPalUserIdentity?
     ) async throws -> ShopperSessionResult {
+
+        let contextId = UUID().uuidString
+        let tokenType = TokenType.orderID
 
         let experimentationContext = ExperimentationContext(
             appSwitchSupported: true,

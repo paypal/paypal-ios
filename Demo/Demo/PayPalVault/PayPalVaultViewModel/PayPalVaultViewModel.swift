@@ -26,9 +26,6 @@ class PayPalVaultViewModel: VaultViewModel {
             ssid: userSSID
         )
         client.createPayPalSession(
-            contextId: "ppcp-stage-test",
-            token: UUID().uuidString,
-            tokenType: TokenType.orderID,
             userIdentity: resolvedUserIdentity,
             urlConfig: ShopperSessionURLConfigFactory.urlConfig,
             userAction: selectedUserAction

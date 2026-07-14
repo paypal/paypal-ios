@@ -4,14 +4,13 @@
 ## Unreleased
 
 * PayPalWebPayments
-  * Add `PayPalWebCheckoutClient.createPayPalSession(contextId, token, tokenType, userIdentity, urlConfig, userAction)` — establishes a shopper session that must be created prior to calling `start()` or `vault()`
+  * Add `PayPalWebCheckoutClient.createPayPalSession(userIdentity, urlConfig, userAction)` — establishes a shopper session that must be created prior to calling `start()` or `vault()`
   * Add `PayPalWebCheckoutClient.start(orderId, completion)` method — requires a prior call to `createPayPalSession()`
   * Add `PayPalWebCheckoutClient.vault(setupTokenId, completion)` method — requires a prior call to `createPayPalSession()`
   * Add `PayPalPhoneNumber` type and update `PayPalUserIdentity(email:phone:)` to accept a structured `PayPalPhoneNumber` (country code + national number) instead of a `String`
   * Deprecate `PayPalWebCheckoutClient.start(request, completion)` — use `createPayPalSession()` followed by `start(orderId, completion)` instead
   * Deprecate `PayPalWebCheckoutClient.vault(request, completion)` — use `createPayPalSession()` followed by `vault(setupTokenID, completion)` instead
 * CorePayments
-  * Add `TokenType` constants (`orderID`, `vaultID`, `billingToken`) for use with `createPayPalSession`
   * **Breaking:** `CoreConfig` requires a `merchantID` parameter; optional `bnCode` parameter added. See the [v3 Migration Guide](v3_MIGRATION_GUIDE.md) for details.
 
 ## 2.0.1 (2025-11-03)
