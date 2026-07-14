@@ -69,7 +69,8 @@ public class CreateShopperSessionAPI {
     /// Creates a Shopper Session with app-switch eligibility and returns the full result.
     /// - Parameters:
     ///   - urlConfig: Return, cancel, and fallback deep-link URLs registered with PayPal.
-    ///   - userIdentity: Optional buyer identity. The email address and phone (split into
+    ///   - userIdentity: Optional buyer identity. The email address (`buyerEmailAddressMerchantPassed`),
+    ///     existing PayPal session id (`shoppersSessionId`), and phone (split into
     ///     `countryCode` / `nationalNumber`) are forwarded to the GQL mutation.
     /// - Returns: A `ShopperSessionResult` containing eligibility, redirect URL, and session config.
     /// - Throws: A `CoreSDKError` if the network call or response parsing fails.
@@ -99,7 +100,8 @@ public class CreateShopperSessionAPI {
             merchantOptInForAppSwitch: true,
             paypalNativeAppInstalled: true,
             experimentationContext: experimentationContext,
-            buyerEmailAddressMerchantPassed: userIdentity?.email
+            buyerEmailAddressMerchantPassed: userIdentity?.email,
+            shoppersSessionId: userIdentity?.existingPayPalSessionID
         )
 
         let phoneInput = userIdentity?.phone.map {

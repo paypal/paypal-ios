@@ -18,6 +18,7 @@ struct AppSwitchEligibilityInput: Encodable {
     let experimentationContext: ExperimentationContext
 
     let buyerEmailAddressMerchantPassed: String?
+    let shoppersSessionId: String?
 }
 struct ExperimentationContext: Encodable {
 
