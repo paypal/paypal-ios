@@ -29,7 +29,7 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         XCTAssertEqual(queryValue("source", in: url), "pda")
         XCTAssertEqual(queryValue("merchant", in: url), "client-abc")
         XCTAssertEqual(queryValue("flow_type", in: url), "ecs")
-        XCTAssertEqual(queryValue("shoppersSessionId", in: url), "session-xyz")
+        XCTAssertEqual(queryValue("shopperSessionId", in: url), "session-xyz")
     }
 
     func testCheckoutAppSwitchURL_preservesExistingQueryOnBase() throws {
@@ -103,7 +103,7 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         XCTAssertEqual(queryValue("source", in: url), "pda")
         XCTAssertEqual(queryValue("merchant", in: url), "client-abc")
         XCTAssertEqual(queryValue("flow_type", in: url), "va")
-        XCTAssertEqual(queryValue("shoppersSessionId", in: url), "session-xyz")
+        XCTAssertEqual(queryValue("shopperSessionId", in: url), "session-xyz")
     }
 
     func testVaultAppSwitchURL_setsSwitchInitiatedTimeNearNow() throws {
