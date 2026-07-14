@@ -7,11 +7,11 @@ import PayPalWebPayments
 enum ShopperSessionURLConfigFactory {
 
     static let urlConfig: PayPalURLConfig = {
-        let checkoutPath = "x-callback-url/paypal-sdk/paypal-checkout"
+        let checkoutPath = "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
         let scheme = PayPalCoreConstants.callbackURLScheme
 
-        guard let returnAppURL = URL(string: "\(scheme)://\(checkoutPath)"),
-              let cancelAppURL = URL(string: "\(scheme)://\(checkoutPath)/cancel") else {
+        guard let returnAppURL = URL(string: "\(checkoutPath)/paypal-return"),
+              let cancelAppURL = URL(string: "\(checkoutPath)/paypal-cancel") else {
             fatalError("Failed to construct Shopper Session callback URLs for scheme: \(scheme)")
         }
 

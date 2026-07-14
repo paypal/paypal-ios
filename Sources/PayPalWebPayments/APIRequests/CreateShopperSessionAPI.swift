@@ -16,6 +16,7 @@ public class CreateShopperSessionAPI {
 
     private let coreConfig: CoreConfig
     private let networkingClient: NetworkingClient
+    private let authenticationSecureTokenServiceAPI: AuthenticationSecureTokenServiceAPI
 
     private let createShopperSessionQuery = """
         mutation CreateShopperSessionWithAppSwitchEligibility(
@@ -49,12 +50,18 @@ public class CreateShopperSessionAPI {
     public init(coreConfig: CoreConfig) {
         self.coreConfig = coreConfig
         self.networkingClient = NetworkingClient(coreConfig: coreConfig)
+        self.authenticationSecureTokenServiceAPI = AuthenticationSecureTokenServiceAPI(coreConfig: coreConfig)
     }
 
-    /// Exposed for injecting `MockNetworkingClient` in tests.
-    init(coreConfig: CoreConfig, networkingClient: NetworkingClient) {
+    /// Exposed for injecting `MockNetworkingClient` / `MockAuthenticationSecureTokenServiceAPI` in tests.
+    init(
+        coreConfig: CoreConfig,
+        networkingClient: NetworkingClient,
+        authenticationSecureTokenServiceAPI: AuthenticationSecureTokenServiceAPI
+    ) {
         self.coreConfig = coreConfig
         self.networkingClient = networkingClient
+        self.authenticationSecureTokenServiceAPI = authenticationSecureTokenServiceAPI
     }
 
     // MARK: - Internal Methods
@@ -121,7 +128,12 @@ public class CreateShopperSessionAPI {
             queryNameForURL: nil
         )
 
-        let httpResponse = try await networkingClient.fetch(request: graphQLRequest)
+        let lsat = try await authenticationSecureTokenServiceAPI.createLowScopedAccessToken().accessToken
+
+        let httpResponse = try await networkingClient.fetch(
+            request: graphQLRequest,
+            additionalHeaders: [.authorization: "Bearer \(lsat)"]
+        )
 
         let parsed: CreateShopperSessionResponse = try HTTPResponseParser()
             .parseGraphQL(httpResponse, as: CreateShopperSessionResponse.self)
