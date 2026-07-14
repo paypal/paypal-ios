@@ -23,16 +23,12 @@ class HTTP {
             urlRequest.addValue(value, forHTTPHeaderField: key.rawValue)
         }
 
-        HTTP.logRequest(httpRequest)
-
         let (data, response): (Data, URLResponse)
         do {
             (data, response) = try await urlSession.performRequest(with: urlRequest)
-        } catch let error as URLError {
-            HTTP.logTransportError(error, for: httpRequest)
+        } catch _ as URLError {
             throw NetworkingError.urlSessionError
         } catch {
-            HTTP.logTransportError(error, for: httpRequest)
             throw NetworkingError.unknownError
         }
 
@@ -40,71 +36,6 @@ class HTTP {
             throw NetworkingError.invalidURLResponseError
         }
         
-        HTTP.logResponse(status: response.statusCode, body: data, for: httpRequest)
-
         return HTTPResponse(status: response.statusCode, body: data)
     }
 }
-
-#if DEBUG
-extension HTTP {
-
-    private static func isTrackingRequest(_ request: HTTPRequest) -> Bool {
-        request.url.absoluteString.hasSuffix("tracking/events")
-    }
-
-    private static func logRequest(_ request: HTTPRequest) {
-        guard !isTrackingRequest(request) else { return }
-        var lines = ["📡 [PayPal SDK] ➡️ REQUEST", "\(request.method.rawValue) \(request.url.absoluteString)"]
-        let headers = request.headers
-            .map { "\($0.key.rawValue): \(redactedHeaderValue(key: $0.key.rawValue, value: $0.value))" }
-            .sorted()
-        if !headers.isEmpty {
-            lines.append("Headers:\n\(headers.joined(separator: "\n"))")
-        }
-        lines.append("Body: \(bodyString(request.body))")
-        print(lines.joined(separator: "\n"))
-    }
-
-    private static func logResponse(status: Int, body: Data?, for request: HTTPRequest) {
-        guard !isTrackingRequest(request) else { return }
-        let statusIcon = (200..<300).contains(status) ? "✅" : "⚠️"
-        print(
-            """
-            📡 [PayPal SDK] ⬅️ RESPONSE \(statusIcon) \(status)
-            \(request.method.rawValue) \(request.url.absoluteString)
-            Body: \(bodyString(body))
-            """
-        )
-    }
-
-    private static func logTransportError(_ error: Error, for request: HTTPRequest) {
-        guard !isTrackingRequest(request) else { return }
-        print(
-            """
-            📡 [PayPal SDK] ❌ TRANSPORT ERROR
-            \(request.method.rawValue) \(request.url.absoluteString)
-            Error: \(error.localizedDescription)
-            """
-        )
-    }
-
-    private static func bodyString(_ data: Data?) -> String {
-        guard let data, !data.isEmpty else {
-            return "<empty>"
-        }
-        return String(data: data, encoding: .utf8) ?? "<\(data.count) bytes, non-UTF8>"
-    }
-
-    private static func redactedHeaderValue(key: String, value: String) -> String {
-        guard key.lowercased() == HTTPHeader.authorization.rawValue.lowercased() else {
-            return value
-        }
-        let parts = value.split(separator: " ", maxSplits: 1)
-        if let scheme = parts.first {
-            return "\(scheme) <redacted>"
-        }
-        return "<redacted>"
-    }
-}
-#endif
