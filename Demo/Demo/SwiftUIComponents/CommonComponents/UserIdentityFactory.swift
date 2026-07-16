@@ -26,6 +26,7 @@ enum UserIdentityFactory {
             return .init(existingPayPalSessionID: trimmedSSID)
         }
     }
+
     private static func makePhoneNumber(from phone: String) -> PayPalPhoneNumber? {
         let trimmed = phone.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return nil }

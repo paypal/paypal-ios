@@ -1,66 +1,73 @@
 import Foundation
 
 /// Builds the deep-link URLs used to app-switch into the PayPal app for checkout and vault flows.
-enum PayPalWebCheckoutURLBuilder {
+struct PayPalWebCheckoutURLBuilder {
 
     private enum FlowType: String {
         case checkout = "ecs"
         case vault = "va"
     }
 
+    private let base: String
+
+    init(base: String) {
+        self.base = base
+    }
+
     /// Builds the app-switch URL for the checkout (one-time payment) flow.
     /// - Returns: `nil` if `base` isn't a valid URL string.
-    static func checkoutAppSwitchURL(
-        base: String,
-        orderID: String,
+    func checkoutAppSwitchURL(
         clientID: String,
+        fundingSource: PayPalWebCheckoutFundingSource,
+        orderID: String,
         sessionID: String
     ) -> URL? {
         makeAppSwitchURL(
-            base: base,
-            tokenItem: URLQueryItem(name: "token", value: orderID),
+            merchantID: clientID,
             flowType: .checkout,
-            clientID: clientID,
-            sessionID: sessionID
+            fundingSource: fundingSource,
+            sessionID: sessionID,
+            tokenItem: URLQueryItem(name: "token", value: orderID)
         )
     }
 
     /// Builds the app-switch URL for the vault-without-purchase flow.
     /// - Returns: `nil` if `base` isn't a valid URL string.
-    static func vaultAppSwitchURL(
-        base: String,
-        setupTokenID: String,
-        clientID: String,
-        sessionID: String
+    func vaultAppSwitchURL(
+        merchantID: String,
+        fundingSource: PayPalWebCheckoutFundingSource,
+        sessionID: String,
+        setupTokenID: String
     ) -> URL? {
         makeAppSwitchURL(
-            base: base,
-            tokenItem: URLQueryItem(name: "approval_session_id", value: setupTokenID),
+            merchantID: merchantID,
             flowType: .vault,
-            clientID: clientID,
-            sessionID: sessionID
+            fundingSource: fundingSource,
+            sessionID: sessionID,
+            tokenItem: URLQueryItem(name: "approval_session_id", value: setupTokenID)
         )
     }
 
     /// Shared query construction for both flows. Query item values are percent-encoded by
     /// `URLComponents` (rather than interpolated directly into a string), and any query already
     /// present on `base` is preserved instead of being overwritten by a second `?`.
-    private static func makeAppSwitchURL(
-        base: String,
-        tokenItem: URLQueryItem,
+    private func makeAppSwitchURL(
+        merchantID: String,
         flowType: FlowType,
-        clientID: String,
-        sessionID: String
+        fundingSource: PayPalWebCheckoutFundingSource,
+        sessionID: String,
+        tokenItem: URLQueryItem
     ) -> URL? {
         guard var components = URLComponents(string: base) else { return nil }
 
-        var queryItems = (components.queryItems ?? []).filter { !$0.name.isEmpty }
+        var queryItems = components.queryItems ?? []
         let additionalQueryItems: [URLQueryItem] = [
             tokenItem,
             URLQueryItem(name: "source", value: "pda"),
-            URLQueryItem(name: "merchant", value: clientID),
+            URLQueryItem(name: "merchant", value: merchantID),
             URLQueryItem(name: "flow_type", value: flowType.rawValue),
             URLQueryItem(name: "shopperSessionId", value: sessionID),
+            URLQueryItem(name: "funding_source", value: fundingSource.rawValue),
             URLQueryItem(name: "switch_initiated_time", value: String(Int(round(Date().timeIntervalSince1970 * 1000))))
         ]
         queryItems.append(contentsOf: additionalQueryItems)

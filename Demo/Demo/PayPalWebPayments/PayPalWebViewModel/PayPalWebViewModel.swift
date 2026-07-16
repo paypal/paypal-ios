@@ -171,7 +171,6 @@ class PayPalWebViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.state.createdOrderResponse = .error(message: error.localizedDescription)
             }
-            print("❌ failed to create PayPalWebCheckoutClient with error: \(error.localizedDescription)")
             return nil
         }
     }
@@ -190,7 +189,6 @@ class PayPalWebViewModel: ObservableObject {
             }
         } catch {
             setErrorState(message: error.localizedDescription)
-            print("Error with \(intent) order: \(error.localizedDescription)")
         }
     }
 
