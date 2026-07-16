@@ -18,7 +18,6 @@ class VaultViewModel: ObservableObject {
     @Published var userSSID: String = ""
     @Published var customerID: String = ""
 
-    @discardableResult
     func fetchSetupToken(
         customerID: String? = nil,
         selectedMerchantIntegration: MerchantIntegration,

@@ -61,11 +61,9 @@ class PayPalWebViewModel: ObservableObject {
                         PayPalPaymentState.ApprovalResult(id: paypalResult.orderID, status: "APPROVED")
                     )
                     self.checkoutResult = paypalResult
-                    print("✅ Checkout result: \(String(describing: paypalResult))")
                     continuation.resume()
                 case .failure(let error):
                     if error == PayPalError.checkoutCanceledError {
-                        print("Canceled")
                         self.state.approveResultResponse = .idle
                         continuation.resume()
                     } else {
@@ -114,11 +112,9 @@ class PayPalWebViewModel: ObservableObject {
             )
             self.order = order
             state.createdOrderResponse = .loaded(order)
-            print("✅ fetched orderID: \(order.id) with status: \(order.status)")
             return order
         } catch {
             state.createdOrderResponse = .error(message: error.localizedDescription)
-            print("❌ failed to fetch orderID with error: \(error.localizedDescription)")
             throw error
         }
     }
@@ -132,7 +128,6 @@ class PayPalWebViewModel: ObservableObject {
                     payPalWebCheckoutClient = try await getPayPalClient()
                 }
                 guard let payPalWebCheckoutClient, let orderID = state.createOrder?.id else {
-                    print("Error initializing PayPalWebCheckoutClient or missing order ID")
                     state.approveResultResponse = .error(message: "Missing PayPal client or order ID")
                     return
                 }
@@ -144,10 +139,8 @@ class PayPalWebViewModel: ObservableObject {
                             PayPalPaymentState.ApprovalResult(id: paypalResult.orderID, status: "APPROVED")
                         )
                         self.checkoutResult = paypalResult
-                        print("✅ Checkout result: \(String(describing: paypalResult))")
                     case .failure(let error):
                         if error == PayPalError.checkoutCanceledError {
-                            print("Canceled")
                             self.state.approveResultResponse = .idle
                         } else {
                             self.state.approveResultResponse = .error(message: error.localizedDescription)
@@ -155,7 +148,6 @@ class PayPalWebViewModel: ObservableObject {
                     }
                 }
             } catch {
-                print("Error starting PayPalWebCheckoutClient")
                 state.createdOrderResponse = .error(message: error.localizedDescription)
             }
         }
@@ -171,7 +163,6 @@ class PayPalWebViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.state.createdOrderResponse = .error(message: error.localizedDescription)
             }
-            print("❌ failed to create PayPalWebCheckoutClient with error: \(error.localizedDescription)")
             return nil
         }
     }
@@ -190,7 +181,6 @@ class PayPalWebViewModel: ObservableObject {
             }
         } catch {
             setErrorState(message: error.localizedDescription)
-            print("Error with \(intent) order: \(error.localizedDescription)")
         }
     }
 
