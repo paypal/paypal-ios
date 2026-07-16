@@ -42,8 +42,8 @@ public enum Environment: Equatable {
         case .live:
             return URL(string: "https://paypal.com/agreements/approve")!
         #if DEBUG
-        case .custom(let baseURL, _):
-            if let host = URL(string: baseURL)?.host,
+        case .custom:
+            if let host = graphQLURL.host,
                 let url = URL(string: "https://\(host)/agreements/approve") {
                 return url
             }
