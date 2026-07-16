@@ -16,21 +16,20 @@ class VaultViewModel: ObservableObject {
     @Published var userEmail: String = ""
     @Published var userPhone: String = ""
     @Published var userSSID: String = ""
+    @Published var customerID: String = ""
 
-    func getSetupToken(
+    func fetchSetupToken(
         customerID: String? = nil,
         selectedMerchantIntegration: MerchantIntegration,
         paymentType: PaymentType,
         sca: String = "SCA_WHEN_REQUIRED"
-    ) async throws {
+    ) async throws -> CreateSetupTokenResponse {
         do {
-            DispatchQueue.main.async {
-                self.state.setupTokenResponse = .loading
-            }
+            state.setupTokenResponse = .loading
 
             let experienceContext = VaultExperienceContext()
 
-            var paymentSourceType: PaymentSourceType
+            let paymentSourceType: PaymentSourceType
             switch paymentType {
             case .card:
                 paymentSourceType = PaymentSourceType.card(verification: sca, experienceContext: experienceContext)
@@ -43,24 +42,22 @@ class VaultViewModel: ObservableObject {
                 selectedMerchantIntegration: selectedMerchantIntegration,
                 paymentSourceType: paymentSourceType
             )
-            DispatchQueue.main.async {
-                self.state.setupTokenResponse = .loaded(setupTokenResult)
-            }
+            state.setupTokenResponse = .loaded(setupTokenResult)
+            return setupTokenResult
         } catch {
-            DispatchQueue.main.async {
-                self.state.setupTokenResponse = .error(message: error.localizedDescription)
-            }
+            state.setupTokenResponse = .error(message: error.localizedDescription)
             throw error
         }
     }
 
     func resetState() {
         state = VaultState()
-        selectedUserAction = .payNow
+        selectedUserAction = .setupNow
         selectedUserIdentity = .none
         userEmail = ""
         userPhone = ""
         userSSID = ""
+        customerID = ""
     }
 
     func getPaymentToken(

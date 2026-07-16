@@ -41,6 +41,8 @@
 		3BA570072AA0DF330081D14F /* PayPalWebButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA570062AA0DF330081D14F /* PayPalWebButtonsView.swift */; };
 		3BA5700B2AA13C1C0081D14F /* CoreConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA5700A2AA13C1C0081D14F /* CoreConfigManager.swift */; };
 		A30ABBEB9DF94308BED38BD9 /* UserIdentityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DDBA0EEDF0422CA93EDE6B /* UserIdentityView.swift */; };
+		6A4CB47A11720F32B630C6D5 /* UserIdentityFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E100A9BBE64964EE134DB022 /* UserIdentityFactory.swift */; };
+		554657F5B5FD929C70949517 /* ShopperSessionURLConfigFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DFDC66B206AB9B11A80589 /* ShopperSessionURLConfigFactory.swift */; };
 		3BB60B532B1F9F1100A298CF /* PayPalVaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB60B522B1F9F1100A298CF /* PayPalVaultView.swift */; };
 		3BB60B552B1FA00C00A298CF /* PayPalVaultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB60B542B1FA00C00A298CF /* PayPalVaultViewModel.swift */; };
 		3BB7A9772A5CA6FD00C05140 /* MerchantIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB7A9762A5CA6FD00C05140 /* MerchantIntegration.swift */; };
@@ -157,6 +159,8 @@
 		3BA570062AA0DF330081D14F /* PayPalWebButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalWebButtonsView.swift; sourceTree = "<group>"; };
 		3BA5700A2AA13C1C0081D14F /* CoreConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreConfigManager.swift; sourceTree = "<group>"; };
 		C5DDBA0EEDF0422CA93EDE6B /* UserIdentityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserIdentityView.swift; sourceTree = "<group>"; };
+		E100A9BBE64964EE134DB022 /* UserIdentityFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserIdentityFactory.swift; sourceTree = "<group>"; };
+		C2DFDC66B206AB9B11A80589 /* ShopperSessionURLConfigFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopperSessionURLConfigFactory.swift; sourceTree = "<group>"; };
 		3BB60B522B1F9F1100A298CF /* PayPalVaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalVaultView.swift; sourceTree = "<group>"; };
 		3BB60B542B1FA00C00A298CF /* PayPalVaultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalVaultViewModel.swift; sourceTree = "<group>"; };
 		3BB7A9762A5CA6FD00C05140 /* MerchantIntegration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantIntegration.swift; sourceTree = "<group>"; };
@@ -411,6 +415,8 @@
 				3BC622082A97198500251B85 /* LeadingText.swift */,
 				3BA5700A2AA13C1C0081D14F /* CoreConfigManager.swift */,
 				C5DDBA0EEDF0422CA93EDE6B /* UserIdentityView.swift */,
+				E100A9BBE64964EE134DB022 /* UserIdentityFactory.swift */,
+				C2DFDC66B206AB9B11A80589 /* ShopperSessionURLConfigFactory.swift */,
 				BE5898942B2B91F800AA196E /* LabelViewText.swift */,
 			);
 			path = CommonComponents;
@@ -704,6 +710,8 @@
 				1001E2C52CFFD2800023A03C /* PayPalApprovalResultView.swift in Sources */,
 				3BA5700B2AA13C1C0081D14F /* CoreConfigManager.swift in Sources */,
 				A30ABBEB9DF94308BED38BD9 /* UserIdentityView.swift in Sources */,
+				6A4CB47A11720F32B630C6D5 /* UserIdentityFactory.swift in Sources */,
+				554657F5B5FD929C70949517 /* ShopperSessionURLConfigFactory.swift in Sources */,
 				80F33CE826F8DE29006811B1 /* DemoMerchantAPI.swift in Sources */,
 				80F33CEF26F8E7CC006811B1 /* CreateOrderParams.swift in Sources */,
 				9A8C7ADC2FF6FD1B00471F38 /* CustomEnvironmentView.swift in Sources */,
