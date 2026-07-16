@@ -23,7 +23,7 @@ struct PayPalWebCheckoutURLBuilder {
         sessionID: String
     ) -> URL? {
         makeAppSwitchURL(
-            clientID: clientID,
+            merchantID: clientID,
             flowType: .checkout,
             fundingSource: fundingSource,
             sessionID: sessionID,
@@ -34,13 +34,13 @@ struct PayPalWebCheckoutURLBuilder {
     /// Builds the app-switch URL for the vault-without-purchase flow.
     /// - Returns: `nil` if `base` isn't a valid URL string.
     func vaultAppSwitchURL(
-        clientID: String,
+        merchantID: String,
         fundingSource: PayPalWebCheckoutFundingSource,
         sessionID: String,
         setupTokenID: String
     ) -> URL? {
         makeAppSwitchURL(
-            clientID: clientID,
+            merchantID: merchantID,
             flowType: .vault,
             fundingSource: fundingSource,
             sessionID: sessionID,
@@ -52,7 +52,7 @@ struct PayPalWebCheckoutURLBuilder {
     /// `URLComponents` (rather than interpolated directly into a string), and any query already
     /// present on `base` is preserved instead of being overwritten by a second `?`.
     private func makeAppSwitchURL(
-        clientID: String,
+        merchantID: String,
         flowType: FlowType,
         fundingSource: PayPalWebCheckoutFundingSource,
         sessionID: String,
@@ -64,7 +64,7 @@ struct PayPalWebCheckoutURLBuilder {
         let additionalQueryItems: [URLQueryItem] = [
             tokenItem,
             URLQueryItem(name: "source", value: "pda"),
-            URLQueryItem(name: "merchant", value: clientID),
+            URLQueryItem(name: "merchant", value: merchantID),
             URLQueryItem(name: "flow_type", value: flowType.rawValue),
             URLQueryItem(name: "shoppersSessionId", value: sessionID),
             URLQueryItem(name: "funding_source", value: fundingSource.rawValue),

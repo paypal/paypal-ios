@@ -432,7 +432,7 @@ public class PayPalWebCheckoutClient: NSObject {
                 ),
                 makeURL: { base, sessionID in
                     PayPalWebCheckoutURLBuilder(base: base).checkoutAppSwitchURL(
-                        clientID: self.config.clientID,
+                        clientID: self.config.merchantID,
                         fundingSource: .paypal,
                         orderID: orderID,
                         sessionID: sessionID
@@ -462,7 +462,7 @@ public class PayPalWebCheckoutClient: NSObject {
                 ),
                 makeURL: { base, sessionID in
                     PayPalWebCheckoutURLBuilder(base: base).vaultAppSwitchURL(
-                        clientID: self.config.clientID,
+                        merchantID: self.config.merchantID,
                         fundingSource: .paypal,
                         sessionID: sessionID,
                         setupTokenID: setupTokenID

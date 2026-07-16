@@ -105,7 +105,7 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
     func testVaultAppSwitchURL_setsExpectedQueryItems() throws {
         let url = try XCTUnwrap(
             PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-vault").vaultAppSwitchURL(
-                clientID: "client-abc",
+                merchantID: "client-abc",
                 fundingSource: .paypal,
                 sessionID: "session-xyz",
                 setupTokenID: "setup-token-123"
@@ -128,7 +128,7 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
 
         let url = try XCTUnwrap(
             PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-vault").vaultAppSwitchURL(
-                clientID: "client-abc",
+                merchantID: "client-abc",
                 fundingSource: .paypal,
                 sessionID: "session-xyz",
                 setupTokenID: "setup-token-123"
