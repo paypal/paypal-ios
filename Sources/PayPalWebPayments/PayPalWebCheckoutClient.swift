@@ -934,9 +934,11 @@ public class PayPalWebCheckoutClient: NSObject {
         with error: CoreSDKError,
         completion: (Result<PayPalVaultResult, CoreSDKError>) -> Void
     ) {
-        analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:canceled",
-                                    errorDescription: error.errorDescription,
-                                    shopperSessionId: shopperSessionID)
+        analyticsService?.sendEvent(
+            "paypal-web-payments:vault-wo-purchase:canceled",
+            errorDescription: error.errorDescription,
+            shopperSessionId: shopperSessionID
+        )
         completion(.failure(error))
     }
 }
