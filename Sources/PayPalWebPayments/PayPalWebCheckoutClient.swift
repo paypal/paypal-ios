@@ -185,7 +185,7 @@ public class PayPalWebCheckoutClient: NSObject {
                     errorDescription: error.localizedDescription,
                     shopperSessionId: shopperSessionID
                 )
-               await fallBackToPatchCCOOrWeb(orderID: orderID, completion: completion)
+                await fallBackToPatchCCOOrWeb(orderID: orderID, completion: completion)
             }
         }
     }
@@ -421,6 +421,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
     /// Routes a PayPal deep-link return URL back to the active checkout or vault flow.
     /// Call this from your `UIApplicationDelegate` or `Scene` delegate when a PayPal URL is received.
+    // swiftlint:disable:next function_body_length
     public func handleReturnURL(_ url: URL) {
         defer {
             shopperSessionID = nil
@@ -652,6 +653,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
     // MARK: - Private: Web Auth Flows
 
+    // swiftlint:disable:next function_body_length
     private func startWebCheckoutFlow(
         orderID: String,
         fundingSource: PayPalWebCheckoutFundingSource,
