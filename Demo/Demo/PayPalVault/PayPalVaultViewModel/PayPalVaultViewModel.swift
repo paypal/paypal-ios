@@ -31,12 +31,11 @@ class PayPalVaultViewModel: VaultViewModel {
             userAction: selectedUserAction
         )
 
-        async let setupTokenTask = fetchSetupToken(
+        let setupToken = try await fetchSetupToken(
             customerID: customerID.isEmpty ? nil : customerID,
             selectedMerchantIntegration: DemoSettings.merchantIntegration,
             paymentType: .paypal
         )
-        let setupToken = try await setupTokenTask
 
         state.paypalVaultTokenResponse = .loading
 
@@ -45,11 +44,9 @@ class PayPalVaultViewModel: VaultViewModel {
                 switch result {
                 case .success(let vaultResult):
                     self.state.paypalVaultTokenResponse = .loaded(vaultResult)
-                    print("✅ Vault result: \(String(describing: vaultResult))")
                     continuation.resume()
                 case .failure(let error):
                     if error == PayPalError.vaultCanceledError {
-                        print("Canceled")
                         self.state.paypalVaultTokenResponse = .idle
                         continuation.resume()
                     } else {
@@ -67,7 +64,6 @@ class PayPalVaultViewModel: VaultViewModel {
             return PayPalWebCheckoutClient(config: config)
         } catch {
             state.setupTokenResponse = .error(message: error.localizedDescription)
-            print("❌ failed to create PayPalWebCheckoutClient with error: \(error.localizedDescription)")
             return nil
         }
     }

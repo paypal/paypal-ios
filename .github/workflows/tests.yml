@@ -15,7 +15,5 @@ jobs:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
       - name: Select Xcode Version
         run: sudo xcode-select -switch /Applications/Xcode_26.2.app/Contents/Developer
-      - name: List Available Simulators
-        run: xcrun simctl list devices available
       - name: Run Unit Tests
         run: set -o pipefail && xcodebuild -workspace 'PayPal.xcworkspace' -sdk 'iphonesimulator' -configuration 'Debug' -scheme 'UnitTests' -destination 'platform=iOS Simulator,name=iPhone 17,OS=26.2' test | xcpretty
