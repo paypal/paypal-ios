@@ -419,9 +419,9 @@ public class PayPalWebCheckoutClient: NSObject {
 
     // MARK: - App Switch
 
+    // swiftlint:disable function_body_length
     /// Routes a PayPal deep-link return URL back to the active checkout or vault flow.
     /// Call this from your `UIApplicationDelegate` or `Scene` delegate when a PayPal URL is received.
-    // swiftlint:disable:next function_body_length
     public func handleReturnURL(_ url: URL) {
         defer {
             shopperSessionID = nil
@@ -510,6 +510,7 @@ public class PayPalWebCheckoutClient: NSObject {
             notifyCheckoutFailure(with: PayPalError.malformedResultError, completion: completion)
         }
     }
+    // swiftlint:enable function_body_length
 
     // MARK: - Private: Session-based Launch
 
