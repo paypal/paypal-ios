@@ -15,6 +15,8 @@ class TrackingEventsAPI_Tests: XCTestCase {
         environment: "my-env",
         eventName: "my-event-name",
         clientID: "my-id",
+        merchantID: "my-merchant-id",
+        bnCode: nil,
         orderID: "my-order",
         correlationID: nil,
         setupToken: nil
@@ -43,6 +45,8 @@ class TrackingEventsAPI_Tests: XCTestCase {
             environment: "my-env",
             eventName: "my-event-name",
             clientID: "my-id",
+            merchantID: "my-merchant-id",
+            bnCode: nil,
             orderID: "my-order",
             correlationID: "fake-correlation-id",
             setupToken: "fake-setup-token"
