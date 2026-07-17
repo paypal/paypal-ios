@@ -82,7 +82,7 @@ public class CreateShopperSessionAPI {
         let contextId = UUID().uuidString
         let tokenType = TokenType.orderID
 
-        let experimentationContext = ExperimentationContext(
+        let experimentationContext = ShopperSessionExperimentationContext(
             appSwitchSupported: true,
             merchantCountry: "US",
             integrationChannel: PayPalCoreConstants.integrationChannel,

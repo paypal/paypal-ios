@@ -15,12 +15,12 @@ struct AppSwitchEligibilityInput: Encodable {
     let osType: String
     let merchantOptInForAppSwitch: Bool
     let paypalNativeAppInstalled: Bool
-    let experimentationContext: ExperimentationContext
+    let experimentationContext: ShopperSessionExperimentationContext
 
     let buyerEmailAddressMerchantPassed: String?
     let shoppersSessionId: String?
 }
-struct ExperimentationContext: Encodable {
+struct ShopperSessionExperimentationContext: Encodable {
 
     let appSwitchSupported: Bool
     let merchantCountry: String
