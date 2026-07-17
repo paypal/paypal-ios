@@ -34,25 +34,10 @@ public class PayPalWebCheckoutClient: NSObject {
 
     // MARK: - Analytics State
 
-    /// Epoch-milliseconds timestamp captured when `createPayPalSession()` kicks off the session fetch.
-    /// Used to report `start_time` on the `create-paypal-session:succeeded` analytics event.
     private var sessionCreationStartTime: Int?
 
-    /// Whether the most recent `createPayPalSession()` call was seeded with an existing Shopper Session ID
-    /// (`PayPalUserIdentity.existingPayPalSessionID`), meaning the session was reused from a cached/server-side
-    /// session rather than created fresh. Used to report `is_cached_session` on the
-    /// `create-paypal-session:succeeded` analytics event.
     private var isCachedSession: Bool?
 
-    /// The Shopper Session ID for the checkout/vault attempt currently in flight. Captured as soon as
-    /// the Shopper Session fetch succeeds in `start()`/`vault()`, so every analytics event fired for the
-    /// remainder of that attempt — app-switch or web fallback, success, cancellation, or failure — can
-    /// report `shopper_session_id`, not just the app-switch/`handleReturnURL` events that used to be the
-    /// only ones with access to it (back when this was `shopperSessionID`, set only from within
-    /// `attemptSessionAppSwitch`).
-    /// Cleared once the attempt reaches a terminal outcome, in `handleReturnURL`, `startWebCheckoutFlow`,
-    /// or `startVaultWebAuthFlow` — never in `start()`/`vault()`'s own defer, since those fire before the
-    /// downstream app-switch/web flow (which still needs the ID) has even started.
     private var shopperSessionID: String?
 
     // MARK: - Initializer
