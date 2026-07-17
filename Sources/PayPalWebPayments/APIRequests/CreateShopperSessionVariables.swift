@@ -1,5 +1,9 @@
 import Foundation
 
+#if canImport(CorePayments)
+import CorePayments
+#endif
+
 struct CreateShopperSessionVariables: Encodable {
 
     // MARK: - Required
@@ -30,6 +34,26 @@ struct ShopperSessionExperimentationContext: Encodable {
     let paymentType: String
     let buyerGUID: String?
     let merchantAccountId: String?
+
+    init(
+        appSwitchSupported: Bool = true,
+        merchantCountry: String = "US",
+        integrationChannel: String = PayPalCoreConstants.integrationChannel,
+        isWebLLSEligible: Bool = false,
+        isWebView: Bool = false,
+        paymentType: String = "PAY",
+        buyerGUID: String? = nil,
+        merchantAccountId: String? = ""
+    ) {
+        self.appSwitchSupported = appSwitchSupported
+        self.merchantCountry = merchantCountry
+        self.integrationChannel = integrationChannel
+        self.isWebLLSEligible = isWebLLSEligible
+        self.isWebView = isWebView
+        self.paymentType = paymentType
+        self.buyerGUID = buyerGUID
+        self.merchantAccountId = merchantAccountId
+    }
 
     enum CodingKeys: String, CodingKey {
         case appSwitchSupported, merchantCountry, integrationChannel

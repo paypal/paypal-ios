@@ -78,16 +78,7 @@ public class CreateShopperSessionAPI {
         let contextId = UUID().uuidString
         let tokenType = TokenType.orderID
 
-        let experimentationContext = ShopperSessionExperimentationContext(
-            appSwitchSupported: true,
-            merchantCountry: "US",
-            integrationChannel: PayPalCoreConstants.integrationChannel,
-            isWebLLSEligible: false,
-            isWebView: false,
-            paymentType: "PAY",
-            buyerGUID: nil,
-            merchantAccountId: ""
-        )
+        let experimentationContext = ShopperSessionExperimentationContext()
 
         let appSwitchEligibilityInput = AppSwitchEligibilityInput(
             contextId: contextId,
