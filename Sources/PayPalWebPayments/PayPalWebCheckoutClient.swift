@@ -158,7 +158,7 @@ public class PayPalWebCheckoutClient: NSObject {
                     errorDescription: error.localizedDescription,
                     checkoutAnalyticsData: analyticsData
                 )
-                await fallBackToPatchCCOOrWeb(orderID: orderID, completion: completion)
+                await fallBackToPatchCCOOrWeb(session: nil, orderID: orderID, completion: completion)
             }
         }
     }
@@ -167,6 +167,7 @@ public class PayPalWebCheckoutClient: NSObject {
     /// fails to launch, to the web auth flow) when the Shopper Session fetch itself fails, so a session
     /// fetch error doesn't fail checkout outright if app-switch or web checkout can still recover it.
     private func fallBackToPatchCCOOrWeb(
+        session: ShopperSessionResult?,
         orderID: String,
         completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
     ) async {
@@ -174,7 +175,7 @@ public class PayPalWebCheckoutClient: NSObject {
         let appInstalled = urlOpener.isPayPalAppInstalled()
 
         guard appInstalled else {
-            startWebCheckoutFlow(orderID: orderID, fundingSource: .paypal, completion: completionOnce)
+            startWebCheckoutFlow(session: session, orderID: orderID, fundingSource: .paypal, completion: completionOnce)
             return
         }
 
@@ -194,7 +195,7 @@ public class PayPalWebCheckoutClient: NSObject {
             return
         case .fallback(let reason):
             analyticsService?.sendEvent("paypal-web-payments:checkout:fallback-to-web:\(reason)")
-            startWebCheckoutFlow(orderID: orderID, fundingSource: .paypal, completion: completionOnce)
+            startWebCheckoutFlow(session: session, orderID: orderID, fundingSource: .paypal, completion: completionOnce)
         }
     }
 
@@ -332,6 +333,7 @@ public class PayPalWebCheckoutClient: NSObject {
                 case .fallback(let reason):
                     analyticsService?.sendEvent("paypal-web-payments:checkout:fallback-to-web:\(reason)")
                     startWebCheckoutFlow(
+                        session: nil,
                         orderID: request.orderID,
                         fundingSource: request.fundingSource,
                         completion: completionOnce
@@ -339,6 +341,7 @@ public class PayPalWebCheckoutClient: NSObject {
                 }
             } else {
                 startWebCheckoutFlow(
+                    session: nil,
                     orderID: request.orderID,
                     fundingSource: request.fundingSource,
                     completion: completionOnce
@@ -508,7 +511,12 @@ public class PayPalWebCheckoutClient: NSObject {
                     )
                 },
                 fallback: {
-                    self.startWebCheckoutFlow(orderID: orderID, fundingSource: .paypal, completion: completionOnce)
+                    self.startWebCheckoutFlow(
+                        session: session,
+                        orderID: orderID,
+                        fundingSource: .paypal,
+                        completion: completionOnce
+                    )
                 }
             )
         }
@@ -625,6 +633,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
     // swiftlint:disable:next function_body_length
     private func startWebCheckoutFlow(
+        session: ShopperSessionResult?,
         orderID: String,
         fundingSource: PayPalWebCheckoutFundingSource,
         completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
@@ -642,7 +651,6 @@ public class PayPalWebCheckoutClient: NSObject {
             } catch {
                 print("updateClientConfig error: \(error.localizedDescription)")
             }
-            
             let baseURL: URL
             if let session = session, let checkoutFallbackURLString = session.checkoutFallbackURL, let url = URL(string: checkoutFallbackURLString) {
                 baseURL = url
