@@ -120,6 +120,7 @@ public struct AnalyticsService {
             var bgTaskID: UIBackgroundTaskIdentifier = .invalid
             var eventTask: Task<Void, Never>?
 
+            @MainActor
             func endBackgroundTaskIfNeeded() {
                 guard bgTaskID != .invalid else { return }
                 UIApplication.shared.endBackgroundTask(bgTaskID)
