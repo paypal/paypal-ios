@@ -118,7 +118,9 @@ public struct AnalyticsService {
 
             bgTaskID = UIApplication.shared.beginBackgroundTask(withName: "fpti-event") {
                 eventTask?.cancel()
-                endBackgroundTaskIfNeeded()
+                Task { @MainActor in
+                    endBackgroundTaskIfNeeded()
+                }
             }
 
             eventTask = Task(priority: .utility) {
