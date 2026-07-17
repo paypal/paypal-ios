@@ -6,6 +6,7 @@ class MockURLOpener: URLOpener {
     var mockIsPayPalAppInstalled = false
     var mockOpenURLSuccess = true
     var lastOpenedURL: URL?
+    var lastUniversalLinksOnly: Bool?
 
     var didOpenURLHandler: (() -> Void)?
 
@@ -13,8 +14,9 @@ class MockURLOpener: URLOpener {
         return mockIsPayPalAppInstalled
     }
 
-    func open(_ url: URL, completionHandler completion: ((Bool) -> Void)?) {
+    func open(_ url: URL, universalLinksOnly: Bool, completionHandler completion: ((Bool) -> Void)?) {
         lastOpenedURL = url
+        lastUniversalLinksOnly = universalLinksOnly
         completion?(mockOpenURLSuccess)
         didOpenURLHandler?()
     }

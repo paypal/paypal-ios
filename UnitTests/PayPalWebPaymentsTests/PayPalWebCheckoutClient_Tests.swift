@@ -13,22 +13,23 @@ class PayPalClient_Tests: XCTestCase {
     var mockNetworkingClient: MockNetworkingClient!
     var mockClientConfigAPI: MockClientConfigAPI!
     var mockPatchCCOAPI: MockPatchCCOAPI!
-
+    var mockCreateShopperSessionAPI: MockCreateShopperSessionAPI!
 
     override func setUp() {
         super.setUp()
-        config = CoreConfig(clientID: "testClientID", environment: .sandbox)
+        config = CoreConfig(clientID: "testClientID", environment: .sandbox, merchantID: "testMerchantID")
         mockWebAuthenticationSession = MockWebAuthenticationSession()
         mockNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: config))
         mockClientConfigAPI = MockClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)
         mockPatchCCOAPI = MockPatchCCOAPI(coreConfig: config)
-
+        mockCreateShopperSessionAPI = MockCreateShopperSessionAPI(coreConfig: config)
 
         payPalClient = PayPalWebCheckoutClient(
             config: config,
             networkingClient: mockNetworkingClient,
             clientConfigAPI: mockClientConfigAPI,
             patchCCOAPI: mockPatchCCOAPI,
+            createShopperSessionAPI: mockCreateShopperSessionAPI,
             webAuthenticationSession: mockWebAuthenticationSession
         )
     }
@@ -47,7 +48,7 @@ class PayPalClient_Tests: XCTestCase {
     }
 
     func testVault_whenLive_launchesCorrectURLInWebSession() {
-        config = CoreConfig(clientID: "testClientID", environment: .live)
+        config = CoreConfig(clientID: "testClientID", environment: .live, merchantID: "testMerchantID")
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
 
         let started = expectation(description: "ASWebAuthenticationSession Started")
@@ -58,6 +59,7 @@ class PayPalClient_Tests: XCTestCase {
             networkingClient: mockNetworkingClient,
             clientConfigAPI: mockClientConfigAPI,
             patchCCOAPI: mockPatchCCOAPI,
+            createShopperSessionAPI: mockCreateShopperSessionAPI,
             webAuthenticationSession: mockWebAuthenticationSession
         )
 
@@ -373,7 +375,7 @@ class PayPalClient_Tests: XCTestCase {
 
         XCTAssertEqual(
             checkoutURL,
-            URL(string: "https://sandbox.paypal.com/checkoutnow?token=1234&redirect_uri=sdk.ios.paypal://x-callback-url/paypal-sdk/paypal-checkout&native_xo=1")
+            URL(string: "https://sandbox.paypal.com/checkoutnow?token=1234&redirect_uri=\(PayPalWebCheckoutClient.PayPalCheckoutCallbackURL.redirectURL)&native_xo=1")
         )
     }
 }

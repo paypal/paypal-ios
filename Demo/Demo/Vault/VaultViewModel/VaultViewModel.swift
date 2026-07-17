@@ -1,4 +1,5 @@
 import SwiftUI
+import PayPalWebPayments
 
 enum PaymentType {
     case paypal
@@ -9,30 +10,26 @@ enum PaymentType {
 class VaultViewModel: ObservableObject {
 
     @Published var state = VaultState()
-    @Published var appSwitch = false
 
-    let appSwitchURL = "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
+    @Published var selectedUserAction: PayPalUserAction = .setupNow
+    @Published var selectedUserIdentity: UserIdentitySelection = .none
+    @Published var userEmail: String = ""
+    @Published var userPhone: String = ""
+    @Published var userSSID: String = ""
+    @Published var customerID: String = ""
 
-    func getSetupToken(
+    func fetchSetupToken(
         customerID: String? = nil,
         selectedMerchantIntegration: MerchantIntegration,
         paymentType: PaymentType,
         sca: String = "SCA_WHEN_REQUIRED"
-    ) async throws {
+    ) async throws -> CreateSetupTokenResponse {
         do {
-            DispatchQueue.main.async {
-                self.state.setupTokenResponse = .loading
-            }
+            state.setupTokenResponse = .loading
 
-            var experienceContext: VaultExperienceContext
+            let experienceContext = VaultExperienceContext()
 
-            if appSwitch {
-                experienceContext = VaultExperienceContext(appSwitchContext: AppSwitchContext(appUrl: appSwitchURL))
-            } else {
-                experienceContext = VaultExperienceContext()
-            }
-
-            var paymentSourceType: PaymentSourceType
+            let paymentSourceType: PaymentSourceType
             switch paymentType {
             case .card:
                 paymentSourceType = PaymentSourceType.card(verification: sca, experienceContext: experienceContext)
@@ -45,19 +42,22 @@ class VaultViewModel: ObservableObject {
                 selectedMerchantIntegration: selectedMerchantIntegration,
                 paymentSourceType: paymentSourceType
             )
-            DispatchQueue.main.async {
-                self.state.setupTokenResponse = .loaded(setupTokenResult)
-            }
+            state.setupTokenResponse = .loaded(setupTokenResult)
+            return setupTokenResult
         } catch {
-            DispatchQueue.main.async {
-                self.state.setupTokenResponse = .error(message: error.localizedDescription)
-            }
+            state.setupTokenResponse = .error(message: error.localizedDescription)
             throw error
         }
     }
 
     func resetState() {
         state = VaultState()
+        selectedUserAction = .setupNow
+        selectedUserIdentity = .none
+        userEmail = ""
+        userPhone = ""
+        userSSID = ""
+        customerID = ""
     }
 
     func getPaymentToken(

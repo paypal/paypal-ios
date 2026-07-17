@@ -70,20 +70,21 @@ public class PatchCCOWithAppSwitchEligibility {
 
     public func patchCCOWithAppSwitchEligibility(
         token: String,
-        tokenType: String
+        tokenType: String,
+        canSwitchToApp paypalNativeAppInstalled: Bool = true
     ) async throws -> AppSwitchEligibility {
 
         let lsat = try await authenticationSecureTokenServiceAPI.createLowScopedAccessToken().accessToken
 
         let variables = PatchCcoWithAppSwitchEligibilityVariables(
             contextId: token,
-            experimentationContext: ExperimentationContext(integrationChannel: "PPCP_NATIVE_SDK"),
-            osType: "IOS",
+            experimentationContext: ExperimentationContext(integrationChannel: PayPalCoreConstants.integrationChannel),
+            osType: PayPalCoreConstants.osType,
             merchantOptInForAppSwitch: true,
             token: token,
             tokenType: tokenType,
-            integrationArtifact: "MOBILE_SDK",
-            paypalNativeAppInstalled: true
+            integrationArtifact: PayPalCoreConstants.integrationArtifact,
+            paypalNativeAppInstalled: paypalNativeAppInstalled
         )
 
         let graphQLRequest = GraphQLRequest(

@@ -9,39 +9,78 @@ class PayPalVaultViewModel: VaultViewModel {
 
     var paypalClient: PayPalWebCheckoutClient?
 
-    func vault(setupTokenID: String) async {
-        DispatchQueue.main.async {
-            self.state.paypalVaultTokenResponse = .loading
+    func vault() async throws {
+        state.setupTokenResponse = .loading
+
+        guard let client = try await getPayPalClient() else {
+            let message = "Error initializing PayPalWebCheckoutClient"
+            state.setupTokenResponse = .error(message: message)
+            throw VaultFlowError.clientInitializationFailed(message)
         }
-        do {
-            let config = try await configManager.getCoreConfig()
-            paypalClient = PayPalWebCheckoutClient(config: config)
-            guard let paypalClient else { return }
-            let vaultRequest = PayPalVaultRequest(setupTokenID: setupTokenID, appSwitchIfEligible: appSwitch)
-            paypalClient.vault(vaultRequest) { result in
+        paypalClient = client
+        
+        let resolvedUserIdentity = UserIdentityFactory.makeUserIdentity(
+            selection: selectedUserIdentity,
+            email: userEmail,
+            phone: userPhone,
+            ssid: userSSID
+        )
+        client.createPayPalSession(
+            userIdentity: resolvedUserIdentity,
+            urlConfig: ShopperSessionURLConfigFactory.urlConfig,
+            userAction: selectedUserAction
+        )
+
+        let setupToken = try await fetchSetupToken(
+            customerID: customerID.isEmpty ? nil : customerID,
+            selectedMerchantIntegration: DemoSettings.merchantIntegration,
+            paymentType: .paypal
+        )
+
+        state.paypalVaultTokenResponse = .loading
+
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+            client.vault(setupTokenID: setupToken.id) { result in
                 switch result {
-                case .success(let cardVaultResult):
-                    DispatchQueue.main.async {
-                        self.state.paypalVaultTokenResponse = .loaded(cardVaultResult)
-                    }
+                case .success(let vaultResult):
+                    self.state.paypalVaultTokenResponse = .loaded(vaultResult)
+                    continuation.resume()
                 case .failure(let error):
                     if error == PayPalError.vaultCanceledError {
-                        DispatchQueue.main.async {
-                            print("Canceled")
-                            self.state.paypalVaultTokenResponse = .idle
-                        }
+                        self.state.paypalVaultTokenResponse = .idle
+                        continuation.resume()
                     } else {
-                        DispatchQueue.main.async {
-                            self.state.paypalVaultTokenResponse = .error(message: error.localizedDescription)
-                        }
+                        self.state.paypalVaultTokenResponse = .error(message: error.localizedDescription)
+                        continuation.resume(throwing: error)
                     }
                 }
             }
+        }
+    }
+
+    func getPayPalClient() async throws -> PayPalWebCheckoutClient? {
+        do {
+            let config = try await configManager.getCoreConfig()
+            return PayPalWebCheckoutClient(config: config)
         } catch {
-            print("Error in vaulting PayPal Payment")
-            DispatchQueue.main.async {
-                self.state.paypalVaultTokenResponse = .error(message: error.localizedDescription)
-            }
+            state.setupTokenResponse = .error(message: error.localizedDescription)
+            return nil
+        }
+    }
+
+    func handleUniversalLinkReturn(_ url: URL) {
+        guard let paypalClient else { return }
+        paypalClient.handleReturnURL(url)
+    }
+}
+
+private enum VaultFlowError: LocalizedError {
+    case clientInitializationFailed(String)
+
+    var errorDescription: String? {
+        switch self {
+        case .clientInitializationFailed(let message):
+            return message
         }
     }
 }

@@ -2,8 +2,19 @@ import UIKit
 
 @_documentation(visibility: private)
 public protocol URLOpener {
-    func open(_ url: URL, completionHandler completion: ((Bool) -> Void)?)
+    func open(
+        _ url: URL,
+        universalLinksOnly: Bool,
+        completionHandler completion: ((Bool) -> Void)?
+    )
     func isPayPalAppInstalled() -> Bool
+}
+
+public extension URLOpener {
+
+    func open(_ url: URL, completionHandler: ((Bool) -> Void)? = nil) {
+        open(url, universalLinksOnly: true, completionHandler: completionHandler)
+    }
 }
 
 extension UIApplication: URLOpener {
@@ -15,7 +26,12 @@ extension UIApplication: URLOpener {
         return canOpenURL(payPalURL)
     }
 
-    public func open(_ url: URL, completionHandler completion: ((Bool) -> Void)?) {
-        UIApplication.shared.open(url, options: [:], completionHandler: completion)
+    public func open(
+        _ url: URL,
+        universalLinksOnly: Bool = true,
+        completionHandler completion: ((Bool) -> Void)?
+    ) {
+        let options: [UIApplication.OpenExternalURLOptionsKey: Any] = universalLinksOnly ? [.universalLinksOnly: true] : [:]
+        open(url, options: options, completionHandler: completion)
     }
 }
