@@ -51,6 +51,66 @@ class AnalyticsEventData_Tests: XCTestCase {
         XCTAssertEqual(eventParams["tenant_name"] as? String, "PayPal")
         XCTAssertEqual(eventParams["vault_setup_token"] as? String, "fake-setup-token")
     }
+
+    func testEncode_withNoNewAnalyticsFields_encodesThemAsNull() throws {
+        let data = try JSONEncoder().encode(sut)
+        let json = try? JSONSerialization.jsonObject(with: data) as? [String: [String: [String: Any]]]
+
+        guard let eventParams = json?["events"]?["event_params"] else {
+            XCTFail("JSON body missing `event_params` key.")
+            return
+        }
+
+        XCTAssertTrue(eventParams.keys.contains("app_switch_url"))
+        XCTAssertTrue(eventParams.keys.contains("error_description"))
+        XCTAssertTrue(eventParams.keys.contains("is_cached_session"))
+        XCTAssertTrue(eventParams.keys.contains("is_vault_request"))
+        XCTAssertTrue(eventParams.keys.contains("shopper_session_id"))
+        XCTAssertTrue(eventParams.keys.contains("start_time"))
+
+        XCTAssertNil(eventParams["app_switch_url"] as? String)
+        XCTAssertNil(eventParams["error_description"] as? String)
+        XCTAssertNil(eventParams["is_cached_session"] as? Bool)
+        XCTAssertNil(eventParams["is_vault_request"] as? Bool)
+        XCTAssertNil(eventParams["shopper_session_id"] as? String)
+        XCTAssertNil(eventParams["start_time"] as? Int)
+    }
+
+    func testEncode_withNewAnalyticsFields_properlyFormatsJSON() throws {
+        let appSwitchURL = URL(string: "https://example.com/app-switch")!
+
+        sut = AnalyticsEventData(
+            environment: "fake-env",
+            eventName: "fake-name",
+            clientID: "fake-client-id",
+            orderID: "fake-order",
+            correlationID: "fake-correlation-id",
+            setupToken: "fake-setup-token",
+            buttonType: "fake-button-type",
+            appSwitchURL: appSwitchURL,
+            errorDescription: "fake-error-description",
+            isCachedSession: true,
+            isVaultRequest: true,
+            shopperSessionId: "fake-shopper-session-id",
+            startTime: 1_234_567_890
+        )
+
+        let data = try JSONEncoder().encode(sut)
+        let json = try? JSONSerialization.jsonObject(with: data) as? [String: [String: [String: Any]]]
+
+        guard let eventParams = json?["events"]?["event_params"] else {
+            XCTFail("JSON body missing `event_params` key.")
+            return
+        }
+
+        XCTAssertEqual(eventParams["button_type"] as? String, "fake-button-type")
+        XCTAssertEqual(eventParams["app_switch_url"] as? String, appSwitchURL.absoluteString)
+        XCTAssertEqual(eventParams["error_description"] as? String, "fake-error-description")
+        XCTAssertEqual(eventParams["is_cached_session"] as? Bool, true)
+        XCTAssertEqual(eventParams["is_vault_request"] as? Bool, true)
+        XCTAssertEqual(eventParams["shopper_session_id"] as? String, "fake-shopper-session-id")
+        XCTAssertEqual(eventParams["start_time"] as? Int, 1_234_567_890)
+    }
 }
 
 extension String {

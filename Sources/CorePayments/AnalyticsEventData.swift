@@ -13,25 +13,31 @@ struct AnalyticsEventData: Encodable {
     enum EventParameterKeys: String, CodingKey, CaseIterable {
         case appID = "app_id"
         case appName = "app_name"
+        case appSwitchURL = "app_switch_url"
         case buttonType = "button_type"
         case clientID = "partner_client_id"
-        case clientSDKVersion = "c_sdk_ver"
         case clientOS = "client_os"
+        case clientSDKVersion = "c_sdk_ver"
         case component = "comp"
         case correlationID = "correlation_id"
         case deviceManufacturer = "device_manufacturer"
+        case deviceModel = "mobile_device_model"
         case environment = "merchant_sdk_env"
+        case errorDescription = "error_description"
         case eventName = "event_name"
         case eventSource = "event_source"
+        case isCachedSession = "is_cached_session"
+        case isSimulator = "is_simulator"
+        case isVaultRequest = "is_vault_request"
+        case merchantAppVersion = "mapv"
         case orderID = "order_id"
         case packageManager = "ios_package_manager"
-        case isSimulator = "is_simulator"
-        case merchantAppVersion = "mapv"
-        case deviceModel = "mobile_device_model"
         case platform = "platform"
         case setupToken = "vault_setup_token"
-        case timestamp = "t"
+        case shopperSessionId = "shopper_session_id"
+        case startTime = "start_time"
         case tenantName = "tenant_name"
+        case timestamp = "t"
     }
     
     let appID: String = Bundle.main.infoDictionary?[kCFBundleIdentifierKey as String] as? String ?? "N/A"
@@ -99,6 +105,18 @@ struct AnalyticsEventData: Encodable {
 
     let buttonType: String?
 
+    let appSwitchURL: URL?
+
+    let errorDescription: String?
+
+    let isCachedSession: Bool?
+
+    let isVaultRequest: Bool?
+
+    let shopperSessionId: String?
+
+    let startTime: Int?
+
     init(
         environment: String,
         eventName: String,
@@ -106,7 +124,13 @@ struct AnalyticsEventData: Encodable {
         orderID: String?,
         correlationID: String?,
         setupToken: String?,
-        buttonType: String? = nil
+        buttonType: String? = nil,
+        appSwitchURL: URL? = nil,
+        errorDescription: String? = nil,
+        isCachedSession: Bool? = nil,
+        isVaultRequest: Bool? = nil,
+        shopperSessionId: String? = nil,
+        startTime: Int? = nil
     ) {
         self.environment = environment
         self.eventName = eventName
@@ -115,6 +139,12 @@ struct AnalyticsEventData: Encodable {
         self.correlationID = correlationID
         self.setupToken = setupToken
         self.buttonType = buttonType
+        self.appSwitchURL = appSwitchURL
+        self.errorDescription = errorDescription
+        self.isCachedSession = isCachedSession
+        self.isVaultRequest = isVaultRequest
+        self.shopperSessionId = shopperSessionId
+        self.startTime = startTime
     }
     
     func encode(to encoder: Encoder) throws {
@@ -142,5 +172,12 @@ struct AnalyticsEventData: Encodable {
         try eventParameters.encode(timestamp, forKey: .timestamp)
         try eventParameters.encode(tenantName, forKey: .tenantName)
         try eventParameters.encode(setupToken, forKey: .setupToken)
+        try eventParameters.encode(buttonType, forKey: .buttonType)
+        try eventParameters.encode(appSwitchURL, forKey: .appSwitchURL)
+        try eventParameters.encode(errorDescription, forKey: .errorDescription)
+        try eventParameters.encode(isCachedSession, forKey: .isCachedSession)
+        try eventParameters.encode(isVaultRequest, forKey: .isVaultRequest)
+        try eventParameters.encode(shopperSessionId, forKey: .shopperSessionId)
+        try eventParameters.encode(startTime, forKey: .startTime)
     }
 }
