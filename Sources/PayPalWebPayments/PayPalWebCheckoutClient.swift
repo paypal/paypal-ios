@@ -253,7 +253,7 @@ public class PayPalWebCheckoutClient: NSObject {
                     errorDescription: error.localizedDescription,
                     checkoutAnalyticsData: analyticsData
                 )
-                await fallBackToPatchCCOOrWebForVault(setupTokenID: setupTokenID, completion: completion)
+                await fallBackToPatchCCOOrWebForVault(session: nil, setupTokenID: setupTokenID, completion: completion)
             }
         }
     }
@@ -264,6 +264,7 @@ public class PayPalWebCheckoutClient: NSObject {
     /// Mirrors `fallBackToPatchCCOOrWeb`, but checks eligibility for `setupTokenID` under
     /// `ExternalTokenKind.vaultId` (per Android's equivalent implementation) instead of an order ID.
     private func fallBackToPatchCCOOrWebForVault(
+        session: ShopperSessionResult?,
         setupTokenID: String,
         completion: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void
     ) async {
@@ -271,7 +272,7 @@ public class PayPalWebCheckoutClient: NSObject {
         let appInstalled = urlOpener.isPayPalAppInstalled()
 
         guard appInstalled else {
-            startVaultWebAuthFlow(setupTokenID: setupTokenID, completion: completionOnce)
+            startVaultWebAuthFlow(session: session, setupTokenID: setupTokenID, completion: completionOnce)
             return
         }
 
@@ -291,7 +292,7 @@ public class PayPalWebCheckoutClient: NSObject {
             return
         case .fallback(let reason):
             analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:fallback-to-web:\(reason)")
-            startVaultWebAuthFlow(setupTokenID: setupTokenID, completion: completionOnce)
+            startVaultWebAuthFlow(session: session, setupTokenID: setupTokenID, completion: completionOnce)
         }
     }
 
@@ -369,7 +370,7 @@ public class PayPalWebCheckoutClient: NSObject {
     ) {
         analyticsService = AnalyticsService(coreConfig: config, setupToken: vaultRequest.setupTokenID)
         analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:started")
-        startVaultWebAuthFlow(setupTokenID: vaultRequest.setupTokenID, completion: completion)
+        startVaultWebAuthFlow(session: nil, setupTokenID: vaultRequest.setupTokenID, completion: completion)
     }
 
     /// - Warning: Deprecated. Use `createPayPalSession(userIdentity:urlConfig:userAction:)` followed
@@ -537,7 +538,7 @@ public class PayPalWebCheckoutClient: NSObject {
                     )
                 },
                 fallback: {
-                    self.startVaultWebAuthFlow(setupTokenID: setupTokenID, completion: completionOnce)
+                    self.startVaultWebAuthFlow(session: session, setupTokenID: setupTokenID, completion: completionOnce)
                 }
             )
         }
@@ -727,14 +728,21 @@ public class PayPalWebCheckoutClient: NSObject {
     }
 
     private func startVaultWebAuthFlow(
+        session: ShopperSessionResult?,
         setupTokenID: String,
         completion: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void
     ) {
-        let vaultURL = config.environment.paypalVaultCheckoutURL
-        var vaultURLComponents = URLComponents(url: vaultURL, resolvingAgainstBaseURL: false)
+        let checkoutFallbackURL: URL
+        if let session = session, let checkoutFallbackURLString = session.checkoutFallbackURL, let url = URL(string: checkoutFallbackURLString) {
+            checkoutFallbackURL = url
+        } else {
+            checkoutFallbackURL = config.environment.paypalVaultCheckoutURL
+        }
+        
+        var vaultURLComponents = URLComponents(url: checkoutFallbackURL, resolvingAgainstBaseURL: false)
         var queryItems = [
             URLQueryItem(name: "approval_session_id", value: setupTokenID),
-            URLQueryItem(name: "integration_artifact", value: PayPalCoreConstants.integrationArtifact)
+            URLQueryItem(name: "integration_artifact", value: PayPalCoreConstants.integrationArtifact),
         ]
         if let sessionID = analyticsData?.shopperSessionID {
             queryItems.append(URLQueryItem(name: "shopperSessionId", value: sessionID))
