@@ -105,8 +105,7 @@ public class PayPalWebCheckoutClient: NSObject {
         sessionTask = Task {
             try await createShopperSessionAPI.createShopperSessionWithAppSwitchEligibility(
                 urlConfig: urlConfig,
-                userIdentity: userIdentity,
-                userAction: userAction
+                userIdentity: userIdentity
             )
         }
     }

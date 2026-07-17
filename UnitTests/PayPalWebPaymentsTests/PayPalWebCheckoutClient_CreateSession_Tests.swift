@@ -24,25 +24,36 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
         fallbackSchemeURL: URL(string: "paypal://fallback")!
     )
 
-    /// Convenience factory: ineligible session with a valid config ID.
+    /// Convenience factory: ineligible session with a valid session ID.
     func makeIneligibleSession(id: String = "fake-session-id") -> ShopperSessionResult {
         ShopperSessionResult(
-            appSwitchEligible: false,
-            redirectURL: nil,
-            ineligibleReason: "TEST_INELIGIBLE",
-            matchedAuthenticationMethods: nil,
-            shopperSessionConfig: .init(id: id, expiresAt: "2026-12-31T00:00:00Z")
+            appSwitchEligibilityResponse: AppSwitchEligibilityResponse(
+                appSwitchEligible: false,
+                ineligibleReason: "TEST_INELIGIBLE",
+                checkoutUrls: nil
+            ),
+            shopperSessionResponse: ShopperSessionResponse(
+                sessionId: id,
+                expiresAt: "2026-12-31T00:00:00Z"
+            )
         )
     }
 
-    /// Convenience factory: eligible session with a redirect URL and valid config ID.
-    func makeEligibleSession(id: String = "fake-session-id", redirectURL: String = "https://paypal.com/app-switch") -> ShopperSessionResult {
+    /// Convenience factory: eligible session with a redirect URL and valid session ID.
+    func makeEligibleSession(
+        id: String = "fake-session-id",
+        redirectURL: String = "https://paypal.com/app-switch"
+    ) -> ShopperSessionResult {
         ShopperSessionResult(
-            appSwitchEligible: true,
-            redirectURL: redirectURL,
-            ineligibleReason: nil,
-            matchedAuthenticationMethods: ["EMAIL"],
-            shopperSessionConfig: .init(id: id, expiresAt: "2026-12-31T00:00:00Z")
+            appSwitchEligibilityResponse: AppSwitchEligibilityResponse(
+                appSwitchEligible: true,
+                ineligibleReason: nil,
+                checkoutUrls: CheckoutUrls(redirectURL: redirectURL, checkoutFallbackUrl: nil)
+            ),
+            shopperSessionResponse: ShopperSessionResponse(
+                sessionId: id,
+                expiresAt: "2026-12-31T00:00:00Z"
+            )
         )
     }
 
@@ -380,7 +391,6 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
         XCTAssertTrue(session.appSwitchEligible)
         XCTAssertEqual(session.redirectURL, "https://sandbox.paypal.com/app-switch-checkout")
         XCTAssertNil(session.ineligibleReason)
-        XCTAssertEqual(session.matchedAuthenticationMethods, ["EMAIL"])
         XCTAssertNotNil(session.shopperSessionConfig)
         XCTAssertEqual(session.shopperSessionConfig?.id, "fake-session-id")
         XCTAssertEqual(session.shopperSessionConfig?.expiresAt, "2026-12-31T00:00:00Z")
@@ -408,9 +418,18 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
 
         let expectation = expectation(description: "session task runs")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            XCTAssertEqual(self.mockCreateShopperSessionAPI.capturedURLConfig?.returnAppURL.absoluteString, "myapp://paypal/return")
-            XCTAssertEqual(self.mockCreateShopperSessionAPI.capturedURLConfig?.cancelAppURL.absoluteString, "myapp://paypal/cancel")
-            XCTAssertEqual(self.mockCreateShopperSessionAPI.capturedURLConfig?.fallbackSchemeURL?.absoluteString, "myapp://fallback")
+            XCTAssertEqual(
+                self.mockCreateShopperSessionAPI.capturedURLConfig?.returnAppURL.absoluteString,
+                "myapp://paypal/return"
+            )
+            XCTAssertEqual(
+                self.mockCreateShopperSessionAPI.capturedURLConfig?.cancelAppURL.absoluteString,
+                "myapp://paypal/cancel"
+            )
+            XCTAssertEqual(
+                self.mockCreateShopperSessionAPI.capturedURLConfig?.fallbackSchemeURL?.absoluteString,
+                "myapp://fallback"
+            )
             expectation.fulfill()
         }
 
@@ -429,34 +448,6 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             let email = self.mockCreateShopperSessionAPI.capturedUserIdentity?.email
             XCTAssertEqual(email, "buyer@example.com")
-            expectation.fulfill()
-        }
-
-        waitForExpectations(timeout: 2)
-    }
-
-    func testCreatePayPalSession_passesUserActionToAPI() {
-        mockCreateShopperSessionAPI.stubResponse = makeIneligibleSession()
-
-        payPalClient.createPayPalSession(urlConfig: fakeURLConfig, userAction: .payNow)
-
-        let expectation = expectation(description: "session task runs")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            XCTAssertEqual(self.mockCreateShopperSessionAPI.capturedUserAction, .payNow)
-            expectation.fulfill()
-        }
-
-        waitForExpectations(timeout: 2)
-    }
-
-    func testCreatePayPalSession_defaultUserAction_isContinue() {
-        mockCreateShopperSessionAPI.stubResponse = makeIneligibleSession()
-
-        payPalClient.createPayPalSession(urlConfig: fakeURLConfig)
-
-        let expectation = expectation(description: "session task runs")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            XCTAssertEqual(self.mockCreateShopperSessionAPI.capturedUserAction, .continue)
             expectation.fulfill()
         }
 

@@ -22,12 +22,15 @@ class VaultViewModel: ObservableObject {
         customerID: String? = nil,
         selectedMerchantIntegration: MerchantIntegration,
         paymentType: PaymentType,
-        sca: String = "SCA_WHEN_REQUIRED"
+        sca: String = "SCA_WHEN_REQUIRED",
+        appSwitchURL: String? = nil
     ) async throws -> CreateSetupTokenResponse {
         do {
             state.setupTokenResponse = .loading
 
-            let experienceContext = VaultExperienceContext()
+            let experienceContext = VaultExperienceContext(
+                appSwitchContext: appSwitchURL.map { AppSwitchContext(appUrl: $0) }
+            )
 
             let paymentSourceType: PaymentSourceType
             switch paymentType {

@@ -2,14 +2,14 @@ import Foundation
 
 /// Builds the deep-link URLs used to app-switch into the PayPal app for checkout and vault flows.
 struct PayPalWebCheckoutURLBuilder {
-    
+
     private enum FlowType: String {
         case checkout = "ecs"
         case vault = "va"
     }
-    
+
     private let base: String
-    
+
     init(base: String) {
         self.base = base
     }
@@ -66,7 +66,7 @@ struct PayPalWebCheckoutURLBuilder {
             URLQueryItem(name: "source", value: "pda"),
             URLQueryItem(name: "merchant", value: merchantID),
             URLQueryItem(name: "flow_type", value: flowType.rawValue),
-            URLQueryItem(name: "shoppersSessionId", value: sessionID),
+            URLQueryItem(name: "shopperSessionId", value: sessionID),
             URLQueryItem(name: "funding_source", value: fundingSource.rawValue),
             URLQueryItem(name: "switch_initiated_time", value: String(Int(round(Date().timeIntervalSince1970 * 1000))))
         ]

@@ -2,10 +2,14 @@ import Foundation
 
 struct CreateShopperSessionResponse: Decodable {
 
-    let external: ExternalNode?
+    let external: ExternalContainer?
+
+    var shopperSession: ShopperSessionResult? {
+        external?.shopperSession
+    }
 }
 
-struct ExternalNode: Decodable {
+struct ExternalContainer: Decodable {
 
     let shopperSession: ShopperSessionResult?
 
@@ -17,26 +21,53 @@ struct ExternalNode: Decodable {
 /// The payload returned by `createShopperSessionWithAppSwitchEligibility`.
 struct ShopperSessionResult: Decodable {
 
-    /// Whether the buyer's device is eligible for PayPal app-switch.
-    let appSwitchEligible: Bool
+    let appSwitchEligibilityResponse: AppSwitchEligibilityResponse?
+    let shopperSessionResponse: ShopperSessionResponse?
 
-    /// The app-switch redirect URL to open when eligible.
-    let redirectURL: String?
+    // MARK: - Convenience accessors (preserve existing call sites in PayPalWebCheckoutClient)
 
-    /// Reason the session is ineligible for app-switch (nil when eligible).
-    let ineligibleReason: String?
-
-    /// Authentication methods matched for the buyer's identity.
-    let matchedAuthenticationMethods: [String]?
-
-    /// The pre-warmed Shopper Session config.
-    let shopperSessionConfig: ShopperSessionConfig?
-
-    struct ShopperSessionConfig: Decodable {
-
-        /// Opaque Shopper Session identifier.
-        let id: String
-        /// ISO-8601 expiry timestamp.
-        let expiresAt: String
+    var appSwitchEligible: Bool {
+        appSwitchEligibilityResponse?.appSwitchEligible ?? false
     }
+
+    var redirectURL: String? {
+        appSwitchEligibilityResponse?.checkoutUrls?.redirectURL
+    }
+
+    var checkoutFallbackURL: String? {
+        appSwitchEligibilityResponse?.checkoutUrls?.checkoutFallbackUrl
+    }
+
+    var ineligibleReason: String? {
+        appSwitchEligibilityResponse?.ineligibleReason
+    }
+
+    var shopperSessionConfig: ShopperSessionConfig? {
+        shopperSessionResponse.map { ShopperSessionConfig(id: $0.sessionId, expiresAt: $0.expiresAt) }
+    }
+}
+
+struct AppSwitchEligibilityResponse: Decodable {
+
+    let appSwitchEligible: Bool
+    let ineligibleReason: String?
+    let checkoutUrls: CheckoutUrls?
+}
+
+struct CheckoutUrls: Decodable {
+
+    let redirectURL: String?
+    let checkoutFallbackUrl: String?
+}
+
+struct ShopperSessionResponse: Decodable {
+
+    let sessionId: String
+    let expiresAt: String?
+}
+
+struct ShopperSessionConfig {
+
+    let id: String
+    let expiresAt: String?
 }

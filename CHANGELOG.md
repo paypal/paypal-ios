@@ -7,6 +7,7 @@
   * Add `PayPalWebCheckoutClient.createPayPalSession(userIdentity, urlConfig, userAction)` — establishes a shopper session that must be created prior to calling `start()` or `vault()`
   * Add `PayPalWebCheckoutClient.start(orderId, completion)` method — requires a prior call to `createPayPalSession()`
   * Add `PayPalWebCheckoutClient.vault(setupTokenId, completion)` method — requires a prior call to `createPayPalSession()`
+  * Add `PayPalPhoneNumber` type and update `PayPalUserIdentity(email:phone:)` to accept a structured `PayPalPhoneNumber` (country code + national number) instead of a `String`
   * Deprecate `PayPalWebCheckoutClient.start(request, completion)` — use `createPayPalSession()` followed by `start(orderId, completion)` instead
   * Deprecate `PayPalWebCheckoutClient.vault(request, completion)` — use `createPayPalSession()` followed by `vault(setupTokenID, completion)` instead
 * CorePayments
