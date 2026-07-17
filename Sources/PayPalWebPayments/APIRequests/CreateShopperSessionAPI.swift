@@ -1,9 +1,5 @@
 import Foundation
 
-#if canImport(UIKit)
-import UIKit
-#endif
-
 #if canImport(CorePayments)
 import CorePayments
 #endif

@@ -27,6 +27,8 @@ enum UserIdentityFactory {
         }
     }
 
+    // TODO: Refactor into a value-preserving `PayPalPhoneNumber(_:)` initializer on the SDK type,
+    // per Swift API design guidelines (PR review nit) — replaces `makePhoneNumber(from:)` here.
     private static func makePhoneNumber(from phone: String) -> PayPalPhoneNumber? {
         let trimmed = phone.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return nil }
