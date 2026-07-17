@@ -77,7 +77,17 @@ public struct AnalyticsService {
         startTime: Int? = nil
     ) {
         if withBackgroundProtection {
-            sendEventWithBackgroundProtection(name, correlationID: correlationID, buttonType: buttonType, appSwitchURL: appSwitchURL, errorDescription: errorDescription, isCachedSession: isCachedSession, isVaultRequest: isVaultRequest, shopperSessionId: shopperSessionId, startTime: startTime)
+            sendEventWithBackgroundProtection(
+                name,
+                correlationID: correlationID,
+                buttonType: buttonType,
+                appSwitchURL: appSwitchURL,
+                errorDescription: errorDescription,
+                isCachedSession: isCachedSession,
+                isVaultRequest: isVaultRequest,
+                shopperSessionId: shopperSessionId,
+                startTime: startTime
+            )
             return
         }
         Task(priority: .background) {
@@ -125,16 +135,16 @@ public struct AnalyticsService {
 
             eventTask = Task(priority: .utility) {
                 await performEventRequest(
-                  name,
-                  correlationID: correlationID,
-                  buttonType: buttonType,
-                  appSwitchURL: appSwitchURL,
-                  errorDescription: errorDescription,
-                  isCachedSession: isCachedSession,
-                  isVaultRequest: isVaultRequest,
-                  shopperSessionId: shopperSessionId,
-                  startTime: startTime
-              )
+                    name,
+                    correlationID: correlationID,
+                    buttonType: buttonType,
+                    appSwitchURL: appSwitchURL,
+                    errorDescription: errorDescription,
+                    isCachedSession: isCachedSession,
+                    isVaultRequest: isVaultRequest,
+                    shopperSessionId: shopperSessionId,
+                    startTime: startTime
+                )
             }
 
             await eventTask?.value
@@ -166,8 +176,8 @@ public struct AnalyticsService {
         shopperSessionId: String? = nil,
         startTime: Int? = nil
     ) async {
-      guard !Task.isCancelled else { return }  
-      do {
+        guard !Task.isCancelled else { return }
+        do {
             let clientID = coreConfig.clientID
 
             let eventData = AnalyticsEventData(
