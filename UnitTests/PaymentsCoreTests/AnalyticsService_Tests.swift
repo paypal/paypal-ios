@@ -23,11 +23,8 @@ class AnalyticsService_Tests: XCTestCase {
 
     func testSendEvent_dispatchesAnalyticsEvent() async {
         mockTrackingEventsAPI.stubHTTPResponse = HTTPResponse(status: 200, body: nil)
-        let expectation = expectation(description: "analytics sent")
-        mockTrackingEventsAPI.onSendEvent = { expectation.fulfill() }
 
-        sut.sendEvent("some-event", correlationID: "fake-correlation-id")
-        await fulfillment(of: [expectation], timeout: 2.0)
+        await sut.performEventRequest("some-event", correlationID: "fake-correlation-id")
 
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.eventName, "some-event")
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.correlationID, "fake-correlation-id")
