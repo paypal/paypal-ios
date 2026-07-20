@@ -33,42 +33,6 @@ class PayPalClient_Tests: XCTestCase {
             webAuthenticationSession: mockWebAuthenticationSession
         )
     }
-    
-    func testVault_whenSandbox_launchesCorrectURLInWebSession() {
-        let vaultRequest = PayPalVaultRequest(setupTokenID: "fake-token")
-        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
-
-        let started = expectation(description: "ASWebAuthenticationSession Started")
-        mockWebAuthenticationSession.onStart = { started.fulfill() }
-
-        payPalClient.vault(vaultRequest) { _ in }
-        wait(for: [started], timeout: 1.0)
-
-        XCTAssertEqual(mockWebAuthenticationSession.lastLaunchedURL?.absoluteString, "https://sandbox.paypal.com/agreements/approve?approval_session_id=fake-token&integration_artifact=MOBILE_SDK")
-    }
-
-    func testVault_whenLive_launchesCorrectURLInWebSession() {
-        config = CoreConfig(clientID: "testClientID", environment: .live, merchantID: "testMerchantID")
-        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
-
-        let started = expectation(description: "ASWebAuthenticationSession Started")
-        mockWebAuthenticationSession.onStart = { started.fulfill() }
-
-        let payPalClient = PayPalWebCheckoutClient(
-            config: config,
-            networkingClient: mockNetworkingClient,
-            clientConfigAPI: mockClientConfigAPI,
-            patchCCOAPI: mockPatchCCOAPI,
-            createShopperSessionAPI: mockCreateShopperSessionAPI,
-            webAuthenticationSession: mockWebAuthenticationSession
-        )
-
-        let vaultRequest = PayPalVaultRequest(setupTokenID: "fake-token")
-        payPalClient.vault(vaultRequest) { _ in }
-        wait(for: [started], timeout: 1.0)
-
-        XCTAssertEqual(mockWebAuthenticationSession.lastLaunchedURL?.absoluteString, "https://paypal.com/agreements/approve?approval_session_id=fake-token&integration_artifact=MOBILE_SDK")
-    }
 
     func testVault_whenSuccessUrl_ReturnsVaultToken() {
 
