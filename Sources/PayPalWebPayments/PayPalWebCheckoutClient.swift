@@ -31,7 +31,16 @@ public class PayPalWebCheckoutClient: NSObject {
     private var didSendSystemLatency = false
 
     /// When set, unit tests can supply analytics services backed by mock tracking APIs.
-    var unitTestAnalyticsServiceProvider: ((CoreConfig, String?, String?) -> AnalyticsService)?
+    var analyticsServiceProviderFactory: ((CoreConfig, String?, String?) -> AnalyticsService) = { config, orderID, setupToken in
+
+        if let orderID {
+            return AnalyticsService(coreConfig: config, orderID: orderID)
+        }
+        if let setupToken {
+            return AnalyticsService(coreConfig: config, setupToken: setupToken)
+        }
+        return AnalyticsService(coreConfig: config)
+    }
 
     /// Holds the in-flight or completed Shopper Session fetch.
     /// Set by `createPayPalSession()`. Cleared automatically on checkout success, cancellation, or error.
@@ -813,18 +822,9 @@ public class PayPalWebCheckoutClient: NSObject {
         )
     }
 
+    // TODO: Consider extracting an "AnalyticsFactory" type that can be injected into the constructor of PayPalWebCheckoutClient or go further and determine if there's another way to provide orderID and setupToken as Analytics metadata parameters
     private func makeAnalyticsService(orderID: String? = nil, setupToken: String? = nil) -> AnalyticsService {
-        if let unitTestAnalyticsServiceProvider {
-            return unitTestAnalyticsServiceProvider(config, orderID, setupToken)
-        }
-
-        if let orderID {
-            return AnalyticsService(coreConfig: config, orderID: orderID)
-        }
-        if let setupToken {
-            return AnalyticsService(coreConfig: config, setupToken: setupToken)
-        }
-        return AnalyticsService(coreConfig: config)
+        return analyticsServiceProviderFactory(config, orderID, setupToken)
     }
 
     // MARK: - Private: Error Helper
