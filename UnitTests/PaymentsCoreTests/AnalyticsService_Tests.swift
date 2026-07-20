@@ -20,6 +20,46 @@ class AnalyticsService_Tests: XCTestCase {
     }
 
     // MARK: - sendEvent()
+
+    func testSendEvent_dispatchesAnalyticsEvent() async {
+        mockTrackingEventsAPI.stubHTTPResponse = HTTPResponse(status: 200, body: nil)
+
+        await sut.performEventRequest("some-event", correlationID: "fake-correlation-id")
+
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.eventName, "some-event")
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.correlationID, "fake-correlation-id")
+    }
+
+    func testSendEvent_withBackgroundProtection_dispatchesAnalyticsEvent() async {
+        mockTrackingEventsAPI.stubHTTPResponse = HTTPResponse(status: 200, body: nil)
+        let expectation = expectation(description: "background-protected analytics sent")
+        mockTrackingEventsAPI.onSendEvent = { expectation.fulfill() }
+
+        sut.sendEvent("bg-event", withBackgroundProtection: true)
+        await fulfillment(of: [expectation], timeout: 2.0)
+
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.eventName, "bg-event")
+    }
+
+    func testPerformEventRequest_whenTaskCancelled_doesNotCallAPI() async {
+        mockTrackingEventsAPI.stubHTTPResponse = HTTPResponse(status: 200, body: nil)
+        mockTrackingEventsAPI.sendEventDelay = 500_000_000
+
+        let task = Task {
+            await sut.performEventRequest("cancelled-event")
+        }
+        try? await Task.sleep(nanoseconds: 50_000_000)
+        task.cancel()
+        await task.value
+
+        XCTAssertNil(mockTrackingEventsAPI.capturedAnalyticsEventData)
+    }
+
+    func testPerformEventRequest_whenAPIThrowsCancellationError_doesNotThrow() async {
+        mockTrackingEventsAPI.stubError = CancellationError()
+
+        await sut.performEventRequest("some-event")
+    }
         
     func testSendEvent_sendsAppropriateAnalyticsEventData() async {
         await sut.performEventRequest("some-event", correlationID: "fake-correlation-id")
