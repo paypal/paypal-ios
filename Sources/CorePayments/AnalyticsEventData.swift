@@ -148,8 +148,6 @@ struct AnalyticsEventData: Encodable {
 
     let shopperSessionExpiration: String?
 
-    let startTime: Int?
-
     init(
         environment: String,
         eventName: String,
@@ -186,7 +184,6 @@ struct AnalyticsEventData: Encodable {
         self.isVaultRequest = checkoutAnalyticsData?.isVaultRequest
         self.shopperSessionId = checkoutAnalyticsData?.shopperSessionID
         self.shopperSessionExpiration = checkoutAnalyticsData?.shopperSessionExpiration
-        self.startTime = checkoutAnalyticsData?.sessionCreationStartTime
     }
     
     func encode(to encoder: Encoder) throws {
@@ -231,6 +228,5 @@ struct AnalyticsEventData: Encodable {
         try eventParameters.encode(isVaultRequest, forKey: .isVaultRequest)
         try eventParameters.encode(shopperSessionId, forKey: .shopperSessionId)
         try eventParameters.encode(shopperSessionExpiration, forKey: .shopperSessionExpiration)
-        try eventParameters.encode(startTime, forKey: .startTime)
     }
 }

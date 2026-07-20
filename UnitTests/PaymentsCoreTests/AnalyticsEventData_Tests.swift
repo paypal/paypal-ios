@@ -96,7 +96,6 @@ class AnalyticsEventData_Tests: XCTestCase {
         let fallbackSchemeURL = URL(string: "fake-scheme://fallback")!
 
         let checkoutAnalyticsData = PayPalCheckoutAnalyticsData()
-        checkoutAnalyticsData.sessionCreationStartTime = 1_234_567_890
         checkoutAnalyticsData.isCachedSession = true
         checkoutAnalyticsData.shopperSessionID = "fake-shopper-session-id"
         checkoutAnalyticsData.shopperSessionExpiration = "fake-shopper-session-expiration"

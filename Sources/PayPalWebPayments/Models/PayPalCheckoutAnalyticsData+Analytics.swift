@@ -9,7 +9,6 @@ extension PayPalCheckoutAnalyticsData {
         userAction: PayPalUserAction = .continue
     ) {
         self.init()
-        sessionCreationStartTime = Int(round(Date().timeIntervalSince1970 * 1000))
         isCachedSession = userIdentity?.existingPayPalSessionID != nil
 
         self.userAction = userAction.title

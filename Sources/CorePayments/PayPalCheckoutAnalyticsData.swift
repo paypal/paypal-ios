@@ -8,7 +8,6 @@ import Foundation
 /// initializer needs (`PayPalUserIdentity`, `PayPalURLConfig`, `PayPalUserAction`) live there.
 public final class PayPalCheckoutAnalyticsData {
 
-    public var sessionCreationStartTime: Int?
     public var isCachedSession: Bool?
 
     public var shopperSessionID: String?

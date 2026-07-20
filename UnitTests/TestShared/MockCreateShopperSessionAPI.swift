@@ -13,6 +13,7 @@ class MockCreateShopperSessionAPI: CreateShopperSessionAPI {
     var callCount = 0
 
     override func createShopperSessionWithAppSwitchEligibility(
+        urlOpener: URLOpener,
         urlConfig: PayPalURLConfig,
         userIdentity: PayPalUserIdentity?
     ) async throws -> ShopperSessionResult {
