@@ -617,6 +617,7 @@ public class PayPalWebCheckoutClient: NSObject {
             analyticsService?.sendEvent(
                 "\(handlers.eventPrefix):app-switch:succeeded",
                 checkoutAnalyticsData: analyticsData
+                withBackgroundProtection: true
             )
             return .launched
         } else {
