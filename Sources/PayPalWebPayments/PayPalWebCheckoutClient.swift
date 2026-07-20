@@ -826,10 +826,16 @@ public class PayPalWebCheckoutClient: NSObject {
             )
 
             guard eligibility.appSwitchEligible == true,
-                let urlString = eligibility.redirectURL,
-                let url = URL(string: urlString)
+                let urlString = eligibility.redirectURL
             else {
                 return .fallback(eligibility.ineligibleReason ?? "ineligible")
+            }
+            guard let url = PayPalWebCheckoutURLBuilder(base: urlString)
+                .checkoutAppSwitchURL(clientID: config.merchantID,
+                                      fundingSource: .paypal,
+                                      orderID: token,
+                                      sessionID: nil) else {
+                return .fallback("invalid_app_switch_url")
             }
 
             return await attemptSessionAppSwitch(url: url, handlers: handlers)

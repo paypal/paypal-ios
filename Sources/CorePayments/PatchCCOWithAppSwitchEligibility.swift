@@ -77,7 +77,7 @@ public class PatchCCOWithAppSwitchEligibility {
     ) async throws -> AppSwitchEligibility {
 
         let lsat = try await authenticationSecureTokenServiceAPI.createLowScopedAccessToken().accessToken
-        print("Test sending paypalNativeAppInstalled as \(paypalNativeAppInstalled)")
+        
         let variables = PatchCcoWithAppSwitchEligibilityVariables(
             contextId: token,
             experimentationContext: ExperimentationContext(integrationChannel: PayPalCoreConstants.integrationChannel),
