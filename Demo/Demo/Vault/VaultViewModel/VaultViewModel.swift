@@ -27,34 +27,18 @@ class VaultViewModel: ObservableObject {
         )
     }
 
-    func getSetupToken(
-        customerID: String? = nil,
-        selectedMerchantIntegration: MerchantIntegration,
-        paymentType: PaymentType,
-        sca: String = "SCA_WHEN_REQUIRED"
-    ) async throws {
-        do {
-            _ = try await fetchSetupToken(
-                customerID: customerID,
-                selectedMerchantIntegration: selectedMerchantIntegration,
-                paymentType: paymentType,
-                sca: sca
-            )
-        } catch {
-            state.setupTokenResponse = .error(message: error.localizedDescription)
-            throw error
-        }
-    }
-
     func fetchSetupToken(
         customerID: String? = nil,
         selectedMerchantIntegration: MerchantIntegration,
         paymentType: PaymentType,
-        sca: String = "SCA_WHEN_REQUIRED"
+        sca: String = "SCA_WHEN_REQUIRED",
+        appSwitchURL: String? = nil
     ) async throws -> CreateSetupTokenResponse {
         state.setupTokenResponse = .loading
 
-        let experienceContext = VaultExperienceContext()
+        let experienceContext = VaultExperienceContext(
+            appSwitchContext: appSwitchURL.map { AppSwitchContext(appUrl: $0) }
+        )
 
         let paymentSourceType: PaymentSourceType
         switch paymentType {
@@ -64,13 +48,18 @@ class VaultViewModel: ObservableObject {
             paymentSourceType = PaymentSourceType.paypal(usageType: "MERCHANT", experienceContext: experienceContext)
         }
 
-        let setupTokenResult = try await DemoMerchantAPI.sharedService.createSetupToken(
-            customerID: customerID,
-            selectedMerchantIntegration: selectedMerchantIntegration,
-            paymentSourceType: paymentSourceType
-        )
-        state.setupTokenResponse = .loaded(setupTokenResult)
-        return setupTokenResult
+        do {
+            let setupTokenResult = try await DemoMerchantAPI.sharedService.createSetupToken(
+                customerID: customerID,
+                selectedMerchantIntegration: selectedMerchantIntegration,
+                paymentSourceType: paymentSourceType
+            )
+            state.setupTokenResponse = .loaded(setupTokenResult)
+            return setupTokenResult
+        } catch {
+            state.setupTokenResponse = .error(message: error.localizedDescription)
+            throw error
+        }
     }
 
     func resetState() {

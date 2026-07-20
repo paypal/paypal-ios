@@ -2,20 +2,14 @@ import Foundation
 
 struct CreateShopperSessionResponse: Decodable {
 
-    let external: ExternalNode?
-    let shopperSession: ShopperSessionResult?
+    let external: ExternalContainer?
 
-    enum CodingKeys: String, CodingKey {
-        case external
-        case shopperSession = "createShopperSessionWithAppSwitchEligibility"
-    }
-
-    var resolvedShopperSession: ShopperSessionResult? {
-        external?.shopperSession ?? shopperSession
+    var shopperSession: ShopperSessionResult? {
+        external?.shopperSession
     }
 }
 
-struct ExternalNode: Decodable {
+struct ExternalContainer: Decodable {
 
     let shopperSession: ShopperSessionResult?
 
@@ -27,20 +21,8 @@ struct ExternalNode: Decodable {
 /// The payload returned by `createShopperSessionWithAppSwitchEligibility`.
 struct ShopperSessionResult: Decodable {
 
-    /// Whether the buyer's device is eligible for PayPal app-switch.
-    let appSwitchEligible: Bool
-
-    /// The app-switch redirect URL to open when eligible.
-    let redirectURL: String?
-
-    /// Reason the session is ineligible for app-switch (nil when eligible).
-    let ineligibleReason: String?
-
-    /// Authentication methods matched for the buyer's identity.
-    let matchedAuthenticationMethods: [String]?
-
-    /// The pre-warmed Shopper Session config.
-    let shopperSessionConfig: ShopperSessionConfig?
+    let appSwitchEligibilityResponse: AppSwitchEligibilityResponse?
+    let shopperSessionResponse: ShopperSessionResponse?
 
     init(
         appSwitchEligible: Bool,
@@ -49,83 +31,64 @@ struct ShopperSessionResult: Decodable {
         matchedAuthenticationMethods: [String]?,
         shopperSessionConfig: ShopperSessionConfig?
     ) {
-        self.appSwitchEligible = appSwitchEligible
-        self.redirectURL = redirectURL
-        self.ineligibleReason = ineligibleReason
-        self.matchedAuthenticationMethods = matchedAuthenticationMethods
-        self.shopperSessionConfig = shopperSessionConfig
+        self.appSwitchEligibilityResponse = AppSwitchEligibilityResponse(
+            appSwitchEligible: appSwitchEligible,
+            ineligibleReason: ineligibleReason,
+            checkoutUrls: redirectURL.map { CheckoutUrls(redirectURL: $0, checkoutFallbackUrl: nil) }
+        )
+        self.shopperSessionResponse = shopperSessionConfig.map {
+            ShopperSessionResponse(sessionId: $0.id, expiresAt: $0.expiresAt)
+        }
     }
 
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+    // MARK: - Convenience accessors (preserve existing call sites in PayPalWebCheckoutClient)
 
-        if container.contains(.appSwitchEligibilityResponse) {
-            let eligibility = try container.decode(AppSwitchEligibilityResponse.self, forKey: .appSwitchEligibilityResponse)
-            appSwitchEligible = eligibility.appSwitchEligible
-            redirectURL = eligibility.redirectURL
-            ineligibleReason = eligibility.ineligibleReason
-            matchedAuthenticationMethods = nil
-            shopperSessionConfig = try container.decodeIfPresent(ShopperSessionResponse.self, forKey: .shopperSessionResponse)
-                .map { ShopperSessionConfig(id: $0.sessionId, expiresAt: $0.expiresAt) }
-            return
-        }
-
-        appSwitchEligible = try container.decodeIfPresent(Bool.self, forKey: .appSwitchEligible) ?? false
-        redirectURL = try container.decodeIfPresent(String.self, forKey: .redirectURL)
-        ineligibleReason = try container.decodeIfPresent(String.self, forKey: .ineligibleReason)
-        matchedAuthenticationMethods = try container.decodeIfPresent([String].self, forKey: .matchedAuthenticationMethods)
-        shopperSessionConfig = try container.decodeIfPresent(ShopperSessionConfig.self, forKey: .shopperSessionConfig)
+    var appSwitchEligible: Bool {
+        appSwitchEligibilityResponse?.appSwitchEligible ?? false
     }
 
-    enum CodingKeys: String, CodingKey {
-        case appSwitchEligible
-        case redirectURL
-        case ineligibleReason
-        case matchedAuthenticationMethods
-        case shopperSessionConfig
-        case appSwitchEligibilityResponse
-        case shopperSessionResponse
+    var redirectURL: String? {
+        appSwitchEligibilityResponse?.checkoutUrls?.redirectURL
     }
 
-    struct ShopperSessionConfig: Decodable {
+    var checkoutFallbackURL: String? {
+        appSwitchEligibilityResponse?.checkoutUrls?.checkoutFallbackUrl
+    }
 
-        /// Opaque Shopper Session identifier.
-        let id: String
-        /// ISO-8601 expiry timestamp.
-        let expiresAt: String
+    var ineligibleReason: String? {
+        appSwitchEligibilityResponse?.ineligibleReason
+    }
 
-        enum CodingKeys: String, CodingKey {
-            case id
-            case sessionId
-            case expiresAt
-        }
+    var matchedAuthenticationMethods: [String]? {
+        nil
+    }
 
-        init(id: String, expiresAt: String) {
-            self.id = id
-            self.expiresAt = expiresAt
-        }
-
-        init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            if let id = try container.decodeIfPresent(String.self, forKey: .id) {
-                self.id = id
-            } else {
-                self.id = try container.decode(String.self, forKey: .sessionId)
-            }
-            expiresAt = try container.decode(String.self, forKey: .expiresAt)
-        }
+    var shopperSessionConfig: ShopperSessionConfig? {
+        shopperSessionResponse.map { ShopperSessionConfig(id: $0.sessionId, expiresAt: $0.expiresAt) }
     }
 }
 
-private struct AppSwitchEligibilityResponse: Decodable {
+struct AppSwitchEligibilityResponse: Decodable {
 
     let appSwitchEligible: Bool
     let ineligibleReason: String?
-    let redirectURL: String?
+    let checkoutUrls: CheckoutUrls?
 }
 
-private struct ShopperSessionResponse: Decodable {
+struct CheckoutUrls: Decodable {
+
+    let redirectURL: String?
+    let checkoutFallbackUrl: String?
+}
+
+struct ShopperSessionResponse: Decodable {
 
     let sessionId: String
-    let expiresAt: String
+    let expiresAt: String?
+}
+
+struct ShopperSessionConfig {
+
+    let id: String
+    let expiresAt: String?
 }

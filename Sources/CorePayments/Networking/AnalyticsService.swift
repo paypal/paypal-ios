@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 /// Constructs `AnalyticsEventData` models and sends FPTI analytics events.
 @_documentation(visibility: private)
@@ -24,17 +24,21 @@ public struct AnalyticsService {
         self.coreConfig = coreConfig
         self.trackingEventsAPI = TrackingEventsAPI(coreConfig: coreConfig)
         self.setupToken = setupToken
-        self.orderID = nil
+        /// Android logs setup token as "order_id" this is to ensure parity between platforms
+        self.orderID = setupToken
     }
 
+    /// This initializer is exposed for internal PayPal use only. Do not use. It is not covered by Semantic
+    /// Versioning and may change or be removed at any time.
+    /// For internal use by `PayPalWebCheckoutClient`, which lives in a separate module (`PayPalWebPayments`)
+    /// and therefore needs `public` (rather than `internal`) visibility to construct an `AnalyticsService`
+    /// with no `orderID`/`setupToken` yet known.
     public init(coreConfig: CoreConfig) {
         self.coreConfig = coreConfig
         self.trackingEventsAPI = TrackingEventsAPI(coreConfig: coreConfig)
         self.orderID = nil
         self.setupToken = nil
     }
-
-    // MARK: - Internal Initializer
 
     /// Exposed for testing
     init(coreConfig: CoreConfig, orderID: String, trackingEventsAPI: TrackingEventsAPI) {
@@ -62,23 +66,51 @@ public struct AnalyticsService {
 
     // MARK: - Public Methods
 
-    /// This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
     /// Sends analytics event to https://api.paypal.com/v1/tracking/events/ via a background task.
     public func sendEvent(
         _ name: String,
         correlationID: String? = nil,
         buttonType: String? = nil,
+        withBackgroundProtection: Bool = false,
+        appSwitchURL: URL? = nil,
+        errorDescription: String? = nil,
+        isCachedSession: Bool? = nil,
+        isVaultRequest: Bool? = nil,
+        shopperSessionId: String? = nil,
         startTime: Int64? = nil,
         endTime: Int64? = nil,
         endpoint: String? = nil,
         presentationType: String? = nil,
         flow: String? = nil
     ) {
+        if withBackgroundProtection {
+            sendEventWithBackgroundProtection(
+                name,
+                correlationID: correlationID,
+                buttonType: buttonType,
+                appSwitchURL: appSwitchURL,
+                errorDescription: errorDescription,
+                isCachedSession: isCachedSession,
+                isVaultRequest: isVaultRequest,
+                shopperSessionId: shopperSessionId,
+                startTime: startTime,
+                endTime: endTime,
+                endpoint: endpoint,
+                presentationType: presentationType,
+                flow: flow
+            )
+            return
+        }
         Task(priority: .background) {
             await performEventRequest(
                 name,
                 correlationID: correlationID,
                 buttonType: buttonType,
+                appSwitchURL: appSwitchURL,
+                errorDescription: errorDescription,
+                isCachedSession: isCachedSession,
+                isVaultRequest: isVaultRequest,
+                shopperSessionId: shopperSessionId,
                 startTime: startTime,
                 endTime: endTime,
                 endpoint: endpoint,
@@ -111,18 +143,80 @@ public struct AnalyticsService {
         )
     }
 
+    private func sendEventWithBackgroundProtection(
+        _ name: String,
+        correlationID: String? = nil,
+        buttonType: String? = nil,
+        appSwitchURL: URL? = nil,
+        errorDescription: String? = nil,
+        isCachedSession: Bool? = nil,
+        isVaultRequest: Bool? = nil,
+        shopperSessionId: String? = nil,
+        startTime: Int64? = nil,
+        endTime: Int64? = nil,
+        endpoint: String? = nil,
+        presentationType: String? = nil,
+        flow: String? = nil
+    ) {
+        Task { @MainActor in
+            var bgTaskID: UIBackgroundTaskIdentifier = .invalid
+            var eventTask: Task<Void, Never>?
+
+            @MainActor
+            func endBackgroundTaskIfNeeded() {
+                guard bgTaskID != .invalid else { return }
+                UIApplication.shared.endBackgroundTask(bgTaskID)
+                bgTaskID = .invalid
+            }
+
+            bgTaskID = UIApplication.shared.beginBackgroundTask(withName: "fpti-event") {
+                eventTask?.cancel()
+                Task { @MainActor in
+                    endBackgroundTaskIfNeeded()
+                }
+            }
+
+            eventTask = Task(priority: .utility) {
+                await performEventRequest(
+                    name,
+                    correlationID: correlationID,
+                    buttonType: buttonType,
+                    appSwitchURL: appSwitchURL,
+                    errorDescription: errorDescription,
+                    isCachedSession: isCachedSession,
+                    isVaultRequest: isVaultRequest,
+                    shopperSessionId: shopperSessionId,
+                    startTime: startTime,
+                    endTime: endTime,
+                    endpoint: endpoint,
+                    presentationType: presentationType,
+                    flow: flow
+                )
+            }
+
+            await eventTask?.value
+            endBackgroundTaskIfNeeded()
+        }
+    }
+
     // MARK: - Internal Methods
 
     func performEventRequest(
         _ name: String,
         correlationID: String? = nil,
         buttonType: String? = nil,
+        appSwitchURL: URL? = nil,
+        errorDescription: String? = nil,
+        isCachedSession: Bool? = nil,
+        isVaultRequest: Bool? = nil,
+        shopperSessionId: String? = nil,
         startTime: Int64? = nil,
         endTime: Int64? = nil,
         endpoint: String? = nil,
         presentationType: String? = nil,
         flow: String? = nil
     ) async {
+        guard !Task.isCancelled else { return }
         do {
             let eventData = AnalyticsEventData(
                 environment: coreConfig.environment.toString,
@@ -132,6 +226,11 @@ public struct AnalyticsService {
                 correlationID: correlationID,
                 setupToken: setupToken,
                 buttonType: buttonType,
+                appSwitchURL: appSwitchURL,
+                errorDescription: errorDescription,
+                isCachedSession: isCachedSession,
+                isVaultRequest: isVaultRequest,
+                shopperSessionId: shopperSessionId,
                 startTime: startTime,
                 endTime: endTime,
                 endpoint: endpoint,
@@ -141,6 +240,9 @@ public struct AnalyticsService {
 
             let (_) = try await trackingEventsAPI.sendEvent(with: eventData)
         } catch {
+            if Task.isCancelled || error is CancellationError {
+                return
+            }
             NSLog("[PayPal SDK] Failed to send analytics: %@", error.localizedDescription)
         }
     }

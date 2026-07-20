@@ -10,18 +10,15 @@ class MockCreateShopperSessionAPI: CreateShopperSessionAPI {
     // Captured call arguments for assertion
     var capturedURLConfig: PayPalURLConfig?
     var capturedUserIdentity: PayPalUserIdentity?
-    var capturedUserAction: PayPalUserAction?
     var callCount = 0
 
     override func createShopperSessionWithAppSwitchEligibility(
         urlConfig: PayPalURLConfig,
-        userIdentity: PayPalUserIdentity?,
-        userAction: PayPalUserAction
+        userIdentity: PayPalUserIdentity?
     ) async throws -> ShopperSessionResult {
         callCount += 1
         capturedURLConfig = urlConfig
         capturedUserIdentity = userIdentity
-        capturedUserAction = userAction
 
         if let stubError {
             throw stubError

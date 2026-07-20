@@ -22,7 +22,7 @@ class PayPalVaultViewModel: VaultViewModel {
         print("Using vault(createSetupToken:) — emits paypal-web-payments:api-request-latency")
         client.createPayPalSession(
             userIdentity: resolvedUserIdentity,
-            urlConfig: PayPalDemoURLConfig.checkout,
+            urlConfig: ShopperSessionURLConfigFactory.urlConfig,
             userAction: selectedUserAction
         )
 
@@ -33,7 +33,8 @@ class PayPalVaultViewModel: VaultViewModel {
                 try await self.fetchSetupToken(
                     customerID: self.customerID.isEmpty ? nil : self.customerID,
                     selectedMerchantIntegration: DemoSettings.merchantIntegration,
-                    paymentType: .paypal
+                    paymentType: .paypal,
+                    appSwitchURL: Environment.sandbox.baseURL
                 ).id
             }) { result in
                 switch result {

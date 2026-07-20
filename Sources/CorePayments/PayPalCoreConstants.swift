@@ -21,4 +21,16 @@ public enum PayPalCoreConstants {
 public enum ExternalTokenKind {
     public static let orderId = "ORDER_ID"
     public static let clientToken = "CLIENT_TOKEN"
+    public static let vaultId = "VAULT_ID"
+}
+
+/// The type of token supplied to the Shopper Session mutation.
+@_documentation(visibility: private)
+public enum TokenType {
+    /// An order (checkout) token. Maps to `"CHECKOUT_TOKEN"` in the GQL mutation.
+    public static let orderID = "CHECKOUT_TOKEN"
+    /// A vault ID token. Maps to `"BILLING_TOKEN"` in the GQL mutation.
+    public static let vaultID = "BILLING_TOKEN"
+    /// A billing token. Maps to `"BILLING_TOKEN"` in the GQL mutation.
+    public static let billingToken = "BILLING_TOKEN"
 }

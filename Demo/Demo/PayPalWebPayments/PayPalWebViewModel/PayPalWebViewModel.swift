@@ -50,7 +50,7 @@ class PayPalWebViewModel: ObservableObject {
 
         client.createPayPalSession(
             userIdentity: userIdentity,
-            urlConfig: PayPalDemoURLConfig.checkout,
+            urlConfig: ShopperSessionURLConfigFactory.urlConfig,
             userAction: userAction
         )
 
@@ -136,40 +136,49 @@ class PayPalWebViewModel: ObservableObject {
         }
     }
 
+    /// S1: No payment source (non app-switch, non vault)
+    /// S2: PayPal app-switch (no vault) -> experienceContext with appSwitchContext
+    /// S3: PayPal vault (no app-switch)  -> attributes.vault + experienceContext
+    /// S4: PayPal vault + app-switch     -> attributes.vault + experienceContext.appSwitchContext
     private func fetchOrder(shouldVault: Bool) async throws -> Order {
-        let amountRequest = DemoFixtures.amount
+        do {
+            let amountRequest = DemoFixtures.amount
 
-        var paymentSource: OrderPaymentSource?
+            var paymentSource: OrderPaymentSource?
 
-        if appSwitch || shouldVault {
-            let experience = PayPalExperienceContext(
-                returnUrl: appSwitchURL + "/success",
-                cancelUrl: appSwitchURL + "/cancel",
-                appSwitchContext: appSwitch ? AppSwitchContext(appUrl: appSwitchURL) : nil
+            if appSwitch || shouldVault {
+                let experience = PayPalExperienceContext(
+                    returnUrl: appSwitchURL + "/success",
+                    cancelUrl: appSwitchURL + "/cancel",
+                    appSwitchContext: appSwitch ? AppSwitchContext(appUrl: appSwitchURL) : nil
+                )
+
+                let attributes: Attributes? = shouldVault ? Attributes(vault: DemoFixtures.vaultAttributes) : nil
+
+                let paypal = PayPalSource(attributes: attributes, experienceContext: experience)
+                paymentSource = .paypal(OrderPayPalPaymentSource(paypal: paypal))
+            }
+
+            let params = CreateOrderParams(
+                applicationContext: nil,
+                intent: intent.rawValue,
+                purchaseUnits: [PurchaseUnit(amount: amountRequest)],
+                paymentSource: paymentSource
             )
 
-            let attributes: Attributes? = shouldVault ? Attributes(vault: DemoFixtures.vaultAttributes) : nil
-
-            let paypal = PayPalSource(attributes: attributes, experienceContext: experience)
-            paymentSource = .paypal(OrderPayPalPaymentSource(paypal: paypal))
+            state.createdOrderResponse = .loading
+            let order = try await DemoMerchantAPI.sharedService.createOrder(
+                orderParams: params,
+                selectedMerchantIntegration: DemoSettings.merchantIntegration
+            )
+            self.order = order
+            state.createdOrderResponse = .loaded(order)
+            print("✅ fetched orderID: \(order.id) with status: \(order.status)")
+            return order
+        } catch {
+            state.createdOrderResponse = .error(message: error.localizedDescription)
+            throw error
         }
-
-        let params = CreateOrderParams(
-            applicationContext: nil,
-            intent: intent.rawValue,
-            purchaseUnits: [PurchaseUnit(amount: amountRequest)],
-            paymentSource: paymentSource
-        )
-
-        state.createdOrderResponse = .loading
-        let order = try await DemoMerchantAPI.sharedService.createOrder(
-            orderParams: params,
-            selectedMerchantIntegration: DemoSettings.merchantIntegration
-        )
-        self.order = order
-        state.createdOrderResponse = .loaded(order)
-        print("✅ fetched orderID: \(order.id) with status: \(order.status)")
-        return order
     }
 
     func getPayPalClient() async throws -> PayPalWebCheckoutClient? {
@@ -198,7 +207,6 @@ class PayPalWebViewModel: ObservableObject {
             }
         } catch {
             setErrorState(message: error.localizedDescription)
-            print("Error with \(intent) order: \(error.localizedDescription)")
         }
     }
 
@@ -253,17 +261,5 @@ private enum CheckoutError: LocalizedError {
         case .clientInitializationFailed(let message):
             return message
         }
-    }
-}
-
-enum PayPalDemoURLConfig {
-    static var checkout: PayPalURLConfig {
-        let checkoutPath = "x-callback-url/paypal-sdk/paypal-checkout"
-        let scheme = PayPalCoreConstants.callbackURLScheme
-        return PayPalURLConfig(
-            returnAppURL: URL(string: "\(scheme)://\(checkoutPath)")!,
-            cancelAppURL: URL(string: "\(scheme)://\(checkoutPath)/cancel")!,
-            fallbackSchemeURL: URL(string: "\(scheme)://\(checkoutPath)")
-        )
     }
 }

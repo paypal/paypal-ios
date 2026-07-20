@@ -1,48 +1,53 @@
 import UIKit
 
 struct AnalyticsEventData: Encodable {
-    
+
     enum TopLevelKeys: String, CodingKey {
         case events
     }
-    
+
     enum EventKeys: String, CodingKey {
         case eventParameters = "event_params"
     }
-    
+
     enum EventParameterKeys: String, CodingKey, CaseIterable {
         case appID = "app_id"
         case appName = "app_name"
+        case appSwitchURL = "app_switch_url"
         case buttonType = "button_type"
         case clientID = "partner_client_id"
-        case clientSDKVersion = "c_sdk_ver"
         case clientOS = "client_os"
+        case clientSDKVersion = "c_sdk_ver"
         case component = "comp"
         case correlationID = "correlation_id"
         case deviceManufacturer = "device_manufacturer"
+        case deviceModel = "mobile_device_model"
+        case endpoint = "endpoint"
         case environment = "merchant_sdk_env"
+        case errorDescription = "error_description"
         case eventName = "event_name"
         case eventSource = "event_source"
+        case flow = "flow"
+        case isCachedSession = "is_cached_session"
+        case isSimulator = "is_simulator"
+        case isVaultRequest = "is_vault_request"
+        case merchantAppVersion = "mapv"
         case orderID = "order_id"
         case packageManager = "ios_package_manager"
-        case isSimulator = "is_simulator"
-        case merchantAppVersion = "mapv"
-        case deviceModel = "mobile_device_model"
         case platform = "platform"
+        case presentationType = "presentation_type"
         case setupToken = "vault_setup_token"
-        case timestamp = "t"
-        case tenantName = "tenant_name"
+        case shopperSessionId = "shopper_session_id"
         case startTime = "start_time"
         case endTime = "end_time"
-        case endpoint = "endpoint"
-        case presentationType = "presentation_type"
-        case flow = "flow"
+        case tenantName = "tenant_name"
+        case timestamp = "t"
     }
-    
+
     let appID: String = Bundle.main.infoDictionary?[kCFBundleIdentifierKey as String] as? String ?? "N/A"
-    
+
     let appName: String = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String ?? "N/A"
-    
+
     let clientID: String
 
     let clientSDKVersion = PayPalCoreConstants.payPalSDKVersion
@@ -58,9 +63,9 @@ struct AnalyticsEventData: Encodable {
     let eventName: String
 
     let eventSource = "mobile-native"
-    
+
     let environment: String
-    
+
     let orderID: String?
 
     let packageManager: String = {
@@ -80,7 +85,7 @@ struct AnalyticsEventData: Encodable {
             false
         #endif
     }()
-    
+
     let merchantAppVersion: String = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as? String ?? "N/A"
 
     let deviceModel: String = {
@@ -95,7 +100,7 @@ struct AnalyticsEventData: Encodable {
     }()
 
     let platform = "iOS"
-  
+
     let setupToken: String?
 
     let timestamp = String(Date().timeIntervalSince1970 * 1000)
@@ -104,6 +109,17 @@ struct AnalyticsEventData: Encodable {
 
     let buttonType: String?
 
+    let appSwitchURL: URL?
+
+    let errorDescription: String?
+
+    let isCachedSession: Bool?
+
+    let isVaultRequest: Bool?
+
+    let shopperSessionId: String?
+
+    /// Epoch milliseconds. Used for SSID session timing (Int) and latency events (Int64).
     let startTime: Int64?
 
     let endTime: Int64?
@@ -122,6 +138,11 @@ struct AnalyticsEventData: Encodable {
         correlationID: String?,
         setupToken: String?,
         buttonType: String? = nil,
+        appSwitchURL: URL? = nil,
+        errorDescription: String? = nil,
+        isCachedSession: Bool? = nil,
+        isVaultRequest: Bool? = nil,
+        shopperSessionId: String? = nil,
         startTime: Int64? = nil,
         endTime: Int64? = nil,
         endpoint: String? = nil,
@@ -135,18 +156,23 @@ struct AnalyticsEventData: Encodable {
         self.correlationID = correlationID
         self.setupToken = setupToken
         self.buttonType = buttonType
+        self.appSwitchURL = appSwitchURL
+        self.errorDescription = errorDescription
+        self.isCachedSession = isCachedSession
+        self.isVaultRequest = isVaultRequest
+        self.shopperSessionId = shopperSessionId
         self.startTime = startTime
         self.endTime = endTime
         self.endpoint = endpoint
         self.presentationType = presentationType
         self.flow = flow
     }
-    
+
     func encode(to encoder: Encoder) throws {
         var topLevel = encoder.container(keyedBy: TopLevelKeys.self)
         var events = topLevel.nestedContainer(keyedBy: EventKeys.self, forKey: .events)
         var eventParameters = events.nestedContainer(keyedBy: EventParameterKeys.self, forKey: .eventParameters)
-        
+
         try eventParameters.encode(appID, forKey: .appID)
         try eventParameters.encode(appName, forKey: .appName)
         try eventParameters.encode(clientID, forKey: .clientID)
@@ -168,6 +194,11 @@ struct AnalyticsEventData: Encodable {
         try eventParameters.encode(tenantName, forKey: .tenantName)
         try eventParameters.encode(setupToken, forKey: .setupToken)
         try eventParameters.encodeIfPresent(buttonType, forKey: .buttonType)
+        try eventParameters.encodeIfPresent(appSwitchURL, forKey: .appSwitchURL)
+        try eventParameters.encodeIfPresent(errorDescription, forKey: .errorDescription)
+        try eventParameters.encodeIfPresent(isCachedSession, forKey: .isCachedSession)
+        try eventParameters.encodeIfPresent(isVaultRequest, forKey: .isVaultRequest)
+        try eventParameters.encodeIfPresent(shopperSessionId, forKey: .shopperSessionId)
         try eventParameters.encodeIfPresent(startTime, forKey: .startTime)
         try eventParameters.encodeIfPresent(endTime, forKey: .endTime)
         try eventParameters.encodeIfPresent(endpoint, forKey: .endpoint)

@@ -1,0 +1,26 @@
+import Foundation
+import CorePayments
+import PayPalWebPayments
+
+/// Shared app-switch return/cancel/fallback URL configuration for Shopper Session creation.
+/// Used by both the PayPalWeb and Vault flows so the callback URLs stay in sync.
+enum ShopperSessionURLConfigFactory {
+
+    static let urlConfig: PayPalURLConfig = {
+        let baseReturnUrl = "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
+
+        guard let returnAppURL = URL(string: "\(baseReturnUrl)/success"),
+              let cancelAppURL = URL(string: "\(baseReturnUrl)/cancel") else {
+            fatalError("Failed to construct Shopper Session callback URLs for base return URL: \(baseReturnUrl)")
+        }
+
+        let checkoutPath = "x-callback-url/paypal-sdk/paypal-checkout"
+        let scheme = PayPalCoreConstants.callbackURLScheme
+
+        return PayPalURLConfig(
+            returnAppURL: returnAppURL,
+            cancelAppURL: cancelAppURL,
+            fallbackSchemeURL: URL(string: "\(scheme)://\(checkoutPath)")
+        )
+    }()
+}

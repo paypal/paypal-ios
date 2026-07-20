@@ -45,7 +45,7 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
             webAuthenticationSession: mockWebAuthenticationSession
         )
         payPalClient.urlOpener = mockURLOpener
-        payPalClient.unitTestAnalyticsServiceProvider = { [self] config, orderID, setupToken in
+        payPalClient.analyticsServiceProviderFactory = { [self] config, orderID, setupToken in
             if let orderID {
                 return AnalyticsService(
                     coreConfig: config,
