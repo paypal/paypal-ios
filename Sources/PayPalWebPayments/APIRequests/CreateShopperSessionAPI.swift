@@ -1,4 +1,4 @@
-import UIKit
+import Foundation
 
 #if canImport(CorePayments)
 import CorePayments
@@ -71,6 +71,7 @@ public class CreateShopperSessionAPI {
     /// - Returns: A `ShopperSessionResult` containing eligibility, redirect URL, and session config.
     /// - Throws: A `CoreSDKError` if the network call or response parsing fails.
     func createShopperSessionWithAppSwitchEligibility(
+        urlOpener: URLOpener,
         urlConfig: PayPalURLConfig,
         userIdentity: PayPalUserIdentity?
     ) async throws -> ShopperSessionResult {
@@ -80,7 +81,7 @@ public class CreateShopperSessionAPI {
 
         let experimentationContext = ShopperSessionExperimentationContext(merchantAccountId: coreConfig.merchantID)
         
-        let isOsloAppInstalled = await UIApplication.shared.isOsloAppInstalled()
+        let isOsloAppInstalled = urlOpener.isOsloAppInstalled()
         
         let appSwitchEligibilityInput = AppSwitchEligibilityInput(
             contextId: contextId,
