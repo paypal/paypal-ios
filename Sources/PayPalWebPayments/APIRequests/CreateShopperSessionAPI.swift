@@ -4,6 +4,17 @@ import Foundation
 import CorePayments
 #endif
 
+extension PayPalFlowType {
+    var tokenType: String {
+        switch self {
+        case .oneTime:
+            return "CHECKOUT_TOKEN"
+        case .billingWithoutPurchase:
+            return "BILLING_TOKEN"
+        }
+    }
+}
+
 /// Coordinates the GraphQL call that pre-warms a Shopper Session with app-switch eligibility.
 @_documentation(visibility: private)
 public class CreateShopperSessionAPI {
@@ -71,21 +82,21 @@ public class CreateShopperSessionAPI {
     /// - Returns: A `ShopperSessionResult` containing eligibility, redirect URL, and session config.
     /// - Throws: A `CoreSDKError` if the network call or response parsing fails.
     func createShopperSessionWithAppSwitchEligibility(
+        flowType: PayPalFlowType,
         urlOpener: URLOpener,
         urlConfig: PayPalURLConfig,
         userIdentity: PayPalUserIdentity?
     ) async throws -> ShopperSessionResult {
 
         let contextId = UUID().uuidString
-        let tokenType = TokenType.orderID
-
+        
         let experimentationContext = ShopperSessionExperimentationContext(merchantAccountId: coreConfig.merchantID)
         
         let isOsloAppInstalled = urlOpener.isOsloAppInstalled()
         
         let appSwitchEligibilityInput = AppSwitchEligibilityInput(
             contextId: contextId,
-            tokenType: tokenType,
+            tokenType: flowType.tokenType,
             osType: PayPalCoreConstants.osType,
             merchantOptInForAppSwitch: true,
             paypalNativeAppInstalled: isOsloAppInstalled,

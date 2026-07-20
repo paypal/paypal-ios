@@ -94,6 +94,7 @@
 		950FA37F2FF45D0C00F93D80 /* PayPalUserAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950FA37E2FF45D0B00F93D80 /* PayPalUserAction.swift */; };
 		950FA3812FF45D8700F93D80 /* PayPalURLConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950FA3802FF45D8600F93D80 /* PayPalURLConfig.swift */; };
 		95DBAE57300AC82700E49D49 /* PayPalCheckoutAnalyticsData+Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DBAE56300AC82400E49D49 /* PayPalCheckoutAnalyticsData+Analytics.swift */; };
+		95DBAE59300EAD5300E49D49 /* PayPalFlowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DBAE58300EAD4300E49D49 /* PayPalFlowType.swift */; };
 		AA11223344556600AABB0002 /* CreateShopperSessionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA11223344556600AABB0001 /* CreateShopperSessionAPI.swift */; };
 		AA11223344556600AABB0004 /* CreateShopperSessionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA11223344556600AABB0003 /* CreateShopperSessionResponse.swift */; };
 		AA11223344556600AABB0006 /* CreateShopperSessionVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA11223344556600AABB0005 /* CreateShopperSessionVariables.swift */; };
@@ -304,6 +305,7 @@
 		950FA37E2FF45D0B00F93D80 /* PayPalUserAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalUserAction.swift; sourceTree = "<group>"; };
 		950FA3802FF45D8600F93D80 /* PayPalURLConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalURLConfig.swift; sourceTree = "<group>"; };
 		95DBAE56300AC82400E49D49 /* PayPalCheckoutAnalyticsData+Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PayPalCheckoutAnalyticsData+Analytics.swift"; sourceTree = "<group>"; };
+		95DBAE58300EAD4300E49D49 /* PayPalFlowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalFlowType.swift; sourceTree = "<group>"; };
 		AA11223344556600AABB0001 /* CreateShopperSessionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateShopperSessionAPI.swift; sourceTree = "<group>"; };
 		AA11223344556600AABB0003 /* CreateShopperSessionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateShopperSessionResponse.swift; sourceTree = "<group>"; };
 		AA11223344556600AABB0005 /* CreateShopperSessionVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateShopperSessionVariables.swift; sourceTree = "<group>"; };
@@ -661,6 +663,7 @@
 		950FA37B2FF45CE800F93D80 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				95DBAE58300EAD4300E49D49 /* PayPalFlowType.swift */,
 				95DBAE56300AC82400E49D49 /* PayPalCheckoutAnalyticsData+Analytics.swift */,
 				950FA3802FF45D8600F93D80 /* PayPalURLConfig.swift */,
 				950FA37E2FF45D0B00F93D80 /* PayPalUserAction.swift */,
@@ -1386,6 +1389,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95DBAE59300EAD5300E49D49 /* PayPalFlowType.swift in Sources */,
 				3B29C3972B9148F70077741D /* PayPalVaultRequest.swift in Sources */,
 				950FA37F2FF45D0C00F93D80 /* PayPalUserAction.swift in Sources */,
 				95DBAE57300AC82700E49D49 /* PayPalCheckoutAnalyticsData+Analytics.swift in Sources */,
