@@ -43,7 +43,7 @@ struct ShopperSessionExperimentationContext: Encodable {
         isWebView: Bool = false,
         paymentType: String = "PAY",
         buyerGUID: String? = nil,
-        merchantAccountId: String? = ""
+        merchantAccountId: String
     ) {
         self.appSwitchSupported = appSwitchSupported
         self.merchantCountry = merchantCountry

@@ -78,7 +78,7 @@ public class CreateShopperSessionAPI {
         let contextId = UUID().uuidString
         let tokenType = TokenType.orderID
 
-        let experimentationContext = ShopperSessionExperimentationContext()
+        let experimentationContext = ShopperSessionExperimentationContext(merchantAccountId: coreConfig.merchantID)
         
         let isOsloAppInstalled = await UIApplication.shared.isOsloAppInstalled()
         
