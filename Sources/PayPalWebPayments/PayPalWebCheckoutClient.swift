@@ -705,14 +705,20 @@ public class PayPalWebCheckoutClient: NSObject {
                         switch error {
                         case ASWebAuthenticationSessionError.canceledLogin:
                             sdkError = PayPalError.checkoutCanceledError
+                            self.analyticsService?.sendEvent(
+                                "paypal:tokenize:browser-login:canceled",
+                                errorDescription: sdkError.errorDescription,
+                                checkoutAnalyticsData: analyticsData
+                            )
                         default:
                             sdkError = PayPalError.webSessionError(error)
+                            self.analyticsService?.sendEvent(
+                                "paypal-web-payments:checkout:auth-challenge-presentation:failed",
+                                errorDescription: sdkError.errorDescription,
+                                checkoutAnalyticsData: analyticsData
+                            )
                         }
-                        self.analyticsService?.sendEvent(
-                            "paypal-web-payments:checkout:auth-challenge-presentation:failed",
-                            errorDescription: sdkError.errorDescription,
-                            checkoutAnalyticsData: analyticsData
-                        )
+                        
                         self.sessionTask = nil
                         self.notifyCheckoutFailure(with: sdkError, completion: completion)
                     }
