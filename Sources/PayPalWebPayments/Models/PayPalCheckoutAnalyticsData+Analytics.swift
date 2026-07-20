@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 import CorePayments
 
 extension PayPalCheckoutAnalyticsData {
@@ -16,6 +16,8 @@ extension PayPalCheckoutAnalyticsData {
         returnAppURL = urlConfig.returnAppURL
         cancelAppURL = urlConfig.cancelAppURL
         fallbackSchemeURL = urlConfig.fallbackSchemeURL
+        
+        paypalNativeAppInstalled = UIApplication.shared.isOsloAppInstalled()
     }
 
     /// Populates the fields derived from the Shopper Session fetch response, once it succeeds.

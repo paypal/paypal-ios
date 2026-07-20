@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 #if canImport(CorePayments)
 import CorePayments
@@ -79,13 +79,15 @@ public class CreateShopperSessionAPI {
         let tokenType = TokenType.orderID
 
         let experimentationContext = ShopperSessionExperimentationContext()
-
+        
+        let isOsloAppInstalled = await UIApplication.shared.isOsloAppInstalled()
+        
         let appSwitchEligibilityInput = AppSwitchEligibilityInput(
             contextId: contextId,
             tokenType: tokenType,
             osType: PayPalCoreConstants.osType,
             merchantOptInForAppSwitch: true,
-            paypalNativeAppInstalled: true,
+            paypalNativeAppInstalled: isOsloAppInstalled,
             experimentationContext: experimentationContext,
             buyerEmailAddressMerchantPassed: userIdentity?.email,
             shoppersSessionId: userIdentity?.existingPayPalSessionID
