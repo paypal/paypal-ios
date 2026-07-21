@@ -36,7 +36,7 @@ class PayPalVaultViewModel: VaultViewModel {
                     paymentType: .paypal,
                     appSwitchURL: Environment.sandbox.baseURL
                 ).id
-            }) { result in
+            }, completion: { result in
                 switch result {
                 case .success(let vaultResult):
                     self.state.paypalVaultTokenResponse = .loaded(vaultResult)
@@ -51,7 +51,7 @@ class PayPalVaultViewModel: VaultViewModel {
                         continuation.resume(throwing: error)
                     }
                 }
-            }
+            })
         }
     }
 

@@ -64,26 +64,6 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
         }
     }
 
-    private func makeIneligibleSession() -> ShopperSessionResult {
-        ShopperSessionResult(
-            appSwitchEligible: false,
-            redirectURL: nil,
-            ineligibleReason: "TEST_INELIGIBLE",
-            matchedAuthenticationMethods: nil,
-            shopperSessionConfig: .init(id: "fake-session-id", expiresAt: "2026-12-31T00:00:00Z")
-        )
-    }
-
-    private func makeEligibleSession(redirectURL: String) -> ShopperSessionResult {
-        ShopperSessionResult(
-            appSwitchEligible: true,
-            redirectURL: redirectURL,
-            ineligibleReason: nil,
-            matchedAuthenticationMethods: ["EMAIL"],
-            shopperSessionConfig: .init(id: "fake-session-id", expiresAt: "2026-12-31T00:00:00Z")
-        )
-    }
-
     func test_start_sendsSystemLatencyForBrowserPresentation() async throws {
         mockCreateShopperSessionAPI.stubResponse = makeIneligibleSession()
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
@@ -212,9 +192,9 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
 
         payPalClient.createPayPalSession(urlConfig: fakeURLConfig)
 
-        _ = try await payPalClient.start(createOrder: {
+        _ = try await payPalClient.start {
             "test-order-id"
-        })
+        }
 
         let latencyEvent = try XCTUnwrap(
             mockTrackingEventsAPI.capturedAnalyticsEvents.first {
@@ -235,9 +215,9 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
 
         payPalClient.createPayPalSession(urlConfig: fakeURLConfig)
 
-        _ = try await payPalClient.vault(createSetupToken: {
+        _ = try await payPalClient.vault {
             "setup-token-id"
-        })
+        }
 
         let latencyEvent = try XCTUnwrap(
             mockTrackingEventsAPI.capturedAnalyticsEvents.first {
@@ -258,11 +238,11 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
         let expectation = expectation(description: "start fails")
         payPalClient.start(createOrder: {
             throw CreateOrderError()
-        }) { result in
+        }, completion: { result in
             if case .failure = result {
                 expectation.fulfill()
             }
-        }
+        })
 
         wait(for: [expectation], timeout: 2.0)
 
@@ -297,6 +277,29 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
             mockTrackingEventsAPI.capturedAnalyticsEvents.first {
                 $0.eventName == PayPalWebAnalytics.apiRequestLatency
             }
+        )
+    }
+}
+
+extension PayPalWebLatencyAnalytics_Tests {
+
+    func makeIneligibleSession() -> ShopperSessionResult {
+        ShopperSessionResult(
+            appSwitchEligible: false,
+            redirectURL: nil,
+            ineligibleReason: "TEST_INELIGIBLE",
+            matchedAuthenticationMethods: nil,
+            shopperSessionConfig: .init(id: "fake-session-id", expiresAt: "2026-12-31T00:00:00Z")
+        )
+    }
+
+    func makeEligibleSession(redirectURL: String) -> ShopperSessionResult {
+        ShopperSessionResult(
+            appSwitchEligible: true,
+            redirectURL: redirectURL,
+            ineligibleReason: nil,
+            matchedAuthenticationMethods: ["EMAIL"],
+            shopperSessionConfig: .init(id: "fake-session-id", expiresAt: "2026-12-31T00:00:00Z")
         )
     }
 }

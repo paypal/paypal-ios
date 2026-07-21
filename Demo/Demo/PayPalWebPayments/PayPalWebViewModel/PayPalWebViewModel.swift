@@ -81,14 +81,14 @@ class PayPalWebViewModel: ObservableObject {
                 payPalWebCheckoutClient.start(createOrder: {
                     let order = try await self.fetchOrder(shouldVault: self.shouldVaultCheckout)
                     return order.id
-                }) { result in
+                }, completion: { result in
                     switch result {
                     case .success(let checkoutResult):
                         self.handleCheckoutResult(.success(checkoutResult))
                     case .failure(let error):
                         self.fallbackToLegacyCheckout(funding: funding, error: error)
                     }
-                }
+                })
             } catch {
                 print("❌ PayPal checkout failed to start: \(error.localizedDescription)")
                 state.approveResultResponse = .error(message: error.localizedDescription)
