@@ -24,23 +24,6 @@ struct ShopperSessionResult: Decodable {
     let appSwitchEligibilityResponse: AppSwitchEligibilityResponse?
     let shopperSessionResponse: ShopperSessionResponse?
 
-    init(
-        appSwitchEligible: Bool,
-        redirectURL: String?,
-        ineligibleReason: String?,
-        matchedAuthenticationMethods: [String]?,
-        shopperSessionConfig: ShopperSessionConfig?
-    ) {
-        self.appSwitchEligibilityResponse = AppSwitchEligibilityResponse(
-            appSwitchEligible: appSwitchEligible,
-            ineligibleReason: ineligibleReason,
-            checkoutUrls: redirectURL.map { CheckoutUrls(redirectURL: $0, checkoutFallbackUrl: nil) }
-        )
-        self.shopperSessionResponse = shopperSessionConfig.map {
-            ShopperSessionResponse(sessionId: $0.id, expiresAt: $0.expiresAt)
-        }
-    }
-
     // MARK: - Convenience accessors (preserve existing call sites in PayPalWebCheckoutClient)
 
     var appSwitchEligible: Bool {
@@ -58,8 +41,6 @@ struct ShopperSessionResult: Decodable {
     var ineligibleReason: String? {
         appSwitchEligibilityResponse?.ineligibleReason
     }
-
-    var matchedAuthenticationMethods: [String]? = []
 
     var shopperSessionConfig: ShopperSessionConfig? {
         shopperSessionResponse.map { ShopperSessionConfig(id: $0.sessionId, expiresAt: $0.expiresAt) }

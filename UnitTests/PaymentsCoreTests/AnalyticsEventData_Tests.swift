@@ -52,7 +52,7 @@ class AnalyticsEventData_Tests: XCTestCase {
         XCTAssertEqual(eventParams["vault_setup_token"] as? String, "fake-setup-token")
     }
 
-    func testEncode_withNoOptionalAnalyticsFields_omitsThemFromJSON() throws {
+    func testEncode_withNoNewAnalyticsFields_encodesThemAsNull() throws {
         let data = try JSONEncoder().encode(sut)
         let json = try? JSONSerialization.jsonObject(with: data) as? [String: [String: [String: Any]]]
 
@@ -61,16 +61,19 @@ class AnalyticsEventData_Tests: XCTestCase {
             return
         }
 
-        XCTAssertFalse(eventParams.keys.contains("app_switch_url"))
-        XCTAssertFalse(eventParams.keys.contains("error_description"))
-        XCTAssertFalse(eventParams.keys.contains("is_cached_session"))
-        XCTAssertFalse(eventParams.keys.contains("is_vault_request"))
-        XCTAssertFalse(eventParams.keys.contains("shopper_session_id"))
-        XCTAssertFalse(eventParams.keys.contains("start_time"))
-        XCTAssertFalse(eventParams.keys.contains("end_time"))
-        XCTAssertFalse(eventParams.keys.contains("endpoint"))
-        XCTAssertFalse(eventParams.keys.contains("presentation_type"))
-        XCTAssertFalse(eventParams.keys.contains("flow"))
+        XCTAssertTrue(eventParams.keys.contains("app_switch_url"))
+        XCTAssertTrue(eventParams.keys.contains("error_description"))
+        XCTAssertTrue(eventParams.keys.contains("is_cached_session"))
+        XCTAssertTrue(eventParams.keys.contains("is_vault_request"))
+        XCTAssertTrue(eventParams.keys.contains("shopper_session_id"))
+        XCTAssertTrue(eventParams.keys.contains("start_time"))
+
+        XCTAssertNil(eventParams["app_switch_url"] as? String)
+        XCTAssertNil(eventParams["error_description"] as? String)
+        XCTAssertNil(eventParams["is_cached_session"] as? Bool)
+        XCTAssertNil(eventParams["is_vault_request"] as? Bool)
+        XCTAssertNil(eventParams["shopper_session_id"] as? String)
+        XCTAssertNil(eventParams["start_time"] as? Int)
     }
 
     func testEncode_withNewAnalyticsFields_properlyFormatsJSON() throws {
@@ -89,11 +92,7 @@ class AnalyticsEventData_Tests: XCTestCase {
             isCachedSession: true,
             isVaultRequest: true,
             shopperSessionId: "fake-shopper-session-id",
-            startTime: 1_234_567_890,
-            endTime: 1_234_567_999,
-            endpoint: "/v2/checkout/orders",
-            presentationType: "browser",
-            flow: "checkout"
+            startTime: 1_234_567_890
         )
 
         let data = try JSONEncoder().encode(sut)
@@ -110,11 +109,7 @@ class AnalyticsEventData_Tests: XCTestCase {
         XCTAssertEqual(eventParams["is_cached_session"] as? Bool, true)
         XCTAssertEqual(eventParams["is_vault_request"] as? Bool, true)
         XCTAssertEqual(eventParams["shopper_session_id"] as? String, "fake-shopper-session-id")
-        XCTAssertEqual(eventParams["start_time"] as? Int64, 1_234_567_890)
-        XCTAssertEqual(eventParams["end_time"] as? Int64, 1_234_567_999)
-        XCTAssertEqual(eventParams["endpoint"] as? String, "/v2/checkout/orders")
-        XCTAssertEqual(eventParams["presentation_type"] as? String, "browser")
-        XCTAssertEqual(eventParams["flow"] as? String, "checkout")
+        XCTAssertEqual(eventParams["start_time"] as? Int, 1_234_567_890)
     }
 }
 
