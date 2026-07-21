@@ -21,6 +21,7 @@ class PayPalClient_Tests: XCTestCase {
         mockWebAuthenticationSession = MockWebAuthenticationSession()
         mockNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: config))
         mockClientConfigAPI = MockClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)
+        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
         mockPatchCCOAPI = MockPatchCCOAPI(coreConfig: config)
         mockCreateShopperSessionAPI = MockCreateShopperSessionAPI(coreConfig: config)
 
@@ -182,6 +183,34 @@ class PayPalClient_Tests: XCTestCase {
         waitForExpectations(timeout: 10)
     }
 
+    func testVault_whenUpdateClientConfigFails_returnsErrorAndDoesNotStartWebSession() {
+        mockClientConfigAPI.stubError = CoreSDKError(
+            code: NetworkingError.Code.serverResponseError.rawValue,
+            domain: NetworkingError.domain,
+            errorDescription: "Target App not specified"
+        )
+        mockWebAuthenticationSession.cannedResponseURL =
+            URL(string: "sdk.ios.paypal://vault/success?approval_token_id=fakeTokenID&approval_session_id=fakeSessionID")
+
+        let expectation = expectation(description: "vault(url:) completed")
+
+        let vaultRequest = PayPalVaultRequest(setupTokenID: "fakeTokenID")
+        payPalClient.vault(vaultRequest) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure when UpdateClientConfig fails")
+            case .failure(let error):
+                XCTAssertEqual(error.domain, NetworkingError.domain)
+                XCTAssertEqual(error.code, NetworkingError.Code.serverResponseError.rawValue)
+                XCTAssertEqual(error.localizedDescription, "Target App not specified")
+            }
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 10)
+        XCTAssertNil(mockWebAuthenticationSession.lastLaunchedURL)
+    }
+
     func testStart_whenWebAuthenticationSessionCancelCalled_returnsCancellationError() {
         let request = PayPalWebCheckoutRequest(orderID: "1234")
 
@@ -265,6 +294,33 @@ class PayPalClient_Tests: XCTestCase {
         }
 
         waitForExpectations(timeout: 2, handler: nil)
+    }
+
+    func testStart_whenUpdateClientConfigFails_returnsErrorAndDoesNotStartWebSession() {
+        let request = PayPalWebCheckoutRequest(orderID: "1234")
+
+        mockClientConfigAPI.stubError = CoreSDKError(
+            code: NetworkingError.Code.serverResponseError.rawValue,
+            domain: NetworkingError.domain,
+            errorDescription: "Target App not specified"
+        )
+        mockWebAuthenticationSession.cannedResponseURL = URL(string: "https://fakeURL?token=1234&PayerID=98765")
+
+        let expectation = self.expectation(description: "Call back invoked with error")
+        payPalClient.start(request: request) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure when UpdateClientConfig fails")
+            case .failure(let error):
+                XCTAssertEqual(error.domain, NetworkingError.domain)
+                XCTAssertEqual(error.code, NetworkingError.Code.serverResponseError.rawValue)
+                XCTAssertEqual(error.localizedDescription, "Target App not specified")
+            }
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 2, handler: nil)
+        XCTAssertNil(mockWebAuthenticationSession.lastLaunchedURL)
     }
 
     func testStart_whenResultURLMissingParameters_returnsMalformedResultError() {

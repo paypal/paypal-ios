@@ -32,6 +32,11 @@ public class PayPalWebCheckoutClient: NSObject {
     /// Set by `createPayPalSession()`. Cleared automatically on checkout success, cancellation, or error.
     private var sessionTask: Task<ShopperSessionResult, Error>?
 
+    /// The token type set by `createPayPalSession()`. Determines the query-parameter name used to carry the
+    /// token in app-switch and web checkout/fallback URLs (see `TokenType.tokenQueryParameterName`).
+    /// Defaults to `.orderID` for the deprecated APIs that don't call `createPayPalSession()`.
+    private var tokenType: TokenType = .orderID
+
     // MARK: - Analytics State
     private var analyticsData: PayPalCheckoutAnalyticsData?
 
@@ -94,6 +99,7 @@ public class PayPalWebCheckoutClient: NSObject {
     ) {
         sessionTask?.cancel()
 
+        self.tokenType = tokenType
         analyticsData = PayPalCheckoutAnalyticsData(userIdentity: userIdentity, urlConfig: urlConfig, userAction: userAction)
         analyticsService?.sendEvent("paypal-web-payments:checkout:ssid-session:started")
 
@@ -509,6 +515,7 @@ public class PayPalWebCheckoutClient: NSObject {
                         clientID: self.config.merchantID,
                         fundingSource: .paypal,
                         orderID: orderID,
+                        tokenType: self.tokenType,
                         sessionID: sessionID
                     )
                 },
@@ -544,7 +551,8 @@ public class PayPalWebCheckoutClient: NSObject {
                         merchantID: self.config.merchantID,
                         fundingSource: .paypal,
                         sessionID: sessionID,
-                        setupTokenID: setupTokenID
+                        setupTokenID: setupTokenID,
+                        tokenType: self.tokenType
                     )
                 },
                 fallback: {
@@ -645,10 +653,21 @@ public class PayPalWebCheckoutClient: NSObject {
             checkoutAnalyticsData: analyticsData
         )
         Task {
-            _ = try? await clientConfigAPI.updateClientConfig(
-                token: orderID,
-                fundingSource: fundingSource.rawValue
-            )
+            do {
+                _ = try await clientConfigAPI.updateClientConfig(
+                    token: orderID,
+                    fundingSource: fundingSource.rawValue
+                )
+            } catch {
+                let sdkError = (error as? CoreSDKError) ?? PayPalError.webSessionError(error)
+                analyticsService?.sendEvent(
+                    "paypal-web-payments:checkout:auth-challenge-presentation:failed",
+                    errorDescription: sdkError.errorDescription,
+                    checkoutAnalyticsData: analyticsData
+                )
+                notifyCheckoutFailure(with: sdkError, completion: completion)
+                return
+            }
 
             guard let payPalCheckoutURL = makeCheckoutURL(
                 session: session,
@@ -690,24 +709,42 @@ public class PayPalWebCheckoutClient: NSObject {
         setupTokenID: String,
         completion: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void
     ) {
-        guard let vaultCheckoutURL = makeVaultCheckoutURL(session: session, setupTokenID: setupTokenID) else {
-            notifyVaultFailure(with: PayPalError.payPalURLError, completion: completion)
-            return
-        }
-        webAuthenticationSession.start(
-            url: vaultCheckoutURL,
-            context: self,
-            sessionDidDisplay: { [weak self] didDisplay in
-                let event = didDisplay
-                    ? "paypal-web-payments:vault-wo-purchase:auth-challenge-presentation:succeeded"
-                    : "paypal-web-payments:vault-wo-purchase:auth-challenge-presentation:failed"
-                self?.analyticsService?.sendEvent(event, checkoutAnalyticsData: self?.analyticsData)
-            },
-            sessionDidComplete: { [weak self] url, error in
-                guard let self else { return }
-                self.handleVaultWebAuthCompletion(url: url, error: error, completion: completion)
+        Task {
+            do {
+                _ = try await clientConfigAPI.updateClientConfig(
+                    token: setupTokenID,
+                    fundingSource: PayPalWebCheckoutFundingSource.paypal.rawValue
+                )
+            } catch {
+                let sdkError = (error as? CoreSDKError) ?? PayPalError.webSessionError(error)
+                analyticsService?.sendEvent(
+                    "paypal-web-payments:vault-wo-purchase:auth-challenge-presentation:failed",
+                    errorDescription: sdkError.errorDescription,
+                    checkoutAnalyticsData: analyticsData
+                )
+                notifyVaultFailure(with: sdkError, completion: completion)
+                return
             }
-        )
+
+            guard let vaultCheckoutURL = makeVaultCheckoutURL(session: session, setupTokenID: setupTokenID) else {
+                notifyVaultFailure(with: PayPalError.payPalURLError, completion: completion)
+                return
+            }
+            webAuthenticationSession.start(
+                url: vaultCheckoutURL,
+                context: self,
+                sessionDidDisplay: { [weak self] didDisplay in
+                    let event = didDisplay
+                        ? "paypal-web-payments:vault-wo-purchase:auth-challenge-presentation:succeeded"
+                        : "paypal-web-payments:vault-wo-purchase:auth-challenge-presentation:failed"
+                    self?.analyticsService?.sendEvent(event, checkoutAnalyticsData: self?.analyticsData)
+                },
+                sessionDidComplete: { [weak self] url, error in
+                    guard let self else { return }
+                    self.handleVaultWebAuthCompletion(url: url, error: error, completion: completion)
+                }
+            )
+        }
     }
 
     private func handleCheckoutWebAuthCompletion(
@@ -823,6 +860,7 @@ public class PayPalWebCheckoutClient: NSObject {
                     clientID: config.merchantID,
                     fundingSource: .paypal,
                     orderID: token,
+                    tokenType: self.tokenType,
                     sessionID: nil
                 ) else {
                 return .fallback("invalid_app_switch_url")
@@ -879,7 +917,7 @@ public class PayPalWebCheckoutClient: NSObject {
     ) -> URL? {
         let baseURL = checkoutFallbackURL(from: session, default: config.environment.payPalBaseURL)
         var queryItems = [
-            URLQueryItem(name: "token", value: orderID),
+            URLQueryItem(name: tokenType.tokenQueryParameterName, value: orderID),
             URLQueryItem(name: "fundingSource", value: fundingSource.rawValue),
             URLQueryItem(name: "integration_artifact", value: PayPalCoreConstants.integrationArtifact)
         ]
@@ -888,21 +926,25 @@ public class PayPalWebCheckoutClient: NSObject {
         }
         var urlComponents = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)
         urlComponents?.queryItems?.append(contentsOf: queryItems)
-        return urlComponents?.url
+        let url = urlComponents?.url
+        PayPalSDKLogger.logURL("🌐 FALLBACK URL  •  checkout (web)", base: baseURL.absoluteString, result: url)
+        return url
     }
 
     private func makeVaultCheckoutURL(session: ShopperSessionResult?, setupTokenID: String) -> URL? {
         let baseURL = checkoutFallbackURL(from: session, default: config.environment.paypalVaultCheckoutURL)
         var vaultURLComponents = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)
         var queryItems = [
-            URLQueryItem(name: "approval_session_id", value: setupTokenID),
+            URLQueryItem(name: tokenType.tokenQueryParameterName, value: setupTokenID),
             URLQueryItem(name: "integration_artifact", value: PayPalCoreConstants.integrationArtifact)
         ]
         if let sessionID = analyticsData?.shopperSessionID {
             queryItems.append(URLQueryItem(name: "shopperSessionId", value: sessionID))
         }
         vaultURLComponents?.queryItems?.append(contentsOf: queryItems)
-        return vaultURLComponents?.url
+        let url = vaultURLComponents?.url
+        PayPalSDKLogger.logURL("🌐 FALLBACK URL  •  vault (web)", base: baseURL.absoluteString, result: url)
+        return url
     }
 
     func payPalCheckoutReturnURL(payPalCheckoutURL: URL) -> URL? {
@@ -914,7 +956,9 @@ public class PayPalWebCheckoutClient: NSObject {
         checkoutURLComponents?.queryItems?.append(redirectQueryItem)
         checkoutURLComponents?.queryItems?.append(nativeXOQueryItem)
 
-        return checkoutURLComponents?.url
+        let url = checkoutURLComponents?.url
+        PayPalSDKLogger.logURL("🌐 FALLBACK URL  •  checkout return (opened in browser)", result: url)
+        return url
     }
 
     private func getQueryStringParameter(url: String, param: String) -> String? {

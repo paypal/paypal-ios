@@ -18,6 +18,7 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
                 clientID: "client-abc",
                 fundingSource: .paypal,
                 orderID: "order-123",
+                tokenType: .orderID,
                 sessionID: "session-xyz"
             )
         )
@@ -39,6 +40,7 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
                 clientID: "client-abc",
                 fundingSource: .paypalCredit,
                 orderID: "order-123",
+                tokenType: .orderID,
                 sessionID: "session-xyz"
             )
         )
@@ -54,6 +56,7 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
                 clientID: "client-abc",
                 fundingSource: .paypal,
                 orderID: "order-123",
+                tokenType: .orderID,
                 sessionID: "session-xyz"
             )
         )
@@ -68,6 +71,7 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
                 clientID: "client & co",
                 fundingSource: .paypal,
                 orderID: "order-123",
+                tokenType: .orderID,
                 sessionID: "session-xyz"
             )
         )
@@ -87,6 +91,7 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
                 clientID: "client-abc",
                 fundingSource: .paypal,
                 orderID: "order-123",
+                tokenType: .orderID,
                 sessionID: "session-xyz"
             )
         )
@@ -100,6 +105,21 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         XCTAssertLessThanOrEqual(switchInitiatedMillis, afterMillis)
     }
 
+    func testCheckoutAppSwitchURL_usesBaTokenQueryNameForBillingToken() throws {
+        let url = try XCTUnwrap(
+            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").checkoutAppSwitchURL(
+                clientID: "client-abc",
+                fundingSource: .paypal,
+                orderID: "BA-123",
+                tokenType: .billingToken,
+                sessionID: "session-xyz"
+            )
+        )
+
+        XCTAssertEqual(queryValue("ba_token", in: url), "BA-123")
+        XCTAssertNil(queryValue("token", in: url))
+    }
+
     // MARK: - vaultAppSwitchURL
 
     func testVaultAppSwitchURL_setsExpectedQueryItems() throws {
@@ -108,7 +128,8 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
                 merchantID: "client-abc",
                 fundingSource: .paypal,
                 sessionID: "session-xyz",
-                setupTokenID: "setup-token-123"
+                setupTokenID: "setup-token-123",
+                tokenType: .vaultID
             )
         )
 
@@ -131,7 +152,8 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
                 merchantID: "client-abc",
                 fundingSource: .paypal,
                 sessionID: "session-xyz",
-                setupTokenID: "setup-token-123"
+                setupTokenID: "setup-token-123",
+                tokenType: .vaultID
             )
         )
 

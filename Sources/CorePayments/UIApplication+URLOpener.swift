@@ -26,9 +26,10 @@ extension UIApplication: URLOpener {
         }
         return canOpenURL(payPalURL)
     }
-    
+
+    // TODO: change paypal to paypal-oslo
     public func isOsloAppInstalled() -> Bool {
-        guard let osloURL = URL(string: "paypal-oslo://") else {
+        guard let osloURL = URL(string: "paypal://") else {
             return false
         }
         return canOpenURL(osloURL)

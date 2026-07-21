@@ -49,7 +49,7 @@ class PayPalVaultViewModel: VaultViewModel {
                     continuation.resume()
                 case .failure(let error):
                     if error == PayPalError.vaultCanceledError {
-                        self.state.paypalVaultTokenResponse = .idle
+                        self.state.paypalVaultTokenResponse = .error(message: "PayPal vault was canceled.")
                         continuation.resume()
                     } else {
                         self.state.paypalVaultTokenResponse = .error(message: error.localizedDescription)

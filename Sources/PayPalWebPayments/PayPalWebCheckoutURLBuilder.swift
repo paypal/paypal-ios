@@ -1,5 +1,9 @@
 import Foundation
 
+#if canImport(CorePayments)
+import CorePayments
+#endif
+
 /// Builds the deep-link URLs used to app-switch into the PayPal app for checkout and vault flows.
 struct PayPalWebCheckoutURLBuilder {
 
@@ -20,6 +24,7 @@ struct PayPalWebCheckoutURLBuilder {
         clientID: String,
         fundingSource: PayPalWebCheckoutFundingSource,
         orderID: String,
+        tokenType: TokenType,
         sessionID: String?
     ) -> URL? {
         makeAppSwitchURL(
@@ -27,7 +32,7 @@ struct PayPalWebCheckoutURLBuilder {
             flowType: .checkout,
             fundingSource: fundingSource,
             sessionID: sessionID,
-            tokenItem: URLQueryItem(name: "token", value: orderID)
+            tokenItem: URLQueryItem(name: tokenType.tokenQueryParameterName, value: orderID)
         )
     }
 
@@ -37,14 +42,15 @@ struct PayPalWebCheckoutURLBuilder {
         merchantID: String,
         fundingSource: PayPalWebCheckoutFundingSource,
         sessionID: String?,
-        setupTokenID: String
+        setupTokenID: String,
+        tokenType: TokenType
     ) -> URL? {
         makeAppSwitchURL(
             merchantID: merchantID,
             flowType: .vault,
             fundingSource: fundingSource,
             sessionID: sessionID,
-            tokenItem: URLQueryItem(name: "approval_session_id", value: setupTokenID)
+            tokenItem: URLQueryItem(name: tokenType.tokenQueryParameterName, value: setupTokenID)
         )
     }
 
@@ -77,6 +83,8 @@ struct PayPalWebCheckoutURLBuilder {
         queryItems.append(contentsOf: additionalQueryItems)
         components.queryItems = queryItems
 
-        return components.url
+        let url = components.url
+        PayPalSDKLogger.logURL("🔗 APP-SWITCH URL  •  flow_type = \(flowType.rawValue)", base: base, result: url)
+        return url
     }
 }

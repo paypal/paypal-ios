@@ -24,6 +24,7 @@ class PayPalClient_CheckoutAppSwitch_Toggle_tests: XCTestCase {
         mockWebAuthenticationSession = MockWebAuthenticationSession()
         mockNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: config))
         mockClientConfigAPI = MockClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)
+        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
         mockPatchCCOAPI = MockPatchCCOAPI(coreConfig: config)
         mockCreateShopperSessionAPI = MockCreateShopperSessionAPI(coreConfig: config)
         mockURLOpener = MockURLOpener()
