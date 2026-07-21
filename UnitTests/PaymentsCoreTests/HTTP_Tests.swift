@@ -91,8 +91,6 @@ class HTTP_Tests: XCTestCase {
             XCTAssertEqual(httpResponse.status, 200)
             XCTAssertTrue(httpResponse.isSuccessful)
             XCTAssertEqual(httpResponse.body, fakeJSONResponseString.data(using: .utf8))
-            XCTAssertNotNil(httpResponse.timing)
-            XCTAssertGreaterThanOrEqual(httpResponse.timing!.endTime, httpResponse.timing!.startTime)
         } catch {
             XCTFail("Unexpected failure.")
         }

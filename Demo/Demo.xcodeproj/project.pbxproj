@@ -389,8 +389,8 @@
 			children = (
 				1001E2CB2D03836D0023A03C /* PayPalWebResultViews */,
 				3BA570002AA052E80081D14F /* PayPalWebPaymentsView.swift */,
-				3BA570022AA053AE0081D14F /* PayPalWebCreateOrderView.swift */,
 				3BA570062AA0DF330081D14F /* PayPalWebButtonsView.swift */,
+				3BA570022AA053AE0081D14F /* PayPalWebCreateOrderView.swift */,
 			);
 			path = PayPalWebPaymentsView;
 			sourceTree = "<group>";

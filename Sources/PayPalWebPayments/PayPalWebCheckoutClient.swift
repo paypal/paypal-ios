@@ -27,20 +27,6 @@ public class PayPalWebCheckoutClient: NSObject {
     private let patchCCOAPI: PatchCCOWithAppSwitchEligibility
     private let createShopperSessionAPI: CreateShopperSessionAPI
     private var analyticsService: AnalyticsService?
-    private var pendingSystemLatency: PendingSystemLatency?
-    private var didSendSystemLatency = false
-
-    /// When set, unit tests can supply analytics services backed by mock tracking APIs.
-    var analyticsServiceProviderFactory: ((CoreConfig, String?, String?) -> AnalyticsService) = { config, orderID, setupToken in
-
-        if let orderID {
-            return AnalyticsService(coreConfig: config, orderID: orderID)
-        }
-        if let setupToken {
-            return AnalyticsService(coreConfig: config, setupToken: setupToken)
-        }
-        return AnalyticsService(coreConfig: config)
-    }
 
     /// Holds the in-flight or completed Shopper Session fetch.
     /// Set by `createPayPalSession()`. Cleared automatically on checkout success, cancellation, or error.
@@ -48,7 +34,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
     // MARK: - Analytics State
 
-    private var sessionCreationStartTime: Int64?
+    private var sessionCreationStartTime: Int?
 
     private var isCachedSession: Bool?
 
@@ -112,7 +98,7 @@ public class PayPalWebCheckoutClient: NSObject {
     ) {
         sessionTask?.cancel()
 
-        sessionCreationStartTime = HTTPResponseTiming.epochMilliseconds()
+        sessionCreationStartTime = Int(round(Date().timeIntervalSince1970 * 1000))
         isCachedSession = userIdentity?.existingPayPalSessionID != nil
         analyticsService?.sendEvent("paypal-web-payments:checkout:ssid-session:started")
 
@@ -155,8 +141,7 @@ public class PayPalWebCheckoutClient: NSObject {
             return
         }
 
-        analyticsService = makeAnalyticsService(orderID: orderID)
-        beginSystemLatencyTracking(flow: PayPalWebAnalytics.Flow.checkout)
+        analyticsService = AnalyticsService(coreConfig: config, orderID: orderID)
 
         Task {
             do {
@@ -184,65 +169,7 @@ public class PayPalWebCheckoutClient: NSObject {
                     errorDescription: error.localizedDescription,
                     shopperSessionId: shopperSessionID
                 )
-                await sendSystemLatencyEventIfNeeded(presentationType: PayPalWebAnalytics.PresentationType.error)
                 await fallBackToPatchCCOOrWeb(orderID: orderID, completion: completion)
-            }
-        }
-    }
-
-    /// Initiates checkout by creating an order via the merchant-provided callback, then launching checkout.
-    ///
-    /// `createPayPalSession()` **must** be called before this method.
-    ///
-    /// - Parameters:
-    ///   - createOrder: Async closure that creates an order and returns its ID.
-    ///   - completion: Completion invoked on the main thread with the checkout result.
-    public func start(
-        createOrder: @escaping () async throws -> String,
-        completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
-    ) {
-        guard let task = sessionTask else {
-            DispatchQueue.main.async {
-                completion(.failure(PayPalError.sessionNotStartedError))
-            }
-            return
-        }
-
-        beginSystemLatencyTracking(flow: PayPalWebAnalytics.Flow.checkout)
-
-        Task {
-            do {
-                let orderID = try await measureCreateOrder(createOrder)
-                analyticsService = makeAnalyticsService(orderID: orderID)
-
-                let session = try await task.value
-                sessionTask = nil
-                shopperSessionID = session.shopperSessionConfig?.id
-                analyticsService?.sendEvent("paypal-web-payments:checkout:started", shopperSessionId: shopperSessionID)
-                launchCheckout(session: session, orderID: orderID, completion: completion)
-            } catch {
-                sessionTask = nil
-                let sdkError = sdkError(from: error, fallback: "Checkout failed.")
-                analyticsService = makeAnalyticsService()
-                analyticsService?.sendEvent(
-                    "paypal-web-payments:checkout:failed",
-                    errorDescription: sdkError.errorDescription,
-                    shopperSessionId: shopperSessionID
-                )
-                await sendSystemLatencyEventIfNeeded(presentationType: PayPalWebAnalytics.PresentationType.error)
-                DispatchQueue.main.async { completion(.failure(sdkError)) }
-            }
-        }
-    }
-
-    /// Initiates checkout by creating an order via the merchant-provided callback, then launching checkout.
-    public func start(createOrder: @escaping () async throws -> String) async throws -> PayPalWebCheckoutResult {
-        try await withCheckedThrowingContinuation { continuation in
-            start(createOrder: createOrder) { result in
-                switch result {
-                case .success(let value): continuation.resume(returning: value)
-                case .failure(let error): continuation.resume(throwing: error)
-                }
             }
         }
     }
@@ -313,8 +240,7 @@ public class PayPalWebCheckoutClient: NSObject {
             return
         }
 
-        analyticsService = makeAnalyticsService(setupToken: setupTokenID)
-        beginSystemLatencyTracking(flow: PayPalWebAnalytics.Flow.vault)
+        analyticsService = AnalyticsService(coreConfig: config, setupToken: setupTokenID)
 
         Task {
             do {
@@ -342,68 +268,7 @@ public class PayPalWebCheckoutClient: NSObject {
                     errorDescription: error.localizedDescription,
                     shopperSessionId: shopperSessionID
                 )
-                await sendSystemLatencyEventIfNeeded(presentationType: PayPalWebAnalytics.PresentationType.error)
                 await fallBackToPatchCCOOrWebForVault(setupTokenID: setupTokenID, completion: completion)
-            }
-        }
-    }
-
-    /// Initiates vault by creating a setup token via the merchant-provided callback, then launching vault.
-    ///
-    /// `createPayPalSession()` **must** be called before this method.
-    ///
-    /// - Parameters:
-    ///   - createSetupToken: Async closure that creates a setup token and returns its ID.
-    ///   - completion: Completion invoked on the main thread with the vault result.
-    public func vault(
-        createSetupToken: @escaping () async throws -> String,
-        completion: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void
-    ) {
-        guard let task = sessionTask else {
-            DispatchQueue.main.async {
-                completion(.failure(PayPalError.sessionNotStartedError))
-            }
-            return
-        }
-
-        beginSystemLatencyTracking(flow: PayPalWebAnalytics.Flow.vault)
-
-        Task {
-            do {
-                let setupTokenID = try await measureCreateSession(createSetupToken)
-                analyticsService = makeAnalyticsService(setupToken: setupTokenID)
-
-                let session = try await task.value
-                sessionTask = nil
-                shopperSessionID = session.shopperSessionConfig?.id
-                analyticsService?.sendEvent(
-                    "paypal-web-payments:vault-wo-purchase:started",
-                    shopperSessionId: shopperSessionID
-                )
-                startVaultWebAuthFlow(setupTokenID: setupTokenID, completion: completion)
-            } catch {
-                sessionTask = nil
-                let sdkError = sdkError(from: error, fallback: "Vault failed.")
-                analyticsService = makeAnalyticsService()
-                analyticsService?.sendEvent(
-                    "paypal-web-payments:vault-wo-purchase:failed",
-                    errorDescription: sdkError.errorDescription,
-                    shopperSessionId: shopperSessionID
-                )
-                await sendSystemLatencyEventIfNeeded(presentationType: PayPalWebAnalytics.PresentationType.error)
-                DispatchQueue.main.async { completion(.failure(sdkError)) }
-            }
-        }
-    }
-
-    /// Initiates vault by creating a setup token via the merchant-provided callback, then launching vault.
-    public func vault(createSetupToken: @escaping () async throws -> String) async throws -> PayPalVaultResult {
-        try await withCheckedThrowingContinuation { continuation in
-            vault(createSetupToken: createSetupToken) { result in
-                switch result {
-                case .success(let value): continuation.resume(returning: value)
-                case .failure(let error): continuation.resume(throwing: error)
-                }
             }
         }
     }
@@ -455,9 +320,8 @@ public class PayPalWebCheckoutClient: NSObject {
         request: PayPalWebCheckoutRequest,
         completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
     ) {
-        analyticsService = makeAnalyticsService(orderID: request.orderID)
+        analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         analyticsService?.sendEvent("paypal-web-payments:checkout:started")
-        beginSystemLatencyTracking(flow: PayPalWebAnalytics.Flow.checkout)
 
         let completionOnce = makeCompletionOnce(completion)
         let appInstalled = urlOpener.isPayPalAppInstalled()
@@ -518,9 +382,8 @@ public class PayPalWebCheckoutClient: NSObject {
         _ vaultRequest: PayPalVaultRequest,
         completion: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void
     ) {
-        analyticsService = makeAnalyticsService(setupToken: vaultRequest.setupTokenID)
+        analyticsService = AnalyticsService(coreConfig: config, setupToken: vaultRequest.setupTokenID)
         analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:started")
-        beginSystemLatencyTracking(flow: PayPalWebAnalytics.Flow.vault)
         startVaultWebAuthFlow(setupTokenID: vaultRequest.setupTokenID, completion: completion)
     }
 
@@ -752,7 +615,6 @@ public class PayPalWebCheckoutClient: NSObject {
         await MainActor.run {
             handlers.setCompletion(handlers.completionOnce)
         }
-        await sendSystemLatencyEventIfNeeded(presentationType: PayPalWebAnalytics.PresentationType.appSwitch)
         let opened = await attemptAppSwitch(with: url)
         if opened {
             analyticsService?.sendEvent(
@@ -809,12 +671,10 @@ public class PayPalWebCheckoutClient: NSObject {
                     errorDescription: PayPalError.payPalURLError.errorDescription,
                     shopperSessionId: shopperSessionID
                 )
-                await sendSystemLatencyEventIfNeeded(presentationType: PayPalWebAnalytics.PresentationType.error)
                 notifyCheckoutFailure(with: PayPalError.payPalURLError, completion: completion)
                 return
             }
 
-            await sendSystemLatencyEventIfNeeded(presentationType: PayPalWebAnalytics.PresentationType.browser)
             webAuthenticationSession.start(
                 url: payPalCheckoutURLComponents,
                 context: self,
@@ -881,60 +741,54 @@ public class PayPalWebCheckoutClient: NSObject {
         vaultURLComponents?.queryItems = queryItems
 
         guard let vaultCheckoutURL = vaultURLComponents?.url else {
-            Task {
-                await sendSystemLatencyEventIfNeeded(presentationType: PayPalWebAnalytics.PresentationType.error)
-                notifyVaultFailure(with: PayPalError.payPalURLError, completion: completion)
-            }
+            notifyVaultFailure(with: PayPalError.payPalURLError, completion: completion)
             return
         }
 
-        Task {
-            await sendSystemLatencyEventIfNeeded(presentationType: PayPalWebAnalytics.PresentationType.browser)
-            webAuthenticationSession.start(
-                url: vaultCheckoutURL,
-                context: self,
-                sessionDidDisplay: { [weak self] didDisplay in
-                    let event = didDisplay
-                        ? "paypal-web-payments:vault-wo-purchase:auth-challenge-presentation:succeeded"
-                        : "paypal-web-payments:vault-wo-purchase:auth-challenge-presentation:failed"
-                    self?.analyticsService?.sendEvent(event, shopperSessionId: self?.shopperSessionID)
-                },
-                sessionDidComplete: { [weak self] url, error in
-                    guard let self else { return }
-                    defer { self.shopperSessionID = nil }
-                    if let error {
-                        let sdkError: CoreSDKError
-                        switch error {
-                        case ASWebAuthenticationSessionError.canceledLogin:
-                            sdkError = PayPalError.vaultCanceledError
-                        default:
-                            sdkError = PayPalError.webSessionError(error)
-                        }
-                        self.sessionTask = nil
-                        self.notifyVaultCancelWithError(with: sdkError, completion: completion)
+        webAuthenticationSession.start(
+            url: vaultCheckoutURL,
+            context: self,
+            sessionDidDisplay: { [weak self] didDisplay in
+                let event = didDisplay
+                    ? "paypal-web-payments:vault-wo-purchase:auth-challenge-presentation:succeeded"
+                    : "paypal-web-payments:vault-wo-purchase:auth-challenge-presentation:failed"
+                self?.analyticsService?.sendEvent(event, shopperSessionId: self?.shopperSessionID)
+            },
+            sessionDidComplete: { [weak self] url, error in
+                guard let self else { return }
+                defer { self.shopperSessionID = nil }
+                if let error {
+                    let sdkError: CoreSDKError
+                    switch error {
+                    case ASWebAuthenticationSessionError.canceledLogin:
+                        sdkError = PayPalError.vaultCanceledError
+                    default:
+                        sdkError = PayPalError.webSessionError(error)
                     }
+                    self.sessionTask = nil
+                    self.notifyVaultCancelWithError(with: sdkError, completion: completion)
+                }
 
-                    if let url {
-                        if url.path.contains("cancel") {
-                            self.sessionTask = nil
-                            self.notifyVaultCancelWithError(with: PayPalError.vaultCanceledError, completion: completion)
-                        } else if
-                            let tokenID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_token_id"),
-                            let approvalSessionID = self.getQueryStringParameter(
-                                url: url.absoluteString, param: "approval_session_id"
-                            ),
-                            !tokenID.isEmpty, !approvalSessionID.isEmpty {
-                            self.sessionTask = nil
-                            let vaultResult = PayPalVaultResult(tokenID: tokenID, approvalSessionID: approvalSessionID)
-                            self.notifyVaultSuccess(for: vaultResult, completion: completion)
-                        } else {
-                            self.sessionTask = nil
-                            self.notifyVaultFailure(with: PayPalError.payPalVaultResponseError, completion: completion)
-                        }
+                if let url {
+                    if url.path.contains("cancel") {
+                        self.sessionTask = nil
+                        self.notifyVaultCancelWithError(with: PayPalError.vaultCanceledError, completion: completion)
+                    } else if
+                        let tokenID = self.getQueryStringParameter(url: url.absoluteString, param: "approval_token_id"),
+                        let approvalSessionID = self.getQueryStringParameter(
+                            url: url.absoluteString, param: "approval_session_id"
+                        ),
+                        !tokenID.isEmpty, !approvalSessionID.isEmpty {
+                        self.sessionTask = nil
+                        let vaultResult = PayPalVaultResult(tokenID: tokenID, approvalSessionID: approvalSessionID)
+                        self.notifyVaultSuccess(for: vaultResult, completion: completion)
+                    } else {
+                        self.sessionTask = nil
+                        self.notifyVaultFailure(with: PayPalError.payPalVaultResponseError, completion: completion)
                     }
                 }
-            )
-        }
+            }
+        )
     }
 
     /// Shared by the checkout and vault-without-purchase flows: `token`/`tokenType` identify what's being
@@ -1009,107 +863,6 @@ public class PayPalWebCheckoutClient: NSObject {
     private func getQueryStringParameter(url: String, param: String) -> String? {
         guard let url = URLComponents(string: url) else { return nil }
         return url.queryItems?.first { $0.name == param }?.value
-    }
-
-    private func beginSystemLatencyTracking(flow: String) {
-        pendingSystemLatency = PendingSystemLatency(
-            startTime: HTTPResponseTiming.epochMilliseconds(),
-            flow: flow
-        )
-        didSendSystemLatency = false
-    }
-
-    private func sendSystemLatencyEventIfNeeded(presentationType: String) async {
-        guard !didSendSystemLatency, let pendingSystemLatency else { return }
-
-        didSendSystemLatency = true
-        await analyticsService?.sendEventAndAwaitDelivery(
-            PayPalWebAnalytics.systemLatency,
-            startTime: pendingSystemLatency.startTime,
-            endTime: HTTPResponseTiming.epochMilliseconds(),
-            presentationType: presentationType,
-            flow: pendingSystemLatency.flow
-        )
-    }
-
-    private func measureCreateOrder(
-        _ createOrder: @escaping () async throws -> String
-    ) async throws -> String {
-        let startTime = HTTPResponseTiming.epochMilliseconds()
-        do {
-            let orderID = try await createOrder()
-            await sendAPIRequestLatencyEvent(
-                startTime: startTime,
-                endTime: HTTPResponseTiming.epochMilliseconds(),
-                endpoint: PayPalWebAnalytics.createOrderEndpoint,
-                orderID: orderID
-            )
-            return orderID
-        } catch {
-            await sendAPIRequestLatencyEvent(
-                startTime: startTime,
-                endTime: HTTPResponseTiming.epochMilliseconds(),
-                endpoint: PayPalWebAnalytics.createOrderEndpoint,
-                orderID: nil
-            )
-            throw error
-        }
-    }
-
-    private func measureCreateSession(
-        _ createSetupToken: @escaping () async throws -> String
-    ) async throws -> String {
-        let startTime = HTTPResponseTiming.epochMilliseconds()
-        do {
-            let setupTokenID = try await createSetupToken()
-            await sendAPIRequestLatencyEvent(
-                startTime: startTime,
-                endTime: HTTPResponseTiming.epochMilliseconds(),
-                endpoint: PayPalWebAnalytics.createSessionEndpoint,
-                setupTokenID: setupTokenID
-            )
-            return setupTokenID
-        } catch {
-            await sendAPIRequestLatencyEvent(
-                startTime: startTime,
-                endTime: HTTPResponseTiming.epochMilliseconds(),
-                endpoint: PayPalWebAnalytics.createSessionEndpoint,
-                setupTokenID: nil
-            )
-            throw error
-        }
-    }
-
-    private func sendAPIRequestLatencyEvent(
-        startTime: Int64,
-        endTime: Int64,
-        endpoint: String,
-        orderID: String? = nil,
-        setupTokenID: String? = nil
-    ) async {
-        let service = makeAnalyticsService(orderID: orderID, setupToken: setupTokenID)
-
-        await service.sendEventAndAwaitDelivery(
-            PayPalWebAnalytics.apiRequestLatency,
-            startTime: startTime,
-            endTime: endTime,
-            endpoint: endpoint
-        )
-    }
-
-    // TODO: Consider extracting an "AnalyticsFactory" type that can be injected into the constructor of PayPalWebCheckoutClient or go further and determine if there's another way to provide orderID and setupToken as Analytics metadata parameters
-    private func makeAnalyticsService(orderID: String? = nil, setupToken: String? = nil) -> AnalyticsService {
-        return analyticsServiceProviderFactory(config, orderID, setupToken)
-    }
-
-    // MARK: - Private: Error Helper
-
-    private func sdkError(from error: Error, fallback message: String) -> CoreSDKError {
-        (error as? CoreSDKError) ?? CoreSDKError(
-            code: PayPalError.Code.unknown.rawValue,
-            domain: PayPalError.domain,
-            errorDescription: error.localizedDescription.isEmpty ? message : error.localizedDescription
-        )
     }
 
     // MARK: - Private: Notify Helpers

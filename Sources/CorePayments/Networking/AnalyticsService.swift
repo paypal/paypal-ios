@@ -3,16 +3,15 @@ import UIKit
 /// Constructs `AnalyticsEventData` models and sends FPTI analytics events.
 @_documentation(visibility: private)
 public struct AnalyticsService {
-
+    
     // MARK: - Internal Properties
-
+    
     private let coreConfig: CoreConfig
     private let trackingEventsAPI: TrackingEventsAPI
     private let orderID: String?
     private let setupToken: String?
-
     // MARK: - Initializer
-
+    
     public init(coreConfig: CoreConfig, orderID: String) {
         self.coreConfig = coreConfig
         self.trackingEventsAPI = TrackingEventsAPI(coreConfig: coreConfig)
@@ -24,9 +23,11 @@ public struct AnalyticsService {
         self.coreConfig = coreConfig
         self.trackingEventsAPI = TrackingEventsAPI(coreConfig: coreConfig)
         self.setupToken = setupToken
-        /// Android logs setup token as "order_id" this is to ensure parity between platforms
+        /// Android logs setup token as "order_id" this is to ensure parity between platforms 
         self.orderID = setupToken
     }
+
+    // MARK: - Internal Initializer
 
     /// This initializer is exposed for internal PayPal use only. Do not use. It is not covered by Semantic
     /// Versioning and may change or be removed at any time.
@@ -47,26 +48,22 @@ public struct AnalyticsService {
         self.orderID = orderID
         self.setupToken = nil
     }
-
-    /// Exposed for testing
-    init(coreConfig: CoreConfig, setupToken: String, trackingEventsAPI: TrackingEventsAPI) {
-        self.coreConfig = coreConfig
-        self.trackingEventsAPI = trackingEventsAPI
-        self.orderID = nil
-        self.setupToken = setupToken
-    }
-
-    /// Exposed for testing
-    init(coreConfig: CoreConfig, trackingEventsAPI: TrackingEventsAPI) {
-        self.coreConfig = coreConfig
-        self.trackingEventsAPI = trackingEventsAPI
-        self.orderID = nil
-        self.setupToken = nil
-    }
-
+    
     // MARK: - Public Methods
-
+        
+    /// This method is exposed for internal PayPal use only. Do not use. It is not covered by Semantic Versioning and may change or be removed at any time.
     /// Sends analytics event to https://api.paypal.com/v1/tracking/events/ via a background task.
+    /// - Parameter name: Event name string used to identify this unique event in FPTI.
+    /// - Parameter correlationID: correlation ID associated with the request
+    /// - Parameter buttonType: The type of button
+    /// - Parameter withBackgroundProtection: When `true`, requests additional runtime if the app enters
+    ///   the background before the network request completes. Delivery is best-effort and not guaranteed.
+    /// - Parameter appSwitchURL: The URL used to attempt an app switch, when applicable
+    /// - Parameter errorDescription: A human-readable description of the error, when the event represents a failure
+    /// - Parameter isCachedSession: Whether the Shopper Session used for this event was served from cache
+    /// - Parameter isVaultRequest: Whether this event is part of a vault (save payment method) request
+    /// - Parameter shopperSessionId: The Shopper Session ID associated with this event
+    /// - Parameter startTime: Start time of the operation being measured, in milliseconds since epoch
     public func sendEvent(
         _ name: String,
         correlationID: String? = nil,
@@ -77,11 +74,7 @@ public struct AnalyticsService {
         isCachedSession: Bool? = nil,
         isVaultRequest: Bool? = nil,
         shopperSessionId: String? = nil,
-        startTime: Int64? = nil,
-        endTime: Int64? = nil,
-        endpoint: String? = nil,
-        presentationType: String? = nil,
-        flow: String? = nil
+        startTime: Int? = nil
     ) {
         if withBackgroundProtection {
             sendEventWithBackgroundProtection(
@@ -93,11 +86,7 @@ public struct AnalyticsService {
                 isCachedSession: isCachedSession,
                 isVaultRequest: isVaultRequest,
                 shopperSessionId: shopperSessionId,
-                startTime: startTime,
-                endTime: endTime,
-                endpoint: endpoint,
-                presentationType: presentationType,
-                flow: flow
+                startTime: startTime
             )
             return
         }
@@ -111,36 +100,9 @@ public struct AnalyticsService {
                 isCachedSession: isCachedSession,
                 isVaultRequest: isVaultRequest,
                 shopperSessionId: shopperSessionId,
-                startTime: startTime,
-                endTime: endTime,
-                endpoint: endpoint,
-                presentationType: presentationType,
-                flow: flow
+                startTime: startTime
             )
         }
-    }
-
-    /// Sends an analytics event and waits for the request to complete.
-    public func sendEventAndAwaitDelivery(
-        _ name: String,
-        correlationID: String? = nil,
-        buttonType: String? = nil,
-        startTime: Int64? = nil,
-        endTime: Int64? = nil,
-        endpoint: String? = nil,
-        presentationType: String? = nil,
-        flow: String? = nil
-    ) async {
-        await performEventRequest(
-            name,
-            correlationID: correlationID,
-            buttonType: buttonType,
-            startTime: startTime,
-            endTime: endTime,
-            endpoint: endpoint,
-            presentationType: presentationType,
-            flow: flow
-        )
     }
 
     private func sendEventWithBackgroundProtection(
@@ -152,11 +114,7 @@ public struct AnalyticsService {
         isCachedSession: Bool? = nil,
         isVaultRequest: Bool? = nil,
         shopperSessionId: String? = nil,
-        startTime: Int64? = nil,
-        endTime: Int64? = nil,
-        endpoint: String? = nil,
-        presentationType: String? = nil,
-        flow: String? = nil
+        startTime: Int? = nil
     ) {
         Task { @MainActor in
             var bgTaskID: UIBackgroundTaskIdentifier = .invalid
@@ -186,11 +144,7 @@ public struct AnalyticsService {
                     isCachedSession: isCachedSession,
                     isVaultRequest: isVaultRequest,
                     shopperSessionId: shopperSessionId,
-                    startTime: startTime,
-                    endTime: endTime,
-                    endpoint: endpoint,
-                    presentationType: presentationType,
-                    flow: flow
+                    startTime: startTime
                 )
             }
 
@@ -201,6 +155,17 @@ public struct AnalyticsService {
 
     // MARK: - Internal Methods
 
+    /// Exposed to be able to execute this function synchronously in unit tests
+    /// - Parameters:
+    ///   - name: Event name string used to identify this unique event in FPTI
+    ///   - correlationID: correlation ID associated with the request
+    ///   - buttonType: The type of button
+    ///   - appSwitchURL: The URL used to attempt an app switch, when applicable
+    ///   - errorDescription: A human-readable description of the error, when the event represents a failure
+    ///   - isCachedSession: Whether the Shopper Session used for this event was served from cache
+    ///   - isVaultRequest: Whether this event is part of a vault (save payment method) request
+    ///   - shopperSessionId: The Shopper Session ID associated with this event
+    ///   - startTime: Start time of the operation being measured, in milliseconds since epoch
     func performEventRequest(
         _ name: String,
         correlationID: String? = nil,
@@ -210,18 +175,16 @@ public struct AnalyticsService {
         isCachedSession: Bool? = nil,
         isVaultRequest: Bool? = nil,
         shopperSessionId: String? = nil,
-        startTime: Int64? = nil,
-        endTime: Int64? = nil,
-        endpoint: String? = nil,
-        presentationType: String? = nil,
-        flow: String? = nil
+        startTime: Int? = nil
     ) async {
         guard !Task.isCancelled else { return }
         do {
+            let clientID = coreConfig.clientID
+
             let eventData = AnalyticsEventData(
                 environment: coreConfig.environment.toString,
                 eventName: name,
-                clientID: coreConfig.clientID,
+                clientID: clientID,
                 orderID: orderID,
                 correlationID: correlationID,
                 setupToken: setupToken,
@@ -231,11 +194,7 @@ public struct AnalyticsService {
                 isCachedSession: isCachedSession,
                 isVaultRequest: isVaultRequest,
                 shopperSessionId: shopperSessionId,
-                startTime: startTime,
-                endTime: endTime,
-                endpoint: endpoint,
-                presentationType: presentationType,
-                flow: flow
+                startTime: startTime
             )
 
             let (_) = try await trackingEventsAPI.sendEvent(with: eventData)

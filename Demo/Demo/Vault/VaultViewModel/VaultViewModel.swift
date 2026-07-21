@@ -18,15 +18,6 @@ class VaultViewModel: ObservableObject {
     @Published var userSSID: String = ""
     @Published var customerID: String = ""
 
-    var resolvedUserIdentity: PayPalUserIdentity? {
-        UserIdentityFactory.makeUserIdentity(
-            selection: selectedUserIdentity,
-            email: userEmail,
-            phone: userPhone,
-            ssid: userSSID
-        )
-    }
-
     func fetchSetupToken(
         customerID: String? = nil,
         selectedMerchantIntegration: MerchantIntegration,
@@ -34,21 +25,21 @@ class VaultViewModel: ObservableObject {
         sca: String = "SCA_WHEN_REQUIRED",
         appSwitchURL: String? = nil
     ) async throws -> CreateSetupTokenResponse {
-        state.setupTokenResponse = .loading
-
-        let experienceContext = VaultExperienceContext(
-            appSwitchContext: appSwitchURL.map { AppSwitchContext(appUrl: $0) }
-        )
-
-        let paymentSourceType: PaymentSourceType
-        switch paymentType {
-        case .card:
-            paymentSourceType = PaymentSourceType.card(verification: sca, experienceContext: experienceContext)
-        case .paypal:
-            paymentSourceType = PaymentSourceType.paypal(usageType: "MERCHANT", experienceContext: experienceContext)
-        }
-
         do {
+            state.setupTokenResponse = .loading
+
+            let experienceContext = VaultExperienceContext(
+                appSwitchContext: appSwitchURL.map { AppSwitchContext(appUrl: $0) }
+            )
+
+            let paymentSourceType: PaymentSourceType
+            switch paymentType {
+            case .card:
+                paymentSourceType = PaymentSourceType.card(verification: sca, experienceContext: experienceContext)
+            case .paypal:
+                paymentSourceType = PaymentSourceType.paypal(usageType: "MERCHANT", experienceContext: experienceContext)
+            }
+
             let setupTokenResult = try await DemoMerchantAPI.sharedService.createSetupToken(
                 customerID: customerID,
                 selectedMerchantIntegration: selectedMerchantIntegration,
@@ -77,14 +68,20 @@ class VaultViewModel: ObservableObject {
         selectedMerchantIntegration: MerchantIntegration
     ) async throws {
         do {
-            state.paymentTokenResponse = .loading
+            DispatchQueue.main.async {
+                self.state.paymentTokenResponse = .loading
+            }
             let paymentTokenResult = try await DemoMerchantAPI.sharedService.createPaymentToken(
                 setupToken: setupToken,
                 selectedMerchantIntegration: selectedMerchantIntegration
             )
-            state.paymentTokenResponse = .loaded(paymentTokenResult)
+            DispatchQueue.main.async {
+                self.state.paymentTokenResponse = .loaded(paymentTokenResult)
+            }
         } catch {
-            state.paymentTokenResponse = .error(message: error.localizedDescription)
+            DispatchQueue.main.async {
+                self.state.paymentTokenResponse = .error(message: error.localizedDescription)
+            }
             throw error
         }
     }
