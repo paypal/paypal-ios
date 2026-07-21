@@ -6,6 +6,7 @@ import Foundation
 /// `CorePayments`. `PayPalWebPayments` populates it via a convenience initializer declared in its own module
 /// (see `PayPalCheckoutAnalyticsData.swift` under `Sources/PayPalWebPayments/Models`), since the types that
 /// initializer needs (`PayPalUserIdentity`, `PayPalURLConfig`, `PayPalUserAction`) live there.
+@_documentation(visibility: private)
 public final class PayPalCheckoutAnalyticsData {
 
     public var isCachedSession: Bool?
