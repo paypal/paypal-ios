@@ -59,9 +59,7 @@ struct ShopperSessionResult: Decodable {
         appSwitchEligibilityResponse?.ineligibleReason
     }
 
-    var matchedAuthenticationMethods: [String]? {
-        nil
-    }
+    var matchedAuthenticationMethods: [String]? = []
 
     var shopperSessionConfig: ShopperSessionConfig? {
         shopperSessionResponse.map { ShopperSessionConfig(id: $0.sessionId, expiresAt: $0.expiresAt) }

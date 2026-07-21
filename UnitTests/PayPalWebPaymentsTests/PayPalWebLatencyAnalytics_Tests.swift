@@ -91,8 +91,7 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
 
         payPalClient.createPayPalSession(urlConfig: fakeURLConfig)
 
-        let result = try await withCheckedThrowingContinuation {
-            (continuation: CheckedContinuation<PayPalWebCheckoutResult, Error>) in
+        let result = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<PayPalWebCheckoutResult, Error>) in
             payPalClient.start(orderID: "test-order-id") { checkoutResult in
                 switch checkoutResult {
                 case .success(let result):
@@ -154,8 +153,7 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
 
         payPalClient.createPayPalSession(urlConfig: fakeURLConfig)
 
-        let result = try await withCheckedThrowingContinuation {
-            (continuation: CheckedContinuation<PayPalWebCheckoutResult, Error>) in
+        let result = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<PayPalWebCheckoutResult, Error>) in
             payPalClient.start(orderID: "test-order-id") { checkoutResult in
                 switch checkoutResult {
                 case .success(let result):
@@ -183,8 +181,7 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
 
         payPalClient.createPayPalSession(urlConfig: fakeURLConfig)
 
-        let result = try await withCheckedThrowingContinuation {
-            (continuation: CheckedContinuation<PayPalVaultResult, Error>) in
+        let result = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<PayPalVaultResult, Error>) in
             payPalClient.vault(setupTokenID: "setup-token-id") { vaultResult in
                 switch vaultResult {
                 case .success(let result):
@@ -215,7 +212,8 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
 
         payPalClient.createPayPalSession(urlConfig: fakeURLConfig)
 
-        _ = try await payPalClient.start(createOrder: { "test-order-id" })
+        _ = try await payPalClient.start {
+            "test-order-id" }
 
         let latencyEvent = try XCTUnwrap(
             mockTrackingEventsAPI.capturedAnalyticsEvents.first {
@@ -236,7 +234,8 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
 
         payPalClient.createPayPalSession(urlConfig: fakeURLConfig)
 
-        _ = try await payPalClient.vault(createSetupToken: { "setup-token-id" })
+        _ = try await payPalClient.vault { "setup-token-id"
+        }
 
         let latencyEvent = try XCTUnwrap(
             mockTrackingEventsAPI.capturedAnalyticsEvents.first {
@@ -281,8 +280,7 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
         mockWebAuthenticationSession.cannedResponseURL = URL(string: checkoutSuccessInboundDeepLink)
 
         payPalClient.createPayPalSession(urlConfig: fakeURLConfig)
-        _ = try await withCheckedThrowingContinuation {
-            (continuation: CheckedContinuation<PayPalWebCheckoutResult, Error>) in
+        _ = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<PayPalWebCheckoutResult, Error>) in
             payPalClient.start(orderID: "test-order-id") { result in
                 switch result {
                 case .success(let value): continuation.resume(returning: value)
