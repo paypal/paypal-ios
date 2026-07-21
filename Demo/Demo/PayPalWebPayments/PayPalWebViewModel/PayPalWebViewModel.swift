@@ -65,7 +65,7 @@ class PayPalWebViewModel: ObservableObject {
                     continuation.resume()
                 case .failure(let error):
                     if error == PayPalError.checkoutCanceledError {
-                        self.state.approveResultResponse = .idle
+                        self.state.approveResultResponse = .error(message: "PayPal checkout was canceled.")
                         continuation.resume()
                     } else {
                         self.state.approveResultResponse = .error(message: error.localizedDescription)
@@ -142,7 +142,7 @@ class PayPalWebViewModel: ObservableObject {
                         self.checkoutResult = paypalResult
                     case .failure(let error):
                         if error == PayPalError.checkoutCanceledError {
-                            self.state.approveResultResponse = .idle
+                            self.state.approveResultResponse = .error(message: "PayPal checkout was canceled.")
                         } else {
                             self.state.approveResultResponse = .error(message: error.localizedDescription)
                         }
