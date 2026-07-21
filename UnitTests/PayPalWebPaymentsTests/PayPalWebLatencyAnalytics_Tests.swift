@@ -212,9 +212,9 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
 
         payPalClient.createPayPalSession(urlConfig: fakeURLConfig)
 
-        _ = try await payPalClient.start {
+        _ = try await payPalClient.start(createOrder: {
             "test-order-id"
-        }
+        })
 
         let latencyEvent = try XCTUnwrap(
             mockTrackingEventsAPI.capturedAnalyticsEvents.first {
@@ -235,8 +235,9 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
 
         payPalClient.createPayPalSession(urlConfig: fakeURLConfig)
 
-        _ = try await payPalClient.vault { "setup-token-id"
-        }
+        _ = try await payPalClient.vault(createSetupToken: {
+            "setup-token-id"
+        })
 
         let latencyEvent = try XCTUnwrap(
             mockTrackingEventsAPI.capturedAnalyticsEvents.first {
@@ -255,8 +256,9 @@ class PayPalWebLatencyAnalytics_Tests: XCTestCase {
         payPalClient.createPayPalSession(urlConfig: fakeURLConfig)
 
         let expectation = expectation(description: "start fails")
-        payPalClient.start { throw CreateOrderError()
-        } { result in
+        payPalClient.start(createOrder: {
+            throw CreateOrderError()
+        }) { result in
             if case .failure = result {
                 expectation.fulfill()
             }

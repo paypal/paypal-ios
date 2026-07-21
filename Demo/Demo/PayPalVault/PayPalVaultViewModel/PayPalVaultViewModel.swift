@@ -29,14 +29,14 @@ class PayPalVaultViewModel: VaultViewModel {
         state.paypalVaultTokenResponse = .loading
 
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
-            client.vault {
+            client.vault(createSetupToken: {
                 try await self.fetchSetupToken(
                     customerID: self.customerID.isEmpty ? nil : self.customerID,
                     selectedMerchantIntegration: DemoSettings.merchantIntegration,
                     paymentType: .paypal,
                     appSwitchURL: Environment.sandbox.baseURL
                 ).id
-            } { result in
+            }) { result in
                 switch result {
                 case .success(let vaultResult):
                     self.state.paypalVaultTokenResponse = .loaded(vaultResult)
