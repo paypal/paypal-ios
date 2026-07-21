@@ -26,6 +26,7 @@ class PayPalVaultViewModel: VaultViewModel {
             ssid: userSSID
         )
         client.createPayPalSession(
+            flowType: .billingWithoutPurchase,
             userIdentity: resolvedUserIdentity,
             urlConfig: ShopperSessionURLConfigFactory.urlConfig,
             userAction: selectedUserAction

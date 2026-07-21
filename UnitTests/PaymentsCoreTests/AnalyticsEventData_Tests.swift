@@ -14,6 +14,8 @@ class AnalyticsEventData_Tests: XCTestCase {
             environment: "fake-env",
             eventName: "fake-name",
             clientID: "fake-client-id",
+            merchantID: "fake-merchant-id",
+            bnCode: nil,
             orderID: "fake-order",
             correlationID: "fake-correlation-id",
             setupToken: "fake-setup-token"
@@ -44,6 +46,7 @@ class AnalyticsEventData_Tests: XCTestCase {
         XCTAssertNotNil(eventParams["mapv"] as? String) // Unable to specify bundle version number within test targets
         XCTAssertTrue((eventParams["mobile_device_model"] as! String).matches("iPhone\\d,\\d|x86_64|arm64"))
         XCTAssertEqual(eventParams["partner_client_id"] as! String, "fake-client-id")
+        XCTAssertEqual(eventParams["merchant_id"] as? String, "fake-merchant-id")
         XCTAssertEqual(eventParams["platform"] as? String, "iOS")
         XCTAssertEqual(eventParams["order_id"] as? String, "fake-order")
         XCTAssertGreaterThanOrEqual(eventParams["t"] as! String, currentTime)
@@ -61,38 +64,63 @@ class AnalyticsEventData_Tests: XCTestCase {
             return
         }
 
-        XCTAssertTrue(eventParams.keys.contains("app_switch_url"))
-        XCTAssertTrue(eventParams.keys.contains("error_description"))
-        XCTAssertTrue(eventParams.keys.contains("is_cached_session"))
-        XCTAssertTrue(eventParams.keys.contains("is_vault_request"))
-        XCTAssertTrue(eventParams.keys.contains("shopper_session_id"))
-        XCTAssertTrue(eventParams.keys.contains("start_time"))
+        let newFieldKeys = [
+            "app_switch_eligible",
+            "app_switch_url",
+            "bn_code",
+            "cancel_app_url",
+            "error_description",
+            "fallback_scheme_url",
+            "fallback_url",
+            "ineligible_reason",
+            "is_cached_session",
+            "is_vault",
+            "paypal_installed",
+            "return_app_url",
+            "shopper_session_expiration",
+            "shopper_session_id",
+            "user_action"
+        ]
 
-        XCTAssertNil(eventParams["app_switch_url"] as? String)
-        XCTAssertNil(eventParams["error_description"] as? String)
-        XCTAssertNil(eventParams["is_cached_session"] as? Bool)
-        XCTAssertNil(eventParams["is_vault_request"] as? Bool)
-        XCTAssertNil(eventParams["shopper_session_id"] as? String)
-        XCTAssertNil(eventParams["start_time"] as? Int)
+        for key in newFieldKeys {
+            XCTAssertTrue(eventParams.keys.contains(key), "Expected `event_params` to contain key `\(key)`.")
+            XCTAssertTrue(eventParams[key] is NSNull, "Expected `\(key)` to encode as null.")
+        }
     }
 
     func testEncode_withNewAnalyticsFields_properlyFormatsJSON() throws {
         let appSwitchURL = URL(string: "https://example.com/app-switch")!
+        let returnAppURL = URL(string: "https://example.com/return")!
+        let cancelAppURL = URL(string: "https://example.com/cancel")!
+        let fallbackSchemeURL = URL(string: "fake-scheme://fallback")!
+
+        let checkoutAnalyticsData = PayPalCheckoutAnalyticsData()
+        checkoutAnalyticsData.isCachedSession = true
+        checkoutAnalyticsData.shopperSessionID = "fake-shopper-session-id"
+        checkoutAnalyticsData.shopperSessionExpiration = "fake-shopper-session-expiration"
+        checkoutAnalyticsData.appSwitchURL = appSwitchURL
+        checkoutAnalyticsData.appSwitchEligible = true
+        checkoutAnalyticsData.ineligibleReason = "fake-ineligible-reason"
+        checkoutAnalyticsData.fallbackUrl = "fake-fallback-url"
+        checkoutAnalyticsData.isVaultRequest = true
+        checkoutAnalyticsData.userAction = "CONTINUE"
+        checkoutAnalyticsData.paypalNativeAppInstalled = true
+        checkoutAnalyticsData.returnAppURL = returnAppURL
+        checkoutAnalyticsData.cancelAppURL = cancelAppURL
+        checkoutAnalyticsData.fallbackSchemeURL = fallbackSchemeURL
 
         sut = AnalyticsEventData(
             environment: "fake-env",
             eventName: "fake-name",
             clientID: "fake-client-id",
+            merchantID: "fake-merchant-id",
+            bnCode: "fake-bn-code",
             orderID: "fake-order",
             correlationID: "fake-correlation-id",
             setupToken: "fake-setup-token",
             buttonType: "fake-button-type",
-            appSwitchURL: appSwitchURL,
             errorDescription: "fake-error-description",
-            isCachedSession: true,
-            isVaultRequest: true,
-            shopperSessionId: "fake-shopper-session-id",
-            startTime: 1_234_567_890
+            checkoutAnalyticsData: checkoutAnalyticsData
         )
 
         let data = try JSONEncoder().encode(sut)
@@ -104,12 +132,21 @@ class AnalyticsEventData_Tests: XCTestCase {
         }
 
         XCTAssertEqual(eventParams["button_type"] as? String, "fake-button-type")
+        XCTAssertEqual(eventParams["bn_code"] as? String, "fake-bn-code")
         XCTAssertEqual(eventParams["app_switch_url"] as? String, appSwitchURL.absoluteString)
+        XCTAssertEqual(eventParams["app_switch_eligible"] as? Bool, true)
+        XCTAssertEqual(eventParams["ineligible_reason"] as? String, "fake-ineligible-reason")
+        XCTAssertEqual(eventParams["fallback_url"] as? String, "fake-fallback-url")
+        XCTAssertEqual(eventParams["fallback_scheme_url"] as? String, fallbackSchemeURL.absoluteString)
+        XCTAssertEqual(eventParams["return_app_url"] as? String, returnAppURL.absoluteString)
+        XCTAssertEqual(eventParams["cancel_app_url"] as? String, cancelAppURL.absoluteString)
+        XCTAssertEqual(eventParams["user_action"] as? String, "CONTINUE")
+        XCTAssertEqual(eventParams["paypal_installed"] as? Bool, true)
         XCTAssertEqual(eventParams["error_description"] as? String, "fake-error-description")
         XCTAssertEqual(eventParams["is_cached_session"] as? Bool, true)
-        XCTAssertEqual(eventParams["is_vault_request"] as? Bool, true)
+        XCTAssertEqual(eventParams["is_vault"] as? Bool, true)
         XCTAssertEqual(eventParams["shopper_session_id"] as? String, "fake-shopper-session-id")
-        XCTAssertEqual(eventParams["start_time"] as? Int, 1_234_567_890)
+        XCTAssertEqual(eventParams["shopper_session_expiration"] as? String, "fake-shopper-session-expiration")
     }
 }
 

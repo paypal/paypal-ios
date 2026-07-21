@@ -66,6 +66,7 @@ class AnalyticsService_Tests: XCTestCase {
 
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.eventName, "some-event")
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.clientID, "some-client-id")
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.merchantID, "some-merchant-id")
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.orderID, "some-order-id")
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.correlationID, "fake-correlation-id")
     }
@@ -94,36 +95,71 @@ class AnalyticsService_Tests: XCTestCase {
 
     func testSendEvent_sendsNewAnalyticsFields() async {
         let appSwitchURL = URL(string: "https://example.com/app-switch")!
+        let returnAppURL = URL(string: "https://example.com/return")!
+        let cancelAppURL = URL(string: "https://example.com/cancel")!
+        let fallbackSchemeURL = URL(string: "fake-scheme://fallback")!
+
+        let checkoutAnalyticsData = PayPalCheckoutAnalyticsData()
+        checkoutAnalyticsData.isCachedSession = true
+        checkoutAnalyticsData.shopperSessionID = "fake-shopper-session-id"
+        checkoutAnalyticsData.shopperSessionExpiration = "fake-shopper-session-expiration"
+        checkoutAnalyticsData.appSwitchURL = appSwitchURL
+        checkoutAnalyticsData.appSwitchEligible = true
+        checkoutAnalyticsData.ineligibleReason = "fake-ineligible-reason"
+        checkoutAnalyticsData.fallbackUrl = "fake-fallback-url"
+        checkoutAnalyticsData.isVaultRequest = true
+        checkoutAnalyticsData.userAction = "CONTINUE"
+        checkoutAnalyticsData.paypalNativeAppInstalled = true
+        checkoutAnalyticsData.returnAppURL = returnAppURL
+        checkoutAnalyticsData.cancelAppURL = cancelAppURL
+        checkoutAnalyticsData.fallbackSchemeURL = fallbackSchemeURL
 
         await sut.performEventRequest(
             "some-event",
             correlationID: "fake-correlation-id",
             buttonType: "fake-button-type",
-            appSwitchURL: appSwitchURL,
             errorDescription: "fake-error-description",
-            isCachedSession: true,
-            isVaultRequest: true,
-            shopperSessionId: "fake-shopper-session-id",
-            startTime: 1_234_567_890
+            checkoutAnalyticsData: checkoutAnalyticsData
         )
 
-        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.buttonType, "fake-button-type")
-        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.appSwitchURL, appSwitchURL)
-        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.errorDescription, "fake-error-description")
-        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.isCachedSession, true)
-        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.isVaultRequest, true)
-        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.shopperSessionId, "fake-shopper-session-id")
-        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.startTime, 1_234_567_890)
+        let capturedData = mockTrackingEventsAPI.capturedAnalyticsEventData
+
+        XCTAssertEqual(capturedData?.buttonType, "fake-button-type")
+        XCTAssertEqual(capturedData?.errorDescription, "fake-error-description")
+        XCTAssertEqual(capturedData?.appSwitchURL, appSwitchURL)
+        XCTAssertEqual(capturedData?.appSwitchEligible, true)
+        XCTAssertEqual(capturedData?.ineligibleReason, "fake-ineligible-reason")
+        XCTAssertEqual(capturedData?.fallbackUrl, "fake-fallback-url")
+        XCTAssertEqual(capturedData?.fallbackSchemeURL, fallbackSchemeURL)
+        XCTAssertEqual(capturedData?.returnAppURL, returnAppURL)
+        XCTAssertEqual(capturedData?.cancelAppURL, cancelAppURL)
+        XCTAssertEqual(capturedData?.userAction, "CONTINUE")
+        XCTAssertEqual(capturedData?.paypalNativeAppInstalled, true)
+        XCTAssertEqual(capturedData?.isCachedSession, true)
+        XCTAssertEqual(capturedData?.isVaultRequest, true)
+        XCTAssertEqual(capturedData?.shopperSessionId, "fake-shopper-session-id")
+        XCTAssertEqual(capturedData?.shopperSessionExpiration, "fake-shopper-session-expiration")
     }
 
     func testSendEvent_withoutNewAnalyticsFields_sendsThemAsNil() async {
         await sut.performEventRequest("some-event", correlationID: "fake-correlation-id")
 
-        XCTAssertNil(mockTrackingEventsAPI.capturedAnalyticsEventData?.appSwitchURL)
-        XCTAssertNil(mockTrackingEventsAPI.capturedAnalyticsEventData?.errorDescription)
-        XCTAssertNil(mockTrackingEventsAPI.capturedAnalyticsEventData?.isCachedSession)
-        XCTAssertNil(mockTrackingEventsAPI.capturedAnalyticsEventData?.isVaultRequest)
-        XCTAssertNil(mockTrackingEventsAPI.capturedAnalyticsEventData?.shopperSessionId)
-        XCTAssertNil(mockTrackingEventsAPI.capturedAnalyticsEventData?.startTime)
+        let capturedData = mockTrackingEventsAPI.capturedAnalyticsEventData
+
+        XCTAssertNil(capturedData?.bnCode)
+        XCTAssertNil(capturedData?.appSwitchURL)
+        XCTAssertNil(capturedData?.appSwitchEligible)
+        XCTAssertNil(capturedData?.ineligibleReason)
+        XCTAssertNil(capturedData?.fallbackUrl)
+        XCTAssertNil(capturedData?.fallbackSchemeURL)
+        XCTAssertNil(capturedData?.returnAppURL)
+        XCTAssertNil(capturedData?.cancelAppURL)
+        XCTAssertNil(capturedData?.userAction)
+        XCTAssertNil(capturedData?.paypalNativeAppInstalled)
+        XCTAssertNil(capturedData?.errorDescription)
+        XCTAssertNil(capturedData?.isCachedSession)
+        XCTAssertNil(capturedData?.isVaultRequest)
+        XCTAssertNil(capturedData?.shopperSessionId)
+        XCTAssertNil(capturedData?.shopperSessionExpiration)
     }
 }

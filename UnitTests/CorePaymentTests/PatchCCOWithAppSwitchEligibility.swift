@@ -17,6 +17,7 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
             $experimentationContext: externalExperimentationContextInput,
             $osType: externalOSType!,
             $merchantOptInForAppSwitch: Boolean!,
+            $paypalNativeAppInstalled: Boolean!,
             $token: externalToken!,
             $tokenType: externalTokenType!,
             $integrationArtifact: externalIntegrationArtifactType!
@@ -27,6 +28,7 @@ final class PatchCCOWithAppSwitchEligibility_Tests: XCTestCase {
                         contextId: $contextId,
                         experimentationContext: $experimentationContext,
                         merchantOptInForAppSwitch: $merchantOptInForAppSwitch,
+                        paypalNativeAppInstalled: $paypalNativeAppInstalled,
                         osType: $osType,
                         token: $token,
                         tokenType: $tokenType

@@ -3,6 +3,7 @@ import Foundation
 
 class MockURLOpener: URLOpener {
 
+    var mockIsOsloppInstalled = false
     var mockIsPayPalAppInstalled = false
     var mockOpenURLSuccess = true
     var lastOpenedURL: URL?
@@ -11,7 +12,11 @@ class MockURLOpener: URLOpener {
     var didOpenURLHandler: (() -> Void)?
 
     func isPayPalAppInstalled() -> Bool {
-        return mockIsPayPalAppInstalled
+        mockIsPayPalAppInstalled
+    }
+    
+    func isOsloAppInstalled() -> Bool {
+        mockIsOsloppInstalled
     }
 
     func open(_ url: URL, universalLinksOnly: Bool, completionHandler completion: ((Bool) -> Void)?) {

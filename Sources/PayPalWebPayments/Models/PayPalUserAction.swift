@@ -8,4 +8,15 @@ public enum PayPalUserAction {
     case `continue`
     case payNow
     case setupNow
+    
+    public var title: String {
+        switch self {
+        case .continue:
+            return "CONTINUE"
+        case .payNow:
+            return "PAY NOW"
+        case .setupNow:
+            return "SETUP NOW"
+        }
+    }
 }

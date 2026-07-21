@@ -43,6 +43,7 @@ class PayPalWebViewModel: ObservableObject {
         payPalWebCheckoutClient = client
 
         client.createPayPalSession(
+            flowType: .oneTime,
             userIdentity: userIdentity,
             urlConfig: ShopperSessionURLConfigFactory.urlConfig,
             userAction: userAction

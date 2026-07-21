@@ -17,5 +17,5 @@ struct PatchCcoWithAppSwitchEligibilityVariables: Encodable {
     let token: String
     let tokenType: String
     let integrationArtifact: String
-    let paypalNativeAppInstalled: Bool?
+    let paypalNativeAppInstalled: Bool
 }

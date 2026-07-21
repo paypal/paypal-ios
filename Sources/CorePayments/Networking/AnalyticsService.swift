@@ -58,35 +58,22 @@ public struct AnalyticsService {
     /// - Parameter buttonType: The type of button
     /// - Parameter withBackgroundProtection: When `true`, requests additional runtime if the app enters
     ///   the background before the network request completes. Delivery is best-effort and not guaranteed.
-    /// - Parameter appSwitchURL: The URL used to attempt an app switch, when applicable
     /// - Parameter errorDescription: A human-readable description of the error, when the event represents a failure
-    /// - Parameter isCachedSession: Whether the Shopper Session used for this event was served from cache
-    /// - Parameter isVaultRequest: Whether this event is part of a vault (save payment method) request
-    /// - Parameter shopperSessionId: The Shopper Session ID associated with this event
-    /// - Parameter startTime: Start time of the operation being measured, in milliseconds since epoch
     public func sendEvent(
         _ name: String,
         correlationID: String? = nil,
         buttonType: String? = nil,
-        withBackgroundProtection: Bool = false,
-        appSwitchURL: URL? = nil,
         errorDescription: String? = nil,
-        isCachedSession: Bool? = nil,
-        isVaultRequest: Bool? = nil,
-        shopperSessionId: String? = nil,
-        startTime: Int? = nil
+        checkoutAnalyticsData: PayPalCheckoutAnalyticsData? = nil,
+        withBackgroundProtection: Bool = false
     ) {
         if withBackgroundProtection {
             sendEventWithBackgroundProtection(
                 name,
                 correlationID: correlationID,
                 buttonType: buttonType,
-                appSwitchURL: appSwitchURL,
                 errorDescription: errorDescription,
-                isCachedSession: isCachedSession,
-                isVaultRequest: isVaultRequest,
-                shopperSessionId: shopperSessionId,
-                startTime: startTime
+                checkoutAnalyticsData: checkoutAnalyticsData
             )
             return
         }
@@ -95,12 +82,8 @@ public struct AnalyticsService {
                 name,
                 correlationID: correlationID,
                 buttonType: buttonType,
-                appSwitchURL: appSwitchURL,
                 errorDescription: errorDescription,
-                isCachedSession: isCachedSession,
-                isVaultRequest: isVaultRequest,
-                shopperSessionId: shopperSessionId,
-                startTime: startTime
+                checkoutAnalyticsData: checkoutAnalyticsData
             )
         }
     }
@@ -109,12 +92,9 @@ public struct AnalyticsService {
         _ name: String,
         correlationID: String? = nil,
         buttonType: String? = nil,
-        appSwitchURL: URL? = nil,
         errorDescription: String? = nil,
-        isCachedSession: Bool? = nil,
-        isVaultRequest: Bool? = nil,
-        shopperSessionId: String? = nil,
-        startTime: Int? = nil
+        checkoutAnalyticsData: PayPalCheckoutAnalyticsData? = nil,
+        withBackgroundProtection: Bool = false
     ) {
         Task { @MainActor in
             var bgTaskID: UIBackgroundTaskIdentifier = .invalid
@@ -139,12 +119,8 @@ public struct AnalyticsService {
                     name,
                     correlationID: correlationID,
                     buttonType: buttonType,
-                    appSwitchURL: appSwitchURL,
                     errorDescription: errorDescription,
-                    isCachedSession: isCachedSession,
-                    isVaultRequest: isVaultRequest,
-                    shopperSessionId: shopperSessionId,
-                    startTime: startTime
+                    checkoutAnalyticsData: checkoutAnalyticsData
                 )
             }
 
@@ -170,12 +146,8 @@ public struct AnalyticsService {
         _ name: String,
         correlationID: String? = nil,
         buttonType: String? = nil,
-        appSwitchURL: URL? = nil,
         errorDescription: String? = nil,
-        isCachedSession: Bool? = nil,
-        isVaultRequest: Bool? = nil,
-        shopperSessionId: String? = nil,
-        startTime: Int? = nil
+        checkoutAnalyticsData: PayPalCheckoutAnalyticsData? = nil
     ) async {
         guard !Task.isCancelled else { return }
         do {
@@ -185,16 +157,14 @@ public struct AnalyticsService {
                 environment: coreConfig.environment.toString,
                 eventName: name,
                 clientID: clientID,
+                merchantID: coreConfig.merchantID,
+                bnCode: coreConfig.bnCode,
                 orderID: orderID,
                 correlationID: correlationID,
                 setupToken: setupToken,
                 buttonType: buttonType,
-                appSwitchURL: appSwitchURL,
                 errorDescription: errorDescription,
-                isCachedSession: isCachedSession,
-                isVaultRequest: isVaultRequest,
-                shopperSessionId: shopperSessionId,
-                startTime: startTime
+                checkoutAnalyticsData: checkoutAnalyticsData
             )
 
             let (_) = try await trackingEventsAPI.sendEvent(with: eventData)

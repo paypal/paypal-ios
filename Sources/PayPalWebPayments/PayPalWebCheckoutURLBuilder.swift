@@ -20,7 +20,7 @@ struct PayPalWebCheckoutURLBuilder {
         clientID: String,
         fundingSource: PayPalWebCheckoutFundingSource,
         orderID: String,
-        sessionID: String
+        sessionID: String?
     ) -> URL? {
         makeAppSwitchURL(
             merchantID: clientID,
@@ -36,7 +36,7 @@ struct PayPalWebCheckoutURLBuilder {
     func vaultAppSwitchURL(
         merchantID: String,
         fundingSource: PayPalWebCheckoutFundingSource,
-        sessionID: String,
+        sessionID: String?,
         setupTokenID: String
     ) -> URL? {
         makeAppSwitchURL(
@@ -55,21 +55,25 @@ struct PayPalWebCheckoutURLBuilder {
         merchantID: String,
         flowType: FlowType,
         fundingSource: PayPalWebCheckoutFundingSource,
-        sessionID: String,
+        sessionID: String?,
         tokenItem: URLQueryItem
     ) -> URL? {
         guard var components = URLComponents(string: base) else { return nil }
 
-        var queryItems = components.queryItems ?? []
-        let additionalQueryItems: [URLQueryItem] = [
+        // Drop malformed items (e.g. from a "&&" in `base`), which `URLComponents`
+        // parses as an empty-name, nil-value query item.
+        var queryItems = (components.queryItems ?? []).filter { !$0.name.isEmpty }
+        var additionalQueryItems: [URLQueryItem] = [
             tokenItem,
             URLQueryItem(name: "source", value: "pda"),
             URLQueryItem(name: "merchant", value: merchantID),
             URLQueryItem(name: "flow_type", value: flowType.rawValue),
-            URLQueryItem(name: "shopperSessionId", value: sessionID),
             URLQueryItem(name: "funding_source", value: fundingSource.rawValue),
             URLQueryItem(name: "switch_initiated_time", value: String(Int(round(Date().timeIntervalSince1970 * 1000))))
         ]
+        if let sessionID = sessionID {
+            additionalQueryItems.append(URLQueryItem(name: "shopperSessionId", value: sessionID))
+        }
         queryItems.append(contentsOf: additionalQueryItems)
         components.queryItems = queryItems
 

@@ -16,6 +16,7 @@ public class PatchCCOWithAppSwitchEligibility {
             $experimentationContext: externalExperimentationContextInput,
             $osType: externalOSType!,
             $merchantOptInForAppSwitch: Boolean!,
+            $paypalNativeAppInstalled: Boolean!,
             $token: externalToken!,
             $tokenType: externalTokenType!,
             $integrationArtifact: externalIntegrationArtifactType!
@@ -26,6 +27,7 @@ public class PatchCCOWithAppSwitchEligibility {
                         contextId: $contextId,
                         experimentationContext: $experimentationContext,
                         merchantOptInForAppSwitch: $merchantOptInForAppSwitch,
+                        paypalNativeAppInstalled: $paypalNativeAppInstalled,
                         osType: $osType,
                         token: $token,
                         tokenType: $tokenType
@@ -75,7 +77,7 @@ public class PatchCCOWithAppSwitchEligibility {
     ) async throws -> AppSwitchEligibility {
 
         let lsat = try await authenticationSecureTokenServiceAPI.createLowScopedAccessToken().accessToken
-
+        
         let variables = PatchCcoWithAppSwitchEligibilityVariables(
             contextId: token,
             experimentationContext: ExperimentationContext(integrationChannel: PayPalCoreConstants.integrationChannel),

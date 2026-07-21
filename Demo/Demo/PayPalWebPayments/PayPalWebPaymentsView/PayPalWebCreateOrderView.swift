@@ -3,17 +3,6 @@ import PayPalWebPayments
 
 extension PayPalUserAction {
 
-    var title: String {
-        switch self {
-        case .continue:
-            return "CONTINUE"
-        case .payNow:
-            return "PAY NOW"
-        case .setupNow:
-            return "SETUP NOW"
-        }
-    }
-    
     static let checkoutActions: [PayPalUserAction] = [.payNow, .continue]
 }
 

@@ -8,6 +8,7 @@ public protocol URLOpener {
         completionHandler completion: ((Bool) -> Void)?
     )
     func isPayPalAppInstalled() -> Bool
+    func isOsloAppInstalled() -> Bool
 }
 
 public extension URLOpener {
@@ -24,6 +25,13 @@ extension UIApplication: URLOpener {
             return false
         }
         return canOpenURL(payPalURL)
+    }
+    
+    public func isOsloAppInstalled() -> Bool {
+        guard let osloURL = URL(string: "paypal-oslo://") else {
+            return false
+        }
+        return canOpenURL(osloURL)
     }
 
     public func open(
