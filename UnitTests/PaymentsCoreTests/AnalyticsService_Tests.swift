@@ -100,7 +100,6 @@ class AnalyticsService_Tests: XCTestCase {
         let fallbackSchemeURL = URL(string: "fake-scheme://fallback")!
 
         let checkoutAnalyticsData = PayPalCheckoutAnalyticsData()
-        checkoutAnalyticsData.sessionCreationStartTime = 1_234_567_890
         checkoutAnalyticsData.isCachedSession = true
         checkoutAnalyticsData.shopperSessionID = "fake-shopper-session-id"
         checkoutAnalyticsData.shopperSessionExpiration = "fake-shopper-session-expiration"
@@ -140,7 +139,6 @@ class AnalyticsService_Tests: XCTestCase {
         XCTAssertEqual(capturedData?.isVaultRequest, true)
         XCTAssertEqual(capturedData?.shopperSessionId, "fake-shopper-session-id")
         XCTAssertEqual(capturedData?.shopperSessionExpiration, "fake-shopper-session-expiration")
-        XCTAssertEqual(capturedData?.startTime, 1_234_567_890)
     }
 
     func testSendEvent_withoutNewAnalyticsFields_sendsThemAsNil() async {
@@ -163,6 +161,5 @@ class AnalyticsService_Tests: XCTestCase {
         XCTAssertNil(capturedData?.isVaultRequest)
         XCTAssertNil(capturedData?.shopperSessionId)
         XCTAssertNil(capturedData?.shopperSessionExpiration)
-        XCTAssertNil(capturedData?.startTime)
     }
 }

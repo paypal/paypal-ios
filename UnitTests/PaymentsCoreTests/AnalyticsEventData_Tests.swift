@@ -74,12 +74,11 @@ class AnalyticsEventData_Tests: XCTestCase {
             "fallback_url",
             "ineligible_reason",
             "is_cached_session",
-            "is_vault_request",
-            "paypal_native_app_installed",
+            "is_vault",
+            "paypal_installed",
             "return_app_url",
             "shopper_session_expiration",
             "shopper_session_id",
-            "start_time",
             "user_action"
         ]
 
@@ -142,13 +141,12 @@ class AnalyticsEventData_Tests: XCTestCase {
         XCTAssertEqual(eventParams["return_app_url"] as? String, returnAppURL.absoluteString)
         XCTAssertEqual(eventParams["cancel_app_url"] as? String, cancelAppURL.absoluteString)
         XCTAssertEqual(eventParams["user_action"] as? String, "CONTINUE")
-        XCTAssertEqual(eventParams["paypal_native_app_installed"] as? Bool, true)
+        XCTAssertEqual(eventParams["paypal_installed"] as? Bool, true)
         XCTAssertEqual(eventParams["error_description"] as? String, "fake-error-description")
         XCTAssertEqual(eventParams["is_cached_session"] as? Bool, true)
-        XCTAssertEqual(eventParams["is_vault_request"] as? Bool, true)
+        XCTAssertEqual(eventParams["is_vault"] as? Bool, true)
         XCTAssertEqual(eventParams["shopper_session_id"] as? String, "fake-shopper-session-id")
         XCTAssertEqual(eventParams["shopper_session_expiration"] as? String, "fake-shopper-session-expiration")
-        XCTAssertEqual(eventParams["start_time"] as? Int, 1_234_567_890)
     }
 }
 
