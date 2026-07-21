@@ -2,6 +2,7 @@ import Foundation
 @testable import CorePayments
 
 class MockURLOpener: URLOpener {
+
     var mockIsOsloppInstalled = false
     var mockIsPayPalAppInstalled = false
     var mockOpenURLSuccess = true

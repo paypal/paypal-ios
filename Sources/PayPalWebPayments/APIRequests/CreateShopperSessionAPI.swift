@@ -5,6 +5,7 @@ import CorePayments
 #endif
 
 extension PayPalFlowType {
+
     var tokenType: String {
         switch self {
         case .oneTime:
