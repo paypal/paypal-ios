@@ -18,33 +18,29 @@ class PayPalVaultViewModel: VaultViewModel {
             throw VaultFlowError.clientInitializationFailed(message)
         }
         paypalClient = client
-        
-        let resolvedUserIdentity = UserIdentityFactory.makeUserIdentity(
-            selection: selectedUserIdentity,
-            email: userEmail,
-            phone: userPhone,
-            ssid: userSSID
-        )
+
+        print("Using vault(createSetupToken:) — emits paypal-web-payments:api-request-latency")
         client.createPayPalSession(
             userIdentity: resolvedUserIdentity,
             urlConfig: ShopperSessionURLConfigFactory.urlConfig,
             userAction: selectedUserAction
         )
 
-        let setupToken = try await fetchSetupToken(
-            customerID: customerID.isEmpty ? nil : customerID,
-            selectedMerchantIntegration: DemoSettings.merchantIntegration,
-            paymentType: .paypal,
-            appSwitchURL: Environment.sandbox.baseURL
-        )
-
         state.paypalVaultTokenResponse = .loading
 
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
-            client.vault(setupTokenID: setupToken.id) { result in
+            client.vault(createSetupToken: {
+                try await self.fetchSetupToken(
+                    customerID: self.customerID.isEmpty ? nil : self.customerID,
+                    selectedMerchantIntegration: DemoSettings.merchantIntegration,
+                    paymentType: .paypal,
+                    appSwitchURL: Environment.sandbox.baseURL
+                ).id
+            }, completion: { result in
                 switch result {
                 case .success(let vaultResult):
                     self.state.paypalVaultTokenResponse = .loaded(vaultResult)
+                    print("Vault result: \(String(describing: vaultResult))")
                     continuation.resume()
                 case .failure(let error):
                     if error == PayPalError.vaultCanceledError {
@@ -55,7 +51,7 @@ class PayPalVaultViewModel: VaultViewModel {
                         continuation.resume(throwing: error)
                     }
                 }
-            }
+            })
         }
     }
 
@@ -65,6 +61,7 @@ class PayPalVaultViewModel: VaultViewModel {
             return PayPalWebCheckoutClient(config: config)
         } catch {
             state.setupTokenResponse = .error(message: error.localizedDescription)
+            print("failed to create PayPalWebCheckoutClient with error: \(error.localizedDescription)")
             return nil
         }
     }

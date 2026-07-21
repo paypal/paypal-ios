@@ -87,6 +87,24 @@ class AnalyticsService_Tests: XCTestCase {
         
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.environment, "sandbox")
     }
+
+    func testSendEvent_sendsLatencyParameters() async {
+        await sut.performEventRequest(
+            "paypal-web-payments:system-latency",
+            startTime: 100,
+            endTime: 250,
+            endpoint: "/v2/checkout/orders",
+            presentationType: "browser",
+            flow: "checkout"
+        )
+
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.eventName, "paypal-web-payments:system-latency")
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.startTime, 100)
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.endTime, 250)
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.endpoint, "/v2/checkout/orders")
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.presentationType, "browser")
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.flow, "checkout")
+    }
     
     func testSendEvent_whenAPIRequestFails_logsErrorToConsole() {
         // We currently have no way to validate our console logging

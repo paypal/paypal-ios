@@ -54,9 +54,5 @@ struct PayPalWebButtonsView: View {
                     .padding(5)
             )
         }
-        // for testing, this will be moved to app level with singleton router
-        .onOpenURL { url in
-            payPalWebViewModel.handleUniversalLinkReturn(url)
-        }
     }
 }

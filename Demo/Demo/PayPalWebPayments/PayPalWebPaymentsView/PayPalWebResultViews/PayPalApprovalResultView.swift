@@ -6,8 +6,15 @@ struct PayPalApprovalResultView: View {
     
     var body: some View {
         switch payPalWebViewModel.state.approveResultResponse {
-        case .idle, .loading:
+        case .idle:
             EmptyView()
+        case .loading:
+            HStack {
+                CircularProgressView()
+                Text("Opening PayPal checkout…")
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
         case .error(let message):
             ErrorView(errorMessage: message)
         case .loaded(let approvalResult):

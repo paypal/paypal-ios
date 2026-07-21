@@ -23,6 +23,8 @@ class HTTP {
             urlRequest.addValue(value, forHTTPHeaderField: key.rawValue)
         }
 
+        let startTime = HTTPResponseTiming.epochMilliseconds()
+
         let (data, response): (Data, URLResponse)
         do {
             (data, response) = try await urlSession.performRequest(with: urlRequest)
@@ -32,10 +34,13 @@ class HTTP {
             throw NetworkingError.unknownError
         }
 
+        let endTime = HTTPResponseTiming.epochMilliseconds()
+
         guard let response = response as? HTTPURLResponse else {
             throw NetworkingError.invalidURLResponseError
         }
-        
-        return HTTPResponse(status: response.statusCode, body: data)
+
+        let timing = HTTPResponseTiming(startTime: startTime, endTime: endTime)
+        return HTTPResponse(status: response.statusCode, body: data, timing: timing)
     }
 }

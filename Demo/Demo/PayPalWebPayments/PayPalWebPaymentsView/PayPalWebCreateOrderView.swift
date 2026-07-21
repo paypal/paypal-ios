@@ -75,11 +75,11 @@ struct PayPalWebCreateOrderView: View {
                     Spacer()
                 }
                 ZStack {
-                    Button("Checkout") {
+                    Button("Prepare Session") {
                         Task {
                             do {
                                 payPalWebViewModel.intent = selectedIntent
-                                try await payPalWebViewModel.checkout(
+                                try await payPalWebViewModel.prepareSession(
                                     shouldVault: shouldVaultSelected,
                                     userAction: selectedUserAction,
                                     userIdentity: UserIdentityFactory.makeUserIdentity(
@@ -90,12 +90,12 @@ struct PayPalWebCreateOrderView: View {
                                     )
                                 )
                             } catch {
-                                print("Error in checkout. \(error.localizedDescription)")
+                                print("Error preparing session. \(error.localizedDescription)")
                             }
                         }
                     }
                     .buttonStyle(RoundedBlueButtonStyle())
-                    if case .loading = payPalWebViewModel.state.createdOrderResponse {
+                    if payPalWebViewModel.isPreparingSession {
                         CircularProgressView()
                     }
                 }
