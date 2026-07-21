@@ -78,10 +78,10 @@ class PayPalWebViewModel: ObservableObject {
                 }
 
                 print("📊 Using start(createOrder:) — emits paypal-web-payments:api-request-latency")
-                payPalWebCheckoutClient.start(createOrder: {
+                payPalWebCheckoutClient.start {
                     let order = try await self.fetchOrder(shouldVault: self.shouldVaultCheckout)
                     return order.id
-                }) { result in
+                } { result in
                     switch result {
                     case .success(let checkoutResult):
                         self.handleCheckoutResult(.success(checkoutResult))
