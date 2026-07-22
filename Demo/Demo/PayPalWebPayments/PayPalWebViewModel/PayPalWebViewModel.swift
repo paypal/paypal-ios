@@ -43,7 +43,7 @@ class PayPalWebViewModel: ObservableObject {
         payPalWebCheckoutClient = client
 
         client.createPayPalSession(
-            tokenType: shouldVault ? .billingToken : .orderID,
+            tokenType: .orderID,
             userIdentity: userIdentity,
             urlConfig: ShopperSessionURLConfigFactory.urlConfig,
             userAction: userAction
