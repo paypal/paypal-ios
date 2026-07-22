@@ -9,7 +9,7 @@ public enum TokenType: String {
         switch self {
         case .orderID: return "token"
         case .vaultID: return "approval_session_id"
-        case .billingToken: return "ba_token"
+        case .billingToken: return "token"
         }
     }
 }
