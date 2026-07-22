@@ -50,6 +50,7 @@ struct PayPalWebCheckoutURLBuilder {
 }
 
 extension TokenType {
+
     var tokenQueryParameterName: String {
         switch self {
         case .orderID: return "token"
