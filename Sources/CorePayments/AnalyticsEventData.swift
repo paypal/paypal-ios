@@ -25,6 +25,8 @@ struct AnalyticsEventData: Encodable {
         case correlationID = "correlation_id"
         case deviceManufacturer = "device_manufacturer"
         case deviceModel = "mobile_device_model"
+        case endpoint = "endpoint"
+        case endTime = "end_time"
         case environment = "merchant_sdk_env"
         case errorDescription = "error_description"
         case eventName = "event_name"
@@ -148,6 +150,15 @@ struct AnalyticsEventData: Encodable {
 
     let shopperSessionExpiration: String?
 
+    /// Epoch milliseconds captured immediately before the measured API call. Used for `api-request-latency`.
+    let startTime: Int64?
+
+    /// Epoch milliseconds captured immediately after the measured API call's response is received.
+    let endTime: Int64?
+
+    /// Sanitized API path of the measured API call, e.g. `/v2/checkout/orders`, `/v2/vault/setup-tokens`.
+    let endpoint: String?
+
     init(
         environment: String,
         eventName: String,
@@ -159,6 +170,9 @@ struct AnalyticsEventData: Encodable {
         setupToken: String?,
         buttonType: String? = nil,
         errorDescription: String? = nil,
+        startTime: Int64? = nil,
+        endTime: Int64? = nil,
+        endpoint: String? = nil,
         checkoutAnalyticsData: PayPalCheckoutAnalyticsData? = nil
     ) {
         self.environment = environment
@@ -170,6 +184,9 @@ struct AnalyticsEventData: Encodable {
         self.correlationID = correlationID
         self.setupToken = setupToken
         self.buttonType = buttonType
+        self.startTime = startTime
+        self.endTime = endTime
+        self.endpoint = endpoint
         self.appSwitchURL = checkoutAnalyticsData?.appSwitchURL
         self.appSwitchEligible = checkoutAnalyticsData?.appSwitchEligible
         self.ineligibleReason = checkoutAnalyticsData?.ineligibleReason
@@ -228,5 +245,8 @@ struct AnalyticsEventData: Encodable {
         try eventParameters.encode(isVaultRequest, forKey: .isVaultRequest)
         try eventParameters.encode(shopperSessionId, forKey: .shopperSessionId)
         try eventParameters.encode(shopperSessionExpiration, forKey: .shopperSessionExpiration)
+        try eventParameters.encode(startTime, forKey: .startTime)
+        try eventParameters.encode(endTime, forKey: .endTime)
+        try eventParameters.encode(endpoint, forKey: .endpoint)
     }
 }

@@ -105,7 +105,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
         let tokenType = sessionType.tokenType
         self.tokenType = tokenType
-        analyticsData = PayPalCheckoutAnalyticsData(userIdentity: userIdentity, urlConfig: urlConfig, userAction: userAction)
+        analyticsData = PayPalCheckoutAnalyticsData(tokenType: tokenType, userIdentity: userIdentity, urlConfig: urlConfig, userAction: userAction)
         analyticsService?.sendEvent("paypal-web-payments:checkout:ssid-session:started")
 
         sessionTask = Task {
@@ -113,7 +113,8 @@ public class PayPalWebCheckoutClient: NSObject {
                 tokenType: tokenType,
                 urlOpener: urlOpener,
                 urlConfig: urlConfig,
-                userIdentity: userIdentity
+                userIdentity: userIdentity,
+                analyticsData: analyticsData
             )
         }
     }
@@ -158,7 +159,6 @@ public class PayPalWebCheckoutClient: NSObject {
                 }
 
                 let session = try await task.value
-                analyticsData?.update(with: session, isVault: false)
                 analyticsService?.sendEvent(
                     "paypal-web-payments:create-paypal-session:succeeded",
                     checkoutAnalyticsData: analyticsData
@@ -253,7 +253,6 @@ public class PayPalWebCheckoutClient: NSObject {
                 }
 
                 let session = try await task.value
-                analyticsData?.update(with: session, isVault: true)
                 analyticsService?.sendEvent(
                     "paypal-web-payments:create-paypal-session:succeeded",
                     checkoutAnalyticsData: analyticsData

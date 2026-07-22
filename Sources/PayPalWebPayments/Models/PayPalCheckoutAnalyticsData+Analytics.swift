@@ -4,6 +4,7 @@ import CorePayments
 extension PayPalCheckoutAnalyticsData {
 
     convenience init(
+        tokenType: TokenType,
         userIdentity: PayPalUserIdentity?,
         urlConfig: PayPalURLConfig,
         userAction: PayPalUserAction = .continue
@@ -17,10 +18,11 @@ extension PayPalCheckoutAnalyticsData {
         fallbackSchemeURL = urlConfig.fallbackSchemeURL
         
         paypalNativeAppInstalled = UIApplication.shared.isOsloAppInstalled()
+        isVaultRequest = tokenType == .vaultID
     }
 
     /// Populates the fields derived from the Shopper Session fetch response, once it succeeds.
-    func update(with shopperSession: ShopperSessionResult, isVault: Bool) {
+    func update(with shopperSession: ShopperSessionResult) {
         shopperSessionID = shopperSession.shopperSessionConfig?.id
         shopperSessionExpiration = shopperSession.shopperSessionConfig?.expiresAt
         appSwitchEligible = shopperSession.appSwitchEligible
@@ -29,6 +31,5 @@ extension PayPalCheckoutAnalyticsData {
             appSwitchURL = URL(string: redirectURL)
         }
         fallbackUrl = shopperSession.checkoutFallbackURL
-        isVaultRequest = isVault
     }
 }

@@ -69,6 +69,8 @@ class AnalyticsEventData_Tests: XCTestCase {
             "app_switch_url",
             "bn_code",
             "cancel_app_url",
+            "end_time",
+            "endpoint",
             "error_description",
             "fallback_scheme_url",
             "fallback_url",
@@ -79,6 +81,7 @@ class AnalyticsEventData_Tests: XCTestCase {
             "return_app_url",
             "shopper_session_expiration",
             "shopper_session_id",
+            "start_time",
             "user_action"
         ]
 
@@ -147,6 +150,34 @@ class AnalyticsEventData_Tests: XCTestCase {
         XCTAssertEqual(eventParams["is_vault"] as? Bool, true)
         XCTAssertEqual(eventParams["shopper_session_id"] as? String, "fake-shopper-session-id")
         XCTAssertEqual(eventParams["shopper_session_expiration"] as? String, "fake-shopper-session-expiration")
+    }
+
+    func testEncode_withLatencyFields_properlyFormatsJSON() throws {
+        sut = AnalyticsEventData(
+            environment: "fake-env",
+            eventName: "paypal-web-payments:api-request-latency",
+            clientID: "fake-client-id",
+            merchantID: "fake-merchant-id",
+            bnCode: nil,
+            orderID: nil,
+            correlationID: nil,
+            setupToken: nil,
+            startTime: 1_700_000_000_000,
+            endTime: 1_700_000_000_250,
+            endpoint: "/graphql/createShopperSessionWithAppSwitchEligibility"
+        )
+
+        let data = try JSONEncoder().encode(sut)
+        let json = try? JSONSerialization.jsonObject(with: data) as? [String: [String: [String: Any]]]
+
+        guard let eventParams = json?["events"]?["event_params"] else {
+            XCTFail("JSON body missing `event_params` key.")
+            return
+        }
+
+        XCTAssertEqual((eventParams["start_time"] as? NSNumber)?.int64Value, 1_700_000_000_000)
+        XCTAssertEqual((eventParams["end_time"] as? NSNumber)?.int64Value, 1_700_000_000_250)
+        XCTAssertEqual(eventParams["endpoint"] as? String, "/graphql/createShopperSessionWithAppSwitchEligibility")
     }
 }
 

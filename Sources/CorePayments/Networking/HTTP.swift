@@ -22,6 +22,9 @@ class HTTP {
         httpRequest.headers.forEach { key, value in
             urlRequest.addValue(value, forHTTPHeaderField: key.rawValue)
         }
+        
+        // Captured immediately before the `URLSession` call, in epoch milliseconds.
+        let startTime = Int64(Date().timeIntervalSince1970 * 1000)
 
         let (data, response): (Data, URLResponse)
         do {
@@ -32,10 +35,18 @@ class HTTP {
             throw NetworkingError.unknownError
         }
 
+        // Captured immediately after the response is received, in epoch milliseconds.
+        let endTime = Int64(Date().timeIntervalSince1970 * 1000)
+
         guard let response = response as? HTTPURLResponse else {
             throw NetworkingError.invalidURLResponseError
         }
 
-        return HTTPResponse(status: response.statusCode, body: data, url: httpRequest.url)
+        return HTTPResponse(
+            status: response.statusCode,
+            body: data,
+            url: httpRequest.url,
+            timing: HTTPResponse.Timing(startTime: startTime, endTime: endTime)
+        )
     }
 }

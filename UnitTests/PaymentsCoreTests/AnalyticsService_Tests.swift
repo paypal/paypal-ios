@@ -141,11 +141,30 @@ class AnalyticsService_Tests: XCTestCase {
         XCTAssertEqual(capturedData?.shopperSessionExpiration, "fake-shopper-session-expiration")
     }
 
+    func testSendEvent_forwardsLatencyFieldsToAnalyticsEventData() async {
+        await sut.performEventRequest(
+            "paypal-web-payments:api-request-latency",
+            startTime: 1_700_000_000_000,
+            endTime: 1_700_000_000_250,
+            endpoint: "/graphql/createShopperSessionWithAppSwitchEligibility"
+        )
+
+        let capturedData = mockTrackingEventsAPI.capturedAnalyticsEventData
+
+        XCTAssertEqual(capturedData?.eventName, "paypal-web-payments:api-request-latency")
+        XCTAssertEqual(capturedData?.startTime, 1_700_000_000_000)
+        XCTAssertEqual(capturedData?.endTime, 1_700_000_000_250)
+        XCTAssertEqual(capturedData?.endpoint, "/graphql/createShopperSessionWithAppSwitchEligibility")
+    }
+
     func testSendEvent_withoutNewAnalyticsFields_sendsThemAsNil() async {
         await sut.performEventRequest("some-event", correlationID: "fake-correlation-id")
 
         let capturedData = mockTrackingEventsAPI.capturedAnalyticsEventData
 
+        XCTAssertNil(capturedData?.startTime)
+        XCTAssertNil(capturedData?.endTime)
+        XCTAssertNil(capturedData?.endpoint)
         XCTAssertNil(capturedData?.bnCode)
         XCTAssertNil(capturedData?.appSwitchURL)
         XCTAssertNil(capturedData?.appSwitchEligible)
