@@ -85,7 +85,6 @@
 		80E2FDC12A83535A0045593D /* TrackingEventsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E2FDBF2A8353550045593D /* TrackingEventsAPI.swift */; };
 		80E2FDC32A8354AD0045593D /* RESTRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E2FDC22A8354AD0045593D /* RESTRequest.swift */; };
 		80E643832A1EBBD2008FD705 /* HTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E643822A1EBBD2008FD705 /* HTTPResponse.swift */; };
-		AA11223344556600AABB1002 /* PayPalSDKLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA11223344556600AABB1001 /* PayPalSDKLogger.swift */; };
 		80E74400270E40F300BACECA /* FakeRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E743FF270E40F300BACECA /* FakeRequests.swift */; };
 		80E8DAE126B8784600FAFC3F /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E8DAE026B8784600FAFC3F /* Card.swift */; };
 		80E8DAEA26B8785D00FAFC3F /* CardPayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E8DAD926B8783800FAFC3F /* CardPayments.framework */; };
@@ -296,7 +295,6 @@
 		80E2FDBF2A8353550045593D /* TrackingEventsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingEventsAPI.swift; sourceTree = "<group>"; };
 		80E2FDC22A8354AD0045593D /* RESTRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RESTRequest.swift; sourceTree = "<group>"; };
 		80E643822A1EBBD2008FD705 /* HTTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPResponse.swift; sourceTree = "<group>"; };
-		AA11223344556600AABB1001 /* PayPalSDKLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalSDKLogger.swift; sourceTree = "<group>"; };
 		80E743F8270E40CE00BACECA /* TestShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TestShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80E743FF270E40F300BACECA /* FakeRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeRequests.swift; sourceTree = "<group>"; };
 		80E8DAD926B8783800FAFC3F /* CardPayments.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CardPayments.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -598,7 +596,6 @@
 				7C516037E8303B85D18581E4 /* PayPalCheckoutAnalyticsData.swift */,
 				8021B68F29144E6D000FBC54 /* PayPalCoreConstants.swift */,
 				80DB2F752980795D00CFB86A /* CorePaymentsError.swift */,
-				AA11223344556600AABB1001 /* PayPalSDKLogger.swift */,
 				3BE738632B9A4A4500598F05 /* PrivacyInfo.xcprivacy */,
 			);
 			name = CorePayments;
@@ -1294,7 +1291,6 @@
 			files = (
 				E6022E802857C6BE008B0E27 /* GraphQLHTTPResponse.swift in Sources */,
 				80E643832A1EBBD2008FD705 /* HTTPResponse.swift in Sources */,
-				AA11223344556600AABB1002 /* PayPalSDKLogger.swift in Sources */,
 				3B857B1B2E6A02F5006F3CBC /* AuthenticationTokenResponse.swift in Sources */,
 				807C5E6929102D9800ECECD8 /* AnalyticsEventData.swift in Sources */,
 				3592D141B944D51F72A35424 /* PayPalCheckoutAnalyticsData.swift in Sources */,

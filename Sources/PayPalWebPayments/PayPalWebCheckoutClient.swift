@@ -926,9 +926,7 @@ public class PayPalWebCheckoutClient: NSObject {
         }
         var urlComponents = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)
         urlComponents?.queryItems?.append(contentsOf: queryItems)
-        let url = urlComponents?.url
-        PayPalSDKLogger.logURL("🌐 FALLBACK URL  •  checkout (web)", base: baseURL.absoluteString, result: url)
-        return url
+        return urlComponents?.url
     }
 
     private func makeVaultCheckoutURL(session: ShopperSessionResult?, setupTokenID: String) -> URL? {
@@ -942,9 +940,7 @@ public class PayPalWebCheckoutClient: NSObject {
             queryItems.append(URLQueryItem(name: "shopperSessionId", value: sessionID))
         }
         vaultURLComponents?.queryItems?.append(contentsOf: queryItems)
-        let url = vaultURLComponents?.url
-        PayPalSDKLogger.logURL("🌐 FALLBACK URL  •  vault (web)", base: baseURL.absoluteString, result: url)
-        return url
+        return vaultURLComponents?.url
     }
 
     func payPalCheckoutReturnURL(payPalCheckoutURL: URL) -> URL? {
@@ -956,9 +952,7 @@ public class PayPalWebCheckoutClient: NSObject {
         checkoutURLComponents?.queryItems?.append(redirectQueryItem)
         checkoutURLComponents?.queryItems?.append(nativeXOQueryItem)
 
-        let url = checkoutURLComponents?.url
-        PayPalSDKLogger.logURL("🌐 FALLBACK URL  •  checkout return (opened in browser)", result: url)
-        return url
+        return checkoutURLComponents?.url
     }
 
     private func getQueryStringParameter(url: String, param: String) -> String? {

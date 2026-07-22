@@ -23,13 +23,6 @@ class HTTP {
             urlRequest.addValue(value, forHTTPHeaderField: key.rawValue)
         }
 
-        PayPalSDKLogger.logRequest(
-            method: httpRequest.method.rawValue,
-            url: httpRequest.url,
-            headers: httpRequest.headers,
-            body: httpRequest.body
-        )
-
         let (data, response): (Data, URLResponse)
         do {
             (data, response) = try await urlSession.performRequest(with: urlRequest)
@@ -42,8 +35,6 @@ class HTTP {
         guard let response = response as? HTTPURLResponse else {
             throw NetworkingError.invalidURLResponseError
         }
-
-        PayPalSDKLogger.logResponse(status: response.statusCode, url: httpRequest.url, body: data)
 
         return HTTPResponse(status: response.statusCode, body: data, url: httpRequest.url)
     }
