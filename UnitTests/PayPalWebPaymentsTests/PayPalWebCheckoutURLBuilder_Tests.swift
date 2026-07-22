@@ -19,7 +19,6 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
                 fundingSource: .paypal,
                 token: "order-123",
                 tokenType: .orderID,
-                isVaultFlow: false,
                 sessionID: "session-xyz"
             )
         )
@@ -42,7 +41,6 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
                 fundingSource: .paypalCredit,
                 token: "order-123",
                 tokenType: .orderID,
-                isVaultFlow: false,
                 sessionID: "session-xyz"
             )
         )
@@ -59,7 +57,6 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
                 fundingSource: .paypal,
                 token: "order-123",
                 tokenType: .orderID,
-                isVaultFlow: false,
                 sessionID: "session-xyz"
             )
         )
@@ -75,7 +72,6 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
                 fundingSource: .paypal,
                 token: "order-123",
                 tokenType: .orderID,
-                isVaultFlow: false,
                 sessionID: "session-xyz"
             )
         )
@@ -96,7 +92,6 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
                 fundingSource: .paypal,
                 token: "order-123",
                 tokenType: .orderID,
-                isVaultFlow: false,
                 sessionID: "session-xyz"
             )
         )
@@ -117,7 +112,6 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
                 fundingSource: .paypal,
                 token: "BA-123",
                 tokenType: .billingToken,
-                isVaultFlow: false,
                 sessionID: "session-xyz"
             )
         )
@@ -126,21 +120,20 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         XCTAssertNil(queryValue("ba_token", in: url))
     }
 
-    func testMakeAppSwitchURL_forcesCheckoutFlowType_evenForVaultTokenType() throws {
-        // The legacy PatchCCO app-switch-eligibility fallback always routes through the checkout
-        // ("ecs") endpoint, even when the token being checked is a vault setup token.
+    func testMakeAppSwitchURL_derivesVaultFlowTypeFromTokenType() throws {
+        // flow_type is derived from tokenType, so a vault tokenType always yields "va" —
+        // including at the legacy PatchCCO app-switch-eligibility fallback call site.
         let url = try XCTUnwrap(
             PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
                 clientID: "client-abc",
                 fundingSource: .paypal,
                 token: "setup-token-123",
                 tokenType: .vaultID,
-                isVaultFlow: false,
                 sessionID: nil
             )
         )
 
-        XCTAssertEqual(queryValue("flow_type", in: url), "ecs")
+        XCTAssertEqual(queryValue("flow_type", in: url), "va")
         XCTAssertEqual(queryValue("approval_session_id", in: url), "setup-token-123")
     }
 
@@ -153,7 +146,6 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
                 fundingSource: .paypal,
                 token: "setup-token-123",
                 tokenType: .vaultID,
-                isVaultFlow: true,
                 sessionID: "session-xyz"
             )
         )
@@ -178,7 +170,6 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
                 fundingSource: .paypal,
                 token: "setup-token-123",
                 tokenType: .vaultID,
-                isVaultFlow: true,
                 sessionID: "session-xyz"
             )
         )

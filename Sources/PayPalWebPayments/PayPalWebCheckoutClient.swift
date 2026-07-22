@@ -35,7 +35,7 @@ public class PayPalWebCheckoutClient: NSObject {
     /// The token type set by `createPayPalSession()` (or, for the deprecated APIs that don't call it,
     /// set directly by `start(request:completion:)`/`vault(_:completion:)`). Determines the
     /// query-parameter name used to carry the token in app-switch and web checkout/fallback URLs
-    /// (see `PayPalWebCheckoutURLBuilder.tokenQueryParameterName(for:)`).
+    /// (see `TokenType.tokenQueryParameterName`).
     private var tokenType: TokenType?
 
     // MARK: - Analytics State
@@ -526,7 +526,6 @@ public class PayPalWebCheckoutClient: NSObject {
                         fundingSource: .paypal,
                         token: orderID,
                         tokenType: self.currentTokenType,
-                        isVaultFlow: false,
                         sessionID: sessionID
                     )
                 },
@@ -563,7 +562,6 @@ public class PayPalWebCheckoutClient: NSObject {
                         fundingSource: .paypal,
                         token: setupTokenID,
                         tokenType: self.currentTokenType,
-                        isVaultFlow: true,
                         sessionID: sessionID
                     )
                 },
@@ -873,7 +871,6 @@ public class PayPalWebCheckoutClient: NSObject {
                     fundingSource: .paypal,
                     token: token,
                     tokenType: self.currentTokenType,
-                    isVaultFlow: false,
                     sessionID: nil
                 ) else {
                 return .fallback("invalid_app_switch_url")
@@ -930,7 +927,7 @@ public class PayPalWebCheckoutClient: NSObject {
     ) -> URL? {
         let baseURL = checkoutFallbackURL(from: session, default: config.environment.payPalBaseURL)
         var queryItems = [
-            URLQueryItem(name: PayPalWebCheckoutURLBuilder.tokenQueryParameterName(for: currentTokenType), value: orderID),
+            URLQueryItem(name: TokenType.orderID.tokenQueryParameterName, value: orderID),
             URLQueryItem(name: "fundingSource", value: fundingSource.rawValue),
             URLQueryItem(name: "integration_artifact", value: PayPalCoreConstants.integrationArtifact)
         ]
@@ -946,7 +943,7 @@ public class PayPalWebCheckoutClient: NSObject {
         let baseURL = checkoutFallbackURL(from: session, default: config.environment.paypalVaultCheckoutURL)
         var vaultURLComponents = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)
         var queryItems = [
-            URLQueryItem(name: PayPalWebCheckoutURLBuilder.tokenQueryParameterName(for: currentTokenType), value: setupTokenID),
+            URLQueryItem(name: TokenType.vaultID.tokenQueryParameterName, value: setupTokenID),
             URLQueryItem(name: "integration_artifact", value: PayPalCoreConstants.integrationArtifact)
         ]
         if let sessionID = analyticsData?.shopperSessionID {
