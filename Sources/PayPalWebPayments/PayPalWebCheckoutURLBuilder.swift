@@ -27,8 +27,12 @@ struct PayPalWebCheckoutURLBuilder {
         // Drop malformed items (e.g. from a "&&" in `base`), which `URLComponents`
         // parses as an empty-name, nil-value query item.
         var queryItems = (components.queryItems ?? []).filter { !$0.name.isEmpty }
+
+        if !queryItems.contains(where: { $0.name == tokenType.tokenQueryParameterName }) {
+            queryItems.append(URLQueryItem(name: tokenType.tokenQueryParameterName, value: token))
+        }
+
         var additionalQueryItems: [URLQueryItem] = [
-            URLQueryItem(name: tokenType.tokenQueryParameterName, value: token),
             URLQueryItem(name: "source", value: "pda"),
             URLQueryItem(name: "merchant", value: clientID),
             URLQueryItem(name: "flow_type", value: (tokenType == .vaultID ? FlowType.vault : .checkout).rawValue),
