@@ -105,7 +105,7 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         XCTAssertLessThanOrEqual(switchInitiatedMillis, afterMillis)
     }
 
-    func testCheckoutAppSwitchURL_usesBaTokenQueryNameForBillingToken() throws {
+    func testCheckoutAppSwitchURL_usesTokenQueryNameForBillingToken() throws {
         let url = try XCTUnwrap(
             PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").checkoutAppSwitchURL(
                 clientID: "client-abc",
@@ -116,8 +116,8 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
             )
         )
 
-        XCTAssertEqual(queryValue("ba_token", in: url), "BA-123")
-        XCTAssertNil(queryValue("token", in: url))
+        XCTAssertEqual(queryValue("token", in: url), "BA-123")
+        XCTAssertNil(queryValue("ba_token", in: url))
     }
 
     // MARK: - vaultAppSwitchURL
