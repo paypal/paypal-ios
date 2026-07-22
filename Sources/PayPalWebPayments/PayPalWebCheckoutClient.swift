@@ -32,10 +32,11 @@ public class PayPalWebCheckoutClient: NSObject {
     /// Set by `createPayPalSession()`. Cleared automatically on checkout success, cancellation, or error.
     private var sessionTask: Task<ShopperSessionResult, Error>?
 
-    /// The token type set by `createPayPalSession()`. Determines the query-parameter name used to carry the
-    /// token in app-switch and web checkout/fallback URLs (see `TokenType.tokenQueryParameterName`).
-    /// Defaults to `.orderID` for the deprecated APIs that don't call `createPayPalSession()`.
-    private var tokenType: TokenType = .orderID
+    /// The token type set by `createPayPalSession()` (or, for the deprecated APIs that don't call it,
+    /// set directly by `start(request:completion:)`/`vault(_:completion:)`). Determines the
+    /// query-parameter name used to carry the token in app-switch and web checkout/fallback URLs
+    /// (see `PayPalWebCheckoutURLBuilder.tokenQueryParameterName(for:)`).
+    private var tokenType: TokenType?
 
     // MARK: - Analytics State
     private var analyticsData: PayPalCheckoutAnalyticsData?
@@ -317,6 +318,7 @@ public class PayPalWebCheckoutClient: NSObject {
     ) {
         analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
         analyticsService?.sendEvent("paypal-web-payments:checkout:started")
+        tokenType = .orderID
 
         let completionOnce = makeCompletionOnce(completion)
         let appInstalled = urlOpener.isPayPalAppInstalled()
@@ -381,6 +383,7 @@ public class PayPalWebCheckoutClient: NSObject {
     ) {
         analyticsService = AnalyticsService(coreConfig: config, setupToken: vaultRequest.setupTokenID)
         analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:started")
+        tokenType = .vaultID
         startVaultWebAuthFlow(session: nil, setupTokenID: vaultRequest.setupTokenID, completion: completion)
     }
 
@@ -495,6 +498,13 @@ public class PayPalWebCheckoutClient: NSObject {
 
     // MARK: - Private: Session-based Launch
 
+    private var currentTokenType: TokenType {
+        guard let tokenType else {
+            preconditionFailure("tokenType must be set before building a checkout/vault URL")
+        }
+        return tokenType
+    }
+
     private func launchCheckout(
         session: ShopperSessionResult,
         orderID: String,
@@ -511,11 +521,12 @@ public class PayPalWebCheckoutClient: NSObject {
                     eventPrefix: "paypal-web-payments:checkout"
                 ),
                 makeURL: { base, sessionID in
-                    PayPalWebCheckoutURLBuilder(base: base).checkoutAppSwitchURL(
+                    PayPalWebCheckoutURLBuilder(base: base).makeAppSwitchURL(
                         clientID: self.config.merchantID,
                         fundingSource: .paypal,
-                        orderID: orderID,
-                        tokenType: self.tokenType,
+                        token: orderID,
+                        tokenType: self.currentTokenType,
+                        isVaultFlow: false,
                         sessionID: sessionID
                     )
                 },
@@ -547,12 +558,13 @@ public class PayPalWebCheckoutClient: NSObject {
                     eventPrefix: "paypal-web-payments:vault-wo-purchase"
                 ),
                 makeURL: { base, sessionID in
-                    PayPalWebCheckoutURLBuilder(base: base).vaultAppSwitchURL(
-                        merchantID: self.config.merchantID,
+                    PayPalWebCheckoutURLBuilder(base: base).makeAppSwitchURL(
+                        clientID: self.config.merchantID,
                         fundingSource: .paypal,
-                        sessionID: sessionID,
-                        setupTokenID: setupTokenID,
-                        tokenType: self.tokenType
+                        token: setupTokenID,
+                        tokenType: self.currentTokenType,
+                        isVaultFlow: true,
+                        sessionID: sessionID
                     )
                 },
                 fallback: {
@@ -856,11 +868,12 @@ public class PayPalWebCheckoutClient: NSObject {
                 return .fallback(eligibility.ineligibleReason ?? "ineligible")
             }
             guard let url = PayPalWebCheckoutURLBuilder(base: urlString)
-                .checkoutAppSwitchURL(
+                .makeAppSwitchURL(
                     clientID: config.merchantID,
                     fundingSource: .paypal,
-                    orderID: token,
-                    tokenType: self.tokenType,
+                    token: token,
+                    tokenType: self.currentTokenType,
+                    isVaultFlow: false,
                     sessionID: nil
                 ) else {
                 return .fallback("invalid_app_switch_url")
@@ -917,7 +930,7 @@ public class PayPalWebCheckoutClient: NSObject {
     ) -> URL? {
         let baseURL = checkoutFallbackURL(from: session, default: config.environment.payPalBaseURL)
         var queryItems = [
-            URLQueryItem(name: tokenType.tokenQueryParameterName, value: orderID),
+            URLQueryItem(name: PayPalWebCheckoutURLBuilder.tokenQueryParameterName(for: currentTokenType), value: orderID),
             URLQueryItem(name: "fundingSource", value: fundingSource.rawValue),
             URLQueryItem(name: "integration_artifact", value: PayPalCoreConstants.integrationArtifact)
         ]
@@ -933,7 +946,7 @@ public class PayPalWebCheckoutClient: NSObject {
         let baseURL = checkoutFallbackURL(from: session, default: config.environment.paypalVaultCheckoutURL)
         var vaultURLComponents = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)
         var queryItems = [
-            URLQueryItem(name: tokenType.tokenQueryParameterName, value: setupTokenID),
+            URLQueryItem(name: PayPalWebCheckoutURLBuilder.tokenQueryParameterName(for: currentTokenType), value: setupTokenID),
             URLQueryItem(name: "integration_artifact", value: PayPalCoreConstants.integrationArtifact)
         ]
         if let sessionID = analyticsData?.shopperSessionID {

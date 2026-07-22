@@ -8,6 +8,14 @@ struct PayPalWebCheckoutURLBuilder {
         case vault = "va"
     }
 
+    static func tokenQueryParameterName(for tokenType: TokenType) -> String {
+        switch tokenType {
+        case .orderID: return "token"
+        case .vaultID: return "approval_session_id"
+        case .billingToken: return "token"
+        }
+    }
+
     private let base: String
 
     init(base: String) {
@@ -16,49 +24,13 @@ struct PayPalWebCheckoutURLBuilder {
 
     /// Builds the app-switch URL for the checkout (one-time payment) flow.
     /// - Returns: `nil` if `base` isn't a valid URL string.
-    func checkoutAppSwitchURL(
+    func makeAppSwitchURL(
         clientID: String,
         fundingSource: PayPalWebCheckoutFundingSource,
-        orderID: String,
+        token: String,
         tokenType: TokenType,
+        isVaultFlow: Bool,
         sessionID: String?
-    ) -> URL? {
-        makeAppSwitchURL(
-            merchantID: clientID,
-            flowType: .checkout,
-            fundingSource: fundingSource,
-            sessionID: sessionID,
-            tokenItem: URLQueryItem(name: tokenType.tokenQueryParameterName, value: orderID)
-        )
-    }
-
-    /// Builds the app-switch URL for the vault-without-purchase flow.
-    /// - Returns: `nil` if `base` isn't a valid URL string.
-    func vaultAppSwitchURL(
-        merchantID: String,
-        fundingSource: PayPalWebCheckoutFundingSource,
-        sessionID: String?,
-        setupTokenID: String,
-        tokenType: TokenType
-    ) -> URL? {
-        makeAppSwitchURL(
-            merchantID: merchantID,
-            flowType: .vault,
-            fundingSource: fundingSource,
-            sessionID: sessionID,
-            tokenItem: URLQueryItem(name: tokenType.tokenQueryParameterName, value: setupTokenID)
-        )
-    }
-
-    /// Shared query construction for both flows. Query item values are percent-encoded by
-    /// `URLComponents` (rather than interpolated directly into a string), and any query already
-    /// present on `base` is preserved instead of being overwritten by a second `?`.
-    private func makeAppSwitchURL(
-        merchantID: String,
-        flowType: FlowType,
-        fundingSource: PayPalWebCheckoutFundingSource,
-        sessionID: String?,
-        tokenItem: URLQueryItem
     ) -> URL? {
         guard var components = URLComponents(string: base) else { return nil }
 
@@ -66,10 +38,10 @@ struct PayPalWebCheckoutURLBuilder {
         // parses as an empty-name, nil-value query item.
         var queryItems = (components.queryItems ?? []).filter { !$0.name.isEmpty }
         var additionalQueryItems: [URLQueryItem] = [
-            tokenItem,
+            URLQueryItem(name: Self.tokenQueryParameterName(for: tokenType), value: token),
             URLQueryItem(name: "source", value: "pda"),
-            URLQueryItem(name: "merchant", value: merchantID),
-            URLQueryItem(name: "flow_type", value: flowType.rawValue),
+            URLQueryItem(name: "merchant", value: clientID),
+            URLQueryItem(name: "flow_type", value: (isVaultFlow ? FlowType.vault : .checkout).rawValue),
             URLQueryItem(name: "funding_source", value: fundingSource.rawValue),
             URLQueryItem(name: "switch_initiated_time", value: String(Int(round(Date().timeIntervalSince1970 * 1000))))
         ]

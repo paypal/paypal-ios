@@ -10,15 +10,16 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
             .value
     }
 
-    // MARK: - checkoutAppSwitchURL
+    // MARK: - makeAppSwitchURL (checkout)
 
-    func testCheckoutAppSwitchURL_setsExpectedQueryItems() throws {
+    func testMakeAppSwitchURL_checkout_setsExpectedQueryItems() throws {
         let url = try XCTUnwrap(
-            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").checkoutAppSwitchURL(
+            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
                 clientID: "client-abc",
                 fundingSource: .paypal,
-                orderID: "order-123",
+                token: "order-123",
                 tokenType: .orderID,
+                isVaultFlow: false,
                 sessionID: "session-xyz"
             )
         )
@@ -34,13 +35,14 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         XCTAssertEqual(queryValue("funding_source", in: url), "paypal")
     }
 
-    func testCheckoutAppSwitchURL_setsFundingSourceFromParameter() throws {
+    func testMakeAppSwitchURL_checkout_setsFundingSourceFromParameter() throws {
         let url = try XCTUnwrap(
-            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").checkoutAppSwitchURL(
+            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
                 clientID: "client-abc",
                 fundingSource: .paypalCredit,
-                orderID: "order-123",
+                token: "order-123",
                 tokenType: .orderID,
+                isVaultFlow: false,
                 sessionID: "session-xyz"
             )
         )
@@ -48,15 +50,16 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         XCTAssertEqual(queryValue("funding_source", in: url), "credit")
     }
 
-    func testCheckoutAppSwitchURL_preservesExistingQueryOnBase() throws {
+    func testMakeAppSwitchURL_checkout_preservesExistingQueryOnBase() throws {
         let url = try XCTUnwrap(
             PayPalWebCheckoutURLBuilder(
                 base: "https://sandbox.paypal.com/app-switch-checkout?existing=1"
-            ).checkoutAppSwitchURL(
+            ).makeAppSwitchURL(
                 clientID: "client-abc",
                 fundingSource: .paypal,
-                orderID: "order-123",
+                token: "order-123",
                 tokenType: .orderID,
+                isVaultFlow: false,
                 sessionID: "session-xyz"
             )
         )
@@ -65,13 +68,14 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         XCTAssertEqual(queryValue("token", in: url), "order-123")
     }
 
-    func testCheckoutAppSwitchURL_percentEncodesSpecialCharacters() throws {
+    func testMakeAppSwitchURL_checkout_percentEncodesSpecialCharacters() throws {
         let url = try XCTUnwrap(
-            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").checkoutAppSwitchURL(
+            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
                 clientID: "client & co",
                 fundingSource: .paypal,
-                orderID: "order-123",
+                token: "order-123",
                 tokenType: .orderID,
+                isVaultFlow: false,
                 sessionID: "session-xyz"
             )
         )
@@ -83,15 +87,16 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         XCTAssertFalse(url.query?.contains("client & co") ?? true)
     }
 
-    func testCheckoutAppSwitchURL_setsSwitchInitiatedTimeNearNow() throws {
+    func testMakeAppSwitchURL_checkout_setsSwitchInitiatedTimeNearNow() throws {
         let beforeMillis = Int(round(Date().timeIntervalSince1970 * 1000))
 
         let url = try XCTUnwrap(
-            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").checkoutAppSwitchURL(
+            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
                 clientID: "client-abc",
                 fundingSource: .paypal,
-                orderID: "order-123",
+                token: "order-123",
                 tokenType: .orderID,
+                isVaultFlow: false,
                 sessionID: "session-xyz"
             )
         )
@@ -105,13 +110,14 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         XCTAssertLessThanOrEqual(switchInitiatedMillis, afterMillis)
     }
 
-    func testCheckoutAppSwitchURL_usesTokenQueryNameForBillingToken() throws {
+    func testMakeAppSwitchURL_checkout_usesTokenQueryNameForBillingToken() throws {
         let url = try XCTUnwrap(
-            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").checkoutAppSwitchURL(
+            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
                 clientID: "client-abc",
                 fundingSource: .paypal,
-                orderID: "BA-123",
+                token: "BA-123",
                 tokenType: .billingToken,
+                isVaultFlow: false,
                 sessionID: "session-xyz"
             )
         )
@@ -120,16 +126,35 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         XCTAssertNil(queryValue("ba_token", in: url))
     }
 
-    // MARK: - vaultAppSwitchURL
-
-    func testVaultAppSwitchURL_setsExpectedQueryItems() throws {
+    func testMakeAppSwitchURL_forcesCheckoutFlowType_evenForVaultTokenType() throws {
+        // The legacy PatchCCO app-switch-eligibility fallback always routes through the checkout
+        // ("ecs") endpoint, even when the token being checked is a vault setup token.
         let url = try XCTUnwrap(
-            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-vault").vaultAppSwitchURL(
-                merchantID: "client-abc",
+            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
+                clientID: "client-abc",
                 fundingSource: .paypal,
-                sessionID: "session-xyz",
-                setupTokenID: "setup-token-123",
-                tokenType: .vaultID
+                token: "setup-token-123",
+                tokenType: .vaultID,
+                isVaultFlow: false,
+                sessionID: nil
+            )
+        )
+
+        XCTAssertEqual(queryValue("flow_type", in: url), "ecs")
+        XCTAssertEqual(queryValue("approval_session_id", in: url), "setup-token-123")
+    }
+
+    // MARK: - makeAppSwitchURL (vault)
+
+    func testMakeAppSwitchURL_vault_setsExpectedQueryItems() throws {
+        let url = try XCTUnwrap(
+            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-vault").makeAppSwitchURL(
+                clientID: "client-abc",
+                fundingSource: .paypal,
+                token: "setup-token-123",
+                tokenType: .vaultID,
+                isVaultFlow: true,
+                sessionID: "session-xyz"
             )
         )
 
@@ -144,16 +169,17 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         XCTAssertEqual(queryValue("funding_source", in: url), "paypal")
     }
 
-    func testVaultAppSwitchURL_setsSwitchInitiatedTimeNearNow() throws {
+    func testMakeAppSwitchURL_vault_setsSwitchInitiatedTimeNearNow() throws {
         let beforeMillis = Int(round(Date().timeIntervalSince1970 * 1000))
 
         let url = try XCTUnwrap(
-            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-vault").vaultAppSwitchURL(
-                merchantID: "client-abc",
+            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-vault").makeAppSwitchURL(
+                clientID: "client-abc",
                 fundingSource: .paypal,
-                sessionID: "session-xyz",
-                setupTokenID: "setup-token-123",
-                tokenType: .vaultID
+                token: "setup-token-123",
+                tokenType: .vaultID,
+                isVaultFlow: true,
+                sessionID: "session-xyz"
             )
         )
 
