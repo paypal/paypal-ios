@@ -33,6 +33,7 @@ struct AnalyticsEventData: Encodable {
         case eventSource = "event_source"
         case fallbackSchemeURL = "fallback_scheme_url"
         case fallbackUrl = "fallback_url"
+        case flow = "flow"
         case ineligibleReason = "ineligible_reason"
         case isCachedSession = "is_cached_session"
         case isSimulator = "is_simulator"
@@ -43,6 +44,7 @@ struct AnalyticsEventData: Encodable {
         case packageManager = "ios_package_manager"
         case paypalNativeAppInstalled = "paypal_installed"
         case platform = "platform"
+        case presentationType = "presentation_type"
         case returnAppURL = "return_app_url"
         case setupToken = "vault_setup_token"
         case shopperSessionExpiration = "shopper_session_expiration"
@@ -159,6 +161,12 @@ struct AnalyticsEventData: Encodable {
     /// Sanitized API path of the measured API call, e.g. `/v2/checkout/orders`, `/v2/vault/setup-tokens`.
     let endpoint: String?
 
+    /// How the checkout experience was presented for `system-latency`: `app-switch`, `browser`, or `error`.
+    let presentationType: String?
+
+    /// Which flow the `system-latency` measurement is for: `checkout` (from `start()`) or `vault` (from `vault()`).
+    let flow: String?
+
     init(
         environment: String,
         eventName: String,
@@ -173,6 +181,8 @@ struct AnalyticsEventData: Encodable {
         startTime: Int64? = nil,
         endTime: Int64? = nil,
         endpoint: String? = nil,
+        presentationType: String? = nil,
+        flow: String? = nil,
         checkoutAnalyticsData: PayPalCheckoutAnalyticsData? = nil
     ) {
         self.environment = environment
@@ -187,6 +197,8 @@ struct AnalyticsEventData: Encodable {
         self.startTime = startTime
         self.endTime = endTime
         self.endpoint = endpoint
+        self.presentationType = presentationType
+        self.flow = flow
         self.appSwitchURL = checkoutAnalyticsData?.appSwitchURL
         self.appSwitchEligible = checkoutAnalyticsData?.appSwitchEligible
         self.ineligibleReason = checkoutAnalyticsData?.ineligibleReason
@@ -248,5 +260,7 @@ struct AnalyticsEventData: Encodable {
         try eventParameters.encode(startTime, forKey: .startTime)
         try eventParameters.encode(endTime, forKey: .endTime)
         try eventParameters.encode(endpoint, forKey: .endpoint)
+        try eventParameters.encode(presentationType, forKey: .presentationType)
+        try eventParameters.encode(flow, forKey: .flow)
     }
 }
