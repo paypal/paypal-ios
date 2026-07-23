@@ -289,7 +289,7 @@ class VenmoClient_Tests: XCTestCase {
         XCTAssertEqual(url.host, "account.venmo.com")
     }
 
-    func testBuildCheckoutURL_custom_hasQAHost() throws {
+    func testBuildCheckoutURL_custom_usesQAAppSwitchHost() throws {
         let customConfig = CoreConfig(clientID: "testClientID", environment: .custom(baseURL: "https://custom.example.com"))
         let customNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: customConfig))
         let customClientConfigAPI = MockClientConfigAPI(coreConfig: customConfig, networkingClient: customNetworkingClient)
@@ -301,7 +301,7 @@ class VenmoClient_Tests: XCTestCase {
         )
 
         let url = try client.buildCheckoutURL(request: VenmoCheckoutRequest(orderID: "ORDER-123"))
-        XCTAssertEqual(url.host, "qa.venmo.com")
+        XCTAssertEqual(url.host, "account.qa.venmo.com")
     }
 
     func testBuildCheckoutURL_hasCorrectPath() throws {
@@ -319,11 +319,16 @@ class VenmoClient_Tests: XCTestCase {
         XCTAssertEqual(items["channel"], "in-app")
     }
 
-    func testBuildCheckoutURL_sendsOnlyChannelAndToken() throws {
+    func testBuildCheckoutURL_hasEnvParam() throws {
+        let items = try queryItems(forOrderID: "ORDER-123")
+        XCTAssertEqual(items["env"], "sandbox")
+    }
+
+    func testBuildCheckoutURL_sendsChannelEnvAndToken() throws {
         let url = try venmoClient.buildCheckoutURL(request: VenmoCheckoutRequest(orderID: "ORDER-123"))
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        XCTAssertEqual(components?.queryItems?.count, 2)
-        XCTAssertEqual(Set((components?.queryItems ?? []).map { $0.name }), ["channel", "token"])
+        XCTAssertEqual(components?.queryItems?.count, 3)
+        XCTAssertEqual(Set((components?.queryItems ?? []).map { $0.name }), ["channel", "env", "token"])
     }
 
     // MARK: buildCheckoutURL helpers

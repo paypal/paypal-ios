@@ -96,8 +96,8 @@ public class VenmoClient: NSObject {
 
     /// Build the Venmo app-switch checkout URL.
     ///
-    /// Matches the Venmo QA app-switch contract confirmed with the Android team — only `channel`
-    /// and `token` are sent.
+    /// Matches the Venmo QA app-switch contract confirmed with the Android team, plus `env` so the
+    /// Direct API pay sheet can resolve the order's backend: `channel`, `env`, and `token`.
     /// - Parameter request: The `VenmoCheckoutRequest` for the transaction.
     /// - Returns: The constructed checkout URL.
     /// - Throws: `VenmoError.venmoURLError` if URL construction fails.
@@ -105,8 +105,11 @@ public class VenmoClient: NSObject {
         let baseURL = config.environment.venmoBaseURL
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)
         components?.path = "/go/web/paypal"
+        // The Venmo app parses `env` to resolve the order's backend; without it the Direct API
+        // pay sheet gets a nil environment and can't load. `channel` + `token` complete the contract.
         components?.queryItems = [
             URLQueryItem(name: "channel", value: "in-app"),
+            URLQueryItem(name: "env", value: config.environment.venmoEnvironmentString),
             URLQueryItem(name: "token", value: request.orderID)
         ]
 
@@ -139,15 +142,11 @@ public class VenmoClient: NSObject {
     /// when the user returns from the Venmo app.
     /// - Parameter url: The URL received by the app.
     public func handleReturnURL(_ url: URL) {
-        Self.log("handleReturnURL — received: \(url.absoluteString)")
         guard let completion = appSwitchCompletion else {
-            Self.log("handleReturnURL — no pending appSwitchCompletion; ignoring")
             return
         }
         appSwitchCompletion = nil
-        let parsed = parseVenmoReturn(url)
-        Self.log("handleReturnURL — parsed result: \(parsed)")
-        deliver(parsed, completion: completion)
+        deliver(parseVenmoReturn(url), completion: completion)
     }
 
     // MARK: - Private Methods
@@ -172,25 +171,16 @@ public class VenmoClient: NSObject {
         completion: @escaping (Result<VenmoCheckoutResult, CoreSDKError>) -> Void
     ) async {
         let venmoAppInstalled = application.isVenmoAppInstalled()
-        Self.log("performCheckoutFlow — appSwitchIfEligible=\(request.appSwitchIfEligible), isVenmoAppInstalled=\(venmoAppInstalled)")
 
         if request.appSwitchIfEligible && venmoAppInstalled {
-            Self.log("branch → APP SWITCH")
             analyticsService?.sendEvent("venmo-payments:checkout:venmo-app-installed")
             await attemptAppSwitch(request: request, completion: completion)
         } else {
-            Self.log("branch → WEB FLOW (ASWebAuthenticationSession)")
             if request.appSwitchIfEligible {
                 analyticsService?.sendEvent("venmo-payments:checkout:fallback-to-web")
             }
             await startWebCheckoutFlow(request: request, completion: completion)
         }
-    }
-
-    /// Lightweight debug logging for troubleshooting the app-switch round trip.
-    /// TODO: Remove once the Venmo app-switch flow is verified end-to-end.
-    static func log(_ message: String) {
-        print("🔵 VenmoClient: \(message)")
     }
 
     /// Attempt to switch to the Venmo app. Falls back to the web flow if the app cannot be opened.
@@ -203,9 +193,7 @@ public class VenmoClient: NSObject {
         // — consistent with the web checkout flow — so the switch is still attempted on failure.
         do {
             _ = try await clientConfigAPI.updateClientConfig(token: request.orderID, fundingSource: "venmo")
-            Self.log("attemptAppSwitch — updateClientConfig succeeded")
         } catch {
-            Self.log("attemptAppSwitch — updateClientConfig FAILED: \(error.localizedDescription)")
             analyticsService?.sendEvent("venmo-payments:checkout:update-client-config:failed")
         }
 
@@ -218,15 +206,12 @@ public class VenmoClient: NSObject {
             appSwitchCompletion = completion
         }
 
-        Self.log("attemptAppSwitch — opening URL: \(checkoutURL.absoluteString)")
         let opened = await openURL(checkoutURL)
-        Self.log("attemptAppSwitch — UIApplication.open returned: \(opened)")
 
         if opened {
             analyticsService?.sendEvent("venmo-payments:checkout:app-switch-open:succeeded")
             // Result is delivered later via handleReturnURL when the user returns from the Venmo app.
         } else {
-            Self.log("attemptAppSwitch — open failed, falling back to web flow")
             analyticsService?.sendEvent("venmo-payments:checkout:app-switch-open:failed")
             await MainActor.run {
                 appSwitchCompletion = nil
@@ -284,7 +269,6 @@ public class VenmoClient: NSObject {
             return
         }
 
-        Self.log("startWebCheckoutFlow — launching web session URL: \(webCheckoutURL.absoluteString)")
         await launchWebAuthenticationSession(url: webCheckoutURL, completion: completion)
     }
 

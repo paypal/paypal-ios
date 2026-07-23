@@ -113,7 +113,7 @@ class VenmoClient_CheckoutAppSwitch_Tests: XCTestCase {
         await fulfillment(of: [completionExpectation], timeout: 5.0)
     }
 
-    func test_appSwitchEnabled_opensChannelAndTokenOnlyURL() async throws {
+    func test_appSwitchEnabled_opensChannelEnvAndTokenURL() async throws {
         mockURLOpener.mockIsVenmoAppInstalled = true
         mockURLOpener.mockOpenURLSuccess = true
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
@@ -138,8 +138,9 @@ class VenmoClient_CheckoutAppSwitch_Tests: XCTestCase {
         XCTAssertEqual(openedURL.host, "account.venmo.com")
         XCTAssertEqual(openedURL.path, "/go/web/paypal")
         XCTAssertEqual(items["channel"], "in-app")
+        XCTAssertEqual(items["env"], "sandbox")
         XCTAssertEqual(items["token"], "test-order-id")
-        XCTAssertEqual(components?.queryItems?.count, 2)
+        XCTAssertEqual(components?.queryItems?.count, 3)
     }
 
     func test_appSwitchOpenFails_fallsBackToWebFlow() async throws {

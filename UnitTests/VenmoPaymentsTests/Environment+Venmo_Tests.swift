@@ -26,7 +26,7 @@ class Environment_Venmo_Tests: XCTestCase {
         XCTAssertEqual(Environment.live.venmoEnvironmentString, "production")
     }
 
-    func testVenmoEnvironment_custom_returnsQAEnvironmentString() {
-        XCTAssertEqual(Environment.custom(baseURL: "https://custom.example.com").venmoEnvironmentString, "qa")
+    func testVenmoEnvironment_custom_returnsStageEnvironmentString() {
+        XCTAssertEqual(Environment.custom(baseURL: "https://custom.example.com").venmoEnvironmentString, "stage")
     }
 }

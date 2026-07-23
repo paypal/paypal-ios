@@ -16,8 +16,9 @@ extension Environment {
         case .live:
             return URL(string: "https://account.venmo.com")!
         case .custom:
-            // QA end-to-end host confirmed with the Android team: qa.venmo.com.
-            return URL(string: "https://qa.venmo.com")!
+            // iOS universal-link host: the Venmo iOS build is associated with account.qa.venmo.com
+            // (the bare qa.venmo.com opens Safari). Android uses qa.venmo.com via App Links.
+            return URL(string: "https://account.qa.venmo.com")!
         }
     }
     // swiftlint:enable force_unwrapping

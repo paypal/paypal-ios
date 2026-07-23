@@ -28,8 +28,9 @@ extension Environment {
         case .live:
             return "production"
         case .custom:
-            // QA end-to-end: the custom environment targets the Venmo QA stack.
-            return "qa"
+            // QA end-to-end: the Venmo app authenticates against stage/QA, so the paysheet request
+            // must use `stage` (sandbox → UNAUTHORIZED under a stage session).
+            return "stage"
         }
     }
 
