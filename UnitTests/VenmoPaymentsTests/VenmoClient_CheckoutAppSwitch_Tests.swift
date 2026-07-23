@@ -113,7 +113,7 @@ class VenmoClient_CheckoutAppSwitch_Tests: XCTestCase {
         await fulfillment(of: [completionExpectation], timeout: 5.0)
     }
 
-    func test_appSwitchEnabled_opensFullyParameterizedCheckoutURL() async throws {
+    func test_appSwitchEnabled_opensChannelAndTokenOnlyURL() async throws {
         mockURLOpener.mockIsVenmoAppInstalled = true
         mockURLOpener.mockOpenURLSuccess = true
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
@@ -123,11 +123,7 @@ class VenmoClient_CheckoutAppSwitch_Tests: XCTestCase {
             urlOpenedExpectation.fulfill()
         }
 
-        let request = VenmoCheckoutRequest(
-            orderID: "test-order-id",
-            appSwitchIfEligible: true,
-            returnURL: "https://example.com/success"
-        )
+        let request = VenmoCheckoutRequest(orderID: "test-order-id", appSwitchIfEligible: true)
         venmoClient.start(request: request) { _ in }
 
         await fulfillment(of: [urlOpenedExpectation], timeout: 5.0)
@@ -141,18 +137,9 @@ class VenmoClient_CheckoutAppSwitch_Tests: XCTestCase {
 
         XCTAssertEqual(openedURL.host, "account.venmo.com")
         XCTAssertEqual(openedURL.path, "/go/web/paypal")
-        XCTAssertEqual(items["token"], "test-order-id")
-        XCTAssertEqual(items["fundingSource"], "venmo")
-        XCTAssertEqual(items["enableFunding"], "venmo")
         XCTAssertEqual(items["channel"], "in-app")
-        XCTAssertEqual(items["commit"], "true")
-        XCTAssertEqual(items["domain"], "sdk.paypal.com")
-        XCTAssertEqual(items["env"], "sandbox")
-        XCTAssertEqual(items["buyerCountry"], "US")
-        XCTAssertEqual(items["return_flow"], "auto")
-        XCTAssertEqual(items["pageUrl"], "https://example.com/success")
-        XCTAssertEqual(items["buttonSessionID"], items["sessionUID"])
-        XCTAssertFalse((items["buttonSessionID"] ?? "").isEmpty)
+        XCTAssertEqual(items["token"], "test-order-id")
+        XCTAssertEqual(components?.queryItems?.count, 2)
     }
 
     func test_appSwitchOpenFails_fallsBackToWebFlow() async throws {

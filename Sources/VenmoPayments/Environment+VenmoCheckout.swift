@@ -16,9 +16,8 @@ extension Environment {
         case .live:
             return URL(string: "https://account.venmo.com")!
         case .custom:
-            // Matches Android: always the production Venmo host; the `env` query parameter routes
-            // the Venmo app to the correct backend.
-            return URL(string: "https://account.venmo.com")!
+            // QA end-to-end host confirmed with the Android team: qa.venmo.com.
+            return URL(string: "https://qa.venmo.com")!
         }
     }
     // swiftlint:enable force_unwrapping

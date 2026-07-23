@@ -289,7 +289,7 @@ class VenmoClient_Tests: XCTestCase {
         XCTAssertEqual(url.host, "account.venmo.com")
     }
 
-    func testBuildCheckoutURL_custom_hasProdHost() throws {
+    func testBuildCheckoutURL_custom_hasQAHost() throws {
         let customConfig = CoreConfig(clientID: "testClientID", environment: .custom(baseURL: "https://custom.example.com"))
         let customNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: customConfig))
         let customClientConfigAPI = MockClientConfigAPI(coreConfig: customConfig, networkingClient: customNetworkingClient)
@@ -301,7 +301,7 @@ class VenmoClient_Tests: XCTestCase {
         )
 
         let url = try client.buildCheckoutURL(request: VenmoCheckoutRequest(orderID: "ORDER-123"))
-        XCTAssertEqual(url.host, "account.venmo.com")
+        XCTAssertEqual(url.host, "qa.venmo.com")
     }
 
     func testBuildCheckoutURL_hasCorrectPath() throws {
@@ -314,56 +314,16 @@ class VenmoClient_Tests: XCTestCase {
         XCTAssertEqual(items["token"], "ORDER-ABC")
     }
 
-    func testBuildCheckoutURL_doesNotHaveOrderIDParam() throws {
-        let items = try queryItems(forOrderID: "ORDER-ABC")
-        XCTAssertNil(items["orderID"])
-    }
-
-    func testBuildCheckoutURL_hasReturnFlowAuto() throws {
+    func testBuildCheckoutURL_hasChannelInApp() throws {
         let items = try queryItems(forOrderID: "ORDER-123")
-        XCTAssertEqual(items["return_flow"], "auto")
-    }
-
-    func testBuildCheckoutURL_includesPaySheetBootstrapParams() throws {
-        let items = try queryItems(forOrderID: "ORDER-123")
-        XCTAssertEqual(items["fundingSource"], "venmo")
-        XCTAssertEqual(items["enableFunding"], "venmo")
         XCTAssertEqual(items["channel"], "in-app")
-        XCTAssertEqual(items["commit"], "true")
-        XCTAssertEqual(items["domain"], "sdk.paypal.com")
-        XCTAssertEqual(items["env"], "sandbox")
-        XCTAssertEqual(items["buyerCountry"], "US")
     }
 
-    func testBuildCheckoutURL_buttonSessionIDMatchesSessionUID() throws {
-        let items = try queryItems(forOrderID: "ORDER-123")
-        let buttonSessionID = try XCTUnwrap(items["buttonSessionID"])
-        let sessionUID = try XCTUnwrap(items["sessionUID"])
-        XCTAssertFalse(buttonSessionID.isEmpty)
-        XCTAssertEqual(buttonSessionID, sessionUID)
-    }
-
-    func testBuildCheckoutURL_withoutReturnURL_omitsPageUrl() throws {
-        let items = try queryItems(forOrderID: "ORDER-123")
-        XCTAssertNil(items["pageUrl"])
-    }
-
-    func testBuildCheckoutURL_withReturnURL_includesPageUrl() throws {
-        let request = VenmoCheckoutRequest(orderID: "ORDER-123", returnURL: "https://example.com/success")
-        let items = queryItems(from: try venmoClient.buildCheckoutURL(request: request))
-        XCTAssertEqual(items["pageUrl"], "https://example.com/success")
-    }
-
-    func testBuildCheckoutURL_usesCustomBuyerCountry() throws {
-        let request = VenmoCheckoutRequest(orderID: "ORDER-123", buyerCountry: "CA")
-        let items = queryItems(from: try venmoClient.buildCheckoutURL(request: request))
-        XCTAssertEqual(items["buyerCountry"], "CA")
-    }
-
-    func testBuildCheckoutURL_withoutReturnURL_hasElevenQueryParams() throws {
+    func testBuildCheckoutURL_sendsOnlyChannelAndToken() throws {
         let url = try venmoClient.buildCheckoutURL(request: VenmoCheckoutRequest(orderID: "ORDER-123"))
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        XCTAssertEqual(components?.queryItems?.count, 11)
+        XCTAssertEqual(components?.queryItems?.count, 2)
+        XCTAssertEqual(Set((components?.queryItems ?? []).map { $0.name }), ["channel", "token"])
     }
 
     // MARK: buildCheckoutURL helpers

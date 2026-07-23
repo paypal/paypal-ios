@@ -12,12 +12,6 @@ class VenmoCheckoutRequest_Tests: XCTestCase {
         let request = VenmoCheckoutRequest(orderID: "ORDER-123")
         XCTAssertEqual(request.buyerCountry, "US")
         XCTAssertEqual(request.currency, "USD")
-        XCTAssertNil(request.returnURL)
-    }
-
-    func testInit_withReturnURL_setsReturnURL() {
-        let request = VenmoCheckoutRequest(orderID: "ORDER-123", returnURL: "https://example.com/success")
-        XCTAssertEqual(request.returnURL, "https://example.com/success")
     }
 
     func testInit_customValues() {

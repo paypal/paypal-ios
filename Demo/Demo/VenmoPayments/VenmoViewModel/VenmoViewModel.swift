@@ -73,11 +73,7 @@ class VenmoViewModel: ObservableObject {
                 }
 
                 if let orderID = state.createOrder?.id {
-                    let request = VenmoCheckoutRequest(
-                        orderID: orderID,
-                        appSwitchIfEligible: true,
-                        returnURL: appSwitchURL + "/success"
-                    )
+                    let request = VenmoCheckoutRequest(orderID: orderID, appSwitchIfEligible: true)
                     let venmoResult = try await venmoClient.start(request: request)
                     DispatchQueue.main.async {
                         self.state.approveResultResponse = .loaded(

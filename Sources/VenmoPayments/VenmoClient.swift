@@ -96,36 +96,19 @@ public class VenmoClient: NSObject {
 
     /// Build the Venmo app-switch checkout URL.
     ///
-    /// Mirrors the Android app-switch contract: the Venmo pay sheet bootstraps from these query
-    /// parameters, so all of them must be present for it to load.
+    /// Matches the Venmo QA app-switch contract confirmed with the Android team — only `channel`
+    /// and `token` are sent.
     /// - Parameter request: The `VenmoCheckoutRequest` for the transaction.
-    /// - Returns: The fully constructed checkout URL.
+    /// - Returns: The constructed checkout URL.
     /// - Throws: `VenmoError.venmoURLError` if URL construction fails.
     func buildCheckoutURL(request: VenmoCheckoutRequest) throws -> URL {
         let baseURL = config.environment.venmoBaseURL
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)
         components?.path = "/go/web/paypal"
-
-        // `buttonSessionID` and `sessionUID` share a single session identifier, matching Android.
-        let sessionID = UUID().uuidString
-        var queryItems = [
-            URLQueryItem(name: "buttonSessionID", value: sessionID),
-            URLQueryItem(name: "buyerCountry", value: request.buyerCountry),
+        components?.queryItems = [
             URLQueryItem(name: "channel", value: "in-app"),
-            URLQueryItem(name: "commit", value: "true"),
-            URLQueryItem(name: "domain", value: "sdk.paypal.com"),
-            URLQueryItem(name: "enableFunding", value: "venmo"),
-            URLQueryItem(name: "env", value: config.environment.venmoEnvironmentString),
-            URLQueryItem(name: "fundingSource", value: "venmo"),
-            // TODO: (2026-06-02) return_flow may become removable once Direct API is fully rolled out
-            URLQueryItem(name: "return_flow", value: "auto"),
             URLQueryItem(name: "token", value: request.orderID)
         ]
-        if let returnURL = request.returnURL {
-            queryItems.append(URLQueryItem(name: "pageUrl", value: returnURL))
-        }
-        queryItems.append(URLQueryItem(name: "sessionUID", value: sessionID))
-        components?.queryItems = queryItems
 
         guard let url = components?.url else {
             throw VenmoError.venmoURLError
