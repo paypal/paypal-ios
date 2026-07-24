@@ -13,61 +13,29 @@ struct PayPalWebCheckoutURLBuilder {
     init(base: String) {
         self.base = base
     }
-
-    /// Builds the app-switch URL for the checkout (one-time payment) flow.
+    /// Builds the app-switch URL for the checkout or vault-without-purchase flow.
     /// - Returns: `nil` if `base` isn't a valid URL string.
-    func checkoutAppSwitchURL(
+    func makeAppSwitchURL(
         clientID: String,
         fundingSource: PayPalWebCheckoutFundingSource,
-        orderID: String,
+        token: String,
+        tokenType: TokenType,
         sessionID: String?
-    ) -> URL? {
-        makeAppSwitchURL(
-            merchantID: clientID,
-            flowType: .checkout,
-            fundingSource: fundingSource,
-            sessionID: sessionID,
-            tokenItem: URLQueryItem(name: "token", value: orderID)
-        )
-    }
-
-    /// Builds the app-switch URL for the vault-without-purchase flow.
-    /// - Returns: `nil` if `base` isn't a valid URL string.
-    func vaultAppSwitchURL(
-        merchantID: String,
-        fundingSource: PayPalWebCheckoutFundingSource,
-        sessionID: String?,
-        setupTokenID: String
-    ) -> URL? {
-        makeAppSwitchURL(
-            merchantID: merchantID,
-            flowType: .vault,
-            fundingSource: fundingSource,
-            sessionID: sessionID,
-            tokenItem: URLQueryItem(name: "approval_session_id", value: setupTokenID)
-        )
-    }
-
-    /// Shared query construction for both flows. Query item values are percent-encoded by
-    /// `URLComponents` (rather than interpolated directly into a string), and any query already
-    /// present on `base` is preserved instead of being overwritten by a second `?`.
-    private func makeAppSwitchURL(
-        merchantID: String,
-        flowType: FlowType,
-        fundingSource: PayPalWebCheckoutFundingSource,
-        sessionID: String?,
-        tokenItem: URLQueryItem
     ) -> URL? {
         guard var components = URLComponents(string: base) else { return nil }
 
         // Drop malformed items (e.g. from a "&&" in `base`), which `URLComponents`
         // parses as an empty-name, nil-value query item.
         var queryItems = (components.queryItems ?? []).filter { !$0.name.isEmpty }
+
+        if !queryItems.contains(where: { $0.name == tokenType.tokenQueryParameterName }) {
+            queryItems.append(URLQueryItem(name: tokenType.tokenQueryParameterName, value: token))
+        }
+
         var additionalQueryItems: [URLQueryItem] = [
-            tokenItem,
             URLQueryItem(name: "source", value: "pda"),
-            URLQueryItem(name: "merchant", value: merchantID),
-            URLQueryItem(name: "flow_type", value: flowType.rawValue),
+            URLQueryItem(name: "merchant", value: clientID),
+            URLQueryItem(name: "flow_type", value: flowType(for: tokenType).rawValue),
             URLQueryItem(name: "funding_source", value: fundingSource.rawValue),
             URLQueryItem(name: "switch_initiated_time", value: String(Int(round(Date().timeIntervalSince1970 * 1000))))
         ]
@@ -78,5 +46,23 @@ struct PayPalWebCheckoutURLBuilder {
         components.queryItems = queryItems
 
         return components.url
+    }
+
+    private func flowType(for tokenType: TokenType) -> FlowType {
+        switch tokenType {
+        case .orderID, .billingToken: return .checkout
+        case .vaultID: return .vault
+        }
+    }
+}
+
+extension TokenType {
+
+    var tokenQueryParameterName: String {
+        switch self {
+        case .orderID: return "token"
+        case .vaultID: return "approval_session_id"
+        case .billingToken: return "token"
+        }
     }
 }

@@ -35,7 +35,7 @@ class HTTP {
         guard let response = response as? HTTPURLResponse else {
             throw NetworkingError.invalidURLResponseError
         }
-        
-        return HTTPResponse(status: response.statusCode, body: data)
+
+        return HTTPResponse(status: response.statusCode, body: data, url: httpRequest.url)
     }
 }

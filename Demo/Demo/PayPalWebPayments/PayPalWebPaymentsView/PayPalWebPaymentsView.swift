@@ -20,6 +20,8 @@ struct PayPalWebPaymentsView: View {
                         
                         PayPalWebTransactionView(payPalWebViewModel: payPalWebViewModel)
                             .padding(.bottom, 20)
+                    } else if case .error = payPalWebViewModel.state.approveResultResponse {
+                        PayPalApprovalResultView(payPalWebViewModel: payPalWebViewModel)
                     }
                     
                     if case .loaded = payPalWebViewModel.state.capturedOrderResponse {
