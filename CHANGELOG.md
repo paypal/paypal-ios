@@ -4,8 +4,8 @@
 ## Unreleased
 
 * PayPalWebPayments
-  * Add `PayPalWebCheckoutClient.createPayPalSession(tokenType, userIdentity, urlConfig, userAction)` — establishes a shopper session that must be created prior to calling `start()` or `vault()`
-  * Add `TokenType` enum (`.orderID`, `.vaultID`, `.billingToken`) — replaces `PayPalFlowType` and determines the query-parameter name used to carry the token in app-switch and web checkout/fallback URLs
+  * Add `PayPalWebCheckoutClient.createPayPalSession(sessionType, userIdentity, urlConfig, userAction)` — establishes a shopper session that must be created prior to calling `start()` or `vault()`
+  * Add `PayPalSessionType` enum (`.checkout`, `.vaultWithoutPurchase`) — replaces `PayPalFlowType` and expresses the caller's intent, independent of the underlying token/query-parameter representation
   * Add `PayPalWebCheckoutClient.start(orderId, completion)` method — requires a prior call to `createPayPalSession()`
   * Add `PayPalWebCheckoutClient.vault(setupTokenId, completion)` method — requires a prior call to `createPayPalSession()`
   * Add `PayPalPhoneNumber` type and update `PayPalUserIdentity(email:phone:)` to accept a structured `PayPalPhoneNumber` (country code + national number) instead of a `String`

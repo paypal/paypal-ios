@@ -89,17 +89,19 @@ public class PayPalWebCheckoutClient: NSObject {
     /// - `paypal-web-payments:create-paypal-session:failed`
     ///
     /// - Parameters:
+    ///   - sessionType: Whether this session is for a checkout or a vault-without-purchase flow.
     ///   - userIdentity: Optional buyer identity. Defaults to `nil`.
     ///   - urlConfig: Return and cancel deep-link URLs registered with PayPal.
     ///   - userAction: The buyer action intent. Defaults to `.continue`.
     public func createPayPalSession(
-        tokenType: TokenType,
+        sessionType: PayPalSessionType,
         userIdentity: PayPalUserIdentity? = nil,
         urlConfig: PayPalURLConfig,
         userAction: PayPalUserAction = .continue
     ) {
         sessionTask?.cancel()
 
+        let tokenType = sessionType.tokenType
         self.tokenType = tokenType
         analyticsData = PayPalCheckoutAnalyticsData(userIdentity: userIdentity, urlConfig: urlConfig, userAction: userAction)
         analyticsService?.sendEvent("paypal-web-payments:checkout:ssid-session:started")
