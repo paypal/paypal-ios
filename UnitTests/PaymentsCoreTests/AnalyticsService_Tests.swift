@@ -137,7 +137,6 @@ class AnalyticsService_Tests: XCTestCase {
         XCTAssertEqual(capturedData?.paypalNativeAppInstalled, true)
         XCTAssertEqual(capturedData?.isCachedSession, true)
         XCTAssertEqual(capturedData?.isVaultRequest, true)
-        XCTAssertEqual(capturedData?.fundingSource, "paypal")
         XCTAssertEqual(capturedData?.shopperSessionId, "fake-shopper-session-id")
         XCTAssertEqual(capturedData?.shopperSessionExpiration, "fake-shopper-session-expiration")
     }
@@ -199,7 +198,6 @@ class AnalyticsService_Tests: XCTestCase {
         XCTAssertNil(capturedData?.errorDescription)
         XCTAssertNil(capturedData?.isCachedSession)
         XCTAssertNil(capturedData?.isVaultRequest)
-        XCTAssertNil(capturedData?.fundingSource)
         XCTAssertNil(capturedData?.shopperSessionId)
         XCTAssertNil(capturedData?.shopperSessionExpiration)
     }

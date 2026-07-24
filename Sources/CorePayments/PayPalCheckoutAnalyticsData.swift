@@ -22,8 +22,6 @@ public final class PayPalCheckoutAnalyticsData {
 
     public var isVaultRequest: Bool?
 
-    public var fundingSource: String? = "paypal"
-
     public var userAction: String?
 
     public var paypalNativeAppInstalled: Bool?
