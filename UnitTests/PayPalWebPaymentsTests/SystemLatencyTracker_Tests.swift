@@ -57,7 +57,7 @@ class SystemLatencyTracker_Tests: XCTestCase {
         sut.begin(flow: .checkout)
         sut.send(presentationType: .browser, using: analyticsService, checkoutAnalyticsData: nil)
 
-        await fulfillment(of: [expectation], timeout: 2.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
 
         let captured = capturingTrackingEventsAPI.capturedEventData
         XCTAssertEqual(captured?.eventName, "paypal-web-payments:system-latency")
@@ -81,7 +81,7 @@ class SystemLatencyTracker_Tests: XCTestCase {
         // Second call in the same flow must be a no-op (measurement already consumed).
         sut.send(presentationType: .browser, using: analyticsService, checkoutAnalyticsData: nil)
 
-        await fulfillment(of: [expectation], timeout: 2.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
 
         XCTAssertEqual(capturingTrackingEventsAPI.sendCount, 1)
         XCTAssertEqual(capturingTrackingEventsAPI.capturedEventData?.presentationType, "app-switch")

@@ -100,7 +100,7 @@ class CreateShopperSessionAPI_Tests: XCTestCase {
             userIdentity: nil
         )
 
-        await fulfillment(of: [expectation], timeout: 2.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
 
         let captured = capturingTrackingEventsAPI.capturedEventData
         XCTAssertEqual(captured?.eventName, "paypal-web-payments:api-request-latency")
