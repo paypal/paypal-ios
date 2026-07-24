@@ -6,8 +6,6 @@ import CorePayments
 
 extension Environment {
 
-    // swiftlint:disable force_unwrapping
-
     /// The base URL for the Venmo checkout web flow.
     var venmoCheckoutBaseURL: URL {
         switch self {
@@ -33,6 +31,4 @@ extension Environment {
             return "stage"
         }
     }
-
-    // swiftlint:enable force_unwrapping
 }

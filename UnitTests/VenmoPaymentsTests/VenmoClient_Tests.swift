@@ -3,6 +3,7 @@ import XCTest
 @testable import VenmoPayments
 @testable import TestShared
 
+// swiftlint:disable:next type_body_length
 class VenmoClient_Tests: XCTestCase {
 
     var config: CoreConfig!
@@ -340,8 +341,7 @@ class VenmoClient_Tests: XCTestCase {
     private func queryItems(from url: URL) -> [String: String] {
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
         return Dictionary(
-            (components?.queryItems ?? []).map { ($0.name, $0.value ?? "") },
-            uniquingKeysWith: { first, _ in first }
-        )
+            (components?.queryItems ?? []).map { ($0.name, $0.value ?? "") }
+        ) { first, _ in first }
     }
 }

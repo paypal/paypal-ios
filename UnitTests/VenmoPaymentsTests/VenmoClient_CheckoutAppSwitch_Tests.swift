@@ -131,9 +131,8 @@ class VenmoClient_CheckoutAppSwitch_Tests: XCTestCase {
         let openedURL = try XCTUnwrap(mockURLOpener.lastOpenedURL)
         let components = URLComponents(url: openedURL, resolvingAgainstBaseURL: false)
         let items = Dictionary(
-            (components?.queryItems ?? []).map { ($0.name, $0.value ?? "") },
-            uniquingKeysWith: { first, _ in first }
-        )
+            (components?.queryItems ?? []).map { ($0.name, $0.value ?? "") }
+        ) { first, _ in first }
 
         XCTAssertEqual(openedURL.host, "account.venmo.com")
         XCTAssertEqual(openedURL.path, "/go/web/paypal")

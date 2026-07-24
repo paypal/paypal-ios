@@ -6,6 +6,8 @@ import AuthenticationServices
 import CorePayments
 #endif
 
+// swiftlint:disable type_body_length file_length
+
 /// `VenmoClient` handles Venmo checkout flows. When the merchant opts into app switch and the Venmo
 /// app is installed, it launches the Venmo app for approval; otherwise it presents checkout in a web
 /// authentication session. It also checks funding eligibility and updates client configuration.

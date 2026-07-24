@@ -6,7 +6,6 @@ import CorePayments
 
 extension Environment {
 
-    // swiftlint:disable force_unwrapping
     var venmoBaseURL: URL {
         switch self {
         case .sandbox:
@@ -21,5 +20,4 @@ extension Environment {
             return URL(string: "https://account.qa.venmo.com")!
         }
     }
-    // swiftlint:enable force_unwrapping
 }
