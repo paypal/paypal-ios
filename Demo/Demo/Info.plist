@@ -13,6 +13,19 @@
 		<string>paypal</string>
 		<string>com.venmo.touch.v2</string>
 	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.paypal.ios.Demo.appswitch</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>sdk.ios.paypal</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleShortVersionString</key>
 	<string>2.0.1</string>
 	<key>UIApplicationSceneManifest</key>

@@ -26,8 +26,10 @@ class VenmoViewModel: ObservableObject {
         let amountRequest = Amount(currencyCode: "USD", value: "10.00")
 
         let experienceContext = VenmoExperienceContext(
-            returnUrl: appSwitchURL + "/success",
-            cancelUrl: appSwitchURL + "/cancel",
+            // `platform=ios` tells the sample-server return page to build the iOS deep link
+            // (sdk.ios.paypal:) rather than defaulting to the Android scheme.
+            returnUrl: appSwitchURL + "/success?platform=ios",
+            cancelUrl: appSwitchURL + "/cancel?platform=ios",
             appSwitchContext: VenmoAppSwitchContext(source: "NATIVE_APP")
         )
         let paymentSource: OrderPaymentSource = .venmo(
