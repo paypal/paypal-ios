@@ -28,12 +28,13 @@ struct AnalyticsEventData: Encodable {
         case endpoint = "endpoint"
         case endTime = "end_time"
         case environment = "merchant_sdk_env"
-        case errorDescription = "error_description"
+        case errorDescription = "error_desc"
         case eventName = "event_name"
         case eventSource = "event_source"
         case fallbackSchemeURL = "fallback_scheme_url"
         case fallbackUrl = "fallback_url"
         case flow = "flow"
+        case fundingSource = "funding_source"
         case ineligibleReason = "ineligible_reason"
         case isCachedSession = "is_cached_session"
         case isSimulator = "is_simulator"
@@ -148,6 +149,8 @@ struct AnalyticsEventData: Encodable {
 
     let isVaultRequest: Bool?
 
+    let fundingSource: String?
+
     let shopperSessionId: String?
 
     let shopperSessionExpiration: String?
@@ -211,6 +214,7 @@ struct AnalyticsEventData: Encodable {
         self.errorDescription = errorDescription
         self.isCachedSession = checkoutAnalyticsData?.isCachedSession
         self.isVaultRequest = checkoutAnalyticsData?.isVaultRequest
+        self.fundingSource = checkoutAnalyticsData?.fundingSource
         self.shopperSessionId = checkoutAnalyticsData?.shopperSessionID
         self.shopperSessionExpiration = checkoutAnalyticsData?.shopperSessionExpiration
     }
@@ -255,6 +259,7 @@ struct AnalyticsEventData: Encodable {
         try eventParameters.encode(errorDescription, forKey: .errorDescription)
         try eventParameters.encode(isCachedSession, forKey: .isCachedSession)
         try eventParameters.encode(isVaultRequest, forKey: .isVaultRequest)
+        try eventParameters.encode(fundingSource, forKey: .fundingSource)
         try eventParameters.encode(shopperSessionId, forKey: .shopperSessionId)
         try eventParameters.encode(shopperSessionExpiration, forKey: .shopperSessionExpiration)
         try eventParameters.encode(startTime, forKey: .startTime)
