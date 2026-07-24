@@ -107,7 +107,12 @@ public class PayPalWebCheckoutClient: NSObject {
 
         let tokenType = sessionType.tokenType
         self.tokenType = tokenType
-        analyticsData = PayPalCheckoutAnalyticsData(tokenType: tokenType, userIdentity: userIdentity, urlConfig: urlConfig, userAction: userAction)
+        analyticsData = PayPalCheckoutAnalyticsData(
+            tokenType: tokenType,
+            userIdentity: userIdentity,
+            urlConfig: urlConfig,
+            userAction: userAction
+        )
         analyticsService?.sendEvent("paypal-web-payments:checkout:ssid-session:started")
 
         sessionTask = Task {
