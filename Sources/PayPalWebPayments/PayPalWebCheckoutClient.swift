@@ -35,7 +35,9 @@ public class PayPalWebCheckoutClient: NSObject {
     /// The token type set by `createPayPalSession()` (or, for the deprecated APIs that don't call it,
     /// set directly by `start(request:completion:)`/`vault(_:completion:)`). Determines the
     /// query-parameter name used to carry the token in app-switch and web checkout/fallback URLs
-    /// (see `TokenType.tokenQueryParameterName`).
+    /// (see `TokenType.tokenQueryParameterName`). If `nil` when a session-based app-switch URL is
+    /// built, that URL build is treated as failed and the flow falls back to the web-based flow
+    /// rather than crashing.
     private var tokenType: TokenType?
 
     // MARK: - Analytics State
@@ -500,13 +502,6 @@ public class PayPalWebCheckoutClient: NSObject {
 
     // MARK: - Private: Session-based Launch
 
-    private var currentTokenType: TokenType {
-        guard let tokenType else {
-            preconditionFailure("tokenType must be set before building a checkout/vault URL")
-        }
-        return tokenType
-    }
-
     private func launchCheckout(
         session: ShopperSessionResult,
         orderID: String,
@@ -523,11 +518,12 @@ public class PayPalWebCheckoutClient: NSObject {
                     eventPrefix: "paypal-web-payments:checkout"
                 ),
                 makeURL: { base, sessionID in
-                    PayPalWebCheckoutURLBuilder(base: base).makeAppSwitchURL(
+                    guard let tokenType = self.tokenType else { return nil }
+                    return PayPalWebCheckoutURLBuilder(base: base).makeAppSwitchURL(
                         clientID: self.config.merchantID,
                         fundingSource: .paypal,
                         token: orderID,
-                        tokenType: self.currentTokenType,
+                        tokenType: tokenType,
                         sessionID: sessionID
                     )
                 },
@@ -559,11 +555,12 @@ public class PayPalWebCheckoutClient: NSObject {
                     eventPrefix: "paypal-web-payments:vault-wo-purchase"
                 ),
                 makeURL: { base, sessionID in
-                    PayPalWebCheckoutURLBuilder(base: base).makeAppSwitchURL(
+                    guard let tokenType = self.tokenType else { return nil }
+                    return PayPalWebCheckoutURLBuilder(base: base).makeAppSwitchURL(
                         clientID: self.config.merchantID,
                         fundingSource: .paypal,
                         token: setupTokenID,
-                        tokenType: self.currentTokenType,
+                        tokenType: tokenType,
                         sessionID: sessionID
                     )
                 },
@@ -867,14 +864,16 @@ public class PayPalWebCheckoutClient: NSObject {
             else {
                 return .fallback(eligibility.ineligibleReason ?? "ineligible")
             }
-            guard let url = PayPalWebCheckoutURLBuilder(base: urlString)
-                .makeAppSwitchURL(
-                    clientID: config.merchantID,
-                    fundingSource: .paypal,
-                    token: token,
-                    tokenType: self.currentTokenType,
-                    sessionID: nil
-                ) else {
+            guard let currentTokenType = self.tokenType,
+                let url = PayPalWebCheckoutURLBuilder(base: urlString)
+                    .makeAppSwitchURL(
+                        clientID: config.merchantID,
+                        fundingSource: .paypal,
+                        token: token,
+                        tokenType: currentTokenType,
+                        sessionID: nil
+                    )
+            else {
                 return .fallback("invalid_app_switch_url")
             }
 
