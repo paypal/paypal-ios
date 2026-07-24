@@ -35,7 +35,7 @@ struct PayPalWebCheckoutURLBuilder {
         var additionalQueryItems: [URLQueryItem] = [
             URLQueryItem(name: "source", value: "pda"),
             URLQueryItem(name: "merchant", value: clientID),
-            URLQueryItem(name: "flow_type", value: (tokenType == .vaultID ? FlowType.vault : .checkout).rawValue),
+            URLQueryItem(name: "flow_type", value: flowType(for: tokenType).rawValue),
             URLQueryItem(name: "funding_source", value: fundingSource.rawValue),
             URLQueryItem(name: "switch_initiated_time", value: String(Int(round(Date().timeIntervalSince1970 * 1000))))
         ]
@@ -46,6 +46,13 @@ struct PayPalWebCheckoutURLBuilder {
         components.queryItems = queryItems
 
         return components.url
+    }
+
+    private func flowType(for tokenType: TokenType) -> FlowType {
+        switch tokenType {
+        case .orderID, .billingToken: return .checkout
+        case .vaultID: return .vault
+        }
     }
 }
 
