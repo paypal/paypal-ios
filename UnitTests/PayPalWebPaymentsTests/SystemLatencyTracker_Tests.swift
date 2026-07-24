@@ -55,13 +55,16 @@ class SystemLatencyTracker_Tests: XCTestCase {
         capturingTrackingEventsAPI.onSendEvent = { expectation.fulfill() }
 
         sut.begin(flow: .checkout)
-        sut.send(presentationType: .browser, using: analyticsService, checkoutAnalyticsData: nil)
+        // Use `.appSwitch` so the event dispatches via the background-protected (awaited, `.utility`) path.
+        // The default `.background` fire-and-forget QoS is deferred indefinitely on loaded CI and can't be
+        // observed deterministically within a timeout.
+        sut.send(presentationType: .appSwitch, using: analyticsService, checkoutAnalyticsData: nil)
 
         await fulfillment(of: [expectation], timeout: 10.0)
 
         let captured = capturingTrackingEventsAPI.capturedEventData
         XCTAssertEqual(captured?.eventName, "paypal-web-payments:system-latency")
-        XCTAssertEqual(captured?.presentationType, "browser")
+        XCTAssertEqual(captured?.presentationType, "app-switch")
         XCTAssertEqual(captured?.flow, "checkout")
         let startTime = try? XCTUnwrap(captured?.startTime)
         let endTime = try? XCTUnwrap(captured?.endTime)
