@@ -668,7 +668,6 @@ public class PayPalWebCheckoutClient: NSObject {
 
     // MARK: - Private: System Latency
 
-    /// Forwards to `systemLatency`, supplying the client's current `analyticsService` and `analyticsData`.
     private func sendSystemLatencyEvent(_ presentationType: SystemLatencyTracker.PresentationType) {
         systemLatency.send(
             presentationType: presentationType,

@@ -15,9 +15,6 @@ public class CreateShopperSessionAPI {
     private let authenticationSecureTokenServiceAPI: AuthenticationSecureTokenServiceAPI
     private let analyticsService: AnalyticsService
 
-    /// Endpoint label reported by the `api-request-latency` analytics event. The session is created via a
-    /// GraphQL mutation, so latency is attributed to the GraphQL mutation path (matching Android) rather
-    /// than a REST path.
     private let latencyEndpoint = "/graphql/createShopperSessionWithAppSwitchEligibility"
     private let apiRequestLatencyEvent = "paypal-web-payments:api-request-latency"
 

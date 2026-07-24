@@ -23,7 +23,6 @@ class HTTP {
             urlRequest.addValue(value, forHTTPHeaderField: key.rawValue)
         }
         
-        // Captured immediately before the `URLSession` call, in epoch milliseconds.
         let startTime = Int64(Date().timeIntervalSince1970 * 1000)
 
         let (data, response): (Data, URLResponse)
@@ -35,7 +34,6 @@ class HTTP {
             throw NetworkingError.unknownError
         }
 
-        // Captured immediately after the response is received, in epoch milliseconds.
         let endTime = Int64(Date().timeIntervalSince1970 * 1000)
 
         guard let response = response as? HTTPURLResponse else {
