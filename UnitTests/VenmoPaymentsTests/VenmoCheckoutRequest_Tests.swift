@@ -10,14 +10,12 @@ class VenmoCheckoutRequest_Tests: XCTestCase {
 
     func testInit_defaultValues() {
         let request = VenmoCheckoutRequest(orderID: "ORDER-123")
-        XCTAssertEqual(request.buyerCountry, "US")
         XCTAssertEqual(request.currency, "USD")
     }
 
     func testInit_customValues() {
-        let request = VenmoCheckoutRequest(orderID: "ORDER-456", buyerCountry: "CA", currency: "CAD")
+        let request = VenmoCheckoutRequest(orderID: "ORDER-456", currency: "CAD")
         XCTAssertEqual(request.orderID, "ORDER-456")
-        XCTAssertEqual(request.buyerCountry, "CA")
         XCTAssertEqual(request.currency, "CAD")
     }
 }

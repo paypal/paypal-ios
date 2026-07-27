@@ -10,9 +10,6 @@ public struct VenmoCheckoutRequest {
     /// When `false` (default), checkout is presented in a web authentication session.
     public let appSwitchIfEligible: Bool
 
-    /// The buyer's country code. Defaults to `"US"`.
-    public let buyerCountry: String
-
     /// The currency code for the transaction. Defaults to `"USD"`.
     public let currency: String
 
@@ -20,17 +17,14 @@ public struct VenmoCheckoutRequest {
     /// - Parameters:
     ///   - orderID: The ID of the order to be approved.
     ///   - appSwitchIfEligible: Whether to switch to the Venmo app when installed. Defaults to `false`.
-    ///   - buyerCountry: The buyer's country code. Defaults to `"US"`.
     ///   - currency: The currency code for the transaction. Defaults to `"USD"`.
     public init(
         orderID: String,
         appSwitchIfEligible: Bool = false,
-        buyerCountry: String = "US",
         currency: String = "USD"
     ) {
         self.orderID = orderID
         self.appSwitchIfEligible = appSwitchIfEligible
-        self.buyerCountry = buyerCountry
         self.currency = currency
     }
 }

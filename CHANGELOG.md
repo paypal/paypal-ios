@@ -6,13 +6,10 @@
 * VenmoPayments (New Module)
   * Add `VenmoClient` with `start(request:completion:)` and `start(request:) async throws` for Venmo checkout
   * Add `handleReturnURL(_:)` for processing Venmo app switch / browser returns
-  * Add `VenmoCheckoutRequest` with `orderID`, `buyerCountry`, and `currency` properties
+  * Add `VenmoCheckoutRequest` with `orderID` and `currency` properties
   * Add `VenmoCheckoutResult` with `orderID` and `payerID` properties
   * Add `VenmoError` with error codes for URL errors, malformed results, cancellation, and funding eligibility
   * Add `VenmoError.isCheckoutCanceled(_:)` helper to distinguish user cancellation
-* CorePayments
-  * Add `GetFundingEligibilityAPI` for LSAT-authenticated Venmo funding eligibility checks
-  * Add `isVenmoAppInstalled()` to `URLOpener` protocol for Venmo app detection
 
 ## 2.0.1 (2025-11-03)
 
