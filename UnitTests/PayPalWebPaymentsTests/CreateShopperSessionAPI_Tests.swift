@@ -8,12 +8,12 @@ class CreateShopperSessionAPI_Tests: XCTestCase {
     // MARK: - Helpers
 
     /// Captures the analytics events dispatched by the (fire-and-forget) `AnalyticsService`.
-    private class CapturingTrackingEventsAPI: TrackingEventsAPI {
+    private class CapturingTrackingEventsAPI: AnalyticsEventTracking {
 
         var capturedEventData: AnalyticsEventData?
         var onSendEvent: (() -> Void)?
 
-        override func sendEvent(with analyticsEventData: AnalyticsEventData) async throws -> HTTPResponse {
+        func sendEvent(with analyticsEventData: AnalyticsEventData) async throws -> HTTPResponse {
             capturedEventData = analyticsEventData
             onSendEvent?()
             return HTTPResponse(status: 200, body: nil)
@@ -63,7 +63,7 @@ class CreateShopperSessionAPI_Tests: XCTestCase {
         config = CoreConfig(clientID: "testClientID", environment: .sandbox, merchantID: "testMerchantID")
         mockNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: config))
         mockAuthAPI = MockAuthenticationSecureTokenServiceAPI(coreConfig: config)
-        capturingTrackingEventsAPI = CapturingTrackingEventsAPI(coreConfig: config)
+        capturingTrackingEventsAPI = CapturingTrackingEventsAPI()
         mockURLOpener = MockURLOpener()
 
         let analyticsService = AnalyticsService(

@@ -8,13 +8,13 @@ class SystemLatencyTracker_Tests: XCTestCase {
     // MARK: - Helpers
 
     /// Captures analytics events dispatched by the (fire-and-forget) `AnalyticsService`.
-    private final class CapturingTrackingEventsAPI: TrackingEventsAPI {
+    private final class CapturingTrackingEventsAPI: AnalyticsEventTracking {
 
         var capturedEventData: AnalyticsEventData?
         var sendCount = 0
         var onSendEvent: (() -> Void)?
 
-        override func sendEvent(with analyticsEventData: AnalyticsEventData) async throws -> HTTPResponse {
+        func sendEvent(with analyticsEventData: AnalyticsEventData) async throws -> HTTPResponse {
             sendCount += 1
             capturedEventData = analyticsEventData
             onSendEvent?()
@@ -32,7 +32,7 @@ class SystemLatencyTracker_Tests: XCTestCase {
     override func setUp() {
         super.setUp()
         config = CoreConfig(clientID: "testClientID", environment: .sandbox, merchantID: "testMerchantID")
-        capturingTrackingEventsAPI = CapturingTrackingEventsAPI(coreConfig: config)
+        capturingTrackingEventsAPI = CapturingTrackingEventsAPI()
         analyticsService = AnalyticsService(
             coreConfig: config,
             orderID: "test-order-id",

@@ -7,7 +7,7 @@ class TrackingEventsAPI_Tests: XCTestCase {
     
     // MARK: - Helper Properties
     
-    var sut: TrackingEventsAPI!
+    var sut: AnalyticsEventTracking!
     var mockNetworkingClient: MockNetworkingClient!
     let coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox, merchantID: "fake-merchant-id")
     let stubHTTPResponse = HTTPResponse(status: 200, body: nil)

@@ -15,7 +15,7 @@ class AnalyticsService_Tests: XCTestCase {
     override func setUp() {
         super.setUp()
                 
-        mockTrackingEventsAPI = MockTrackingEventsAPI(coreConfig: coreConfig)
+        mockTrackingEventsAPI = MockTrackingEventsAPI()
         sut = AnalyticsService(coreConfig: coreConfig, orderID: "some-order-id", trackingEventsAPI: mockTrackingEventsAPI)
     }
 

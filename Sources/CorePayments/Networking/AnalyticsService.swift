@@ -7,7 +7,7 @@ public struct AnalyticsService {
     // MARK: - Internal Properties
     
     private let coreConfig: CoreConfig
-    private let trackingEventsAPI: TrackingEventsAPI
+    private let trackingEventsAPI: AnalyticsEventTracking
     private let orderID: String?
     private let setupToken: String?
     // MARK: - Initializer
@@ -42,7 +42,7 @@ public struct AnalyticsService {
     }
 
     /// Exposed for testing
-    init(coreConfig: CoreConfig, orderID: String, trackingEventsAPI: TrackingEventsAPI) {
+    init(coreConfig: CoreConfig, orderID: String, trackingEventsAPI: AnalyticsEventTracking) {
         self.coreConfig = coreConfig
         self.trackingEventsAPI = trackingEventsAPI
         self.orderID = orderID
