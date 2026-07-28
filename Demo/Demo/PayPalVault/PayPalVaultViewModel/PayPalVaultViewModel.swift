@@ -25,10 +25,18 @@ class PayPalVaultViewModel: VaultViewModel {
             phone: userPhone,
             ssid: userSSID
         )
+        let urlConfig: PayPalURLConfig
+        do {
+            urlConfig = try ShopperSessionURLConfigFactory.makeURLConfig()
+        } catch {
+            state.setupTokenResponse = .error(message: error.localizedDescription)
+            throw error
+        }
+
         client.createPayPalSession(
             sessionType: .vaultWithoutPurchase,
             userIdentity: resolvedUserIdentity,
-            urlConfig: ShopperSessionURLConfigFactory.urlConfig,
+            urlConfig: urlConfig,
             userAction: selectedUserAction
         )
 

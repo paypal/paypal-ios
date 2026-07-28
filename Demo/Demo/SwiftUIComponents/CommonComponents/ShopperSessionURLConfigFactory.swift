@@ -6,12 +6,22 @@ import PayPalWebPayments
 /// Used by both the PayPalWeb and Vault flows so the callback URLs stay in sync.
 enum ShopperSessionURLConfigFactory {
 
-    static let urlConfig: PayPalURLConfig = {
-        let baseReturnUrl = "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
+    enum ConfigurationError: LocalizedError {
+        case invalidCallbackURL(String)
 
+        var errorDescription: String? {
+            switch self {
+            case .invalidCallbackURL(let baseReturnUrl):
+                return "Failed to construct Shopper Session callback URLs for base return URL: \(baseReturnUrl)"
+            }
+        }
+    }
+
+    static func makeURLConfig() throws -> PayPalURLConfig {
+        let baseReturnUrl = "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
         guard var returnAppURLComponents = URLComponents(string: "\(baseReturnUrl)/success"),
               let cancelAppURL = URL(string: "\(baseReturnUrl)/cancel") else {
-            fatalError("Failed to construct Shopper Session callback URLs for base return URL: \(baseReturnUrl)")
+            throw ConfigurationError.invalidCallbackURL(baseReturnUrl)
         }
 
         returnAppURLComponents.queryItems = (returnAppURLComponents.queryItems ?? []) + [
@@ -19,7 +29,7 @@ enum ShopperSessionURLConfigFactory {
         ]
 
         guard let returnAppURL = returnAppURLComponents.url else {
-            fatalError("Failed to construct Shopper Session callback URLs for base return URL: \(baseReturnUrl)")
+            throw ConfigurationError.invalidCallbackURL(baseReturnUrl)
         }
 
         let checkoutPath = "x-callback-url/paypal-sdk/paypal-checkout"
@@ -30,5 +40,5 @@ enum ShopperSessionURLConfigFactory {
             cancelAppURL: cancelAppURL,
             fallbackSchemeURL: URL(string: "\(scheme)://\(checkoutPath)")
         )
-    }()
+    }
 }
