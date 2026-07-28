@@ -9,8 +9,16 @@ enum ShopperSessionURLConfigFactory {
     static let urlConfig: PayPalURLConfig = {
         let baseReturnUrl = "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
 
-        guard let returnAppURL = URL(string: "\(baseReturnUrl)/success"),
+        guard var returnAppURLComponents = URLComponents(string: "\(baseReturnUrl)/success"),
               let cancelAppURL = URL(string: "\(baseReturnUrl)/cancel") else {
+            fatalError("Failed to construct Shopper Session callback URLs for base return URL: \(baseReturnUrl)")
+        }
+
+        returnAppURLComponents.queryItems = (returnAppURLComponents.queryItems ?? []) + [
+            URLQueryItem(name: "platform", value: "iOS")
+        ]
+
+        guard let returnAppURL = returnAppURLComponents.url else {
             fatalError("Failed to construct Shopper Session callback URLs for base return URL: \(baseReturnUrl)")
         }
 
