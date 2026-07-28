@@ -191,69 +191,44 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
 
     // MARK: - Session fetch failure
     //
-    // A failed Shopper Session fetch no longer fails start()/vault() outright — it falls back to the
-    // legacy PatchCCO app-switch-eligibility check, then to the web auth flow, so the outcome now
-    // depends on that fallback rather than on the original session-fetch error (which is no longer
-    // surfaced to the caller).
+    // A failed Shopper Session fetch now fails start()/vault() immediately with
+    // `PayPalError.sessionNotCreatedError` — there is no fallback to the legacy PatchCCO
+    // app-switch-eligibility check or to the web auth flow, regardless of whether the PayPal
+    // app is installed.
 
-    func testCreatePayPalSession_whenSessionFetchFails_appNotInstalled_startFallsBackToWebCheckoutAndSucceeds() {
+    func testCreatePayPalSession_whenSessionFetchFails_startFailsWithSessionNotCreatedError() {
         mockCreateShopperSessionAPI.stubError = CoreSDKError(
             code: PayPalError.Code.unknown.rawValue,
             domain: PayPalError.domain,
             errorDescription: "Session fetch failed."
         )
         mockURLOpener.mockIsPayPalAppInstalled = false
-        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
-        mockWebAuthenticationSession.cannedResponseURL = URL(
-            string: "https://fakeURL?token=order-123&PayerID=payer-456"
-        )
 
         payPalClient.createPayPalSession(sessionType: .checkout, urlConfig: fakeURLConfig)
 
-        let expectation = expectation(description: "start falls back to web checkout and succeeds")
-        payPalClient.start(orderID: "order-123") { result in
-            switch result {
-            case .success(let checkoutResult):
-                XCTAssertEqual(checkoutResult.orderID, "order-123")
-                XCTAssertEqual(checkoutResult.payerID, "payer-456")
-            case .failure(let error):
-                XCTFail("Expected fallback to web checkout to succeed, got: \(error.localizedDescription)")
-            }
-            expectation.fulfill()
-        }
-
-        waitForExpectations(timeout: 2)
-    }
-
-    func testCreatePayPalSession_whenSessionFetchFails_appNotInstalled_startFallsBackToWebCheckoutAndFails() {
-        mockCreateShopperSessionAPI.stubError = CoreSDKError(
-            code: PayPalError.Code.unknown.rawValue,
-            domain: PayPalError.domain,
-            errorDescription: "Session fetch failed."
-        )
-        mockURLOpener.mockIsPayPalAppInstalled = false
-        mockWebAuthenticationSession.cannedResponseURL = URL(string: "https://fakeURL?opType=cancel")
-
-        payPalClient.createPayPalSession(sessionType: .checkout, urlConfig: fakeURLConfig)
-
-        let expectation = expectation(description: "start falls back to web checkout and fails")
+        let expectation = expectation(description: "start fails with sessionNotCreatedError")
         payPalClient.start(orderID: "order-123") { result in
             switch result {
             case .success:
                 XCTFail("Expected failure")
             case .failure(let error):
-                // The fallback's own web checkout outcome (canceled here) is what's surfaced now —
-                // not the original "Session fetch failed." error.
                 XCTAssertEqual(error.domain, PayPalError.domain)
-                XCTAssertEqual(error.code, PayPalError.Code.checkoutCanceledError.rawValue)
+                XCTAssertEqual(error.code, PayPalError.Code.sessionCreationFailed.rawValue)
+                XCTAssertEqual(error.localizedDescription, "Failed to create PayPal Session")
             }
             expectation.fulfill()
         }
 
         waitForExpectations(timeout: 2)
+
+        // No fallback attempted — neither a web auth session nor an app switch URL was opened.
+        XCTAssertNil(mockWebAuthenticationSession.lastLaunchedURL)
+        XCTAssertNil(mockURLOpener.lastOpenedURL)
     }
 
-    func testCreatePayPalSession_whenSessionFetchFails_appInstalledAndEligible_startAttemptsAppSwitch() {
+    func testCreatePayPalSession_whenSessionFetchFails_appInstalledAndEligible_startStillFailsWithoutAppSwitch() {
+        // Even when the PayPal app is installed and PatchCCO would report eligibility, a failed
+        // session fetch short-circuits to an error instead of falling back to that legacy check.
         mockCreateShopperSessionAPI.stubError = CoreSDKError(
             code: PayPalError.Code.unknown.rawValue,
             domain: PayPalError.domain,
@@ -269,84 +244,54 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
 
         payPalClient.createPayPalSession(sessionType: .checkout, urlConfig: fakeURLConfig)
 
-        let urlOpenedExpectation = expectation(description: "app switch URL opened")
-        mockURLOpener.didOpenURLHandler = { urlOpenedExpectation.fulfill() }
-
-        let completionExpectation = expectation(description: "start completes after handleReturnURL")
+        let expectation = expectation(description: "start fails with sessionNotCreatedError")
         payPalClient.start(orderID: "order-123") { result in
-            if case .success(let checkoutResult) = result {
-                XCTAssertEqual(checkoutResult.orderID, "order-123")
-                XCTAssertEqual(checkoutResult.payerID, "payer-456")
-            } else {
-                XCTFail("Expected success via app switch")
-            }
-            completionExpectation.fulfill()
-        }
-
-        wait(for: [urlOpenedExpectation], timeout: 2)
-        XCTAssertNil(mockWebAuthenticationSession.lastLaunchedURL)
-
-        payPalClient.handleReturnURL(URL(string: "https://appswitch.com/success?token=order-123&PayerID=payer-456")!)
-        wait(for: [completionExpectation], timeout: 2)
-    }
-
-    func testCreatePayPalSession_whenSessionFetchFails_appNotInstalled_vaultFallsBackToWebAuthAndSucceeds() {
-        mockCreateShopperSessionAPI.stubError = CoreSDKError(
-            code: PayPalError.Code.unknown.rawValue,
-            domain: PayPalError.domain,
-            errorDescription: "Session fetch failed."
-        )
-        mockURLOpener.mockIsPayPalAppInstalled = false
-        mockWebAuthenticationSession.cannedResponseURL = URL(
-            string: "sdk.ios.paypal://vault/success?approval_token_id=token-abc&approval_session_id=session-xyz"
-        )
-
-        payPalClient.createPayPalSession(sessionType: .vaultWithoutPurchase, urlConfig: fakeURLConfig)
-
-        let expectation = expectation(description: "vault falls back to web auth and succeeds")
-        payPalClient.vault(setupTokenID: "fake-setup-token") { result in
             switch result {
-            case .success(let vaultResult):
-                XCTAssertEqual(vaultResult.tokenID, "token-abc")
-                XCTAssertEqual(vaultResult.approvalSessionID, "session-xyz")
+            case .success:
+                XCTFail("Expected failure")
             case .failure(let error):
-                XCTFail("Expected fallback to web auth to succeed, got: \(error.localizedDescription)")
+                XCTAssertEqual(error.domain, PayPalError.domain)
+                XCTAssertEqual(error.code, PayPalError.Code.sessionCreationFailed.rawValue)
             }
             expectation.fulfill()
         }
 
         waitForExpectations(timeout: 2)
+
+        XCTAssertNil(mockURLOpener.lastOpenedURL)
+        XCTAssertNil(mockWebAuthenticationSession.lastLaunchedURL)
     }
 
-    func testCreatePayPalSession_whenSessionFetchFails_appNotInstalled_vaultFallsBackToWebAuthAndFails() {
+    func testCreatePayPalSession_whenSessionFetchFails_vaultFailsWithSessionNotCreatedError() {
         mockCreateShopperSessionAPI.stubError = CoreSDKError(
             code: PayPalError.Code.unknown.rawValue,
             domain: PayPalError.domain,
             errorDescription: "Session fetch failed."
         )
         mockURLOpener.mockIsPayPalAppInstalled = false
-        mockWebAuthenticationSession.cannedResponseURL = URL(string: "https://fakeURL/cancel")
 
         payPalClient.createPayPalSession(sessionType: .vaultWithoutPurchase, urlConfig: fakeURLConfig)
 
-        let expectation = expectation(description: "vault falls back to web auth and fails")
+        let expectation = expectation(description: "vault fails with sessionNotCreatedError")
         payPalClient.vault(setupTokenID: "fake-setup-token") { result in
             switch result {
             case .success:
                 XCTFail("Expected failure")
             case .failure(let error):
-                // The fallback's own web auth outcome (canceled here) is what's surfaced now —
-                // not the original "Session fetch failed." error.
                 XCTAssertEqual(error.domain, PayPalError.domain)
-                XCTAssertEqual(error.code, PayPalError.Code.vaultCanceledError.rawValue)
+                XCTAssertEqual(error.code, PayPalError.Code.sessionCreationFailed.rawValue)
+                XCTAssertEqual(error.localizedDescription, "Failed to create PayPal Session")
             }
             expectation.fulfill()
         }
 
         waitForExpectations(timeout: 2)
+
+        XCTAssertNil(mockWebAuthenticationSession.lastLaunchedURL)
+        XCTAssertNil(mockURLOpener.lastOpenedURL)
     }
 
-    func testCreatePayPalSession_whenSessionFetchFails_appInstalledAndEligible_vaultAttemptsAppSwitch() {
+    func testCreatePayPalSession_whenSessionFetchFails_appInstalledAndEligible_vaultStillFailsWithoutAppSwitch() {
         mockCreateShopperSessionAPI.stubError = CoreSDKError(
             code: PayPalError.Code.unknown.rawValue,
             domain: PayPalError.domain,
@@ -362,27 +307,22 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
 
         payPalClient.createPayPalSession(sessionType: .vaultWithoutPurchase, urlConfig: fakeURLConfig)
 
-        let urlOpenedExpectation = expectation(description: "app switch URL opened")
-        mockURLOpener.didOpenURLHandler = { urlOpenedExpectation.fulfill() }
-
-        let completionExpectation = expectation(description: "vault completes after handleReturnURL")
+        let expectation = expectation(description: "vault fails with sessionNotCreatedError")
         payPalClient.vault(setupTokenID: "fake-setup-token") { result in
-            if case .success(let vaultResult) = result {
-                XCTAssertEqual(vaultResult.tokenID, "token-abc")
-                XCTAssertEqual(vaultResult.approvalSessionID, "session-xyz")
-            } else {
-                XCTFail("Expected success via app switch")
+            switch result {
+            case .success:
+                XCTFail("Expected failure")
+            case .failure(let error):
+                XCTAssertEqual(error.domain, PayPalError.domain)
+                XCTAssertEqual(error.code, PayPalError.Code.sessionCreationFailed.rawValue)
             }
-            completionExpectation.fulfill()
+            expectation.fulfill()
         }
 
-        wait(for: [urlOpenedExpectation], timeout: 2)
-        XCTAssertNil(mockWebAuthenticationSession.lastLaunchedURL)
+        waitForExpectations(timeout: 2)
 
-        payPalClient.handleReturnURL(
-            URL(string: "https://appswitch.com/success?approval_token_id=token-abc&approval_session_id=session-xyz")!
-        )
-        wait(for: [completionExpectation], timeout: 2)
+        XCTAssertNil(mockURLOpener.lastOpenedURL)
+        XCTAssertNil(mockWebAuthenticationSession.lastLaunchedURL)
     }
 
     // MARK: - Response fields
@@ -502,15 +442,18 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
         mockCreateShopperSessionAPI.stubError = CoreSDKError(
             code: 0, domain: "test", errorDescription: "fetch failed"
         )
-        // Session fetch failure now falls back to the web checkout flow (app not installed, per
-        // mockURLOpener's default) rather than failing immediately, so the fallback needs its own
-        // deterministic outcome for `firstStart`'s completion to fire at all.
-        mockWebAuthenticationSession.cannedResponseURL = URL(string: "https://fakeURL?opType=cancel")
 
         payPalClient.createPayPalSession(sessionType: .checkout, urlConfig: fakeURLConfig)
 
         let firstStart = expectation(description: "first start completes with error")
-        payPalClient.start(orderID: "order-123") { _ in firstStart.fulfill() }
+        payPalClient.start(orderID: "order-123") { result in
+            if case .failure(let error) = result {
+                XCTAssertEqual(error.code, PayPalError.Code.sessionCreationFailed.rawValue)
+            } else {
+                XCTFail("Expected sessionCreationFailed error")
+            }
+            firstStart.fulfill()
+        }
         wait(for: [firstStart], timeout: 2)
 
         // sessionTask should be cleared
