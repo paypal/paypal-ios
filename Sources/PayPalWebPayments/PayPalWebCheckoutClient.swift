@@ -108,7 +108,7 @@ public class PayPalWebCheckoutClient: NSObject {
         sessionTask = nil
         configValidationError = nil
 
-        guard !urlConfig.isReturnToAppConfigMissing else {
+        if urlConfig.isReturnToAppConfigMissing {
             configValidationError = PayPalError.returnToAppURLConfigMissingError
             analyticsService?.sendEvent(
                 "paypal-web-payments:create-paypal-session:return-to-app-url-config-missing",
