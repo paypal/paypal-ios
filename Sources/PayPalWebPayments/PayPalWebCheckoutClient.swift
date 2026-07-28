@@ -44,9 +44,8 @@ public class PayPalWebCheckoutClient: NSObject {
     // MARK: - Analytics State
     private var analyticsData: PayPalCheckoutAnalyticsData?
 
-    /// Whether the web auth modal (close button) appeared after the consent alert.
-    private var webAuthSheetPresented = false
-    private var webAuthModalPollTimer: Timer?
+    /// Indicates whether the buyer progressed past the consent alert into the web auth modal.
+    private var webSessionReturned = false
 
     // MARK: - Initializer
 
@@ -59,6 +58,13 @@ public class PayPalWebCheckoutClient: NSObject {
         self.clientConfigAPI = UpdateClientConfigAPI(coreConfig: config)
         self.patchCCOAPI = PatchCCOWithAppSwitchEligibility(coreConfig: config)
         self.createShopperSessionAPI = CreateShopperSessionAPI(coreConfig: config)
+        super.init()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(applicationDidBecomeActive),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
     }
 
     /// For internal use for testing/mocking purposes.
@@ -78,6 +84,21 @@ public class PayPalWebCheckoutClient: NSObject {
         self.createShopperSessionAPI = createShopperSessionAPI
         
         analyticsService = AnalyticsService(coreConfig: config)
+        super.init()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(applicationDidBecomeActive),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    @objc private func applicationDidBecomeActive() {
+        webSessionReturned = true
     }
 
     // MARK: - Session Creation
@@ -699,18 +720,21 @@ public class PayPalWebCheckoutClient: NSObject {
                 return
             }
 
-            webAuthSheetPresented = false
+            webSessionReturned = false
             webAuthenticationSession.start(
                 url: payPalCheckoutURLComponents,
                 context: self,
                 sessionDidDisplay: { [weak self] didDisplay in
                     if didDisplay {
-                        self?.beginMonitoringWebAuthModal()
                         self?.analyticsService?.sendEvent(
                             "paypal-web-payments:checkout:auth-challenge-presentation:succeeded",
                             checkoutAnalyticsData: self?.analyticsData
                         )
                     }
+                },
+                sessionDidCancel: { [weak self] in
+                    guard let self else { return }
+                    self.handleCheckoutWebAuthCancel(completion: completion)
                 },
                 sessionDidComplete: { [weak self] url, error in
                     guard let self else { return }
@@ -746,18 +770,19 @@ public class PayPalWebCheckoutClient: NSObject {
                 notifyVaultFailure(with: PayPalError.payPalURLError, completion: completion)
                 return
             }
-            webAuthSheetPresented = false
+            webSessionReturned = false
             webAuthenticationSession.start(
                 url: vaultCheckoutURL,
                 context: self,
                 sessionDidDisplay: { [weak self] didDisplay in
-                    if didDisplay {
-                        self?.beginMonitoringWebAuthModal()
-                    }
                     let event = didDisplay
                         ? "paypal-web-payments:vault-wo-purchase:auth-challenge-presentation:succeeded"
                         : "paypal-web-payments:vault-wo-purchase:auth-challenge-presentation:failed"
                     self?.analyticsService?.sendEvent(event, checkoutAnalyticsData: self?.analyticsData)
+                },
+                sessionDidCancel: { [weak self] in
+                    guard let self else { return }
+                    self.handleVaultWebAuthCancel(completion: completion)
                 },
                 sessionDidComplete: { [weak self] url, error in
                     guard let self else { return }
@@ -767,32 +792,29 @@ public class PayPalWebCheckoutClient: NSObject {
         }
     }
 
+    private func handleCheckoutWebAuthCancel(
+        completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
+    ) {
+        defer { analyticsData = nil }
+        let sdkError = PayPalError.checkoutCanceledError
+        sendBrowserLoginCancelEvent(errorDescription: sdkError.errorDescription)
+        sessionTask = nil
+        notifyCheckoutFailure(with: sdkError, completion: completion)
+    }
+
     private func handleCheckoutWebAuthCompletion(
         url: URL?,
         error: Error?,
         completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
     ) {
-        stopMonitoringWebAuthModal()
         defer { analyticsData = nil }
         if let error {
-            let sdkError: CoreSDKError
-            switch error {
-            case ASWebAuthenticationSessionError.canceledLogin:
-                sdkError = PayPalError.checkoutCanceledError
-                analyticsService?.sendEvent(
-                    browserLoginEventNameForCanceledLogin(),
-                    errorDescription: sdkError.errorDescription,
-                    checkoutAnalyticsData: analyticsData
-                )
-            default:
-                sdkError = PayPalError.webSessionError(error)
-                analyticsService?.sendEvent(
-                    "paypal-web-payments:checkout:auth-challenge-presentation:failed",
-                    errorDescription: sdkError.errorDescription,
-                    checkoutAnalyticsData: analyticsData
-                )
-            }
-
+            let sdkError = PayPalError.webSessionError(error)
+            analyticsService?.sendEvent(
+                "paypal-web-payments:checkout:auth-challenge-presentation:failed",
+                errorDescription: sdkError.errorDescription,
+                checkoutAnalyticsData: analyticsData
+            )
             sessionTask = nil
             notifyCheckoutFailure(with: sdkError, completion: completion)
         }
@@ -816,28 +838,26 @@ public class PayPalWebCheckoutClient: NSObject {
         }
     }
 
+    private func handleVaultWebAuthCancel(
+        completion: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void
+    ) {
+        defer { analyticsData = nil }
+        let sdkError = PayPalError.vaultCanceledError
+        sendBrowserLoginCancelEvent(errorDescription: sdkError.errorDescription)
+        sessionTask = nil
+        notifyVaultCancelWithError(with: sdkError, completion: completion)
+    }
+
     private func handleVaultWebAuthCompletion(
         url: URL?,
         error: Error?,
         completion: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void
     ) {
-        stopMonitoringWebAuthModal()
         defer { analyticsData = nil }
         if let error {
-            let sdkError: CoreSDKError
-            switch error {
-            case ASWebAuthenticationSessionError.canceledLogin:
-                sdkError = PayPalError.vaultCanceledError
-                analyticsService?.sendEvent(
-                    browserLoginEventNameForCanceledLogin(),
-                    errorDescription: sdkError.errorDescription,
-                    checkoutAnalyticsData: analyticsData
-                )
-            default:
-                sdkError = PayPalError.webSessionError(error)
-            }
+            let sdkError = PayPalError.webSessionError(error)
             sessionTask = nil
-            notifyVaultCancelWithError(with: sdkError, completion: completion)
+            notifyVaultFailure(with: sdkError, completion: completion)
         }
 
         if let url {
@@ -989,50 +1009,15 @@ public class PayPalWebCheckoutClient: NSObject {
         return url.queryItems?.first { $0.name == param }?.value
     }
 
-    /// Maps `canceledLogin` to the correct tokenize event based on whether the web auth modal was shown.
-    private func browserLoginEventNameForCanceledLogin() -> String {
-        webAuthSheetPresented
+    private func sendBrowserLoginCancelEvent(errorDescription: String?) {
+        let eventName = webSessionReturned
             ? "paypal:tokenize:browser-login:canceled"
             : "paypal:tokenize:browser-login:alert-canceled"
-    }
-
-    private func beginMonitoringWebAuthModal() {
-        webAuthModalPollTimer?.invalidate()
-        webAuthModalPollTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] timer in
-            guard let self, Self.isWebAuthModalVisible else { return }
-            self.webAuthSheetPresented = true
-            timer.invalidate()
-            self.webAuthModalPollTimer = nil
-        }
-    }
-
-    private func stopMonitoringWebAuthModal() {
-        webAuthModalPollTimer?.invalidate()
-        webAuthModalPollTimer = nil
-    }
-
-    private static var isWebAuthModalVisible: Bool {
-        let windows: [UIWindow]
-        if #available(iOS 15, *) {
-            windows = UIApplication.shared.connectedScenes
-                .compactMap { $0 as? UIWindowScene }
-                .flatMap(\.windows)
-        } else {
-            windows = UIApplication.shared.windows
-        }
-        return windows.contains { window in
-            var viewController = window.rootViewController
-            while let current = viewController {
-                let className = String(describing: type(of: current))
-                if className.contains("SFAuthentication")
-                    || className.contains("SFSafari")
-                    || className.contains("AuthenticationSession") {
-                    return true
-                }
-                viewController = current.presentedViewController
-            }
-            return false
-        }
+        analyticsService?.sendEvent(
+            eventName,
+            errorDescription: errorDescription,
+            checkoutAnalyticsData: analyticsData
+        )
     }
 
     // MARK: - Private: Notify Helpers
