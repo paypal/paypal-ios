@@ -140,6 +140,118 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
 
+    // MARK: - Guard: returnToAppURLConfigMissing
+
+    /// A config where neither `returnAppURL` nor `fallbackSchemeURL` is usable
+    /// (`returnAppURL` is scheme-only, `fallbackSchemeURL` is nil).
+    let missingReturnToAppURLConfig = PayPalURLConfig(
+        returnAppURL: URL(string: "myapp://")!,
+        cancelAppURL: URL(string: "myapp://cancel")!,
+        fallbackSchemeURL: nil
+    )
+
+    func testStart_whenReturnToAppConfigMissing_returnsConfigMissingError_andMakesNoNetworkCall() {
+        payPalClient.createPayPalSession(sessionType: .checkout, urlConfig: missingReturnToAppURLConfig)
+
+        let expectation = expectation(description: "start returns returnToAppURLConfigMissingError")
+        payPalClient.start(orderID: "fake-order-id") { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure")
+            case .failure(let error):
+                XCTAssertEqual(error.domain, PayPalError.domain)
+                XCTAssertEqual(error.code, PayPalError.Code.returnToAppURLConfigMissingError.rawValue)
+            }
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 1)
+        XCTAssertEqual(mockCreateShopperSessionAPI.callCount, 0, "No session fetch expected for invalid config")
+    }
+
+    func testVault_whenReturnToAppConfigMissing_returnsConfigMissingError_andMakesNoNetworkCall() {
+        payPalClient.createPayPalSession(
+            sessionType: .vaultWithoutPurchase,
+            urlConfig: missingReturnToAppURLConfig
+        )
+
+        let expectation = expectation(description: "vault returns returnToAppURLConfigMissingError")
+        payPalClient.vault(setupTokenID: "fake-setup-token") { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure")
+            case .failure(let error):
+                XCTAssertEqual(error.domain, PayPalError.domain)
+                XCTAssertEqual(error.code, PayPalError.Code.returnToAppURLConfigMissingError.rawValue)
+            }
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 1)
+        XCTAssertEqual(mockCreateShopperSessionAPI.callCount, 0, "No session fetch expected for invalid config")
+    }
+
+    func testStart_whenOnlyFallbackProvided_proceedsNormally() {
+        mockCreateShopperSessionAPI.stubResponse = makeIneligibleSession()
+        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
+        mockWebAuthenticationSession.cannedResponseURL = URL(
+            string: "https://fakeURL?token=order-123&PayerID=payer-456"
+        )
+        // returnAppURL is scheme-only (unusable) but a usable fallback is provided — config is valid.
+        let onlyFallbackConfig = PayPalURLConfig(
+            returnAppURL: URL(string: "myapp://")!,
+            cancelAppURL: URL(string: "myapp://cancel")!,
+            fallbackSchemeURL: URL(string: "myapp://paypal/fallback")!
+        )
+
+        payPalClient.createPayPalSession(sessionType: .checkout, urlConfig: onlyFallbackConfig)
+
+        let expectation = expectation(description: "start proceeds to checkout with only a fallback")
+        payPalClient.start(orderID: "order-123") { result in
+            switch result {
+            case .success(let checkoutResult):
+                XCTAssertEqual(checkoutResult.orderID, "order-123")
+                XCTAssertEqual(checkoutResult.payerID, "payer-456")
+            case .failure(let error):
+                XCTFail("Expected success, got error: \(error.localizedDescription)")
+            }
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 2)
+        XCTAssertGreaterThanOrEqual(mockCreateShopperSessionAPI.callCount, 1)
+    }
+
+    func testStart_whenOnlyReturnAppURLProvided_fallbackNil_proceedsNormally() {
+        mockCreateShopperSessionAPI.stubResponse = makeIneligibleSession()
+        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
+        mockWebAuthenticationSession.cannedResponseURL = URL(
+            string: "https://fakeURL?token=order-123&PayerID=payer-456"
+        )
+        let onlyReturnConfig = PayPalURLConfig(
+            returnAppURL: URL(string: "https://example.com/return")!,
+            cancelAppURL: URL(string: "https://example.com/cancel")!,
+            fallbackSchemeURL: nil
+        )
+
+        payPalClient.createPayPalSession(sessionType: .checkout, urlConfig: onlyReturnConfig)
+
+        let expectation = expectation(description: "start proceeds to checkout with only a return URL")
+        payPalClient.start(orderID: "order-123") { result in
+            switch result {
+            case .success(let checkoutResult):
+                XCTAssertEqual(checkoutResult.orderID, "order-123")
+                XCTAssertEqual(checkoutResult.payerID, "payer-456")
+            case .failure(let error):
+                XCTFail("Expected success, got error: \(error.localizedDescription)")
+            }
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 2)
+        XCTAssertGreaterThanOrEqual(mockCreateShopperSessionAPI.callCount, 1)
+    }
+
     // MARK: - Success flow
 
     func testCreatePayPalSession_whenSessionSucceeds_startProceedsToCheckout() {
