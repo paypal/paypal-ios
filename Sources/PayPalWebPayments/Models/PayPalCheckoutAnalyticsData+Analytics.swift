@@ -1,5 +1,8 @@
 import UIKit
+
+#if canImport(CorePayments)
 import CorePayments
+#endif
 
 extension PayPalCheckoutAnalyticsData {
 
