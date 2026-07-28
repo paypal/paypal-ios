@@ -40,6 +40,9 @@ public class PayPalWebCheckoutClient: NSObject {
     /// rather than crashing.
     private var tokenType: TokenType?
 
+    /// Set by `createPayPalSession()` when the return-to-app URL config is missing both URLs.
+    /// Checked by `start()`/`vault()` so they can fail fast without awaiting a session fetch.
+    private var configValidationError: CoreSDKError?
     // MARK: - Analytics State
     private var analyticsData: PayPalCheckoutAnalyticsData?
 
@@ -102,6 +105,17 @@ public class PayPalWebCheckoutClient: NSObject {
         userAction: PayPalUserAction = .continue
     ) {
         sessionTask?.cancel()
+        sessionTask = nil
+        configValidationError = nil
+
+        guard !urlConfig.isReturnToAppConfigMissing else {
+            configValidationError = PayPalError.returnToAppURLConfigMissingError
+            analyticsService?.sendEvent(
+                "paypal-web-payments:create-paypal-session:return-to-app-url-config-missing",
+                errorDescription: PayPalError.returnToAppURLConfigMissingError.errorDescription
+            )
+            return
+        }
 
         let tokenType = sessionType.tokenType
         self.tokenType = tokenType
@@ -137,6 +151,18 @@ public class PayPalWebCheckoutClient: NSObject {
         orderID: String,
         completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
     ) {
+        if let configValidationError {
+            analyticsService?.sendEvent(
+                "paypal-web-payments:checkout:return-to-app-url-config-missing",
+                errorDescription: configValidationError.errorDescription,
+                checkoutAnalyticsData: analyticsData
+            )
+            DispatchQueue.main.async {
+                completion(.failure(configValidationError))
+            }
+            return
+        }
+
         guard let task = sessionTask else {
             analyticsService?.sendEvent(
                 "paypal-web-payments:checkout:session-not-started",
@@ -232,6 +258,18 @@ public class PayPalWebCheckoutClient: NSObject {
         setupTokenID: String,
         completion: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void
     ) {
+        if let configValidationError {
+            analyticsService?.sendEvent(
+                "paypal-web-payments:vault-wo-purchase:return-to-app-url-config-missing",
+                errorDescription: configValidationError.errorDescription,
+                checkoutAnalyticsData: analyticsData
+            )
+            DispatchQueue.main.async {
+                completion(.failure(configValidationError))
+            }
+            return
+        }
+
         guard let task = sessionTask else {
             analyticsService?.sendEvent(
                 "paypal-web-payments:vault-wo-purchase:session-not-started",

@@ -32,6 +32,9 @@ public enum PayPalError {
 
         /// 7. `createPayPalSession()` was not called before `start()` or `vault()`
         case sessionNotStarted
+
+        /// 8. Neither returnAppURL nor fallbackSchemeURL was provided in the return-to-app URL config.
+        case returnToAppURLConfigMissingError
     }
 
     public static let webSessionError: (Error) -> CoreSDKError = { error in
@@ -76,6 +79,12 @@ public enum PayPalError {
         code: Code.sessionNotStarted.rawValue,
         domain: domain,
         errorDescription: "createPayPalSession() must be called before start() or vault()."
+    )
+
+    public static let returnToAppURLConfigMissingError = CoreSDKError(
+        code: Code.returnToAppURLConfigMissingError.rawValue,
+        domain: domain,
+        errorDescription: "PayPalURLConfig must provide at least one of returnAppURL or fallbackSchemeURL"
     )
 
     // Helper function that allows handling of PayPal checkout cancel errors separately without having to cast the error to CoreSDKError and checking code and domain properties.

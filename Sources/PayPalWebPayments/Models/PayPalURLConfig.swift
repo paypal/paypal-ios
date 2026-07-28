@@ -13,3 +13,16 @@ public struct PayPalURLConfig {
         self.fallbackSchemeURL = fallbackSchemeURL
     }
 }
+
+extension PayPalURLConfig {
+
+    /// True when neither `returnAppURL` nor `fallbackSchemeURL` is usable (both nil/blank).
+    /// Mirrors Android's ReturnToAppUrlConfig validation.
+    var isReturnToAppConfigMissing: Bool {
+        func isBlank(_ url: URL?) -> Bool {
+            guard let url else { return true }
+            return url.absoluteString.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        }
+        return isBlank(returnAppURL) && isBlank(fallbackSchemeURL)
+    }
+}
