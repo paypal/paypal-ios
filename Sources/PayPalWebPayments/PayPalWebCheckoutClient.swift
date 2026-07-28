@@ -768,7 +768,7 @@ public class PayPalWebCheckoutClient: NSObject {
             case ASWebAuthenticationSessionError.canceledLogin:
                 sdkError = PayPalError.checkoutCanceledError
                 analyticsService?.sendEvent(
-                    "paypal:tokenize:browser-login:canceled",
+                    "paypal:tokenize:browser-login:alert-canceled",
                     errorDescription: sdkError.errorDescription,
                     checkoutAnalyticsData: analyticsData
                 )
@@ -816,7 +816,7 @@ public class PayPalWebCheckoutClient: NSObject {
             case ASWebAuthenticationSessionError.canceledLogin:
                 sdkError = PayPalError.vaultCanceledError
                 analyticsService?.sendEvent(
-                    "paypal:tokenize:browser-login:canceled",
+                    "paypal:tokenize:browser-login:alert-canceled",
                     errorDescription: sdkError.errorDescription,
                     checkoutAnalyticsData: analyticsData
                 )
