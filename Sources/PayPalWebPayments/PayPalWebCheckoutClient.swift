@@ -154,7 +154,7 @@ public class PayPalWebCheckoutClient: NSObject {
                 errorDescription: PayPalError.sessionNotStartedError.errorDescription,
                 checkoutAnalyticsData: analyticsData
             )
-            sendSystemLatencyEvent(.error)
+            endSystemLatencyTracking(presentationType: .error)
             DispatchQueue.main.async {
                 completion(.failure(PayPalError.sessionNotStartedError))
             }
@@ -250,7 +250,7 @@ public class PayPalWebCheckoutClient: NSObject {
                 errorDescription: PayPalError.sessionNotStartedError.errorDescription,
                 checkoutAnalyticsData: analyticsData
             )
-            sendSystemLatencyEvent(.error)
+            endSystemLatencyTracking(presentationType: .error)
             DispatchQueue.main.async {
                 completion(.failure(PayPalError.sessionNotStartedError))
             }
@@ -651,7 +651,7 @@ public class PayPalWebCheckoutClient: NSObject {
                 checkoutAnalyticsData: analyticsData,
                 withBackgroundProtection: true
             )
-            sendSystemLatencyEvent(.appSwitch)
+            endSystemLatencyTracking(presentationType: .appSwitch)
             return .launched
         } else {
             analyticsService?.sendEvent(
@@ -668,7 +668,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
     // MARK: - Private: System Latency
 
-    private func sendSystemLatencyEvent(_ presentationType: SystemLatencyTracker.PresentationType) {
+    private func endSystemLatencyTracking(presentationType: SystemLatencyTracker.PresentationType) {
         systemLatency.send(
             presentationType: presentationType,
             using: analyticsService,
@@ -701,7 +701,7 @@ public class PayPalWebCheckoutClient: NSObject {
                     errorDescription: sdkError.errorDescription,
                     checkoutAnalyticsData: analyticsData
                 )
-                sendSystemLatencyEvent(.error)
+                endSystemLatencyTracking(presentationType: .error)
                 notifyCheckoutFailure(with: sdkError, completion: completion)
                 return
             }
@@ -718,12 +718,12 @@ public class PayPalWebCheckoutClient: NSObject {
                     errorDescription: PayPalError.payPalURLError.errorDescription,
                     checkoutAnalyticsData: analyticsData
                 )
-                sendSystemLatencyEvent(.error)
+                endSystemLatencyTracking(presentationType: .error)
                 notifyCheckoutFailure(with: PayPalError.payPalURLError, completion: completion)
                 return
             }
 
-            sendSystemLatencyEvent(.browser)
+            endSystemLatencyTracking(presentationType: .browser)
             webAuthenticationSession.start(
                 url: payPalCheckoutURLComponents,
                 context: self,
@@ -761,17 +761,17 @@ public class PayPalWebCheckoutClient: NSObject {
                     errorDescription: sdkError.errorDescription,
                     checkoutAnalyticsData: analyticsData
                 )
-                sendSystemLatencyEvent(.error)
+                endSystemLatencyTracking(presentationType: .error)
                 notifyVaultFailure(with: sdkError, completion: completion)
                 return
             }
 
             guard let vaultCheckoutURL = makeVaultCheckoutURL(session: session, setupTokenID: setupTokenID) else {
-                sendSystemLatencyEvent(.error)
+                endSystemLatencyTracking(presentationType: .error)
                 notifyVaultFailure(with: PayPalError.payPalURLError, completion: completion)
                 return
             }
-            sendSystemLatencyEvent(.browser)
+            endSystemLatencyTracking(presentationType: .browser)
             webAuthenticationSession.start(
                 url: vaultCheckoutURL,
                 context: self,

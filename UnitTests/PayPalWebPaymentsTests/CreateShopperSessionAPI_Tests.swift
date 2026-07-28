@@ -20,7 +20,7 @@ class CreateShopperSessionAPI_Tests: XCTestCase {
         }
     }
 
-    private let successGraphQLBody = """
+    private let createShopperSessionSuccessGraphQLBody = """
         {
             "data": {
                 "external": {
@@ -91,7 +91,7 @@ class CreateShopperSessionAPI_Tests: XCTestCase {
 
         mockNetworkingClient.stubHTTPResponse = HTTPResponse(
             status: 200,
-            body: successGraphQLBody.data(using: .utf8),
+            body: createShopperSessionSuccessGraphQLBody.data(using: .utf8),
             url: URL(string: "https://paypal.com/graphql"),
             timing: HTTPResponse.Timing(startTime: 1_700_000_000_000, endTime: 1_700_000_000_250)
         )
