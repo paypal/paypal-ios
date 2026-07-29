@@ -32,6 +32,8 @@ public enum PayPalError {
 
         /// 7. `createPayPalSession()` was not called before `start()` or `vault()`
         case sessionNotStarted
+        
+        case sessionCreationFailed
     }
 
     public static let webSessionError: (Error) -> CoreSDKError = { error in
@@ -76,6 +78,12 @@ public enum PayPalError {
         code: Code.sessionNotStarted.rawValue,
         domain: domain,
         errorDescription: "createPayPalSession() must be called before start() or vault()."
+    )
+    
+    public static let sessionNotCreatedError = CoreSDKError(
+        code: Code.sessionCreationFailed.rawValue,
+        domain: domain,
+        errorDescription: "Failed to create PayPal Session"
     )
 
     // Helper function that allows handling of PayPal checkout cancel errors separately without having to cast the error to CoreSDKError and checking code and domain properties.

@@ -13,6 +13,8 @@ struct PayPalWebPaymentsView: View {
                     
                     if case .loaded = payPalWebViewModel.state.createdOrderResponse {
                         PayPalOrderCreateResultView(payPalWebViewModel: payPalWebViewModel)
+                    } else if case .error = payPalWebViewModel.state.createdOrderResponse {
+                        PayPalOrderCreateResultView(payPalWebViewModel: payPalWebViewModel)
                     }
                     
                     if case .loaded = payPalWebViewModel.state.approveResultResponse {

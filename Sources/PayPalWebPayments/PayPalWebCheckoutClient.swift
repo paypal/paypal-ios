@@ -181,44 +181,9 @@ public class PayPalWebCheckoutClient: NSObject {
                     errorDescription: error.localizedDescription,
                     checkoutAnalyticsData: analyticsData
                 )
-                await fallBackToPatchCCOOrWeb(session: nil, orderID: orderID, completion: completion)
+                let error = PayPalError.sessionNotCreatedError
+                DispatchQueue.main.async { completion(.failure(error)) }
             }
-        }
-    }
-
-    /// Falls back to the legacy PatchCCO app-switch-eligibility check (and, if that's not eligible or
-    /// fails to launch, to the web auth flow) when the Shopper Session fetch itself fails, so a session
-    /// fetch error doesn't fail checkout outright if app-switch or web checkout can still recover it.
-    private func fallBackToPatchCCOOrWeb(
-        session: ShopperSessionResult?,
-        orderID: String,
-        completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
-    ) async {
-        let completionOnce = makeCompletionOnce(completion)
-        let appInstalled = urlOpener.isPayPalAppInstalled()
-
-        guard appInstalled else {
-            startWebCheckoutFlow(session: session, orderID: orderID, fundingSource: .paypal, completion: completionOnce)
-            return
-        }
-
-        let result = await attemptAppSwitchIfEligible(
-            token: orderID,
-            tokenType: ExternalTokenKind.orderId,
-            handlers: SessionAppSwitchHandlers(
-                completionOnce: completionOnce,
-                setCompletion: { [weak self] in self?.appSwitchCompletion = $0 },
-                eventPrefix: "paypal-web-payments:checkout"
-            ),
-            paypalNativeAppInstalled: appInstalled
-        )
-        switch result {
-        case .launched:
-            // Do nothing here. We will complete when handleReturnURL is invoked.
-            return
-        case .fallback(let reason):
-            analyticsService?.sendEvent("paypal-web-payments:checkout:fallback-to-web:\(reason)")
-            startWebCheckoutFlow(session: session, orderID: orderID, fundingSource: .paypal, completion: completionOnce)
         }
     }
 
@@ -277,46 +242,9 @@ public class PayPalWebCheckoutClient: NSObject {
                     errorDescription: error.localizedDescription,
                     checkoutAnalyticsData: analyticsData
                 )
-                await fallBackToPatchCCOOrWebForVault(session: nil, setupTokenID: setupTokenID, completion: completion)
+                let error = PayPalError.sessionNotCreatedError
+                DispatchQueue.main.async { completion(.failure(error)) }
             }
-        }
-    }
-
-    /// Falls back to the legacy PatchCCO app-switch-eligibility check (and, if that's not eligible or
-    /// fails to launch, to the vault web auth flow) when the Shopper Session fetch itself fails, so a
-    /// session fetch error doesn't fail vault outright if app-switch or web vault can still recover it.
-    /// Mirrors `fallBackToPatchCCOOrWeb`, but checks eligibility for `setupTokenID` under
-    /// `ExternalTokenKind.vaultId` (per Android's equivalent implementation) instead of an order ID.
-    private func fallBackToPatchCCOOrWebForVault(
-        session: ShopperSessionResult?,
-        setupTokenID: String,
-        completion: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void
-    ) async {
-        let completionOnce = makeCompletionOnce(completion)
-        let appInstalled = urlOpener.isPayPalAppInstalled()
-
-        guard appInstalled else {
-            startVaultWebAuthFlow(session: session, setupTokenID: setupTokenID, completion: completionOnce)
-            return
-        }
-
-        let result = await attemptAppSwitchIfEligible(
-            token: setupTokenID,
-            tokenType: ExternalTokenKind.vaultId,
-            handlers: SessionAppSwitchHandlers(
-                completionOnce: completionOnce,
-                setCompletion: { [weak self] in self?.vaultAppSwitchCompletion = $0 },
-                eventPrefix: "paypal-web-payments:vault-wo-purchase"
-            ),
-            paypalNativeAppInstalled: appInstalled
-        )
-        switch result {
-        case .launched:
-            // Do nothing here. We will complete when handleReturnURL is invoked.
-            return
-        case .fallback(let reason):
-            analyticsService?.sendEvent("paypal-web-payments:vault-wo-purchase:fallback-to-web:\(reason)")
-            startVaultWebAuthFlow(session: session, setupTokenID: setupTokenID, completion: completionOnce)
         }
     }
 
