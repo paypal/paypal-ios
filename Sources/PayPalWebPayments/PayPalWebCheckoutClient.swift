@@ -1,4 +1,5 @@
 import AuthenticationServices
+import UIKit
 
 #if canImport(CorePayments)
 import CorePayments
@@ -43,6 +44,9 @@ public class PayPalWebCheckoutClient: NSObject {
     // MARK: - Analytics State
     private var analyticsData: PayPalCheckoutAnalyticsData?
 
+    /// Indicates whether the buyer progressed past the consent alert into the web auth modal.
+    private var didApplicationBecomeActive = false
+
     private let systemLatency = SystemLatencyTracker()
 
     // MARK: - Initializer
@@ -56,6 +60,13 @@ public class PayPalWebCheckoutClient: NSObject {
         self.clientConfigAPI = UpdateClientConfigAPI(coreConfig: config)
         self.patchCCOAPI = PatchCCOWithAppSwitchEligibility(coreConfig: config)
         self.createShopperSessionAPI = CreateShopperSessionAPI(coreConfig: config)
+        super.init()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(applicationDidBecomeActive),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
     }
 
     /// For internal use for testing/mocking purposes.
@@ -75,6 +86,21 @@ public class PayPalWebCheckoutClient: NSObject {
         self.createShopperSessionAPI = createShopperSessionAPI
         
         analyticsService = AnalyticsService(coreConfig: config)
+        super.init()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(applicationDidBecomeActive),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    @objc private func applicationDidBecomeActive() {
+        didApplicationBecomeActive = true
     }
 
     // MARK: - Session Creation
@@ -651,6 +677,7 @@ public class PayPalWebCheckoutClient: NSObject {
                 return
             }
 
+            didApplicationBecomeActive = false
             endSystemLatencyTracking(presentationType: .browser)
             webAuthenticationSession.start(
                 url: payPalCheckoutURLComponents,
@@ -662,6 +689,10 @@ public class PayPalWebCheckoutClient: NSObject {
                             checkoutAnalyticsData: self?.analyticsData
                         )
                     }
+                },
+                sessionDidCancel: { [weak self] in
+                    guard let self else { return }
+                    self.handleCheckoutWebAuthCancel(completion: completion)
                 },
                 sessionDidComplete: { [weak self] url, error in
                     guard let self else { return }
@@ -699,6 +730,7 @@ public class PayPalWebCheckoutClient: NSObject {
                 notifyVaultFailure(with: PayPalError.payPalURLError, completion: completion)
                 return
             }
+            didApplicationBecomeActive = false
             endSystemLatencyTracking(presentationType: .browser)
             webAuthenticationSession.start(
                 url: vaultCheckoutURL,
@@ -709,12 +741,26 @@ public class PayPalWebCheckoutClient: NSObject {
                         : "paypal-web-payments:checkout:auth-challenge-presentation:failed"
                     self?.analyticsService?.sendEvent(event, checkoutAnalyticsData: self?.analyticsData)
                 },
+                sessionDidCancel: { [weak self] in
+                    guard let self else { return }
+                    self.handleVaultWebAuthCancel(completion: completion)
+                },
                 sessionDidComplete: { [weak self] url, error in
                     guard let self else { return }
                     self.handleVaultWebAuthCompletion(url: url, error: error, completion: completion)
                 }
             )
         }
+    }
+
+    private func handleCheckoutWebAuthCancel(
+        completion: @escaping (Result<PayPalWebCheckoutResult, CoreSDKError>) -> Void
+    ) {
+        defer { analyticsData = nil }
+        let sdkError = PayPalError.checkoutCanceledError
+        sendBrowserLoginCancelEvent(errorDescription: sdkError.errorDescription)
+        sessionTask = nil
+        notifyCheckoutFailure(with: sdkError, completion: completion)
     }
 
     private func handleCheckoutWebAuthCompletion(
@@ -724,24 +770,12 @@ public class PayPalWebCheckoutClient: NSObject {
     ) {
         defer { analyticsData = nil }
         if let error {
-            let sdkError: CoreSDKError
-            switch error {
-            case ASWebAuthenticationSessionError.canceledLogin:
-                sdkError = PayPalError.checkoutCanceledError
-                analyticsService?.sendEvent(
-                    "paypal:tokenize:browser-login:canceled",
-                    errorDescription: sdkError.errorDescription,
-                    checkoutAnalyticsData: analyticsData
-                )
-            default:
-                sdkError = PayPalError.webSessionError(error)
-                analyticsService?.sendEvent(
-                    "paypal-web-payments:checkout:auth-challenge-presentation:failed",
-                    errorDescription: sdkError.errorDescription,
-                    checkoutAnalyticsData: analyticsData
-                )
-            }
-
+            let sdkError = PayPalError.webSessionError(error)
+            analyticsService?.sendEvent(
+                "paypal-web-payments:checkout:auth-challenge-presentation:failed",
+                errorDescription: sdkError.errorDescription,
+                checkoutAnalyticsData: analyticsData
+            )
             sessionTask = nil
             notifyCheckoutFailure(with: sdkError, completion: completion)
         }
@@ -765,6 +799,16 @@ public class PayPalWebCheckoutClient: NSObject {
         }
     }
 
+    private func handleVaultWebAuthCancel(
+        completion: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void
+    ) {
+        defer { analyticsData = nil }
+        let sdkError = PayPalError.vaultCanceledError
+        sendBrowserLoginCancelEvent(errorDescription: sdkError.errorDescription)
+        sessionTask = nil
+        notifyVaultCancelWithError(with: sdkError, completion: completion)
+    }
+
     private func handleVaultWebAuthCompletion(
         url: URL?,
         error: Error?,
@@ -772,15 +816,9 @@ public class PayPalWebCheckoutClient: NSObject {
     ) {
         defer { analyticsData = nil }
         if let error {
-            let sdkError: CoreSDKError
-            switch error {
-            case ASWebAuthenticationSessionError.canceledLogin:
-                sdkError = PayPalError.vaultCanceledError
-            default:
-                sdkError = PayPalError.webSessionError(error)
-            }
+            let sdkError = PayPalError.webSessionError(error)
             sessionTask = nil
-            notifyVaultCancelWithError(with: sdkError, completion: completion)
+            notifyVaultFailure(with: sdkError, completion: completion)
         }
 
         if let url {
@@ -930,6 +968,17 @@ public class PayPalWebCheckoutClient: NSObject {
     private func getQueryStringParameter(url: String, param: String) -> String? {
         guard let url = URLComponents(string: url) else { return nil }
         return url.queryItems?.first { $0.name == param }?.value
+    }
+
+    private func sendBrowserLoginCancelEvent(errorDescription: String?) {
+        let eventName = didApplicationBecomeActive
+            ? "paypal-web-payments:checkout:browser-login:canceled"
+            : "paypal-web-payments:checkout:browser-login:alert-canceled"
+        analyticsService?.sendEvent(
+            eventName,
+            errorDescription: errorDescription,
+            checkoutAnalyticsData: analyticsData
+        )
     }
 
     // MARK: - Private: Notify Helpers
