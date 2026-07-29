@@ -972,8 +972,8 @@ public class PayPalWebCheckoutClient: NSObject {
 
     private func sendBrowserLoginCancelEvent(errorDescription: String?) {
         let eventName = webSessionReturned
-            ? "paypal-web-payments:checkout:browser-login:canceled"
-            : "paypal-web-payments:checkout:browser-login:alert-canceled"
+            ? "paypal:tokenize:browser-login:canceled"
+            : "paypal:tokenize:browser-login:alert-canceled"
         analyticsService?.sendEvent(
             eventName,
             errorDescription: errorDescription,
