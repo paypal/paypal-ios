@@ -11,7 +11,6 @@ class PayPalClient_HandleReturnURL_Tests: XCTestCase {
     var payPalClient: PayPalWebCheckoutClient!
     var mockNetworkingClient: MockNetworkingClient!
     var mockClientConfigAPI: MockClientConfigAPI!
-    var mockPatchCCOAPI: MockPatchCCOAPI!
     var mockCreateShopperSessionAPI: MockCreateShopperSessionAPI!
 
     override func setUp() {
@@ -20,14 +19,11 @@ class PayPalClient_HandleReturnURL_Tests: XCTestCase {
         mockWebAuthenticationSession = MockWebAuthenticationSession()
         mockNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: config))
         mockClientConfigAPI = MockClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)
-        mockPatchCCOAPI = MockPatchCCOAPI(coreConfig: config)
         mockCreateShopperSessionAPI = MockCreateShopperSessionAPI(coreConfig: config)
 
         payPalClient = PayPalWebCheckoutClient(
             config: config,
-            networkingClient: mockNetworkingClient,
             clientConfigAPI: mockClientConfigAPI,
-            patchCCOAPI: mockPatchCCOAPI,
             createShopperSessionAPI: mockCreateShopperSessionAPI,
             webAuthenticationSession: mockWebAuthenticationSession
         )

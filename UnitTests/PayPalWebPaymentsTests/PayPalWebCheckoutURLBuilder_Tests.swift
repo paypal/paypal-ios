@@ -121,8 +121,7 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
     }
 
     func testMakeAppSwitchURL_derivesVaultFlowTypeFromTokenType() throws {
-        // flow_type is derived from tokenType, so a vault tokenType always yields "va" —
-        // including at the legacy PatchCCO app-switch-eligibility fallback call site.
+        // flow_type is derived from tokenType, so a vault tokenType always yields "va".
         let url = try XCTUnwrap(
             PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
                 clientID: "client-abc",

@@ -16,10 +16,3 @@ public enum PayPalCoreConstants {
     
     public static let integrationChannel: String = "PPCP_NATIVE_SDK"
 }
-
-@_documentation(visibility: private)
-public enum ExternalTokenKind {
-    public static let orderId = "ORDER_ID"
-    public static let clientToken = "CLIENT_TOKEN"
-    public static let vaultId = "VAULT_ID"
-}
