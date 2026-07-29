@@ -16,7 +16,8 @@ class MockCreateShopperSessionAPI: CreateShopperSessionAPI {
         tokenType: TokenType,
         urlOpener: URLOpener,
         urlConfig: PayPalURLConfig,
-        userIdentity: PayPalUserIdentity?
+        userIdentity: PayPalUserIdentity?,
+        analyticsData: PayPalCheckoutAnalyticsData? = nil
     ) async throws -> ShopperSessionResult {
         callCount += 1
         capturedURLConfig = urlConfig

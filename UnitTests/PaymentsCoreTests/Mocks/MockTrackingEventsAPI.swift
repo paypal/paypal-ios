@@ -1,7 +1,7 @@
 import Foundation
 @testable import CorePayments
 
-class MockTrackingEventsAPI: TrackingEventsAPI {
+class MockTrackingEventsAPI: AnalyticsEventTracking {
     
     var stubHTTPResponse: HTTPResponse?
     var stubError: Error?
@@ -10,7 +10,7 @@ class MockTrackingEventsAPI: TrackingEventsAPI {
     
     var capturedAnalyticsEventData: AnalyticsEventData?
     
-    override func sendEvent(with analyticsEventData: AnalyticsEventData) async throws -> HTTPResponse {
+    func sendEvent(with analyticsEventData: AnalyticsEventData) async throws -> HTTPResponse {
         if sendEventDelay > 0 {
             try await Task.sleep(nanoseconds: sendEventDelay)
         }

@@ -7,7 +7,7 @@ public struct AnalyticsService {
     // MARK: - Internal Properties
     
     private let coreConfig: CoreConfig
-    private let trackingEventsAPI: TrackingEventsAPI
+    private let trackingEventsAPI: AnalyticsEventTracking
     private let orderID: String?
     private let setupToken: String?
     // MARK: - Initializer
@@ -42,7 +42,7 @@ public struct AnalyticsService {
     }
 
     /// Exposed for testing
-    init(coreConfig: CoreConfig, orderID: String, trackingEventsAPI: TrackingEventsAPI) {
+    init(coreConfig: CoreConfig, orderID: String, trackingEventsAPI: AnalyticsEventTracking) {
         self.coreConfig = coreConfig
         self.trackingEventsAPI = trackingEventsAPI
         self.orderID = orderID
@@ -59,11 +59,21 @@ public struct AnalyticsService {
     /// - Parameter withBackgroundProtection: When `true`, requests additional runtime if the app enters
     ///   the background before the network request completes. Delivery is best-effort and not guaranteed.
     /// - Parameter errorDescription: A human-readable description of the error, when the event represents a failure
+    /// - Parameter startTime: Start time of the measured API call, in epoch milliseconds (for `api-request-latency`)
+    /// - Parameter endTime: End time of the measured API call, in epoch milliseconds (for `api-request-latency`)
+    /// - Parameter endpoint: Sanitized API path of the measured API call (for `api-request-latency`)
+    /// - Parameter presentationType: How the checkout experience was presented (for `system-latency`)
+    /// - Parameter flow: Which flow the measurement is for, `checkout` or `vault` (for `system-latency`)
     public func sendEvent(
         _ name: String,
         correlationID: String? = nil,
         buttonType: String? = nil,
         errorDescription: String? = nil,
+        startTime: Int64? = nil,
+        endTime: Int64? = nil,
+        endpoint: String? = nil,
+        presentationType: String? = nil,
+        flow: String? = nil,
         checkoutAnalyticsData: PayPalCheckoutAnalyticsData? = nil,
         withBackgroundProtection: Bool = false
     ) {
@@ -73,6 +83,11 @@ public struct AnalyticsService {
                 correlationID: correlationID,
                 buttonType: buttonType,
                 errorDescription: errorDescription,
+                startTime: startTime,
+                endTime: endTime,
+                endpoint: endpoint,
+                presentationType: presentationType,
+                flow: flow,
                 checkoutAnalyticsData: checkoutAnalyticsData
             )
             return
@@ -83,6 +98,11 @@ public struct AnalyticsService {
                 correlationID: correlationID,
                 buttonType: buttonType,
                 errorDescription: errorDescription,
+                startTime: startTime,
+                endTime: endTime,
+                endpoint: endpoint,
+                presentationType: presentationType,
+                flow: flow,
                 checkoutAnalyticsData: checkoutAnalyticsData
             )
         }
@@ -93,6 +113,11 @@ public struct AnalyticsService {
         correlationID: String? = nil,
         buttonType: String? = nil,
         errorDescription: String? = nil,
+        startTime: Int64? = nil,
+        endTime: Int64? = nil,
+        endpoint: String? = nil,
+        presentationType: String? = nil,
+        flow: String? = nil,
         checkoutAnalyticsData: PayPalCheckoutAnalyticsData? = nil,
         withBackgroundProtection: Bool = false
     ) {
@@ -120,6 +145,11 @@ public struct AnalyticsService {
                     correlationID: correlationID,
                     buttonType: buttonType,
                     errorDescription: errorDescription,
+                    startTime: startTime,
+                    endTime: endTime,
+                    endpoint: endpoint,
+                    presentationType: presentationType,
+                    flow: flow,
                     checkoutAnalyticsData: checkoutAnalyticsData
                 )
             }
@@ -142,11 +172,20 @@ public struct AnalyticsService {
     ///   - isVaultRequest: Whether this event is part of a vault (save payment method) request
     ///   - shopperSessionId: The Shopper Session ID associated with this event
     ///   - startTime: Start time of the operation being measured, in milliseconds since epoch
+    ///   - endTime: End time of the operation being measured, in milliseconds since epoch
+    ///   - endpoint: Sanitized API path of the operation being measured
+    ///   - presentationType: How the checkout experience was presented (for `system-latency`)
+    ///   - flow: Which flow the measurement is for, `checkout` or `vault` (for `system-latency`)
     func performEventRequest(
         _ name: String,
         correlationID: String? = nil,
         buttonType: String? = nil,
         errorDescription: String? = nil,
+        startTime: Int64? = nil,
+        endTime: Int64? = nil,
+        endpoint: String? = nil,
+        presentationType: String? = nil,
+        flow: String? = nil,
         checkoutAnalyticsData: PayPalCheckoutAnalyticsData? = nil
     ) async {
         guard !Task.isCancelled else { return }
@@ -164,6 +203,11 @@ public struct AnalyticsService {
                 setupToken: setupToken,
                 buttonType: buttonType,
                 errorDescription: errorDescription,
+                startTime: startTime,
+                endTime: endTime,
+                endpoint: endpoint,
+                presentationType: presentationType,
+                flow: flow,
                 checkoutAnalyticsData: checkoutAnalyticsData
             )
 
