@@ -15,7 +15,7 @@ class AnalyticsService_Tests: XCTestCase {
     override func setUp() {
         super.setUp()
                 
-        mockTrackingEventsAPI = MockTrackingEventsAPI(coreConfig: coreConfig)
+        mockTrackingEventsAPI = MockTrackingEventsAPI()
         sut = AnalyticsService(coreConfig: coreConfig, orderID: "some-order-id", trackingEventsAPI: mockTrackingEventsAPI)
     }
 
@@ -141,11 +141,50 @@ class AnalyticsService_Tests: XCTestCase {
         XCTAssertEqual(capturedData?.shopperSessionExpiration, "fake-shopper-session-expiration")
     }
 
+    func testSendEvent_forwardsLatencyFieldsToAnalyticsEventData() async {
+        await sut.performEventRequest(
+            "paypal-web-payments:api-request-latency",
+            startTime: 1_700_000_000_000,
+            endTime: 1_700_000_000_250,
+            endpoint: "/graphql/createShopperSessionWithAppSwitchEligibility"
+        )
+
+        let capturedData = mockTrackingEventsAPI.capturedAnalyticsEventData
+
+        XCTAssertEqual(capturedData?.eventName, "paypal-web-payments:api-request-latency")
+        XCTAssertEqual(capturedData?.startTime, 1_700_000_000_000)
+        XCTAssertEqual(capturedData?.endTime, 1_700_000_000_250)
+        XCTAssertEqual(capturedData?.endpoint, "/graphql/createShopperSessionWithAppSwitchEligibility")
+    }
+
+    func testSendEvent_forwardsSystemLatencyFieldsToAnalyticsEventData() async {
+        await sut.performEventRequest(
+            "paypal-web-payments:system-latency",
+            startTime: 1_700_000_000_000,
+            endTime: 1_700_000_000_500,
+            presentationType: "browser",
+            flow: "vault"
+        )
+
+        let capturedData = mockTrackingEventsAPI.capturedAnalyticsEventData
+
+        XCTAssertEqual(capturedData?.eventName, "paypal-web-payments:system-latency")
+        XCTAssertEqual(capturedData?.startTime, 1_700_000_000_000)
+        XCTAssertEqual(capturedData?.endTime, 1_700_000_000_500)
+        XCTAssertEqual(capturedData?.presentationType, "browser")
+        XCTAssertEqual(capturedData?.flow, "vault")
+    }
+
     func testSendEvent_withoutNewAnalyticsFields_sendsThemAsNil() async {
         await sut.performEventRequest("some-event", correlationID: "fake-correlation-id")
 
         let capturedData = mockTrackingEventsAPI.capturedAnalyticsEventData
 
+        XCTAssertNil(capturedData?.startTime)
+        XCTAssertNil(capturedData?.endTime)
+        XCTAssertNil(capturedData?.endpoint)
+        XCTAssertNil(capturedData?.presentationType)
+        XCTAssertNil(capturedData?.flow)
         XCTAssertNil(capturedData?.bnCode)
         XCTAssertNil(capturedData?.appSwitchURL)
         XCTAssertNil(capturedData?.appSwitchEligible)

@@ -69,16 +69,21 @@ class AnalyticsEventData_Tests: XCTestCase {
             "app_switch_url",
             "bn_code",
             "cancel_app_url",
-            "error_description",
+            "end_time",
+            "endpoint",
+            "error_desc",
             "fallback_scheme_url",
             "fallback_url",
+            "flow",
             "ineligible_reason",
             "is_cached_session",
             "is_vault",
             "paypal_installed",
+            "presentation_type",
             "return_app_url",
             "shopper_session_expiration",
             "shopper_session_id",
+            "start_time",
             "user_action"
         ]
 
@@ -142,11 +147,69 @@ class AnalyticsEventData_Tests: XCTestCase {
         XCTAssertEqual(eventParams["cancel_app_url"] as? String, cancelAppURL.absoluteString)
         XCTAssertEqual(eventParams["user_action"] as? String, "CONTINUE")
         XCTAssertEqual(eventParams["paypal_installed"] as? Bool, true)
-        XCTAssertEqual(eventParams["error_description"] as? String, "fake-error-description")
+        XCTAssertEqual(eventParams["error_desc"] as? String, "fake-error-description")
         XCTAssertEqual(eventParams["is_cached_session"] as? Bool, true)
         XCTAssertEqual(eventParams["is_vault"] as? Bool, true)
         XCTAssertEqual(eventParams["shopper_session_id"] as? String, "fake-shopper-session-id")
         XCTAssertEqual(eventParams["shopper_session_expiration"] as? String, "fake-shopper-session-expiration")
+    }
+
+    func testEncode_withLatencyFields_properlyFormatsJSON() throws {
+        sut = AnalyticsEventData(
+            environment: "fake-env",
+            eventName: "paypal-web-payments:api-request-latency",
+            clientID: "fake-client-id",
+            merchantID: "fake-merchant-id",
+            bnCode: nil,
+            orderID: nil,
+            correlationID: nil,
+            setupToken: nil,
+            startTime: 1_700_000_000_000,
+            endTime: 1_700_000_000_250,
+            endpoint: "/graphql/createShopperSessionWithAppSwitchEligibility"
+        )
+
+        let data = try JSONEncoder().encode(sut)
+        let json = try? JSONSerialization.jsonObject(with: data) as? [String: [String: [String: Any]]]
+
+        guard let eventParams = json?["events"]?["event_params"] else {
+            XCTFail("JSON body missing `event_params` key.")
+            return
+        }
+
+        XCTAssertEqual((eventParams["start_time"] as? NSNumber)?.int64Value, 1_700_000_000_000)
+        XCTAssertEqual((eventParams["end_time"] as? NSNumber)?.int64Value, 1_700_000_000_250)
+        XCTAssertEqual(eventParams["endpoint"] as? String, "/graphql/createShopperSessionWithAppSwitchEligibility")
+    }
+
+    func testEncode_withSystemLatencyFields_properlyFormatsJSON() throws {
+        sut = AnalyticsEventData(
+            environment: "fake-env",
+            eventName: "paypal-web-payments:system-latency",
+            clientID: "fake-client-id",
+            merchantID: "fake-merchant-id",
+            bnCode: nil,
+            orderID: "fake-order",
+            correlationID: nil,
+            setupToken: nil,
+            startTime: 1_700_000_000_000,
+            endTime: 1_700_000_000_500,
+            presentationType: "app-switch",
+            flow: "checkout"
+        )
+
+        let data = try JSONEncoder().encode(sut)
+        let json = try? JSONSerialization.jsonObject(with: data) as? [String: [String: [String: Any]]]
+
+        guard let eventParams = json?["events"]?["event_params"] else {
+            XCTFail("JSON body missing `event_params` key.")
+            return
+        }
+
+        XCTAssertEqual((eventParams["start_time"] as? NSNumber)?.int64Value, 1_700_000_000_000)
+        XCTAssertEqual((eventParams["end_time"] as? NSNumber)?.int64Value, 1_700_000_000_500)
+        XCTAssertEqual(eventParams["presentation_type"] as? String, "app-switch")
+        XCTAssertEqual(eventParams["flow"] as? String, "checkout")
     }
 }
 

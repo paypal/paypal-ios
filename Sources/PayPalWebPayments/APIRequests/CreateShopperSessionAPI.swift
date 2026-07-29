@@ -13,6 +13,10 @@ public class CreateShopperSessionAPI {
     private let coreConfig: CoreConfig
     private let networkingClient: NetworkingClient
     private let authenticationSecureTokenServiceAPI: AuthenticationSecureTokenServiceAPI
+    private let analyticsService: AnalyticsService
+
+    private let latencyEndpoint = "/graphql/createShopperSessionWithAppSwitchEligibility"
+    private let apiRequestLatencyEvent = "paypal-web-payments:api-request-latency"
 
     private let createShopperSessionQuery = """
         mutation CreateShopperSessionWithAppSwitchEligibility(
@@ -47,17 +51,21 @@ public class CreateShopperSessionAPI {
         self.coreConfig = coreConfig
         self.networkingClient = NetworkingClient(coreConfig: coreConfig)
         self.authenticationSecureTokenServiceAPI = AuthenticationSecureTokenServiceAPI(coreConfig: coreConfig)
+        self.analyticsService = AnalyticsService(coreConfig: coreConfig)
     }
 
-    /// Exposed for injecting `MockNetworkingClient` / `MockAuthenticationSecureTokenServiceAPI` in tests.
+    /// Exposed for injecting `MockNetworkingClient` / `MockAuthenticationSecureTokenServiceAPI` /
+    /// a stubbed `AnalyticsService` in tests.
     init(
         coreConfig: CoreConfig,
         networkingClient: NetworkingClient,
-        authenticationSecureTokenServiceAPI: AuthenticationSecureTokenServiceAPI
+        authenticationSecureTokenServiceAPI: AuthenticationSecureTokenServiceAPI,
+        analyticsService: AnalyticsService? = nil
     ) {
         self.coreConfig = coreConfig
         self.networkingClient = networkingClient
         self.authenticationSecureTokenServiceAPI = authenticationSecureTokenServiceAPI
+        self.analyticsService = analyticsService ?? AnalyticsService(coreConfig: coreConfig)
     }
 
     // MARK: - Internal Methods
@@ -74,7 +82,8 @@ public class CreateShopperSessionAPI {
         tokenType: TokenType,
         urlOpener: URLOpener,
         urlConfig: PayPalURLConfig,
-        userIdentity: PayPalUserIdentity?
+        userIdentity: PayPalUserIdentity?,
+        analyticsData: PayPalCheckoutAnalyticsData? = nil
     ) async throws -> ShopperSessionResult {
 
         let contextId = UUID().uuidString
@@ -129,6 +138,17 @@ public class CreateShopperSessionAPI {
 
         guard let result = parsed.shopperSession else {
             throw NetworkingError.noGraphQLDataKey
+        }
+        
+        analyticsData?.update(with: result)
+        if let timing = httpResponse.timing {
+            analyticsService.sendEvent(
+                apiRequestLatencyEvent,
+                startTime: timing.startTime,
+                endTime: timing.endTime,
+                endpoint: latencyEndpoint,
+                checkoutAnalyticsData: analyticsData
+            )
         }
 
         return result

@@ -81,6 +81,20 @@ class HTTP_Tests: XCTestCase {
         }
     }
     
+    func testPerformRequest_attachesTimingToHTTPResponse() async {
+        mockURLSession.cannedURLResponse = HTTPURLResponse(url: URL(string: "www.fake.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)
+        mockURLSession.cannedJSONData = #"{ "fake": "response-data" }"#
+
+        do {
+            let httpResponse = try await sut.performRequest(fakeHTTPRequest)
+            let timing = try XCTUnwrap(httpResponse.timing)
+            XCTAssertGreaterThan(timing.startTime, 0)
+            XCTAssertGreaterThanOrEqual(timing.endTime, timing.startTime)
+        } catch {
+            XCTFail("Unexpected failure.")
+        }
+    }
+
     func testPerformRequest_formatsAndReturnsHTTPResponse() async {
         let fakeJSONResponseString = #"{ "fake": "response-data" }"#
         mockURLSession.cannedURLResponse = HTTPURLResponse(url: URL(string: "www.fake.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)
