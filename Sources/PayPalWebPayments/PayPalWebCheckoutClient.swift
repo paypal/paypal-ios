@@ -45,7 +45,7 @@ public class PayPalWebCheckoutClient: NSObject {
     private var analyticsData: PayPalCheckoutAnalyticsData?
 
     /// Indicates whether the buyer progressed past the consent alert into the web auth modal.
-    private var webSessionReturned = false
+    private var didApplicationBecomeActive = false
 
     private let systemLatency = SystemLatencyTracker()
 
@@ -100,7 +100,7 @@ public class PayPalWebCheckoutClient: NSObject {
     }
 
     @objc private func applicationDidBecomeActive() {
-        webSessionReturned = true
+        didApplicationBecomeActive = true
     }
 
     // MARK: - Session Creation
@@ -677,7 +677,7 @@ public class PayPalWebCheckoutClient: NSObject {
                 return
             }
 
-            webSessionReturned = false
+            didApplicationBecomeActive = false
             endSystemLatencyTracking(presentationType: .browser)
             webAuthenticationSession.start(
                 url: payPalCheckoutURLComponents,
@@ -730,7 +730,7 @@ public class PayPalWebCheckoutClient: NSObject {
                 notifyVaultFailure(with: PayPalError.payPalURLError, completion: completion)
                 return
             }
-            webSessionReturned = false
+            didApplicationBecomeActive = false
             endSystemLatencyTracking(presentationType: .browser)
             webAuthenticationSession.start(
                 url: vaultCheckoutURL,
@@ -971,7 +971,7 @@ public class PayPalWebCheckoutClient: NSObject {
     }
 
     private func sendBrowserLoginCancelEvent(errorDescription: String?) {
-        let eventName = webSessionReturned
+        let eventName = didApplicationBecomeActive
             ? "paypal-web-payments:checkout:browser-login:canceled"
             : "paypal-web-payments:checkout:browser-login:alert-canceled"
         analyticsService?.sendEvent(
