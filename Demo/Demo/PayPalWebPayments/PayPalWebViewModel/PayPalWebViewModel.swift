@@ -42,10 +42,18 @@ class PayPalWebViewModel: ObservableObject {
         }
         payPalWebCheckoutClient = client
 
+        let urlConfig: PayPalURLConfig
+        do {
+            urlConfig = try ShopperSessionURLConfigFactory.makeURLConfig()
+        } catch {
+            state.createdOrderResponse = .error(message: error.localizedDescription)
+            throw error
+        }
+
         client.createPayPalSession(
             sessionType: .checkout,
             userIdentity: userIdentity,
-            urlConfig: ShopperSessionURLConfigFactory.urlConfig,
+            urlConfig: urlConfig,
             userAction: userAction
         )
 

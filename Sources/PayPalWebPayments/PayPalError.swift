@@ -32,9 +32,10 @@ public enum PayPalError {
 
         /// 7. `createPayPalSession()` was not called before `start()` or `vault()`
         case sessionNotStarted
-
         /// 8. Neither returnAppURL nor fallbackSchemeURL was provided in the return-to-app URL config.
         case returnToAppURLConfigMissingError
+
+        case sessionCreationFailed
     }
 
     public static let webSessionError: (Error) -> CoreSDKError = { error in
@@ -79,6 +80,12 @@ public enum PayPalError {
         code: Code.sessionNotStarted.rawValue,
         domain: domain,
         errorDescription: "createPayPalSession() must be called before start() or vault()."
+    )
+    
+    public static let sessionNotCreatedError = CoreSDKError(
+        code: Code.sessionCreationFailed.rawValue,
+        domain: domain,
+        errorDescription: "Failed to create PayPal Session"
     )
 
     public static let returnToAppURLConfigMissingError = CoreSDKError(
