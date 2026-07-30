@@ -90,14 +90,12 @@ public class CreateShopperSessionAPI {
         
         let experimentationContext = ShopperSessionExperimentationContext(merchantAccountId: coreConfig.merchantID)
         
-        let isOsloAppInstalled = urlOpener.isOsloAppInstalled()
-        
         let appSwitchEligibilityInput = AppSwitchEligibilityInput(
             contextId: contextId,
             tokenType: tokenType.rawValue,
             osType: PayPalCoreConstants.osType,
             merchantOptInForAppSwitch: true,
-            paypalNativeAppInstalled: isOsloAppInstalled,
+            paypalNativeAppInstalled: urlOpener.isPayPalAppInstalled(),
             experimentationContext: experimentationContext,
             buyerEmailAddressMerchantPassed: userIdentity?.email,
             shoppersSessionId: userIdentity?.existingPayPalSessionID

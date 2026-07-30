@@ -20,7 +20,7 @@ extension PayPalCheckoutAnalyticsData {
         cancelAppURL = urlConfig.cancelAppURL
         fallbackSchemeURL = urlConfig.fallbackSchemeURL
         
-        paypalNativeAppInstalled = UIApplication.shared.isOsloAppInstalled()
+        paypalNativeAppInstalled = UIApplication.shared.isPayPalAppInstalled()
         isVaultRequest = tokenType == .vaultID
     }
 
