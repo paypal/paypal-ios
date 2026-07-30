@@ -14,7 +14,6 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
     var mockWebAuthenticationSession: MockWebAuthenticationSession!
     var mockNetworkingClient: MockNetworkingClient!
     var mockClientConfigAPI: MockClientConfigAPI!
-    var mockPatchCCOAPI: MockPatchCCOAPI!
     var mockCreateShopperSessionAPI: MockCreateShopperSessionAPI!
     var mockURLOpener: MockURLOpener!
 
@@ -66,15 +65,12 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
         mockNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: config))
         mockClientConfigAPI = MockClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
-        mockPatchCCOAPI = MockPatchCCOAPI(coreConfig: config)
         mockCreateShopperSessionAPI = MockCreateShopperSessionAPI(coreConfig: config)
         mockURLOpener = MockURLOpener()
 
         payPalClient = PayPalWebCheckoutClient(
             config: config,
-            networkingClient: mockNetworkingClient,
             clientConfigAPI: mockClientConfigAPI,
-            patchCCOAPI: mockPatchCCOAPI,
             createShopperSessionAPI: mockCreateShopperSessionAPI,
             webAuthenticationSession: mockWebAuthenticationSession
         )
@@ -90,7 +86,6 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
         mockWebAuthenticationSession = nil
         mockNetworkingClient = nil
         mockClientConfigAPI = nil
-        mockPatchCCOAPI = nil
         mockCreateShopperSessionAPI = nil
         mockURLOpener = nil
         super.tearDown()
@@ -192,9 +187,8 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
     // MARK: - Session fetch failure
     //
     // A failed Shopper Session fetch now fails start()/vault() immediately with
-    // `PayPalError.sessionNotCreatedError` — there is no fallback to the legacy PatchCCO
-    // app-switch-eligibility check or to the web auth flow, regardless of whether the PayPal
-    // app is installed.
+    // `PayPalError.sessionNotCreatedError` — there is no fallback to the web auth flow,
+    // regardless of whether the PayPal app is installed.
 
     func testCreatePayPalSession_whenSessionFetchFails_startFailsWithSessionNotCreatedError() {
         mockCreateShopperSessionAPI.stubError = CoreSDKError(
@@ -226,9 +220,9 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
         XCTAssertNil(mockURLOpener.lastOpenedURL)
     }
 
-    func testCreatePayPalSession_whenSessionFetchFails_appInstalledAndEligible_startStillFailsWithoutAppSwitch() {
-        // Even when the PayPal app is installed and PatchCCO would report eligibility, a failed
-        // session fetch short-circuits to an error instead of falling back to that legacy check.
+    func testCreatePayPalSession_whenSessionFetchFails_appInstalled_startStillFailsWithoutAppSwitch() {
+        // Even when the PayPal app is installed, a failed session fetch short-circuits to an error
+        // instead of attempting an app switch.
         mockCreateShopperSessionAPI.stubError = CoreSDKError(
             code: PayPalError.Code.unknown.rawValue,
             domain: PayPalError.domain,
@@ -236,11 +230,6 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
         )
         mockURLOpener.mockIsPayPalAppInstalled = true
         mockURLOpener.mockOpenURLSuccess = true
-        mockPatchCCOAPI.stubEligibilityResponse = AppSwitchEligibility(
-            appSwitchEligible: true,
-            redirectURL: "https://sandbox.paypal.com/app-switch-checkout?token=order-123",
-            ineligibleReason: nil
-        )
 
         payPalClient.createPayPalSession(sessionType: .checkout, urlConfig: fakeURLConfig)
 
@@ -291,7 +280,7 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
         XCTAssertNil(mockURLOpener.lastOpenedURL)
     }
 
-    func testCreatePayPalSession_whenSessionFetchFails_appInstalledAndEligible_vaultStillFailsWithoutAppSwitch() {
+    func testCreatePayPalSession_whenSessionFetchFails_appInstalled_vaultStillFailsWithoutAppSwitch() {
         mockCreateShopperSessionAPI.stubError = CoreSDKError(
             code: PayPalError.Code.unknown.rawValue,
             domain: PayPalError.domain,
@@ -299,11 +288,6 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
         )
         mockURLOpener.mockIsPayPalAppInstalled = true
         mockURLOpener.mockOpenURLSuccess = true
-        mockPatchCCOAPI.stubEligibilityResponse = AppSwitchEligibility(
-            appSwitchEligible: true,
-            redirectURL: "https://sandbox.paypal.com/app-switch-vault?approval_session_id=fake-setup-token",
-            ineligibleReason: nil
-        )
 
         payPalClient.createPayPalSession(sessionType: .vaultWithoutPurchase, urlConfig: fakeURLConfig)
 
