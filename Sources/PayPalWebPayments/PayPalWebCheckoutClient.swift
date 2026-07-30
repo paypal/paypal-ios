@@ -617,6 +617,11 @@ public class PayPalWebCheckoutClient: NSObject {
             }
 
             guard let vaultCheckoutURL = makeVaultCheckoutURL(session: session, setupTokenID: setupTokenID) else {
+                analyticsService?.sendEvent(
+                    "paypal-web-payments:checkout:auth-challenge-presentation:failed",
+                    errorDescription: PayPalError.payPalURLError.errorDescription,
+                    checkoutAnalyticsData: analyticsData
+                )
                 endSystemLatencyTracking(presentationType: .error)
                 notifyVaultFailure(with: PayPalError.payPalURLError, completion: completion)
                 return
