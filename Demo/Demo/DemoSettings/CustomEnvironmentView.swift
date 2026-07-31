@@ -3,7 +3,7 @@ import SwiftUI
 
 struct CustomEnvironmentView: View {
 
-    @SwiftUI.Environment(\.presentationMode)
+    @Environment(\.presentationMode)
     private var presentationMode
 
     var onSave: () -> Void

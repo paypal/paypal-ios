@@ -4,7 +4,7 @@ import Foundation
 /// It is used to initialize all Client objects.
 public struct CoreConfig {
 
-    public let environment: Environment
+    public let environment: CoreEnvironment
     public let clientID: String
 
     /// The PayPal merchant account identifier associated with this integration.
@@ -14,7 +14,7 @@ public struct CoreConfig {
     /// Set this when processing payments on behalf of merchants through a PayPal partner program.
     public let bnCode: String?
 
-    public init(clientID: String, environment: Environment, merchantID: String, bnCode: String? = nil) {
+    public init(clientID: String, environment: CoreEnvironment, merchantID: String, bnCode: String? = nil) {
         self.environment = environment
         self.clientID = clientID
         self.merchantID = merchantID

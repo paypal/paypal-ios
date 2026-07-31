@@ -4,7 +4,7 @@ import Foundation
 import CorePayments
 #endif
 
-extension Environment {
+extension CoreEnvironment {
 
     var payPalBaseURL: URL {
         switch self {

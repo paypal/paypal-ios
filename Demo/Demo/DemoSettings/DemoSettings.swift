@@ -12,17 +12,17 @@ struct CustomEnvironmentConfig: Codable, Equatable {
 
 enum DemoSettings {
 
-    private static let EnvironmentDefaultsKey = "environment"
+    private static let DemoEnvironmentDefaultsKey = "environment"
     private static let ClientIDKey = "clientID"
     private static let MerchantIntegrationDefaultKey = "merchantIntegration"
     #if DEBUG
     private static let CustomEnvironmentKey = "customEnvironment"
     #endif
 
-    static var environment: Environment {
+    static var environment: DemoEnvironment {
         get {
-            let stored = UserDefaults.standard.string(forKey: EnvironmentDefaultsKey)
-                .flatMap { Environment(rawValue: $0) } ?? .sandbox
+            let stored = UserDefaults.standard.string(forKey: DemoEnvironmentDefaultsKey)
+                .flatMap { DemoEnvironment(rawValue: $0) } ?? .sandbox
             #if DEBUG
             if stored == .custom, customEnvironment == nil {
                 return .sandbox
@@ -31,7 +31,7 @@ enum DemoSettings {
             return stored
         }
         set {
-            UserDefaults.standard.set(newValue.rawValue, forKey: EnvironmentDefaultsKey)
+            UserDefaults.standard.set(newValue.rawValue, forKey: DemoEnvironmentDefaultsKey)
         }
     }
 

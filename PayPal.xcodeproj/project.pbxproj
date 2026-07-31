@@ -137,7 +137,7 @@
 		BEA100EC26EFA7790036A6A5 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100EB26EFA7790036A6A5 /* HTTPMethod.swift */; };
 		BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */; };
 		BEA100F026EFA7C20036A6A5 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100EF26EFA7C20036A6A5 /* NetworkingError.swift */; };
-		BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100F126EFA7DE0036A6A5 /* Environment.swift */; };
+		BEA100F226EFA7DE0036A6A5 /* CoreEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA100F126EFA7DE0036A6A5 /* CoreEnvironment.swift */; };
 		CB16E6D8285B7A2B00FD6F52 /* FakeConfirmPaymentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB16E6D7285B7A2B00FD6F52 /* FakeConfirmPaymentResponse.swift */; };
 		CB1A47F22820AFED00BD8184 /* PayPalPayLaterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1A47F12820AFED00BD8184 /* PayPalPayLaterButton.swift */; };
 		CB1A47F42820BA5D00BD8184 /* PaymentButtonEdges.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1A47F32820BA5D00BD8184 /* PaymentButtonEdges.swift */; };
@@ -343,7 +343,7 @@
 		BEA100EB26EFA7790036A6A5 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
 		BEA100EF26EFA7C20036A6A5 /* NetworkingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingError.swift; sourceTree = "<group>"; };
-		BEA100F126EFA7DE0036A6A5 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		BEA100F126EFA7DE0036A6A5 /* CoreEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreEnvironment.swift; sourceTree = "<group>"; };
 		BEDB7FE32788AB8E00CEA554 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		BEF3FF1627AC5DF3006B4B69 /* Coordinator_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator_Tests.swift; sourceTree = "<group>"; };
 		CB16E6D7285B7A2B00FD6F52 /* FakeConfirmPaymentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeConfirmPaymentResponse.swift; sourceTree = "<group>"; };
@@ -793,7 +793,7 @@
 			children = (
 				BEA100EB26EFA7790036A6A5 /* HTTPMethod.swift */,
 				BEA100ED26EFA7990036A6A5 /* HTTPHeader.swift */,
-				BEA100F126EFA7DE0036A6A5 /* Environment.swift */,
+				BEA100F126EFA7DE0036A6A5 /* CoreEnvironment.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1290,7 +1290,7 @@
 				BEA100EE26EFA7990036A6A5 /* HTTPHeader.swift in Sources */,
 				CB4BE27E2847EA7D00EA2DD1 /* WebAuthenticationSession.swift in Sources */,
 				80E2FDC12A83535A0045593D /* TrackingEventsAPI.swift in Sources */,
-				BEA100F226EFA7DE0036A6A5 /* Environment.swift in Sources */,
+				BEA100F226EFA7DE0036A6A5 /* CoreEnvironment.swift in Sources */,
 				3BF06F3B2E15CA7E002CA7B4 /* UpdateClientConfigVariables.swift in Sources */,
 				3BBD50EA2E85D8900049C4D5 /* UIApplication+URLOpener.swift in Sources */,
 				BEA100F026EFA7C20036A6A5 /* NetworkingError.swift in Sources */,
