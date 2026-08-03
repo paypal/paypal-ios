@@ -13,6 +13,7 @@ class PayPalWebViewModel: ObservableObject {
     @Published var appSwitch = false
 
     let appSwitchURL = "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
+    let returnURLScheme = "com.paypal.ios.demo.paypalcheckout"
 
     var payPalWebCheckoutClient: PayPalWebCheckoutClient?
 
@@ -86,7 +87,12 @@ class PayPalWebViewModel: ObservableObject {
                 }
 
                 if let orderID = state.createOrder?.id {
-                    let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: funding, appSwitchIfEligible: appSwitch)
+                    let payPalRequest = PayPalWebCheckoutRequest(
+                        orderID: orderID,
+                        fundingSource: funding,
+                        appSwitchIfEligible: appSwitch,
+                        returnURLScheme: returnURLScheme
+                    )
                     payPalWebCheckoutClient.start(request: payPalRequest) { result in
                         switch result {
                         case .success(let paypalResult):

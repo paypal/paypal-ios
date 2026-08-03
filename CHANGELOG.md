@@ -3,6 +3,8 @@
 
 ## Unreleased
 
+* PayPalWebPayments
+  * Add `returnURLScheme` property to `PayPalWebCheckoutRequest` to allow merchants to provide a custom URL scheme for the checkout return, avoiding scheme collisions with other integrated SDKs
 * VenmoPayments (New Module)
   * Add `VenmoClient` with `start(request:completion:)` and `start(request:) async throws` for Venmo checkout
   * Add `handleReturnURL(_:)` for processing Venmo app switch / browser returns
