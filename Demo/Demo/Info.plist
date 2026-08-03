@@ -3,6 +3,7 @@
 <plist version="1.0">
 <dict>
 	<!-- ⚠️ LOCAL QA TESTING — DO NOT COMMIT. Allows http to the local sample merchant server on the LAN. -->
+	<!-- TODO(follow-up): remove once the #416-style Custom Environment UI lands; see PR notes. -->
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsLocalNetworking</key>
