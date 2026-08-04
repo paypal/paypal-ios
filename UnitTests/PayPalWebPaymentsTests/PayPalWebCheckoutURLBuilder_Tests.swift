@@ -16,7 +16,6 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         let url = try XCTUnwrap(
             PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
                 clientID: "client-abc",
-                fundingSource: .paypal,
                 token: "order-123",
                 tokenType: .orderID,
                 sessionID: "session-xyz"
@@ -31,21 +30,7 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         XCTAssertEqual(queryValue("merchant", in: url), "client-abc")
         XCTAssertEqual(queryValue("flow_type", in: url), "ecs")
         XCTAssertEqual(queryValue("shopperSessionId", in: url), "session-xyz")
-        XCTAssertEqual(queryValue("funding_source", in: url), "paypal")
-    }
-
-    func testMakeAppSwitchURL_checkout_setsFundingSourceFromParameter() throws {
-        let url = try XCTUnwrap(
-            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
-                clientID: "client-abc",
-                fundingSource: .paypalCredit,
-                token: "order-123",
-                tokenType: .orderID,
-                sessionID: "session-xyz"
-            )
-        )
-
-        XCTAssertEqual(queryValue("funding_source", in: url), "credit")
+        XCTAssertNil(queryValue("funding_source", in: url))
     }
 
     func testMakeAppSwitchURL_checkout_preservesExistingQueryOnBase() throws {
@@ -54,7 +39,6 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
                 base: "https://sandbox.paypal.com/app-switch-checkout?existing=1"
             ).makeAppSwitchURL(
                 clientID: "client-abc",
-                fundingSource: .paypal,
                 token: "order-123",
                 tokenType: .orderID,
                 sessionID: "session-xyz"
@@ -69,7 +53,6 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         let url = try XCTUnwrap(
             PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
                 clientID: "client & co",
-                fundingSource: .paypal,
                 token: "order-123",
                 tokenType: .orderID,
                 sessionID: "session-xyz"
@@ -89,7 +72,6 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         let url = try XCTUnwrap(
             PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
                 clientID: "client-abc",
-                fundingSource: .paypal,
                 token: "order-123",
                 tokenType: .orderID,
                 sessionID: "session-xyz"
@@ -109,7 +91,6 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         let url = try XCTUnwrap(
             PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
                 clientID: "client-abc",
-                fundingSource: .paypal,
                 token: "BA-123",
                 tokenType: .billingToken,
                 sessionID: "session-xyz"
@@ -125,7 +106,6 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         let url = try XCTUnwrap(
             PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
                 clientID: "client-abc",
-                fundingSource: .paypal,
                 token: "setup-token-123",
                 tokenType: .vaultID,
                 sessionID: nil
@@ -142,7 +122,6 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         let url = try XCTUnwrap(
             PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-vault").makeAppSwitchURL(
                 clientID: "client-abc",
-                fundingSource: .paypal,
                 token: "setup-token-123",
                 tokenType: .vaultID,
                 sessionID: "session-xyz"
@@ -157,7 +136,6 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         XCTAssertEqual(queryValue("merchant", in: url), "client-abc")
         XCTAssertEqual(queryValue("flow_type", in: url), "va")
         XCTAssertEqual(queryValue("shopperSessionId", in: url), "session-xyz")
-        XCTAssertEqual(queryValue("funding_source", in: url), "paypal")
     }
 
     func testMakeAppSwitchURL_vault_setsSwitchInitiatedTimeNearNow() throws {
@@ -166,7 +144,6 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         let url = try XCTUnwrap(
             PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-vault").makeAppSwitchURL(
                 clientID: "client-abc",
-                fundingSource: .paypal,
                 token: "setup-token-123",
                 tokenType: .vaultID,
                 sessionID: "session-xyz"

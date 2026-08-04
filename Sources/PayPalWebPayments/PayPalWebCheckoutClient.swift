@@ -382,7 +382,6 @@ public class PayPalWebCheckoutClient: NSObject {
                     guard let tokenType = self.tokenType else { return nil }
                     return PayPalWebCheckoutURLBuilder(base: base).makeAppSwitchURL(
                         clientID: self.config.merchantID,
-                        fundingSource: .paypal,
                         token: orderID,
                         tokenType: tokenType,
                         sessionID: sessionID
@@ -419,7 +418,6 @@ public class PayPalWebCheckoutClient: NSObject {
                     guard let tokenType = self.tokenType else { return nil }
                     return PayPalWebCheckoutURLBuilder(base: base).makeAppSwitchURL(
                         clientID: self.config.merchantID,
-                        fundingSource: .paypal,
                         token: setupTokenID,
                         tokenType: tokenType,
                         sessionID: sessionID

@@ -17,7 +17,6 @@ struct PayPalWebCheckoutURLBuilder {
     /// - Returns: `nil` if `base` isn't a valid URL string.
     func makeAppSwitchURL(
         clientID: String,
-        fundingSource: PayPalWebCheckoutFundingSource,
         token: String,
         tokenType: TokenType,
         sessionID: String?
@@ -36,7 +35,6 @@ struct PayPalWebCheckoutURLBuilder {
             URLQueryItem(name: "source", value: "pda"),
             URLQueryItem(name: "merchant", value: clientID),
             URLQueryItem(name: "flow_type", value: flowType(for: tokenType).rawValue),
-            URLQueryItem(name: "funding_source", value: fundingSource.rawValue),
             URLQueryItem(name: "switch_initiated_time", value: String(Int(round(Date().timeIntervalSince1970 * 1000))))
         ]
         if let sessionID = sessionID {
