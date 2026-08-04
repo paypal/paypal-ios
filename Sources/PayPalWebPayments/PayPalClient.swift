@@ -373,10 +373,9 @@ public class PayPalClient: NSObject {
         Task {
             await attemptSessionAppSwitchOrFallback(
                 session: session,
-                handlers: SessionAppSwitchHandlers(
-                    completionOnce: completionOnce,
-                    setCompletion: { [weak self] in self?.appSwitchCompletion = $0 }
-                ),
+                handlers: SessionAppSwitchHandlers(completionOnce: completionOnce) { [weak self] in
+                    self?.appSwitchCompletion = $0
+                },
                 makeURL: { base, sessionID in
                     guard let tokenType = self.tokenType else { return nil }
                     return PayPalWebCheckoutURLBuilder(base: base).makeAppSwitchURL(
@@ -408,10 +407,9 @@ public class PayPalClient: NSObject {
         Task {
             await attemptSessionAppSwitchOrFallback(
                 session: session,
-                handlers: SessionAppSwitchHandlers(
-                    completionOnce: completionOnce,
-                    setCompletion: { [weak self] in self?.vaultAppSwitchCompletion = $0 }
-                ),
+                handlers: SessionAppSwitchHandlers(completionOnce: completionOnce) { [weak self] in
+                    self?.vaultAppSwitchCompletion = $0
+                },
                 makeURL: { base, sessionID in
                     guard let tokenType = self.tokenType else { return nil }
                     return PayPalWebCheckoutURLBuilder(base: base).makeAppSwitchURL(
