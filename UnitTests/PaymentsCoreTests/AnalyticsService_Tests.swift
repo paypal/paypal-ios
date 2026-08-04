@@ -143,7 +143,7 @@ class AnalyticsService_Tests: XCTestCase {
 
     func testSendEvent_forwardsLatencyFieldsToAnalyticsEventData() async {
         await sut.performEventRequest(
-            "paypal-web-payments:api-request-latency",
+            "paypal-payments:api-request-latency",
             startTime: 1_700_000_000_000,
             endTime: 1_700_000_000_250,
             endpoint: "/graphql/createShopperSessionWithAppSwitchEligibility"
@@ -151,7 +151,7 @@ class AnalyticsService_Tests: XCTestCase {
 
         let capturedData = mockTrackingEventsAPI.capturedAnalyticsEventData
 
-        XCTAssertEqual(capturedData?.eventName, "paypal-web-payments:api-request-latency")
+        XCTAssertEqual(capturedData?.eventName, "paypal-payments:api-request-latency")
         XCTAssertEqual(capturedData?.startTime, 1_700_000_000_000)
         XCTAssertEqual(capturedData?.endTime, 1_700_000_000_250)
         XCTAssertEqual(capturedData?.endpoint, "/graphql/createShopperSessionWithAppSwitchEligibility")
@@ -159,7 +159,7 @@ class AnalyticsService_Tests: XCTestCase {
 
     func testSendEvent_forwardsSystemLatencyFieldsToAnalyticsEventData() async {
         await sut.performEventRequest(
-            "paypal-web-payments:system-latency",
+            "paypal-payments:system-latency",
             startTime: 1_700_000_000_000,
             endTime: 1_700_000_000_500,
             presentationType: "browser",
@@ -168,7 +168,7 @@ class AnalyticsService_Tests: XCTestCase {
 
         let capturedData = mockTrackingEventsAPI.capturedAnalyticsEventData
 
-        XCTAssertEqual(capturedData?.eventName, "paypal-web-payments:system-latency")
+        XCTAssertEqual(capturedData?.eventName, "paypal-payments:system-latency")
         XCTAssertEqual(capturedData?.startTime, 1_700_000_000_000)
         XCTAssertEqual(capturedData?.endTime, 1_700_000_000_500)
         XCTAssertEqual(capturedData?.presentationType, "browser")

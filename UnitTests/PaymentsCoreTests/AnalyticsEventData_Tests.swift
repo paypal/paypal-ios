@@ -157,7 +157,7 @@ class AnalyticsEventData_Tests: XCTestCase {
     func testEncode_withLatencyFields_properlyFormatsJSON() throws {
         sut = AnalyticsEventData(
             environment: "fake-env",
-            eventName: "paypal-web-payments:api-request-latency",
+            eventName: "paypal-payments:api-request-latency",
             clientID: "fake-client-id",
             merchantID: "fake-merchant-id",
             bnCode: nil,
@@ -185,7 +185,7 @@ class AnalyticsEventData_Tests: XCTestCase {
     func testEncode_withSystemLatencyFields_properlyFormatsJSON() throws {
         sut = AnalyticsEventData(
             environment: "fake-env",
-            eventName: "paypal-web-payments:system-latency",
+            eventName: "paypal-payments:system-latency",
             clientID: "fake-client-id",
             merchantID: "fake-merchant-id",
             bnCode: nil,

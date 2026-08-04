@@ -16,7 +16,7 @@ public class CreateShopperSessionAPI {
     private let analyticsService: AnalyticsService
 
     private let latencyEndpoint = "/graphql/createShopperSessionWithAppSwitchEligibility"
-    private let apiRequestLatencyEvent = "paypal-web-payments:api-request-latency"
+    private let apiRequestLatencyEvent = "paypal-payments:api-request-latency"
 
     private let createShopperSessionQuery = """
         mutation CreateShopperSessionWithAppSwitchEligibility(

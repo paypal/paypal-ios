@@ -109,7 +109,7 @@ class CreateShopperSessionAPI_Tests: XCTestCase {
         await fulfillment(of: [expectation], timeout: 10.0)
 
         let captured = capturingTrackingEventsAPI.capturedEventData
-        XCTAssertEqual(captured?.eventName, "paypal-web-payments:api-request-latency")
+        XCTAssertEqual(captured?.eventName, "paypal-payments:api-request-latency")
         XCTAssertEqual(captured?.startTime, 1_700_000_000_000)
         XCTAssertEqual(captured?.endTime, 1_700_000_000_250)
         XCTAssertEqual(captured?.endpoint, "/graphql/createShopperSessionWithAppSwitchEligibility")
