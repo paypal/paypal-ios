@@ -375,8 +375,7 @@ public class PayPalWebCheckoutClient: NSObject {
                 session: session,
                 handlers: SessionAppSwitchHandlers(
                     completionOnce: completionOnce,
-                    setCompletion: { [weak self] in self?.appSwitchCompletion = $0 },
-                    eventPrefix: "paypal-web-payments:checkout"
+                    setCompletion: { [weak self] in self?.appSwitchCompletion = $0 }
                 ),
                 makeURL: { base, sessionID in
                     guard let tokenType = self.tokenType else { return nil }
@@ -411,8 +410,7 @@ public class PayPalWebCheckoutClient: NSObject {
                 session: session,
                 handlers: SessionAppSwitchHandlers(
                     completionOnce: completionOnce,
-                    setCompletion: { [weak self] in self?.vaultAppSwitchCompletion = $0 },
-                    eventPrefix: "paypal-web-payments:checkout"
+                    setCompletion: { [weak self] in self?.vaultAppSwitchCompletion = $0 }
                 ),
                 makeURL: { base, sessionID in
                     guard let tokenType = self.tokenType else { return nil }
@@ -435,13 +433,11 @@ public class PayPalWebCheckoutClient: NSObject {
     private enum AppSwitchAttempt { case launched, fallback(String) }
 
     /// Bundles the flow-specific completion handling (`completionOnce`/`setCompletion`) and analytics
-    /// `eventPrefix` used by `attemptSessionAppSwitchOrFallback`/`attemptSessionAppSwitch`, so those
-    /// functions can stay within SwiftLint's parameter count limit.
+    /// so those functions can stay within SwiftLint's parameter count limit.
     private struct SessionAppSwitchHandlers<T> {
 
         let completionOnce: (Result<T, CoreSDKError>) -> Void
         let setCompletion: (((Result<T, CoreSDKError>) -> Void)?) -> Void
-        let eventPrefix: String
     }
 
     /// Resolves the session's redirect URL and session ID, attempts a session-based app switch, and
@@ -465,7 +461,7 @@ public class PayPalWebCheckoutClient: NSObject {
             case .launched:
                 return
             case .fallback(let reason):
-                analyticsService?.sendEvent("\(handlers.eventPrefix):fallback-to-web:\(reason)")
+                analyticsService?.sendEvent("paypal-web-payments:checkout:fallback-to-web:\(reason)")
             }
         }
         fallback()
@@ -490,7 +486,7 @@ public class PayPalWebCheckoutClient: NSObject {
         let opened = await attemptAppSwitch(with: url)
         if opened {
             analyticsService?.sendEvent(
-                "\(handlers.eventPrefix):app-switch:succeeded",
+                "paypal-web-payments:checkout:app-switch:succeeded",
                 checkoutAnalyticsData: analyticsData,
                 withBackgroundProtection: true
             )
@@ -498,7 +494,7 @@ public class PayPalWebCheckoutClient: NSObject {
             return .launched
         } else {
             analyticsService?.sendEvent(
-                "\(handlers.eventPrefix):app-switch:failed",
+                "paypal-web-payments:checkout:app-switch:failed",
                 errorDescription: "cannot_open_url",
                 checkoutAnalyticsData: analyticsData
             )
