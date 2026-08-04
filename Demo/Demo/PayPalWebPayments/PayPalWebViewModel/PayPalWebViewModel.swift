@@ -17,7 +17,7 @@ class PayPalWebViewModel: ObservableObject {
     @Published var checkoutResult: PayPalWebCheckoutResult?
     @Published var appSwitch = false
 
-    let appSwitchURL = Environment.sandbox.baseURL
+    let appSwitchURL = DemoEnvironment.sandbox.baseURL
 
     var payPalWebCheckoutClient: PayPalWebCheckoutClient?
 

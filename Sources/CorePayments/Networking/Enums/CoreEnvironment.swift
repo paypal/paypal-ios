@@ -1,6 +1,6 @@
 import Foundation
 
-public enum Environment: Equatable {
+public enum CoreEnvironment: Equatable {
     case sandbox
     case live
 

@@ -1,6 +1,6 @@
 import CorePayments
 
-enum Environment: String, CaseIterable {
+enum DemoEnvironment: String, CaseIterable {
     case sandbox
     case live
     #if DEBUG
@@ -23,12 +23,12 @@ enum Environment: String, CaseIterable {
             // merchant server.
             let merchantBaseURL = DemoSettings.customEnvironment?.merchantBaseURL?
                 .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-            return merchantBaseURL.isEmpty ? Environment.sandbox.baseURL : merchantBaseURL
+            return merchantBaseURL.isEmpty ? DemoEnvironment.sandbox.baseURL : merchantBaseURL
         #endif
         }
     }
 
-    var paypalSDKEnvironment: CorePayments.Environment {
+    var paypalSDKEnvironment: CorePayments.CoreEnvironment {
         switch self {
         case .sandbox:
             return .sandbox

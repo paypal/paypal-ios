@@ -121,7 +121,7 @@ final class DemoMerchantAPI {
     ///   - environment: the current environment
     /// - Returns: a String representing an clientID
     /// - Throws: an error explaining why fetch clientID failed
-    public func getClientID(environment: Demo.Environment, selectedMerchantIntegration: MerchantIntegration) async -> String? {
+    public func getClientID(environment: DemoEnvironment, selectedMerchantIntegration: MerchantIntegration) async -> String? {
         if let injectedClientID = InjectedValues.clientID {
             return injectedClientID
         }
@@ -178,7 +178,7 @@ final class DemoMerchantAPI {
         URL(string: "https://api.sandbox.paypal.com" + endpoint)
     }
 
-    private func fetchClientID(environment: Demo.Environment, selectedMerchantIntegration: MerchantIntegration) async -> String? {
+    private func fetchClientID(environment: DemoEnvironment, selectedMerchantIntegration: MerchantIntegration) async -> String? {
         do {
             let clientIDRequest = ClientIDRequest()
             let request = try createUrlRequest(
@@ -202,7 +202,7 @@ final class DemoMerchantAPI {
     
     private func createUrlRequest(
         clientIDRequest: ClientIDRequest,
-        environment: Demo.Environment,
+        environment: DemoEnvironment,
         selectedMerchantIntegration: MerchantIntegration
     ) throws -> URLRequest {
         var completeUrl = environment.baseURL

@@ -2,10 +2,10 @@ import SwiftUI
 
 struct FeatureSelectionView: View {
 
-    @State private var selectedEnvironment: Environment = DemoSettings.environment
+    @State private var selectedEnvironment: DemoEnvironment = DemoSettings.environment
     @State private var selectedIntegration: MerchantIntegration = DemoSettings.merchantIntegration
     #if DEBUG
-    @State private var lastCommittedEnvironment: Environment = DemoSettings.environment
+    @State private var lastCommittedEnvironment: DemoEnvironment = DemoSettings.environment
     @State private var showCustomEnvironmentSheet = false
     #endif
 
@@ -14,7 +14,7 @@ struct FeatureSelectionView: View {
             List {
                 Section(header: Text("Settings")) {
                     Picker("Environment", selection: $selectedEnvironment.onChange(updateEnvironment)) {
-                        ForEach(Environment.allCases, id: \.self) { environment in
+                        ForEach(DemoEnvironment.allCases, id: \.self) { environment in
                             Text(environment.rawValue.capitalized).tag(environment)
                         }
                     }
@@ -92,7 +92,7 @@ struct FeatureSelectionView: View {
         }
     }
 
-    func updateEnvironment(newEnvironment: Environment) {
+    func updateEnvironment(newEnvironment: DemoEnvironment) {
         #if DEBUG
         if newEnvironment == .custom {
             showCustomEnvironmentSheet = true
