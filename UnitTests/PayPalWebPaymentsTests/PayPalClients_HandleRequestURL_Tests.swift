@@ -8,7 +8,7 @@ class PayPalClient_HandleReturnURL_Tests: XCTestCase {
 
     var config: CoreConfig!
     var mockWebAuthenticationSession: MockWebAuthenticationSession!
-    var payPalClient: PayPalWebCheckoutClient!
+    var payPalClient: PayPalClient!
     var mockNetworkingClient: MockNetworkingClient!
     var mockClientConfigAPI: MockClientConfigAPI!
     var mockCreateShopperSessionAPI: MockCreateShopperSessionAPI!
@@ -21,7 +21,7 @@ class PayPalClient_HandleReturnURL_Tests: XCTestCase {
         mockClientConfigAPI = MockClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)
         mockCreateShopperSessionAPI = MockCreateShopperSessionAPI(coreConfig: config)
 
-        payPalClient = PayPalWebCheckoutClient(
+        payPalClient = PayPalClient(
             config: config,
             clientConfigAPI: mockClientConfigAPI,
             createShopperSessionAPI: mockCreateShopperSessionAPI,

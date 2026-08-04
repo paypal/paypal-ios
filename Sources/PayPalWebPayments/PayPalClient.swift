@@ -6,7 +6,7 @@ import CorePayments
 #endif
 
 // swiftlint: disable type_body_length file_length
-public class PayPalWebCheckoutClient: NSObject {
+public class PayPalClient: NSObject {
     
     enum PayPalCheckoutCallbackURL {
         static let path = "x-callback-url/paypal-sdk/paypal-checkout"
@@ -893,7 +893,7 @@ public class PayPalWebCheckoutClient: NSObject {
 
 // MARK: - ASWebAuthenticationPresentationContextProviding conformance
 
-extension PayPalWebCheckoutClient: ASWebAuthenticationPresentationContextProviding {
+extension PayPalClient: ASWebAuthenticationPresentationContextProviding {
     
     public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         if #available(iOS 15, *) {

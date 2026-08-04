@@ -19,7 +19,7 @@ class PayPalWebViewModel: ObservableObject {
 
     let appSwitchURL = DemoEnvironment.sandbox.baseURL
 
-    var payPalWebCheckoutClient: PayPalWebCheckoutClient?
+    var payPalWebCheckoutClient: PayPalClient?
 
     var orderID: String? {
         order?.id
@@ -162,10 +162,10 @@ class PayPalWebViewModel: ObservableObject {
         }
     }
 
-    func getPayPalClient() async throws -> PayPalWebCheckoutClient? {
+    func getPayPalClient() async throws -> PayPalClient? {
         do {
             let config = try await configManager.getCoreConfig()
-            let payPalClient = PayPalWebCheckoutClient(config: config)
+            let payPalClient = PayPalClient(config: config)
             payPalDataCollector = PayPalDataCollector(config: config)
             return payPalClient
         } catch {

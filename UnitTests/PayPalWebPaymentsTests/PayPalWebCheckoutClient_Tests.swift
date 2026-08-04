@@ -8,7 +8,7 @@ class PayPalClient_Tests: XCTestCase {
 
     var config: CoreConfig!
     var mockWebAuthenticationSession: MockWebAuthenticationSession!
-    var payPalClient: PayPalWebCheckoutClient!
+    var payPalClient: PayPalClient!
     var mockNetworkingClient: MockNetworkingClient!
     var mockClientConfigAPI: MockClientConfigAPI!
     var mockCreateShopperSessionAPI: MockCreateShopperSessionAPI!
@@ -22,7 +22,7 @@ class PayPalClient_Tests: XCTestCase {
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
         mockCreateShopperSessionAPI = MockCreateShopperSessionAPI(coreConfig: config)
 
-        payPalClient = PayPalWebCheckoutClient(
+        payPalClient = PayPalClient(
             config: config,
             clientConfigAPI: mockClientConfigAPI,
             createShopperSessionAPI: mockCreateShopperSessionAPI,
@@ -36,7 +36,7 @@ class PayPalClient_Tests: XCTestCase {
 
         XCTAssertEqual(
             checkoutURL,
-            URL(string: "https://sandbox.paypal.com/checkoutnow?token=1234&redirect_uri=\(PayPalWebCheckoutClient.PayPalCheckoutCallbackURL.redirectURL)&native_xo=1")
+            URL(string: "https://sandbox.paypal.com/checkoutnow?token=1234&redirect_uri=\(PayPalClient.PayPalCheckoutCallbackURL.redirectURL)&native_xo=1")
         )
     }
 }

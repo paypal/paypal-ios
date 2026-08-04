@@ -7,7 +7,7 @@ class PayPalVaultViewModel: VaultViewModel {
 
     let configManager = CoreConfigManager(domain: "PayPal Vault")
 
-    var paypalClient: PayPalWebCheckoutClient?
+    var paypalClient: PayPalClient?
 
     func vault() async throws {
         state.setupTokenResponse = .loading
@@ -68,10 +68,10 @@ class PayPalVaultViewModel: VaultViewModel {
         }
     }
 
-    func getPayPalClient() async throws -> PayPalWebCheckoutClient? {
+    func getPayPalClient() async throws -> PayPalClient? {
         do {
             let config = try await configManager.getCoreConfig()
-            return PayPalWebCheckoutClient(config: config)
+            return PayPalClient(config: config)
         } catch {
             state.setupTokenResponse = .error(message: error.localizedDescription)
             return nil
