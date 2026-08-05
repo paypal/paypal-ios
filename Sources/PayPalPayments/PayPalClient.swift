@@ -378,7 +378,7 @@ public class PayPalClient: NSObject {
                 },
                 makeURL: { base, sessionID in
                     guard let tokenType = self.tokenType else { return nil }
-                    return PayPalWebCheckoutURLBuilder(base: base).makeAppSwitchURL(
+                    return PayPalCheckoutURLBuilder(base: base).makeAppSwitchURL(
                         clientID: self.config.merchantID,
                         token: orderID,
                         tokenType: tokenType,
@@ -412,7 +412,7 @@ public class PayPalClient: NSObject {
                 },
                 makeURL: { base, sessionID in
                     guard let tokenType = self.tokenType else { return nil }
-                    return PayPalWebCheckoutURLBuilder(base: base).makeAppSwitchURL(
+                    return PayPalCheckoutURLBuilder(base: base).makeAppSwitchURL(
                         clientID: self.config.merchantID,
                         token: setupTokenID,
                         tokenType: tokenType,
