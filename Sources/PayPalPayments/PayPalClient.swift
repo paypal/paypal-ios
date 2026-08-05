@@ -157,7 +157,7 @@ public class PayPalClient: NSObject {
     /// - Parameters:
     ///   - orderID: The order ID to approve.
     ///   - completion: A completion block invoked on the main thread with a `Result`:
-    ///     - `.success(PayPalWebCheckoutResult)` — `orderID` and `payerID` on approval.
+    ///     - `.success(PayPalCheckoutResult)` — `orderID` and `payerID` on approval.
     ///     - `.failure(CoreSDKError)` — describes the failure reason.
     public func start(
         orderID: String,

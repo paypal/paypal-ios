@@ -45,7 +45,7 @@ class PayPalClient_HandleReturnURL_Tests: XCTestCase {
             XCTAssertEqual(result.orderID, "ORDER123")
             XCTAssertEqual(result.payerID, "PAYER456")
         default:
-            XCTFail("Expected success with PayPalWebCheckoutResult")
+            XCTFail("Expected success with PayPalCheckoutResult")
         }
 
         XCTAssertNil(payPalClient.appSwitchCompletion)
