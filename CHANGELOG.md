@@ -3,7 +3,8 @@
 
 ## Unreleased
 
-* PayPalWebPayments
+* PayPalPayments
+  * **Breaking:** Rename the `PayPalWebPayments` module to `PayPalPayments` — update `import PayPalWebPayments` to `import PayPalPayments`
   * Add `PayPalWebCheckoutClient.createPayPalSession(sessionType, userIdentity, urlConfig, userAction)` — establishes a shopper session that must be created prior to calling `start()` or `vault()`
   * Add `PayPalSessionType` enum (`.checkout`, `.vaultWithoutPurchase`) — replaces `PayPalFlowType` and expresses the caller's intent, independent of the underlying token/query-parameter representation
   * Add `PayPalWebCheckoutClient.start(orderId, completion)` method — requires a prior call to `createPayPalSession()`

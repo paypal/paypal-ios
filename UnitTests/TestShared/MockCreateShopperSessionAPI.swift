@@ -1,6 +1,6 @@
 import Foundation
 @testable import CorePayments
-@testable import PayPalWebPayments
+@testable import PayPalPayments
 
 class MockCreateShopperSessionAPI: CreateShopperSessionAPI {
 

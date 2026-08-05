@@ -17,8 +17,8 @@ let package = Package(
             targets: ["PaymentButtons"]
         ),
         .library(
-            name: "PayPalWebPayments",
-            targets: ["PayPalWebPayments"]
+            name: "PayPalPayments",
+            targets: ["PayPalPayments"]
         ),
         .library(
             name: "CardPayments",
@@ -48,7 +48,7 @@ let package = Package(
             resources: [.copy("PrivacyInfo.xcprivacy")]
         ),
         .target(
-            name: "PayPalWebPayments",
+            name: "PayPalPayments",
             dependencies: ["CorePayments"],
             resources: [.copy("PrivacyInfo.xcprivacy")]
         ),

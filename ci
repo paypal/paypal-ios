@@ -14,7 +14,7 @@ case $command_name in
     rm -rf ./DerivedData
 
     # Modules to generate documentation for
-    MODULES=("CorePayments" "CardPayments" "PaymentButtons" "PayPalWebPayments" "FraudProtection")
+    MODULES=("CorePayments" "CardPayments" "PaymentButtons" "PayPalPayments" "FraudProtection")
 
     # Build documentation archives for each module
     echo ""
@@ -59,7 +59,7 @@ case $command_name in
       archives/CorePayments.doccarchive \
       archives/CardPayments.doccarchive \
       archives/PaymentButtons.doccarchive \
-      archives/PayPalWebPayments.doccarchive \
+      archives/PayPalPayments.doccarchive \
       archives/FraudProtection.doccarchive \
       --output-path archives/PayPal.doccarchive \
       --synthesized-landing-page-name "PayPal iOS SDK"

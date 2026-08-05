@@ -1,7 +1,7 @@
 import XCTest
 import AuthenticationServices
 @testable import CorePayments
-@testable import PayPalWebPayments
+@testable import PayPalPayments
 @testable import TestShared
 
 class PayPalClient_Tests: XCTestCase {

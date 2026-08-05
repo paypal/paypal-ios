@@ -1,6 +1,6 @@
 import Foundation
 import CorePayments
-import PayPalWebPayments
+import PayPalPayments
 import FraudProtection
 
 @MainActor

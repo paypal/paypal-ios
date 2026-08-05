@@ -1,6 +1,6 @@
 import Foundation
 import CorePayments
-import PayPalWebPayments
+import PayPalPayments
 
 /// Shared app-switch return/cancel/fallback URL configuration for Shopper Session creation.
 /// Used by both the PayPalWeb and Vault flows so the callback URLs stay in sync.

@@ -1,6 +1,6 @@
 import XCTest
 @testable import CorePayments
-@testable import PayPalWebPayments
+@testable import PayPalPayments
 @testable import TestShared
 
 class CreateShopperSessionAPI_Tests: XCTestCase {

@@ -1,5 +1,5 @@
 import UIKit
-import PayPalWebPayments
+import PayPalPayments
 import CorePayments
 
 @MainActor
