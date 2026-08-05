@@ -19,7 +19,7 @@ class PayPalWebViewModel: ObservableObject {
 
     let appSwitchURL = DemoEnvironment.sandbox.baseURL
 
-    var payPalWebCheckoutClient: PayPalClient?
+    var payPalClient: PayPalClient?
 
     var orderID: String? {
         order?.id
@@ -36,11 +36,11 @@ class PayPalWebViewModel: ObservableObject {
         state.createdOrderResponse = .loading
 
         guard let client = try await getPayPalClient() else {
-            let message = "Error initializing PayPalWebCheckoutClient"
+            let message = "Error initializing PayPalClient"
             state.createdOrderResponse = .error(message: message)
             throw CheckoutError.clientInitializationFailed(message)
         }
-        payPalWebCheckoutClient = client
+        payPalClient = client
 
         let urlConfig: PayPalURLConfig
         do {
@@ -133,15 +133,15 @@ class PayPalWebViewModel: ObservableObject {
             do {
                 state.approveResultResponse = .loading
 
-                if payPalWebCheckoutClient == nil {
-                    payPalWebCheckoutClient = try await getPayPalClient()
+                if payPalClient == nil {
+                    payPalClient = try await getPayPalClient()
                 }
-                guard let payPalWebCheckoutClient, let orderID = state.createOrder?.id else {
+                guard let payPalClient, let orderID = state.createOrder?.id else {
                     state.approveResultResponse = .error(message: "Missing PayPal client or order ID")
                     return
                 }
 
-                payPalWebCheckoutClient.start(orderID: orderID) { result in
+                payPalClient.start(orderID: orderID) { result in
                     switch result {
                     case .success(let paypalResult):
                         self.state.approveResultResponse = .loaded(
@@ -234,8 +234,8 @@ class PayPalWebViewModel: ObservableObject {
 
     // for testing until singleton router class is implemented
     func handleUniversalLinkReturn(_ url: URL) {
-        guard let payPalWebCheckoutClient else { return }
-        payPalWebCheckoutClient.handleReturnURL(url)
+        guard let payPalClient else { return }
+        payPalClient.handleReturnURL(url)
     }
 }
 

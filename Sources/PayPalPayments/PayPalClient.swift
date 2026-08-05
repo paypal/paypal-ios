@@ -14,7 +14,7 @@ public class PayPalClient: NSObject {
     }
 
     static let serialDispatchQueue =
-        DispatchQueue(label: "com.paypal.ios.PayPalWebCheckoutClient.serialDispatchQueue")
+        DispatchQueue(label: "com.paypal.ios.PayPalClient.serialDispatchQueue")
     
     let config: CoreConfig
 
@@ -48,7 +48,7 @@ public class PayPalClient: NSObject {
 
     // MARK: - Initializer
 
-    /// Initialize a `PayPalWebCheckoutClient` to process PayPal transactions.
+    /// Initialize a `PayPalClient` to process PayPal transactions.
     /// - Parameter config: The `CoreConfig` object.
     public init(config: CoreConfig) {
         self.config = config

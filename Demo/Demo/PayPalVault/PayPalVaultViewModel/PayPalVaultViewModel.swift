@@ -13,7 +13,7 @@ class PayPalVaultViewModel: VaultViewModel {
         state.setupTokenResponse = .loading
 
         guard let client = try await getPayPalClient() else {
-            let message = "Error initializing PayPalWebCheckoutClient"
+            let message = "Error initializing PayPalClient"
             state.setupTokenResponse = .error(message: message)
             throw VaultFlowError.clientInitializationFailed(message)
         }

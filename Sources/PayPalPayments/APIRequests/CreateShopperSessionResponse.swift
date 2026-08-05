@@ -24,7 +24,7 @@ struct ShopperSessionResult: Decodable {
     let appSwitchEligibilityResponse: AppSwitchEligibilityResponse?
     let shopperSessionResponse: ShopperSessionResponse?
 
-    // MARK: - Convenience accessors (preserve existing call sites in PayPalWebCheckoutClient)
+    // MARK: - Convenience accessors (preserve existing call sites in PayPalClient)
 
     var appSwitchEligible: Bool {
         appSwitchEligibilityResponse?.appSwitchEligible ?? false
