@@ -1,6 +1,6 @@
 /// Enum class to specify the type of funding for an order.
 /// For more information go to: https://developer.paypal.com/docs/checkout/pay-later/us/
-public enum PayPalWebCheckoutFundingSource: String {
+public enum PayPalCheckoutFundingSource: String {
 
     /// PayPal Credit will launch the web checkout flow and display PayPal Credit funding to eligible customers
     /// Eligible costumers receive a revolving line of credit that they can use to pay over time.

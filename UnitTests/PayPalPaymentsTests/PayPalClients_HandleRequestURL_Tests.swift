@@ -32,7 +32,7 @@ class PayPalClient_HandleReturnURL_Tests: XCTestCase {
     // MARK: - handleReturnURL tests
 
     func testHandleReturnURL_success_callsAppSwitchCompletionWithResult() {
-        var received: Result<PayPalWebCheckoutResult, CoreSDKError>?
+        var received: Result<PayPalCheckoutResult, CoreSDKError>?
         payPalClient.appSwitchCompletion = { received = $0 }
 
         let url = URL(string:
@@ -52,7 +52,7 @@ class PayPalClient_HandleReturnURL_Tests: XCTestCase {
     }
 
     func testHandleReturnURL_cancel_mapsToCheckoutCanceledError() {
-        var received: Result<PayPalWebCheckoutResult, CoreSDKError>?
+        var received: Result<PayPalCheckoutResult, CoreSDKError>?
         payPalClient.appSwitchCompletion = { received = $0 }
 
         let url = URL(string:
@@ -70,7 +70,7 @@ class PayPalClient_HandleReturnURL_Tests: XCTestCase {
     }
 
     func testHandleReturnURL_successPathMissingPayerID_isMalformedResultError() {
-        var received: Result<PayPalWebCheckoutResult, CoreSDKError>?
+        var received: Result<PayPalCheckoutResult, CoreSDKError>?
         payPalClient.appSwitchCompletion = { received = $0 }
 
         // Missing PayerID
@@ -90,7 +90,7 @@ class PayPalClient_HandleReturnURL_Tests: XCTestCase {
     }
 
     func testHandleReturnURL_successPathIncorrectPayerIdFormat_isMalformedResultError() {
-        var received: Result<PayPalWebCheckoutResult, CoreSDKError>?
+        var received: Result<PayPalCheckoutResult, CoreSDKError>?
         payPalClient.appSwitchCompletion = { received = $0 }
 
         // Should be PayerID
@@ -110,7 +110,7 @@ class PayPalClient_HandleReturnURL_Tests: XCTestCase {
     }
 
     func testHandleReturnURL_successPathIncorrectPayeridFormat_isMalformedResultError() {
-        var received: Result<PayPalWebCheckoutResult, CoreSDKError>?
+        var received: Result<PayPalCheckoutResult, CoreSDKError>?
         payPalClient.appSwitchCompletion = { received = $0 }
 
         // Should be PayerID
@@ -184,7 +184,7 @@ class PayPalClient_HandleReturnURL_Tests: XCTestCase {
     }
 
     func testHandleReturnURL_successPathMissingTokenID_isMalformedResultError() {
-        var received: Result<PayPalWebCheckoutResult, CoreSDKError>?
+        var received: Result<PayPalCheckoutResult, CoreSDKError>?
         payPalClient.appSwitchCompletion = { received = $0 }
 
         // Missing token
@@ -205,7 +205,7 @@ class PayPalClient_HandleReturnURL_Tests: XCTestCase {
 
 
     func testHandleReturnURL_successPathMissingApprovalSessionID_isMalformedResultError() {
-        var received: Result<PayPalWebCheckoutResult, CoreSDKError>?
+        var received: Result<PayPalCheckoutResult, CoreSDKError>?
         payPalClient.appSwitchCompletion = { received = $0 }
 
         // Missing token

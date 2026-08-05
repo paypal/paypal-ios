@@ -14,7 +14,7 @@ class PayPalWebViewModel: ObservableObject {
     @Published var state = PayPalPaymentState()
     @Published var intent: Intent = .authorize
     @Published var order: Order?
-    @Published var checkoutResult: PayPalWebCheckoutResult?
+    @Published var checkoutResult: PayPalCheckoutResult?
     @Published var appSwitch = false
 
     let appSwitchURL = DemoEnvironment.sandbox.baseURL
@@ -128,7 +128,7 @@ class PayPalWebViewModel: ObservableObject {
         }
     }
 
-    func paymentButtonTapped(funding: PayPalWebCheckoutFundingSource) {
+    func paymentButtonTapped(funding: PayPalCheckoutFundingSource) {
         Task {
             do {
                 state.approveResultResponse = .loading
