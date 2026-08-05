@@ -5,7 +5,7 @@ import CorePayments
 #endif
 
 /// Tracks user-perceived ("system") latency for a single checkout or vault flow and emits the
-/// `paypal-web-payments:system-latency` analytics event at most once per flow.
+/// `paypal-payments:system-latency` analytics event at most once per flow.
 final class SystemLatencyTracker {
 
     enum Flow: String {
@@ -23,7 +23,7 @@ final class SystemLatencyTracker {
 
     // MARK: - Private Properties
 
-    private let eventName = "paypal-web-payments:system-latency"
+    private let eventName = "paypal-payments:system-latency"
 
     private var startTime: Int64?
 

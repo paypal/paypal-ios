@@ -31,7 +31,7 @@ public struct AnalyticsService {
 
     /// This initializer is exposed for internal PayPal use only. Do not use. It is not covered by Semantic
     /// Versioning and may change or be removed at any time.
-    /// For internal use by `PayPalWebCheckoutClient`, which lives in a separate module (`PayPalWebPayments`)
+    /// For internal use by `PayPalClient`, which lives in a separate module (`PayPalPayments`)
     /// and therefore needs `public` (rather than `internal`) visibility to construct an `AnalyticsService`
     /// with no `orderID`/`setupToken` yet known.
     public init(coreConfig: CoreConfig) {

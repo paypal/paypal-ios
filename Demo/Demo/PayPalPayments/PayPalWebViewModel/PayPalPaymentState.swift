@@ -1,5 +1,5 @@
 import Foundation
-import PayPalWebPayments
+import PayPalPayments
 
 struct PayPalPaymentState: Equatable {
     

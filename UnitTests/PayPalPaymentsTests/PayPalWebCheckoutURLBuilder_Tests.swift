@@ -1,5 +1,5 @@
 import XCTest
-@testable import PayPalWebPayments
+@testable import PayPalPayments
 
 class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
 
@@ -14,7 +14,7 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
 
     func testMakeAppSwitchURL_checkout_setsExpectedQueryItems() throws {
         let url = try XCTUnwrap(
-            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
+            PayPalCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
                 clientID: "client-abc",
                 token: "order-123",
                 tokenType: .orderID,
@@ -35,7 +35,7 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
 
     func testMakeAppSwitchURL_checkout_preservesExistingQueryOnBase() throws {
         let url = try XCTUnwrap(
-            PayPalWebCheckoutURLBuilder(
+            PayPalCheckoutURLBuilder(
                 base: "https://sandbox.paypal.com/app-switch-checkout?existing=1"
             ).makeAppSwitchURL(
                 clientID: "client-abc",
@@ -51,7 +51,7 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
 
     func testMakeAppSwitchURL_checkout_percentEncodesSpecialCharacters() throws {
         let url = try XCTUnwrap(
-            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
+            PayPalCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
                 clientID: "client & co",
                 token: "order-123",
                 tokenType: .orderID,
@@ -70,7 +70,7 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         let beforeMillis = Int(round(Date().timeIntervalSince1970 * 1000))
 
         let url = try XCTUnwrap(
-            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
+            PayPalCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
                 clientID: "client-abc",
                 token: "order-123",
                 tokenType: .orderID,
@@ -89,7 +89,7 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
 
     func testMakeAppSwitchURL_checkout_usesTokenQueryNameForBillingToken() throws {
         let url = try XCTUnwrap(
-            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
+            PayPalCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
                 clientID: "client-abc",
                 token: "BA-123",
                 tokenType: .billingToken,
@@ -104,7 +104,7 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
     func testMakeAppSwitchURL_derivesVaultFlowTypeFromTokenType() throws {
         // flow_type is derived from tokenType, so a vault tokenType always yields "va".
         let url = try XCTUnwrap(
-            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
+            PayPalCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-checkout").makeAppSwitchURL(
                 clientID: "client-abc",
                 token: "setup-token-123",
                 tokenType: .vaultID,
@@ -120,7 +120,7 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
 
     func testMakeAppSwitchURL_vault_setsExpectedQueryItems() throws {
         let url = try XCTUnwrap(
-            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-vault").makeAppSwitchURL(
+            PayPalCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-vault").makeAppSwitchURL(
                 clientID: "client-abc",
                 token: "setup-token-123",
                 tokenType: .vaultID,
@@ -142,7 +142,7 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         let beforeMillis = Int(round(Date().timeIntervalSince1970 * 1000))
 
         let url = try XCTUnwrap(
-            PayPalWebCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-vault").makeAppSwitchURL(
+            PayPalCheckoutURLBuilder(base: "https://sandbox.paypal.com/app-switch-vault").makeAppSwitchURL(
                 clientID: "client-abc",
                 token: "setup-token-123",
                 tokenType: .vaultID,

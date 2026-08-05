@@ -1,6 +1,6 @@
 import XCTest
 @testable import CorePayments
-@testable import PayPalWebPayments
+@testable import PayPalPayments
 @testable import TestShared
 
 class SystemLatencyTracker_Tests: XCTestCase {
@@ -63,7 +63,7 @@ class SystemLatencyTracker_Tests: XCTestCase {
         await fulfillment(of: [expectation], timeout: 10.0)
 
         let captured = capturingTrackingEventsAPI.capturedEventData
-        XCTAssertEqual(captured?.eventName, "paypal-web-payments:system-latency")
+        XCTAssertEqual(captured?.eventName, "paypal-payments:system-latency")
         XCTAssertEqual(captured?.presentationType, "app-switch")
         XCTAssertEqual(captured?.flow, "checkout")
         let startTime = try? XCTUnwrap(captured?.startTime)

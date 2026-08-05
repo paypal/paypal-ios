@@ -1,12 +1,12 @@
 import SwiftUI
 import PaymentButtons
-import PayPalWebPayments
+import PayPalPayments
 
 struct PayPalWebButtonsView: View {
 
     @ObservedObject var payPalWebViewModel: PayPalWebViewModel
 
-    @State private var selectedFundingSource: PayPalWebCheckoutFundingSource = .paypal
+    @State private var selectedFundingSource: PayPalCheckoutFundingSource = .paypal
 
     var body: some View {
         VStack {
@@ -19,9 +19,9 @@ struct PayPalWebButtonsView: View {
                 .frame(maxWidth: .infinity)
                 .font(.headline)
                 Picker("Funding Source", selection: $selectedFundingSource) {
-                    Text("PayPal").tag(PayPalWebCheckoutFundingSource.paypal)
-                    Text("PayPal Credit").tag(PayPalWebCheckoutFundingSource.paypalCredit)
-                    Text("Pay Later").tag(PayPalWebCheckoutFundingSource.paylater)
+                    Text("PayPal").tag(PayPalCheckoutFundingSource.paypal)
+                    Text("PayPal Credit").tag(PayPalCheckoutFundingSource.paypalCredit)
+                    Text("Pay Later").tag(PayPalCheckoutFundingSource.paylater)
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 ZStack {

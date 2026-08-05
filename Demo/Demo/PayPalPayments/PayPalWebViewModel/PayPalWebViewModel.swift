@@ -1,6 +1,6 @@
 import Foundation
 import CorePayments
-import PayPalWebPayments
+import PayPalPayments
 import FraudProtection
 
 @MainActor
@@ -14,12 +14,12 @@ class PayPalWebViewModel: ObservableObject {
     @Published var state = PayPalPaymentState()
     @Published var intent: Intent = .authorize
     @Published var order: Order?
-    @Published var checkoutResult: PayPalWebCheckoutResult?
+    @Published var checkoutResult: PayPalCheckoutResult?
     @Published var appSwitch = false
 
     let appSwitchURL = DemoEnvironment.sandbox.baseURL
 
-    var payPalWebCheckoutClient: PayPalWebCheckoutClient?
+    var payPalClient: PayPalClient?
 
     var orderID: String? {
         order?.id
@@ -36,11 +36,11 @@ class PayPalWebViewModel: ObservableObject {
         state.createdOrderResponse = .loading
 
         guard let client = try await getPayPalClient() else {
-            let message = "Error initializing PayPalWebCheckoutClient"
+            let message = "Error initializing PayPalClient"
             state.createdOrderResponse = .error(message: message)
             throw CheckoutError.clientInitializationFailed(message)
         }
-        payPalWebCheckoutClient = client
+        payPalClient = client
 
         let urlConfig: PayPalURLConfig
         do {
@@ -128,20 +128,20 @@ class PayPalWebViewModel: ObservableObject {
         }
     }
 
-    func paymentButtonTapped(funding: PayPalWebCheckoutFundingSource) {
+    func paymentButtonTapped(funding: PayPalCheckoutFundingSource) {
         Task {
             do {
                 state.approveResultResponse = .loading
 
-                if payPalWebCheckoutClient == nil {
-                    payPalWebCheckoutClient = try await getPayPalClient()
+                if payPalClient == nil {
+                    payPalClient = try await getPayPalClient()
                 }
-                guard let payPalWebCheckoutClient, let orderID = state.createOrder?.id else {
+                guard let payPalClient, let orderID = state.createOrder?.id else {
                     state.approveResultResponse = .error(message: "Missing PayPal client or order ID")
                     return
                 }
 
-                payPalWebCheckoutClient.start(orderID: orderID) { result in
+                payPalClient.start(orderID: orderID) { result in
                     switch result {
                     case .success(let paypalResult):
                         self.state.approveResultResponse = .loaded(
@@ -162,10 +162,10 @@ class PayPalWebViewModel: ObservableObject {
         }
     }
 
-    func getPayPalClient() async throws -> PayPalWebCheckoutClient? {
+    func getPayPalClient() async throws -> PayPalClient? {
         do {
             let config = try await configManager.getCoreConfig()
-            let payPalClient = PayPalWebCheckoutClient(config: config)
+            let payPalClient = PayPalClient(config: config)
             payPalDataCollector = PayPalDataCollector(config: config)
             return payPalClient
         } catch {
@@ -234,8 +234,8 @@ class PayPalWebViewModel: ObservableObject {
 
     // for testing until singleton router class is implemented
     func handleUniversalLinkReturn(_ url: URL) {
-        guard let payPalWebCheckoutClient else { return }
-        payPalWebCheckoutClient.handleReturnURL(url)
+        guard let payPalClient else { return }
+        payPalClient.handleReturnURL(url)
     }
 }
 

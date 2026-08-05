@@ -1,14 +1,14 @@
 import XCTest
 import AuthenticationServices
 @testable import CorePayments
-@testable import PayPalWebPayments
+@testable import PayPalPayments
 @testable import TestShared
 
 class PayPalClient_HandleReturnURL_Tests: XCTestCase {
 
     var config: CoreConfig!
     var mockWebAuthenticationSession: MockWebAuthenticationSession!
-    var payPalClient: PayPalWebCheckoutClient!
+    var payPalClient: PayPalClient!
     var mockNetworkingClient: MockNetworkingClient!
     var mockClientConfigAPI: MockClientConfigAPI!
     var mockCreateShopperSessionAPI: MockCreateShopperSessionAPI!
@@ -21,7 +21,7 @@ class PayPalClient_HandleReturnURL_Tests: XCTestCase {
         mockClientConfigAPI = MockClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)
         mockCreateShopperSessionAPI = MockCreateShopperSessionAPI(coreConfig: config)
 
-        payPalClient = PayPalWebCheckoutClient(
+        payPalClient = PayPalClient(
             config: config,
             clientConfigAPI: mockClientConfigAPI,
             createShopperSessionAPI: mockCreateShopperSessionAPI,
@@ -32,7 +32,7 @@ class PayPalClient_HandleReturnURL_Tests: XCTestCase {
     // MARK: - handleReturnURL tests
 
     func testHandleReturnURL_success_callsAppSwitchCompletionWithResult() {
-        var received: Result<PayPalWebCheckoutResult, CoreSDKError>?
+        var received: Result<PayPalCheckoutResult, CoreSDKError>?
         payPalClient.appSwitchCompletion = { received = $0 }
 
         let url = URL(string:
@@ -45,14 +45,14 @@ class PayPalClient_HandleReturnURL_Tests: XCTestCase {
             XCTAssertEqual(result.orderID, "ORDER123")
             XCTAssertEqual(result.payerID, "PAYER456")
         default:
-            XCTFail("Expected success with PayPalWebCheckoutResult")
+            XCTFail("Expected success with PayPalCheckoutResult")
         }
 
         XCTAssertNil(payPalClient.appSwitchCompletion)
     }
 
     func testHandleReturnURL_cancel_mapsToCheckoutCanceledError() {
-        var received: Result<PayPalWebCheckoutResult, CoreSDKError>?
+        var received: Result<PayPalCheckoutResult, CoreSDKError>?
         payPalClient.appSwitchCompletion = { received = $0 }
 
         let url = URL(string:
@@ -70,7 +70,7 @@ class PayPalClient_HandleReturnURL_Tests: XCTestCase {
     }
 
     func testHandleReturnURL_successPathMissingPayerID_isMalformedResultError() {
-        var received: Result<PayPalWebCheckoutResult, CoreSDKError>?
+        var received: Result<PayPalCheckoutResult, CoreSDKError>?
         payPalClient.appSwitchCompletion = { received = $0 }
 
         // Missing PayerID
@@ -90,7 +90,7 @@ class PayPalClient_HandleReturnURL_Tests: XCTestCase {
     }
 
     func testHandleReturnURL_successPathIncorrectPayerIdFormat_isMalformedResultError() {
-        var received: Result<PayPalWebCheckoutResult, CoreSDKError>?
+        var received: Result<PayPalCheckoutResult, CoreSDKError>?
         payPalClient.appSwitchCompletion = { received = $0 }
 
         // Should be PayerID
@@ -110,7 +110,7 @@ class PayPalClient_HandleReturnURL_Tests: XCTestCase {
     }
 
     func testHandleReturnURL_successPathIncorrectPayeridFormat_isMalformedResultError() {
-        var received: Result<PayPalWebCheckoutResult, CoreSDKError>?
+        var received: Result<PayPalCheckoutResult, CoreSDKError>?
         payPalClient.appSwitchCompletion = { received = $0 }
 
         // Should be PayerID
@@ -184,7 +184,7 @@ class PayPalClient_HandleReturnURL_Tests: XCTestCase {
     }
 
     func testHandleReturnURL_successPathMissingTokenID_isMalformedResultError() {
-        var received: Result<PayPalWebCheckoutResult, CoreSDKError>?
+        var received: Result<PayPalCheckoutResult, CoreSDKError>?
         payPalClient.appSwitchCompletion = { received = $0 }
 
         // Missing token
@@ -205,7 +205,7 @@ class PayPalClient_HandleReturnURL_Tests: XCTestCase {
 
 
     func testHandleReturnURL_successPathMissingApprovalSessionID_isMalformedResultError() {
-        var received: Result<PayPalWebCheckoutResult, CoreSDKError>?
+        var received: Result<PayPalCheckoutResult, CoreSDKError>?
         payPalClient.appSwitchCompletion = { received = $0 }
 
         // Missing token

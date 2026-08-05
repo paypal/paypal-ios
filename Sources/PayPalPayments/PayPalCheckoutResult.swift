@@ -1,7 +1,7 @@
 import Foundation
 
 /// The result of a PayPal web payment flow.
-public struct PayPalWebCheckoutResult {
+public struct PayPalCheckoutResult {
 
     /// The order ID associated with the transaction.
     public let orderID: String

@@ -1,5 +1,5 @@
 import XCTest
-@testable import PayPalWebPayments
+@testable import PayPalPayments
 
 class PayPalURLConfig_Tests: XCTestCase {
 

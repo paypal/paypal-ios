@@ -1,5 +1,5 @@
 import SwiftUI
-import PayPalWebPayments
+import PayPalPayments
 
 extension PayPalUserAction {
 

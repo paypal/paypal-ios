@@ -1,5 +1,5 @@
 import Foundation
-import PayPalWebPayments
+import PayPalPayments
 
 /// Shared factory for building a `PayPalUserIdentity` from the Demo app's
 /// `UserIdentityView` selection. Used by both PayPalWeb and Vault flows.

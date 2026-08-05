@@ -1,7 +1,7 @@
 import Foundation
 
 /// Builds the deep-link URLs used to app-switch into the PayPal app for checkout and vault flows.
-struct PayPalWebCheckoutURLBuilder {
+struct PayPalCheckoutURLBuilder {
 
     private enum FlowType: String {
         case checkout = "ecs"

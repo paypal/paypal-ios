@@ -1,10 +1,10 @@
 import Foundation
 
 /// Plain data holder for the analytics fields gathered over the lifetime of a checkout/vault attempt.
-/// This lives in `CorePayments` (rather than `PayPalWebPayments`) so `AnalyticsService`/`AnalyticsEventData`
-/// can reference it without creating a module dependency cycle, since `PayPalWebPayments` already depends on
-/// `CorePayments`. `PayPalWebPayments` populates it via a convenience initializer declared in its own module
-/// (see `PayPalCheckoutAnalyticsData.swift` under `Sources/PayPalWebPayments/Models`), since the types that
+/// This lives in `CorePayments` (rather than `PayPalPayments`) so `AnalyticsService`/`AnalyticsEventData`
+/// can reference it without creating a module dependency cycle, since `PayPalPayments` already depends on
+/// `CorePayments`. `PayPalPayments` populates it via a convenience initializer declared in its own module
+/// (see `PayPalCheckoutAnalyticsData.swift` under `Sources/PayPalPayments/Models`), since the types that
 /// initializer needs (`PayPalUserIdentity`, `PayPalURLConfig`, `PayPalUserAction`) live there.
 @_documentation(visibility: private)
 public final class PayPalCheckoutAnalyticsData {

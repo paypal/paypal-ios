@@ -1,16 +1,16 @@
 import XCTest
 import AuthenticationServices
 @testable import CorePayments
-@testable import PayPalWebPayments
+@testable import PayPalPayments
 @testable import TestShared
 
 // swiftlint:disable type_body_length file_length
-class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
+class PayPalClient_CreateSession_Tests: XCTestCase {
 
     // MARK: - Properties
 
     var config: CoreConfig!
-    var payPalClient: PayPalWebCheckoutClient!
+    var payPalClient: PayPalClient!
     var mockWebAuthenticationSession: MockWebAuthenticationSession!
     var mockNetworkingClient: MockNetworkingClient!
     var mockClientConfigAPI: MockClientConfigAPI!
@@ -68,7 +68,7 @@ class PayPalWebCheckoutClient_CreateSession_Tests: XCTestCase {
         mockCreateShopperSessionAPI = MockCreateShopperSessionAPI(coreConfig: config)
         mockURLOpener = MockURLOpener()
 
-        payPalClient = PayPalWebCheckoutClient(
+        payPalClient = PayPalClient(
             config: config,
             clientConfigAPI: mockClientConfigAPI,
             createShopperSessionAPI: mockCreateShopperSessionAPI,
