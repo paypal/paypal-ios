@@ -566,12 +566,10 @@ public class PayPalClient: NSObject {
                 url: payPalCheckoutURLComponents,
                 context: self,
                 sessionDidDisplay: { [weak self] didDisplay in
-                    if didDisplay {
-                        self?.analyticsService?.sendEvent(
-                            "paypal-payments:checkout:auth-challenge-presentation:succeeded",
-                            checkoutAnalyticsData: self?.analyticsData
-                        )
-                    }
+                    let event = didDisplay
+                        ? "paypal-payments:checkout:auth-challenge-presentation:succeeded"
+                        : "paypal-payments:checkout:auth-challenge-presentation:failed"
+                    self?.analyticsService?.sendEvent(event, checkoutAnalyticsData: self?.analyticsData)
                 },
                 sessionDidCancel: { [weak self] in
                     guard let self else { return }
@@ -645,8 +643,17 @@ public class PayPalClient: NSObject {
         completion: @escaping (Result<PayPalCheckoutResult, CoreSDKError>) -> Void
     ) {
         defer { analyticsData = nil }
+        analyticsService?.sendEvent(
+            "paypal-payments:checkout:handle-return:started",
+            checkoutAnalyticsData: analyticsData
+        )
         let sdkError = PayPalError.checkoutCanceledError
         sendBrowserLoginCancelEvent(errorDescription: sdkError.errorDescription)
+        analyticsService?.sendEvent(
+            "paypal-payments:checkout:handle-return:canceled",
+            errorDescription: sdkError.errorDescription,
+            checkoutAnalyticsData: analyticsData
+        )
         sessionTask = nil
         notifyCheckoutFailure(with: sdkError, completion: completion)
     }
@@ -657,10 +664,14 @@ public class PayPalClient: NSObject {
         completion: @escaping (Result<PayPalCheckoutResult, CoreSDKError>) -> Void
     ) {
         defer { analyticsData = nil }
+        analyticsService?.sendEvent(
+            "paypal-payments:checkout:handle-return:started",
+            checkoutAnalyticsData: analyticsData
+        )
         if let error {
             let sdkError = PayPalError.webSessionError(error)
             analyticsService?.sendEvent(
-                "paypal-payments:checkout:auth-challenge-presentation:failed",
+                "paypal-payments:checkout:handle-return:failed",
                 errorDescription: sdkError.errorDescription,
                 checkoutAnalyticsData: analyticsData
             )
@@ -671,16 +682,29 @@ public class PayPalClient: NSObject {
         if let url {
             if let opType = getQueryStringParameter(url: url.absoluteString, param: "opType"),
                 opType == "cancel" {
+                analyticsService?.sendEvent(
+                    "paypal-payments:checkout:handle-return:canceled",
+                    checkoutAnalyticsData: analyticsData
+                )
                 sessionTask = nil
                 notifyCheckoutCancelWithError(
                     with: PayPalError.checkoutCanceledError, completion: completion
                 )
             } else if let orderID = getQueryStringParameter(url: url.absoluteString, param: "token"),
                 let payerID = getQueryStringParameter(url: url.absoluteString, param: "PayerID") {
+                analyticsService?.sendEvent(
+                    "paypal-payments:checkout:handle-return:succeeded",
+                    checkoutAnalyticsData: analyticsData
+                )
                 sessionTask = nil
                 let result = PayPalCheckoutResult(orderID: orderID, payerID: payerID)
                 notifyCheckoutSuccess(for: result, completion: completion)
             } else {
+                analyticsService?.sendEvent(
+                    "paypal-payments:checkout:handle-return:failed",
+                    errorDescription: PayPalError.malformedResultError.errorDescription,
+                    checkoutAnalyticsData: analyticsData
+                )
                 sessionTask = nil
                 notifyCheckoutFailure(with: PayPalError.malformedResultError, completion: completion)
             }
@@ -691,8 +715,17 @@ public class PayPalClient: NSObject {
         completion: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void
     ) {
         defer { analyticsData = nil }
+        analyticsService?.sendEvent(
+            "paypal-payments:checkout:handle-return:started",
+            checkoutAnalyticsData: analyticsData
+        )
         let sdkError = PayPalError.vaultCanceledError
         sendBrowserLoginCancelEvent(errorDescription: sdkError.errorDescription)
+        analyticsService?.sendEvent(
+            "paypal-payments:checkout:handle-return:canceled",
+            errorDescription: sdkError.errorDescription,
+            checkoutAnalyticsData: analyticsData
+        )
         sessionTask = nil
         notifyVaultCancelWithError(with: sdkError, completion: completion)
     }
@@ -703,14 +736,27 @@ public class PayPalClient: NSObject {
         completion: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void
     ) {
         defer { analyticsData = nil }
+        analyticsService?.sendEvent(
+            "paypal-payments:checkout:handle-return:started",
+            checkoutAnalyticsData: analyticsData
+        )
         if let error {
             let sdkError = PayPalError.webSessionError(error)
+            analyticsService?.sendEvent(
+                "paypal-payments:checkout:handle-return:failed",
+                errorDescription: sdkError.errorDescription,
+                checkoutAnalyticsData: analyticsData
+            )
             sessionTask = nil
             notifyVaultFailure(with: sdkError, completion: completion)
         }
 
         if let url {
             if url.path.contains("cancel") {
+                analyticsService?.sendEvent(
+                    "paypal-payments:checkout:handle-return:canceled",
+                    checkoutAnalyticsData: analyticsData
+                )
                 sessionTask = nil
                 notifyVaultCancelWithError(with: PayPalError.vaultCanceledError, completion: completion)
             } else if
@@ -719,10 +765,19 @@ public class PayPalClient: NSObject {
                     url: url.absoluteString, param: "approval_session_id"
                 ),
                 !tokenID.isEmpty, !approvalSessionID.isEmpty {
+                analyticsService?.sendEvent(
+                    "paypal-payments:checkout:handle-return:succeeded",
+                    checkoutAnalyticsData: analyticsData
+                )
                 sessionTask = nil
                 let vaultResult = PayPalVaultResult(tokenID: tokenID, approvalSessionID: approvalSessionID)
                 notifyVaultSuccess(for: vaultResult, completion: completion)
             } else {
+                analyticsService?.sendEvent(
+                    "paypal-payments:checkout:handle-return:failed",
+                    errorDescription: PayPalError.payPalVaultResponseError.errorDescription,
+                    checkoutAnalyticsData: analyticsData
+                )
                 sessionTask = nil
                 notifyVaultFailure(with: PayPalError.payPalVaultResponseError, completion: completion)
             }
