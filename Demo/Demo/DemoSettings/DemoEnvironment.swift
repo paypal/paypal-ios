@@ -13,7 +13,7 @@ enum DemoEnvironment: String, CaseIterable {
             return "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
         case .live:
             // we can replace during testing
-            return "https://sdk-sample-merchant-server.herokuapp.com"
+            return "https://gse-appstestbed.com/PPCP/production_us"
         #if DEBUG
         case .custom:
             // The custom REST/GraphQL/clientID fields configure the CorePayments SDK only
@@ -24,6 +24,22 @@ enum DemoEnvironment: String, CaseIterable {
             let merchantBaseURL = DemoSettings.customEnvironment?.merchantBaseURL?
                 .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
             return merchantBaseURL.isEmpty ? DemoEnvironment.sandbox.baseURL : merchantBaseURL
+        #endif
+        }
+    }
+
+    /// The Live merchant proxies the PayPal REST API, so it expects REST paths
+    /// (`v2/checkout/orders`) and snake_case bodies. The sandbox sample server instead exposes
+    /// its own shorthand routes (`/orders`) and accepts camelCase.
+    var usesPayPalRESTContract: Bool {
+        switch self {
+        case .sandbox:
+            return false
+        case .live:
+            return true
+        #if DEBUG
+        case .custom:
+            return false
         #endif
         }
     }

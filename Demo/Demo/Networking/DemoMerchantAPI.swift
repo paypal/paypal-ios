@@ -4,6 +4,41 @@ import CorePayments
 /// API Client used to create and process orders on sample merchant server
 final class DemoMerchantAPI {
 
+    /// Merchant endpoints, which differ per environment: the Live merchant proxies the PayPal
+    /// REST API, while the sandbox sample server exposes its own shorthand routes.
+    private enum Endpoint {
+
+        case orders
+        case orderCapture(orderID: String)
+        case orderAuthorize(orderID: String)
+        case setupTokens
+        case paymentTokens
+
+        func path(for environment: DemoEnvironment) -> String {
+            environment.usesPayPalRESTContract ? restPath : sandboxPath
+        }
+
+        private var sandboxPath: String {
+            switch self {
+            case .orders: return "/orders"
+            case .orderCapture(let orderID): return "/orders/\(orderID)/capture"
+            case .orderAuthorize(let orderID): return "/orders/\(orderID)/authorize"
+            case .setupTokens: return "/setup-tokens"
+            case .paymentTokens: return "/payment-tokens"
+            }
+        }
+
+        private var restPath: String {
+            switch self {
+            case .orders: return "/v2/checkout/orders"
+            case .orderCapture(let orderID): return "/v2/checkout/orders/\(orderID)/capture"
+            case .orderAuthorize(let orderID): return "/v2/checkout/orders/\(orderID)/authorize"
+            case .setupTokens: return "/v3/vault/setup-tokens"
+            case .paymentTokens: return "/v3/vault/payment-tokens"
+            }
+        }
+    }
+
     static let sharedService = DemoMerchantAPI()
 
     // To hardcode an order ID and client ID for this demo app, set the below values
@@ -22,7 +57,7 @@ final class DemoMerchantAPI {
         do {
             let requestBody = CreateSetupTokenParam(customer: VaultCustomer(id: customerID), paymentSource: paymentSourceType)
 
-            guard let url = buildBaseURL(with: "/setup-tokens") else {
+            guard let url = buildURL(for: .setupTokens) else {
                 throw URLResponseError.invalidURL
             }
             // make it mutable to add header fields for partner scenarios
@@ -37,7 +72,7 @@ final class DemoMerchantAPI {
     func createPaymentToken(setupToken: String, selectedMerchantIntegration: MerchantIntegration) async throws -> PaymentTokenResponse {
         do {
             let requestBody = PaymentTokenParam(paymentSource: PaymentTokenParam.PaymentSource(setupTokenID: setupToken))
-            guard let url = buildBaseURL(with: "/payment-tokens") else {
+            guard let url = buildURL(for: .paymentTokens) else {
                 throw URLResponseError.invalidURL
             }
             // make it mutable to add header value for partner scenarios
@@ -52,8 +87,10 @@ final class DemoMerchantAPI {
     }
 
     func completeOrder(intent: Intent, orderID: String, payPalClientMetadataID: String? = nil) async throws -> Order {
-        let intent = intent == .authorize ? "authorize" : "capture"
-        guard let url = buildBaseURL(with: "/orders/\(orderID)/\(intent)") else {
+        let endpoint: Endpoint = intent == .authorize
+            ? .orderAuthorize(orderID: orderID)
+            : .orderCapture(orderID: orderID)
+        guard let url = buildURL(for: endpoint) else {
             throw URLResponseError.invalidURL
         }
 
@@ -70,7 +107,7 @@ final class DemoMerchantAPI {
         selectedMerchantIntegration: MerchantIntegration,
         payPalClientMetadataID: String? = nil
     ) async throws -> Order {
-        guard let url = buildBaseURL(with: "/orders/\(orderID)/capture") else {
+        guard let url = buildURL(for: .orderCapture(orderID: orderID)) else {
             throw URLResponseError.invalidURL
         }
         
@@ -87,7 +124,7 @@ final class DemoMerchantAPI {
         selectedMerchantIntegration: MerchantIntegration,
         payPalClientMetadataID: String? = nil
     ) async throws -> Order {
-        guard let url = buildBaseURL(with: "/orders/\(orderID)/authorize") else {
+        guard let url = buildURL(for: .orderAuthorize(orderID: orderID)) else {
             throw URLResponseError.invalidURL
         }
         
@@ -107,7 +144,7 @@ final class DemoMerchantAPI {
         if let injectedOrderID = InjectedValues.orderID {
             return Order(id: injectedOrderID, status: "CREATED")
         }
-        guard let url = buildBaseURL(with: "/orders") else {
+        guard let url = buildURL(for: .orders) else {
             throw URLResponseError.invalidURL
         }
 
@@ -139,6 +176,9 @@ final class DemoMerchantAPI {
 
     private func buildURLRequest<T>(method: String, url: URL, body: T) -> URLRequest where T: Encodable {
         let encoder = JSONEncoder()
+        if DemoSettings.environment.usesPayPalRESTContract {
+            encoder.keyEncodingStrategy = .convertToSnakeCase
+        }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -170,8 +210,9 @@ final class DemoMerchantAPI {
         }
     }
 
-    private func buildBaseURL(with endpoint: String) -> URL? {
-        return URL(string: DemoSettings.environment.baseURL + endpoint)
+    private func buildURL(for endpoint: Endpoint) -> URL? {
+        let environment = DemoSettings.environment
+        return URL(string: environment.baseURL + endpoint.path(for: environment))
     }
 
     private func buildPayPalURL(with endpoint: String) -> URL? {
