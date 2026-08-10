@@ -39,7 +39,7 @@ final class DemoMerchantAPI {
         }
     }
 
-    static let sharedService = DemoMerchantAPI()
+    static let shared = DemoMerchantAPI()
 
     private init() {}
 

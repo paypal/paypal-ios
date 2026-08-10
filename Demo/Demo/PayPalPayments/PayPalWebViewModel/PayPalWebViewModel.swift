@@ -111,7 +111,7 @@ class PayPalWebViewModel: ObservableObject {
             )
 
             state.createdOrderResponse = .loading
-            let order = try await DemoMerchantAPI.sharedService.createOrder(
+            let order = try await DemoMerchantAPI.shared.createOrder(
                 orderParams: params,
                 selectedMerchantIntegration: DemoSettings.merchantIntegration
             )
@@ -177,7 +177,7 @@ class PayPalWebViewModel: ObservableObject {
             setLoadingState()
             if let orderID = state.createOrder?.id {
                 let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
-                let order = try await DemoMerchantAPI.sharedService.completeOrder(
+                let order = try await DemoMerchantAPI.shared.completeOrder(
                     intent: intent,
                     orderID: orderID,
                     payPalClientMetadataID: payPalClientMetadataID

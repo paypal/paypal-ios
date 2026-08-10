@@ -42,7 +42,7 @@ class CardPaymentViewModel: ObservableObject {
 
         do {
             DispatchQueue.main.async { self.state.createdOrderResponse = .loading }
-            let order = try await DemoMerchantAPI.sharedService.createOrder(
+            let order = try await DemoMerchantAPI.shared.createOrder(
                 orderParams: params, selectedMerchantIntegration: selectedMerchantIntegration
             )
             DispatchQueue.main.async {
@@ -63,7 +63,7 @@ class CardPaymentViewModel: ObservableObject {
                 self.state.capturedOrderResponse = .loading
             }
             let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
-            let order = try await DemoMerchantAPI.sharedService.captureOrder(
+            let order = try await DemoMerchantAPI.shared.captureOrder(
                 orderID: orderID,
                 selectedMerchantIntegration: selectedMerchantIntegration,
                 payPalClientMetadataID: payPalClientMetadataID
@@ -85,7 +85,7 @@ class CardPaymentViewModel: ObservableObject {
                 self.state.authorizedOrderResponse = .loading
             }
             let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
-            let order = try await DemoMerchantAPI.sharedService.authorizeOrder(
+            let order = try await DemoMerchantAPI.shared.authorizeOrder(
                 orderID: orderID,
                 selectedMerchantIntegration: selectedMerchantIntegration,
                 payPalClientMetadataID: payPalClientMetadataID
