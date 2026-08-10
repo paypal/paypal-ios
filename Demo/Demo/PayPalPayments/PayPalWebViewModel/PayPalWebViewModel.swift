@@ -15,7 +15,6 @@ class PayPalWebViewModel: ObservableObject {
     @Published var intent: Intent = .authorize
     @Published var order: Order?
     @Published var checkoutResult: PayPalCheckoutResult?
-    @Published var appSwitch = false
 
     let appSwitchURL = DemoEnvironment.sandbox.baseURL
 
@@ -93,22 +92,19 @@ class PayPalWebViewModel: ObservableObject {
             let amountRequest = DemoFixtures.amount
 
             var paymentSource: OrderPaymentSource?
+            
+            let experience = PayPalExperienceContext(
+                returnUrl: "\(appSwitchURL)/success",
+                cancelUrl: "\(appSwitchURL)/cancel",
+                nativeApp: NativeApp(appUrl: appSwitchURL)
+            )
 
-            if appSwitch || shouldVault {
-                let experience = PayPalExperienceContext(
-                    returnUrl: appSwitchURL + "/success",
-                    cancelUrl: appSwitchURL + "/cancel",
-                    appSwitchContext: appSwitch ? AppSwitchContext(appUrl: appSwitchURL) : nil
-                )
+            let attributes: Attributes? = shouldVault ? Attributes(vault: DemoFixtures.vaultAttributes) : nil
 
-                let attributes: Attributes? = shouldVault ? Attributes(vault: DemoFixtures.vaultAttributes) : nil
-
-                let paypal = PayPalSource(attributes: attributes, experienceContext: experience)
-                paymentSource = .paypal(OrderPayPalPaymentSource(paypal: paypal))
-            }
+            let paypal = PayPalSource(attributes: attributes, experienceContext: experience)
+            paymentSource = .paypal(OrderPayPalPaymentSource(paypal: paypal))
 
             let params = CreateOrderParams(
-                applicationContext: nil,
                 intent: intent.rawValue,
                 purchaseUnits: [PurchaseUnit(amount: amountRequest)],
                 paymentSource: paymentSource

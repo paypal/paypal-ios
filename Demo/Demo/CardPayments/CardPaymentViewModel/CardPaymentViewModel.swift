@@ -35,7 +35,6 @@ class CardPaymentViewModel: ObservableObject {
         }
 
         let params = CreateOrderParams(
-            applicationContext: nil,
             intent: intent,
             purchaseUnits: [PurchaseUnit(amount: amountRequest)],
             paymentSource: paymentSource
