@@ -7,25 +7,20 @@ class CardVaultViewModel: VaultViewModel {
 
     let configManager = CoreConfigManager(domain: "Card Vault")
 
-    func vault(card: Card, setupToken: String) async {
+    func vault(card: Card, setupToken: String) {
         DispatchQueue.main.async {
             self.state.updateSetupTokenResponse = .loading
         }
-        do {
-            let config = try await configManager.getCoreConfig()
-            let cardClient = CardClient(config: config)
-            let cardVaultRequest = CardVaultRequest(card: card, setupTokenID: setupToken)
-            cardClient.vault(cardVaultRequest) { result in
-                switch result {
-                case .success(let cardVaultResult):
-                    self.setUpdateSetupTokenResult(vaultResult: cardVaultResult, vaultError: nil)
-                case .failure(let error):
-                    self.setUpdateSetupTokenResult(vaultResult: nil, vaultError: error)
-                }
+        let config = configManager.getCoreConfig()
+        let cardClient = CardClient(config: config)
+        let cardVaultRequest = CardVaultRequest(card: card, setupTokenID: setupToken)
+        cardClient.vault(cardVaultRequest) { result in
+            switch result {
+            case .success(let cardVaultResult):
+                self.setUpdateSetupTokenResult(vaultResult: cardVaultResult, vaultError: nil)
+            case .failure(let error):
+                self.setUpdateSetupTokenResult(vaultResult: nil, vaultError: error)
             }
-        } catch {
-            self.setUpdateSetupTokenResult(vaultResult: nil, vaultError: error)
-            print("failed in updating setup token. \(error.localizedDescription)")
         }
     }
 

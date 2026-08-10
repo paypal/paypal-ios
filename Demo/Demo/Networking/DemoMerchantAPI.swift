@@ -149,15 +149,16 @@ final class DemoMerchantAPI {
     ///   - environment: the current environment
     /// - Returns: a String representing an clientID
     /// - Throws: an error explaining why fetch clientID failed
-    public func getClientID(environment: DemoEnvironment, selectedMerchantIntegration: MerchantIntegration) async -> String? {
-
+    public func getClientID(environment: DemoEnvironment) -> String {
+        let defaultEnvironment = DemoSettings.merchantIntegration.clientID
+        
         #if DEBUG
         if environment == .custom {
-            return DemoSettings.customEnvironment?.clientID
+            return DemoSettings.customEnvironment?.clientID ?? defaultEnvironment
         }
         #endif
 
-        return selectedMerchantIntegration.clientID
+        return defaultEnvironment
     }
 
     // MARK: Private methods

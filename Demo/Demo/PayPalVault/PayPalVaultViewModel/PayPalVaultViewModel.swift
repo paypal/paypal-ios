@@ -68,14 +68,9 @@ class PayPalVaultViewModel: VaultViewModel {
         }
     }
 
-    func getPayPalClient() async throws -> PayPalClient? {
-        do {
-            let config = try await configManager.getCoreConfig()
-            return PayPalClient(config: config)
-        } catch {
-            state.setupTokenResponse = .error(message: error.localizedDescription)
-            return nil
-        }
+    func getPayPalClient() -> PayPalClient? {
+        let config = configManager.getCoreConfig()
+        return PayPalClient(config: config)
     }
 
     func handleUniversalLinkReturn(_ url: URL) {

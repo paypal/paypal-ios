@@ -158,18 +158,11 @@ class PayPalWebViewModel: ObservableObject {
         }
     }
 
-    func getPayPalClient() async throws -> PayPalClient? {
-        do {
-            let config = try await configManager.getCoreConfig()
-            let payPalClient = PayPalClient(config: config)
-            payPalDataCollector = PayPalDataCollector(config: config)
-            return payPalClient
-        } catch {
-            DispatchQueue.main.async {
-                self.state.createdOrderResponse = .error(message: error.localizedDescription)
-            }
-            return nil
-        }
+    func getPayPalClient() -> PayPalClient? {
+        let config = configManager.getCoreConfig()
+        let payPalClient = PayPalClient(config: config)
+        payPalDataCollector = PayPalDataCollector(config: config)
+        return payPalClient
     }
 
     func completeTransaction() async throws {
