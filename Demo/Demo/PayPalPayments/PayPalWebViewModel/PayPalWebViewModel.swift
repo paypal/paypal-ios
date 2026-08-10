@@ -16,7 +16,7 @@ class PayPalWebViewModel: ObservableObject {
     @Published var order: Order?
     @Published var checkoutResult: PayPalCheckoutResult?
 
-    let appSwitchURL = DemoEnvironment.sandbox.baseURL
+    let appSwitchURL = DemoSettings.environment.baseURL
 
     var payPalClient: PayPalClient?
 

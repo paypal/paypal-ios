@@ -11,7 +11,7 @@ struct CreateSetupTokenParam: Encodable {
     }
 }
 
-let baseReturnHost = "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
+let baseReturnHost = DemoSettings.environment.baseURL
 
 struct VaultExperienceContext: Encodable {
 
