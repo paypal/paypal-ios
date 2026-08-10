@@ -34,11 +34,7 @@ class PayPalWebViewModel: ObservableObject {
     ) async throws {
         state.createdOrderResponse = .loading
 
-        guard let client = try await getPayPalClient() else {
-            let message = "Error initializing PayPalClient"
-            state.createdOrderResponse = .error(message: message)
-            throw CheckoutError.clientInitializationFailed(message)
-        }
+        let client = makePayPalClient()
         payPalClient = client
 
         let urlConfig: PayPalURLConfig
@@ -125,40 +121,34 @@ class PayPalWebViewModel: ObservableObject {
     }
 
     func paymentButtonTapped(funding: PayPalCheckoutFundingSource) {
-        Task {
-            do {
-                state.approveResultResponse = .loading
+        state.approveResultResponse = .loading
 
-                if payPalClient == nil {
-                    payPalClient = try await getPayPalClient()
-                }
-                guard let payPalClient, let orderID = state.createOrder?.id else {
-                    state.approveResultResponse = .error(message: "Missing PayPal client or order ID")
-                    return
-                }
+        if payPalClient == nil {
+            payPalClient = makePayPalClient()
+        }
+        guard let payPalClient, let orderID = state.createOrder?.id else {
+            state.approveResultResponse = .error(message: "Missing PayPal client or order ID")
+            return
+        }
 
-                payPalClient.start(orderID: orderID) { result in
-                    switch result {
-                    case .success(let paypalResult):
-                        self.state.approveResultResponse = .loaded(
-                            PayPalPaymentState.ApprovalResult(id: paypalResult.orderID, status: "APPROVED")
-                        )
-                        self.checkoutResult = paypalResult
-                    case .failure(let error):
-                        if error == PayPalError.checkoutCanceledError {
-                            self.state.approveResultResponse = .error(message: "PayPal checkout was canceled.")
-                        } else {
-                            self.state.approveResultResponse = .error(message: error.localizedDescription)
-                        }
-                    }
+        payPalClient.start(orderID: orderID) { result in
+            switch result {
+            case .success(let paypalResult):
+                self.state.approveResultResponse = .loaded(
+                    PayPalPaymentState.ApprovalResult(id: paypalResult.orderID, status: "APPROVED")
+                )
+                self.checkoutResult = paypalResult
+            case .failure(let error):
+                if error == PayPalError.checkoutCanceledError {
+                    self.state.approveResultResponse = .error(message: "PayPal checkout was canceled.")
+                } else {
+                    self.state.approveResultResponse = .error(message: error.localizedDescription)
                 }
-            } catch {
-                state.createdOrderResponse = .error(message: error.localizedDescription)
             }
         }
     }
 
-    func getPayPalClient() -> PayPalClient? {
+    func makePayPalClient() -> PayPalClient {
         let config = configManager.getCoreConfig()
         let payPalClient = PayPalClient(config: config)
         payPalDataCollector = PayPalDataCollector(config: config)
