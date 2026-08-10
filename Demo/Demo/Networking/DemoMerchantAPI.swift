@@ -15,16 +15,20 @@ final class DemoMerchantAPI {
         case paymentTokens
 
         func path(for environment: DemoEnvironment) -> String {
-            guard environment.usesPayPalRESTContract else {
-                switch self {
-                case .orders: return "/orders"
-                case .orderCapture(let orderID): return "/orders/\(orderID)/capture"
-                case .orderAuthorize(let orderID): return "/orders/\(orderID)/authorize"
-                case .setupTokens: return "/setup-tokens"
-                case .paymentTokens: return "/payment-tokens"
-                }
-            }
+            environment.usesPayPalRESTContract ? restPath : sandboxPath
+        }
 
+        private var sandboxPath: String {
+            switch self {
+            case .orders: return "/orders"
+            case .orderCapture(let orderID): return "/orders/\(orderID)/capture"
+            case .orderAuthorize(let orderID): return "/orders/\(orderID)/authorize"
+            case .setupTokens: return "/setup-tokens"
+            case .paymentTokens: return "/payment-tokens"
+            }
+        }
+
+        private var restPath: String {
             switch self {
             case .orders: return "/v2/checkout/orders"
             case .orderCapture(let orderID): return "/v2/checkout/orders/\(orderID)/capture"
