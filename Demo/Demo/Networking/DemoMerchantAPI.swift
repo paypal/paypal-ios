@@ -207,28 +207,6 @@ final class DemoMerchantAPI {
         URL(string: "https://api.sandbox.paypal.com" + endpoint)
     }
 
-    private func fetchClientID(environment: DemoEnvironment, selectedMerchantIntegration: MerchantIntegration) async -> String? {
-        do {
-            let clientIDRequest = ClientIDRequest()
-            let request = try createUrlRequest(
-                clientIDRequest: clientIDRequest, environment: environment, selectedMerchantIntegration: selectedMerchantIntegration
-            )
-            let (data, response) = try await URLSession.shared.performRequest(with: request)
-            guard let response = response as? HTTPURLResponse else {
-                throw URLResponseError.serverError
-            }
-            switch response.statusCode {
-            case 200..<300:
-                let clientIDResponse: ClientIDResponse = try parse(from: data)
-                return clientIDResponse.clientID
-            default: throw URLResponseError.dataParsingError
-            }
-        } catch {
-            print("Error in fetching clientID")
-            return nil
-        }
-    }
-    
     private func createUrlRequest(
         clientIDRequest: ClientIDRequest,
         environment: DemoEnvironment,
