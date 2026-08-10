@@ -94,8 +94,8 @@ class PayPalWebViewModel: ObservableObject {
             var paymentSource: OrderPaymentSource?
             
             let experience = PayPalExperienceContext(
-                returnUrl: appSwitchURL + "/success",
-                cancelUrl: appSwitchURL + "/cancel",
+                returnUrl: "\(appSwitchURL)/success",
+                cancelUrl: "\(appSwitchURL)/cancel",
                 nativeApp: NativeApp(appUrl: appSwitchURL)
             )
 
