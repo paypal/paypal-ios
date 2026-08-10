@@ -45,11 +45,13 @@ final class DemoMerchantAPI {
 
     func createSetupToken(
         customerID: String? = nil,
-        selectedMerchantIntegration: MerchantIntegration,
-        paymentSourceType: PaymentSourceType
+        integration: MerchantIntegration,
+        paymentSource: PaymentSourceType
     ) async throws -> CreateSetupTokenResponse {
         do {
-            let requestBody = CreateSetupTokenParam(customer: VaultCustomer(id: customerID), paymentSource: paymentSourceType)
+            let customer = VaultCustomer(id: customerID)
+            let requestBody =
+                CreateSetupTokenParam(customer: customer, paymentSource: paymentSource)
 
             guard let url = buildURL(for: .setupTokens) else {
                 throw URLResponseError.invalidURL
@@ -63,9 +65,13 @@ final class DemoMerchantAPI {
         }
     }
 
-    func createPaymentToken(setupToken: String, selectedMerchantIntegration: MerchantIntegration) async throws -> PaymentTokenResponse {
+    func createPaymentToken(
+        setupToken: String,
+        integration: MerchantIntegration
+    ) async throws -> PaymentTokenResponse {
         do {
-            let requestBody = PaymentTokenParam(paymentSource: PaymentTokenParam.PaymentSource(setupTokenID: setupToken))
+            let paymentSource = PaymentTokenParam.PaymentSource(setupTokenID: setupToken)
+            let requestBody = PaymentTokenParam(paymentSource: paymentSource)
             guard let url = buildURL(for: .paymentTokens) else {
                 throw URLResponseError.invalidURL
             }
@@ -80,7 +86,11 @@ final class DemoMerchantAPI {
         }
     }
 
-    func completeOrder(intent: Intent, orderID: String, payPalClientMetadataID: String? = nil) async throws -> Order {
+    func completeOrder(
+        intent: Intent,
+        orderID: String,
+        clientMetadataID: String? = nil
+    ) async throws -> Order {
         let endpoint: Endpoint = intent == .authorize
             ? .orderAuthorize(orderID: orderID)
             : .orderCapture(orderID: orderID)
@@ -89,8 +99,8 @@ final class DemoMerchantAPI {
         }
 
         var urlRequest = buildURLRequest(method: "POST", url: url, body: EmptyBodyParams())
-        if let payPalClientMetadataID {
-            urlRequest.addValue(payPalClientMetadataID, forHTTPHeaderField: "PayPal-Client-Metadata-Id")
+        if let clientMetadataID {
+            urlRequest.addValue(clientMetadataID, forHTTPHeaderField: "PayPal-Client-Metadata-Id")
         }
         let data = try await data(for: urlRequest)
         return try parse(from: data)
@@ -98,16 +108,16 @@ final class DemoMerchantAPI {
 
     func captureOrder(
         orderID: String,
-        selectedMerchantIntegration: MerchantIntegration,
-        payPalClientMetadataID: String? = nil
+        integration: MerchantIntegration,
+        clientMetadataID: String? = nil
     ) async throws -> Order {
         guard let url = buildURL(for: .orderCapture(orderID: orderID)) else {
             throw URLResponseError.invalidURL
         }
         
         var urlRequest = buildURLRequest(method: "POST", url: url, body: EmptyBodyParams())
-        if let payPalClientMetadataID {
-            urlRequest.addValue(payPalClientMetadataID, forHTTPHeaderField: "PayPal-Client-Metadata-Id")
+        if let clientMetadataID {
+            urlRequest.addValue(clientMetadataID, forHTTPHeaderField: "PayPal-Client-Metadata-Id")
         }
         let data = try await data(for: urlRequest)
         return try parse(from: data)
@@ -115,26 +125,31 @@ final class DemoMerchantAPI {
     
     func authorizeOrder(
         orderID: String,
-        selectedMerchantIntegration: MerchantIntegration,
-        payPalClientMetadataID: String? = nil
+        integration: MerchantIntegration,
+        clientMetadataID: String? = nil
     ) async throws -> Order {
         guard let url = buildURL(for: .orderAuthorize(orderID: orderID)) else {
             throw URLResponseError.invalidURL
         }
         
         var urlRequest = buildURLRequest(method: "POST", url: url, body: EmptyBodyParams())
-        if let payPalClientMetadataID {
-            urlRequest.addValue(payPalClientMetadataID, forHTTPHeaderField: "PayPal-Client-Metadata-Id")
+        if let clientMetadataID {
+            urlRequest.addValue(clientMetadataID, forHTTPHeaderField: "PayPal-Client-Metadata-Id")
         }
         let data = try await data(for: urlRequest)
         return try parse(from: data)
     }
     
-    /// This function replicates a way a merchant may go about creating an order on their server and is not part of the SDK flow.
+    /// This function replicates a way a merchant may go about creating an order on their server
+    /// and is not part of the SDK flow.
+    /// 
     /// - Parameter orderParams: the parameters to create the order with
     /// - Returns: an order
     /// - Throws: an error explaining why create order failed
-    func createOrder(orderParams: CreateOrderParams, selectedMerchantIntegration: MerchantIntegration) async throws -> Order {
+    func createOrder(
+        orderParams: CreateOrderParams,
+        integration: MerchantIntegration
+    ) async throws -> Order {
         guard let url = buildURL(for: .orders) else {
             throw URLResponseError.invalidURL
         }
@@ -163,7 +178,7 @@ final class DemoMerchantAPI {
 
     // MARK: Private methods
 
-    private func buildURLRequest<T>(method: String, url: URL, body: T) -> URLRequest where T: Encodable {
+    private func buildURLRequest<T: Encodable>(method: String, url: URL, body: T) -> URLRequest {
         let encoder = JSONEncoder()
         if DemoSettings.environment.usesPayPalRESTContract {
             encoder.keyEncodingStrategy = .convertToSnakeCase

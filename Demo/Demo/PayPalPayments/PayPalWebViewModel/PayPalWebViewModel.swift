@@ -109,7 +109,7 @@ class PayPalWebViewModel: ObservableObject {
             state.createdOrderResponse = .loading
             let order = try await DemoMerchantAPI.shared.createOrder(
                 orderParams: params,
-                selectedMerchantIntegration: DemoSettings.merchantIntegration
+                integration: DemoSettings.merchantIntegration
             )
             self.order = order
             state.createdOrderResponse = .loaded(order)
@@ -163,7 +163,7 @@ class PayPalWebViewModel: ObservableObject {
                 let order = try await DemoMerchantAPI.shared.completeOrder(
                     intent: intent,
                     orderID: orderID,
-                    payPalClientMetadataID: payPalClientMetadataID
+                    clientMetadataID: payPalClientMetadataID
                 )
                 setOrderCompletionLoadedState(order: order)
             }
