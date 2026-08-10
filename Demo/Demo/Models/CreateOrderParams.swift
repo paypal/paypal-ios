@@ -1,15 +1,8 @@
 struct CreateOrderParams: Encodable {
 
-    var applicationContext: ApplicationContext?
     var intent: String
     var purchaseUnits: [PurchaseUnit]
     var paymentSource: OrderPaymentSource?
-}
-
-struct ApplicationContext: Codable {
-
-    let userAction: String
-    let shippingPreference: String
 }
 
 // MARK: - Payment source (general, for both vault, and non-vault)
@@ -56,7 +49,7 @@ struct PayPalExperienceContext: Encodable {
 
     let returnUrl: String
     let cancelUrl: String
-    var appSwitchContext: AppSwitchContext?
+    var nativeApp: NativeApp?
 }
 
 struct AppSwitchContext: Encodable {
@@ -71,6 +64,11 @@ struct NativeApp: Encodable {
 
     let osType: String
     let appUrl: String
+    
+    init(osType: String = "IOS", appUrl: String) {
+        self.osType = osType
+        self.appUrl = appUrl
+    }
 }
 
 // MARK: - Vault attributes
