@@ -41,12 +41,6 @@ final class DemoMerchantAPI {
 
     static let sharedService = DemoMerchantAPI()
 
-    // To hardcode an order ID and client ID for this demo app, set the below values
-    enum InjectedValues {
-        static let orderID: String? = nil
-        static let clientID: String? = nil
-    }
-
     private init() {}
 
     func createSetupToken(
@@ -141,9 +135,6 @@ final class DemoMerchantAPI {
     /// - Returns: an order
     /// - Throws: an error explaining why create order failed
     func createOrder(orderParams: CreateOrderParams, selectedMerchantIntegration: MerchantIntegration) async throws -> Order {
-        if let injectedOrderID = InjectedValues.orderID {
-            return Order(id: injectedOrderID, status: "CREATED")
-        }
         guard let url = buildURL(for: .orders) else {
             throw URLResponseError.invalidURL
         }
@@ -159,9 +150,6 @@ final class DemoMerchantAPI {
     /// - Returns: a String representing an clientID
     /// - Throws: an error explaining why fetch clientID failed
     public func getClientID(environment: DemoEnvironment, selectedMerchantIntegration: MerchantIntegration) async -> String? {
-        if let injectedClientID = InjectedValues.clientID {
-            return injectedClientID
-        }
 
         #if DEBUG
         if environment == .custom {
