@@ -7,7 +7,6 @@ import FraudProtection
 class PayPalWebViewModel: ObservableObject {
     
     private enum DemoFixtures {
-        static let defaultAmount = "10.00"
         static let vaultAttributes = Vault(storeInVault: "ON_SUCCESS", usageType: "MERCHANT", customerType: "CONSUMER")
     }
 
@@ -86,9 +85,10 @@ class PayPalWebViewModel: ObservableObject {
     /// S4: PayPal vault + app-switch     -> attributes.vault + experienceContext.appSwitchContext
     private func fetchOrder(shouldVault: Bool, amount: String) async throws -> Order {
         do {
+            let defaultAmount = "10.00"
             let amountRequest = Amount(
                 currencyCode: "USD",
-                value: amount.isEmpty ? DemoFixtures.defaultAmount : amount
+                value: amount.isEmpty ? defaultAmount : amount
             )
 
             var paymentSource: OrderPaymentSource?
