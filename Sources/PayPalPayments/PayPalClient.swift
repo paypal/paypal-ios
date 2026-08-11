@@ -13,6 +13,11 @@ public class PayPalClient: NSObject {
         static let redirectURL = "\(PayPalCoreConstants.callbackURLScheme)://\(path)"
     }
 
+    enum PayPalVaultCallbackURL {
+        static let path = "x-callback-url/paypal-sdk/paypal-vault"
+        static let redirectURL = "\(PayPalCoreConstants.callbackURLScheme)://\(path)"
+    }
+
     static let serialDispatchQueue =
         DispatchQueue(label: "com.paypal.ios.PayPalClient.serialDispatchQueue")
     
@@ -606,7 +611,10 @@ public class PayPalClient: NSObject {
                 return
             }
 
-            guard let vaultCheckoutURL = makeVaultCheckoutURL(session: session, setupTokenID: setupTokenID) else {
+            guard
+                let vaultCheckoutURL = makeVaultCheckoutURL(session: session, setupTokenID: setupTokenID),
+                let vaultCheckoutURLComponents = payPalVaultReturnURL(payPalVaultURL: vaultCheckoutURL)
+            else {
                 analyticsService?.sendEvent(
                     "paypal-payments:checkout:auth-challenge-presentation:failed",
                     errorDescription: PayPalError.payPalURLError.errorDescription,
@@ -619,7 +627,7 @@ public class PayPalClient: NSObject {
             didApplicationBecomeActive = false
             endSystemLatencyTracking(presentationType: .browser)
             webAuthenticationSession.start(
-                url: vaultCheckoutURL,
+                url: vaultCheckoutURLComponents,
                 context: self,
                 sessionDidDisplay: { [weak self] didDisplay in
                     let event = didDisplay
@@ -752,7 +760,8 @@ public class PayPalClient: NSObject {
         }
 
         if let url {
-            if url.path.contains("cancel") {
+            let resultURL = vaultResultURL(from: url)
+            if resultURL.path.contains("cancel") {
                 analyticsService?.sendEvent(
                     "paypal-payments:checkout:handle-return:canceled",
                     checkoutAnalyticsData: analyticsData
@@ -760,9 +769,9 @@ public class PayPalClient: NSObject {
                 sessionTask = nil
                 notifyVaultCancelWithError(with: PayPalError.vaultCanceledError, completion: completion)
             } else if
-                let tokenID = getQueryStringParameter(url: url.absoluteString, param: "approval_token_id"),
+                let tokenID = getQueryStringParameter(url: resultURL.absoluteString, param: "approval_token_id"),
                 let approvalSessionID = getQueryStringParameter(
-                    url: url.absoluteString, param: "approval_session_id"
+                    url: resultURL.absoluteString, param: "approval_session_id"
                 ),
                 !tokenID.isEmpty, !approvalSessionID.isEmpty {
                 analyticsService?.sendEvent(
@@ -863,6 +872,28 @@ public class PayPalClient: NSObject {
         checkoutURLComponents?.queryItems?.append(nativeXOQueryItem)
 
         return checkoutURLComponents?.url
+    }
+
+    func payPalVaultReturnURL(payPalVaultURL: URL) -> URL? {
+        let redirectURLString = PayPalVaultCallbackURL.redirectURL
+        let redirectQueryItem = URLQueryItem(name: "redirect_uri", value: redirectURLString)
+        let nativeXOQueryItem = URLQueryItem(name: "native_xo", value: "1")
+
+        var vaultURLComponents = URLComponents(url: payPalVaultURL, resolvingAgainstBaseURL: false)
+        vaultURLComponents?.queryItems?.append(redirectQueryItem)
+        vaultURLComponents?.queryItems?.append(nativeXOQueryItem)
+
+        return vaultURLComponents?.url
+    }
+
+    private func vaultResultURL(from url: URL) -> URL {
+        guard
+            let returnURIString = getQueryStringParameter(url: url.absoluteString, param: "return_uri"),
+            let returnURL = URL(string: returnURIString)
+        else {
+            return url
+        }
+        return returnURL
     }
 
     private func getQueryStringParameter(url: String, param: String) -> String? {

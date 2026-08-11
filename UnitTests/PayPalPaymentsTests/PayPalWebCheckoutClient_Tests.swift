@@ -39,4 +39,14 @@ class PayPalClient_Tests: XCTestCase {
             URL(string: "https://sandbox.paypal.com/checkoutnow?token=1234&redirect_uri=\(PayPalClient.PayPalCheckoutCallbackURL.redirectURL)&native_xo=1")
         )
     }
+
+    func testPayPalVaultReturnURL_returnsCorrectURL() {
+        let url = URL(string: "https://sandbox.paypal.com/agreements/approve?approval_token_id=1234")!
+        let vaultURL = payPalClient.payPalVaultReturnURL(payPalVaultURL: url)
+
+        XCTAssertEqual(
+            vaultURL,
+            URL(string: "https://sandbox.paypal.com/agreements/approve?approval_token_id=1234&redirect_uri=\(PayPalClient.PayPalVaultCallbackURL.redirectURL)&native_xo=1")
+        )
+    }
 }
