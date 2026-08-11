@@ -650,7 +650,7 @@ public class PayPalClient: NSObject {
         let sdkError = PayPalError.checkoutCanceledError
         sendBrowserLoginCancelEvent(errorDescription: sdkError.errorDescription)
         analyticsService?.sendEvent(
-            "paypal-payments:checkout:handle-return:canceled",
+            "paypal-payments:checkout:handle-return:succeeded",
             errorDescription: sdkError.errorDescription,
             checkoutAnalyticsData: analyticsData
         )
@@ -683,7 +683,7 @@ public class PayPalClient: NSObject {
             if let opType = getQueryStringParameter(url: url.absoluteString, param: "opType"),
                 opType == "cancel" {
                 analyticsService?.sendEvent(
-                    "paypal-payments:checkout:handle-return:canceled",
+                    "paypal-payments:checkout:handle-return:succeeded",
                     checkoutAnalyticsData: analyticsData
                 )
                 sessionTask = nil
@@ -722,7 +722,7 @@ public class PayPalClient: NSObject {
         let sdkError = PayPalError.vaultCanceledError
         sendBrowserLoginCancelEvent(errorDescription: sdkError.errorDescription)
         analyticsService?.sendEvent(
-            "paypal-payments:checkout:handle-return:canceled",
+            "paypal-payments:checkout:handle-return:succeeded",
             errorDescription: sdkError.errorDescription,
             checkoutAnalyticsData: analyticsData
         )
@@ -754,7 +754,7 @@ public class PayPalClient: NSObject {
         if let url {
             if url.path.contains("cancel") {
                 analyticsService?.sendEvent(
-                    "paypal-payments:checkout:handle-return:canceled",
+                    "paypal-payments:checkout:handle-return:succeeded",
                     checkoutAnalyticsData: analyticsData
                 )
                 sessionTask = nil
