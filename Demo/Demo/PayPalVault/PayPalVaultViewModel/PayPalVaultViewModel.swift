@@ -6,17 +6,12 @@ import CorePayments
 class PayPalVaultViewModel: VaultViewModel {
 
     let configManager = CoreConfigManager(domain: "PayPal Vault")
-
     var paypalClient: PayPalClient?
 
     func vault() async throws {
         state.setupTokenResponse = .loading
 
-        guard let client = try await getPayPalClient() else {
-            let message = "Error initializing PayPalClient"
-            state.setupTokenResponse = .error(message: message)
-            throw VaultFlowError.clientInitializationFailed(message)
-        }
+        let client = makePayPalClient()
         paypalClient = client
         
         let resolvedUserIdentity = UserIdentityFactory.makeUserIdentity(
@@ -68,14 +63,9 @@ class PayPalVaultViewModel: VaultViewModel {
         }
     }
 
-    func getPayPalClient() async throws -> PayPalClient? {
-        do {
-            let config = try await configManager.getCoreConfig()
-            return PayPalClient(config: config)
-        } catch {
-            state.setupTokenResponse = .error(message: error.localizedDescription)
-            return nil
-        }
+    func makePayPalClient() -> PayPalClient {
+        let config = configManager.getCoreConfig()
+        return PayPalClient(config: config)
     }
 
     func handleUniversalLinkReturn(_ url: URL) {

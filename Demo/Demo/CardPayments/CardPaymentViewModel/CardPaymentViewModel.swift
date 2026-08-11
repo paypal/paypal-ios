@@ -42,8 +42,8 @@ class CardPaymentViewModel: ObservableObject {
 
         do {
             DispatchQueue.main.async { self.state.createdOrderResponse = .loading }
-            let order = try await DemoMerchantAPI.sharedService.createOrder(
-                orderParams: params, selectedMerchantIntegration: selectedMerchantIntegration
+            let order = try await DemoMerchantAPI.shared.createOrder(
+                orderParams: params, integration: selectedMerchantIntegration
             )
             DispatchQueue.main.async {
                 self.state.createdOrderResponse = .loaded(order)
@@ -63,10 +63,10 @@ class CardPaymentViewModel: ObservableObject {
                 self.state.capturedOrderResponse = .loading
             }
             let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
-            let order = try await DemoMerchantAPI.sharedService.captureOrder(
+            let order = try await DemoMerchantAPI.shared.captureOrder(
                 orderID: orderID,
-                selectedMerchantIntegration: selectedMerchantIntegration,
-                payPalClientMetadataID: payPalClientMetadataID
+                integration: selectedMerchantIntegration,
+                clientMetadataID: payPalClientMetadataID
             )
             DispatchQueue.main.async {
                 self.state.capturedOrderResponse = .loaded(order)
@@ -85,10 +85,10 @@ class CardPaymentViewModel: ObservableObject {
                 self.state.authorizedOrderResponse = .loading
             }
             let payPalClientMetadataID = payPalDataCollector?.collectDeviceData()
-            let order = try await DemoMerchantAPI.sharedService.authorizeOrder(
+            let order = try await DemoMerchantAPI.shared.authorizeOrder(
                 orderID: orderID,
-                selectedMerchantIntegration: selectedMerchantIntegration,
-                payPalClientMetadataID: payPalClientMetadataID
+                integration: selectedMerchantIntegration,
+                clientMetadataID: payPalClientMetadataID
             )
             DispatchQueue.main.async {
                 self.state.authorizedOrderResponse = .loaded(order)
@@ -101,36 +101,31 @@ class CardPaymentViewModel: ObservableObject {
         }
     }
 
-    func checkoutWith(card: Card, orderID: String, sca: SCA) async {
-        do {
-            DispatchQueue.main.async {
-                self.state.approveResultResponse = .loading
-            }
-            let config = try await configManager.getCoreConfig()
-            cardClient = CardClient(config: config)
-            payPalDataCollector = PayPalDataCollector(config: config)
-            let cardRequest = CardRequest(orderID: orderID, card: card, sca: sca)
-            cardClient?.approveOrder(request: cardRequest) { result in
-                switch result {
-                case .success(let cardResult):
-                    self.setApprovalSuccessResult(
-                        approveResult: CardPaymentState.CardResult(
-                            id: cardResult.orderID,
-                            status: cardResult.status,
-                            didAttemptThreeDSecureAuthentication: cardResult.didAttemptThreeDSecureAuthentication
-                        )
+    func checkoutWith(card: Card, orderID: String, sca: SCA) {
+        DispatchQueue.main.async {
+            self.state.approveResultResponse = .loading
+        }
+        let config = configManager.getCoreConfig()
+        cardClient = CardClient(config: config)
+        payPalDataCollector = PayPalDataCollector(config: config)
+        let cardRequest = CardRequest(orderID: orderID, card: card, sca: sca)
+        cardClient?.approveOrder(request: cardRequest) { result in
+            switch result {
+            case .success(let cardResult):
+                self.setApprovalSuccessResult(
+                    approveResult: CardPaymentState.CardResult(
+                        id: cardResult.orderID,
+                        status: cardResult.status,
+                        didAttemptThreeDSecureAuthentication: cardResult.didAttemptThreeDSecureAuthentication
                     )
-                case .failure(let error):
-                    if error == CardError.threeDSecureCanceledError {
-                        self.setApprovalCancelResult()
-                    } else {
-                        self.setApprovalFailureResult(error: error)
-                    }
+                )
+            case .failure(let error):
+                if error == CardError.threeDSecureCanceledError {
+                    self.setApprovalCancelResult()
+                } else {
+                    self.setApprovalFailureResult(error: error)
                 }
             }
-        } catch {
-            setApprovalFailureResult(error: error)
-            print("failed in checkout with card. \(error.localizedDescription)")
         }
     }
 
