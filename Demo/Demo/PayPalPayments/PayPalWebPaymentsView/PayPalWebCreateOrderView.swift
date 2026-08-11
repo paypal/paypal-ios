@@ -16,6 +16,7 @@ struct PayPalWebCreateOrderView: View {
     @State private var email: String = ""
     @State private var phone: String = ""
     @State private var ssid: String = ""
+    @State private var amount: String = "10.00"
     @State var shouldVaultSelected = false
 
     var body: some View {
@@ -59,6 +60,7 @@ struct PayPalWebCreateOrderView: View {
                     phone: $phone,
                     ssid: $ssid
                 )
+                FloatingLabelTextField(placeholder: "Amount", text: $amount, keyboardType: .decimalPad)
                 HStack {
                     Toggle("Should Vault with Purchase", isOn: $shouldVaultSelected)
                     Spacer()
@@ -76,7 +78,8 @@ struct PayPalWebCreateOrderView: View {
                                         email: email,
                                         phone: phone,
                                         ssid: ssid
-                                    )
+                                    ),
+                                    amount: amount
                                 )
                             } catch {
                                 print("Error in checkout. \(error.localizedDescription)")

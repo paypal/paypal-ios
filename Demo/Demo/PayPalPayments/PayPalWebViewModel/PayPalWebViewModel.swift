@@ -7,7 +7,6 @@ import FraudProtection
 class PayPalWebViewModel: ObservableObject {
     
     private enum DemoFixtures {
-        static let amount = Amount(currencyCode: "USD", value: "10.00")
         static let vaultAttributes = Vault(storeInVault: "ON_SUCCESS", usageType: "MERCHANT", customerType: "CONSUMER")
     }
 
@@ -30,7 +29,8 @@ class PayPalWebViewModel: ObservableObject {
     func checkout(
         shouldVault: Bool,
         userAction: PayPalUserAction,
-        userIdentity: PayPalUserIdentity?
+        userIdentity: PayPalUserIdentity?,
+        amount: String
     ) async throws {
         state.createdOrderResponse = .loading
 
@@ -52,7 +52,7 @@ class PayPalWebViewModel: ObservableObject {
             userAction: userAction
         )
 
-        async let orderTask = fetchOrder(shouldVault: shouldVault)
+        async let orderTask = fetchOrder(shouldVault: shouldVault, amount: amount)
         let order = try await orderTask
 
         state.approveResultResponse = .loading
@@ -83,9 +83,13 @@ class PayPalWebViewModel: ObservableObject {
     /// S2: PayPal app-switch (no vault) -> experienceContext with appSwitchContext
     /// S3: PayPal vault (no app-switch)  -> attributes.vault + experienceContext
     /// S4: PayPal vault + app-switch     -> attributes.vault + experienceContext.appSwitchContext
-    private func fetchOrder(shouldVault: Bool) async throws -> Order {
+    private func fetchOrder(shouldVault: Bool, amount: String) async throws -> Order {
         do {
-            let amountRequest = DemoFixtures.amount
+            let defaultAmount = "10.00"
+            let amountRequest = Amount(
+                currencyCode: "USD",
+                value: amount.isEmpty ? defaultAmount : amount
+            )
 
             var paymentSource: OrderPaymentSource?
             
