@@ -588,6 +588,10 @@ public class PayPalClient: NSObject {
         setupTokenID: String,
         completion: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void
     ) {
+        analyticsService?.sendEvent(
+            "paypal-payments:checkout:auth-challenge-presentation:started",
+            checkoutAnalyticsData: analyticsData
+        )
         Task {
             do {
                 _ = try await clientConfigAPI.updateClientConfig(
