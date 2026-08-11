@@ -15,7 +15,9 @@ class PayPalWebViewModel: ObservableObject {
     @Published var order: Order?
     @Published var checkoutResult: PayPalCheckoutResult?
 
-    let appSwitchURL = DemoEnvironment.sandbox.baseURL
+    /// Callback host for app switch, resolved from the environment selected in Demo settings.
+    /// Read as a computed property so switching environment at runtime is picked up.
+    var appSwitchURL: String { DemoSettings.environment.returnBaseURL }
 
     var payPalClient: PayPalClient?
 

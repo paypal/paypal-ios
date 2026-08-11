@@ -39,7 +39,7 @@ class PayPalVaultViewModel: VaultViewModel {
             customerID: customerID.isEmpty ? nil : customerID,
             selectedMerchantIntegration: DemoSettings.merchantIntegration,
             paymentType: .paypal,
-            appSwitchURL: DemoEnvironment.sandbox.baseURL
+            appSwitchURL: DemoSettings.environment.returnBaseURL
         )
 
         state.paypalVaultTokenResponse = .loading
