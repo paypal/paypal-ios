@@ -49,6 +49,7 @@ struct PayPalExperienceContext: Encodable {
 
     let returnUrl: String
     let cancelUrl: String
+    let userAction: String
     var nativeApp: NativeApp?
 }
 

@@ -3,6 +3,19 @@ import CorePayments
 import PayPalPayments
 import FraudProtection
 
+extension PayPalUserAction {
+    var parameterTitle: String {
+        switch self {
+            case .continue: 
+                return "CONTINUE"
+            case .payNow: 
+                return "PAY_NOW"
+            case .setupNow: 
+                return "SETUP_NOW"
+        }
+    }
+}
+
 @MainActor
 class PayPalWebViewModel: ObservableObject {
     
@@ -54,7 +67,7 @@ class PayPalWebViewModel: ObservableObject {
             userAction: userAction
         )
 
-        async let orderTask = fetchOrder(shouldVault: shouldVault, amount: amount)
+        async let orderTask = fetchOrder(shouldVault: shouldVault, amount: amount, userAction: userAction)
         let order = try await orderTask
 
         state.approveResultResponse = .loading
@@ -85,7 +98,7 @@ class PayPalWebViewModel: ObservableObject {
     /// S2: PayPal app-switch (no vault) -> experienceContext with appSwitchContext
     /// S3: PayPal vault (no app-switch)  -> attributes.vault + experienceContext
     /// S4: PayPal vault + app-switch     -> attributes.vault + experienceContext.appSwitchContext
-    private func fetchOrder(shouldVault: Bool, amount: String) async throws -> Order {
+    private func fetchOrder(shouldVault: Bool, amount: String, userAction: PayPalUserAction) async throws -> Order {
         do {
             let defaultAmount = "10.00"
             let amountRequest = Amount(
@@ -98,6 +111,7 @@ class PayPalWebViewModel: ObservableObject {
             let experience = PayPalExperienceContext(
                 returnUrl: "\(appSwitchURL)/success",
                 cancelUrl: "\(appSwitchURL)/cancel",
+                userAction: userAction.parameterTitle,
                 nativeApp: NativeApp(appUrl: appSwitchURL)
             )
 
