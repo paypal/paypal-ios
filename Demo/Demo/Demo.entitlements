@@ -5,6 +5,7 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com?mode=developer</string>
+		<string>applinks:gse-appstestbed.com</string>
 	</array>
 </dict>
 </plist>

@@ -11,8 +11,6 @@ struct CreateSetupTokenParam: Encodable {
     }
 }
 
-let baseReturnHost = "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
-
 struct VaultExperienceContext: Encodable {
 
     var appSwitchContext: AppSwitchContext?
@@ -21,9 +19,12 @@ struct VaultExperienceContext: Encodable {
 
     init(appSwitchContext: AppSwitchContext? = nil) {
         self.appSwitchContext = appSwitchContext
-        if appSwitchContext != nil {
-            self.returnUrl = baseReturnHost + "/success"
-            self.cancelUrl = baseReturnHost + "/cancel"
+        // When app switching, derive the callbacks from the same host we advertise as `appUrl`, so
+        // the two can never drift. That host must be declared in Demo.entitlements and listed in
+        // the domain's apple-app-site-association file for the universal link to resolve.
+        if let appURL = appSwitchContext?.nativeApp.appUrl {
+            self.returnUrl = appURL + "/success"
+            self.cancelUrl = appURL + "/cancel"
         } else {
             self.returnUrl = "sdk.ios.paypal://vault/success"
             self.cancelUrl = "sdk.ios.paypal://vault/cancel"

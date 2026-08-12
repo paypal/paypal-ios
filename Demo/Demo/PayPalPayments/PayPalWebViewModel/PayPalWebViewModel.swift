@@ -5,7 +5,7 @@ import FraudProtection
 
 @MainActor
 class PayPalWebViewModel: ObservableObject {
-    
+
     private enum DemoFixtures {
         static let vaultAttributes = Vault(storeInVault: "ON_SUCCESS", usageType: "MERCHANT", customerType: "CONSUMER")
     }
@@ -15,7 +15,9 @@ class PayPalWebViewModel: ObservableObject {
     @Published var order: Order?
     @Published var checkoutResult: PayPalCheckoutResult?
 
-    let appSwitchURL = DemoEnvironment.sandbox.baseURL
+    /// Callback host for app switch, resolved from the environment selected in Demo settings.
+    /// Read as a computed property so switching environment at runtime is picked up.
+    var appSwitchURL: String { DemoSettings.environment.returnBaseURL }
 
     var payPalClient: PayPalClient?
 
@@ -92,7 +94,7 @@ class PayPalWebViewModel: ObservableObject {
             )
 
             var paymentSource: OrderPaymentSource?
-            
+
             let experience = PayPalExperienceContext(
                 returnUrl: "\(appSwitchURL)/success",
                 cancelUrl: "\(appSwitchURL)/cancel",

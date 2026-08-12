@@ -17,8 +17,11 @@ enum ShopperSessionURLConfigFactory {
         }
     }
 
-    static func makeURLConfig() throws -> PayPalURLConfig {
-        let baseReturnUrl = "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
+
+    static func makeURLConfig(
+        environment: DemoEnvironment = DemoSettings.environment
+    ) throws -> PayPalURLConfig {
+        let baseReturnUrl = environment.returnBaseURL
         guard var returnAppURLComponents = URLComponents(string: "\(baseReturnUrl)/success"),
               let cancelAppURL = URL(string: "\(baseReturnUrl)/cancel") else {
             throw ConfigurationError.invalidCallbackURL(baseReturnUrl)
