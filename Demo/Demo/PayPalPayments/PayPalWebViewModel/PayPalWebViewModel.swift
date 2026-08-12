@@ -4,21 +4,22 @@ import PayPalPayments
 import FraudProtection
 
 extension PayPalUserAction {
+
     var parameterTitle: String {
         switch self {
-            case .continue: 
-                return "CONTINUE"
-            case .payNow: 
-                return "PAY_NOW"
-            case .setupNow: 
-                return "SETUP_NOW"
+        case .continue:
+            return "CONTINUE"
+        case .payNow:
+            return "PAY_NOW"
+        case .setupNow:
+            return "SETUP_NOW"
         }
     }
 }
 
 @MainActor
 class PayPalWebViewModel: ObservableObject {
-    
+
     private enum DemoFixtures {
         static let vaultAttributes = Vault(storeInVault: "ON_SUCCESS", usageType: "MERCHANT", customerType: "CONSUMER")
     }
@@ -107,7 +108,7 @@ class PayPalWebViewModel: ObservableObject {
             )
 
             var paymentSource: OrderPaymentSource?
-            
+
             let experience = PayPalExperienceContext(
                 returnUrl: "\(appSwitchURL)/success",
                 cancelUrl: "\(appSwitchURL)/cancel",

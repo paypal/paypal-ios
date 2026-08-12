@@ -38,7 +38,9 @@ enum DemoEnvironment: String, CaseIterable {
         case .sandbox:
             return "https://ppcp-mobile-demo-sandbox-87bbd7f0a27f.herokuapp.com"
         case .live:
-            return "https://gse-appstestbed.com"
+            // Matches the path components registered for this App ID in
+            // https://gse-appstestbed.com/.well-known/apple-app-site-association
+            return "https://gse-appstestbed.com/PPCP/production_us"
         #if DEBUG
         case .custom:
             // Custom builds reuse the sandbox merchant pages, which are already covered by the
