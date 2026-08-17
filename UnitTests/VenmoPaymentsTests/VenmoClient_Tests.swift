@@ -291,7 +291,10 @@ class VenmoClient_Tests: XCTestCase {
     }
 
     func testBuildCheckoutURL_custom_usesQAAppSwitchHost() throws {
-        let customConfig = CoreConfig(clientID: "testClientID", environment: .custom(baseURL: "https://custom.example.com"))
+        let customConfig = CoreConfig(
+            clientID: "testClientID",
+            environment: .custom(baseURL: "https://custom.example.com", graphQLURL: "https://custom.example.com/graphql")
+        )
         let customNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: customConfig))
         let customClientConfigAPI = MockClientConfigAPI(coreConfig: customConfig, networkingClient: customNetworkingClient)
         let customFundingEligibilityAPI = MockGetFundingEligibilityAPI(coreConfig: customConfig)

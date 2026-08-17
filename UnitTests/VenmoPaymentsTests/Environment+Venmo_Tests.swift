@@ -27,6 +27,10 @@ class Environment_Venmo_Tests: XCTestCase {
     }
 
     func testVenmoEnvironment_custom_returnsStageEnvironmentString() {
-        XCTAssertEqual(Environment.custom(baseURL: "https://custom.example.com").venmoEnvironmentString, "stage")
+        XCTAssertEqual(
+            Environment.custom(baseURL: "https://custom.example.com", graphQLURL: "https://custom.example.com/graphql")
+                .venmoEnvironmentString,
+            "stage"
+        )
     }
 }

@@ -13,8 +13,10 @@ extension Environment {
             return URL(string: "https://www.sandbox.paypal.com/smart/checkout/venmo")!
         case .live:
             return URL(string: "https://www.paypal.com/smart/checkout/venmo")!
+        #if DEBUG
         case .custom:
             return URL(string: "https://www.sandbox.paypal.com/smart/checkout/venmo")!
+        #endif
         }
     }
 
@@ -25,10 +27,12 @@ extension Environment {
             return "sandbox"
         case .live:
             return "production"
+        #if DEBUG
         case .custom:
             // QA end-to-end: the Venmo app authenticates against stage/QA, so the paysheet request
             // must use `stage` (sandbox → UNAUTHORIZED under a stage session).
             return "stage"
+        #endif
         }
     }
 }
