@@ -6,7 +6,6 @@ import CorePayments
 
 extension Environment {
 
-    // swiftlint:disable force_unwrapping
     var payPalBaseURL: URL {
         switch self {
         case .sandbox:
@@ -22,5 +21,4 @@ extension Environment {
         #endif
         }
     }
-    // swiftlint:enable force_unwrapping
 }
