@@ -17,7 +17,7 @@ Card (ACDC) and Venmo keep their own clients; the main change they inherit is th
 ## Before you upgrade
 
 * Get your **merchant ID** (the encrypted merchant account ID) from the [PayPal Developer Dashboard](https://developer.paypal.com/dashboard/) — it is now required to initialize the SDK.
-* Add an **Associated Domains** entitlement and serve an AASA file for your return domain — V3 App Switch returns via Universal Links, whereas V2's web flow used the hardcoded `sdk.ios.paypal` scheme for its own redirect. See [Install & Setup (iOS)](install-and-setup.md).
+* Add an **Associated Domains** entitlement and serve an AASA file for your return domain — V3 App Switch returns via Universal Links, whereas V2's web flow used the hardcoded `sdk.ios.paypal` scheme for its own redirect. See [Install & Setup (iOS)](integration-guides/install-and-setup.md).
 * Toolchain is unchanged: Xcode 15+, iOS 14+, Swift 5.9+.
 
 ## Update the dependency
@@ -83,7 +83,7 @@ Use this diff to guide the change:
 
 ## Info.plist and entitlements
 
-Add the custom-scheme `fallbackSchemeURL` under `CFBundleURLTypes` (optional on `PayPalURLConfig`, but you should always set it), and declare `paypal` under `LSApplicationQueriesSchemes` so the SDK can detect the PayPal app. Add the Associated Domains entitlement for your return domain. (V2's web flow needed none of these for PayPal Checkout because its return handling was internal to `ASWebAuthenticationSession`, built on the hardcoded `sdk.ios.paypal` scheme.) See [Install & Setup (iOS)](install-and-setup.md).
+Add the custom-scheme `fallbackSchemeURL` under `CFBundleURLTypes` (optional on `PayPalURLConfig`, but you should always set it), and declare `paypal` under `LSApplicationQueriesSchemes` so the SDK can detect the PayPal app. Add the Associated Domains entitlement for your return domain. (V2's web flow needed none of these for PayPal Checkout because its return handling was internal to `ASWebAuthenticationSession`, built on the hardcoded `sdk.ios.paypal` scheme.) See [Install & Setup (iOS)](integration-guides/install-and-setup.md).
 
 Note that `sdk.ios.paypal` isn't retired in V3 — it's still the SDK's internal callback scheme for Card's 3D Secure `ASWebAuthenticationSession` challenge, and it also still backs the PayPal Checkout in-app-browser fallback's own redirect internally. What changed is the buyer-facing, merchant-configured return path for PayPal Checkout and Vault: that's now Universal Links (with `fallbackSchemeURL` as backup), not something built on `sdk.ios.paypal` that you need to register or handle yourself.
 
@@ -93,10 +93,10 @@ Note that `sdk.ios.paypal` isn't retired in V3 — it's still the SDK's internal
 * A sandbox checkout completes end to end: `createPayPalSession(sessionType:)` → `start(orderID:)` → return via `handleReturnURL(url)` → capture.
 * `sessionNotStarted` does not occur (confirms `createPayPalSession()` runs before `start()`).
 
-If something breaks after upgrading, see [Troubleshooting (iOS)](troubleshooting.md).
+If something breaks after upgrading, see [Troubleshooting (iOS)](integration-guides/troubleshooting.md).
 
 ## Related
 
-* [Install & Setup (iOS)](install-and-setup.md)
-* [PayPal Checkout — Integration Guide (iOS)](paypal-checkout.md)
-* [Troubleshooting (iOS)](troubleshooting.md)
+* [Install & Setup (iOS)](integration-guides/install-and-setup.md)
+* [PayPal Checkout — Integration Guide (iOS)](integration-guides/paypal-checkout.md)
+* [Troubleshooting (iOS)](integration-guides/troubleshooting.md)
