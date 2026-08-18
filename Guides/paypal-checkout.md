@@ -4,7 +4,7 @@ This guide shows you how to accept a **PayPal payment** in your iOS app with Pay
 
 ## Overview
 
-When the buyer taps your PayPal button, you call `createPayPalSession()` (with buyer identity, return URLs, and user action) and create the order — then call `start()` with just the order ID. `createPayPalSession()` is required and must come first.
+When the buyer taps your PayPal button, you call `createPayPalSession()` (with the session type, an optional buyer identity, return URLs, and user action) and create the order — then call `start()` with just the order ID. `createPayPalSession()` is required and must come first.
 
 **Prepare the session before checkout.** `start()` requires a prepared shopper session, created by `createPayPalSession()`. Until it has been called, `start()` will not proceed — it returns a `sessionNotStarted` error on its completion handler. Preparing the session carries the buyer identity, return URLs, and user action to PayPal and determines whether checkout uses the PayPal app or the in-app browser.
 
@@ -19,7 +19,7 @@ sequenceDiagram
 
     Note over App: Buyer taps your PayPal button
     par Prepare the session
-        App->>SDK: createPayPalSession(userIdentity, urlConfig, userAction)
+        App->>SDK: createPayPalSession(sessionType: .checkout, userIdentity, urlConfig, userAction)
     and Create the order
         App->>Server: Create order (Orders v2)
         Server-->>App: orderID
@@ -34,7 +34,7 @@ sequenceDiagram
     end
     PayPal-->>App: Return to your app (Universal Link)
     App->>SDK: handleReturnURL(url)
-    SDK->>App: .success(orderID, payerID) / .cancel / .failure
+    SDK->>App: .success(orderID, payerID) / .failure(checkoutCanceledError) / .failure(error)
     App->>Server: Capture order (Orders v2)
 ```
 
@@ -46,11 +46,11 @@ The SDK handles the client-side of checkout. It does not create or capture order
 
 Complete [Install & Setup (iOS)](install-and-setup.md). For PayPal Checkout specifically:
 
-* Add the `PayPalWebPayments` and `PaymentButtons` products.
+* Add the `PayPalPayments` and `PaymentButtons` products.
 * Construct the client from the `CoreConfig` you built in setup:
 
 ```swift
-let checkoutClient = PayPalWebClient(config: config)   // config + urlConfig from Install & Setup
+let checkoutClient = PayPalClient(config: config)   // config + urlConfig from Install & Setup
 ```
 
 ## Server: create an order
@@ -85,7 +85,8 @@ Call this in the button's action, before or alongside order creation. It returns
 
 ```swift
 checkoutClient.createPayPalSession(
-    userIdentity: PayPalUserIdentity(email: "buyer@example.com", phone: nil),  // or .none
+    sessionType:  .checkout,
+    userIdentity: PayPalUserIdentity(email: "buyer@example.com", phone: nil),  // optional — omit or pass nil when you have no hint
     urlConfig:    urlConfig,
     userAction:   .continue   // .payNow for a "Pay Now" button
 )
@@ -97,9 +98,7 @@ Collect device data before you create the order, and attach the resulting client
 
 ```swift
 let dataCollector = PayPalDataCollector(config: config)
-let clientMetadataId = dataCollector.collectDeviceData(
-    PayPalDataCollectorRequest(hasUserLocationConsent: false)
-)
+let clientMetadataId = dataCollector.collectDeviceData()
 // Send clientMetadataId to your server; set it as the PayPal-Client-Metadata-Id header on your Orders v2 create call.
 ```
 
@@ -110,9 +109,12 @@ let orderID = try await myServer.createOrder()   // include the client metadata 
 
 checkoutClient.start(orderID: orderID) { result in
     switch result {
-    case .success(let checkout): captureOrder(checkout.orderID)
-    case .cancel:                showCheckoutScreen()
-    case .failure(let error):    showError(error.localizedDescription)   // includes sessionNotStarted
+    case .success(let checkout):
+        captureOrder(checkout.orderID)
+    case .failure(let error) where PayPalError.isCheckoutCanceled(error):
+        showCheckoutScreen()
+    case .failure(let error):
+        showError(error.localizedDescription)   // includes sessionNotStarted
     }
 }
 ```
@@ -139,13 +141,13 @@ func captureOrder(_ orderID: String) {
 
 ## Identity — PayPalUserIdentity
 
-You pass `userIdentity` to `createPayPalSession()`. The hint helps PayPal recognize the buyer, which can increase app-switch eligibility and approval rates. The SDK hashes email and phone (SHA-256) before sending. It is required, but `.none` is valid when you have no hint.
+You pass `userIdentity` to `createPayPalSession()`. The hint helps PayPal recognize the buyer, which can increase app-switch eligibility and approval rates. The SDK hashes email and phone (SHA-256) before sending. `userIdentity` is optional — omit it or pass `nil` when you have no buyer hint; the session is still created.
 
 | Option | When to use |
 | --- | --- |
-| `PayPalUserIdentity(email:phone:)` | You know the buyer's email and/or phone. |
-| `PayPalUserIdentity.serverSideShopperSession(...)` | Your server already created a buyer session — pass its ID. |
-| `.none` | You have no buyer hint. The session is still created. |
+| `PayPalUserIdentity(email:phone:)` | You know the buyer's email and/or phone. `phone` takes a `PayPalPhoneNumber(countryCode:nationalNumber:)`. |
+| `PayPalUserIdentity(existingPayPalSessionID:)` | Your server already created a PayPal shopper session — pass its ID. |
+| `nil` | You have no buyer hint. The session is still created. |
 
 ## Vault with Purchase
 
@@ -166,47 +168,51 @@ On approval PayPal both completes the purchase and stores the payment method, bu
 
 ## Vault without Purchase
 
-Save a buyer's PayPal account for future charges with no purchase now. Call `createPayPalSession()` first (use `.setupNow` for a "Set up now" button), then create the setup token on your server and call `vault(setupTokenID:completion:)`.
+Save a buyer's PayPal account for future charges with no purchase now. Call `createPayPalSession()` first (use `sessionType: .vaultWithoutPurchase` and `userAction: .setupNow` for a "Set up now" button), then create the setup token on your server and call `vault(setupTokenID:completion:)`.
 
 ```swift
 // In your "Set up now" button's action:
-checkoutClient.createPayPalSession(userIdentity: userIdentity, urlConfig: urlConfig, userAction: .setupNow)
+checkoutClient.createPayPalSession(
+    sessionType: .vaultWithoutPurchase,
+    userIdentity: userIdentity,
+    urlConfig: urlConfig,
+    userAction: .setupNow
+)
 
 let setupTokenID = try await myServer.createSetupToken()
 
 checkoutClient.vault(setupTokenID: setupTokenID) { result in
     switch result {
-    case .success(let vault): savePaymentToken(vault.setupTokenID)
-    case .cancel:             showVaultScreen()
-    case .failure(let error): showError(error.localizedDescription)   // includes sessionNotStarted
+    case .success(let vault):
+        savePaymentToken(vault.tokenID)
+    case .failure(let error) where PayPalError.isVaultCanceled(error):
+        showVaultScreen()
+    case .failure(let error):
+        showError(error.localizedDescription)   // includes sessionNotStarted
     }
 }
 ```
 
 ## Pay Later and PayPal Credit
 
-Pay Later and PayPal Credit are alternate PayPal funding sources on `PayPalWebCheckoutFundingSource` (`.paylater` / `.paypalCredit`; defaults to `.paypal`), not separate flows. Both are supported for One-Time Checkout and Vault with Purchase; neither applies to Vault without Purchase. Dedicated buttons exist — `PayPalPayLaterButton` and `PayPalCreditButton` (`PaymentButtons`) — see [Payment Buttons (iOS)](payment-buttons.md).
+Pay Later and PayPal Credit are alternate PayPal funding sources, surfaced through dedicated buttons rather than a separate client call — `PayPalPayLaterButton` and `PayPalCreditButton` (`PaymentButtons`). Wire each button's action to the same `createPayPalSession()` → `start(orderID:completion:)` sequence used for One-Time Checkout above; eligible buyers see Pay Later or PayPal Credit financing offers during approval automatically. Both are supported for One-Time Checkout and Vault with Purchase; neither applies to Vault without Purchase. For button colors, labels, edges, and sizes, see [Payment Buttons (iOS)](payment-buttons.md).
 
 ```swift
-let request = PayPalWebCheckoutRequest(orderID: orderID, fundingSource: .paylater)   // or .paypalCredit
-
-checkoutClient.start(request: request) { result in
-    switch result {
-    case .success(let checkout): captureOrder(checkout.orderID)
-    case .failure(let error):    showError(error.localizedDescription)
-    }
+// SwiftUI
+PayPalPayLaterButton.Representable(color: .gold, size: .collapsed) {
+    beginCheckout()   // same createPayPalSession() -> start(orderID:completion:) flow as Step 2-4 above
 }
 ```
 
 ## Result handling
 
-Checkout (including Vault with Purchase) and Vault without Purchase each deliver one of three outcomes. Handle all three — cancellation is a normal buyer choice, not an error.
+Checkout (including Vault with Purchase) and Vault without Purchase each deliver a `Result<_, CoreSDKError>` with two cases — `.success` and `.failure`. Cancellation is delivered as a `.failure` with a specific error, not a separate case; check for it with `PayPalError.isCheckoutCanceled(_:)` (checkout / Vault with Purchase) or `PayPalError.isVaultCanceled(_:)` (Vault without Purchase). Handle both outcomes — cancellation is a normal buyer choice, not a failure to surface as an error.
 
 | Outcome | How it is delivered | What you do |
 | --- | --- | --- |
-| **Success** | `.success` | Checkout / Vault with Purchase: capture the order. Vault without Purchase: store the returned setup token ID. |
-| **Cancel** | `.cancel` | Return the buyer to your checkout (or save) screen; no charge was made. |
-| **Failure** | `.failure` (error) | Show an error. `sessionNotStarted` means `createPayPalSession()` was not called before `start()` / `vault()` — fix the ordering. |
+| **Success** | `.success` | Checkout / Vault with Purchase: capture the order. Vault without Purchase: store the returned `tokenID` and `approvalSessionID`. |
+| **Cancel** | `.failure(error)` where `PayPalError.isCheckoutCanceled(error)` / `PayPalError.isVaultCanceled(error)` is `true` | Return the buyer to your checkout (or save) screen; no charge was made. |
+| **Failure** | `.failure(error)` (any other error) | Show an error. `sessionNotStartedError` means `createPayPalSession()` was not called before `start()` / `vault()` — fix the ordering. |
 
 ## Best practices
 
@@ -216,7 +222,7 @@ Checkout (including Vault with Purchase) and Vault without Purchase each deliver
 
 **Handle the return to your app.** Remove the loading indicator as soon as your app returns to the foreground. If the buyer backgrounded the PayPal app without approving or canceling, let them resume rather than restarting checkout.
 
-**Handle redirection to the browser.** Occasionally the OS opens the return in the default mobile browser instead of your app — usually because the Universal Link is not correctly associated with your domain. Your required `fallbackSchemeUrl` covers the common case; as a safeguard, consider website logic that detects a redirected buyer, confirms order status, and guides them back.
+**Handle redirection to the browser.** Occasionally the OS opens the return in the default mobile browser instead of your app — usually because the Universal Link is not correctly associated with your domain. Setting `fallbackSchemeURL` covers the common case; as a safeguard, consider website logic that detects a redirected buyer, confirms order status, and guides them back.
 
 ## Testing and go-live
 
@@ -241,7 +247,7 @@ To test the in-app browser path, use a device without the PayPal app installed, 
 | **In-app browser — end to end** | With the PayPal app not installed (or an ineligible buyer), checkout completes in `ASWebAuthenticationSession` and the order captures. |
 | Buyer cancels in PayPal | The buyer is returned to your checkout screen and no charge is made. |
 | Vault with Purchase | Order captures; the vaulted token is retrievable server-side (not from the SDK result). |
-| Vault without Purchase | You receive and store the setup token, and can charge it later. |
+| Vault without Purchase | You receive and store the `tokenID` / `approvalSessionID`, and can charge it later. |
 | Pay Later / PayPal Credit eligible buyer | Financing offers render; approval and capture proceed the same as standard PayPal. |
 
 ### Go live
@@ -249,8 +255,8 @@ To test the in-app browser path, use a device without the PayPal app installed, 
 - [ ] Call `createPayPalSession()` on the button tap, before or alongside order creation.
 - [ ] Switch `.sandbox` to `.live` and use your live client ID and merchant ID.
 - [ ] Verify the Universal Link return works in a release build (AASA hosted and verified).
-- [ ] Verify the custom-scheme fallback (`fallbackSchemeUrl`) is registered and returns the buyer to your app.
-- [ ] Confirm all result variants (success, cancel, failure) are handled.
+- [ ] Verify the custom-scheme fallback (`fallbackSchemeURL`) is registered and returns the buyer to your app.
+- [ ] Confirm all result variants (success, cancellation, failure) are handled.
 - [ ] Collect device data and pass the client metadata ID on your Orders v2 request.
 - [ ] Contact your PayPal account team to enable App Switch for production traffic.
 

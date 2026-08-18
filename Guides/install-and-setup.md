@@ -17,7 +17,7 @@ pod 'PayPal/CorePayments'
 pod 'PayPal/FraudProtection'      # device data (risk signals)
 
 # Add the product(s) for the method(s) you integrate:
-pod 'PayPal/PayPalWebPayments'    # PayPal Checkout + Vault
+pod 'PayPal/PayPalPayments'       # PayPal Checkout + Vault
 pod 'PayPal/PaymentButtons'       # PayPal buttons
 # pod 'PayPal/VenmoPayments'      # Venmo Checkout
 # pod 'PayPal/CardPayments'       # Card (ACDC)
@@ -27,13 +27,13 @@ Or add the `paypal-ios` Swift Package and include the matching products.
 
 ## Step 2: Initialize CoreConfig
 
-Every client (`PayPalWebClient`, `VenmoClient`, `CardClient`) is built from a single `CoreConfig`. No network calls occur at initialization.
+Every client (`PayPalClient`, `VenmoClient`, `CardClient`) is built from a single `CoreConfig`. No network calls occur at initialization.
 
 ```swift
 let config = CoreConfig(
     clientID:    "<YOUR_CLIENT_ID>",
-    merchantID:  "<YOUR_MERCHANT_ID>",   // Required — encrypted merchant account ID
     environment: .sandbox,               // .live for production
+    merchantID:  "<YOUR_MERCHANT_ID>",   // Required — encrypted merchant account ID
     bnCode:      nil                     // Partner integrations only
 )
 ```
@@ -44,7 +44,7 @@ Reuse this `config` across every method client. Switch `.sandbox` to `.live` for
 
 PayPal and Venmo checkout send the buyer to the PayPal or Venmo app (or an in-app browser) and back to your app via a Universal Link. In **App Target › Signing & Capabilities › Associated Domains**, add `applinks:example.com` and serve your AASA file at `https://example.com/.well-known/apple-app-site-association`. One domain covers both your return and cancel URLs.
 
-Register the **required** custom-scheme fallback under `CFBundleURLTypes`, and declare the PayPal app scheme under `LSApplicationQueriesSchemes` so the SDK can detect it:
+Register the custom-scheme fallback under `CFBundleURLTypes`, and declare the PayPal app scheme under `LSApplicationQueriesSchemes` so the SDK can detect it. `fallbackSchemeURL` is optional on `PayPalURLConfig`, but you should always set it — without it, a buyer whose Universal Link fails to open your app has no way back to checkout:
 
 ```xml
 <key>CFBundleURLTypes</key>
@@ -64,9 +64,9 @@ Define the matching URL config once; you pass it to each method's session or che
 
 ```swift
 let urlConfig = PayPalURLConfig(
-    returnAppUrl:      "https://example.com/merchant-app/return",
-    cancelAppUrl:      "https://example.com/merchant-app/cancel",
-    fallbackSchemeUrl: "merchantapp://return"   // Required
+    returnAppURL:      URL(string: "https://example.com/merchant-app/return")!,
+    cancelAppURL:      URL(string: "https://example.com/merchant-app/cancel")!,
+    fallbackSchemeURL: URL(string: "merchantapp://return")   // Optional, but always set it
 )
 ```
 
