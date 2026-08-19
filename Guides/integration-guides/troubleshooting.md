@@ -5,7 +5,7 @@ Common problems integrating the PayPal Mobile SDK V3.0.0 on iOS, organized by sy
 **Swift Package Manager or CocoaPods cannot resolve the PayPal products**
 
 * Likely cause: the product name is wrong or not added.
-* Fix: add `CorePayments` plus the products you use (`PayPalPayments`, `FraudProtection`, `PaymentButtons`, `VenmoPayments`, `CardPayments`). See [Install & Setup (iOS)](../getting-started/install-and-setup.md).
+* Fix: add `CorePayments` plus the products you use (`PayPalPayments`, `FraudProtection`, `PaymentButtons`, `CardPayments`). See [Install & Setup (iOS)](../getting-started/install-and-setup.md).
 
 ## Setup and initialization
 
@@ -40,8 +40,8 @@ Common problems integrating the PayPal Mobile SDK V3.0.0 on iOS, organized by sy
 
 **Unexpected cancel, or a** `.failure` you expected to be a cancel
 
-* Likely cause: cancellation is always surfaced as a `.failure`, never a separate `.cancel` case — for any of PayPal, Venmo, or Card.
-* Fix: before treating a failure as an error, check `PayPalError.isCheckoutCanceled(error)` / `isVaultCanceled(error)` (PayPal), `VenmoError.isCheckoutCanceled(error)` (Venmo), or `CardError.isThreeDSecureCanceled(error)` (Card) and route the buyer back to checkout.
+* Likely cause: cancellation is always surfaced as a `.failure`, never a separate `.cancel` case — for either PayPal or Card.
+* Fix: before treating a failure as an error, check `PayPalError.isCheckoutCanceled(error)` / `isVaultCanceled(error)` (PayPal) or `CardError.isThreeDSecureCanceled(error)` (Card) and route the buyer back to checkout.
 
 **Card fails with a 3DS URL error**
 

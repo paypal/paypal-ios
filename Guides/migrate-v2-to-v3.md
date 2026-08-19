@@ -12,7 +12,7 @@ How to move an existing **PayPal Mobile SDK V2 (2.x)** iOS integration to **V3.0
 | Result | completion / delegate | completion with `.success` / `.failure` (cancellation is a `.failure` — check `PayPalError.isCheckoutCanceled(error)` / `isVaultCanceled(error)`) |
 | Return handling | handled internally by `ASWebAuthenticationSession` | forward the Universal Link via `handleReturnURL(url)` |
 
-Card (ACDC) and Venmo keep their own clients; the main change they inherit is the `merchantID` on `CoreConfig`. Card's `approveOrder()` still resolves 3DS inline on iOS.
+Card (ACDC) keeps its own client; the main change it inherits is the `merchantID` on `CoreConfig`. Card's `approveOrder()` still resolves 3DS inline on iOS.
 
 ## Before you upgrade
 
@@ -39,8 +39,8 @@ Use this diff to guide the change:
 ```diff
   let config = CoreConfig(
       clientID: "<CLIENT_ID>",
-+     merchantID: "<MERCHANT_ID>",   // now required, distinct from your client ID
-      environment: .sandbox
+      environment: .sandbox,
++     merchantID: "<MERCHANT_ID>"   // now required, distinct from your client ID
   )
 
 - let client = PayPalWebCheckoutClient(config: config)
