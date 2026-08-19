@@ -50,9 +50,7 @@ struct UpdateSetupTokenView: View {
 
             ZStack {
                 Button("Vault Card") {
-                    Task {
-                        await cardVaultViewModel.vault(card: card, setupToken: setupToken)
-                    }
+                    cardVaultViewModel.vault(card: card, setupToken: setupToken)
                 }
                 .buttonStyle(RoundedBlueButtonStyle())
                 if case .loading = cardVaultViewModel.state.updateSetupTokenResponse {

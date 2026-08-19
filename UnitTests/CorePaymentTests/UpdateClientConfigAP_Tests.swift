@@ -9,7 +9,7 @@ class UpdateClientConfigAPI_Tests: XCTestCase {
 
     var sut: UpdateClientConfigAPI!
     var mockNetworkingClient: MockNetworkingClient!
-    let coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
+    let coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox, merchantID: "fake-merchant-id")
 
     // MARK: - Test Lifecycle
 
@@ -50,7 +50,7 @@ class UpdateClientConfigAPI_Tests: XCTestCase {
 
         let variables = mockNetworkingClient.capturedGraphQLRequest?.variables as! UpdateClientConfigVariables
         XCTAssertEqual(variables.token, "testID")
-        XCTAssertEqual(variables.integrationArtifact, "MOBILE_SDK")
+        XCTAssertEqual(variables.integrationArtifact, PayPalCoreConstants.integrationArtifact)
         XCTAssertEqual(variables.userExperienceFlow, "INCONTEXT")
         XCTAssertEqual(variables.productFlow, "HERMES")
         XCTAssertEqual(variables.channel, "MOBILE_APP")

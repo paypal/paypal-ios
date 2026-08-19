@@ -15,12 +15,20 @@ class MockWebAuthenticationSession: WebAuthenticationSession {
         url: URL,
         context: ASWebAuthenticationPresentationContextProviding,
         sessionDidDisplay: @escaping (Bool) -> Void,
+        sessionDidCancel: (() -> Void)? = nil,
         sessionDidComplete: @escaping (URL?, Error?) -> Void
     ) {
         lastLaunchedURL = url
         onStart?()
-        
+
         sessionDidDisplay(cannedDidDisplayResult)
-        sessionDidComplete(cannedResponseURL, cannedErrorResponse)
+
+        if let error = cannedErrorResponse as? NSError,
+           error.domain == ASWebAuthenticationSessionError.errorDomain,
+           error.code == ASWebAuthenticationSessionError.canceledLogin.rawValue {
+            sessionDidCancel?()
+        } else {
+            sessionDidComplete(cannedResponseURL, cannedErrorResponse)
+        }
     }
 }

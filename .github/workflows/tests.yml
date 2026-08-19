@@ -9,11 +9,11 @@ jobs:
     runs-on: macos-26
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
       - name: Select Xcode Version
-        run: sudo xcode-select -switch /Applications/Xcode_26.0.1.app/Contents/Developer
+        run: sudo xcode-select -switch /Applications/Xcode_26.2.app/Contents/Developer
       - name: Run Unit Tests
         run: set -o pipefail && xcodebuild -workspace 'PayPal.xcworkspace' -sdk 'iphonesimulator' -configuration 'Debug' -scheme 'UnitTests' -destination 'platform=iOS Simulator,name=iPhone 17,OS=26.2' test | xcpretty

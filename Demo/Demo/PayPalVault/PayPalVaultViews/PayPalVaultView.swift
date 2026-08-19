@@ -11,23 +11,9 @@ struct PayPalVaultView: View {
                     CreateSetupTokenView(
                         selectedMerchantIntegration: DemoSettings.merchantIntegration,
                         vaultViewModel: paypalVaultViewModel,
-                        paymentSourceType: PaymentSourceType.paypal(usageType: "MERCHANT")
+                        paymentType: .paypal
                     )
                     SetupTokenResultView(vaultViewModel: paypalVaultViewModel)
-                    if let setupTokenID = paypalVaultViewModel.state.setupToken?.id {
-                        ZStack {
-                            Button("Vault PayPal") {
-                                Task {
-                                    await paypalVaultViewModel.vault(setupTokenID: setupTokenID)
-                                }
-                            }
-                            .buttonStyle(RoundedBlueButtonStyle())
-                            .padding()
-                            if case .loading = paypalVaultViewModel.state.paypalVaultTokenResponse {
-                                CircularProgressView()
-                            }
-                        }
-                    }
                     PayPalVaultResultView(viewModel: paypalVaultViewModel)
                     if let paypalVaultResult = paypalVaultViewModel.state.paypalVaultToken {
                         CreatePaymentTokenView(
@@ -64,6 +50,9 @@ struct PayPalVaultView: View {
                         }
                 }
             }
+        }
+        .onOpenURL { url in
+            paypalVaultViewModel.handleUniversalLinkReturn(url)
         }
     }
 }

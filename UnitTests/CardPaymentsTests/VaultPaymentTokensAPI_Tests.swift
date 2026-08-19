@@ -10,7 +10,7 @@ class VaultPaymentTokensAPI_Tests: XCTestCase {
     
     var sut: VaultPaymentTokensAPI!
     var mockNetworkingClient: MockNetworkingClient!
-    let coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
+    let coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox, merchantID: "fake-merchant-id")
     let cardVaultRequest = CardVaultRequest(
         card: Card(
             number: "fake-number",

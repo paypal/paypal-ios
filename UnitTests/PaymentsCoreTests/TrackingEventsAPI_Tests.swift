@@ -7,14 +7,16 @@ class TrackingEventsAPI_Tests: XCTestCase {
     
     // MARK: - Helper Properties
     
-    var sut: TrackingEventsAPI!
+    var sut: AnalyticsEventTracking!
     var mockNetworkingClient: MockNetworkingClient!
-    let coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox)
+    let coreConfig = CoreConfig(clientID: "fake-client-id", environment: .sandbox, merchantID: "fake-merchant-id")
     let stubHTTPResponse = HTTPResponse(status: 200, body: nil)
     let fakeAnalyticsEventData = AnalyticsEventData(
         environment: "my-env",
         eventName: "my-event-name",
         clientID: "my-id",
+        merchantID: "my-merchant-id",
+        bnCode: nil,
         orderID: "my-order",
         correlationID: nil,
         setupToken: nil
@@ -43,6 +45,8 @@ class TrackingEventsAPI_Tests: XCTestCase {
             environment: "my-env",
             eventName: "my-event-name",
             clientID: "my-id",
+            merchantID: "my-merchant-id",
+            bnCode: nil,
             orderID: "my-order",
             correlationID: "fake-correlation-id",
             setupToken: "fake-setup-token"

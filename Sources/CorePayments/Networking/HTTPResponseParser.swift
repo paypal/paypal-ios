@@ -22,7 +22,7 @@ public class HTTPResponseParser {
         if httpResponse.isSuccessful {
             return try parseSuccessResult(data, as: T.self)
         } else {
-            return try parseErrorResult(data, as: T.self)
+            return try parseErrorResult(httpResponse, as: T.self)
         }
     }
     
@@ -34,7 +34,7 @@ public class HTTPResponseParser {
         if httpResponse.isSuccessful {
             return try parseSuccessResult(data, as: T.self, isGraphQL: true)
         } else {
-            return try parseErrorResult(data, as: T.self, isGraphQL: true)
+            return try parseErrorResult(httpResponse, as: T.self, isGraphQL: true)
         }
     }
     
@@ -54,19 +54,34 @@ public class HTTPResponseParser {
             throw NetworkingError.jsonDecodingError(error.localizedDescription)
         }
     }
-    
-    private func parseErrorResult<T: Decodable>(_ data: Data, as type: T.Type, isGraphQL: Bool = false) throws -> T {
-        do {
-            if isGraphQL {
-                let errorData = try decoder.decode(GraphQLErrorResponse.self, from: data)
+
+    private func parseErrorResult<T: Decodable>(_ httpResponse: HTTPResponse, as type: T.Type, isGraphQL: Bool = false) throws -> T {
+        let data = httpResponse.body ?? Data()
+
+        if isGraphQL {
+            if let errorData = try? decoder.decode(GraphQLErrorResponse.self, from: data) {
                 throw NetworkingError.serverResponseError(errorData.error)
-            } else {
-                let errorData = try decoder.decode(ErrorResponse.self, from: data)
+            }
+        } else {
+            if let errorData = try? decoder.decode(ErrorResponse.self, from: data) {
                 throw NetworkingError.serverResponseError(errorData.readableDescription)
             }
-        } catch {
-            throw NetworkingError.jsonDecodingError(error.localizedDescription)
         }
+        throw NetworkingError.serverResponseError(describeUnstructuredError(httpResponse))
+    }
+
+    private func describeUnstructuredError(_ httpResponse: HTTPResponse) -> String {
+        var parts = ["Status \(httpResponse.status)"]
+        if let url = httpResponse.url {
+            parts.append(url.absoluteString)
+        }
+        if let body = httpResponse.body,
+            let bodyText = String(data: body, encoding: .utf8)?
+                .trimmingCharacters(in: .whitespacesAndNewlines),
+            !bodyText.isEmpty {
+            parts.append(bodyText)
+        }
+        return parts.joined(separator: " — ")
     }
 }
 

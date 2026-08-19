@@ -52,15 +52,11 @@ struct CardOrderApproveView: View {
 
                         ZStack {
                             Button("Approve Order") {
-                                Task {
-                                    do {
-                                        await cardPaymentViewModel.checkoutWith(
-                                            card: card,
-                                            orderID: orderID,
-                                            sca: cardPaymentViewModel.state.scaSelection
-                                        )
-                                    }
-                                }
+                                cardPaymentViewModel.checkoutWith(
+                                    card: card,
+                                    orderID: orderID,
+                                    sca: cardPaymentViewModel.state.scaSelection
+                                )
                             }
                             .buttonStyle(RoundedBlueButtonStyle())
                             if case .loading = cardPaymentViewModel.state.approveResultResponse {
