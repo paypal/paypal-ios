@@ -100,10 +100,10 @@ jobs:
           echo "Publishing production documentation..."
 
           # Remove all existing content
-          find . -maxdepth 1 ! -name '.git' ! -name '.' -exec rm -rf {} +
+          find . -maxdepth 1 ! -name '.git' ! -name '.' ! -name 'docs' -exec rm -rf {} +
 
-          # Copy generated docs to root
-          cp -R docs/* .
+          # Move generated docs to root and remove emptied docs folder
+          mv -R docs/* . && rm -rf docs
 
           # Add and commit changes
           git add .
