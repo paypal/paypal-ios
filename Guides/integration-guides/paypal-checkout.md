@@ -1,6 +1,6 @@
 This guide shows you how to accept a **PayPal payment** in your iOS app with PayPal Mobile SDK V3.0.0 — One-Time Checkout, Vault (with or without a purchase), and Pay Later / PayPal Credit. The **PayPal button** is the highlighted way to start checkout: when the buyer taps it, checkout happens in the PayPal app if they are eligible and have it installed — approving with Face ID, Touch ID, or a passkey — then returns to your app through your Universal Link. If the PayPal app is not installed or the buyer is not eligible, checkout continues in an in-app browser automatically.
 
-> **Before you start:** complete [Install & Setup (iOS)](install-and-setup.md). It covers the SDK dependency, `CoreConfig`, and return-link registration shared by every payment method.
+> **Before you start:** complete [Install & Setup (iOS)](../getting-started/install-and-setup.md). It covers the SDK dependency, `CoreConfig`, and return-link registration shared by every payment method.
 
 ## Overview
 
@@ -44,7 +44,7 @@ The SDK handles the client-side of checkout. It does not create or capture order
 
 ## Before you begin
 
-Complete [Install & Setup (iOS)](install-and-setup.md). For PayPal Checkout specifically:
+Complete [Install & Setup (iOS)](../getting-started/install-and-setup.md). For PayPal Checkout specifically:
 
 * Add the `PayPalPayments` and `PaymentButtons` products.
 * Construct the client from the `CoreConfig` you built in setup:
@@ -263,7 +263,7 @@ To test the in-app browser path, use a device without the PayPal app installed, 
 
 ## Related
 
-* [Install & Setup (iOS)](install-and-setup.md)
+* [Install & Setup (iOS)](../getting-started/install-and-setup.md)
 * [Payment Buttons (iOS)](payment-buttons.md)
 * [Troubleshooting (iOS)](troubleshooting.md)
 * [PayPal Developer Dashboard](https://developer.paypal.com/dashboard/)

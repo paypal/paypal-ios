@@ -2,7 +2,7 @@ This guide shows you how to accept a **card payment** — Advanced Credit and De
 
 On iOS, the 3D Secure (3DS) step-up — when required — is handled **entirely inside** `approveOrder()` / `vault()`: the SDK presents the challenge in an `ASWebAuthenticationSession` and resolves your completion handler once it is done. There is no separate "present the challenge" call and no return intent to forward.
 
-> **Before you start:** complete [Install & Setup (iOS)](install-and-setup.md). Card needs **no** Associated Domains or custom-scheme registration — the 3DS challenge resolves in-process.
+> **Before you start:** complete [Install & Setup (iOS)](../getting-started/install-and-setup.md). Card needs **no** Associated Domains or custom-scheme registration — the 3DS challenge resolves in-process.
 
 ## Overview
 
@@ -27,7 +27,7 @@ sequenceDiagram
 
 ## Before you begin
 
-Complete [Install & Setup (iOS)](install-and-setup.md). For Card specifically:
+Complete [Install & Setup (iOS)](../getting-started/install-and-setup.md). For Card specifically:
 
 * Add the `CardPayments` product.
 * Construct the client from the `CoreConfig` you built in setup:
@@ -173,6 +173,6 @@ Card delivers a single `Result` — the 3DS challenge (if any) resolves inline b
 
 ## Related
 
-* [Install & Setup (iOS)](install-and-setup.md)
+* [Install & Setup (iOS)](../getting-started/install-and-setup.md)
 * [Troubleshooting (iOS)](troubleshooting.md)
 * [Orders v2 API](https://developer.paypal.com/docs/api/orders/v2/)

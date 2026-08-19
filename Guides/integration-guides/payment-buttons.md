@@ -1,6 +1,6 @@
 The SDK ships PayPal-branded buttons — `PayPalButton`, `PayPalPayLaterButton`, and `PayPalCreditButton` (the `PaymentButtons` product). Use these rather than building your own: they carry PayPal's wordmark, brand colors, typography (the PayPalOpen font), and accessibility. This guide covers adding, styling, and wiring a button; for the checkout it triggers, see [PayPal Checkout](paypal-checkout.md).
 
-> **Before you begin:** complete [Install & Setup (iOS)](install-and-setup.md) and add the `PaymentButtons` product.
+> **Before you begin:** complete [Install & Setup (iOS)](../getting-started/install-and-setup.md) and add the `PaymentButtons` product.
 
 ## Add a button
 
@@ -58,6 +58,6 @@ The button sets its own accessibility label (combining the label text and wordma
 
 ## Related
 
-* [Install & Setup (iOS)](install-and-setup.md)
+* [Install & Setup (iOS)](../getting-started/install-and-setup.md)
 * [PayPal Checkout — Integration Guide (iOS)](paypal-checkout.md)
 * [Troubleshooting (iOS)](troubleshooting.md)

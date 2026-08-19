@@ -5,7 +5,7 @@ Common problems integrating the PayPal Mobile SDK V3.0.0 on iOS, organized by sy
 **Swift Package Manager or CocoaPods cannot resolve the PayPal products**
 
 * Likely cause: the product name is wrong or not added.
-* Fix: add `CorePayments` plus the products you use (`PayPalPayments`, `FraudProtection`, `PaymentButtons`, `VenmoPayments`, `CardPayments`). See [Install & Setup (iOS)](install-and-setup.md).
+* Fix: add `CorePayments` plus the products you use (`PayPalPayments`, `FraudProtection`, `PaymentButtons`, `VenmoPayments`, `CardPayments`). See [Install & Setup (iOS)](../getting-started/install-and-setup.md).
 
 ## Setup and initialization
 
@@ -50,13 +50,13 @@ Common problems integrating the PayPal Mobile SDK V3.0.0 on iOS, organized by sy
 
 ## Still stuck
 
-* Re-check [Install & Setup (iOS)](install-and-setup.md).
+* Re-check [Install & Setup (iOS)](../getting-started/install-and-setup.md).
 * Look up exact signatures in the generated API reference (DocC).
 * Run the sample app to compare against a known-good integration.
 * Contact your PayPal account team or support.
 
 ## Related
 
-* [Install & Setup (iOS)](install-and-setup.md)
+* [Install & Setup (iOS)](../getting-started/install-and-setup.md)
 * [PayPal Checkout — Integration Guide (iOS)](paypal-checkout.md)
 * [Card / ACDC — Integration Guide (iOS)](card-acdc.md)

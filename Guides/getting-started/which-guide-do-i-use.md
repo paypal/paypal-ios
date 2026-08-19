@@ -6,7 +6,7 @@ Use this to find the right page in the PayPal Mobile SDK V3.0.0 iOS guide set.
 | --- | --- |
 | Understand what the SDK is and which methods and flows are supported | [Overview](../README.md) |
 | Understand how the pieces fit and who is responsible for what | [Concepts & Responsibilities](concepts-and-responsibilities.md) |
-| Get the SDK installed and initialized | **[Install & Setup](../integration-guides/install-and-setup.md)** — do this first |
+| Get the SDK installed and initialized | **[Install & Setup](install-and-setup.md)** — do this first |
 | Accept a **PayPal** payment (incl. vault, Pay Later / PayPal Credit) | [PayPal Checkout](../integration-guides/paypal-checkout.md) |
 | Accept a **Venmo** payment | [Venmo Checkout](../integration-guides/venmo-checkout.md) |
 | Accept a **card** payment / ACDC (incl. vault) | [Card / ACDC](../integration-guides/card-acdc.md) |
@@ -27,4 +27,4 @@ Use this to find the right page in the PayPal Mobile SDK V3.0.0 iOS guide set.
 
 ## Start
 
-Do [Install & Setup](../integration-guides/install-and-setup.md), then the method guide you need.
+Do [Install & Setup](install-and-setup.md), then the method guide you need.
