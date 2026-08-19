@@ -12,7 +12,6 @@ Once setup is done, integrate a payment method:
 
 * [PayPal Checkout — Integration Guide](integration-guides/paypal-checkout.md) — One-Time Checkout, Vault (with/without purchase), Pay Later / PayPal Credit
 * [Payment Buttons](integration-guides/payment-buttons.md) — add and customize the PayPal button family
-* [Venmo Checkout — Integration Guide](integration-guides/venmo-checkout.md) — One-Time Checkout
 * [Card / ACDC — Integration Guide](integration-guides/card-acdc.md) — card payments and vaulting
 
 Having trouble? See [Troubleshooting](integration-guides/troubleshooting.md).
