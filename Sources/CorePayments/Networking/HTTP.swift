@@ -22,6 +22,8 @@ class HTTP {
         httpRequest.headers.forEach { key, value in
             urlRequest.addValue(value, forHTTPHeaderField: key.rawValue)
         }
+        
+        let startTime = Int64(Date().timeIntervalSince1970 * 1000)
 
         let (data, response): (Data, URLResponse)
         do {
@@ -32,10 +34,17 @@ class HTTP {
             throw NetworkingError.unknownError
         }
 
+        let endTime = Int64(Date().timeIntervalSince1970 * 1000)
+
         guard let response = response as? HTTPURLResponse else {
             throw NetworkingError.invalidURLResponseError
         }
-        
-        return HTTPResponse(status: response.statusCode, body: data)
+
+        return HTTPResponse(
+            status: response.statusCode,
+            body: data,
+            url: httpRequest.url,
+            timing: HTTPResponse.Timing(startTime: startTime, endTime: endTime)
+        )
     }
 }

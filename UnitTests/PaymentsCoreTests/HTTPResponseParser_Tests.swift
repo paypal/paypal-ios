@@ -141,4 +141,29 @@ class HTTPResponseParser_Tests: XCTestCase {
             XCTAssertEqual(error.domain, NetworkingError.domain)
         }
     }
+
+    func testParseGraphQL_whenBadStatusCodeWithNonJSONBody_includesStatusURLAndRawBody() {
+        let plainTextBody = "Reason: Target App not specified"
+        let mockHTTPResponse = HTTPResponse(
+            status: 400,
+            body: plainTextBody.data(using: .utf8)!,
+            url: URL(string: "https://www.braintree.stage.paypal.com/graphql?UpdateClientConfig")
+        )
+
+        do {
+            _ = try sut.parseGraphQL(mockHTTPResponse, as: FakeResponse.self)
+            XCTFail("Expected parse() to throw")
+        } catch {
+            let error = error as! CoreSDKError
+            XCTAssertEqual(error.domain, NetworkingError.domain)
+            XCTAssertEqual(error.code, NetworkingError.Code.serverResponseError.rawValue)
+            XCTAssertTrue(error.localizedDescription.contains("Status 400"))
+            XCTAssertTrue(
+                error.localizedDescription.contains(
+                    "https://www.braintree.stage.paypal.com/graphql?UpdateClientConfig"
+                )
+            )
+            XCTAssertTrue(error.localizedDescription.contains("Target App not specified"))
+        }
+    }
 }

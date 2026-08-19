@@ -1,6 +1,6 @@
 import Foundation
 import CardPayments
-import PayPalWebPayments
+import PayPalPayments
 
 struct UpdateSetupTokenResult: Decodable, Equatable {
 

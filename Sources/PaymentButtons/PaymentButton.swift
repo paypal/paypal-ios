@@ -26,7 +26,7 @@ public class PaymentButton: UIButton {
 
     // Use an empty config and default to live environment for button analytics
     private let analyticsService = AnalyticsService(
-        coreConfig: .init(clientID: "N/A", environment: .live),
+        coreConfig: .init(clientID: "N/A", environment: .live, merchantID: "N/A"),
         orderID: "N/A"
     )
 

@@ -184,16 +184,13 @@ public class CardClient: NSObject {
                     self?.analyticsService?.sendEvent("card-payments:approve-order:auth-challenge-presentation:failed")
                 }
             },
+            sessionDidCancel: { [weak self] in
+                self?.notify3dsCheckoutCancelWithError(with: CardError.threeDSecureCanceledError, completion: completion)
+            },
             sessionDidComplete: { _, error in
-                if let error = error {
-                    switch error {
-                    case ASWebAuthenticationSessionError.canceledLogin:
-                        self.notify3dsCheckoutCancelWithError(with: CardError.threeDSecureCanceledError, completion: completion)
-                        return
-                    default:
-                        self.notify3dsCheckoutFailure(with: CardError.threeDSecureError(error), completion: completion)
-                        return
-                    }
+                if let error {
+                    self.notify3dsCheckoutFailure(with: CardError.threeDSecureError(error), completion: completion)
+                    return
                 }
 
                 let cardResult = CardResult(orderID: orderId, status: nil, didAttemptThreeDSecureAuthentication: true)
@@ -224,16 +221,13 @@ public class CardClient: NSObject {
                     self?.analyticsService?.sendEvent("card-payments:vault-wo-purchase:auth-challenge-presentation:failed")
                 }
             },
+            sessionDidCancel: { [weak self] in
+                self?.notify3dsVaultCancelWithError(with: CardError.threeDSecureCanceledError, completion: completion)
+            },
             sessionDidComplete: { _, error in
-                if let error = error {
-                    switch error {
-                    case ASWebAuthenticationSessionError.canceledLogin:
-                        self.notify3dsVaultCancelWithError(with: CardError.threeDSecureCanceledError, completion: completion)
-                        return
-                    default:
-                        self.notify3dsVaultFailure(with: CardError.threeDSecureError(error), completion: completion)
-                        return
-                    }
+                if let error {
+                    self.notify3dsVaultFailure(with: CardError.threeDSecureError(error), completion: completion)
+                    return
                 }
 
                 let cardVaultResult = CardVaultResult(setupTokenID: setupTokenID, status: nil, didAttemptThreeDSecureAuthentication: true)

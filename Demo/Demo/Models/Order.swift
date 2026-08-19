@@ -16,6 +16,19 @@ struct Order: Codable, Equatable {
         self.paymentSource = paymentSource
     }
 
+    enum CodingKeys: String, CodingKey {
+        case id, status, paymentSource
+    }
+
+    /// The Live merchant returns only `id` when creating an order and only `status` when
+    /// capturing or authorizing one, so neither is required to decode.
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decodeIfPresent(String.self, forKey: .id) ?? ""
+        status = try container.decodeIfPresent(String.self, forKey: .status) ?? ""
+        paymentSource = try container.decodeIfPresent(PaymentSource.self, forKey: .paymentSource)
+    }
+
     struct Card: Codable, Equatable {
 
         let lastDigits: String?

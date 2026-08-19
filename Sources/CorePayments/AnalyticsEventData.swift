@@ -13,25 +13,46 @@ struct AnalyticsEventData: Encodable {
     enum EventParameterKeys: String, CodingKey, CaseIterable {
         case appID = "app_id"
         case appName = "app_name"
+        case appSwitchEligible = "app_switch_eligible"
+        case appSwitchURL = "app_switch_url"
+        case bnCode = "bn_code"
         case buttonType = "button_type"
+        case cancelAppURL = "cancel_app_url"
         case clientID = "partner_client_id"
-        case clientSDKVersion = "c_sdk_ver"
         case clientOS = "client_os"
+        case clientSDKVersion = "c_sdk_ver"
         case component = "comp"
         case correlationID = "correlation_id"
         case deviceManufacturer = "device_manufacturer"
+        case deviceModel = "mobile_device_model"
+        case endpoint = "endpoint"
+        case endTime = "end_time"
         case environment = "merchant_sdk_env"
+        case errorDescription = "error_desc"
         case eventName = "event_name"
         case eventSource = "event_source"
+        case fallbackSchemeURL = "fallback_scheme_url"
+        case fallbackUrl = "fallback_url"
+        case flow = "flow"
+        case ineligibleReason = "ineligible_reason"
+        case isCachedSession = "is_cached_session"
+        case isSimulator = "is_simulator"
+        case isVaultRequest = "is_vault"
+        case merchantAppVersion = "mapv"
+        case merchantID = "merchant_id"
         case orderID = "order_id"
         case packageManager = "ios_package_manager"
-        case isSimulator = "is_simulator"
-        case merchantAppVersion = "mapv"
-        case deviceModel = "mobile_device_model"
+        case paypalNativeAppInstalled = "paypal_installed"
         case platform = "platform"
+        case presentationType = "presentation_type"
+        case returnAppURL = "return_app_url"
         case setupToken = "vault_setup_token"
-        case timestamp = "t"
+        case shopperSessionExpiration = "shopper_session_expiration"
+        case shopperSessionId = "shopper_session_id"
+        case startTime = "start_time"
         case tenantName = "tenant_name"
+        case timestamp = "t"
+        case userAction = "user_action"
     }
     
     let appID: String = Bundle.main.infoDictionary?[kCFBundleIdentifierKey as String] as? String ?? "N/A"
@@ -99,22 +120,99 @@ struct AnalyticsEventData: Encodable {
 
     let buttonType: String?
 
+    let merchantID: String
+
+    let bnCode: String?
+
+    let appSwitchURL: URL?
+
+    let appSwitchEligible: Bool?
+
+    let ineligibleReason: String?
+
+    let fallbackUrl: String?
+
+    let fallbackSchemeURL: URL?
+
+    let returnAppURL: URL?
+
+    let cancelAppURL: URL?
+
+    let userAction: String?
+
+    let paypalNativeAppInstalled: Bool?
+
+    let errorDescription: String?
+
+    let isCachedSession: Bool?
+
+    let isVaultRequest: Bool?
+
+    let shopperSessionId: String?
+
+    let shopperSessionExpiration: String?
+
+    /// Epoch milliseconds captured immediately before the measured API call. Used for `api-request-latency`.
+    let startTime: Int64?
+
+    /// Epoch milliseconds captured immediately after the measured API call's response is received.
+    let endTime: Int64?
+
+    /// Sanitized API path of the measured API call, e.g. `/v2/checkout/orders`, `/v2/vault/setup-tokens`.
+    let endpoint: String?
+
+    /// How the checkout experience was presented for `system-latency`: `app-switch`, `browser`, or `error`.
+    let presentationType: String?
+
+    /// Which flow the `system-latency` measurement is for: `checkout` (from `start()`) or `vault` (from `vault()`).
+    let flow: String?
+
     init(
         environment: String,
         eventName: String,
         clientID: String,
+        merchantID: String,
+        bnCode: String?,
         orderID: String?,
         correlationID: String?,
         setupToken: String?,
-        buttonType: String? = nil
+        buttonType: String? = nil,
+        errorDescription: String? = nil,
+        startTime: Int64? = nil,
+        endTime: Int64? = nil,
+        endpoint: String? = nil,
+        presentationType: String? = nil,
+        flow: String? = nil,
+        checkoutAnalyticsData: PayPalCheckoutAnalyticsData? = nil
     ) {
         self.environment = environment
         self.eventName = eventName
         self.clientID = clientID
+        self.merchantID = merchantID
+        self.bnCode = bnCode
         self.orderID = orderID
         self.correlationID = correlationID
         self.setupToken = setupToken
         self.buttonType = buttonType
+        self.startTime = startTime
+        self.endTime = endTime
+        self.endpoint = endpoint
+        self.presentationType = presentationType
+        self.flow = flow
+        self.appSwitchURL = checkoutAnalyticsData?.appSwitchURL
+        self.appSwitchEligible = checkoutAnalyticsData?.appSwitchEligible
+        self.ineligibleReason = checkoutAnalyticsData?.ineligibleReason
+        self.fallbackUrl = checkoutAnalyticsData?.fallbackUrl
+        self.fallbackSchemeURL = checkoutAnalyticsData?.fallbackSchemeURL
+        self.returnAppURL = checkoutAnalyticsData?.returnAppURL
+        self.cancelAppURL = checkoutAnalyticsData?.cancelAppURL
+        self.userAction = checkoutAnalyticsData?.userAction
+        self.paypalNativeAppInstalled = checkoutAnalyticsData?.paypalNativeAppInstalled
+        self.errorDescription = errorDescription
+        self.isCachedSession = checkoutAnalyticsData?.isCachedSession
+        self.isVaultRequest = checkoutAnalyticsData?.isVaultRequest
+        self.shopperSessionId = checkoutAnalyticsData?.shopperSessionID
+        self.shopperSessionExpiration = checkoutAnalyticsData?.shopperSessionExpiration
     }
     
     func encode(to encoder: Encoder) throws {
@@ -142,5 +240,27 @@ struct AnalyticsEventData: Encodable {
         try eventParameters.encode(timestamp, forKey: .timestamp)
         try eventParameters.encode(tenantName, forKey: .tenantName)
         try eventParameters.encode(setupToken, forKey: .setupToken)
+        try eventParameters.encode(buttonType, forKey: .buttonType)
+        try eventParameters.encode(merchantID, forKey: .merchantID)
+        try eventParameters.encode(bnCode, forKey: .bnCode)
+        try eventParameters.encode(appSwitchURL, forKey: .appSwitchURL)
+        try eventParameters.encode(appSwitchEligible, forKey: .appSwitchEligible)
+        try eventParameters.encode(ineligibleReason, forKey: .ineligibleReason)
+        try eventParameters.encode(fallbackUrl, forKey: .fallbackUrl)
+        try eventParameters.encode(fallbackSchemeURL, forKey: .fallbackSchemeURL)
+        try eventParameters.encode(returnAppURL, forKey: .returnAppURL)
+        try eventParameters.encode(cancelAppURL, forKey: .cancelAppURL)
+        try eventParameters.encode(userAction, forKey: .userAction)
+        try eventParameters.encode(paypalNativeAppInstalled, forKey: .paypalNativeAppInstalled)
+        try eventParameters.encode(errorDescription, forKey: .errorDescription)
+        try eventParameters.encode(isCachedSession, forKey: .isCachedSession)
+        try eventParameters.encode(isVaultRequest, forKey: .isVaultRequest)
+        try eventParameters.encode(shopperSessionId, forKey: .shopperSessionId)
+        try eventParameters.encode(shopperSessionExpiration, forKey: .shopperSessionExpiration)
+        try eventParameters.encode(startTime, forKey: .startTime)
+        try eventParameters.encode(endTime, forKey: .endTime)
+        try eventParameters.encode(endpoint, forKey: .endpoint)
+        try eventParameters.encode(presentationType, forKey: .presentationType)
+        try eventParameters.encode(flow, forKey: .flow)
     }
 }

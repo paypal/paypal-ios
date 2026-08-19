@@ -2,19 +2,31 @@ import SwiftUI
 
 struct FeatureSelectionView: View {
 
-    @State private var selectedEnvironment: Environment = DemoSettings.environment
+    @State private var selectedEnvironment: DemoEnvironment = DemoSettings.environment
     @State private var selectedIntegration: MerchantIntegration = DemoSettings.merchantIntegration
+    #if DEBUG
+    @State private var lastCommittedEnvironment: DemoEnvironment = DemoSettings.environment
+    @State private var showCustomEnvironmentSheet = false
+    #endif
 
     var body: some View {
         NavigationView {
             List {
                 Section(header: Text("Settings")) {
                     Picker("Environment", selection: $selectedEnvironment.onChange(updateEnvironment)) {
-                        ForEach(Environment.allCases, id: \.self) { environment in
+                        ForEach(DemoEnvironment.allCases, id: \.self) { environment in
                             Text(environment.rawValue.capitalized).tag(environment)
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
+
+                    #if DEBUG
+                    if selectedEnvironment == .custom {
+                        Button("Setup Environment") {
+                            showCustomEnvironmentSheet = true
+                        }
+                    }
+                    #endif
 
                     Picker("Merchant Integration", selection: $selectedIntegration.onChange(updateIntegration)) {
                         ForEach(MerchantIntegration.allCases, id: \.self) { integration in
@@ -58,11 +70,39 @@ struct FeatureSelectionView: View {
                 .listStyle(InsetGroupedListStyle())
                 .navigationTitle("Feature Selection")
             }
+            #if DEBUG
+            .sheet(isPresented: $showCustomEnvironmentSheet) {
+                CustomEnvironmentView(
+                    onSave: {
+                        selectedEnvironment = .custom
+                        lastCommittedEnvironment = .custom
+                    },
+                    onCancel: {
+                        if DemoSettings.customEnvironment != nil {
+                            DemoSettings.environment = .custom
+                            selectedEnvironment = .custom
+                            lastCommittedEnvironment = .custom
+                        } else {
+                            selectedEnvironment = lastCommittedEnvironment
+                        }
+                    }
+                )
+            }
+            #endif
         }
     }
 
-    func updateEnvironment(newEnvironment: Environment) {
+    func updateEnvironment(newEnvironment: DemoEnvironment) {
+        #if DEBUG
+        if newEnvironment == .custom {
+            showCustomEnvironmentSheet = true
+            return
+        }
+        #endif
         DemoSettings.environment = newEnvironment
+        #if DEBUG
+        lastCommittedEnvironment = newEnvironment
+        #endif
     }
 
     func updateIntegration(newIntegration: MerchantIntegration) {

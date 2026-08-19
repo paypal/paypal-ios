@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "PayPal"
-  s.version          = "2.0.1"
+  s.version          = "3.0.0"
   s.summary          = "The PayPal iOS SDK: Helps you accept card, PayPal, and alternative payment methods in your iOS app."
   s.homepage         = "https://developer.paypal.com/home"
   s.license          = "MIT"
@@ -26,10 +26,10 @@ Pod::Spec.new do |s|
     }
   end
 
-  s.subspec "PayPalWebPayments" do |s|
-    s.source_files  = "Sources/PayPalWebPayments/*.swift"
+  s.subspec "PayPalPayments" do |s|
+    s.source_files  = "Sources/PayPalPayments/**/*.swift"
     s.dependency "PayPal/CorePayments"
-    s.resource_bundle = { "PayPalWebPayments_PrivacyInfo" => "Sources/PayPalWebPayments/PrivacyInfo.xcprivacy" }
+    s.resource_bundle = { "PayPalPayments_PrivacyInfo" => "Sources/PayPalPayments/PrivacyInfo.xcprivacy" }
   end
 
   s.subspec "FraudProtection" do |s|

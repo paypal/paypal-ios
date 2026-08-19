@@ -49,7 +49,7 @@ public class UpdateClientConfigAPI {
         let variables = UpdateClientConfigVariables(
             token: token,
             fundingSource: fundingSource,
-            integrationArtifact: "MOBILE_SDK",
+            integrationArtifact: PayPalCoreConstants.integrationArtifact,
             userExperienceFlow: "INCONTEXT",
             productFlow: "HERMES",
             channel: "MOBILE_APP"

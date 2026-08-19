@@ -14,7 +14,7 @@ struct CardVaultView: View {
                     CreateSetupTokenView(
                         selectedMerchantIntegration: DemoSettings.merchantIntegration,
                         vaultViewModel: cardVaultViewModel,
-                        paymentSourceType: PaymentSourceType.card(verification: sca)
+                        paymentType: .card
                     )
                     SetupTokenResultView(vaultViewModel: cardVaultViewModel)
                     if let setupToken = cardVaultViewModel.state.setupToken {
