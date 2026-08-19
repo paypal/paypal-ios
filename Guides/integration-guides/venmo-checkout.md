@@ -1,4 +1,4 @@
-This guide shows you how to accept a **Venmo payment** (One-Time Checkout) in your iOS app with PayPal Mobile SDK V3.0.0. Venmo checkout uses its own client, `VenmoClient`, and reuses the Universal Link and fallback scheme you registered in Install & Setup. When the buyer taps your Venmo button, checkout opens the Venmo app if it is installed and the buyer is eligible; otherwise it falls back to an in-app browser automatically. **Venmo supports One-Time Checkout only** — vault flows are not supported for Venmo.
+This guide shows you how to accept a **Venmo payment** (One-Time Checkout) in your iOS app with PayPal Mobile SDK V3.0.0. Venmo checkout uses its own client, `VenmoClient`, and returns to your app via the same Universal Link domain you registered in Install & Setup. When the buyer taps your Venmo button, checkout opens the Venmo app if it is installed and the buyer is eligible; otherwise it falls back to an in-app browser automatically. **Venmo supports One-Time Checkout only** — vault flows are not supported for Venmo.
 
 > **Before you start:** complete [Install & Setup (iOS)](install-and-setup.md).
 
@@ -35,7 +35,8 @@ Complete [Install & Setup (iOS)](install-and-setup.md). For Venmo specifically:
 let venmoClient = VenmoClient(config: config)
 ```
 
-* Venmo reuses your Universal Link and `fallbackSchemeURL` from setup — no extra Associated Domains or Info.plist changes — as long as your Venmo return/cancel URLs sit under the same domain.
+* Unlike PayPal Checkout, `VenmoClient` doesn't take a `PayPalURLConfig` or any URL config from the SDK — it never reads `fallbackSchemeURL` or Associated Domains settings from `CoreConfig`. The URL it opens to switch to Venmo is a fixed, SDK-built checkout URL with no merchant-configurable return path. The buyer's way back to your app instead comes from the `return_url` / `cancel_url` you set per-order, server-side (see below) — as long as those sit under the same Universal Link domain you registered in Install & Setup, iOS delivers the return through your `scene(_:continue:)` / `.onOpenURL` handler, and `venmoClient.handleReturnURL(url)` parses the result from that URL. There is currently no custom-scheme fallback for Venmo — if the Universal Link isn't verified, there's no documented fallback path back to your app.
+* Add `com.venmo.touch.v2` under `LSApplicationQueriesSchemes` in Info.plist — the SDK uses it to detect whether the Venmo app is installed. This is in addition to the `paypal` entry from Install & Setup, not a replacement for it.
 
 ## Server: create the order with the Venmo payment source
 
@@ -129,7 +130,7 @@ Follow the same physical-device approach as PayPal App Switch, with two differen
 ### Go live
 
 - [ ] Switch `.sandbox` to `.live` and use your live client ID and merchant ID.
-- [ ] Verify the Universal Link return and custom-scheme fallback work in a release build.
+- [ ] Verify the Universal Link return works in a release build; confirm your order's `return_url`/`cancel_url` share the same domain as that Universal Link. Confirm `com.venmo.touch.v2` is declared under `LSApplicationQueriesSchemes`.
 - [ ] Confirm success, cancel (`VenmoError.isCheckoutCanceled`), and other failures are handled.
 - [ ] Contact your PayPal account team to enable Venmo for production traffic.
 

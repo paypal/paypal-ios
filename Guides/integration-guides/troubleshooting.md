@@ -9,7 +9,7 @@ Common problems integrating the PayPal Mobile SDK V3.0.0 on iOS, organized by sy
 
 ## Setup and initialization
 
-`sessionNotStarted` returned on `start()` or `vault()`
+`PayPalError.sessionNotStartedError` returned on `start()` or `vault()`
 
 * Likely cause: `createPayPalSession()` was not called first.
 * Fix: call `createPayPalSession(sessionType:userIdentity:urlConfig:userAction:)` on `PayPalClient` in your button's action, before or alongside order creation. See [PayPal Checkout](paypal-checkout.md).

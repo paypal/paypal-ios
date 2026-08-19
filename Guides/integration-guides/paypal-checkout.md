@@ -6,7 +6,7 @@ This guide shows you how to accept a **PayPal payment** in your iOS app with Pay
 
 When the buyer taps your PayPal button, you call `createPayPalSession()` (with the session type, an optional buyer identity, return URLs, and user action) and create the order — then call `start()` with just the order ID. `createPayPalSession()` is required and must come first.
 
-**Prepare the session before checkout.** `start()` requires a prepared shopper session, created by `createPayPalSession()`. Until it has been called, `start()` will not proceed — it returns a `sessionNotStarted` error on its completion handler. Preparing the session carries the buyer identity, return URLs, and user action to PayPal and determines whether checkout uses the PayPal app or the in-app browser.
+**Prepare the session before checkout.** `start()` requires a prepared shopper session, created by `createPayPalSession()`. Until it has been called, `start()` will not proceed — it returns a `PayPalError.sessionNotStartedError` on its completion handler. Preparing the session carries the buyer identity, return URLs, and user action to PayPal and determines whether checkout uses the PayPal app or the in-app browser.
 
 **Create the session when the buyer shows intent.** Call `createPayPalSession()` from your PayPal button's action, ideally at the same time as you create the order, so its network latency overlaps order creation and it is ready by the time you call `start()`.
 
@@ -94,12 +94,13 @@ checkoutClient.createPayPalSession(
 
 ### Step 3: Collect device data
 
-Collect device data before you create the order, and attach the resulting client metadata ID to your create-order request so PayPal's risk systems can reduce declines.
+Collect device data before you create the order, and attach the resulting risk data to your create-order request so PayPal's risk systems can reduce declines.
 
 ```swift
 let dataCollector = PayPalDataCollector(config: config)
-let clientMetadataId = dataCollector.collectDeviceData()
-// Send clientMetadataId to your server; set it as the PayPal-Client-Metadata-Id header on your Orders v2 create call.
+let riskCorrelationPayload = dataCollector.collectDeviceData()
+// collectDeviceData() returns a JSON string, e.g. {"correlation_id":"..."} — not a bare ID.
+// Send it to your server; set it as the PayPal-Client-Metadata-Id header on your Orders v2 create call.
 ```
 
 ### Step 4: Create the order and start checkout

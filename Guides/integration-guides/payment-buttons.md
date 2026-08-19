@@ -28,7 +28,7 @@ All customization is passed to the initializer (`PayPalButton.Representable` in 
 | Parameter | Values | Default |
 | --- | --- | --- |
 | `color` | `PayPalButton.Color`: `.gold`, `.blue`, `.white`, `.black`, `.silver` | `.gold` |
-| `label` | `PayPalButton.Label`: `.none`, `.checkout`, `.buyNow`, `.payWith` | `.none` (wordmark only) |
+| `label` | `PayPalButton.Label?`: `.none`, `.checkout`, `.buyNow`, `.payWith` | `nil` (wordmark only, same as `.none`) |
 | `edges` | `PaymentButtonEdges` (defaults to `.softEdges`) | `.softEdges` |
 | `size` | `PaymentButtonSize`: `.mini`, `.collapsed`, `.expanded`, `.full` | `.collapsed` |
 | `insets` | `NSDirectionalEdgeInsets?` — padding around the content | `nil` |
