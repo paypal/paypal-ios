@@ -1,7 +1,7 @@
 
 # PayPal iOS SDK Release Notes
 
-## unreleased
+## 3.0.0 (2026-08-19)
 
 * PayPalPayments
   * **Breaking:** Rename the `PayPalWebPayments` module to `PayPalPayments` — update `import PayPalWebPayments` to `import PayPalPayments`
