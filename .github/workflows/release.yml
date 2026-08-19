@@ -103,7 +103,7 @@ jobs:
           find . -maxdepth 1 ! -name '.git' ! -name '.' ! -name 'docs' -exec rm -rf {} +
 
           # Move generated docs to root and remove emptied docs folder
-          mv -R docs/* . && rm -rf docs
+          mv docs/* . && rm -rf docs
 
           # Add and commit changes
           git add .
