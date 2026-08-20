@@ -196,8 +196,7 @@ class PayPalClient_CreateSession_Tests: XCTestCase {
             domain: PayPalError.domain,
             errorDescription: "Session fetch failed."
         )
-        mockURLOpener.mockIsPayPalAppInstalled = false
-
+        
         payPalClient.createPayPalSession(sessionType: .checkout, urlConfig: fakeURLConfig)
 
         let expectation = expectation(description: "start fails with sessionNotCreatedError")
@@ -228,7 +227,6 @@ class PayPalClient_CreateSession_Tests: XCTestCase {
             domain: PayPalError.domain,
             errorDescription: "Session fetch failed."
         )
-        mockURLOpener.mockIsPayPalAppInstalled = true
         mockURLOpener.mockOpenURLSuccess = true
 
         payPalClient.createPayPalSession(sessionType: .checkout, urlConfig: fakeURLConfig)
@@ -257,8 +255,7 @@ class PayPalClient_CreateSession_Tests: XCTestCase {
             domain: PayPalError.domain,
             errorDescription: "Session fetch failed."
         )
-        mockURLOpener.mockIsPayPalAppInstalled = false
-
+        
         payPalClient.createPayPalSession(sessionType: .vaultWithoutPurchase, urlConfig: fakeURLConfig)
 
         let expectation = expectation(description: "vault fails with sessionNotCreatedError")
@@ -286,7 +283,6 @@ class PayPalClient_CreateSession_Tests: XCTestCase {
             domain: PayPalError.domain,
             errorDescription: "Session fetch failed."
         )
-        mockURLOpener.mockIsPayPalAppInstalled = true
         mockURLOpener.mockOpenURLSuccess = true
 
         payPalClient.createPayPalSession(sessionType: .vaultWithoutPurchase, urlConfig: fakeURLConfig)

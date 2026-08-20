@@ -90,12 +90,14 @@ public class CreateShopperSessionAPI {
         
         let experimentationContext = ShopperSessionExperimentationContext(merchantAccountId: coreConfig.merchantID)
         
+        /// we can no longer determine if paypalNativeAppInstalled
+        /// sending true so flow attempts App Switch in the future
         let appSwitchEligibilityInput = AppSwitchEligibilityInput(
             contextId: contextId,
             tokenType: tokenType.rawValue,
             osType: PayPalCoreConstants.osType,
             merchantOptInForAppSwitch: true,
-            paypalNativeAppInstalled: urlOpener.isPayPalAppInstalled(),
+            paypalNativeAppInstalled: true,
             experimentationContext: experimentationContext,
             buyerEmailAddressMerchantPassed: userIdentity?.email,
             shoppersSessionId: userIdentity?.existingPayPalSessionID
