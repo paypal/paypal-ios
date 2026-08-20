@@ -83,7 +83,7 @@ Use this diff to guide the change:
 
 ## Info.plist and entitlements
 
-Add the custom-scheme `fallbackSchemeURL` under `CFBundleURLTypes` (optional on `PayPalURLConfig`, but you should always set it), and declare `paypal` under `LSApplicationQueriesSchemes` so the SDK can detect the PayPal app. Add the Associated Domains entitlement for your return domain. (V2's web flow needed none of these for PayPal Checkout because its return handling was internal to `ASWebAuthenticationSession`, built on the hardcoded `sdk.ios.paypal` scheme.) See [Install & Setup (iOS)](getting-started/install-and-setup.md).
+Add the custom-scheme `fallbackSchemeURL` under `CFBundleURLTypes` (optional on `PayPalURLConfig` — see [Install & Setup](getting-started/install-and-setup.md#step-3-register-your-return-links) for why you should always set it anyway), and declare `paypal` under `LSApplicationQueriesSchemes` so the SDK can detect the PayPal app. Add the Associated Domains entitlement for your return domain. (V2's web flow needed none of these for PayPal Checkout because its return handling was internal to `ASWebAuthenticationSession`, built on the hardcoded `sdk.ios.paypal` scheme.) See [Install & Setup (iOS)](getting-started/install-and-setup.md).
 
 Note that `sdk.ios.paypal` isn't retired in V3 — it's still the SDK's internal callback scheme for Card's 3D Secure `ASWebAuthenticationSession` challenge, and it also still backs the PayPal Checkout in-app-browser fallback's own redirect internally. What changed is the buyer-facing, merchant-configured return path for PayPal Checkout and Vault: that's now Universal Links (with `fallbackSchemeURL` as backup), not something built on `sdk.ios.paypal` that you need to register or handle yourself.
 

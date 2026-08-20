@@ -65,7 +65,7 @@ Define the matching URL config once; you pass it to each method's session or che
 let urlConfig = PayPalURLConfig(
     returnAppURL:      URL(string: "https://example.com/merchant-app/return")!,
     cancelAppURL:      URL(string: "https://example.com/merchant-app/cancel")!,
-    fallbackSchemeURL: URL(string: "merchantapp://return")   // Optional, but always set it
+    fallbackSchemeURL: URL(string: "merchantapp://return")   // Optional; see note above
 )
 ```
 
