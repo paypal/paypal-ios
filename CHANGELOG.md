@@ -21,6 +21,7 @@
   * **Breaking:** `CoreConfig` requires a `merchantID` parameter; optional `bnCode` parameter added. See the [v3 Migration Guide](v3_MIGRATION_GUIDE.md) for details.
   * **Breaking:** Remove `PatchCCOWithAppSwitchEligibility` (and its `AppSwitchEligibility` response type) and the `ExternalTokenKind` constants — the legacy PatchCCO app-switch-eligibility path is no longer used
   * **Breaking:** Rename `Environment` to `CoreEnvironment`
+  * **Deprecated:** `UIApplication.isPayPalAppInstalled()` — no longer used to determine app switch eligibility; will be removed in the next major release
   * Improve error messages for non-JSON/unstructured error responses to include the HTTP status, request URL, and raw response body
 
 ## 2.0.1 (2025-11-03)
