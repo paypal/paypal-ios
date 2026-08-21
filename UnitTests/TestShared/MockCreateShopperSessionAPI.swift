@@ -14,7 +14,6 @@ class MockCreateShopperSessionAPI: CreateShopperSessionAPI {
 
     override func createShopperSessionWithAppSwitchEligibility(
         tokenType: TokenType,
-        urlOpener: URLOpener,
         urlConfig: PayPalURLConfig,
         userIdentity: PayPalUserIdentity?,
         analyticsData: PayPalCheckoutAnalyticsData? = nil

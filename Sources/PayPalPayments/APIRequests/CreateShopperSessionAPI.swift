@@ -80,7 +80,6 @@ public class CreateShopperSessionAPI {
     /// - Throws: A `CoreSDKError` if the network call or response parsing fails.
     func createShopperSessionWithAppSwitchEligibility(
         tokenType: TokenType,
-        urlOpener: URLOpener,
         urlConfig: PayPalURLConfig,
         userIdentity: PayPalUserIdentity?,
         analyticsData: PayPalCheckoutAnalyticsData? = nil

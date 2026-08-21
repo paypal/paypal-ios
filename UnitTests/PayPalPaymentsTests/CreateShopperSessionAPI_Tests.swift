@@ -47,7 +47,6 @@ class CreateShopperSessionAPI_Tests: XCTestCase {
     var mockNetworkingClient: MockNetworkingClient!
     var mockAuthAPI: MockAuthenticationSecureTokenServiceAPI!
     private var capturingTrackingEventsAPI: CapturingTrackingEventsAPI!
-    var mockURLOpener: MockURLOpener!
     var sut: CreateShopperSessionAPI!
 
     let fakeURLConfig = PayPalURLConfig(
@@ -64,7 +63,6 @@ class CreateShopperSessionAPI_Tests: XCTestCase {
         mockNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: config))
         mockAuthAPI = MockAuthenticationSecureTokenServiceAPI(coreConfig: config)
         capturingTrackingEventsAPI = CapturingTrackingEventsAPI()
-        mockURLOpener = MockURLOpener()
 
         let analyticsService = AnalyticsService(
             coreConfig: config,
@@ -101,7 +99,6 @@ class CreateShopperSessionAPI_Tests: XCTestCase {
 
         _ = try await sut.createShopperSessionWithAppSwitchEligibility(
             tokenType: .orderID,
-            urlOpener: mockURLOpener,
             urlConfig: fakeURLConfig,
             userIdentity: nil
         )
