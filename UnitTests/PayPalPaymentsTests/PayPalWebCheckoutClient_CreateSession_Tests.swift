@@ -393,6 +393,48 @@ class PayPalClient_CreateSession_Tests: XCTestCase {
 
         waitForExpectations(timeout: 2)
     }
+    
+    func testCreatePayPalSession_userActionPayNow() {
+        mockCreateShopperSessionAPI.stubResponse = makeIneligibleSession()
+
+        payPalClient.createPayPalSession(sessionType: .checkout, urlConfig: fakeURLConfig, userAction: .payNow)
+
+        let expectation = expectation(description: "session task runs")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            XCTAssertEqual(self.mockCreateShopperSessionAPI.capturedUserAction, .payNow)
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 2)
+    }
+    
+    func testCreatePayPalSession_userActionContinue() {
+        mockCreateShopperSessionAPI.stubResponse = makeIneligibleSession()
+
+        payPalClient.createPayPalSession(sessionType: .checkout, urlConfig: fakeURLConfig, userAction: .continue)
+
+        let expectation = expectation(description: "session task runs")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            XCTAssertEqual(self.mockCreateShopperSessionAPI.capturedUserAction, .continue)
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 2)
+    }
+    
+    func testCreatePayPalSession_userActionSetupNow() {
+        mockCreateShopperSessionAPI.stubResponse = makeIneligibleSession()
+
+        payPalClient.createPayPalSession(sessionType: .checkout, urlConfig: fakeURLConfig, userAction: .setupNow)
+
+        let expectation = expectation(description: "session task runs")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            XCTAssertEqual(self.mockCreateShopperSessionAPI.capturedUserAction, .setupNow)
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 2)
+    }
 
     // MARK: - sessionTask lifecycle
 

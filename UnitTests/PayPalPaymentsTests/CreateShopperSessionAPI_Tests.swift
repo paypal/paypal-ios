@@ -103,6 +103,7 @@ class CreateShopperSessionAPI_Tests: XCTestCase {
             tokenType: .orderID,
             urlOpener: mockURLOpener,
             urlConfig: fakeURLConfig,
+            userAction: .continue,
             userIdentity: nil
         )
 
