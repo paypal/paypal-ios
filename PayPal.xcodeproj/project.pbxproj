@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -107,13 +107,11 @@
 		BC9C18D827D279C70019B541 /* MagnesSDKResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C18D727D279C70019B541 /* MagnesSDKResult.swift */; };
 		BC9C18DA27D27CE40019B541 /* MockMagnesSDKResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C18D927D27CE40019B541 /* MockMagnesSDKResult.swift */; };
 		BC9C18DE27D2A1610019B541 /* DeviceInspector_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C18DD27D2A1610019B541 /* DeviceInspector_Tests.swift */; };
+		BCABF87B3038E27A00497F0B /* PayPalRisk in Frameworks */ = {isa = PBXBuildFile; productRef = BCABF87A3038E27A00497F0B /* PayPalRisk */; };
 		BCD5C47E27E9200800B074D5 /* CorePayments.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B9F85126B8750000D67843 /* CorePayments.framework */; platformFilter = ios; };
 		BCE8A7F927EA555800AC301B /* PayPalWebCheckoutClient_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE8A7F827EA555800AC301B /* PayPalWebCheckoutClient_Tests.swift */; };
 		BCE8A7FB27EA5B1D00AC301B /* Environment+PayPalWebCheckout_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE8A7FA27EA5B1D00AC301B /* Environment+PayPalWebCheckout_Tests.swift */; };
 		BCF735DB27D1583400A52E03 /* TestShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80E743F8270E40CE00BACECA /* TestShared.framework */; platformFilter = ios; };
-		BCF735E327D158B400A52E03 /* PPRiskMagnes.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCF735E227D158B400A52E03 /* PPRiskMagnes.xcframework */; platformFilter = ios; };
-		BCF735E427D158E900A52E03 /* PPRiskMagnes.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCF735E227D158B400A52E03 /* PPRiskMagnes.xcframework */; platformFilter = ios; };
-		BCF735E527D1590600A52E03 /* PPRiskMagnes.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCF735E227D158B400A52E03 /* PPRiskMagnes.xcframework */; };
 		BCF735E727D15AB800A52E03 /* PayPalDataCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF735E627D15AB800A52E03 /* PayPalDataCollector.swift */; };
 		BCF735E927D15D2600A52E03 /* MagnesSDKProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF735E827D15D2600A52E03 /* MagnesSDKProtocol.swift */; };
 		BCF735EB27D160E800A52E03 /* MagnesSetupParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF735EA27D160E800A52E03 /* MagnesSetupParams.swift */; };
@@ -319,7 +317,6 @@
 		BCE8A7FA27EA5B1D00AC301B /* Environment+PayPalWebCheckout_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment+PayPalWebCheckout_Tests.swift"; sourceTree = "<group>"; };
 		BCF735D227D1583200A52E03 /* FraudProtection.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FraudProtection.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCF735E127D1583400A52E03 /* FraudProtectionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FraudProtectionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		BCF735E227D158B400A52E03 /* PPRiskMagnes.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:XEZPTDFLAS:changching chi"; lastKnownFileType = wrapper.xcframework; name = PPRiskMagnes.xcframework; path = Frameworks/XCFrameworks/PPRiskMagnes.xcframework; sourceTree = "<group>"; };
 		BCF735E627D15AB800A52E03 /* PayPalDataCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalDataCollector.swift; sourceTree = "<group>"; };
 		BCF735E827D15D2600A52E03 /* MagnesSDKProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnesSDKProtocol.swift; sourceTree = "<group>"; };
 		BCF735EA27D160E800A52E03 /* MagnesSetupParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnesSetupParams.swift; sourceTree = "<group>"; };
@@ -390,7 +387,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCF735E527D1590600A52E03 /* PPRiskMagnes.xcframework in Frameworks */,
 				803C31B5270E46EB0067D36E /* CorePayments.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -432,8 +428,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCABF87B3038E27A00497F0B /* PayPalRisk in Frameworks */,
 				BC171FB22A8D6FE500B26DCB /* CorePayments.framework in Frameworks */,
-				BCF735E327D158B400A52E03 /* PPRiskMagnes.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,7 +437,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCF735E427D158E900A52E03 /* PPRiskMagnes.xcframework in Frameworks */,
 				BCF735DB27D1583400A52E03 /* TestShared.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -546,7 +541,6 @@
 		805AB85726B8887D003BEE0D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BCF735E227D158B400A52E03 /* PPRiskMagnes.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1136,6 +1130,7 @@
 			);
 			mainGroup = OBJ_5;
 			packageReferences = (
+				BCABF8773038DFD800497F0B /* XCRemoteSwiftPackageReference "paypal-risk-ios" */,
 			);
 			productRefGroup = OBJ_13 /* Products */;
 			projectDirPath = "";
@@ -3142,6 +3137,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BCABF8773038DFD800497F0B /* XCRemoteSwiftPackageReference "paypal-risk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jagadeeshraghu-paypal/paypal-risk-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BCABF87A3038E27A00497F0B /* PayPalRisk */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BCABF8773038DFD800497F0B /* XCRemoteSwiftPackageReference "paypal-risk-ios" */;
+			productName = PayPalRisk;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = OBJ_1 /* Project object */;
 }
