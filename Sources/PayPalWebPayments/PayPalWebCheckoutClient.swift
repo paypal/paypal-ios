@@ -118,9 +118,14 @@ public class PayPalWebCheckoutClient: NSObject {
             let payPalCheckoutURLString =
                 "\(baseURLString)/checkoutnow?token=\(request.orderID)" +
                 "&fundingSource=\(request.fundingSource.rawValue)&integration_artifact=MOBILE_SDK"
-            
+
+            let returnURLScheme = request.returnURLScheme ?? PayPalCoreConstants.callbackURLScheme
+
             guard let payPalCheckoutURL = URL(string: payPalCheckoutURLString),
-                let payPalCheckoutURLComponents = payPalCheckoutReturnURL(payPalCheckoutURL: payPalCheckoutURL)
+                let payPalCheckoutURLComponents = payPalCheckoutReturnURL(
+                    payPalCheckoutURL: payPalCheckoutURL,
+                    scheme: returnURLScheme
+                )
             else {
                 self.notifyCheckoutFailure(with: PayPalError.payPalURLError, completion: completion)
                 return
@@ -128,13 +133,10 @@ public class PayPalWebCheckoutClient: NSObject {
 
             webAuthenticationSession.start(
                 url: payPalCheckoutURLComponents,
+                callbackURLScheme: returnURLScheme,
                 context: self,
                 sessionDidDisplay: { [weak self] didDisplay in
-                    if didDisplay {
-                        self?.analyticsService?.sendEvent("paypal-web-payments:checkout:auth-challenge-presentation:succeeded")
-                    } else {
-                        self?.analyticsService?.sendEvent("paypal-web-payments:checkout:auth-challenge-presentation:failed")
-                    }
+                    self?.notifyCheckoutAuthChallengePresentation(didDisplay: didDisplay)
                 },
                 sessionDidComplete: { url, error in
                     if let error = error {
@@ -228,9 +230,11 @@ public class PayPalWebCheckoutClient: NSObject {
         }
     }
 
-    func payPalCheckoutReturnURL(payPalCheckoutURL: URL) -> URL? {
-        let bundleID = PayPalCoreConstants.callbackURLScheme
-        let redirectURLString = "\(bundleID)://x-callback-url/paypal-sdk/paypal-checkout"
+    func payPalCheckoutReturnURL(
+        payPalCheckoutURL: URL,
+        scheme: String = PayPalCoreConstants.callbackURLScheme
+    ) -> URL? {
+        let redirectURLString = "\(scheme)://x-callback-url/paypal-sdk/paypal-checkout"
         let redirectQueryItem = URLQueryItem(name: "redirect_uri", value: redirectURLString)
         let nativeXOQueryItem = URLQueryItem(name: "native_xo", value: "1")
 
@@ -406,6 +410,14 @@ public class PayPalWebCheckoutClient: NSObject {
     private func getQueryStringParameter(url: String, param: String) -> String? {
         guard let url = URLComponents(string: url) else { return nil }
         return url.queryItems?.first { $0.name == param }?.value
+    }
+
+    private func notifyCheckoutAuthChallengePresentation(didDisplay: Bool) {
+        if didDisplay {
+            analyticsService?.sendEvent("paypal-web-payments:checkout:auth-challenge-presentation:succeeded")
+        } else {
+            analyticsService?.sendEvent("paypal-web-payments:checkout:auth-challenge-presentation:failed")
+        }
     }
 
     private func notifyCheckoutSuccess(

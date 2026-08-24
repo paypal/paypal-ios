@@ -90,6 +90,20 @@
                ReferencedContainer = "container:PayPal.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ADD4A68A33031418B3676FB6"
+               BuildableName = "VenmoPaymentsTests.xctest"
+               BlueprintName = "VenmoPaymentsTests"
+               ReferencedContainer = "container:PayPal.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -156,6 +170,16 @@
                BlueprintIdentifier = "BCFAC70A27ED043100C3AF00"
                BuildableName = "PayPalUITests.xctest"
                BlueprintName = "PaymentButtonsTests"
+               ReferencedContainer = "container:PayPal.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ADD4A68A33031418B3676FB6"
+               BuildableName = "VenmoPaymentsTests.xctest"
+               BlueprintName = "VenmoPaymentsTests"
                ReferencedContainer = "container:PayPal.xcodeproj">
             </BuildableReference>
          </TestableReference>

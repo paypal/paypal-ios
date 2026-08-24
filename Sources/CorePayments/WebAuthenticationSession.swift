@@ -6,13 +6,14 @@ public class WebAuthenticationSession: NSObject {
 
     public func start(
         url: URL,
+        callbackURLScheme: String = PayPalCoreConstants.callbackURLScheme,
         context: ASWebAuthenticationPresentationContextProviding,
         sessionDidDisplay: @escaping (Bool) -> Void,
         sessionDidComplete: @escaping (URL?, Error?) -> Void
     ) {
         let authenticationSession = ASWebAuthenticationSession(
             url: url,
-            callbackURLScheme: PayPalCoreConstants.callbackURLScheme,
+            callbackURLScheme: callbackURLScheme,
             completionHandler: sessionDidComplete
         )
 

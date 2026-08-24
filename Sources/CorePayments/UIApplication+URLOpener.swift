@@ -4,6 +4,7 @@ import UIKit
 public protocol URLOpener {
     func open(_ url: URL, completionHandler completion: ((Bool) -> Void)?)
     func isPayPalAppInstalled() -> Bool
+    func isVenmoAppInstalled() -> Bool
 }
 
 extension UIApplication: URLOpener {
@@ -13,6 +14,10 @@ extension UIApplication: URLOpener {
             return false
         }
         return canOpenURL(payPalURL)
+    }
+
+    public func isVenmoAppInstalled() -> Bool {
+        canOpenURL(URL(string: "com.venmo.touch.v2://")!)
     }
 
     public func open(_ url: URL, completionHandler completion: ((Bool) -> Void)?) {

@@ -18,12 +18,14 @@ enum OrderPaymentSource: Encodable {
 
     case paypal(OrderPayPalPaymentSource)
     case card(OrderCardPaymentSource)
+    case venmo(OrderVenmoPaymentSource)
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
         case .paypal(let source): try container.encode(source)
         case .card(let source):   try container.encode(source)
+        case .venmo(let source):  try container.encode(source)
         }
     }
 }
@@ -36,6 +38,35 @@ struct OrderPayPalPaymentSource: Encodable {
 struct OrderCardPaymentSource: Encodable {
 
     let card: CardSource
+}
+
+struct OrderVenmoPaymentSource: Encodable {
+
+    let venmo: VenmoSource
+}
+
+struct VenmoSource: Encodable {
+
+    var experienceContext: VenmoExperienceContext?
+}
+
+// MARK: - Venmo experience context
+
+// Note: Venmo's app switch context differs from PayPal's. It uses `{ source: "NATIVE_APP" }`,
+// not PayPal's `nativeApp` (osType/appUrl) block — sending PayPal's shape returns a 500.
+struct VenmoExperienceContext: Encodable {
+
+    let returnUrl: String
+    let cancelUrl: String
+    var appSwitchContext: VenmoAppSwitchContext?
+}
+
+struct VenmoAppSwitchContext: Encodable {
+
+    let source: String
+    init(source: String = "NATIVE_APP") {
+        self.source = source
+    }
 }
 
 // Attributes are only for vault now
