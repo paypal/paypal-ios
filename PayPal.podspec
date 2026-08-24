@@ -32,6 +32,12 @@ Pod::Spec.new do |s|
     s.resource_bundle = { "PayPalPayments_PrivacyInfo" => "Sources/PayPalPayments/PrivacyInfo.xcprivacy" }
   end
 
+  s.subspec "VenmoPayments" do |s|
+    s.source_files  = "Sources/VenmoPayments/*.swift"
+    s.dependency "PayPal/CorePayments"
+    s.resource_bundle = { "VenmoPayments_PrivacyInfo" => "Sources/VenmoPayments/PrivacyInfo.xcprivacy" }
+  end
+
   s.subspec "FraudProtection" do |s|
     s.source_files = "Sources/FraudProtection/*.swift"
     s.dependency "PayPal/CorePayments"
