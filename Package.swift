@@ -30,7 +30,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/paypal/paypal-risk-ios", exact: "5.6.0-beta1")
+        .package(url: "https://github.com/paypal/paypal-risk-ios", exact: "5.6.0-beta2")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
