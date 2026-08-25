@@ -82,14 +82,17 @@ public class CreateShopperSessionAPI {
         tokenType: TokenType,
         urlOpener: URLOpener,
         urlConfig: PayPalURLConfig,
+        userAction: PayPalUserAction,
         userIdentity: PayPalUserIdentity?,
         analyticsData: PayPalCheckoutAnalyticsData? = nil
     ) async throws -> ShopperSessionResult {
 
         let contextId = UUID().uuidString
         
-        let experimentationContext = ShopperSessionExperimentationContext(merchantAccountId: coreConfig.merchantID)
-        
+        let experimentationContext = ShopperSessionExperimentationContext(
+            paymentType: userAction.externalPaymentType,
+            merchantAccountId: coreConfig.merchantID
+        )
         let appSwitchEligibilityInput = AppSwitchEligibilityInput(
             contextId: contextId,
             tokenType: tokenType.rawValue,

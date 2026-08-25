@@ -143,6 +143,7 @@ public class PayPalClient: NSObject {
                 tokenType: tokenType,
                 urlOpener: urlOpener,
                 urlConfig: urlConfig,
+                userAction: userAction,
                 userIdentity: userIdentity,
                 analyticsData: analyticsData
             )

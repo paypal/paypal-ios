@@ -9,6 +9,7 @@ class MockCreateShopperSessionAPI: CreateShopperSessionAPI {
 
     // Captured call arguments for assertion
     var capturedURLConfig: PayPalURLConfig?
+    var capturedUserAction: PayPalUserAction?
     var capturedUserIdentity: PayPalUserIdentity?
     var callCount = 0
 
@@ -16,13 +17,15 @@ class MockCreateShopperSessionAPI: CreateShopperSessionAPI {
         tokenType: TokenType,
         urlOpener: URLOpener,
         urlConfig: PayPalURLConfig,
+        userAction: PayPalUserAction,
         userIdentity: PayPalUserIdentity?,
         analyticsData: PayPalCheckoutAnalyticsData? = nil
     ) async throws -> ShopperSessionResult {
         callCount += 1
         capturedURLConfig = urlConfig
         capturedUserIdentity = userIdentity
-
+        capturedUserAction = userAction
+        
         if let stubError {
             throw stubError
         }
