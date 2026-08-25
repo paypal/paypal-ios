@@ -141,7 +141,6 @@ public class PayPalClient: NSObject {
         sessionTask = Task {
             try await createShopperSessionAPI.createShopperSessionWithAppSwitchEligibility(
                 tokenType: tokenType,
-                urlOpener: urlOpener,
                 urlConfig: urlConfig,
                 userAction: userAction,
                 userIdentity: userIdentity,
@@ -455,8 +454,7 @@ public class PayPalClient: NSObject {
         makeURL: (_ base: String, _ sessionID: String) -> URL?,
         fallback: () -> Void
     ) async {
-        if urlOpener.isPayPalAppInstalled(),
-           session.appSwitchEligible,
+        if session.appSwitchEligible,
            let base = session.redirectURL,
            let sessionID = session.shopperSessionConfig?.id,
            let url = makeURL(base, sessionID) {

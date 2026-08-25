@@ -19,6 +19,7 @@ public extension URLOpener {
 
 extension UIApplication: URLOpener {
 
+    @available(*, deprecated, message: "No longer used for app switch eligibility. Will be removed in the next major release.")
     public func isPayPalAppInstalled() -> Bool {
         guard let payPalURL = URL(string: "paypal://") else {
             return false
