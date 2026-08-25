@@ -1,6 +1,11 @@
 
 # PayPal iOS SDK Release Notes
 
+## Unreleased
+
+* PayPalPayments
+  * Fix `createPayPalSession()` sending a hardcoded `PAY` payment type in the shopper session experimentation context regardless of the caller's `userAction` — now correctly passes `CONTINUE`, `PAY`, or `COMMIT` based on `userAction`
+
 ## 3.0.0 (2026-08-19)
 
 * PayPalPayments

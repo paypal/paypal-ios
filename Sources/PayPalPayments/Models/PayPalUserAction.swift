@@ -20,3 +20,17 @@ public enum PayPalUserAction {
         }
     }
 }
+
+extension PayPalUserAction {
+    
+    var externalPaymentType: String {
+        switch self {
+        case .continue:
+            return "CONTINUE"
+        case .payNow:
+            return "PAY"
+        case .setupNow:
+            return "COMMIT"
+        }
+    }
+}

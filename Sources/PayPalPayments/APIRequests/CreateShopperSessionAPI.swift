@@ -81,14 +81,17 @@ public class CreateShopperSessionAPI {
     func createShopperSessionWithAppSwitchEligibility(
         tokenType: TokenType,
         urlConfig: PayPalURLConfig,
+        userAction: PayPalUserAction,
         userIdentity: PayPalUserIdentity?,
         analyticsData: PayPalCheckoutAnalyticsData? = nil
     ) async throws -> ShopperSessionResult {
 
         let contextId = UUID().uuidString
         
-        let experimentationContext = ShopperSessionExperimentationContext(merchantAccountId: coreConfig.merchantID)
-        
+        let experimentationContext = ShopperSessionExperimentationContext(
+            paymentType: userAction.externalPaymentType,
+            merchantAccountId: coreConfig.merchantID
+        )
         /// we can no longer determine if paypalNativeAppInstalled
         /// sending true so flow attempts App Switch in the future
         let appSwitchEligibilityInput = AppSwitchEligibilityInput(

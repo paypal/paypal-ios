@@ -41,7 +41,7 @@ struct ShopperSessionExperimentationContext: Encodable {
         integrationChannel: String = PayPalCoreConstants.integrationChannel,
         isWebLLSEligible: Bool = false,
         isWebView: Bool = false,
-        paymentType: String = "PAY",
+        paymentType: String,
         buyerGUID: String? = nil,
         merchantAccountId: String
     ) {

@@ -100,6 +100,7 @@ class CreateShopperSessionAPI_Tests: XCTestCase {
         _ = try await sut.createShopperSessionWithAppSwitchEligibility(
             tokenType: .orderID,
             urlConfig: fakeURLConfig,
+            userAction: .continue,
             userIdentity: nil
         )
 

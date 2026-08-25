@@ -142,6 +142,7 @@ public class PayPalClient: NSObject {
             try await createShopperSessionAPI.createShopperSessionWithAppSwitchEligibility(
                 tokenType: tokenType,
                 urlConfig: urlConfig,
+                userAction: userAction,
                 userIdentity: userIdentity,
                 analyticsData: analyticsData
             )
