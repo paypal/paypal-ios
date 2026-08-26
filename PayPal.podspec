@@ -35,7 +35,7 @@ Pod::Spec.new do |s|
   s.subspec "FraudProtection" do |s|
     s.source_files = "Sources/FraudProtection/*.swift"
     s.dependency "PayPal/CorePayments"
-    s.dependency "PayPalRisk", '5.6.0-beta2-1'
+    s.dependency "PayPalRisk", '5.6.0'
     s.resource_bundle = { "FraudProtection_PrivacyInfo" => "Sources/FraudProtection/PrivacyInfo.xcprivacy" }
   end
 
