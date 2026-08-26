@@ -18,7 +18,7 @@ Card (ACDC) keeps its own client; the main change it inherits is the `merchantID
 
 * Get your **merchant ID** (the encrypted merchant account ID) from the [PayPal Developer Dashboard](https://developer.paypal.com/dashboard/) — it is now required to initialize the SDK.
 * Add an **Associated Domains** entitlement and serve an AASA file for your return domain — V3 App Switch returns via Universal Links, whereas V2's web flow used the hardcoded `sdk.ios.paypal` scheme for its own redirect. See [Install & Setup (iOS)](getting-started/install-and-setup.md).
-* Toolchain is unchanged: Xcode 15+, iOS 14+, Swift 5.9+.
+* Toolchain is unchanged: Xcode 15+, iOS 16+, Swift 5.9+.
 
 ## Update the dependency
 

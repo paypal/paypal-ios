@@ -5,7 +5,7 @@ Complete these core setup steps once. Then integrate any payment method — PayP
 * A PayPal developer account, a **client ID**, and your **merchant ID** (the encrypted merchant account ID, required and distinct from your client ID) from the [PayPal Developer Dashboard](https://developer.paypal.com/dashboard/).
 * A server-side integration that can create and capture orders ([Orders v2 API](https://developer.paypal.com/docs/api/orders/v2/)), and — for vault flows — create setup tokens and payment tokens.
 * **Universal Links** configured for your return URL before testing.
-* Xcode 15+, iOS 14+, Swift 5.9+.
+* Xcode 15+, iOS 16+, Swift 5.9+.
 
 ## Step 1: Add the SDK
 
