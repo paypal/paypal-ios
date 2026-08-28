@@ -37,6 +37,7 @@ Carthage/
 .swiftpm
 .build
 SampleApps/SPMTest/SPMTest.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+Package.resolved
 
 # DocC Documentation
 docs/

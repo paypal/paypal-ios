@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "PayPal",
-    platforms: [.iOS(.v14)],
+    platforms: [.iOS(.v16)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
@@ -26,8 +26,11 @@ let package = Package(
         ),
         .library(
             name: "FraudProtection",
-            targets: ["FraudProtection", "PPRiskMagnes"]
+            targets: ["FraudProtection"]
         )
+    ],
+    dependencies: [
+        .package(url: "https://github.com/paypal/paypal-risk-ios", exact: "5.6.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -54,12 +57,11 @@ let package = Package(
         ),
         .target(
             name: "FraudProtection",
-            dependencies: ["CorePayments", "PPRiskMagnes"],
+            dependencies: [
+                "CorePayments",
+                .product(name: "PayPalRisk", package: "paypal-risk-ios")
+            ],
             resources: [.copy("PrivacyInfo.xcprivacy")]
         ),
-        .binaryTarget(
-            name: "PPRiskMagnes",
-            path: "Frameworks/XCFrameworks/PPRiskMagnes.xcframework"
-        )
     ]
 )

@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/paypal/paypal-ios.git", :tag => s.version.to_s }
   s.swift_version    = "5.9"
 
-  s.platform         = :ios, "14.0"
+  s.platform         = :ios, "16.0"
   s.compiler_flags = "-Wall -Werror -Wextra"
 
   s.subspec "CardPayments" do |s|
@@ -35,7 +35,7 @@ Pod::Spec.new do |s|
   s.subspec "FraudProtection" do |s|
     s.source_files = "Sources/FraudProtection/*.swift"
     s.dependency "PayPal/CorePayments"
-    s.vendored_frameworks = "Frameworks/XCFrameworks/PPRiskMagnes.xcframework"
+    s.dependency "PayPalRisk", '5.6.0'
     s.resource_bundle = { "FraudProtection_PrivacyInfo" => "Sources/FraudProtection/PrivacyInfo.xcprivacy" }
   end
 
