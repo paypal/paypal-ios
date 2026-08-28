@@ -5,16 +5,9 @@
 
 * All Modules
   * **Breaking:** Bump minimum iOS version from 14 to 16.
-* PayPalPayments
-  * Fix `createPayPalSession()` sending a hardcoded `PAY` payment type in the shopper session experimentation context regardless of the caller's `userAction` — now correctly passes `CONTINUE`, `PAY`, or `COMMIT` based on `userAction`
 * FraudProtection
   * Migrate SDK to use new PPRiskMagnes Swift Package
   * Remove PPRiskManges.xcframework from project
-* CorePayments
-  * **Deprecated:** `UIApplication.isPayPalAppInstalled()` has been removed
-
-## 3.0.0 (2026-08-19)
-
 * PayPalPayments
   * **Breaking:** Rename the `PayPalWebPayments` module to `PayPalPayments` — update `import PayPalWebPayments` to `import PayPalPayments`
   * **Breaking:** Rename `PayPalWebCheckoutClient` to `PayPalClient`
@@ -29,11 +22,17 @@
   * **Breaking:** Remove `PayPalClient.start(request, completion)` and `start(request)` — use `createPayPalSession()` followed by `start(orderId, completion)` instead
   * **Breaking:** Remove `PayPalClient.vault(request, completion)` and `vault(request)` — use `createPayPalSession()` followed by `vault(setupTokenID, completion)` instead
   * **Breaking:** Remove `PayPalWebCheckoutRequest` and `PayPalVaultRequest` types (used only by the removed APIs)
+  * Fix `createPayPalSession()` sending a hardcoded `PAY` payment type in the shopper session experimentation context regardless of the caller's `userAction` — now correctly passes `CONTINUE`, `PAY`, or `COMMIT` based on `userAction`
 * CorePayments
   * **Breaking:** `CoreConfig` requires a `merchantID` parameter; optional `bnCode` parameter added. See the [v3 Migration Guide](v3_MIGRATION_GUIDE.md) for details.
   * **Breaking:** Remove `PatchCCOWithAppSwitchEligibility` (and its `AppSwitchEligibility` response type) and the `ExternalTokenKind` constants — the legacy PatchCCO app-switch-eligibility path is no longer used
   * **Breaking:** Rename `Environment` to `CoreEnvironment`
   * Improve error messages for non-JSON/unstructured error responses to include the HTTP status, request URL, and raw response body
+  * **Deprecated:** `UIApplication.isPayPalAppInstalled()` has been removed
+
+## ~3.0.0 (2026-08-19)~
+
+This version is no longer supported. Please use version 3.1.0 instead.
 
 ## 2.0.1 (2025-11-03)
 
