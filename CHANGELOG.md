@@ -1,7 +1,7 @@
 
 # PayPal iOS SDK Release Notes
 
-## unreleased
+## 3.1.0 (2026-08-28)
 
 * All Modules
   * **Breaking:** Bump minimum iOS version from 14 to 16.
