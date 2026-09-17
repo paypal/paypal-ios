@@ -4,14 +4,14 @@ struct CreateOrderCardPaymentView: View {
 
     let selectedMerchantIntegration: MerchantIntegration
 
-    @ObservedObject var cardPaymentViewModel: CardPaymentViewModel
+    @ObservedObject var cardPaymentViewModel: CardPaymentViewModelLegacy
 
     @State private var selectedIntent: Intent = .authorize
     @State private var vaultCustomerID: String = ""
     @State var shouldVaultSelected = false
 
     public init(
-        cardPaymentViewModel: CardPaymentViewModel,
+        cardPaymentViewModel: CardPaymentViewModelLegacy,
         selectedMerchantIntegration: MerchantIntegration
     ) {
         self.cardPaymentViewModel = cardPaymentViewModel
