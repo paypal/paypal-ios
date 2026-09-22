@@ -67,7 +67,11 @@ public class CardClient: NSObject {
                     analyticsService?.sendEvent("card-payments:vault-wo-purchase:auth-challenge-required")
                     startVaultThreeDSecureChallenge(url: url, setupTokenID: vaultRequest.setupTokenID, completion: completion)
                 } else {
-                    let vaultResult = CardVaultResult(setupTokenID: result.id, status: result.status, didAttemptThreeDSecureAuthentication: false)
+                    let vaultResult = CardVaultResult(
+                        setupTokenID: result.id,
+                        status: result.status,
+                        didAttemptThreeDSecureAuthentication: false
+                    )
                     notifyVaultSuccess(for: vaultResult, completion: completion)
                 }
             } catch let error as CoreSDKError {
