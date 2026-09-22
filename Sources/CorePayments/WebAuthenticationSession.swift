@@ -16,8 +16,8 @@ public class WebAuthenticationSession: NSObject {
             callbackURLScheme: PayPalCoreConstants.callbackURLScheme
         ) { url, error in
             if let error = error as NSError?,
-               error.domain == ASWebAuthenticationSessionError.errorDomain,
-               error.code == ASWebAuthenticationSessionError.canceledLogin.rawValue {
+                error.domain == ASWebAuthenticationSessionError.errorDomain,
+                error.code == ASWebAuthenticationSessionError.canceledLogin.rawValue {
                 sessionDidCancel?()
             } else {
                 sessionDidComplete(url, error)
