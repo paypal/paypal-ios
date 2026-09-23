@@ -7,5 +7,9 @@ import SwiftUI
 @Observable
 class CardVaultViewModelV2 {
     
-    var createSetupTokenRequest = DemoCreateSetupTokenRequest()
+    var isLoadingSetupToken = false
+    
+    func createSetupToken(with request: DemoCreateSetupTokenRequest) {
+        print(request.customerID)
+    }
 }

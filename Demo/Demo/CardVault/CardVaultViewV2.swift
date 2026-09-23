@@ -10,7 +10,9 @@ struct CardVaultViewV2: View {
         ScrollViewReader { proxy in
             ScrollView {
                 VStack(spacing: 16) {
-                    CreateSetupTokenForm(request: $viewModel.createSetupTokenRequest)
+                    CreateSetupTokenForm(isLoading: viewModel.isLoadingSetupToken) { request in
+                        viewModel.createSetupToken(with: request)
+                    }
                 }
             }
         }
@@ -18,12 +20,18 @@ struct CardVaultViewV2: View {
 }
 
 struct CreateSetupTokenForm: View {
-    @Binding var request: DemoCreateSetupTokenRequest
+    var isLoading: Bool
+    @State var request = DemoCreateSetupTokenRequest()
+    let action: (_ request: DemoCreateSetupTokenRequest) -> Void
     var body: some View {
         FormGroup {
             StepHeader(text: "Create Setup Token")
             FloatingLabelTextField(
                 placeholder: "Vault Customer ID (Optional)", text: $request.customerID)
+            let isLoading = false
+            ButtonWithProgress(label: "Create Setup Token", isLoading: isLoading) {
+                action(request)
+            }
         }
     }
 }
