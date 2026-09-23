@@ -1,15 +1,11 @@
 import Foundation
 import CardPayments
 import CorePayments
+import SwiftUI
 
 @MainActor
 @Observable
 class CardVaultViewModelV2 {
     
-    let uiState = CardVaultUiState()
-
-    var createSetupTokenRequest: DemoCreateSetupTokenRequest {
-        get { uiState.createSetupTokenRequest }
-        set { uiState.createSetupTokenRequest = newValue }
-    }
+    var createSetupTokenRequest = DemoCreateSetupTokenRequest()
 }

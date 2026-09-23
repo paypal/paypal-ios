@@ -4,12 +4,13 @@ struct CardVaultViewV2: View {
     
     @Environment(CardVaultViewModelV2.self)
     var viewModel
-
+    
     var body: some View {
+        @Bindable var viewModel = viewModel
         ScrollViewReader { proxy in
             ScrollView {
                 VStack(spacing: 16) {
-                    CreateSetupTokenForm()
+                    CreateSetupTokenForm(request: $viewModel.createSetupTokenRequest)
                 }
             }
         }
@@ -17,14 +18,12 @@ struct CardVaultViewV2: View {
 }
 
 struct CreateSetupTokenForm: View {
-    
-    @Environment(CardVaultViewModelV2.self)
-    var viewModel
-    
+    @Binding var request: DemoCreateSetupTokenRequest
     var body: some View {
-        @Bindable var request = viewModel.createSetupTokenRequest
         FormGroup {
             StepHeader(text: "Create Setup Token")
+            FloatingLabelTextField(
+                placeholder: "Vault Customer ID (Optional)", text: $request.customerID)
         }
     }
 }
