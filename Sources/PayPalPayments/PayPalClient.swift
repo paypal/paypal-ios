@@ -455,9 +455,9 @@ public class PayPalClient: NSObject {
         fallback: () -> Void
     ) async {
         if session.appSwitchEligible,
-        let base = session.redirectURL,
-        let sessionID = session.shopperSessionConfig?.id,
-        let url = makeURL(base, sessionID) {
+           let base = session.redirectURL,
+           let sessionID = session.shopperSessionConfig?.id,
+           let url = makeURL(base, sessionID) {
             let result = await attemptSessionAppSwitch(url: url, handlers: handlers)
             switch result {
             case .launched:

@@ -24,7 +24,7 @@ struct CardPaymentView: View {
                     }
                     ScrollAnchor(id: "bottomAnchor")
                 }
-                .onChange(of: viewModel.stepCount) { _, _ in
+                .onChange(of: viewModel.stepCount) {
                     withAnimation {
                         proxy.scrollTo("bottomAnchor")
                     }
