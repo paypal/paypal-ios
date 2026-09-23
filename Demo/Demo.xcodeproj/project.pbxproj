@@ -66,6 +66,8 @@
 		BC7B293B306426BA008C7345 /* FraudProtection in Frameworks */ = {isa = PBXBuildFile; productRef = BC7B293A306426BA008C7345 /* FraudProtection */; };
 		BC7B293D306426BA008C7345 /* PayPalPayments in Frameworks */ = {isa = PBXBuildFile; productRef = BC7B293C306426BA008C7345 /* PayPalPayments */; };
 		BC7B293F306426BA008C7345 /* PaymentButtons in Frameworks */ = {isa = PBXBuildFile; productRef = BC7B293E306426BA008C7345 /* PaymentButtons */; };
+		BC7B2941306454C7008C7345 /* CardVaultViewV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7B2940306454C2008C7345 /* CardVaultViewV2.swift */; };
+		BC7B2943306455F3008C7345 /* CardVaultViewModelV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7B2942306455EF008C7345 /* CardVaultViewModelV2.swift */; };
 		BC9D4D2227C554090089E5B1 /* LaunchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2127C554090089E5B1 /* LaunchApp.swift */; };
 		BC9D4D2427C58B8D0089E5B1 /* XCUIApplication+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */; };
 		BC9D4D2627C6D1720089E5B1 /* XCUIElement+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2527C6D1720089E5B1 /* XCUIElement+Helpers.swift */; };
@@ -160,6 +162,8 @@
 		80F33CF226F8EA50006811B1 /* DemoSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSettings.swift; sourceTree = "<group>"; };
 		9A8C7ADB2FF6FD0F00471F38 /* CustomEnvironmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEnvironmentView.swift; sourceTree = "<group>"; };
 		BC6460CC2A12A2A0002B974B /* EmptyBodyParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyBodyParams.swift; sourceTree = "<group>"; };
+		BC7B2940306454C2008C7345 /* CardVaultViewV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultViewV2.swift; sourceTree = "<group>"; };
+		BC7B2942306455EF008C7345 /* CardVaultViewModelV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultViewModelV2.swift; sourceTree = "<group>"; };
 		BC9D4D1527C54F3F0089E5B1 /* DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC9D4D2127C554090089E5B1 /* LaunchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchApp.swift; sourceTree = "<group>"; };
 		BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+Helpers.swift"; sourceTree = "<group>"; };
@@ -235,7 +239,9 @@
 			isa = PBXGroup;
 			children = (
 				1001E2BD2CF644E00023A03C /* CardVaultViewModel */,
+				BC7B2942306455EF008C7345 /* CardVaultViewModelV2.swift */,
 				3B43290F2A8FD7FD00C5441A /* CardVaultViews */,
+				BC7B2940306454C2008C7345 /* CardVaultViewV2.swift */,
 			);
 			path = CardVault;
 			sourceTree = "<group>";
@@ -703,6 +709,7 @@
 				3B8EF4DB2A932DA300A70D0B /* ErrorView.swift in Sources */,
 				3BF9997A2A8AE12C009CBDF2 /* PaymentTokenResultView.swift in Sources */,
 				3BA56FFC2A9FEFE90081D14F /* PayPalWebViewModel.swift in Sources */,
+				BC7B2943306455F3008C7345 /* CardVaultViewModelV2.swift in Sources */,
 				3BDB34922A7CB5DE008100D7 /* CreateSetupTokenResponse.swift in Sources */,
 				3B3C51142B20F7CE009125FE /* PayPalVaultResultView.swift in Sources */,
 				3BA570012AA052E80081D14F /* PayPalWebPaymentsView.swift in Sources */,
@@ -721,6 +728,7 @@
 				3B20273F2A89F24E0007907E /* CardVaultViewModel.swift in Sources */,
 				BCEAACBE305C4AE300BA09FB /* ContainerView.swift in Sources */,
 				BC6460CD2A12A2A0002B974B /* EmptyBodyParams.swift in Sources */,
+				BC7B2941306454C7008C7345 /* CardVaultViewV2.swift in Sources */,
 				3BF999782A8AD072009CBDF2 /* CreatePaymentTokenView.swift in Sources */,
 				BED042312710833F00C80954 /* CardType.swift in Sources */,
 				3B6472A72AFAEB3A004745C4 /* PayPalWebTransactionView.swift in Sources */,
@@ -1003,7 +1011,7 @@
 /* Begin XCLocalSwiftPackageReference section */
 		BC7B2935306426BA008C7345 /* XCLocalSwiftPackageReference "../" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = "../";
+			relativePath = ../;
 		};
 /* End XCLocalSwiftPackageReference section */
 
