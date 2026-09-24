@@ -7,24 +7,18 @@ import FraudProtection
 class CardPaymentViewModel {
     
     let uiState = CardPaymentUiState()
+    
     let api = DemoMerchantAPI.shared
     let integration = DemoSettings.merchantIntegration
 
+    // HACK: see if this information exists on the newly created order
+    var orderIntent: Intent = .authorize
+    
     private var cardClient: CardClient?
     private var payPalDataCollector: PayPalDataCollector?
 
     let configManager = CoreConfigManager(domain: "Card Payments")
 
-    var createOrderRequest: DemoCreateOrderRequest {
-        get { uiState.createOrderRequest }
-        set { uiState.createOrderRequest = newValue }
-    }
-    
-    var approveOrderRequest: DemoApproveOrderRequest {
-        get { uiState.approveOrderRequest }
-        set { uiState.approveOrderRequest = newValue }
-    }
-    
     var createOrderState: AsyncState<Order> {
         get { uiState.createOrderState }
         set { uiState.createOrderState = newValue }
@@ -55,6 +49,9 @@ class CardPaymentViewModel {
     }
 
     func createOrder(using request: DemoCreateOrderRequest) {
+        // HACK: keep a record of the intent (unless we can get it from the create order state var)
+        orderIntent = request.intent
+        
         var vaultCardPaymentSource: OrderCardPaymentSource?
         if request.shouldVault {
             let customerID = request.vaultCustomerID

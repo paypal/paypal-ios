@@ -40,7 +40,7 @@ struct CreateOrderForm: View {
     var viewModel
     
     var body: some View {
-        @Bindable var request = viewModel.createOrderRequest
+        @State var request = DemoCreateOrderRequest()
         FormGroup {
             StepHeader(text: "Create Order")
             SegmentedEnumPicker(label: "Intent", selection: $request.intent)
@@ -70,7 +70,7 @@ struct ApproveOrderForm: View {
     ]
     
     var body: some View {
-        @Bindable var request: DemoApproveOrderRequest = viewModel.approveOrderRequest
+        @State var request = DemoApproveOrderRequest()
         FormGroup {
             StepHeader(text: "Enter Card Information")
             CardFormView(
@@ -115,9 +115,8 @@ struct CompleteOrder: View {
     var viewModel
     
     var body: some View {
-        let request = viewModel.createOrderRequest
-        let intent = request.intent
-        let capitalizedIntent = request.intent.rawValue.capitalized
+        let intent = viewModel.orderIntent
+        let capitalizedIntent = intent.rawValue.capitalized
         FormGroup {
             StepHeader(text: "Complete Order")
             let buttonLabel = "\(capitalizedIntent) Order"
