@@ -332,7 +332,9 @@ class CardClient_Tests: XCTestCase {
     func testApproveOrder_withThreeDSecure_browserSwitchLaunches_getOrderReturnsSuccess() {
         mockCheckoutOrdersAPI.stubConfirmResponse = FakeConfirmPaymentResponse.withValid3DSURL
 
-        mockWebAuthSession.cannedResponseURL = .init(string: "sdk.ios.paypal://card/success?state=undefined&code=undefined&liability_shift=POSSIBLE")
+        mockWebAuthSession.cannedResponseURL = .init(
+            string: "sdk.ios.paypal://card/success?state=undefined&code=undefined&liability_shift=POSSIBLE"
+        )
         let expectation = expectation(description: "approveOrder() completed")
 
         sut.approveOrder(request: cardRequest) { result in
