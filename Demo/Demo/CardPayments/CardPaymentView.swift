@@ -39,8 +39,9 @@ struct CreateOrderForm: View {
     @Environment(CardPaymentViewModel.self)
     var viewModel
     
+    @State var request = DemoCreateOrderRequest()
+
     var body: some View {
-        @State var request = DemoCreateOrderRequest()
         FormGroup {
             StepHeader(text: "Create Order")
             SegmentedEnumPicker(label: "Intent", selection: $request.intent)
@@ -60,6 +61,8 @@ struct ApproveOrderForm: View {
     @Environment(CardPaymentViewModel.self)
     var viewModel
     
+    @State var request = DemoApproveOrderRequest()
+
     let cardSections: [CardSection] = [
         CardSection(title: "Successful Authentication Visa", numbers: ["4868 7194 6070 7704"]),
         CardSection(title: "Vault with Purchase (no 3DS)", numbers: ["4000 0000 0000 0002"]),
@@ -70,7 +73,6 @@ struct ApproveOrderForm: View {
     ]
     
     var body: some View {
-        @State var request = DemoApproveOrderRequest()
         FormGroup {
             StepHeader(text: "Enter Card Information")
             CardFormView(
