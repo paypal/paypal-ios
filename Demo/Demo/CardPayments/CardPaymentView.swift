@@ -6,18 +6,39 @@ struct CardPaymentView: View {
     @Environment(CardPaymentViewModel.self)
     var viewModel
     
+    var isOrderCreationLoading: Bool {
+        viewModel.createOrderState.isLoading
+    }
+    
+    var isApproveOrderLoading: Bool {
+        viewModel.approveOrderState.isLoading
+    }
+    
+    var isCompleteOrderLoading: Bool {
+        viewModel.completeOrderState.isLoading
+    }
+    
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView {
                 VStack(spacing: 16) {
-                    CreateOrderForm()
+                    CreateOrderForm(isLoading: isOrderCreationLoading) { request in
+                        viewModel.createOrder(using: request)
+                    }
                     if let order = viewModel.createOrderState.value {
                         OrderView(order: order)
-                        ApproveOrderForm()
+                        ApproveOrderForm(isLoading: isApproveOrderLoading) { request in
+                            viewModel.approveOrder(using: request)
+                        }
                     }
                     if let cardResult = viewModel.approveOrderState.value {
                         CardResultView(cardResult: cardResult)
-                        CompleteOrder()
+                        CompleteOrder(
+                            intent: viewModel.orderIntent,
+                            isLoading: isCompleteOrderLoading
+                        ) {
+                            viewModel.completeOrder()
+                        }
                     }
                     if let captureResult = viewModel.completeOrderState.value {
                         OrderView(order: captureResult)
@@ -36,8 +57,8 @@ struct CardPaymentView: View {
 
 struct CreateOrderForm: View {
     
-    @Environment(CardPaymentViewModel.self)
-    var viewModel
+    let isLoading: Bool
+    let onSubmit: (_ request: DemoCreateOrderRequest) -> Void
     
     @State var request = DemoCreateOrderRequest()
 
@@ -48,9 +69,8 @@ struct CreateOrderForm: View {
             Toggle("Should Vault with Purchase", isOn: $request.shouldVault)
             FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $request.vaultCustomerID)
             
-            let isLoading = viewModel.createOrderState.isLoading
             ButtonWithProgress(label: "Create an Order", isLoading: isLoading) {
-                viewModel.createOrder(using: request)
+                onSubmit(request)
             }
         }
     }
@@ -58,9 +78,9 @@ struct CreateOrderForm: View {
 
 struct ApproveOrderForm: View {
     
-    @Environment(CardPaymentViewModel.self)
-    var viewModel
-    
+    let isLoading: Bool
+    let onSubmit: (_ request: DemoApproveOrderRequest) -> Void
+
     @State var request = DemoApproveOrderRequest()
 
     let cardSections: [CardSection] = [
@@ -84,9 +104,8 @@ struct ApproveOrderForm: View {
             SegmentedEnumPicker(label: "SCA", selection: $request.sca)
                 .frame(height: 48)
             
-            let isLoading = viewModel.approveOrderState.isLoading
             ButtonWithProgress(label: "Approve Order", isLoading: isLoading) {
-                viewModel.approveOrder(using: request)
+                onSubmit(request)
             }
         }
     }
@@ -113,18 +132,20 @@ struct CardResultView: View {
 
 struct CompleteOrder: View {
     
+    let intent: Intent
+    let isLoading: Bool
+    let onSubmit: () -> Void
+
     @Environment(CardPaymentViewModel.self)
     var viewModel
     
     var body: some View {
-        let intent = viewModel.orderIntent
         let capitalizedIntent = intent.rawValue.capitalized
         FormGroup {
             StepHeader(text: "Complete Order")
             let buttonLabel = "\(capitalizedIntent) Order"
-            let isLoading = viewModel.completeOrderState.isLoading
             ButtonWithProgress(label: buttonLabel, isLoading: isLoading) {
-                viewModel.completeOrder(intent: intent)
+                onSubmit()
             }
         }
     }

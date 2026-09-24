@@ -98,7 +98,7 @@ class CardPaymentViewModel {
         }
     }
     
-    func completeOrder(intent: Intent) {
+    func completeOrder() {
         guard let order = createOrderState.value else {
             completeOrderState = .error(message: "Order ID Required.")
             return
@@ -109,7 +109,7 @@ class CardPaymentViewModel {
                 let clientMetadataID = payPalDataCollector?.collectDeviceData()
                 
                 let completedOrder: Order
-                switch intent {
+                switch orderIntent {
                 case .capture:
                     completedOrder = try await api.captureOrder(
                         orderID: order.id,
