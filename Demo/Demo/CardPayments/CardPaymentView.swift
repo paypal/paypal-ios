@@ -33,7 +33,7 @@ struct CardPaymentView: View {
                     }
                     if let cardResult = viewModel.approveOrderState.value {
                         CardResultView(cardResult: cardResult)
-                        CompleteOrder(
+                        CompleteOrderForm(
                             intent: viewModel.orderIntent,
                             isLoading: isCompleteOrderLoading
                         ) {
@@ -130,7 +130,7 @@ struct CardResultView: View {
     }
 }
 
-struct CompleteOrder: View {
+struct CompleteOrderForm: View {
     
     let intent: Intent
     let isLoading: Bool
