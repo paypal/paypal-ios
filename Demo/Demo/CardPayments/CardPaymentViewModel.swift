@@ -21,18 +21,13 @@ class CardPaymentViewModel {
     var approveOrderState: AsyncState<CardResult> = .idle
     var completeOrderState: AsyncState<Order> = .idle
     
-    // HACK: this is used to drive the scroll-to-bottom animation
-    var stepCount: Int {
-        if createOrderState.isIdleOrLoading {
-            return 0
-        }
-        if approveOrderState.isIdleOrLoading {
-            return 1
-        }
-        if completeOrderState.isIdleOrLoading {
-            return 2
-        }
-        return 3
+    // this is used to track changes and drive the scroll-to-bottom animation
+    var stateHash: Int {
+        var hasher = Hasher()
+        hasher.combine(createOrderState)
+        hasher.combine(approveOrderState)
+        hasher.combine(completeOrderState)
+        return hasher.finalize()
     }
 
     func createOrder(using request: DemoCreateOrderRequest) {

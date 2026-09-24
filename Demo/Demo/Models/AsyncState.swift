@@ -1,4 +1,4 @@
-enum AsyncState<T> {
+enum AsyncState<T: Hashable>: Hashable {
 
     case idle
     case loading
