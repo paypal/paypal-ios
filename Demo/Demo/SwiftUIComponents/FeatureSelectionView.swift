@@ -51,7 +51,7 @@ struct FeatureSelectionView: View {
                     NavigationLink("Card Payment", value: Feature.cardPayment)
                     NavigationLink("Card Vaulting", value: Feature.cardVaulting)
                     NavigationLink("PayPal Web", value: Feature.payPalWeb)
-                    NavigationLink("PayPal Vaulting", value: Feature.payPalWeb)
+                    NavigationLink("PayPal Vaulting", value: Feature.payPalVaulting)
                     NavigationLink("Payment Button", value: Feature.paymentButtons)
                 }
                 .listStyle(InsetGroupedListStyle())
