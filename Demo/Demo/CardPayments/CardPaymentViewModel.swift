@@ -6,8 +6,6 @@ import FraudProtection
 @Observable
 class CardPaymentViewModel {
     
-    let uiState = CardPaymentUiState()
-    
     let api = DemoMerchantAPI.shared
     let integration = DemoSettings.merchantIntegration
 
@@ -18,21 +16,10 @@ class CardPaymentViewModel {
     private var payPalDataCollector: PayPalDataCollector?
 
     let configManager = CoreConfigManager(domain: "Card Payments")
-
-    var createOrderState: AsyncState<Order> {
-        get { uiState.createOrderState }
-        set { uiState.createOrderState = newValue }
-    }
     
-    var approveOrderState: AsyncState<CardResult> {
-        get { uiState.approveOrderState }
-        set { uiState.approveOrderState = newValue }
-    }
-    
-    var completeOrderState: AsyncState<Order> {
-        get { uiState.completeOrderState }
-        set { uiState.completeOrderState = newValue }
-    }
+    var createOrderState: AsyncState<Order> = .idle
+    var approveOrderState: AsyncState<CardResult> = .idle
+    var completeOrderState: AsyncState<Order> = .idle
     
     // HACK: this is used to drive the scroll-to-bottom animation
     var stepCount: Int {
