@@ -66,6 +66,7 @@
 		BC7B293B306426BA008C7345 /* FraudProtection in Frameworks */ = {isa = PBXBuildFile; productRef = BC7B293A306426BA008C7345 /* FraudProtection */; };
 		BC7B293D306426BA008C7345 /* PayPalPayments in Frameworks */ = {isa = PBXBuildFile; productRef = BC7B293C306426BA008C7345 /* PayPalPayments */; };
 		BC7B293F306426BA008C7345 /* PaymentButtons in Frameworks */ = {isa = PBXBuildFile; productRef = BC7B293E306426BA008C7345 /* PaymentButtons */; };
+		BC7B29493065A992008C7345 /* CardResult+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7B29483065A98E008C7345 /* CardResult+Hashable.swift */; };
 		BC9D4D2227C554090089E5B1 /* LaunchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2127C554090089E5B1 /* LaunchApp.swift */; };
 		BC9D4D2427C58B8D0089E5B1 /* XCUIApplication+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */; };
 		BC9D4D2627C6D1720089E5B1 /* XCUIElement+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2527C6D1720089E5B1 /* XCUIElement+Helpers.swift */; };
@@ -159,6 +160,7 @@
 		80F33CF226F8EA50006811B1 /* DemoSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSettings.swift; sourceTree = "<group>"; };
 		9A8C7ADB2FF6FD0F00471F38 /* CustomEnvironmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEnvironmentView.swift; sourceTree = "<group>"; };
 		BC6460CC2A12A2A0002B974B /* EmptyBodyParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyBodyParams.swift; sourceTree = "<group>"; };
+		BC7B29483065A98E008C7345 /* CardResult+Hashable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CardResult+Hashable.swift"; sourceTree = "<group>"; };
 		BC9D4D1527C54F3F0089E5B1 /* DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC9D4D2127C554090089E5B1 /* LaunchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchApp.swift; sourceTree = "<group>"; };
 		BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+Helpers.swift"; sourceTree = "<group>"; };
@@ -528,6 +530,7 @@
 		BEDE3048275EA31800D275FD /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				BC7B29483065A98E008C7345 /* CardResult+Hashable.swift */,
 				BCEAACBF305C4B2F00BA09FB /* SCA+CaseIterable.swift */,
 				CB9ED44B283FDA900081F4DE /* PaymentButtonEnums+Extension.swift */,
 				3BCCFE452A9D47AC00C5102F /* CardExtensions.swift */,
@@ -675,6 +678,7 @@
 				3BCCFE4B2A9D985F00C5102F /* FeatureSelectionView.swift in Sources */,
 				CB9ED44C283FDA900081F4DE /* PaymentButtonEnums+Extension.swift in Sources */,
 				3BB60B552B1FA00C00A298CF /* PayPalVaultViewModel.swift in Sources */,
+				BC7B29493065A992008C7345 /* CardResult+Hashable.swift in Sources */,
 				3BB60B532B1F9F1100A298CF /* PayPalVaultView.swift in Sources */,
 				3B80D50E2A291C0800D2EAC4 /* ClientIDRequest.swift in Sources */,
 				BE8117682B080472009867B9 /* CurrentState.swift in Sources */,
