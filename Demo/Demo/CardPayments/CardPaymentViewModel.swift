@@ -82,7 +82,6 @@ class CardPaymentViewModel {
                 let cardRequest = CardRequest(orderID: orderID, card: card, sca: request.sca)
                 let result = try await cardClient.approveOrder(request: cardRequest)
                 approveOrderState = .loaded(result)
-                
             } catch {
                 print("failed in checkout with card. \(error.localizedDescription)")
                 approveOrderState = .error(message: error.localizedDescription)
@@ -122,3 +121,4 @@ class CardPaymentViewModel {
         }
     }
 }
+
