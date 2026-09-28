@@ -8,7 +8,7 @@ struct SegmentedEnumPicker<T: RawRepresentable<String> & Hashable & CaseIterable
     
     var body: some View {
         Picker(label, selection: selection) {
-            ForEach(values, id: \.hashValue) { value in
+            ForEach(values, id: \.rawValue) { value in
                 Text(value.rawValue).tag(value)
             }
         }
