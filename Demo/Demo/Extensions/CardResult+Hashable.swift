@@ -1,4 +1,3 @@
-
 import CardPayments
 
 extension CardResult: @retroactive Hashable {
