@@ -1,7 +1,7 @@
 import SwiftUI
 
 // Ref: https://www.swiftbysundell.com/tips/creating-custom-swiftui-container-views/
-struct FormGroup<Content: View>: ContainerView {
+struct FormGroup<Content: View>: View {
 
     @ViewBuilder var content: () -> Content
 
