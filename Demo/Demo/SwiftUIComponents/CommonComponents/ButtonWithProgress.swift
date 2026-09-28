@@ -12,6 +12,7 @@ struct ButtonWithProgress: View {
                 Text(label)
             }
             .buttonStyle(RoundedBlueButtonStyle(isLabelVisible: !isLoading))
+            .accessibilityLabel(isLoading ? "Loading" : label)
             if isLoading {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
