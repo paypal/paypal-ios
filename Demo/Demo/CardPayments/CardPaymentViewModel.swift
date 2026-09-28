@@ -12,14 +12,20 @@ class CardPaymentViewModel {
     // HACK: see if this information exists on the newly created order
     var orderIntent: Intent = .authorize
     
-    private var cardClient: CardClient?
-    private var payPalDataCollector: PayPalDataCollector?
-
-    let configManager = CoreConfigManager(domain: "Card Payments")
+    private let cardClient: CardClient
+    private let payPalDataCollector: PayPalDataCollector
     
     var createOrderState: AsyncState<Order> = .idle
     var approveOrderState: AsyncState<CardResult> = .idle
     var completeOrderState: AsyncState<Order> = .idle
+    
+    init() {
+        let configManager = CoreConfigManager(domain: "Card Payments")
+        let config = configManager.getCoreConfig()
+        
+        cardClient = CardClient(config: config)
+        payPalDataCollector = PayPalDataCollector(config: config)
+    }
     
     // this is used to track changes and drive the scroll-to-bottom animation
     var stateHash: Int {
@@ -44,7 +50,6 @@ class CardPaymentViewModel {
             vaultPaymentSource = .card(vaultCardPaymentSource)
         }
 
-        // TODO: might need to pass in payee as payee object or as auth header
         let amountRequest = Amount(currencyCode: "USD", value: "10.00")
         let params = CreateOrderParams(
             intent: request.intent.rawValue,
@@ -70,10 +75,6 @@ class CardPaymentViewModel {
         approveOrderState = .loading
         Task {
             do {
-                let config = configManager.getCoreConfig()
-                let cardClient = CardClient(config: config)
-                payPalDataCollector = PayPalDataCollector(config: config)
-                
                 let card = Card.createCard(
                     cardNumber: request.cardNumber,
                     expirationDate: request.cardExpirationDate,
@@ -83,12 +84,8 @@ class CardPaymentViewModel {
                 let result = try await cardClient.approveOrder(request: cardRequest)
                 approveOrderState = .loaded(result)
                 
-                // update card client reference
-                // TODO: make CardClient non-null
-                self.cardClient = cardClient
             } catch {
                 print("failed in checkout with card. \(error.localizedDescription)")
-                // TODO: differentiate error from cancellation state
                 approveOrderState = .error(message: error.localizedDescription)
             }
         }
@@ -102,8 +99,7 @@ class CardPaymentViewModel {
         completeOrderState = .loading
         Task {
             do {
-                let clientMetadataID = payPalDataCollector?.collectDeviceData()
-                
+                let clientMetadataID = payPalDataCollector.collectDeviceData()
                 let completedOrder: Order
                 switch orderIntent {
                 case .capture:
