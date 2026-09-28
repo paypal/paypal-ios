@@ -1,8 +1,9 @@
 import SwiftUI
 
+// Ref: https://www.swiftbysundell.com/tips/creating-custom-swiftui-container-views/
 struct FormGroup<Content: View>: ContainerView {
-    
-    var content: () -> Content
+
+    @ViewBuilder var content: () -> Content
 
     var body: some View {
         VStack(spacing: 16, content: content)
