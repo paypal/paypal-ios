@@ -5,6 +5,7 @@ import FraudProtection
 @MainActor
 @Observable
 class CardPaymentViewModel {
+    
     let api = DemoMerchantAPI.shared
     let integration = DemoSettings.merchantIntegration
 
