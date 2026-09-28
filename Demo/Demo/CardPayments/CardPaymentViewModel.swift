@@ -121,4 +121,3 @@ class CardPaymentViewModel {
         }
     }
 }
-
