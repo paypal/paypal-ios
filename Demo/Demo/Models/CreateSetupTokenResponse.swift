@@ -1,5 +1,6 @@
 import Foundation
 
+// TODO: rename to SetupToken (or DemoSetupToken)
 struct CreateSetupTokenResponse: Decodable, Equatable, Hashable {
 
     static func == (lhs: CreateSetupTokenResponse, rhs: CreateSetupTokenResponse) -> Bool {

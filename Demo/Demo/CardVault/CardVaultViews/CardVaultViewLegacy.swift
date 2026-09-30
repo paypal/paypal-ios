@@ -20,7 +20,7 @@ struct CardVaultViewLegacy: View {
                     if let setupToken = cardVaultViewModel.state.setupToken {
                         UpdateSetupTokenView(cardVaultViewModel: cardVaultViewModel, setupToken: setupToken.id)
                     }
-                    UpdateSetupTokenResultView(cardVaultViewModel: cardVaultViewModel)
+                    UpdateSetupTokenResultViewLegacy(cardVaultViewModel: cardVaultViewModel)
                     if let updateSetupToken = cardVaultViewModel.state.updateSetupToken {
                         CreatePaymentTokenView(
                             vaultViewModel: cardVaultViewModel,

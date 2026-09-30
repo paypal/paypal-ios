@@ -2,7 +2,7 @@ import Foundation
 import CardPayments
 import PayPalPayments
 
-struct UpdateSetupTokenResult: Decodable, Equatable {
+struct UpdateSetupTokenResult: Decodable, Equatable, Hashable {
 
     var id: String
     var status: String?

@@ -12,6 +12,7 @@ class CardVaultViewModel {
     
     // MARK: Observable Properties
     var createSetupTokenState: AsyncState<CreateSetupTokenResponse> = .idle
+    var updateSetupTokenState: AsyncState<UpdateSetupTokenResult> = .idle
 
     // MARK: Initializers
     init() {
@@ -37,6 +38,48 @@ class CardVaultViewModel {
                 createSetupTokenState = .loaded(response)
             } catch {
                 createSetupTokenState = .error(message: error.localizedDescription)
+            }
+        }
+    }
+    
+    func updateSetupToken(with card: Card) {
+        if let setupTokenResult = createSetupTokenState.value {
+            updateSetupTokenState = .loading
+            Task {
+                let setupTokenID = setupTokenResult.id
+                let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
+                cardClient.vault(vaultRequest) { vaultResult in
+                    Task { @MainActor [weak self] in
+                        self?.captureVaultResult(vaultResult)
+                    }
+                }
+            }
+        } else {
+           updateSetupTokenState = .error(message: "Setup Token Required.")
+        }
+    }
+    
+    private func captureVaultResult(_ vaultResult: Result<CardVaultResult, CoreSDKError>) {
+        switch vaultResult {
+        case .success(let vaultResult):
+            let didAttemptThreeDSecureAuthentication =
+                vaultResult.didAttemptThreeDSecureAuthentication
+            updateSetupTokenState = .loaded(
+                // TODO: determine if this type is actually needed; we should be able to forward
+                // the SDK type instead here
+                UpdateSetupTokenResult(
+                    id: vaultResult.setupTokenID,
+                    status: vaultResult.status,
+                    didAttemptThreeDSecureAuthentication: didAttemptThreeDSecureAuthentication
+                )
+            )
+        case .failure(let error):
+            if error == CardError.threeDSecureCanceledError {
+                print("Canceled")
+                updateSetupTokenState = .idle
+            } else {
+                let errorMessage = error.localizedDescription
+                updateSetupTokenState = .error(message: errorMessage)
             }
         }
     }
