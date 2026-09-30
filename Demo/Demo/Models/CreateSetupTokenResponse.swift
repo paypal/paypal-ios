@@ -1,6 +1,6 @@
 import Foundation
 
-struct CreateSetupTokenResponse: Decodable, Equatable {
+struct CreateSetupTokenResponse: Decodable, Equatable, Hashable {
 
     static func == (lhs: CreateSetupTokenResponse, rhs: CreateSetupTokenResponse) -> Bool {
         lhs.id == rhs.id
@@ -9,7 +9,7 @@ struct CreateSetupTokenResponse: Decodable, Equatable {
     let id, status: String
     let customer: Customer?
 
-    struct Customer: Decodable {
+    struct Customer: Decodable, Hashable {
         
         let id: String
     }
