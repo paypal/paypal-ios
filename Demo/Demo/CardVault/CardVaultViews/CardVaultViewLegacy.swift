@@ -2,7 +2,7 @@ import SwiftUI
 
 struct CardVaultViewLegacy: View {
 
-    @StateObject var cardVaultViewModel = CardVaultViewModel()
+    @StateObject var cardVaultViewModel = CardVaultViewModelLegacy()
     @State var sca: String? = "SCA_WHEN_REQUIRED"
 
     // MARK: Views

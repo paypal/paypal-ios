@@ -20,9 +20,9 @@ struct UpdateSetupTokenView: View {
     @State private var expirationDateText: String = "01 / 27"
     @State private var cvvText: String = "123"
 
-    @ObservedObject var cardVaultViewModel: CardVaultViewModel
+    @ObservedObject var cardVaultViewModel: CardVaultViewModelLegacy
 
-    public init(cardVaultViewModel: CardVaultViewModel, setupToken: String) {
+    public init(cardVaultViewModel: CardVaultViewModelLegacy, setupToken: String) {
         self.cardVaultViewModel = cardVaultViewModel
         self.setupToken = setupToken
     }
