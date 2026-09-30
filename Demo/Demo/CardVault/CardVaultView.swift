@@ -14,6 +14,10 @@ struct CardVaultView: View {
     var isUpdateSetupTokenLoading: Bool {
         viewModel.updateSetupTokenState.isLoading
     }
+    
+    var isCreatePaymentTokenLoading: Bool {
+        viewModel.createPaymentTokenState.isLoading
+    }
 
     // MARK: Views
     var body: some View {
@@ -31,6 +35,13 @@ struct CardVaultView: View {
                     }
                     if let updateSetupTokenResult = viewModel.updateSetupTokenState.value {
                         UpdateSetupTokenResultView(result: updateSetupTokenResult)
+                        CreatePaymentTokenForm(isLoading: isCreatePaymentTokenLoading) {
+                            viewModel.createPaymentToken()
+                        }
+                    }
+                    if let paymentTokenResult = viewModel.createPaymentTokenState.value {
+                        
+                        PaymentTokenResultView(vaultViewModel: cardVaultViewModel)
                     }
                 }
             }
@@ -98,7 +109,7 @@ struct UpdateSetupTokenForm: View {
                 cvv: cvvText
             )
             ZStack {
-                ButtonWithProgress(label: "Checkout", isLoading: isLoading) {
+                ButtonWithProgress(label: "Update Setup Token", isLoading: isLoading) {
                     onSubmit(card)
                 }
             }
@@ -134,6 +145,35 @@ struct UpdateSetupTokenResultView: View {
             LeadingText("\(result.didAttemptThreeDSecureAuthentication)")
         }
         .frame(maxWidth: .infinity)
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(.gray, lineWidth: 2)
+                .padding(5)
+        )
+    }
+}
+
+struct CreatePaymentTokenForm: View {
+    
+    let isLoading: Bool
+    let onSubmit: () -> Void
+
+    var body: some View {
+        VStack(spacing: 16) {
+            HStack {
+                Text("Create a Payment Method Token")
+                    .font(.system(size: 20))
+                Spacer()
+            }
+            .frame(maxWidth: .infinity)
+            .font(.headline)
+            ZStack {
+                ButtonWithProgress(label: "Create Payment Token", isLoading: isLoading) {
+                    onSubmit()
+                }
+            }
+        }
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 10)

@@ -28,7 +28,7 @@ struct CardVaultViewLegacy: View {
                             setupToken: updateSetupToken.id
                         )
                     }
-                    PaymentTokenResultView(vaultViewModel: cardVaultViewModel)
+                    PaymentTokenResultViewLegacy(vaultViewModel: cardVaultViewModel)
                     switch cardVaultViewModel.state.paymentTokenResponse {
                     case .loaded, .error:
                         VStack {

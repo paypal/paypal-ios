@@ -22,7 +22,7 @@ struct CreateCardSetupTokenForm: View {
             SegmentedEnumPicker(label: "SCA", selection: $request.sca)
                 .frame(height: 48)
             ZStack {
-                ButtonWithProgress(label: "Checkout", isLoading: isLoading) {
+                ButtonWithProgress(label: "Create Setup Token", isLoading: isLoading) {
                     onSubmit(request)
                 }
             }

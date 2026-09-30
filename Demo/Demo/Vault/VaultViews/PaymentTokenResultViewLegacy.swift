@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct PaymentTokenResultView: View {
+struct PaymentTokenResultViewLegacy: View {
 
     @ObservedObject var vaultViewModel: VaultViewModel
 

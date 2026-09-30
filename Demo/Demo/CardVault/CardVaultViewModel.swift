@@ -13,6 +13,7 @@ class CardVaultViewModel {
     // MARK: Observable Properties
     var createSetupTokenState: AsyncState<CreateSetupTokenResponse> = .idle
     var updateSetupTokenState: AsyncState<UpdateSetupTokenResult> = .idle
+    var createPaymentTokenState: AsyncState<PaymentTokenResponse> = .idle
 
     // MARK: Initializers
     init() {
@@ -81,6 +82,26 @@ class CardVaultViewModel {
                 let errorMessage = error.localizedDescription
                 updateSetupTokenState = .error(message: errorMessage)
             }
+        }
+    }
+    
+    func createPaymentToken() {
+        if let setupTokenResult = createSetupTokenState.value {
+            createPaymentTokenState = .loading
+            Task {
+                let setupTokenID = setupTokenResult.id
+                do {
+                    let paymentTokenResult = try await api.createPaymentToken(
+                        setupToken: setupTokenID,
+                        integration: DemoSettings.merchantIntegration
+                    )
+                    createPaymentTokenState = .loaded(paymentTokenResult)
+                } catch {
+                    createPaymentTokenState = .error(message: error.localizedDescription)
+                }
+            }
+        } else {
+            createPaymentTokenState = .error(message: "Setup Token Required.")
         }
     }
 }
