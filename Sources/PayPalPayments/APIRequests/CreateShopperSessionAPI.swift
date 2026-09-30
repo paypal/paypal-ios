@@ -142,7 +142,7 @@ public class CreateShopperSessionAPI {
         guard let result = parsed.shopperSession else {
             throw NetworkingError.noGraphQLDataKey
         }
-        
+
         analyticsData?.update(with: result)
         if let timing = httpResponse.timing {
             analyticsService.sendEvent(

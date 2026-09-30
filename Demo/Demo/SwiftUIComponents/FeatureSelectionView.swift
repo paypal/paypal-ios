@@ -4,7 +4,6 @@ struct FeatureSelectionView: View {
 
     @State private var selectedEnvironment: DemoEnvironment = DemoSettings.environment
     @State private var selectedIntegration: MerchantIntegration = DemoSettings.merchantIntegration
-    @State private var bnCode: String = DemoSettings.bnCode ?? ""
     #if DEBUG
     @State private var lastCommittedEnvironment: DemoEnvironment = DemoSettings.environment
     @State private var showCustomEnvironmentSheet = false
@@ -35,15 +34,6 @@ struct FeatureSelectionView: View {
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
-
-                    HStack {
-                        Text("BN Code")
-                        Spacer()
-                        TextField("Optional", text: $bnCode.onChange(updateBNCode))
-                            .multilineTextAlignment(.trailing)
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
-                    }
                 }
 
                 Section(header: Text("Features")) {
@@ -117,10 +107,6 @@ struct FeatureSelectionView: View {
 
     func updateIntegration(newIntegration: MerchantIntegration) {
         DemoSettings.merchantIntegration = newIntegration
-    }
-
-    func updateBNCode(newBNCode: String) {
-        DemoSettings.bnCode = newBNCode
     }
 }
 

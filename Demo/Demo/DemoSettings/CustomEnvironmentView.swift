@@ -13,6 +13,7 @@ struct CustomEnvironmentView: View {
     @State private var restBaseURL: String
     @State private var graphQLBaseURL: String
     @State private var merchantBaseURL: String
+    @State private var bnCode: String
 
     init(onSave: @escaping () -> Void, onCancel: @escaping () -> Void) {
         self.onSave = onSave
@@ -22,6 +23,7 @@ struct CustomEnvironmentView: View {
         _restBaseURL = State(initialValue: config?.restBaseURL ?? "")
         _graphQLBaseURL = State(initialValue: config?.graphQLBaseURL ?? "")
         _merchantBaseURL = State(initialValue: config?.merchantBaseURL ?? "")
+        _bnCode = State(initialValue: DemoSettings.bnCode ?? "")
     }
 
     // MARK: - Validation
@@ -40,6 +42,10 @@ struct CustomEnvironmentView: View {
 
     private var trimmedMerchantBaseURL: String {
         merchantBaseURL.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    private var trimmedBNCode: String {
+        bnCode.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     private var clientIDError: String? {
@@ -124,6 +130,15 @@ struct CustomEnvironmentView: View {
                     errorText(merchantBaseURLError)
                 }
 
+                Section(
+                    header: Text("BN Code"),
+                    footer: Text("Optional. The partner attribution code forwarded to CoreConfig.")
+                ) {
+                    TextField("Optional", text: $bnCode)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+                }
+
                 Section {
                     Button(role: .destructive) {
                         clearFields()
@@ -182,6 +197,7 @@ struct CustomEnvironmentView: View {
             graphQLBaseURL: trimmedGraphQLBaseURL,
             merchantBaseURL: trimmedMerchantBaseURL.isEmpty ? nil : trimmedMerchantBaseURL
         )
+        DemoSettings.bnCode = trimmedBNCode.isEmpty ? nil : trimmedBNCode
         DemoSettings.environment = .custom
         onSave()
         presentationMode.wrappedValue.dismiss()
