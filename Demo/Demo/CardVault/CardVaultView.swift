@@ -1,13 +1,18 @@
 import SwiftUI
 
 struct CardVaultView: View {
+    
+    @Environment(CardVaultViewModel.self)
+    var viewModel
 
     // MARK: Views
     var body: some View {
         ScrollView {
             ScrollViewReader { scrollView in
                 VStack(spacing: 16) {
-                    Text("Hello")
+                    CreateCardSetupTokenView(isLoading: false) { request in
+                        viewModel.createSetupToken(with: request)
+                    }
                 }
             }
         }

@@ -69,6 +69,9 @@
 		BC7B294D3065ACF0008C7345 /* hash.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7B294C3065ACEE008C7345 /* hash.swift */; };
 		BC8CEB12306D6C7D003068FE /* CardVaultViewLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8CEB11306D6C7D003068FE /* CardVaultViewLegacy.swift */; };
 		BC8CEB14306D6DB0003068FE /* CardVaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8CEB13306D6DB0003068FE /* CardVaultView.swift */; };
+		BC8CEB16306D6ED1003068FE /* CardVaultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8CEB15306D6ED1003068FE /* CardVaultViewModel.swift */; };
+		BC8CEB18306D7036003068FE /* CreateCardSetupTokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8CEB17306D7031003068FE /* CreateCardSetupTokenView.swift */; };
+		BC8CEB1A306D714E003068FE /* DemoCreateCardSetupTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8CEB19306D7148003068FE /* DemoCreateCardSetupTokenRequest.swift */; };
 		BC9D4D2227C554090089E5B1 /* LaunchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2127C554090089E5B1 /* LaunchApp.swift */; };
 		BC9D4D2427C58B8D0089E5B1 /* XCUIApplication+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */; };
 		BC9D4D2627C6D1720089E5B1 /* XCUIElement+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2527C6D1720089E5B1 /* XCUIElement+Helpers.swift */; };
@@ -164,6 +167,9 @@
 		BC7B294C3065ACEE008C7345 /* hash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hash.swift; sourceTree = "<group>"; };
 		BC8CEB11306D6C7D003068FE /* CardVaultViewLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultViewLegacy.swift; sourceTree = "<group>"; };
 		BC8CEB13306D6DB0003068FE /* CardVaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultView.swift; sourceTree = "<group>"; };
+		BC8CEB15306D6ED1003068FE /* CardVaultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultViewModel.swift; sourceTree = "<group>"; };
+		BC8CEB17306D7031003068FE /* CreateCardSetupTokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCardSetupTokenView.swift; sourceTree = "<group>"; };
+		BC8CEB19306D7148003068FE /* DemoCreateCardSetupTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCreateCardSetupTokenRequest.swift; sourceTree = "<group>"; };
 		BC9D4D1527C54F3F0089E5B1 /* DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC9D4D2127C554090089E5B1 /* LaunchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchApp.swift; sourceTree = "<group>"; };
 		BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+Helpers.swift"; sourceTree = "<group>"; };
@@ -238,6 +244,7 @@
 			children = (
 				BC8CEB13306D6DB0003068FE /* CardVaultView.swift */,
 				1001E2BD2CF644E00023A03C /* CardVaultViewModel */,
+				BC8CEB15306D6ED1003068FE /* CardVaultViewModel.swift */,
 				3B43290F2A8FD7FD00C5441A /* CardVaultViews */,
 			);
 			path = CardVault;
@@ -369,22 +376,23 @@
 			isa = PBXGroup;
 			children = (
 				BCEAACB1305C4AA300BA09FB /* ButtonWithProgress.swift */,
+				3B4DD9A12A8982B000F4A716 /* CardFormView.swift */,
+				3BC6220A2A97204E00251B85 /* CircularProgressView.swift */,
+				3BA5700A2AA13C1C0081D14F /* CoreConfigManager.swift */,
+				BC8CEB17306D7031003068FE /* CreateCardSetupTokenView.swift */,
+				3B8EF4DA2A932DA300A70D0B /* ErrorView.swift */,
+				BE9F36D72745490400AFC7DA /* FloatingLabelTextField.swift */,
 				BCEAACB2305C4AA300BA09FB /* FormGroup.swift */,
+				BE5898942B2B91F800AA196E /* LabelViewText.swift */,
+				3BC622082A97198500251B85 /* LeadingText.swift */,
 				BCEAACB3305C4AA300BA09FB /* OrderView.swift */,
+				3BC622062A97115700251B85 /* RoundedBlueButtonStyle.swift */,
 				BCEAACB4305C4AA300BA09FB /* ScrollAnchor.swift */,
 				BCEAACB5305C4AA300BA09FB /* SegmentedEnumPicker.swift */,
-				BCEAACB6305C4AA300BA09FB /* StepHeader.swift */,
-				3B4DD9A12A8982B000F4A716 /* CardFormView.swift */,
-				3B8EF4DA2A932DA300A70D0B /* ErrorView.swift */,
-				3BC622062A97115700251B85 /* RoundedBlueButtonStyle.swift */,
-				BE9F36D72745490400AFC7DA /* FloatingLabelTextField.swift */,
-				3BC6220A2A97204E00251B85 /* CircularProgressView.swift */,
-				3BC622082A97198500251B85 /* LeadingText.swift */,
-				3BA5700A2AA13C1C0081D14F /* CoreConfigManager.swift */,
-				C5DDBA0EEDF0422CA93EDE6B /* UserIdentityView.swift */,
-				E100A9BBE64964EE134DB022 /* UserIdentityFactory.swift */,
 				C2DFDC66B206AB9B11A80589 /* ShopperSessionURLConfigFactory.swift */,
-				BE5898942B2B91F800AA196E /* LabelViewText.swift */,
+				BCEAACB6305C4AA300BA09FB /* StepHeader.swift */,
+				E100A9BBE64964EE134DB022 /* UserIdentityFactory.swift */,
+				C5DDBA0EEDF0422CA93EDE6B /* UserIdentityView.swift */,
 			);
 			path = CommonComponents;
 			sourceTree = "<group>";
@@ -454,6 +462,7 @@
 		80F33CEB26F8E799006811B1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				BC8CEB19306D7148003068FE /* DemoCreateCardSetupTokenRequest.swift */,
 				BCEAACA7305C410200BA09FB /* DemoApproveOrderRequest.swift */,
 				BCEAACA8305C410200BA09FB /* DemoCreateOrderRequest.swift */,
 				BCEAACA3305C407C00BA09FB /* AsyncState.swift */,
@@ -674,9 +683,11 @@
 				3BCCFE462A9D47AC00C5102F /* CardExtensions.swift in Sources */,
 				BE5898952B2B91F800AA196E /* LabelViewText.swift in Sources */,
 				3BC622072A97115700251B85 /* RoundedBlueButtonStyle.swift in Sources */,
+				BC8CEB18306D7036003068FE /* CreateCardSetupTokenView.swift in Sources */,
 				3B4DD9A22A8982B000F4A716 /* CardFormView.swift in Sources */,
 				BCEAACAE305C431D00BA09FB /* CardPaymentViewModel.swift in Sources */,
 				BED04233271084DF00C80954 /* CardFormatter.swift in Sources */,
+				BC8CEB16306D6ED1003068FE /* CardVaultViewModel.swift in Sources */,
 				CB9ED44E28411B120081F4DE /* SwiftUIPaymentButtonDemo.swift in Sources */,
 				3BA570032AA053AE0081D14F /* PayPalWebCreateOrderView.swift in Sources */,
 				3B22E8BC2A84397600962E34 /* PaymentTokenResponse.swift in Sources */,
@@ -697,6 +708,7 @@
 				3BDB348E2A7CB02C008100D7 /* CreateSetupTokenParam.swift in Sources */,
 				3BA0A58B2B1E240300330681 /* VaultViewModel.swift in Sources */,
 				80F33CF326F8EA50006811B1 /* DemoSettings.swift in Sources */,
+				BC8CEB1A306D714E003068FE /* DemoCreateCardSetupTokenRequest.swift in Sources */,
 				1001E2C52CFFD2800023A03C /* PayPalApprovalResultView.swift in Sources */,
 				3BA5700B2AA13C1C0081D14F /* CoreConfigManager.swift in Sources */,
 				BCC4807E301CEA2700844DFF /* DemoEnvironment.swift in Sources */,
