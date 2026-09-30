@@ -39,9 +39,8 @@ struct CardVaultView: View {
                             viewModel.createPaymentToken()
                         }
                     }
-                    if let paymentTokenResult = viewModel.createPaymentTokenState.value {
-                        
-                        PaymentTokenResultView(vaultViewModel: cardVaultViewModel)
+                    if let paymentTokenResponse = viewModel.createPaymentTokenState.value {
+                        PaymentTokenResponseView(response: paymentTokenResponse)
                     }
                 }
             }
@@ -174,6 +173,41 @@ struct CreatePaymentTokenForm: View {
                 }
             }
         }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(.gray, lineWidth: 2)
+                .padding(5)
+        )
+    }
+}
+
+struct PaymentTokenResponseView: View {
+    
+    let response: PaymentTokenResponse
+
+    var body: some View {
+        VStack(spacing: 16) {
+            HStack {
+                Text("Payment Token")
+                    .font(.system(size: 20))
+                Spacer()
+            }
+            LeadingText("ID", weight: .bold)
+            LeadingText("\(response.id)")
+            LeadingText("Customer ID", weight: .bold)
+            LeadingText("\(response.customer.id)")
+            if let card = response.paymentSource.card {
+                LeadingText("Card Brand", weight: .bold)
+                LeadingText("\(card.brand ?? "")")
+                LeadingText("Card Last 4", weight: .bold)
+                LeadingText("\(card.lastDigits)")
+            } else if let paypal = response.paymentSource.paypal {
+                LeadingText("Email", weight: .bold)
+                LeadingText("\(paypal.emailAddress)")
+            }
+        }
+        .frame(maxWidth: .infinity)
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 10)
