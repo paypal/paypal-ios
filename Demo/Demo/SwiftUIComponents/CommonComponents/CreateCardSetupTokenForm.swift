@@ -1,7 +1,7 @@
 import SwiftUI
 import PayPalPayments
 
-struct CreateCardSetupTokenView: View {
+struct CreateCardSetupTokenForm: View {
 
     let isLoading: Bool
     let onSubmit: (_ request: DemoCreateCardSetupTokenRequest) -> Void

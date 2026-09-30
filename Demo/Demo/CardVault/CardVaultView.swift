@@ -14,7 +14,7 @@ struct CardVaultView: View {
         ScrollView {
             ScrollViewReader { scrollView in
                 VStack(spacing: 16) {
-                    CreateCardSetupTokenView(isLoading: isCreateSetupTokenLoading) { request in
+                    CreateCardSetupTokenForm(isLoading: isCreateSetupTokenLoading) { request in
                         viewModel.createSetupToken(with: request)
                     }
                     if let setupTokenResponse = viewModel.createSetupTokenState.value {

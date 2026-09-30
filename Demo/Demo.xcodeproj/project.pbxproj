@@ -70,7 +70,7 @@
 		BC8CEB12306D6C7D003068FE /* CardVaultViewLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8CEB11306D6C7D003068FE /* CardVaultViewLegacy.swift */; };
 		BC8CEB14306D6DB0003068FE /* CardVaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8CEB13306D6DB0003068FE /* CardVaultView.swift */; };
 		BC8CEB16306D6ED1003068FE /* CardVaultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8CEB15306D6ED1003068FE /* CardVaultViewModel.swift */; };
-		BC8CEB18306D7036003068FE /* CreateCardSetupTokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8CEB17306D7031003068FE /* CreateCardSetupTokenView.swift */; };
+		BC8CEB18306D7036003068FE /* CreateCardSetupTokenForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8CEB17306D7031003068FE /* CreateCardSetupTokenForm.swift */; };
 		BC8CEB1A306D714E003068FE /* DemoCreateCardSetupTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8CEB19306D7148003068FE /* DemoCreateCardSetupTokenRequest.swift */; };
 		BC9D4D2227C554090089E5B1 /* LaunchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2127C554090089E5B1 /* LaunchApp.swift */; };
 		BC9D4D2427C58B8D0089E5B1 /* XCUIApplication+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */; };
@@ -168,7 +168,7 @@
 		BC8CEB11306D6C7D003068FE /* CardVaultViewLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultViewLegacy.swift; sourceTree = "<group>"; };
 		BC8CEB13306D6DB0003068FE /* CardVaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultView.swift; sourceTree = "<group>"; };
 		BC8CEB15306D6ED1003068FE /* CardVaultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultViewModel.swift; sourceTree = "<group>"; };
-		BC8CEB17306D7031003068FE /* CreateCardSetupTokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCardSetupTokenView.swift; sourceTree = "<group>"; };
+		BC8CEB17306D7031003068FE /* CreateCardSetupTokenForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCardSetupTokenForm.swift; sourceTree = "<group>"; };
 		BC8CEB19306D7148003068FE /* DemoCreateCardSetupTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCreateCardSetupTokenRequest.swift; sourceTree = "<group>"; };
 		BC9D4D1527C54F3F0089E5B1 /* DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC9D4D2127C554090089E5B1 /* LaunchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchApp.swift; sourceTree = "<group>"; };
@@ -379,7 +379,7 @@
 				3B4DD9A12A8982B000F4A716 /* CardFormView.swift */,
 				3BC6220A2A97204E00251B85 /* CircularProgressView.swift */,
 				3BA5700A2AA13C1C0081D14F /* CoreConfigManager.swift */,
-				BC8CEB17306D7031003068FE /* CreateCardSetupTokenView.swift */,
+				BC8CEB17306D7031003068FE /* CreateCardSetupTokenForm.swift */,
 				3B8EF4DA2A932DA300A70D0B /* ErrorView.swift */,
 				BE9F36D72745490400AFC7DA /* FloatingLabelTextField.swift */,
 				BCEAACB2305C4AA300BA09FB /* FormGroup.swift */,
@@ -683,7 +683,7 @@
 				3BCCFE462A9D47AC00C5102F /* CardExtensions.swift in Sources */,
 				BE5898952B2B91F800AA196E /* LabelViewText.swift in Sources */,
 				3BC622072A97115700251B85 /* RoundedBlueButtonStyle.swift in Sources */,
-				BC8CEB18306D7036003068FE /* CreateCardSetupTokenView.swift in Sources */,
+				BC8CEB18306D7036003068FE /* CreateCardSetupTokenForm.swift in Sources */,
 				3B4DD9A22A8982B000F4A716 /* CardFormView.swift in Sources */,
 				BCEAACAE305C431D00BA09FB /* CardPaymentViewModel.swift in Sources */,
 				BED04233271084DF00C80954 /* CardFormatter.swift in Sources */,
