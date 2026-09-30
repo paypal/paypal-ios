@@ -18,7 +18,8 @@ class CoreConfigManager {
         return CoreConfig(
             clientID: clientID,
             environment: DemoSettings.environment.paypalSDKEnvironment,
-            merchantID: DemoSettings.merchantIntegration.merchantID
+            merchantID: DemoSettings.merchantIntegration.merchantID,
+            bnCode: DemoSettings.bnCode
         )
     }
 }
