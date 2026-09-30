@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct CardVaultView: View {
+struct CardVaultViewLegacy: View {
 
     @StateObject var cardVaultViewModel = CardVaultViewModel()
     @State var sca: String? = "SCA_WHEN_REQUIRED"
@@ -63,6 +63,6 @@ struct CardVaultView: View {
 struct CardVault_Previews: PreviewProvider {
 
     static var previews: some View {
-        CardVaultView()
+        CardVaultViewLegacy()
     }
 }
