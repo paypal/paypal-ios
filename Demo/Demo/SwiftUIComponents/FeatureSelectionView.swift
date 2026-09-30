@@ -64,7 +64,7 @@ struct FeatureSelectionView: View {
                         .navigationTitle("Card Payment")
                         .environment(CardPaymentViewModel())
                 case .cardVaulting:
-                    CardVaultViewLegacy()
+                    CardVaultView()
                         .navigationTitle("Card Vaulting")
                 case .payPalWeb:
                     PayPalWebPaymentsView()

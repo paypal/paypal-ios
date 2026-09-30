@@ -60,7 +60,7 @@ struct CardVaultViewLegacy: View {
     }
 }
 
-struct CardVault_Previews: PreviewProvider {
+struct CardVaultLegacy_Previews: PreviewProvider {
 
     static var previews: some View {
         CardVaultViewLegacy()
