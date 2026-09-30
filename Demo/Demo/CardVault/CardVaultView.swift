@@ -21,8 +21,8 @@ struct CardVaultView: View {
 
     // MARK: Views
     var body: some View {
-        ScrollView {
-            ScrollViewReader { scrollView in
+        ScrollViewReader { proxy in
+            ScrollView {
                 VStack(spacing: 16) {
                     CreateCardSetupTokenForm(isLoading: isCreateSetupTokenLoading) { request in
                         viewModel.createSetupToken(with: request)
@@ -41,6 +41,12 @@ struct CardVaultView: View {
                     }
                     if let paymentTokenResponse = viewModel.createPaymentTokenState.value {
                         PaymentTokenResponseView(response: paymentTokenResponse)
+                    }
+                    ScrollAnchor(id: "bottomAnchor")
+                }
+                .onChange(of: viewModel.stateHash) {
+                    withAnimation {
+                        proxy.scrollTo("bottomAnchor")
                     }
                 }
             }

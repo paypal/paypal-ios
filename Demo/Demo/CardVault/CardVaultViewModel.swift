@@ -14,6 +14,11 @@ class CardVaultViewModel {
     var createSetupTokenState: AsyncState<CreateSetupTokenResponse> = .idle
     var updateSetupTokenState: AsyncState<UpdateSetupTokenResult> = .idle
     var createPaymentTokenState: AsyncState<PaymentTokenResponse> = .idle
+    
+    // this is used to track changes and drive the scroll-to-bottom animation
+    var stateHash: Int {
+        return hash(createSetupTokenState, updateSetupTokenState, createPaymentTokenState)
+    }
 
     // MARK: Initializers
     init() {
@@ -21,7 +26,7 @@ class CardVaultViewModel {
         let config = configManager.getCoreConfig()
         cardClient = CardClient(config: config)
     }
-    
+
     // MARK: Methods
     func createSetupToken(with request: DemoCreateCardSetupTokenRequest) {
         createSetupTokenState = .loading
