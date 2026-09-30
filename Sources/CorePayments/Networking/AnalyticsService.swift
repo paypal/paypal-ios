@@ -23,7 +23,7 @@ public struct AnalyticsService {
         self.coreConfig = coreConfig
         self.trackingEventsAPI = TrackingEventsAPI(coreConfig: coreConfig)
         self.setupToken = setupToken
-        /// Android logs setup token as "order_id" this is to ensure parity between platforms 
+        /// Android logs setup token as "order_id" this is to ensure parity between platforms
         self.orderID = setupToken
     }
 
