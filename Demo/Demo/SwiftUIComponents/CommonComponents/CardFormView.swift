@@ -20,7 +20,7 @@ struct CardFormView: View {
         VStack(spacing: 16) {
             HStack {
                 FloatingLabelTextField(placeholder: "Card Number", text: $cardNumberText)
-                    .onChange(of: cardNumberText) { newValue in
+                    .onChange(of: cardNumberText) { _, newValue in
                         cardNumberText = cardFormatter.formatFieldWith(newValue, field: .cardNumber)
                         // 4 digit cvv for amex
                         cvvText = CardType.unknown.getCardType(newValue) == .americanExpress ? "1234" : "123"
@@ -42,11 +42,11 @@ struct CardFormView: View {
                 }
             }
             FloatingLabelTextField(placeholder: "Expiration Date", text: $expirationDateText)
-                .onChange(of: expirationDateText) { newValue in
+                .onChange(of: expirationDateText) { _, newValue in
                     expirationDateText = cardFormatter.formatFieldWith(newValue, field: .expirationDate)
                 }
             FloatingLabelTextField(placeholder: "CVV", text: $cvvText)
-                .onChange(of: cvvText) { newValue in
+                .onChange(of: cvvText) { _, newValue in
                     cvvText = cardFormatter.formatFieldWith(newValue, field: .cvv)
                 }
         }

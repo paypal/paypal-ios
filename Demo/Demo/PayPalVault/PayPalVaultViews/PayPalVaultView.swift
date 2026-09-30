@@ -43,7 +43,7 @@ struct PayPalVaultView: View {
                         .id("bottomView")
                         .frame(maxWidth: .infinity, alignment: .top)
                         .padding(.horizontal, 10)
-                        .onChange(of: paypalVaultViewModel.state) { _ in
+                        .onChange(of: paypalVaultViewModel.state) {
                             withAnimation {
                                 scrollView.scrollTo("bottomView")
                             }

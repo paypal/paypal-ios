@@ -49,7 +49,7 @@ struct CardVaultView: View {
                         .id("bottomView")
                         .frame(maxWidth: .infinity, alignment: .top)
                         .padding(.horizontal, 10)
-                        .onChange(of: cardVaultViewModel.state) { _ in
+                        .onChange(of: cardVaultViewModel.state) {
                             withAnimation {
                                 scrollView.scrollTo("bottomView")
                             }
