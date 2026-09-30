@@ -35,7 +35,7 @@ struct SwiftUIPaymentButtonDemo: View {
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
-                .onChange(of: fundingIndex) { _ in
+                .onChange(of: fundingIndex) {
                     selectedFunding = PaymentButtonFundingSource.allCases[fundingIndex]
                     colors = getColorFunding(with: selectedFunding)
                     colorsIndex = 0
@@ -49,7 +49,7 @@ struct SwiftUIPaymentButtonDemo: View {
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
-                .onChange(of: colorsIndex) { _ in
+                .onChange(of: colorsIndex) {
                     buttonID += 1
                 }
                 .id(pickerID)
@@ -60,11 +60,11 @@ struct SwiftUIPaymentButtonDemo: View {
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
-                .onChange(of: edgesIndex) { _ in
+                .onChange(of: edgesIndex) {
                     selectedEdge = PaymentButtonEdges.allCases[edgesIndex]
                     buttonID += 1
                 }
-                Stepper("Custom Corner Radius: \(customEdge)", value: $customEdge, in: 0...100).onChange(of: customEdge) { _ in
+                Stepper("Custom Corner Radius: \(customEdge)", value: $customEdge, in: 0...100).onChange(of: customEdge) {
                     if selectedEdge.description == "custom" {
                         selectedEdge = PaymentButtonEdges.custom(CGFloat(customEdge))
                         buttonID += 1
@@ -76,7 +76,7 @@ struct SwiftUIPaymentButtonDemo: View {
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
-                .onChange(of: sizesIndex) { _ in
+                .onChange(of: sizesIndex) {
                     selectedSize = PaymentButtonSize.allCases[sizesIndex]
                     buttonID += 1
                 }
@@ -90,7 +90,7 @@ struct SwiftUIPaymentButtonDemo: View {
                             }
                         }
                         .pickerStyle(SegmentedPickerStyle())
-                        .onChange(of: labelIndex) { _ in
+                        .onChange(of: labelIndex) {
                             selectedLabel = PayPalButton.Label.allCases[labelIndex]
                             buttonID += 1
                         }
