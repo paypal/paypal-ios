@@ -10,6 +10,10 @@ struct CardVaultView: View {
     var isCreateSetupTokenLoading: Bool {
         viewModel.createSetupTokenState.isLoading
     }
+    
+    var isUpdateSetupTokenLoading: Bool {
+        viewModel.updateSetupTokenState.isLoading
+    }
 
     // MARK: Views
     var body: some View {
@@ -19,11 +23,14 @@ struct CardVaultView: View {
                     CreateCardSetupTokenForm(isLoading: isCreateSetupTokenLoading) { request in
                         viewModel.createSetupToken(with: request)
                     }
-                    if let setupTokenResponse = viewModel.createSetupTokenState.value {
-                        CreateSetupTokenResponseView(response: setupTokenResponse)
-                        UpdateSetupTokenForm(isLoading: false) { card in
+                    if let createSetupTokenResponse = viewModel.createSetupTokenState.value {
+                        CreateSetupTokenResponseView(response: createSetupTokenResponse)
+                        UpdateSetupTokenForm(isLoading: isUpdateSetupTokenLoading) { card in
                             viewModel.updateSetupToken(with: card)
                         }
+                    }
+                    if let updateSetupTokenResult = viewModel.updateSetupTokenState.value {
+                        UpdateSetupTokenResultView(result: updateSetupTokenResult)
                     }
                 }
             }
@@ -105,49 +112,36 @@ struct UpdateSetupTokenForm: View {
     }
 }
 
-//struct UpdateSetupTokenResultView: View {
-//    
-//    let response: UpdateSetupTokenResult
-//
-//    @ObservedObject var cardVaultViewModel: CardVaultViewModelLegacy
-//
-//    var body: some View {
-//        switch cardVaultViewModel.state.updateSetupTokenResponse {
-//        case .idle, .loading:
-//            EmptyView()
-//        case .loaded(let updateSetupTokenResponse):
-//            getSuccessView(updateSetupTokenResponse: updateSetupTokenResponse)
-//        case .error(let errorMessage):
-//            ErrorView(errorMessage: errorMessage)
-//        }
-//    }
-//
-//    func getSuccessView(updateSetupTokenResponse: UpdateSetupTokenResult) -> some View {
-//        VStack(spacing: 16) {
-//            HStack {
-//                Text("Vault Success")
-//                    .font(.system(size: 20))
-//                Spacer()
-//            }
-//            LeadingText("ID", weight: .bold)
-//            LeadingText("\(updateSetupTokenResponse.id)")
-//            if let status = updateSetupTokenResponse.status {
-//                LeadingText("status", weight: .bold)
-//                LeadingText("\(status)")
-//            }
-//
-//            LeadingText("didAttemptThreeDSecureAuthentication", weight: .bold)
-//            LeadingText("\(updateSetupTokenResponse.didAttemptThreeDSecureAuthentication)")
-//        }
-//        .frame(maxWidth: .infinity)
-//        .padding()
-//        .background(
-//            RoundedRectangle(cornerRadius: 10)
-//                .stroke(.gray, lineWidth: 2)
-//                .padding(5)
-//        )
-//    }
-//}
+struct UpdateSetupTokenResultView: View {
+    
+    let result: UpdateSetupTokenResult
+
+    var body: some View {
+        VStack(spacing: 16) {
+            HStack {
+                Text("Vault Success")
+                    .font(.system(size: 20))
+                Spacer()
+            }
+            LeadingText("ID", weight: .bold)
+            LeadingText("\(result.id)")
+            if let status = result.status {
+                LeadingText("status", weight: .bold)
+                LeadingText("\(status)")
+            }
+
+            LeadingText("didAttemptThreeDSecureAuthentication", weight: .bold)
+            LeadingText("\(result.didAttemptThreeDSecureAuthentication)")
+        }
+        .frame(maxWidth: .infinity)
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(.gray, lineWidth: 2)
+                .padding(5)
+        )
+    }
+}
 
 struct CardVault_Previews: PreviewProvider {
 
