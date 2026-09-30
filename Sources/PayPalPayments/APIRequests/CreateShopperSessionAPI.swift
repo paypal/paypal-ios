@@ -90,7 +90,8 @@ public class CreateShopperSessionAPI {
         
         let experimentationContext = ShopperSessionExperimentationContext(
             paymentType: userAction.externalPaymentType,
-            merchantAccountId: coreConfig.merchantID
+            merchantAccountId: coreConfig.merchantID,
+            bnCode: coreConfig.bnCode
         )
         /// we can no longer determine if paypalNativeAppInstalled
         /// sending true so flow attempts App Switch in the future
