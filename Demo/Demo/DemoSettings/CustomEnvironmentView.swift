@@ -23,7 +23,7 @@ struct CustomEnvironmentView: View {
         _restBaseURL = State(initialValue: config?.restBaseURL ?? "")
         _graphQLBaseURL = State(initialValue: config?.graphQLBaseURL ?? "")
         _merchantBaseURL = State(initialValue: config?.merchantBaseURL ?? "")
-        _bnCode = State(initialValue: DemoSettings.bnCode ?? "")
+        _bnCode = State(initialValue: config?.bnCode ?? "")
     }
 
     // MARK: - Validation
