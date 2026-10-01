@@ -15,6 +15,7 @@ enum DemoSettings {
     private static let DemoEnvironmentDefaultsKey = "environment"
     private static let ClientIDKey = "clientID"
     private static let MerchantIntegrationDefaultKey = "merchantIntegration"
+    private static let BNCodeDefaultsKey = "bnCode"
     #if DEBUG
     private static let CustomEnvironmentKey = "customEnvironment"
     #endif
@@ -63,6 +64,21 @@ enum DemoSettings {
         }
         set {
             UserDefaults.standard.set(newValue.displayName, forKey: MerchantIntegrationDefaultKey)
+        }
+    }
+
+    /// The partner attribution (BN) code forwarded to `CoreConfig`. `nil` when not set.
+    static var bnCode: String? {
+        get {
+            let value = UserDefaults.standard.string(forKey: BNCodeDefaultsKey)
+            return (value?.isEmpty ?? true) ? nil : value
+        }
+        set {
+            if let newValue, !newValue.isEmpty {
+                UserDefaults.standard.set(newValue, forKey: BNCodeDefaultsKey)
+            } else {
+                UserDefaults.standard.removeObject(forKey: BNCodeDefaultsKey)
+            }
         }
     }
 }

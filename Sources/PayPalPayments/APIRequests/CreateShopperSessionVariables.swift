@@ -34,6 +34,7 @@ struct ShopperSessionExperimentationContext: Encodable {
     let paymentType: String
     let buyerGUID: String?
     let merchantAccountId: String?
+    let bnCode: String?
 
     init(
         appSwitchSupported: Bool = true,
@@ -43,7 +44,8 @@ struct ShopperSessionExperimentationContext: Encodable {
         isWebView: Bool = false,
         paymentType: String,
         buyerGUID: String? = nil,
-        merchantAccountId: String
+        merchantAccountId: String,
+        bnCode: String? = nil
     ) {
         self.appSwitchSupported = appSwitchSupported
         self.merchantCountry = merchantCountry
@@ -53,11 +55,12 @@ struct ShopperSessionExperimentationContext: Encodable {
         self.paymentType = paymentType
         self.buyerGUID = buyerGUID
         self.merchantAccountId = merchantAccountId
+        self.bnCode = bnCode
     }
 
     enum CodingKeys: String, CodingKey {
         case appSwitchSupported, merchantCountry, integrationChannel
-        case isWebLLSEligible, isWebView, paymentType, buyerGUID, merchantAccountId
+        case isWebLLSEligible, isWebView, paymentType, buyerGUID, merchantAccountId, bnCode
     }
 
     func encode(to encoder: Encoder) throws {
@@ -71,6 +74,7 @@ struct ShopperSessionExperimentationContext: Encodable {
         // Encode as explicit JSON `null` when nil (matches Android) instead of omitting the key.
         try container.encode(buyerGUID, forKey: .buyerGUID)
         try container.encode(merchantAccountId, forKey: .merchantAccountId)
+        try container.encode(bnCode, forKey: .bnCode)
     }
 }
 
