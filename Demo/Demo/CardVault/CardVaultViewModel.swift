@@ -61,7 +61,7 @@ class CardVaultViewModel {
                 }
             }
         } else {
-           updateSetupTokenState = .error(message: "Setup Token Required.")
+            updateSetupTokenState = .error(message: "Setup Token Required.")
         }
     }
     

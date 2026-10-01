@@ -51,7 +51,7 @@ final class DemoMerchantAPI {
         do {
             // TODO: consider allowing empty strings and letting the cause of the
             // error bubble up from the http response
-            var customer: VaultCustomer? = nil
+            var customer: VaultCustomer?
             if let customerID, !customerID.isEmpty {
                 customer = VaultCustomer(id: customerID)
             }
@@ -226,7 +226,7 @@ final class DemoMerchantAPI {
                 let statusCode = httpResponse.statusCode
                 print("Request Failed with Status \(statusCode): \(method) \(url)")
             }
-            if let body = String(data: data, encoding: .utf8)  {
+            if let body = String(data: data, encoding: .utf8) {
                 print(body)
             }
             throw URLResponseError.networkConnectionError
