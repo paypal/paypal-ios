@@ -1,12 +1,5 @@
 import SwiftUI
 
-struct CardSection: Identifiable {
-
-    let id = UUID()
-    let title: String
-    let numbers: [String]
-}
-
 struct CardFormView: View {
 
     let cardSections: [CardSection]
