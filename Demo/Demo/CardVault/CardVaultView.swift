@@ -40,7 +40,7 @@ struct CardVaultView: View {
                         }
                     }
                     if let paymentTokenResponse = viewModel.createPaymentTokenState.value {
-                        PaymentTokenResponseView2(response: paymentTokenResponse)
+                        PaymentTokenResponseView(response: paymentTokenResponse)
                     }
                     ScrollAnchor(id: "bottomAnchor")
                 }

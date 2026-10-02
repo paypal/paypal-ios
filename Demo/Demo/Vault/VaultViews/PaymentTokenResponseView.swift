@@ -2,7 +2,7 @@ import SwiftUI
 import CardPayments
 import CorePayments
 
-struct PaymentTokenResponseView2: View {
+struct PaymentTokenResponseView: View {
 
     let response: PaymentTokenResponse
 
