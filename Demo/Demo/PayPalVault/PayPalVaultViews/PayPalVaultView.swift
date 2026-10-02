@@ -25,7 +25,7 @@ struct PayPalVaultView: View {
                     
                     let paymentTokenResponseState = paypalVaultViewModel.state.paymentTokenResponse
                     if case .loaded(let paymentTokenResponse) = paymentTokenResponseState {
-                        PaymentTokenResponseView(response: paymentTokenResponse)
+                        PaymentTokenResponseView2(response: paymentTokenResponse)
                     }
                     
                     switch paypalVaultViewModel.state.paymentTokenResponse {
