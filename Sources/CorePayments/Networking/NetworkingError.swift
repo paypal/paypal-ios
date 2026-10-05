@@ -43,7 +43,7 @@ public enum NetworkingError {
         errorDescription: "An error occured during network call. Contact developer.paypal.com/support."
     )
 
-    public static let jsonDecodingError: (String) -> CoreSDKError = { description in
+    public static let jsonDecodingError: @Sendable (String) -> CoreSDKError = { description in
         CoreSDKError(
             code: Code.jsonDecodingError.rawValue,
             domain: domain,
@@ -69,7 +69,7 @@ public enum NetworkingError {
         errorDescription: "An error occured constructing an HTTP request. Contact developer.paypal.com/support."
     )
 
-    public static let serverResponseError: (String) -> CoreSDKError = { description in
+    public static let serverResponseError: @Sendable (String) -> CoreSDKError = { description in
         CoreSDKError(
             code: Code.serverResponseError.rawValue,
             domain: domain,

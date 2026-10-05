@@ -54,7 +54,7 @@ public enum CardError {
         errorDescription: "An error occured encoding HTTP request body data. Contact developer.paypal.com/support."
     )
 
-    public static let threeDSecureError: (Error) -> CoreSDKError = { error in
+    public static let threeDSecureError: @Sendable (Error) -> CoreSDKError = { error in
         CoreSDKError(
             code: Code.threeDSecureError.rawValue,
             domain: domain,
