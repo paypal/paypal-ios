@@ -51,14 +51,10 @@ struct CardFormView_Previews: PreviewProvider {
     @State static var mockCardNumberText: String = "41111111111111111"
     @State static var mockExpirationDateText: String = "01/25"
     @State static var mockCvvText: String = "123"
-    static let cardData: [CardSection] = [
-        CardSection(title: "Step up", numbers: ["1234 5678 9012 3456"]),
-        CardSection(title: "Frictionless", numbers: ["3456 6789 0123 4567"])
-    ]
 
     static var previews: some View {
         CardFormView(
-            cardSections: cardData,
+            cardSections: Array(CardSection.allSections[0..<2]),
             cardNumberText: $mockCardNumberText,
             expirationDateText: $mockExpirationDateText,
             cvvText: $mockCvvText
