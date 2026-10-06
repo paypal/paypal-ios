@@ -162,5 +162,6 @@ struct CardVault_Previews: PreviewProvider {
 
     static var previews: some View {
         CardVaultView()
+            .environment(CardVaultViewModel())
     }
 }
