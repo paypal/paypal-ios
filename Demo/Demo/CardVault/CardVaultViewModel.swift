@@ -81,7 +81,6 @@ class CardVaultViewModel {
             )
         case .failure(let error):
             if error == CardError.threeDSecureCanceledError {
-                print("Canceled")
                 updateSetupTokenState = .idle
             } else {
                 let errorMessage = error.localizedDescription
