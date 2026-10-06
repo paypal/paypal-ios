@@ -72,7 +72,7 @@ struct UpdateSetupTokenForm: View {
             }
 
             CardFormView(
-                cardSections: CardSection.allSections,
+                cardSections: DemoCard.allSections,
                 cardNumberText: $cardNumberText,
                 expirationDateText: $expirationDateText,
                 cvvText: $cvvText

@@ -2,7 +2,7 @@ import SwiftUI
 
 struct CardFormView: View {
 
-    let cardSections: [CardSection]
+    let cardSections: [DemoCard]
     private let cardFormatter = CardFormatter()
 
     @Binding var cardNumberText: String
@@ -54,7 +54,7 @@ struct CardFormView_Previews: PreviewProvider {
 
     static var previews: some View {
         CardFormView(
-            cardSections: Array(CardSection.allSections[0..<2]),
+            cardSections: Array(DemoCard.allSections[0..<2]),
             cardNumberText: $mockCardNumberText,
             expirationDateText: $mockExpirationDateText,
             cvvText: $mockCvvText
