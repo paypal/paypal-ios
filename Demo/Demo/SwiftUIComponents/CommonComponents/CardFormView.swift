@@ -2,7 +2,7 @@ import SwiftUI
 
 struct CardFormView: View {
 
-    let cardSections: [DemoCard]
+    let cards: [DemoCard]
     private let cardFormatter = CardFormatter()
 
     @Binding var cardNumberText: String
@@ -18,11 +18,11 @@ struct CardFormView: View {
                         // 4 digit cvv for amex
                         cvvText = CardType.unknown.getCardType(newValue) == .americanExpress ? "1234" : "123"
                     }
-                if !cardSections.isEmpty {
+                if !cards.isEmpty {
                     Menu {
-                        ForEach(cardSections, id: \.self.title) { section in
-                            Section(header: Text(section.title)) {
-                                ForEach(section.numbers, id: \.self) { number in
+                        ForEach(cards, id: \.self.title) { card in
+                            Section(header: Text(card.title)) {
+                                ForEach(card.numbers, id: \.self) { number in
                                     Button(number) {
                                         cardNumberText = number
                                     }
@@ -54,7 +54,7 @@ struct CardFormView_Previews: PreviewProvider {
 
     static var previews: some View {
         CardFormView(
-            cardSections: Array(DemoCard.allCards[0..<2]),
+            cards: Array(DemoCard.allCards[0..<2]),
             cardNumberText: $mockCardNumberText,
             expirationDateText: $mockExpirationDateText,
             cvvText: $mockCvvText

@@ -87,7 +87,7 @@ struct ApproveOrderForm: View {
         FormGroup {
             StepHeader(text: "Enter Card Information")
             CardFormView(
-                cardSections: DemoCard.allCards,
+                cards: DemoCard.allCards,
                 cardNumberText: $request.cardNumber,
                 expirationDateText: $request.cardExpirationDate,
                 cvvText: $request.cardCVV
