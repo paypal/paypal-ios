@@ -49,15 +49,13 @@ final class DemoMerchantAPI {
         paymentSource: PaymentSourceType
     ) async throws -> CreateSetupTokenResponse {
         do {
-            // TODO: consider allowing empty strings and letting the cause of the
-            // error bubble up from the http response
             var customer: VaultCustomer?
             if let customerID, !customerID.isEmpty {
                 customer = VaultCustomer(id: customerID)
             }
             let requestBody =
                 CreateSetupTokenParam(customer: customer, paymentSource: paymentSource)
-            
+
             guard let url = buildURL(for: .setupTokens) else {
                 throw URLResponseError.invalidURL
             }
@@ -199,36 +197,12 @@ final class DemoMerchantAPI {
 
         return urlRequest
     }
-    
-    private func isSuccessfulResponse(_ httpResponse: HTTPURLResponse) -> Bool {
-        let statusCode = httpResponse.statusCode
-        return statusCode >= 200 && statusCode < 300
-    }
-    
-    private func send(request urlRequest: URLRequest) async throws -> (Data, HTTPURLResponse) {
-        do {
-            let (data, response) = try await URLSession.shared.data(for: urlRequest)
-            if let httpResponse = response as? HTTPURLResponse {
-                return (data, httpResponse)
-            }
-            throw URLResponseError.networkConnectionError
-        } catch {
-            throw URLResponseError.networkConnectionError
-        }
-    }
-    
+
     private func data(for urlRequest: URLRequest) async throws -> Data {
-        let (data, httpResponse) = try await send(request: urlRequest)
-        if isSuccessfulResponse(httpResponse) {
+        do {
+            let (data, _) = try await URLSession.shared.data(for: urlRequest)
             return data
-        } else {
-            if let method = urlRequest.httpMethod, let url = urlRequest.url {
-                let statusCode = httpResponse.statusCode
-                print("Request Failed with Status \(statusCode): \(method) \(url)")
-            }
-            if let body = String(data: data, encoding: .utf8) {
-                print(body)
-            }
+        } catch {
             throw URLResponseError.networkConnectionError
         }
     }
