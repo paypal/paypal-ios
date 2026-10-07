@@ -166,7 +166,8 @@ public struct AnalyticsService {
     ///   - name: Event name string used to identify this unique event in FPTI
     ///   - correlationID: correlation ID associated with the request
     ///   - buttonType: The type of button
-    ///   - url: The URL used to launch checkout/vault, when applicable
+    ///   - url: The URL used to launch checkout/vault, when applicable, or the URL from the intent/callback
+    ///     that redirects back to the merchant app after an app-switch or browser round-trip
     ///   - errorDescription: A human-readable description of the error, when the event represents a failure
     ///   - isCachedSession: Whether the Shopper Session used for this event was served from cache
     ///   - isVaultRequest: Whether this event is part of a vault (save payment method) request
