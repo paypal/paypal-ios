@@ -16,6 +16,7 @@ struct AnalyticsEventData: Encodable {
         case appSwitchEligible = "app_switch_eligible"
         case appSwitchURL = "app_switch_url"
         case bnCode = "bn_code"
+        case browserSwitchURL = "browser_switch_url"
         case buttonType = "button_type"
         case cancelAppURL = "cancel_app_url"
         case clientID = "partner_client_id"
@@ -126,6 +127,8 @@ struct AnalyticsEventData: Encodable {
 
     let appSwitchURL: URL?
 
+    let browserSwitchURL: URL?
+
     let appSwitchEligible: Bool?
 
     let ineligibleReason: String?
@@ -200,6 +203,7 @@ struct AnalyticsEventData: Encodable {
         self.presentationType = presentationType
         self.flow = flow
         self.appSwitchURL = checkoutAnalyticsData?.appSwitchURL
+        self.browserSwitchURL = checkoutAnalyticsData?.browserSwitchURL
         self.appSwitchEligible = checkoutAnalyticsData?.appSwitchEligible
         self.ineligibleReason = checkoutAnalyticsData?.ineligibleReason
         self.fallbackUrl = checkoutAnalyticsData?.fallbackUrl
@@ -244,6 +248,7 @@ struct AnalyticsEventData: Encodable {
         try eventParameters.encode(merchantID, forKey: .merchantID)
         try eventParameters.encode(bnCode, forKey: .bnCode)
         try eventParameters.encode(appSwitchURL, forKey: .appSwitchURL)
+        try eventParameters.encode(browserSwitchURL, forKey: .browserSwitchURL)
         try eventParameters.encode(appSwitchEligible, forKey: .appSwitchEligible)
         try eventParameters.encode(ineligibleReason, forKey: .ineligibleReason)
         try eventParameters.encode(fallbackUrl, forKey: .fallbackUrl)

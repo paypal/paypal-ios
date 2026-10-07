@@ -25,14 +25,14 @@ extension PayPalCheckoutAnalyticsData {
     }
 
     /// Populates the fields derived from the Shopper Session fetch response, once it succeeds.
+    /// Does not set `appSwitchURL`/`browserSwitchURL` here: those are only known once the flow commits
+    /// to an app switch or browser fallback attempt (see `attemptSessionAppSwitch`/`startWebCheckoutFlow`/
+    /// `startVaultWebAuthFlow` in `PayPalClient`).
     func update(with shopperSession: ShopperSessionResult) {
         shopperSessionID = shopperSession.shopperSessionConfig?.id
         shopperSessionExpiration = shopperSession.shopperSessionConfig?.expiresAt
         appSwitchEligible = shopperSession.appSwitchEligible
         ineligibleReason = shopperSession.ineligibleReason
-        if let redirectURL = shopperSession.redirectURL {
-            appSwitchURL = URL(string: redirectURL)
-        }
         fallbackUrl = shopperSession.checkoutFallbackURL
     }
 }
