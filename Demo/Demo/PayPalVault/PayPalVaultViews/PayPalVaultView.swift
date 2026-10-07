@@ -22,7 +22,12 @@ struct PayPalVaultView: View {
                             setupToken: paypalVaultResult.tokenID
                         )
                     }
-                    PaymentTokenResultView(vaultViewModel: paypalVaultViewModel)
+                    
+                    let paymentTokenResponseState = paypalVaultViewModel.state.paymentTokenResponse
+                    if case .loaded(let paymentTokenResponse) = paymentTokenResponseState {
+                        PaymentTokenResponseView(response: paymentTokenResponse)
+                    }
+                    
                     switch paypalVaultViewModel.state.paymentTokenResponse {
                     case .loaded, .error:
                         VStack {

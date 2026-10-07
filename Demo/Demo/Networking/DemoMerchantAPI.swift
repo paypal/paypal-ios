@@ -49,7 +49,10 @@ final class DemoMerchantAPI {
         paymentSource: PaymentSourceType
     ) async throws -> CreateSetupTokenResponse {
         do {
-            let customer = VaultCustomer(id: customerID)
+            var customer: VaultCustomer?
+            if let customerID, !customerID.isEmpty {
+                customer = VaultCustomer(id: customerID)
+            }
             let requestBody =
                 CreateSetupTokenParam(customer: customer, paymentSource: paymentSource)
 
