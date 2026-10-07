@@ -66,7 +66,6 @@ class AnalyticsEventData_Tests: XCTestCase {
 
         let newFieldKeys = [
             "app_switch_eligible",
-            "app_switch_url",
             "bn_code",
             "cancel_app_url",
             "end_time",
@@ -84,6 +83,7 @@ class AnalyticsEventData_Tests: XCTestCase {
             "shopper_session_expiration",
             "shopper_session_id",
             "start_time",
+            "url",
             "user_action"
         ]
 
@@ -94,7 +94,7 @@ class AnalyticsEventData_Tests: XCTestCase {
     }
 
     func testEncode_withNewAnalyticsFields_properlyFormatsJSON() throws {
-        let appSwitchURL = URL(string: "https://example.com/app-switch")!
+        let url = URL(string: "https://example.com/app-switch")!
         let returnAppURL = URL(string: "https://example.com/return")!
         let cancelAppURL = URL(string: "https://example.com/cancel")!
         let fallbackSchemeURL = URL(string: "fake-scheme://fallback")!
@@ -103,7 +103,7 @@ class AnalyticsEventData_Tests: XCTestCase {
         checkoutAnalyticsData.isCachedSession = true
         checkoutAnalyticsData.shopperSessionID = "fake-shopper-session-id"
         checkoutAnalyticsData.shopperSessionExpiration = "fake-shopper-session-expiration"
-        checkoutAnalyticsData.appSwitchURL = appSwitchURL
+        checkoutAnalyticsData.url = url
         checkoutAnalyticsData.appSwitchEligible = true
         checkoutAnalyticsData.ineligibleReason = "fake-ineligible-reason"
         checkoutAnalyticsData.fallbackUrl = "fake-fallback-url"
@@ -138,7 +138,7 @@ class AnalyticsEventData_Tests: XCTestCase {
 
         XCTAssertEqual(eventParams["button_type"] as? String, "fake-button-type")
         XCTAssertEqual(eventParams["bn_code"] as? String, "fake-bn-code")
-        XCTAssertEqual(eventParams["app_switch_url"] as? String, appSwitchURL.absoluteString)
+        XCTAssertEqual(eventParams["url"] as? String, url.absoluteString)
         XCTAssertEqual(eventParams["app_switch_eligible"] as? Bool, true)
         XCTAssertEqual(eventParams["ineligible_reason"] as? String, "fake-ineligible-reason")
         XCTAssertEqual(eventParams["fallback_url"] as? String, "fake-fallback-url")

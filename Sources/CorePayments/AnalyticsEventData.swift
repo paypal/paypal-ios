@@ -14,9 +14,7 @@ struct AnalyticsEventData: Encodable {
         case appID = "app_id"
         case appName = "app_name"
         case appSwitchEligible = "app_switch_eligible"
-        case appSwitchURL = "app_switch_url"
         case bnCode = "bn_code"
-        case browserSwitchURL = "browser_switch_url"
         case buttonType = "button_type"
         case cancelAppURL = "cancel_app_url"
         case clientID = "partner_client_id"
@@ -53,6 +51,7 @@ struct AnalyticsEventData: Encodable {
         case startTime = "start_time"
         case tenantName = "tenant_name"
         case timestamp = "t"
+        case url = "url"
         case userAction = "user_action"
     }
     
@@ -125,9 +124,7 @@ struct AnalyticsEventData: Encodable {
 
     let bnCode: String?
 
-    let appSwitchURL: URL?
-
-    let browserSwitchURL: URL?
+    let url: URL?
 
     let appSwitchEligible: Bool?
 
@@ -202,8 +199,7 @@ struct AnalyticsEventData: Encodable {
         self.endpoint = endpoint
         self.presentationType = presentationType
         self.flow = flow
-        self.appSwitchURL = checkoutAnalyticsData?.appSwitchURL
-        self.browserSwitchURL = checkoutAnalyticsData?.browserSwitchURL
+        self.url = checkoutAnalyticsData?.url
         self.appSwitchEligible = checkoutAnalyticsData?.appSwitchEligible
         self.ineligibleReason = checkoutAnalyticsData?.ineligibleReason
         self.fallbackUrl = checkoutAnalyticsData?.fallbackUrl
@@ -247,8 +243,7 @@ struct AnalyticsEventData: Encodable {
         try eventParameters.encode(buttonType, forKey: .buttonType)
         try eventParameters.encode(merchantID, forKey: .merchantID)
         try eventParameters.encode(bnCode, forKey: .bnCode)
-        try eventParameters.encode(appSwitchURL, forKey: .appSwitchURL)
-        try eventParameters.encode(browserSwitchURL, forKey: .browserSwitchURL)
+        try eventParameters.encode(url, forKey: .url)
         try eventParameters.encode(appSwitchEligible, forKey: .appSwitchEligible)
         try eventParameters.encode(ineligibleReason, forKey: .ineligibleReason)
         try eventParameters.encode(fallbackUrl, forKey: .fallbackUrl)

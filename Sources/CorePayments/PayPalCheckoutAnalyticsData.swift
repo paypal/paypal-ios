@@ -14,8 +14,7 @@ public final class PayPalCheckoutAnalyticsData {
     public var shopperSessionID: String?
     public var shopperSessionExpiration: String?
     
-    public var appSwitchURL: URL?
-    public var browserSwitchURL: URL?
+    public var url: URL?
     public var appSwitchEligible: Bool?
     public var ineligibleReason: String?
 
