@@ -30,9 +30,6 @@ extension PayPalCheckoutAnalyticsData {
         shopperSessionExpiration = shopperSession.shopperSessionConfig?.expiresAt
         appSwitchEligible = shopperSession.appSwitchEligible
         ineligibleReason = shopperSession.ineligibleReason
-        if let redirectURL = shopperSession.redirectURL {
-            appSwitchURL = URL(string: redirectURL)
-        }
         fallbackUrl = shopperSession.checkoutFallbackURL
     }
 }

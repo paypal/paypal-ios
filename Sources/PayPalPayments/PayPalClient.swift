@@ -282,6 +282,8 @@ public class PayPalClient: NSObject {
             sessionTask = nil
         }
 
+        analyticsData?.url = url
+
         analyticsService?.sendEvent(
             "paypal-payments:checkout:handle-return:started",
             checkoutAnalyticsData: analyticsData
@@ -466,6 +468,7 @@ public class PayPalClient: NSObject {
                 analyticsService?.sendEvent("paypal-payments:checkout:fallback-to-web:\(reason)")
             }
         }
+        analyticsData?.url = nil
         fallback()
     }
 
@@ -477,7 +480,7 @@ public class PayPalClient: NSObject {
         url: URL,
         handlers: SessionAppSwitchHandlers<T>
     ) async -> AppSwitchAttempt {
-        analyticsData?.appSwitchURL = url
+        analyticsData?.url = url
         analyticsService?.sendEvent(
             "paypal-payments:checkout:app-switch:started",
             checkoutAnalyticsData: analyticsData
@@ -564,6 +567,7 @@ public class PayPalClient: NSObject {
                 return
             }
 
+            analyticsData?.url = payPalCheckoutURLComponents
             didApplicationBecomeActive = false
             endSystemLatencyTracking(presentationType: .browser)
             webAuthenticationSession.start(
@@ -629,6 +633,7 @@ public class PayPalClient: NSObject {
             }
             didApplicationBecomeActive = false
             endSystemLatencyTracking(presentationType: .browser)
+            analyticsData?.url = vaultCheckoutURLComponents
             webAuthenticationSession.start(
                 url: vaultCheckoutURLComponents,
                 context: self,
@@ -675,6 +680,9 @@ public class PayPalClient: NSObject {
         completion: @escaping (Result<PayPalCheckoutResult, CoreSDKError>) -> Void
     ) {
         defer { analyticsData = nil }
+        if let url {
+            analyticsData?.url = url
+        }
         analyticsService?.sendEvent(
             "paypal-payments:checkout:handle-return:started",
             checkoutAnalyticsData: analyticsData
@@ -747,6 +755,9 @@ public class PayPalClient: NSObject {
         completion: @escaping (Result<PayPalVaultResult, CoreSDKError>) -> Void
     ) {
         defer { analyticsData = nil }
+        if let url {
+            analyticsData?.url = url
+        }
         analyticsService?.sendEvent(
             "paypal-payments:checkout:handle-return:started",
             checkoutAnalyticsData: analyticsData
