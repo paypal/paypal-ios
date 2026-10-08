@@ -50,7 +50,7 @@ class CardPaymentViewModel {
             vaultPaymentSource = .card(vaultCardPaymentSource)
         }
 
-        let amountRequest = Amount(currencyCode: "USD", value: "10.00")
+        let amountRequest = Amount(currencyCode: "USD", value: request.amount)
         let params = CreateOrderParams(
             intent: request.intent.rawValue,
             purchaseUnits: [PurchaseUnit(amount: amountRequest)],
