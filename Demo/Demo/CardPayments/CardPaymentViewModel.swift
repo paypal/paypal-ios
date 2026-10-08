@@ -67,7 +67,7 @@ class CardPaymentViewModel {
         }
     }
     
-    func approveOrder(using request: DemoApproveOrderRequest) {
+    func approveOrder(using request: DemoApproveOrderWithCardRequest) {
         guard let orderID = createOrderState.value?.id else {
             approveOrderState = .error(message: "Order ID Required.")
             return

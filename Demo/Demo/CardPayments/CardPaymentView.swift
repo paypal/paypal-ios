@@ -27,7 +27,7 @@ struct CardPaymentView: View {
                     }
                     if let order = viewModel.createOrderState.value {
                         OrderView(order: order)
-                        ApproveOrderForm(isLoading: isApproveOrderLoading) { request in
+                        ApproveOrderWithCardForm(isLoading: isApproveOrderLoading) { request in
                             viewModel.approveOrder(using: request)
                         }
                     }
@@ -76,12 +76,12 @@ struct CreateOrderForm: View {
     }
 }
 
-struct ApproveOrderForm: View {
+struct ApproveOrderWithCardForm: View {
     
     let isLoading: Bool
-    let onSubmit: (_ request: DemoApproveOrderRequest) -> Void
+    let onSubmit: (_ request: DemoApproveOrderWithCardRequest) -> Void
 
-    @State var request = DemoApproveOrderRequest()
+    @State var request = DemoApproveOrderWithCardRequest()
 
     var body: some View {
         FormGroup {
