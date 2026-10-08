@@ -1,6 +1,11 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+
+* PayPal
+  * Internal Send `bnCode` within `ShopperSessionExperimentationContext` internally.
+
 ## 3.1.0 (2026-08-28)
 
 * All Modules
