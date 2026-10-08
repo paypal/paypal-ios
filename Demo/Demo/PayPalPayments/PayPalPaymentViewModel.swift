@@ -119,12 +119,17 @@ class PayPalPaymentViewModel {
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<PayPalCheckoutResult, Error>) in
             payPalClient.start(orderID: orderID) { result in
                 switch result {
-                case .success(let paypalResult):
-                    continuation.resume(returning: paypalResult)
+                case .success(let result):
+                    continuation.resume(returning: result)
                 case .failure(let error):
                     continuation.resume(throwing: error)
                 }
             }
         }
+    }
+    
+    // for testing until singleton router class is implemented
+    func handleUniversalLink(_ url: URL) {
+        payPalClient.handleReturnURL(url)
     }
 }

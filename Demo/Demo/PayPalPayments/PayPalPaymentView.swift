@@ -9,6 +9,10 @@ struct PayPalPaymentView: View {
     var isOrderCreationLoading: Bool {
         viewModel.createOrderState.isLoading
     }
+    
+    var isApproveOrderLoading: Bool {
+        viewModel.approveOrderState.isLoading
+    }
 
     var body: some View {
         ScrollViewReader { proxy in
@@ -19,7 +23,7 @@ struct PayPalPaymentView: View {
                     }
                     if let order = viewModel.createOrderState.value {
                         OrderView(order: order)
-                        ApproveOrderWithPayPalForm(isLoading: false) { request in
+                        ApproveOrderWithPayPalForm(isLoading: isApproveOrderLoading) { request in
                             viewModel.approveOrder(using: request)
                         }
                     }
@@ -30,6 +34,9 @@ struct PayPalPaymentView: View {
                     }
                 }
             }
+        }
+        .onOpenURL { url in
+            viewModel.handleUniversalLink(url)
         }
     }
     
