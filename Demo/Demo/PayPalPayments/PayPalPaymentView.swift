@@ -61,6 +61,8 @@ struct PayPalPaymentView: View {
         
         let isLoading: Bool
         let onSubmit: (_ request: DemoApproveOrderWithPayPalRequest) -> Void
+        
+        let userActions: [PayPalUserAction] = [.payNow, .continue]
 
         @State var request = DemoApproveOrderWithPayPalRequest()
 
@@ -70,7 +72,7 @@ struct PayPalPaymentView: View {
                     .font(.subheadline)
                     .foregroundColor(.primary)
                 Picker("User Action", selection: $request.userAction) {
-                    ForEach(PayPalUserAction.checkoutActions, id: \.self) {
+                    ForEach(userActions, id: \.self) {
                         Text($0.title).tag($0)
                     }
                 }
