@@ -13,7 +13,11 @@ struct PayPalPaymentView: View {
     var isApproveOrderLoading: Bool {
         viewModel.approveOrderState.isLoading
     }
-
+    
+    var isCompleteOrderLoading: Bool {
+        viewModel.completeOrderState.isLoading
+    }
+    
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView {
@@ -31,7 +35,7 @@ struct PayPalPaymentView: View {
                     if let approveOrderResult = viewModel.approveOrderState.value {
                         PayPalCheckoutResultView(result: approveOrderResult)
                         let intent = viewModel.orderIntent
-                        CompleteOrderForm(intent: intent, isLoading: false) {
+                        CompleteOrderForm(intent: intent, isLoading: isCompleteOrderLoading) {
                             viewModel.completeOrder()
                         }
                     }
