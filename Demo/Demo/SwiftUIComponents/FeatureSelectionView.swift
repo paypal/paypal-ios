@@ -68,8 +68,9 @@ struct FeatureSelectionView: View {
                         .navigationTitle("Card Vaulting")
                         .environment(CardVaultViewModel())
                 case .payPalWeb:
-                    PayPalWebPaymentsView()
+                    PayPalPaymentView()
                         .navigationTitle("PayPal Web")
+                        .environment(PayPalPaymentViewModel())
                 case .payPalVaulting:
                     PayPalVaultView()
                         .navigationTitle("PayPal Vaulting")

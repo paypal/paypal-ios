@@ -7,7 +7,6 @@ import FraudProtection
 class CardPaymentViewModel {
     
     let api = DemoMerchantAPI.shared
-    let integration = DemoSettings.merchantIntegration
 
     // HACK: see if this information exists on the newly created order
     var orderIntent: Intent = .authorize
@@ -50,7 +49,7 @@ class CardPaymentViewModel {
             vaultPaymentSource = .card(vaultCardPaymentSource)
         }
 
-        let amountRequest = Amount(currencyCode: "USD", value: "10.00")
+        let amountRequest = Amount(currencyCode: "USD", value: request.amount)
         let params = CreateOrderParams(
             intent: request.intent.rawValue,
             purchaseUnits: [PurchaseUnit(amount: amountRequest)],
@@ -59,7 +58,7 @@ class CardPaymentViewModel {
         createOrderState = .loading
         Task {
             do {
-                let order = try await api.createOrder(orderParams: params, integration: integration)
+                let order = try await api.createOrder(orderParams: params)
                 createOrderState = .loaded(order)
             } catch {
                 createOrderState = .error(message: error.localizedDescription)
@@ -67,7 +66,7 @@ class CardPaymentViewModel {
         }
     }
     
-    func approveOrder(using request: DemoApproveOrderRequest) {
+    func approveOrder(using request: DemoApproveOrderWithCardRequest) {
         guard let orderID = createOrderState.value?.id else {
             approveOrderState = .error(message: "Order ID Required.")
             return
@@ -91,7 +90,7 @@ class CardPaymentViewModel {
     }
     
     func completeOrder() {
-        guard let order = createOrderState.value else {
+        guard let orderID = createOrderState.value?.id else {
             completeOrderState = .error(message: "Order ID Required.")
             return
         }
@@ -103,14 +102,12 @@ class CardPaymentViewModel {
                 switch orderIntent {
                 case .capture:
                     completedOrder = try await api.captureOrder(
-                        orderID: order.id,
-                        integration: integration,
+                        orderID: orderID,
                         clientMetadataID: clientMetadataID
                     )
                 case .authorize:
                     completedOrder = try await api.authorizeOrder(
-                        orderID: order.id,
-                        integration: DemoSettings.merchantIntegration,
+                        orderID: orderID,
                         clientMetadataID: clientMetadataID
                     )
                 }

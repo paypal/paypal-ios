@@ -45,7 +45,6 @@ final class DemoMerchantAPI {
 
     func createSetupToken(
         customerID: String? = nil,
-        integration: MerchantIntegration,
         paymentSource: PaymentSourceType
     ) async throws -> CreateSetupTokenResponse {
         do {
@@ -68,12 +67,9 @@ final class DemoMerchantAPI {
         }
     }
 
-    func createPaymentToken(
-        setupToken: String,
-        integration: MerchantIntegration
-    ) async throws -> PaymentTokenResponse {
+    func createPaymentToken(setupTokenID: String) async throws -> PaymentTokenResponse {
         do {
-            let paymentSource = PaymentTokenParam.PaymentSource(setupTokenID: setupToken)
+            let paymentSource = PaymentTokenParam.PaymentSource(setupTokenID: setupTokenID)
             let requestBody = PaymentTokenParam(paymentSource: paymentSource)
             guard let url = buildURL(for: .paymentTokens) else {
                 throw URLResponseError.invalidURL
@@ -111,7 +107,6 @@ final class DemoMerchantAPI {
 
     func captureOrder(
         orderID: String,
-        integration: MerchantIntegration,
         clientMetadataID: String? = nil
     ) async throws -> Order {
         guard let url = buildURL(for: .orderCapture(orderID: orderID)) else {
@@ -128,7 +123,6 @@ final class DemoMerchantAPI {
     
     func authorizeOrder(
         orderID: String,
-        integration: MerchantIntegration,
         clientMetadataID: String? = nil
     ) async throws -> Order {
         guard let url = buildURL(for: .orderAuthorize(orderID: orderID)) else {
@@ -149,10 +143,7 @@ final class DemoMerchantAPI {
     /// - Parameter orderParams: the parameters to create the order with
     /// - Returns: an order
     /// - Throws: an error explaining why create order failed
-    func createOrder(
-        orderParams: CreateOrderParams,
-        integration: MerchantIntegration
-    ) async throws -> Order {
+    func createOrder(orderParams: CreateOrderParams) async throws -> Order {
         guard let url = buildURL(for: .orders) else {
             throw URLResponseError.invalidURL
         }

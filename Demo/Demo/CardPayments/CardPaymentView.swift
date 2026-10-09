@@ -27,7 +27,7 @@ struct CardPaymentView: View {
                     }
                     if let order = viewModel.createOrderState.value {
                         OrderView(order: order)
-                        ApproveOrderForm(isLoading: isApproveOrderLoading) { request in
+                        ApproveOrderWithCardForm(isLoading: isApproveOrderLoading) { request in
                             viewModel.approveOrder(using: request)
                         }
                     }
@@ -40,8 +40,8 @@ struct CardPaymentView: View {
                             viewModel.completeOrder()
                         }
                     }
-                    if let captureResult = viewModel.completeOrderState.value {
-                        OrderView(order: captureResult)
+                    if let completeOrderResult = viewModel.completeOrderState.value {
+                        OrderView(order: completeOrderResult)
                     }
                     ScrollAnchor(id: "bottomAnchor")
                 }
@@ -76,12 +76,12 @@ struct CreateOrderForm: View {
     }
 }
 
-struct ApproveOrderForm: View {
+struct ApproveOrderWithCardForm: View {
     
     let isLoading: Bool
-    let onSubmit: (_ request: DemoApproveOrderRequest) -> Void
+    let onSubmit: (_ request: DemoApproveOrderWithCardRequest) -> Void
 
-    @State var request = DemoApproveOrderRequest()
+    @State var request = DemoApproveOrderWithCardRequest()
 
     var body: some View {
         FormGroup {
@@ -117,27 +117,6 @@ struct CardResultView: View {
             }
             LeadingText("didAttemptThreeDSecureAuthentication", weight: .bold)
             LeadingText("\(cardResult.didAttemptThreeDSecureAuthentication)")
-        }
-    }
-}
-
-struct CompleteOrderForm: View {
-    
-    let intent: Intent
-    let isLoading: Bool
-    let onSubmit: () -> Void
-
-    @Environment(CardPaymentViewModel.self)
-    var viewModel
-    
-    var body: some View {
-        let capitalizedIntent = intent.rawValue.capitalized
-        FormGroup {
-            StepHeader(text: "Complete Order")
-            let buttonLabel = "\(capitalizedIntent) Order"
-            ButtonWithProgress(label: buttonLabel, isLoading: isLoading) {
-                onSubmit()
-            }
         }
     }
 }

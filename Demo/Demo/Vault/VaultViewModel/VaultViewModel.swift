@@ -20,7 +20,6 @@ class VaultViewModel: ObservableObject {
 
     func fetchSetupToken(
         customerID: String? = nil,
-        selectedMerchantIntegration: MerchantIntegration,
         paymentType: PaymentType,
         sca: String = "SCA_WHEN_REQUIRED",
         appSwitchURL: String? = nil
@@ -42,7 +41,6 @@ class VaultViewModel: ObservableObject {
 
             let setupTokenResult = try await DemoMerchantAPI.shared.createSetupToken(
                 customerID: customerID,
-                integration: selectedMerchantIntegration,
                 paymentSource: paymentSourceType
             )
             state.setupTokenResponse = .loaded(setupTokenResult)
@@ -63,18 +61,13 @@ class VaultViewModel: ObservableObject {
         customerID = ""
     }
 
-    func getPaymentToken(
-        setupToken: String,
-        selectedMerchantIntegration: MerchantIntegration
-    ) async throws {
+    func getPaymentToken(setupToken: String) async throws {
         do {
             DispatchQueue.main.async {
                 self.state.paymentTokenResponse = .loading
             }
-            let paymentTokenResult = try await DemoMerchantAPI.shared.createPaymentToken(
-                setupToken: setupToken,
-                integration: selectedMerchantIntegration
-            )
+            let paymentTokenResult =
+                try await DemoMerchantAPI.shared.createPaymentToken(setupTokenID: setupToken)
             DispatchQueue.main.async {
                 self.state.paymentTokenResponse = .loaded(paymentTokenResult)
             }
