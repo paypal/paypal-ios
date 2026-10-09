@@ -8,7 +8,6 @@ import FraudProtection
 class PayPalPaymentViewModel {
     
     let api = DemoMerchantAPI.shared
-    let integration = DemoSettings.merchantIntegration
 
     var orderIntent: Intent = .authorize
     
@@ -38,7 +37,7 @@ class PayPalPaymentViewModel {
         Task {
             let params = makePayPalOrderParams(request: request)
             do {
-                let order = try await api.createOrder(orderParams: params, integration: integration)
+                let order = try await api.createOrder(orderParams: params)
                 createOrderState = .loaded(order)
             } catch {
                 createOrderState = .error(message: error.localizedDescription)
@@ -83,13 +82,11 @@ class PayPalPaymentViewModel {
                 case .capture:
                     completedOrder = try await api.captureOrder(
                         orderID: orderID,
-                        integration: integration,
                         clientMetadataID: clientMetadataID
                     )
                 case .authorize:
                     completedOrder = try await api.authorizeOrder(
                         orderID: orderID,
-                        integration: DemoSettings.merchantIntegration,
                         clientMetadataID: clientMetadataID
                     )
                 }
