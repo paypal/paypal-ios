@@ -259,8 +259,8 @@
 		1001E2B92CF6433C0023A03C /* PayPalPayments */ = {
 			isa = PBXGroup;
 			children = (
-				BC14A9E93078092700096A7A /* PayPalPaymentViewModel.swift */,
 				BC14A9E7307808DD00096A7A /* PayPalPaymentView.swift */,
+				BC14A9E93078092700096A7A /* PayPalPaymentViewModel.swift */,
 			);
 			path = PayPalPayments;
 			sourceTree = "<group>";
