@@ -11,9 +11,11 @@ class PayPalPaymentViewModel {
     let integration = DemoSettings.merchantIntegration
 
     var orderIntent: Intent = .authorize
+    
     var createOrderState: AsyncState<Order> = .idle
     var approveOrderState: AsyncState<PayPalCheckoutResult> = .idle
-    
+    var completeOrderState: AsyncState<Order> = .idle
+
     private let payPalClient: PayPalClient
     private let payPalDataCollector: PayPalDataCollector
 
@@ -27,7 +29,7 @@ class PayPalPaymentViewModel {
     
     // this is used to track changes and drive the scroll-to-bottom animation
     var stateHash: Int {
-        return hash(createOrderState)
+        return hash(createOrderState, approveOrderState, completeOrderState)
     }
 
     func createOrder(using request: DemoCreateOrderRequest) {
@@ -66,6 +68,39 @@ class PayPalPaymentViewModel {
         }
     }
     
+    func completeOrder() {
+        guard let orderID = createOrderState.value?.id else {
+            completeOrderState = .error(message: "Order ID Required.")
+            return
+        }
+        
+        completeOrderState = .loading
+        Task {
+            do {
+                let clientMetadataID = payPalDataCollector.collectDeviceData()
+                let completedOrder: Order
+                switch orderIntent {
+                case .capture:
+                    completedOrder = try await api.captureOrder(
+                        orderID: orderID,
+                        integration: integration,
+                        clientMetadataID: clientMetadataID
+                    )
+                case .authorize:
+                    completedOrder = try await api.authorizeOrder(
+                        orderID: orderID,
+                        integration: DemoSettings.merchantIntegration,
+                        clientMetadataID: clientMetadataID
+                    )
+                }
+                completeOrderState = .loaded(completedOrder)
+            } catch {
+                print("Error capturing order: \(error.localizedDescription)")
+                completeOrderState = .error(message: error.localizedDescription)
+            }
+        }
+    }
+
     private func makePayPalOrderParams(request: DemoCreateOrderRequest) -> CreateOrderParams {
         let defaultAmount = "10.00"
         let value = request.amount.isEmpty ? defaultAmount : request.amount

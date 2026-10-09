@@ -40,8 +40,8 @@ struct CardPaymentView: View {
                             viewModel.completeOrder()
                         }
                     }
-                    if let captureResult = viewModel.completeOrderState.value {
-                        OrderView(order: captureResult)
+                    if let completeOrderResult = viewModel.completeOrderState.value {
+                        OrderView(order: completeOrderResult)
                     }
                     ScrollAnchor(id: "bottomAnchor")
                 }
@@ -127,9 +127,6 @@ struct CompleteOrderForm: View {
     let isLoading: Bool
     let onSubmit: () -> Void
 
-    @Environment(CardPaymentViewModel.self)
-    var viewModel
-    
     var body: some View {
         let capitalizedIntent = intent.rawValue.capitalized
         FormGroup {

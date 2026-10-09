@@ -27,6 +27,19 @@ struct PayPalPaymentView: View {
                             viewModel.approveOrder(using: request)
                         }
                     }
+                    
+                    if let approveOrderResult = viewModel.approveOrderState.value {
+                        PayPalCheckoutResultView(result: approveOrderResult)
+                        let intent = viewModel.orderIntent
+                        CompleteOrderForm(intent: intent, isLoading: false) {
+                            viewModel.completeOrder()
+                        }
+                    }
+                    
+                    if let completeOrderResult = viewModel.completeOrderState.value {
+                        OrderView(order: completeOrderResult)
+                    }
+                    ScrollAnchor(id: "bottomAnchor")
                 }
                 .onChange(of: viewModel.stateHash) {
                     withAnimation {
@@ -73,6 +86,30 @@ struct PayPalPaymentView: View {
                     onSubmit(request)
                 }
             }
+        }
+    }
+    
+    struct PayPalCheckoutResultView: View {
+        
+        let result: PayPalCheckoutResult
+        
+        var body: some View {
+            VStack(alignment: .leading, spacing: 16) {
+                Text("PayPal Checkout Result")
+                    .font(.headline)
+                LeadingText("Order ID", weight: .bold)
+                    .font(.system(size: 20))
+                LeadingText(result.orderID)
+                LeadingText("Payer ID", weight: .bold)
+                LeadingText(result.payerID)
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(.gray, lineWidth: 2)
+                    .padding(5)
+            )
         }
     }
 }
