@@ -77,6 +77,11 @@ public struct AnalyticsService {
         checkoutAnalyticsData: PayPalCheckoutAnalyticsData? = nil,
         withBackgroundProtection: Bool = false
     ) {
+        // Snapshot now: `checkoutAnalyticsData` is mutated in place as the flow progresses (e.g. `url` is
+        // overwritten with the return URL), but the event must reflect the state at the time it occurred,
+        // not when the async task below happens to run.
+        let checkoutAnalyticsData = checkoutAnalyticsData?.snapshot()
+
         if withBackgroundProtection {
             sendEventWithBackgroundProtection(
                 name,

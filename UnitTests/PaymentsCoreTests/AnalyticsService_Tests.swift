@@ -141,6 +141,26 @@ class AnalyticsService_Tests: XCTestCase {
         XCTAssertEqual(capturedData?.shopperSessionExpiration, "fake-shopper-session-expiration")
     }
 
+    func testSendEvent_whenCheckoutAnalyticsDataMutatedAfterCall_sendsURLFromTimeOfCall() async {
+        let launchURL = URL(string: "https://sandbox.paypal.com/app-switch")!
+        let returnURL = URL(string: "https://merchant.example.com/return")!
+
+        let checkoutAnalyticsData = PayPalCheckoutAnalyticsData()
+        checkoutAnalyticsData.url = launchURL
+
+        let expectation = expectation(description: "event sent")
+        mockTrackingEventsAPI.stubHTTPResponse = HTTPResponse(status: 200, body: nil)
+        mockTrackingEventsAPI.onSendEvent = { expectation.fulfill() }
+
+        sut.sendEvent("app-switch:started", checkoutAnalyticsData: checkoutAnalyticsData)
+        // Simulates handleReturnURL overwriting the URL before the background task gets scheduled
+        checkoutAnalyticsData.url = returnURL
+
+        await fulfillment(of: [expectation], timeout: 2)
+
+        XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.url, launchURL)
+    }
+
     func testSendEvent_forwardsLatencyFieldsToAnalyticsEventData() async {
         await sut.performEventRequest(
             "paypal-payments:api-request-latency",
