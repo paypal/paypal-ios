@@ -16,7 +16,7 @@ public struct HTTPResponse {
     }
 
     let status: Int
-    let body: Data?
+    public let body: Data?
 
     let url: URL?
 
@@ -29,5 +29,5 @@ public struct HTTPResponse {
         self.timing = timing
     }
 
-    var isSuccessful: Bool { (200..<300).contains(status) }
+    public var isSuccessful: Bool { (200..<300).contains(status) }
 }

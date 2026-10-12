@@ -1,6 +1,6 @@
 # PayPal iOS SDK
 
-Welcome to PayPal's iOS SDK. This library will help you accept card and PayPal payment methods in your iOS app.
+Welcome to PayPal's iOS SDK. This library will help you accept card, PayPal, and Apple Pay payment methods in your iOS app.
 
 ## FAQ
 ### Contribution

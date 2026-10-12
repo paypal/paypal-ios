@@ -27,6 +27,10 @@ let package = Package(
         .library(
             name: "FraudProtection",
             targets: ["FraudProtection"]
+        ),
+        .library(
+            name: "ApplePay",
+            targets: ["ApplePay"]
         )
     ],
     dependencies: [
@@ -52,6 +56,11 @@ let package = Package(
         ),
         .target(
             name: "PayPalPayments",
+            dependencies: ["CorePayments"],
+            resources: [.copy("PrivacyInfo.xcprivacy")]
+        ),
+        .target(
+            name: "ApplePay",
             dependencies: ["CorePayments"],
             resources: [.copy("PrivacyInfo.xcprivacy")]
         ),

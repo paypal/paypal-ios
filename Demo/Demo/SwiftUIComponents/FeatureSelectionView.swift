@@ -66,6 +66,12 @@ struct FeatureSelectionView: View {
                     } label: {
                         Text("Payment Button")
                     }
+                    NavigationLink {
+                        ApplePayDemoView()
+                            .navigationTitle("Apple Pay")
+                    } label: {
+                        Text("Apple Pay")
+                    }
                 }
                 .listStyle(InsetGroupedListStyle())
                 .navigationTitle("Feature Selection")

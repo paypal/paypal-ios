@@ -13,5 +13,6 @@ Once setup is done, integrate a payment method:
 * [PayPal Checkout — Integration Guide](integration-guides/paypal-checkout.md) — One-Time Checkout, Vault (with/without purchase), Pay Later / PayPal Credit
 * [Payment Buttons](integration-guides/payment-buttons.md) — add and customize the PayPal button family
 * [Card / ACDC — Integration Guide](integration-guides/card-acdc.md) — card payments and vaulting
+* [Apple Pay — Integration Guide](integration-guides/apple-pay.md) — native Apple Pay sheet for a PayPal order
 
 Having trouble? See [Troubleshooting](integration-guides/troubleshooting.md).

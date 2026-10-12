@@ -20,6 +20,7 @@ pod 'PayPal/FraudProtection'      # device data (risk signals)
 pod 'PayPal/PayPalPayments'       # PayPal Checkout + Vault
 pod 'PayPal/PaymentButtons'       # PayPal buttons
 # pod 'PayPal/CardPayments'       # Card (ACDC)
+# pod 'PayPal/ApplePay'           # Apple Pay
 ```
 
 Or add the `paypal-ios` Swift Package and include the matching products.
@@ -77,6 +78,7 @@ With setup done, integrate a payment method:
 
 * **PayPal Checkout** — One-Time Checkout, Vault (with/without purchase), Pay Later / PayPal Credit
 * **Card (ACDC)** — card payments and vaulting
+* **Apple Pay** — native Apple Pay sheet for an existing PayPal order
 
 ## Related
 

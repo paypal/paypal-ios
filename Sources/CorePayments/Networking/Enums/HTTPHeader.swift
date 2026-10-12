@@ -9,4 +9,5 @@ public enum HTTPHeader: String {
     case contentType = "Content-Type"
     case origin = "Origin"
     case payPalClientContext = "paypal-client-context"
+    case payPalPartnerAttributionId = "PayPal-Partner-Attribution-Id"
 }
