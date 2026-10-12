@@ -94,7 +94,7 @@ class AnalyticsService_Tests: XCTestCase {
     }
 
     func testSendEvent_sendsNewAnalyticsFields() async {
-        let appSwitchURL = URL(string: "https://example.com/app-switch")!
+        let url = URL(string: "https://example.com/app-switch")!
         let returnAppURL = URL(string: "https://example.com/return")!
         let cancelAppURL = URL(string: "https://example.com/cancel")!
         let fallbackSchemeURL = URL(string: "fake-scheme://fallback")!
@@ -103,7 +103,7 @@ class AnalyticsService_Tests: XCTestCase {
         checkoutAnalyticsData.isCachedSession = true
         checkoutAnalyticsData.shopperSessionID = "fake-shopper-session-id"
         checkoutAnalyticsData.shopperSessionExpiration = "fake-shopper-session-expiration"
-        checkoutAnalyticsData.appSwitchURL = appSwitchURL
+        checkoutAnalyticsData.url = url
         checkoutAnalyticsData.appSwitchEligible = true
         checkoutAnalyticsData.ineligibleReason = "fake-ineligible-reason"
         checkoutAnalyticsData.fallbackUrl = "fake-fallback-url"
@@ -126,7 +126,7 @@ class AnalyticsService_Tests: XCTestCase {
 
         XCTAssertEqual(capturedData?.buttonType, "fake-button-type")
         XCTAssertEqual(capturedData?.errorDescription, "fake-error-description")
-        XCTAssertEqual(capturedData?.appSwitchURL, appSwitchURL)
+        XCTAssertEqual(capturedData?.url, url)
         XCTAssertEqual(capturedData?.appSwitchEligible, true)
         XCTAssertEqual(capturedData?.ineligibleReason, "fake-ineligible-reason")
         XCTAssertEqual(capturedData?.fallbackUrl, "fake-fallback-url")
@@ -186,7 +186,7 @@ class AnalyticsService_Tests: XCTestCase {
         XCTAssertNil(capturedData?.presentationType)
         XCTAssertNil(capturedData?.flow)
         XCTAssertNil(capturedData?.bnCode)
-        XCTAssertNil(capturedData?.appSwitchURL)
+        XCTAssertNil(capturedData?.url)
         XCTAssertNil(capturedData?.appSwitchEligible)
         XCTAssertNil(capturedData?.ineligibleReason)
         XCTAssertNil(capturedData?.fallbackUrl)
