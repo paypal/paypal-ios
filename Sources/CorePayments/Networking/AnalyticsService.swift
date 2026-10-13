@@ -307,18 +307,26 @@ final class AnalyticsEventQueue: @unchecked Sendable {
         return pendingEvents.removeFirst()
     }
 
+    /// Sends the event, cancelling the request if it takes longer than the timeout.
+    ///
+    /// The timeout runs as its own task that is cancelled (but deliberately not awaited) once the send finishes,
+    /// so a finished send never waits on the timeout's sleep to wind down before the next event can start.
     private func sendWithTimeout(_ queuedEvent: QueuedEvent) async {
         let timeout = requestTimeoutNanoseconds
-        await withTaskGroup(of: Void.self) { group in
-            group.addTask {
-                await AnalyticsEventQueue.send(queuedEvent.eventData, using: queuedEvent.trackingEventsAPI)
-            }
-            group.addTask {
-                try? await Task.sleep(nanoseconds: timeout)
-            }
-            _ = await group.next()
-            group.cancelAll()
+        let sendTask = Task {
+            await AnalyticsEventQueue.send(queuedEvent.eventData, using: queuedEvent.trackingEventsAPI)
         }
+        let timeoutTask = Task {
+            do {
+                try await Task.sleep(nanoseconds: timeout)
+            } catch {
+                return
+            }
+            sendTask.cancel()
+        }
+
+        await sendTask.value
+        timeoutTask.cancel()
     }
 
     // MARK: - Private Methods: Background Task

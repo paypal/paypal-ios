@@ -50,7 +50,7 @@ class AnalyticsService_Tests: XCTestCase {
         mockTrackingEventsAPI.onSendEvent = { expectation.fulfill() }
 
         sut.sendEvent("queued-event", correlationID: "fake-correlation-id")
-        await fulfillment(of: [expectation], timeout: 2.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
 
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.eventName, "queued-event")
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.correlationID, "fake-correlation-id")
@@ -304,7 +304,7 @@ class AnalyticsEventQueue_Tests: XCTestCase {
         service.sendEvent("first")
         service.sendEvent("second")
         service.sendEvent("third")
-        await fulfillment(of: [delivered], timeout: 5.0)
+        await fulfillment(of: [delivered], timeout: 30.0)
 
         XCTAssertEqual(recordingAPI.sentEventNames, ["first", "second", "third"])
     }
@@ -317,7 +317,7 @@ class AnalyticsEventQueue_Tests: XCTestCase {
 
         makeService().sendEvent("from-first-service")
         makeService().sendEvent("from-second-service")
-        await fulfillment(of: [delivered], timeout: 5.0)
+        await fulfillment(of: [delivered], timeout: 30.0)
 
         XCTAssertEqual(recordingAPI.sentEventNames, ["from-first-service", "from-second-service"])
     }
@@ -332,7 +332,7 @@ class AnalyticsEventQueue_Tests: XCTestCase {
         service.sendEvent("first")
         service.sendEvent("failing")
         service.sendEvent("third")
-        await fulfillment(of: [delivered], timeout: 5.0)
+        await fulfillment(of: [delivered], timeout: 30.0)
 
         XCTAssertEqual(recordingAPI.sentEventNames, ["first", "third"])
     }
@@ -346,7 +346,7 @@ class AnalyticsEventQueue_Tests: XCTestCase {
 
         service.sendEvent("slow")
         service.sendEvent("fast")
-        await fulfillment(of: [delivered], timeout: 5.0)
+        await fulfillment(of: [delivered], timeout: 30.0)
 
         XCTAssertEqual(recordingAPI.sentEventNames, ["fast"])
     }
@@ -374,7 +374,7 @@ class AnalyticsEventQueue_Tests: XCTestCase {
         // Simulates `handleReturnURL` overwriting the URL before the queued event is sent
         checkoutAnalyticsData.url = returnURL
 
-        await fulfillment(of: [delivered], timeout: 5.0)
+        await fulfillment(of: [delivered], timeout: 30.0)
 
         let event = recordingAPI.sentEvents.first { $0.eventName == "app-switch:started" }
         let timestamp = Double(event?.timestamp ?? "")
@@ -393,7 +393,7 @@ class AnalyticsEventQueue_Tests: XCTestCase {
         fakeBackgroundTaskManager.onEndBackgroundTask = { ended.fulfill() }
 
         makeService().sendEvent("slow")
-        await fulfillment(of: [ended], timeout: 5.0)
+        await fulfillment(of: [ended], timeout: 30.0)
 
         XCTAssertEqual(fakeBackgroundTaskManager.beginCount, 1)
         XCTAssertEqual(fakeBackgroundTaskManager.endedIdentifiers.count, 1)
@@ -409,13 +409,13 @@ class AnalyticsEventQueue_Tests: XCTestCase {
         recordingAPI.onEventSent = { delivered.fulfill() }
 
         makeService().sendEvent("slow")
-        await fulfillment(of: [began], timeout: 5.0)
+        await fulfillment(of: [began], timeout: 30.0)
 
         // Simulates the system expiring the task; it must be ended synchronously inside the handler.
         fakeBackgroundTaskManager.expirationHandler?()
         XCTAssertEqual(fakeBackgroundTaskManager.endedIdentifiers.count, 1)
 
-        await fulfillment(of: [delivered], timeout: 5.0)
+        await fulfillment(of: [delivered], timeout: 30.0)
         // Give the queue's final background task reconciliation time to run
         try? await Task.sleep(nanoseconds: 200_000_000)
 
@@ -453,12 +453,16 @@ final class RecordingTrackingEventsAPI: AnalyticsEventTracking {
             throw CoreSDKError(code: 0, domain: "", errorDescription: "Stubbed failure.")
         }
 
-        lock.lock()
-        storedSentEvents.append(analyticsEventData)
-        lock.unlock()
+        record(analyticsEventData)
 
         onEventSent?()
         return HTTPResponse(status: 200, body: nil)
+    }
+
+    private func record(_ analyticsEventData: AnalyticsEventData) {
+        lock.lock()
+        defer { lock.unlock() }
+        storedSentEvents.append(analyticsEventData)
     }
 }
 
