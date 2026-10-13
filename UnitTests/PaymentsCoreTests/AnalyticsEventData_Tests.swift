@@ -55,6 +55,29 @@ class AnalyticsEventData_Tests: XCTestCase {
         XCTAssertEqual(eventParams["vault_setup_token"] as? String, "fake-setup-token")
     }
 
+    func testEncode_whenTimestampProvided_usesItInsteadOfCreationTime() throws {
+        let eventTime = Date(timeIntervalSince1970: 1_700_000_000.123)
+        let event = AnalyticsEventData(
+            environment: "fake-env",
+            eventName: "fake-name",
+            clientID: "fake-client-id",
+            merchantID: "fake-merchant-id",
+            bnCode: nil,
+            orderID: "fake-order",
+            correlationID: "fake-correlation-id",
+            setupToken: "fake-setup-token",
+            timestamp: eventTime
+        )
+
+        let data = try JSONEncoder().encode(event)
+        let json = try? JSONSerialization.jsonObject(with: data) as? [String: [String: [String: Any]]]
+
+        XCTAssertEqual(
+            json?["events"]?["event_params"]?["t"] as? String,
+            String(eventTime.timeIntervalSince1970 * 1000)
+        )
+    }
+
     func testEncode_withNoNewAnalyticsFields_encodesThemAsNull() throws {
         let data = try JSONEncoder().encode(sut)
         let json = try? JSONSerialization.jsonObject(with: data) as? [String: [String: [String: Any]]]
@@ -99,7 +122,7 @@ class AnalyticsEventData_Tests: XCTestCase {
         let cancelAppURL = URL(string: "https://example.com/cancel")!
         let fallbackSchemeURL = URL(string: "fake-scheme://fallback")!
 
-        let checkoutAnalyticsData = PayPalCheckoutAnalyticsData()
+        var checkoutAnalyticsData = PayPalCheckoutAnalyticsData()
         checkoutAnalyticsData.isCachedSession = true
         checkoutAnalyticsData.shopperSessionID = "fake-shopper-session-id"
         checkoutAnalyticsData.shopperSessionExpiration = "fake-shopper-session-expiration"

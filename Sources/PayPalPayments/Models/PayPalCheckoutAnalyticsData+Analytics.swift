@@ -6,7 +6,7 @@ import CorePayments
 
 extension PayPalCheckoutAnalyticsData {
 
-    convenience init(
+    init(
         tokenType: TokenType,
         userIdentity: PayPalUserIdentity?,
         urlConfig: PayPalURLConfig,
@@ -25,7 +25,7 @@ extension PayPalCheckoutAnalyticsData {
     }
 
     /// Populates the fields derived from the Shopper Session fetch response, once it succeeds.
-    func update(with shopperSession: ShopperSessionResult) {
+    mutating func update(with shopperSession: ShopperSessionResult) {
         shopperSessionID = shopperSession.shopperSessionConfig?.id
         shopperSessionExpiration = shopperSession.shopperSessionConfig?.expiresAt
         appSwitchEligible = shopperSession.appSwitchEligible

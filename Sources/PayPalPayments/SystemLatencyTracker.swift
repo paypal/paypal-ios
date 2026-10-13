@@ -54,8 +54,7 @@ final class SystemLatencyTracker {
             endTime: Int64(Date().timeIntervalSince1970 * 1000),
             presentationType: presentationType.rawValue,
             flow: flow?.rawValue,
-            checkoutAnalyticsData: checkoutAnalyticsData,
-            withBackgroundProtection: presentationType == .appSwitch
+            checkoutAnalyticsData: checkoutAnalyticsData
         )
         self.startTime = nil
     }

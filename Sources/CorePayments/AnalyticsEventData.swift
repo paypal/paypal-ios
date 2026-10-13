@@ -1,6 +1,6 @@
 import UIKit
 
-struct AnalyticsEventData: Encodable {
+struct AnalyticsEventData: Encodable, Sendable {
     
     enum TopLevelKeys: String, CodingKey {
         case events
@@ -114,7 +114,8 @@ struct AnalyticsEventData: Encodable {
   
     let setupToken: String?
 
-    let timestamp = String(Date().timeIntervalSince1970 * 1000)
+    /// Epoch milliseconds for when the event occurred, captured when the event is created rather than when it is sent.
+    let timestamp: String
 
     let tenantName = "PayPal"
 
@@ -183,8 +184,10 @@ struct AnalyticsEventData: Encodable {
         endpoint: String? = nil,
         presentationType: String? = nil,
         flow: String? = nil,
-        checkoutAnalyticsData: PayPalCheckoutAnalyticsData? = nil
+        checkoutAnalyticsData: PayPalCheckoutAnalyticsData? = nil,
+        timestamp: Date = Date()
     ) {
+        self.timestamp = String(timestamp.timeIntervalSince1970 * 1000)
         self.environment = environment
         self.eventName = eventName
         self.clientID = clientID

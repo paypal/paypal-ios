@@ -130,12 +130,13 @@ public class PayPalClient: NSObject {
 
         let tokenType = sessionType.tokenType
         self.tokenType = tokenType
-        analyticsData = PayPalCheckoutAnalyticsData(
+        let initialAnalyticsData = PayPalCheckoutAnalyticsData(
             tokenType: tokenType,
             userIdentity: userIdentity,
             urlConfig: urlConfig,
             userAction: userAction
         )
+        analyticsData = initialAnalyticsData
         analyticsService?.sendEvent("paypal-payments:checkout:ssid-session:started")
 
         sessionTask = Task {
@@ -144,7 +145,7 @@ public class PayPalClient: NSObject {
                 urlConfig: urlConfig,
                 userAction: userAction,
                 userIdentity: userIdentity,
-                analyticsData: analyticsData
+                analyticsData: initialAnalyticsData
             )
         }
     }
@@ -191,6 +192,7 @@ public class PayPalClient: NSObject {
                 }
 
                 let session = try await task.value
+                analyticsData?.update(with: session)
                 analyticsService?.sendEvent(
                     "paypal-payments:create-paypal-session:succeeded",
                     checkoutAnalyticsData: analyticsData
@@ -252,6 +254,7 @@ public class PayPalClient: NSObject {
                 }
 
                 let session = try await task.value
+                analyticsData?.update(with: session)
                 analyticsService?.sendEvent(
                     "paypal-payments:create-paypal-session:succeeded",
                     checkoutAnalyticsData: analyticsData
@@ -492,8 +495,7 @@ public class PayPalClient: NSObject {
         if opened {
             analyticsService?.sendEvent(
                 "paypal-payments:checkout:app-switch:succeeded",
-                checkoutAnalyticsData: analyticsData,
-                withBackgroundProtection: true
+                checkoutAnalyticsData: analyticsData
             )
             endSystemLatencyTracking(presentationType: .appSwitch)
             return .launched

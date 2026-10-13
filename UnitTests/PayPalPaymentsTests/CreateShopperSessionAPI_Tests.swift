@@ -67,7 +67,8 @@ class CreateShopperSessionAPI_Tests: XCTestCase {
         let analyticsService = AnalyticsService(
             coreConfig: config,
             orderID: "unused-for-latency",
-            trackingEventsAPI: capturingTrackingEventsAPI
+            trackingEventsAPI: capturingTrackingEventsAPI,
+            eventQueue: AnalyticsEventQueue()
         )
 
         sut = CreateShopperSessionAPI(

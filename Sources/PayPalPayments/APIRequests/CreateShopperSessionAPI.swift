@@ -143,14 +143,17 @@ public class CreateShopperSessionAPI {
             throw NetworkingError.noGraphQLDataKey
         }
 
-        analyticsData?.update(with: result)
+        // `PayPalCheckoutAnalyticsData` is a value type, so this only updates a local copy for the latency event
+        // below. `PayPalClient` applies the returned result to its own copy of the analytics data.
+        var updatedAnalyticsData = analyticsData
+        updatedAnalyticsData?.update(with: result)
         if let timing = httpResponse.timing {
             analyticsService.sendEvent(
                 apiRequestLatencyEvent,
                 startTime: timing.startTime,
                 endTime: timing.endTime,
                 endpoint: latencyEndpoint,
-                checkoutAnalyticsData: analyticsData
+                checkoutAnalyticsData: updatedAnalyticsData
             )
         }
 

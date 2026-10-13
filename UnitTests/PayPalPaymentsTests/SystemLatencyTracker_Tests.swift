@@ -36,7 +36,9 @@ class SystemLatencyTracker_Tests: XCTestCase {
         analyticsService = AnalyticsService(
             coreConfig: config,
             orderID: "test-order-id",
-            trackingEventsAPI: capturingTrackingEventsAPI
+            trackingEventsAPI: capturingTrackingEventsAPI,
+            // Isolated from `AnalyticsEventQueue.shared` so unrelated events can't delay delivery in these tests
+            eventQueue: AnalyticsEventQueue()
         )
         sut = SystemLatencyTracker()
     }
@@ -55,9 +57,6 @@ class SystemLatencyTracker_Tests: XCTestCase {
         capturingTrackingEventsAPI.onSendEvent = { expectation.fulfill() }
 
         sut.begin(flow: .checkout)
-        // Use `.appSwitch` so the event dispatches via the background-protected (awaited, `.utility`) path.
-        // The default `.background` fire-and-forget QoS is deferred indefinitely on loaded CI and can't be
-        // observed deterministically within a timeout.
         sut.send(presentationType: .appSwitch, using: analyticsService, checkoutAnalyticsData: nil)
 
         await fulfillment(of: [expectation], timeout: 10.0)
