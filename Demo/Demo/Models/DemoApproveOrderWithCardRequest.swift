@@ -2,7 +2,7 @@ import Foundation
 import CardPayments
 
 @Observable
-class DemoApproveOrderRequest {
+class DemoApproveOrderWithCardRequest {
     
     var cardNumber: String = "4111 1111 1111 1111"
     var cardExpirationDate: String = "01 / 28"
