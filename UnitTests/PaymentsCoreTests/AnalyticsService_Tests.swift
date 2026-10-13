@@ -1,3 +1,7 @@
+// This file also holds the `AnalyticsEventQueue` tests and their test doubles. The Xcode project references source
+// files explicitly, so keeping them here avoids having to add a new file to the test target.
+// swiftlint:disable file_length
+
 import XCTest
 import UIKit
 @testable import CorePayments
@@ -372,7 +376,7 @@ class AnalyticsEventQueue_Tests: XCTestCase {
 
         await fulfillment(of: [delivered], timeout: 5.0)
 
-        let event = recordingAPI.sentEvents.first(where: { $0.eventName == "app-switch:started" })
+        let event = recordingAPI.sentEvents.first { $0.eventName == "app-switch:started" }
         let timestamp = Double(event?.timestamp ?? "")
 
         XCTAssertEqual(event?.url, launchURL)
