@@ -8,7 +8,7 @@ class CardPaymentViewModel {
     
     let api = DemoMerchantAPI.shared
 
-    // HACK: see if this information exists on the newly created order
+    // HACK: it'd be better if we could get this information from the newly created order
     var orderIntent: Intent = .authorize
     
     private let cardClient: CardClient
