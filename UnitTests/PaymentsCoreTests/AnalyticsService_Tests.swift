@@ -294,8 +294,10 @@ class AnalyticsEventQueue_Tests: XCTestCase {
     // MARK: - Ordering
 
     func testEnqueue_sendsEventsInTheOrderTheyWereFired() async {
-        // If events were sent concurrently, the delayed first event would be the last to arrive.
-        recordingAPI.delays["first"] = 200_000_000
+        // The first event is held until all three are enqueued. If events were sent concurrently, "second" and
+        // "third" would be delivered while "first" is held, so they would arrive before it.
+        let firstEventGate = AsyncGate()
+        recordingAPI.gates["first"] = firstEventGate
         let delivered = expectation(description: "all events delivered")
         delivered.expectedFulfillmentCount = 3
         recordingAPI.onEventSent = { delivered.fulfill() }
@@ -304,19 +306,22 @@ class AnalyticsEventQueue_Tests: XCTestCase {
         service.sendEvent("first")
         service.sendEvent("second")
         service.sendEvent("third")
+        firstEventGate.open()
         await fulfillment(of: [delivered], timeout: 30.0)
 
         XCTAssertEqual(recordingAPI.sentEventNames, ["first", "second", "third"])
     }
 
     func testEnqueue_acrossServiceInstances_sendsEventsInTheOrderTheyWereFired() async {
-        recordingAPI.delays["from-first-service"] = 200_000_000
+        let firstEventGate = AsyncGate()
+        recordingAPI.gates["from-first-service"] = firstEventGate
         let delivered = expectation(description: "all events delivered")
         delivered.expectedFulfillmentCount = 2
         recordingAPI.onEventSent = { delivered.fulfill() }
 
         makeService().sendEvent("from-first-service")
         makeService().sendEvent("from-second-service")
+        firstEventGate.open()
         await fulfillment(of: [delivered], timeout: 30.0)
 
         XCTAssertEqual(recordingAPI.sentEventNames, ["from-first-service", "from-second-service"])
@@ -425,10 +430,43 @@ class AnalyticsEventQueue_Tests: XCTestCase {
 
 // MARK: - Test Doubles
 
-/// Records the events it is asked to send, with optional per-event delays and failures.
+/// A one-shot latch. `wait()` suspends until `open()` is called, in either order, so tests can control when a
+/// request completes instead of sleeping for a fixed time.
+final class AsyncGate: @unchecked Sendable {
+
+    private let lock = NSLock()
+    private var isOpen = false
+    private var waiters: [CheckedContinuation<Void, Never>] = []
+
+    func wait() async {
+        await withCheckedContinuation { continuation in
+            lock.lock()
+            if isOpen {
+                lock.unlock()
+                continuation.resume()
+            } else {
+                waiters.append(continuation)
+                lock.unlock()
+            }
+        }
+    }
+
+    func open() {
+        lock.lock()
+        isOpen = true
+        let pending = waiters
+        waiters = []
+        lock.unlock()
+        pending.forEach { $0.resume() }
+    }
+}
+
+/// Records the events it is asked to send, with optional per-event delays, gates and failures.
 final class RecordingTrackingEventsAPI: AnalyticsEventTracking {
 
     var delays: [String: UInt64] = [:]
+    /// Holds the named event's request until its gate is opened, without relying on elapsed time.
+    var gates: [String: AsyncGate] = [:]
     var failingEventNames: Set<String> = []
     var onEventSent: (() -> Void)?
 
@@ -446,6 +484,9 @@ final class RecordingTrackingEventsAPI: AnalyticsEventTracking {
     }
 
     func sendEvent(with analyticsEventData: AnalyticsEventData) async throws -> HTTPResponse {
+        if let gate = gates[analyticsEventData.eventName] {
+            await gate.wait()
+        }
         if let delay = delays[analyticsEventData.eventName] {
             try await Task.sleep(nanoseconds: delay)
         }
