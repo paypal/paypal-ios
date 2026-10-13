@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A0E5C0DE2F00000200AAAAAA /* AnalyticsEventQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0E5C0DE2F00000100AAAAAA /* AnalyticsEventQueue.swift */; };
 		045386092B5CB9AA0057AFDA /* PayPalOpen-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 045386082B5CB9AA0057AFDA /* PayPalOpen-Regular.otf */; };
 		0647E70E2714962800F8E517 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0647E70D2714962800F8E517 /* Address.swift */; };
 		065A4DBC26FCD8090007014A /* CoreSDKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A4DBB26FCD8080007014A /* CoreSDKError.swift */; };
@@ -212,6 +213,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A0E5C0DE2F00000100AAAAAA /* AnalyticsEventQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEventQueue.swift; sourceTree = "<group>"; };
 		045386082B5CB9AA0057AFDA /* PayPalOpen-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PayPalOpen-Regular.otf"; sourceTree = "<group>"; };
 		0647E70D2714962800F8E517 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		065A4DBB26FCD8080007014A /* CoreSDKError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreSDKError.swift; sourceTree = "<group>"; };
@@ -764,6 +766,7 @@
 				E646231928369B71008AC8E1 /* GraphQL */,
 				BEA100E626EF9EDA0036A6A5 /* NetworkingClient.swift */,
 				804E628529380B04004B9FEF /* AnalyticsService.swift */,
+				A0E5C0DE2F00000100AAAAAA /* AnalyticsEventQueue.swift */,
 				3BF06F3E2E15CC35002CA7B4 /* ClientConfigResponse.swift */,
 				80E2FDBF2A8353550045593D /* TrackingEventsAPI.swift */,
 				804E62812937EBCE004B9FEF /* HTTP.swift */,
@@ -1290,6 +1293,7 @@
 				3BBD50EA2E85D8900049C4D5 /* UIApplication+URLOpener.swift in Sources */,
 				BEA100F026EFA7C20036A6A5 /* NetworkingError.swift in Sources */,
 				804E628629380B04004B9FEF /* AnalyticsService.swift in Sources */,
+				A0E5C0DE2F00000200AAAAAA /* AnalyticsEventQueue.swift in Sources */,
 				BC04837427B2FC7300FA7B46 /* URLSession+URLSessionProtocol.swift in Sources */,
 				80E2FDC32A8354AD0045593D /* RESTRequest.swift in Sources */,
 				3DC42BA927187E8300B71645 /* ErrorResponse.swift in Sources */,
