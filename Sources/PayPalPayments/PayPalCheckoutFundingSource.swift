@@ -13,4 +13,8 @@ public enum PayPalCheckoutFundingSource: String {
 
     /// PayPal will launch the web checkout for a one-time PayPal Checkout flow
     case paypal = "paypal"
+
+    /// Venmo opens the Venmo app when it is installed, and the sandbox or live Venmo checkout page otherwise.
+    /// US buyers and USD orders only. The server still creates and captures the order.
+    case venmo = "venmo"
 }

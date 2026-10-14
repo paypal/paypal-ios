@@ -27,6 +27,12 @@ public class PayPalClient: NSObject {
     var vaultAppSwitchCompletion: ((Result<PayPalVaultResult, CoreSDKError>) -> Void)?
     var urlOpener: URLOpener = UIApplication.shared
 
+    /// Host apps must list `venmo` in `LSApplicationQueriesSchemes` or this stays false.
+    var isVenmoAppInstalled: () -> Bool = {
+        guard let url = URL(string: "venmo://") else { return false }
+        return UIApplication.shared.canOpenURL(url)
+    }
+
     private let clientConfigAPI: UpdateClientConfigAPI
     private let webAuthenticationSession: WebAuthenticationSession
     private let createShopperSessionAPI: CreateShopperSessionAPI
@@ -161,11 +167,13 @@ public class PayPalClient: NSObject {
     ///
     /// - Parameters:
     ///   - orderID: The order ID to approve.
+    ///   - fundingSource: PayPal, Pay Later, PayPal Credit, or Venmo. Defaults to PayPal.
     ///   - completion: A completion block invoked on the main thread with a `Result`:
     ///     - `.success(PayPalCheckoutResult)` — `orderID` and `payerID` on approval.
     ///     - `.failure(CoreSDKError)` — describes the failure reason.
     public func start(
         orderID: String,
+        fundingSource: PayPalCheckoutFundingSource = .paypal,
         completion: @escaping (Result<PayPalCheckoutResult, CoreSDKError>) -> Void
     ) {
         analyticsService = AnalyticsService(coreConfig: config, orderID: orderID)
@@ -196,7 +204,12 @@ public class PayPalClient: NSObject {
                     checkoutAnalyticsData: analyticsData
                 )
                 analyticsService?.sendEvent("paypal-payments:checkout:started", checkoutAnalyticsData: analyticsData)
-                launchCheckout(session: session, orderID: orderID, completion: completion)
+                launchCheckout(
+                    session: session,
+                    orderID: orderID,
+                    fundingSource: fundingSource,
+                    completion: completion
+                )
             } catch {
                 sessionTask = nil
                 analyticsService?.sendEvent(
@@ -373,9 +386,19 @@ public class PayPalClient: NSObject {
     private func launchCheckout(
         session: ShopperSessionResult,
         orderID: String,
+        fundingSource: PayPalCheckoutFundingSource,
         completion: @escaping (Result<PayPalCheckoutResult, CoreSDKError>) -> Void
     ) {
         let completionOnce = makeCompletionOnce(completion)
+
+        if fundingSource == .venmo {
+            launchVenmo(
+                orderID: orderID,
+                session: session,
+                completion: completionOnce
+            )
+            return
+        }
 
         Task {
             await attemptSessionAppSwitchOrFallback(
@@ -396,7 +419,7 @@ public class PayPalClient: NSObject {
                     self.startWebCheckoutFlow(
                         session: session,
                         orderID: orderID,
-                        fundingSource: .paypal,
+                        fundingSource: fundingSource,
                         completion: completionOnce
                     )
                 }
@@ -550,11 +573,10 @@ public class PayPalClient: NSObject {
                 return
             }
 
-            guard let payPalCheckoutURL = makeCheckoutURL(
-                session: session,
-                orderID: orderID,
-                fundingSource: fundingSource
-            ),
+            let payPalCheckoutURL = fundingSource == .venmo
+                ? VenmoCheckoutURL.make(environment: config.environment, clientID: config.clientID, orderID: orderID)
+                : makeCheckoutURL(session: session, orderID: orderID, fundingSource: fundingSource)
+            guard let payPalCheckoutURL,
                 let payPalCheckoutURLComponents = payPalCheckoutReturnURL(payPalCheckoutURL: payPalCheckoutURL)
             else {
                 analyticsService?.sendEvent(
@@ -808,11 +830,55 @@ public class PayPalClient: NSObject {
     }
 
     @MainActor
-    private func attemptAppSwitch(with url: URL) async -> Bool {
+    private func attemptAppSwitch(with url: URL, universalLinksOnly: Bool = true) async -> Bool {
         await withCheckedContinuation { continuation in
-            urlOpener.open(url) { success in
+            urlOpener.open(url, universalLinksOnly: universalLinksOnly) { success in
                 continuation.resume(returning: success)
             }
+        }
+    }
+
+    /// Opens the Venmo app when it is installed. Otherwise the same sandbox or live page loads in-app.
+    private func launchVenmo(
+        orderID: String,
+        session: ShopperSessionResult,
+        completion: @escaping (Result<PayPalCheckoutResult, CoreSDKError>) -> Void
+    ) {
+        guard let venmoURL = VenmoCheckoutURL.make(
+            environment: config.environment,
+            clientID: config.clientID,
+            orderID: orderID
+        ), let checkoutURL = payPalCheckoutReturnURL(payPalCheckoutURL: venmoURL) else {
+            notifyCheckoutFailure(with: PayPalError.payPalURLError, completion: completion)
+            return
+        }
+
+        Task {
+            let installed = await MainActor.run { isVenmoAppInstalled() }
+            guard installed else {
+                startWebCheckoutFlow(session: session, orderID: orderID, fundingSource: .venmo, completion: completion)
+                return
+            }
+
+            do {
+                _ = try await clientConfigAPI.updateClientConfig(
+                    token: orderID,
+                    fundingSource: PayPalCheckoutFundingSource.venmo.rawValue
+                )
+            } catch {
+                let sdkError = (error as? CoreSDKError) ?? PayPalError.webSessionError(error)
+                notifyCheckoutFailure(with: sdkError, completion: completion)
+                return
+            }
+
+            analyticsData?.url = checkoutURL
+            await MainActor.run { appSwitchCompletion = completion }
+            let opened = await attemptAppSwitch(with: checkoutURL, universalLinksOnly: false)
+            if opened {
+                return
+            }
+            await MainActor.run { appSwitchCompletion = nil }
+            startWebCheckoutFlow(session: session, orderID: orderID, fundingSource: .venmo, completion: completion)
         }
     }
 

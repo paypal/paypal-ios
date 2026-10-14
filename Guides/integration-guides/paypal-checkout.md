@@ -120,6 +120,16 @@ checkoutClient.start(orderID: orderID) { result in
 }
 ```
 
+### Venmo
+
+Venmo uses the same order and the same `createPayPalSession()` call. Pass `.venmo` to `start`. Add `venmo` to `LSApplicationQueriesSchemes` so the SDK can see the Venmo app. When that app is installed, checkout opens there. Otherwise the SDK loads the sandbox or live page at `/smart/checkout/venmo/popup` in the in-app browser. Your server still captures the order. Venmo is for US buyers and USD.
+
+```swift
+checkoutClient.start(orderID: orderID, fundingSource: .venmo) { result in
+    // same Result as PayPal checkout
+}
+```
+
 ### Step 5: Handle the return
 
 Forward the return URL to the SDK from your scene continuation (or `.onOpenURL` in SwiftUI). The result is delivered through the completion you passed to `start()`.

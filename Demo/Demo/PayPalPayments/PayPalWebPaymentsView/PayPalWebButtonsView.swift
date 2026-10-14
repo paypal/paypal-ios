@@ -22,6 +22,7 @@ struct PayPalWebButtonsView: View {
                     Text("PayPal").tag(PayPalCheckoutFundingSource.paypal)
                     Text("PayPal Credit").tag(PayPalCheckoutFundingSource.paypalCredit)
                     Text("Pay Later").tag(PayPalCheckoutFundingSource.paylater)
+                    Text("Venmo").tag(PayPalCheckoutFundingSource.venmo)
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 ZStack {
@@ -38,6 +39,11 @@ struct PayPalWebButtonsView: View {
                         PayPalButton.Representable(color: .blue, size: .full) {
                             payPalWebViewModel.paymentButtonTapped(funding: .paypal)
                         }
+                    case .venmo:
+                        Button("Pay with Venmo") {
+                            payPalWebViewModel.paymentButtonTapped(funding: .venmo)
+                        }
+                        .buttonStyle(RoundedBlueButtonStyle())
                     }
                     if payPalWebViewModel.state.approveResultResponse == .loading &&
                         payPalWebViewModel.checkoutResult == nil &&

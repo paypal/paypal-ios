@@ -562,5 +562,59 @@ class PayPalClient_CreateSession_Tests: XCTestCase {
 
         waitForExpectations(timeout: 2)
     }
+
+    func testStart_venmo_opensSandboxCheckoutWhenVenmoAppIsInstalled() throws {
+        mockCreateShopperSessionAPI.stubResponse = makeIneligibleSession()
+        payPalClient.isVenmoAppInstalled = { true }
+        payPalClient.createPayPalSession(sessionType: .checkout, urlConfig: fakeURLConfig)
+
+        let opened = expectation(description: "venmo checkout opened")
+        mockURLOpener.didOpenURLHandler = { opened.fulfill() }
+
+        payPalClient.start(orderID: "order-123", fundingSource: .venmo) { _ in }
+        waitForExpectations(timeout: 2)
+
+        let url = try XCTUnwrap(mockURLOpener.lastOpenedURL)
+        XCTAssertEqual(url.host, "www.sandbox.paypal.com")
+        XCTAssertEqual(url.path, "/smart/checkout/venmo/popup")
+        XCTAssertEqual(queryValue("fundingSource", in: url), "venmo")
+        XCTAssertEqual(queryValue("token", in: url), "order-123")
+        XCTAssertEqual(mockURLOpener.lastUniversalLinksOnly, false)
+        XCTAssertNil(mockWebAuthenticationSession.lastLaunchedURL)
+        XCTAssertEqual(mockClientConfigAPI.capturedFundingSource, "venmo")
+    }
+
+    func testStart_venmo_usesInAppSandboxCheckoutWhenVenmoAppIsMissing() throws {
+        mockCreateShopperSessionAPI.stubResponse = makeIneligibleSession()
+        payPalClient.isVenmoAppInstalled = { false }
+        mockWebAuthenticationSession.cannedResponseURL = URL(string: "https://fakeURL?token=order-123&PayerID=payer-456")
+        payPalClient.createPayPalSession(sessionType: .checkout, urlConfig: fakeURLConfig)
+
+        let expectation = expectation(description: "venmo web checkout succeeds")
+        payPalClient.start(orderID: "order-123", fundingSource: .venmo) { result in
+            if case .success(let checkoutResult) = result {
+                XCTAssertEqual(checkoutResult.orderID, "order-123")
+                XCTAssertEqual(checkoutResult.payerID, "payer-456")
+            } else {
+                XCTFail("Expected Venmo web checkout to succeed")
+            }
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 2)
+
+        let url = try XCTUnwrap(mockWebAuthenticationSession.lastLaunchedURL)
+        XCTAssertEqual(url.host, "www.sandbox.paypal.com")
+        XCTAssertEqual(url.path, "/smart/checkout/venmo/popup")
+        XCTAssertEqual(queryValue("fundingSource", in: url), "venmo")
+        XCTAssertNil(mockURLOpener.lastOpenedURL)
+        XCTAssertEqual(mockClientConfigAPI.capturedFundingSource, "venmo")
+    }
+
+    private func queryValue(_ name: String, in url: URL) -> String? {
+        URLComponents(url: url, resolvingAgainstBaseURL: false)?
+            .queryItems?
+            .first { $0.name == name }?
+            .value
+    }
 }
 // swiftlint:enable type_body_length file_length
