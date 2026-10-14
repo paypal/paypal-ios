@@ -1,4 +1,5 @@
 import SwiftUI
+import PaymentButtons
 
 struct CardPaymentView: View {
 
@@ -23,6 +24,8 @@ struct CardPaymentView: View {
                     .padding()
                 }
             }
+            .clearsKeyboardScrollSpace()
         }
+        .scrollDismissesKeyboard(.interactively)
     }
 }

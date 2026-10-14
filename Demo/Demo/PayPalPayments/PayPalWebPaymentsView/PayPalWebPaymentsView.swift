@@ -1,4 +1,5 @@
 import SwiftUI
+import PaymentButtons
 
 struct PayPalWebPaymentsView: View {
     
@@ -39,8 +40,10 @@ struct PayPalWebPaymentsView: View {
                         scrollView.scrollTo("bottomView")
                     }
                 }
+                .clearsKeyboardScrollSpace()
             }
         }
+        .scrollDismissesKeyboard(.interactively)
         .onOpenURL { url in
             payPalWebViewModel.handleUniversalLinkReturn(url)
         }

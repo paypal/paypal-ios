@@ -1,6 +1,7 @@
 import SwiftUI
 import CardPayments
 import CorePayments
+import PaymentButtons
 
 struct CardOrderApproveView: View {
 
@@ -89,7 +90,9 @@ struct CardOrderApproveView: View {
                         scrollView.scrollTo("bottomView")
                     }
                 }
+                .clearsKeyboardScrollSpace()
             }
         }
+        .scrollDismissesKeyboard(.interactively)
     }
 }
