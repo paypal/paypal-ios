@@ -67,4 +67,37 @@ class PayPalDataCollector_Tests: XCTestCase {
         """.trimmingCharacters(in: .whitespacesAndNewlines)
         XCTAssertEqual(expected, result)
     }
+
+    func testCollectDeviceData_whenMagnesSigningFails_returnsEmptyCorrelationID() {
+        magnesSDK.collectError = NSError(domain: "magnes", code: 1)
+
+        let sut = PayPalDataCollector(config: sandboxConfig, magnesSDK: magnesSDK, deviceInspector: deviceInspector)
+        let result = sut.collectDeviceData()
+
+        XCTAssertEqual("{\"correlation_id\":\"\"}", result)
+        XCTAssertEqual(.SANDBOX, magnesSDK.capturedSetupParams?.env)
+    }
+
+    func testCollectDeviceData_doesNotOverlapMagnesSigning() {
+        let counterLock = NSLock()
+        var inFlight = 0
+        var maxInFlight = 0
+        magnesSDK.onCollect = {
+            counterLock.lock()
+            inFlight += 1
+            maxInFlight = max(maxInFlight, inFlight)
+            counterLock.unlock()
+            usleep(20_000)
+            counterLock.lock()
+            inFlight -= 1
+            counterLock.unlock()
+        }
+
+        let sut = PayPalDataCollector(config: sandboxConfig, magnesSDK: magnesSDK, deviceInspector: deviceInspector)
+        DispatchQueue.concurrentPerform(iterations: 4) { _ in
+            _ = sut.collectDeviceData()
+        }
+
+        XCTAssertEqual(maxInFlight, 1)
+    }
 }

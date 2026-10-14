@@ -26,6 +26,27 @@ class DeviceInspector_Tests: XCTestCase {
         #endif
     }
 
+    func testDeviceIdentifier_readsDataReturnedBySecItemCopyMatching() {
+        let stored = Data("stable-device-id".utf8)
+        let identifier = DeviceInspector.deviceIdentifier(fromKeychainResult: errSecSuccess, item: stored as CFTypeRef)
+
+        XCTAssertEqual("stable-device-id", identifier)
+    }
+
+    func testDeviceIdentifier_readsLegacyDictionaryResult() {
+        let stored = Data("legacy-device-id".utf8)
+        let dictionary: [String: Any] = [kSecValueData as String: stored]
+        let identifier = DeviceInspector.deviceIdentifier(fromKeychainResult: errSecSuccess, item: dictionary as CFTypeRef)
+
+        XCTAssertEqual("legacy-device-id", identifier)
+    }
+
+    func testDeviceIdentifier_returnsNilWhenKeychainLookupFails() {
+        let identifier = DeviceInspector.deviceIdentifier(fromKeychainResult: errSecItemNotFound, item: nil)
+
+        XCTAssertNil(identifier)
+    }
+
     func clearPayPalDeviceIdentifier() {
         let accountName = "com.paypal.ios-sdk.PayPalDataCollector.DeviceGUID"
         let query: [String: Any] = [

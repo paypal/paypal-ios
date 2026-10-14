@@ -1,6 +1,11 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+
+* FraudProtection
+  * Keep a stable device id from the keychain and run Magnes device-data collection one call at a time, so signing cannot crash in `PFBaseSecureKeyWrapper getSignatureBytesUsingPrivateKey`. Addresses #272.
+
 ## 3.1.1 (2026-10-08)
 
 * PayPal

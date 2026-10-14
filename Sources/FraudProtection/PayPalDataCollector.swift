@@ -12,6 +12,9 @@ public class PayPalDataCollector {
     private let magnesSDK: MagnesSDKProtocol
     private let deviceInspector: DeviceInspectorProtocol
     private let magnesEnvironment: MagnesSDK.Environment
+    /// Magnes signs with a process-wide private key. Overlapping calls crash inside
+    /// `PFBaseSecureKeyWrapper getSignatureBytesUsingPrivateKey` (issue #272).
+    private let collectionLock = NSRecursiveLock()
 
     // MARK: - Initializers
 
@@ -34,6 +37,9 @@ public class PayPalDataCollector {
     /// - Parameter additionalData: additional key value pairs to correlate with device data
     /// - Returns: A JSON string containing a device data identifier that should be forwarded to your server
     public func collectDeviceData(additionalData: [String: String] = [:]) -> String {
+        collectionLock.lock()
+        defer { collectionLock.unlock() }
+
         let deviceIdentifier = deviceInspector.payPalDeviceIdentifier()
         let params = MagnesSetupParams(
             env: magnesEnvironment,
@@ -42,11 +48,20 @@ public class PayPalDataCollector {
             isBeaconDisabled: false,
             source: .PAYPAL
         )
-        try? magnesSDK.setUpWithParams(params)
 
-        let result = try? magnesSDK.collectDeviceData(withPayPalClientMetadataId: "", withAdditionalData: additionalData)
-        let clientMetadataId = result?.getPayPalClientMetaDataId() ?? ""
+        do {
+            try magnesSDK.setUpWithParams(params)
+            let result = try magnesSDK.collectDeviceData(
+                withPayPalClientMetadataId: "",
+                withAdditionalData: additionalData
+            )
+            return correlationJSON(result.getPayPalClientMetaDataId())
+        } catch {
+            return correlationJSON("")
+        }
+    }
 
-        return "{\"correlation_id\":\"\(clientMetadataId)\"}"
+    private func correlationJSON(_ clientMetadataId: String) -> String {
+        "{\"correlation_id\":\"\(clientMetadataId)\"}"
     }
 }
