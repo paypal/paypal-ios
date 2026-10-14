@@ -19,6 +19,16 @@ struct UpdateVaultVariables: Encodable {
         case securityCode
         case expiry
         case name
+        case billingAddress
+    }
+
+    private enum BillingAddressKeys: String, CodingKey {
+        case addressLine1
+        case addressLine2
+        case adminArea1
+        case adminArea2
+        case postalCode
+        case countryCode
     }
     
     // MARK: - Internal Properties
@@ -48,5 +58,21 @@ struct UpdateVaultVariables: Encodable {
         try card.encode(vaultRequest.card.securityCode, forKey: .securityCode)
         try card.encode(vaultRequest.card.expiry, forKey: .expiry)
         try card.encodeIfPresent(vaultRequest.card.cardholderName, forKey: .name)
+        if let billingAddress = vaultRequest.card.billingAddress {
+            try encode(billingAddress, into: &card)
+        }
+    }
+
+    private func encode(
+        _ billingAddress: Address,
+        into card: inout KeyedEncodingContainer<CardKeys>
+    ) throws {
+        var address = card.nestedContainer(keyedBy: BillingAddressKeys.self, forKey: .billingAddress)
+        try address.encodeIfPresent(billingAddress.addressLine1, forKey: .addressLine1)
+        try address.encodeIfPresent(billingAddress.addressLine2, forKey: .addressLine2)
+        try address.encodeIfPresent(billingAddress.region, forKey: .adminArea1)
+        try address.encodeIfPresent(billingAddress.locality, forKey: .adminArea2)
+        try address.encodeIfPresent(billingAddress.postalCode, forKey: .postalCode)
+        try address.encode(billingAddress.countryCode, forKey: .countryCode)
     }
 }

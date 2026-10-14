@@ -1,6 +1,11 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+
+* CardPayments
+  * Send `Card.billingAddress` on `updateVaultSetupToken` so vaulting can include postal code and country for AVS. Addresses #219.
+
 ## 3.1.1 (2026-10-08)
 
 * PayPal

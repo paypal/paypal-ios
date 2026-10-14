@@ -124,7 +124,7 @@ On approval the SDK result still only carries the order ID, status, and `didAtte
 
 ## Vault without Purchase
 
-Save a card with no purchase now. Follows the identical pattern against a setup token.
+Save a card with no purchase now. Follows the identical pattern against a setup token. `billingAddress` on `Card` is sent as `paymentSource.card.billingAddress` (street, postal code, and country). `clientID` and `vaultSetupToken` stay top-level GraphQL variables.
 
 ```swift
 let vaultRequest = CardVaultRequest(card: card, setupTokenID: setupTokenID)
