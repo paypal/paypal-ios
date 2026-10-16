@@ -137,7 +137,7 @@ class PayPalWebViewModel: ObservableObject {
             return
         }
 
-        payPalClient.start(orderID: orderID) { result in
+        payPalClient.start(orderID: orderID, fundingSource: funding) { result in
             switch result {
             case .success(let paypalResult):
                 self.state.approveResultResponse = .loaded(

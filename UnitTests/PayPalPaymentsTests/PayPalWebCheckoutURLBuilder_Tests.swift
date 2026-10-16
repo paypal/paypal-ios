@@ -158,4 +158,27 @@ class PayPalWebCheckoutURLBuilder_Tests: XCTestCase {
         XCTAssertGreaterThanOrEqual(switchInitiatedMillis, beforeMillis)
         XCTAssertLessThanOrEqual(switchInitiatedMillis, afterMillis)
     }
+
+    func testVenmoCheckoutURL_usesSandboxHost() throws {
+        let url = try XCTUnwrap(
+            VenmoCheckoutURL.make(environment: .sandbox, clientID: "fake-client-id", orderID: "order-123")
+        )
+
+        XCTAssertEqual(url.scheme, "https")
+        XCTAssertEqual(url.host, "www.sandbox.paypal.com")
+        XCTAssertEqual(url.path, "/smart/checkout/venmo/popup")
+        XCTAssertEqual(queryValue("token", in: url), "order-123")
+        XCTAssertEqual(queryValue("client-id", in: url), "fake-client-id")
+        XCTAssertEqual(queryValue("fundingSource", in: url), "venmo")
+    }
+
+    func testVenmoCheckoutURL_usesLiveHost() throws {
+        let url = try XCTUnwrap(
+            VenmoCheckoutURL.make(environment: .live, clientID: "fake-client-id", orderID: "order-123")
+        )
+
+        XCTAssertEqual(url.host, "www.paypal.com")
+        XCTAssertEqual(url.path, "/smart/checkout/venmo/popup")
+        XCTAssertEqual(queryValue("fundingSource", in: url), "venmo")
+    }
 }

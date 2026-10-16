@@ -1,6 +1,11 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+
+* PayPalPayments
+  * Add `PayPalCheckoutFundingSource.venmo`. `start(orderID:fundingSource:)` opens the Venmo app when it is installed, and the sandbox or live Venmo checkout page otherwise. The server still creates and captures the order. Addresses #217.
+
 ## 3.1.1 (2026-10-08)
 
 * PayPal
