@@ -126,6 +126,8 @@
 		BCFAC71327ED043100C3AF00 /* PayPalCreditButton_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36E3275520E700AFC7DA /* PayPalCreditButton_Tests.swift */; };
 		BCFAC71A27ED04AC00C3AF00 /* PaymentButtonColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9F36DE274859A000AFC7DA /* PaymentButtonColor.swift */; };
 		BCFAC71C27ED04C000C3AF00 /* PaymentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE00B7AA2743FD9F00758C63 /* PaymentButton.swift */; };
+		AA2460000000000000000002 /* KeyboardScrollInset.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2460000000000000000001 /* KeyboardScrollInset.swift */; };
+		AA2460000000000000000004 /* KeyboardScrollInset_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2460000000000000000003 /* KeyboardScrollInset_Tests.swift */; };
 		BCFAC71D27ED04C300C3AF00 /* PayPalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE00B79B2742F96200758C63 /* PayPalButton.swift */; };
 		BCFAC71E27ED04C500C3AF00 /* PayPalCreditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE00B7A82743F6AF00758C63 /* PayPalCreditButton.swift */; };
 		BCFAC71F27ED04C800C3AF00 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDB7FE32788AB8E00CEA554 /* Coordinator.swift */; };
@@ -327,6 +329,8 @@
 		BCFAC70927ED042500C3AF00 /* PaymentButtons.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PaymentButtons.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCFAC71827ED043200C3AF00 /* PayPalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PayPalUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE00B79B2742F96200758C63 /* PayPalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalButton.swift; sourceTree = "<group>"; };
+		AA2460000000000000000001 /* KeyboardScrollInset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardScrollInset.swift; sourceTree = "<group>"; };
+		AA2460000000000000000003 /* KeyboardScrollInset_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardScrollInset_Tests.swift; sourceTree = "<group>"; };
 		BE00B79D2742F9F000758C63 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BE00B7A82743F6AF00758C63 /* PayPalCreditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalCreditButton.swift; sourceTree = "<group>"; };
 		BE00B7AA2743FD9F00758C63 /* PaymentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentButton.swift; sourceTree = "<group>"; };
@@ -710,6 +714,7 @@
 				BE00B79D2742F9F000758C63 /* Assets.xcassets */,
 				BEDB7FE32788AB8E00CEA554 /* Coordinator.swift */,
 				BE00B7AA2743FD9F00758C63 /* PaymentButton.swift */,
+				AA2460000000000000000001 /* KeyboardScrollInset.swift */,
 				BE9F36DE274859A000AFC7DA /* PaymentButtonColor.swift */,
 				BE00B79B2742F96200758C63 /* PayPalButton.swift */,
 				BE00B7A82743F6AF00758C63 /* PayPalCreditButton.swift */,
@@ -730,6 +735,7 @@
 			isa = PBXGroup;
 			children = (
 				BEF3FF1627AC5DF3006B4B69 /* Coordinator_Tests.swift */,
+				AA2460000000000000000003 /* KeyboardScrollInset_Tests.swift */,
 				BE00B7AC27444FE900758C63 /* PayPalButton_Tests.swift */,
 				BE9F36E3275520E700AFC7DA /* PayPalCreditButton_Tests.swift */,
 				CB22C017291049500097E592 /* PayPalPayLaterButton_Tests.swift */,
@@ -1437,6 +1443,7 @@
 				CB1A47F82820BCE200BD8184 /* PaymentButtonSize.swift in Sources */,
 				BCFAC71F27ED04C800C3AF00 /* Coordinator.swift in Sources */,
 				BCFAC71C27ED04C000C3AF00 /* PaymentButton.swift in Sources */,
+				AA2460000000000000000002 /* KeyboardScrollInset.swift in Sources */,
 				CB1A47F22820AFED00BD8184 /* PayPalPayLaterButton.swift in Sources */,
 				CB1A47F42820BA5D00BD8184 /* PaymentButtonEdges.swift in Sources */,
 				BCFAC71A27ED04AC00C3AF00 /* PaymentButtonColor.swift in Sources */,
@@ -1448,6 +1455,7 @@
 			buildActionMask = 0;
 			files = (
 				BCFAC70E27ED043100C3AF00 /* PayPalButton_Tests.swift in Sources */,
+				AA2460000000000000000004 /* KeyboardScrollInset_Tests.swift in Sources */,
 				BCFAC70F27ED043100C3AF00 /* Coordinator_Tests.swift in Sources */,
 				CB22C018291049500097E592 /* PayPalPayLaterButton_Tests.swift in Sources */,
 				BCFAC71327ED043100C3AF00 /* PayPalCreditButton_Tests.swift in Sources */,

@@ -19,6 +19,13 @@ Common problems integrating the PayPal Mobile SDK V3.0.0 on iOS, organized by sy
 * Likely cause: wrong `environment`, or an invalid/missing `merchantID` (required in V3 and distinct from your client ID).
 * Fix: recheck `CoreConfig` — `clientID`, `merchantID`, and `.sandbox` vs `.live`.
 
+## Card form keyboard
+
+**Blank space and a second scroll indicator after the keyboard closes**
+
+* Likely cause: the keyboard inset stays on the form scroll view, and a scroll view behind it keeps a second inset.
+* Fix: put `.clearsKeyboardScrollSpace()` on the form inside the `ScrollView`. Hiding the keyboard sets that bottom inset back to zero. Add `.scrollDismissesKeyboard(.interactively)` on the `ScrollView`.
+
 ## Return and redirect
 
 **The buyer completes checkout but never returns to your app**

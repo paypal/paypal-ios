@@ -1,6 +1,11 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+
+* PaymentButtons
+  * Clear the extra bottom inset when the keyboard hides, including a scroll view behind the form, so the payment sheet does not keep a blank second scroll region. Addresses #246.
+
 ## 3.1.1 (2026-10-08)
 
 * PayPal

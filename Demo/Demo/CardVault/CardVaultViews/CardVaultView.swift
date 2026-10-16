@@ -1,4 +1,5 @@
 import SwiftUI
+import PaymentButtons
 
 struct CardVaultView: View {
 
@@ -55,8 +56,10 @@ struct CardVaultView: View {
                             }
                         }
                 }
+                .clearsKeyboardScrollSpace()
             }
         }
+        .scrollDismissesKeyboard(.interactively)
     }
 }
 
