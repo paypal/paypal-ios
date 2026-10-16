@@ -14,8 +14,10 @@ class DeviceInspector: DeviceInspectorProtocol {
         }
 
         let newDeviceID = newIdentifier.uuidString
-        saveDeviceIDtoKeychain(newDeviceID)
-        return newDeviceID
+        if saveDeviceIDtoKeychain(newDeviceID) {
+            return newDeviceID
+        }
+        return getDeviceIDFromKeychain() ?? newDeviceID
     }
 
     private func getDeviceIDFromKeychain() -> String? {
@@ -29,25 +31,44 @@ class DeviceInspector: DeviceInspectorProtocol {
 
         var item: CFTypeRef?
         let status = SecItemCopyMatching(searchQuery as CFDictionary, &item)
-        if status == errSecSuccess,
-            let existingItem = item as? [String: Any],
-            let data = existingItem[kSecValueData as String] as? Data,
-            let identifier = String(data: data, encoding: .utf8) {
-            return identifier
-        }
-        return nil
+        return Self.deviceIdentifier(fromKeychainResult: status, item: item)
     }
 
-    private func saveDeviceIDtoKeychain(_ deviceID: String) {
-        if let deviceIDData = deviceID.data(using: .utf8) {
-            let saveQuery: [String: Any] = [
-                kSecClass as String: kSecClassGenericPassword,
-                kSecAttrAccount as String: accountName,
-                kSecAttrService as String: "Service",
-                kSecValueData as String: deviceIDData,
-                kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
-            ]
-            _ = SecItemAdd(saveQuery as CFDictionary, nil)
+    /// `SecItemCopyMatching` with `kSecReturnData` returns `Data`, not a dictionary.
+    /// Reading it as a dictionary dropped the saved id and made Magnes mint a new signing key on every call.
+    static func deviceIdentifier(fromKeychainResult status: OSStatus, item: CFTypeRef?) -> String? {
+        guard status == errSecSuccess, let item else {
+            return nil
         }
+
+        let data: Data?
+        if let value = item as? Data {
+            data = value
+        } else if let dictionary = item as? [String: Any] {
+            data = dictionary[kSecValueData as String] as? Data
+        } else {
+            data = nil
+        }
+
+        guard let data, let identifier = String(data: data, encoding: .utf8), !identifier.isEmpty else {
+            return nil
+        }
+        return identifier
+    }
+
+    @discardableResult
+    private func saveDeviceIDtoKeychain(_ deviceID: String) -> Bool {
+        guard let deviceIDData = deviceID.data(using: .utf8) else {
+            return false
+        }
+        let saveQuery: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: accountName,
+            kSecAttrService as String: "Service",
+            kSecValueData as String: deviceIDData,
+            kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
+        ]
+        let status = SecItemAdd(saveQuery as CFDictionary, nil)
+        return status == errSecSuccess
     }
 }

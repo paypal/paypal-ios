@@ -13,6 +13,8 @@ class MockMagnesSDK: MagnesSDKProtocol {
     var collectDeviceDataStubs: [CollectDeviceDataArgs: MockMagnesSDKResult] = [:]
 
     var capturedSetupParams: MagnesSetupParams?
+    var collectError: Error?
+    var onCollect: (() -> Void)?
 
     func setUpWithParams(_ magnesParams: MagnesSetupParams) throws {
         capturedSetupParams = magnesParams
@@ -22,6 +24,10 @@ class MockMagnesSDK: MagnesSDKProtocol {
         withPayPalClientMetadataId cmid: String,
         withAdditionalData additionalData: [String: String]
     ) throws -> MagnesSDKResult {
+        onCollect?()
+        if let collectError {
+            throw collectError
+        }
         let args = CollectDeviceDataArgs(payPalClientMetadataId: cmid, additionalData: additionalData)
         return collectDeviceDataStubs[args] ?? MockMagnesSDKResult()
     }
