@@ -36,7 +36,7 @@ public enum PayPalError {
         case sessionCreationFailed
     }
 
-    public static let webSessionError: (Error) -> CoreSDKError = { error in
+    public static let webSessionError: @Sendable (Error) -> CoreSDKError = { error in
         CoreSDKError(
             code: Code.webSessionError.rawValue,
             domain: domain,

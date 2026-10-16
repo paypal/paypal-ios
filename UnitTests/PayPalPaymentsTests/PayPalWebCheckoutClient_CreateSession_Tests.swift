@@ -5,6 +5,7 @@ import AuthenticationServices
 @testable import TestShared
 
 // swiftlint:disable type_body_length file_length
+@MainActor
 class PayPalClient_CreateSession_Tests: XCTestCase {
 
     // MARK: - Properties
