@@ -28,6 +28,20 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AA91A0000000000000000008"
+               BuildableName = "ApplePayTests.xctest"
+               BlueprintName = "ApplePayTests"
+               ReferencedContainer = "container:PayPal.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "8034A9E226B875C90055AF13"
                BuildableName = "CorePaymentsTests.xctest"
                BlueprintName = "CorePaymentsTests"
@@ -116,6 +130,16 @@
                BlueprintIdentifier = "80E8DAE526B8785D00FAFC3F"
                BuildableName = "CardPaymentsTests.xctest"
                BlueprintName = "CardPaymentsTests"
+               ReferencedContainer = "container:PayPal.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AA91A0000000000000000008"
+               BuildableName = "ApplePayTests.xctest"
+               BlueprintName = "ApplePayTests"
                ReferencedContainer = "container:PayPal.xcodeproj">
             </BuildableReference>
          </TestableReference>

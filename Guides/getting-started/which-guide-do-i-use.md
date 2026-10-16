@@ -9,6 +9,7 @@ Use this to find the right page in the PayPal Mobile SDK V3.0.0 iOS guide set.
 | Get the SDK installed and initialized | **[Install & Setup](install-and-setup.md)** — do this first |
 | Accept a **PayPal** payment (incl. vault, Pay Later / PayPal Credit) | [PayPal Checkout](../integration-guides/paypal-checkout.md) |
 | Accept a **card** payment / ACDC (incl. vault) | [Card / ACDC](../integration-guides/card-acdc.md) |
+| Accept **Apple Pay** with the native sheet | [Apple Pay](../integration-guides/apple-pay.md) |
 | Move an existing 2.x integration to V3 | [Migrate V2 → V3](../migrate-v2-to-v3.md) |
 | Diagnose a build or integration failure | [Troubleshooting](../integration-guides/troubleshooting.md) |
 

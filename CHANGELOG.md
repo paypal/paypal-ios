@@ -1,6 +1,11 @@
 
 # PayPal iOS SDK Release Notes
 
+## unreleased
+
+* ApplePay
+  * Add native Apple Pay for PayPal Advanced Checkout. The module presents the PassKit sheet and confirms the existing order with the merchant's PayPal account. Addresses #455.
+
 ## 3.1.1 (2026-10-08)
 
 * PayPal
