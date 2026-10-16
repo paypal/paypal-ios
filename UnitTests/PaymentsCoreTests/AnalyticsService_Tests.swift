@@ -152,11 +152,14 @@ class AnalyticsService_Tests: XCTestCase {
         mockTrackingEventsAPI.stubHTTPResponse = HTTPResponse(status: 200, body: nil)
         mockTrackingEventsAPI.onSendEvent = { expectation.fulfill() }
 
-        sut.sendEvent("app-switch:started", checkoutAnalyticsData: checkoutAnalyticsData)
+        // Uses the background-protected path because its request runs at `.utility` priority. The default path runs
+        // at `.background`, which can be deferred indefinitely on a loaded CI runner and can't be observed reliably.
+        // The snapshot is taken synchronously inside `sendEvent`, before either path dispatches its task.
+        sut.sendEvent("app-switch:started", checkoutAnalyticsData: checkoutAnalyticsData, withBackgroundProtection: true)
         // Simulates handleReturnURL overwriting the URL before the background task gets scheduled
         checkoutAnalyticsData.url = returnURL
 
-        await fulfillment(of: [expectation], timeout: 2)
+        await fulfillment(of: [expectation], timeout: 10)
 
         XCTAssertEqual(mockTrackingEventsAPI.capturedAnalyticsEventData?.url, launchURL)
     }
