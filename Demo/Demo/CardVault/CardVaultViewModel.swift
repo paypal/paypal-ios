@@ -36,9 +36,9 @@ class CardVaultViewModel {
                 let verification = request.sca.rawValue
                 let paymentSource: PaymentSourceType =
                     .card(verification: verification, experienceContext: experienceContext)
+                let customerID = request.customerID
                 let response = try await api.createSetupToken(
-                    customerID: request.customerID,
-                    integration: DemoSettings.merchantIntegration,
+                    customerID: customerID,
                     paymentSource: paymentSource
                 )
                 createSetupTokenState = .loaded(response)
@@ -93,12 +93,9 @@ class CardVaultViewModel {
         if let setupTokenResult = createSetupTokenState.value {
             createPaymentTokenState = .loading
             Task {
-                let setupTokenID = setupTokenResult.id
                 do {
-                    let paymentTokenResult = try await api.createPaymentToken(
-                        setupToken: setupTokenID,
-                        integration: DemoSettings.merchantIntegration
-                    )
+                    let paymentTokenResult =
+                        try await api.createPaymentToken(setupTokenID: setupTokenResult.id)
                     createPaymentTokenState = .loaded(paymentTokenResult)
                 } catch {
                     createPaymentTokenState = .error(message: error.localizedDescription)

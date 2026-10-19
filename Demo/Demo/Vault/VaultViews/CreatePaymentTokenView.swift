@@ -26,10 +26,7 @@ struct CreatePaymentTokenView: View {
                 Button("Create Payment Token") {
                     Task {
                         do {
-                            try await vaultViewModel.getPaymentToken(
-                                setupToken: setupToken,
-                                selectedMerchantIntegration: selectedMerchantIntegration
-                            )
+                            try await vaultViewModel.getPaymentToken(setupToken: setupToken)
                         } catch {
                             print("Error in getting payment token. \(error.localizedDescription)")
                         }

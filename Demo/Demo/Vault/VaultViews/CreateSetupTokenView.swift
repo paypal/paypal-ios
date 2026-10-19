@@ -65,7 +65,6 @@ struct CreateSetupTokenView: View {
                             case .card:
                                 _ = try await vaultViewModel.fetchSetupToken(
                                     customerID: vaultViewModel.customerID.isEmpty ? nil : vaultViewModel.customerID,
-                                    selectedMerchantIntegration: selectedMerchantIntegration,
                                     paymentType: paymentType,
                                     sca: sca
                                 )
