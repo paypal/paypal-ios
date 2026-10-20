@@ -71,6 +71,7 @@
 		BC8F04BB3087AFAC00CFEDAD /* PayPalVaultViewV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8F04BA3087AFA700CFEDAD /* PayPalVaultViewV2.swift */; };
 		BC8F04BD3087B69800CFEDAD /* PayPalVaultViewModelV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8F04BC3087B69200CFEDAD /* PayPalVaultViewModelV2.swift */; };
 		BC8F04BF3087CCED00CFEDAD /* DemoUpdatePayPalSetupTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8F04BE3087CCE800CFEDAD /* DemoUpdatePayPalSetupTokenRequest.swift */; };
+		BC8F04C33087EF9900CFEDAD /* PayPalVaultResult+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8F04C23087EF9400CFEDAD /* PayPalVaultResult+Hashable.swift */; };
 		BC9D4D2227C554090089E5B1 /* LaunchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2127C554090089E5B1 /* LaunchApp.swift */; };
 		BC9D4D2427C58B8D0089E5B1 /* XCUIApplication+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */; };
 		BC9D4D2627C6D1720089E5B1 /* XCUIElement+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2527C6D1720089E5B1 /* XCUIElement+Helpers.swift */; };
@@ -166,6 +167,7 @@
 		BC8F04BA3087AFA700CFEDAD /* PayPalVaultViewV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalVaultViewV2.swift; sourceTree = "<group>"; };
 		BC8F04BC3087B69200CFEDAD /* PayPalVaultViewModelV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalVaultViewModelV2.swift; sourceTree = "<group>"; };
 		BC8F04BE3087CCE800CFEDAD /* DemoUpdatePayPalSetupTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoUpdatePayPalSetupTokenRequest.swift; sourceTree = "<group>"; };
+		BC8F04C23087EF9400CFEDAD /* PayPalVaultResult+Hashable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PayPalVaultResult+Hashable.swift"; sourceTree = "<group>"; };
 		BC9D4D1527C54F3F0089E5B1 /* DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC9D4D2127C554090089E5B1 /* LaunchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchApp.swift; sourceTree = "<group>"; };
 		BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+Helpers.swift"; sourceTree = "<group>"; };
@@ -507,6 +509,7 @@
 				BC8CEB1D306D95E8003068FE /* CardVaultResult+Hashable.swift */,
 				CB9ED44B283FDA900081F4DE /* PaymentButtonEnums+Extension.swift */,
 				BC14A9ED307849B500096A7A /* PayPalCheckoutResult+Hashable.swift */,
+				BC8F04C23087EF9400CFEDAD /* PayPalVaultResult+Hashable.swift */,
 				BCEAACBF305C4B2F00BA09FB /* SCA+CaseIterable.swift */,
 			);
 			path = Extensions;
@@ -691,6 +694,7 @@
 				BCEAACBA305C4AA300BA09FB /* SegmentedEnumPicker.swift in Sources */,
 				BCEAACBB305C4AA300BA09FB /* StepHeader.swift in Sources */,
 				BCEAACBC305C4AA300BA09FB /* ButtonWithProgress.swift in Sources */,
+				BC8F04C33087EF9900CFEDAD /* PayPalVaultResult+Hashable.swift in Sources */,
 				BE9F36D82745490400AFC7DA /* FloatingLabelTextField.swift in Sources */,
 				3B20273D2A89E3F00007907E /* CreateSetupTokenView.swift in Sources */,
 				BCEAACA4305C407C00BA09FB /* AsyncState.swift in Sources */,
