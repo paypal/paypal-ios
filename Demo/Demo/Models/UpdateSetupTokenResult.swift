@@ -1,4 +1,3 @@
-
 struct UpdateSetupTokenResult: Decodable, Equatable, Hashable {
 
     var id: String
