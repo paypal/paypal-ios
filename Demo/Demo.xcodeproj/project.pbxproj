@@ -68,6 +68,7 @@
 		BC8CEB1A306D714E003068FE /* DemoCreateCardSetupTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8CEB19306D7148003068FE /* DemoCreateCardSetupTokenRequest.swift */; };
 		BC8CEB1C306D937F003068FE /* DemoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8CEB1B306D937A003068FE /* DemoCard.swift */; };
 		BC8CEB1E306D95EE003068FE /* CardVaultResult+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8CEB1D306D95E8003068FE /* CardVaultResult+Hashable.swift */; };
+		BC8F04BB3087AFAC00CFEDAD /* PayPalVaultViewV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8F04BA3087AFA700CFEDAD /* PayPalVaultViewV2.swift */; };
 		BC9D4D2227C554090089E5B1 /* LaunchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2127C554090089E5B1 /* LaunchApp.swift */; };
 		BC9D4D2427C58B8D0089E5B1 /* XCUIApplication+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */; };
 		BC9D4D2627C6D1720089E5B1 /* XCUIElement+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2527C6D1720089E5B1 /* XCUIElement+Helpers.swift */; };
@@ -160,6 +161,7 @@
 		BC8CEB19306D7148003068FE /* DemoCreateCardSetupTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCreateCardSetupTokenRequest.swift; sourceTree = "<group>"; };
 		BC8CEB1B306D937A003068FE /* DemoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCard.swift; sourceTree = "<group>"; };
 		BC8CEB1D306D95E8003068FE /* CardVaultResult+Hashable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CardVaultResult+Hashable.swift"; sourceTree = "<group>"; };
+		BC8F04BA3087AFA700CFEDAD /* PayPalVaultViewV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalVaultViewV2.swift; sourceTree = "<group>"; };
 		BC9D4D1527C54F3F0089E5B1 /* DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC9D4D2127C554090089E5B1 /* LaunchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchApp.swift; sourceTree = "<group>"; };
 		BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+Helpers.swift"; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 		1001E2B72CF6432F0023A03C /* PayPalVault */ = {
 			isa = PBXGroup;
 			children = (
+				BC8F04BA3087AFA700CFEDAD /* PayPalVaultViewV2.swift */,
 				1001E2BC2CF644BE0023A03C /* PayPalVaultViewModel */,
 				3BB60B512B1F9EE400A298CF /* PayPalVaultViews */,
 			);
@@ -667,6 +670,7 @@
 				9A8C7ADC2FF6FD1B00471F38 /* CustomEnvironmentView.swift in Sources */,
 				BC8CEB1E306D95EE003068FE /* CardVaultResult+Hashable.swift in Sources */,
 				BECD84A227036DDB007CCAE4 /* Intent.swift in Sources */,
+				BC8F04BB3087AFAC00CFEDAD /* PayPalVaultViewV2.swift in Sources */,
 				3BB7A9772A5CA6FD00C05140 /* MerchantIntegration.swift in Sources */,
 				BC8CEB1C306D937F003068FE /* DemoCard.swift in Sources */,
 				BE1766B326F911A2007EF438 /* URLResponseError.swift in Sources */,

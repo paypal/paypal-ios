@@ -72,7 +72,7 @@ struct FeatureSelectionView: View {
                         .navigationTitle("PayPal Web")
                         .environment(PayPalPaymentViewModel())
                 case .payPalVaulting:
-                    PayPalVaultView()
+                    PayPalVaultViewV2()
                         .navigationTitle("PayPal Vaulting")
                 case .paymentButtons:
                     SwiftUIPaymentButtonDemo()
