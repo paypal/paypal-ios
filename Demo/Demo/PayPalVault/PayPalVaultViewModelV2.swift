@@ -92,7 +92,7 @@ class PayPalVaultViewModelV2 {
             ssid: request.ssid
         )
         payPalClient.createPayPalSession(
-            sessionType: .checkout,
+            sessionType: .vaultWithoutPurchase,
             userIdentity: userIdentity,
             urlConfig: urlConfig,
             userAction: request.userAction
