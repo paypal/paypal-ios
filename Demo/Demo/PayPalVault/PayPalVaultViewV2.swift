@@ -9,6 +9,10 @@ struct PayPalVaultViewV2: View {
     var isCreateSetupTokenLoading: Bool {
         viewModel.createSetupTokenState.isLoading
     }
+    
+    var isUpdateSetupTokenLoading: Bool {
+        viewModel.updateSetupTokenState.isLoading
+    }
 
     var body: some View {
         ScrollView {
@@ -19,7 +23,7 @@ struct PayPalVaultViewV2: View {
                     }
                     if let createSetupTokenResponse = viewModel.createSetupTokenState.value {
                         CreateSetupTokenResponseView(response: createSetupTokenResponse)
-                        UpdatePayPalSetupTokenForm(isLoading: false) { request in
+                        UpdatePayPalSetupTokenForm(isLoading: isUpdateSetupTokenLoading) { request in
                             viewModel.updateSetupToken(using: request)
                         }
                     }
