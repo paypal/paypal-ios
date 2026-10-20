@@ -38,23 +38,18 @@ struct UpdatePayPalSetupTokenForm: View {
     @State var request = DemoUpdatePayPalSetupTokenRequest()
 
     var body: some View {
-        VStack(spacing: 16) {
-            HStack {
-                Text("Vault PayPal")
-                    .font(.system(size: 20))
-                Spacer()
-            }
-            VStack(alignment: .leading, spacing: 8) {
-                Text("User Action")
-                    .font(.subheadline)
-                    .foregroundColor(.primary)
-                Picker("User Action", selection: $request.userAction) {
-                    ForEach(userActions, id: \.self) {
-                        Text($0.title).tag($0)
-                    }
+        FormGroup {
+            Text("Vault PayPal")
+                .font(.system(size: 20))
+            Text("User Action")
+                .font(.subheadline)
+                .foregroundColor(.primary)
+            Picker("User Action", selection: $request.userAction) {
+                ForEach(userActions, id: \.self) {
+                    Text($0.title).tag($0)
                 }
-                .pickerStyle(SegmentedPickerStyle())
             }
+            .pickerStyle(SegmentedPickerStyle())
             UserIdentityView(
                 selectedUserIdentity: $request.userIdentity,
                 email: $request.email,
