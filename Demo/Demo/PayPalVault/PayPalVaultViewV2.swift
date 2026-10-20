@@ -91,7 +91,6 @@ struct PayPalVaultResultView: View {
             LeadingText("Approval Session ID", weight: .bold)
             LeadingText("\(result.approvalSessionID)")
         }
-        .frame(maxWidth: .infinity)
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 10)
