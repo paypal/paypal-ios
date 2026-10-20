@@ -5,7 +5,7 @@ import CorePayments
 
 @MainActor
 @Observable
-class PayPalVaultViewModelV2 {
+class PayPalVaultViewModel {
     
     // MARK: Private Properties
     private let api = DemoMerchantAPI.shared

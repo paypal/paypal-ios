@@ -60,8 +60,8 @@
 		BC8CEB1A306D714E003068FE /* DemoCreateCardSetupTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8CEB19306D7148003068FE /* DemoCreateCardSetupTokenRequest.swift */; };
 		BC8CEB1C306D937F003068FE /* DemoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8CEB1B306D937A003068FE /* DemoCard.swift */; };
 		BC8CEB1E306D95EE003068FE /* CardVaultResult+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8CEB1D306D95E8003068FE /* CardVaultResult+Hashable.swift */; };
-		BC8F04BB3087AFAC00CFEDAD /* PayPalVaultViewV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8F04BA3087AFA700CFEDAD /* PayPalVaultViewV2.swift */; };
-		BC8F04BD3087B69800CFEDAD /* PayPalVaultViewModelV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8F04BC3087B69200CFEDAD /* PayPalVaultViewModelV2.swift */; };
+		BC8F04BB3087AFAC00CFEDAD /* PayPalVaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8F04BA3087AFA700CFEDAD /* PayPalVaultView.swift */; };
+		BC8F04BD3087B69800CFEDAD /* PayPalVaultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8F04BC3087B69200CFEDAD /* PayPalVaultViewModel.swift */; };
 		BC8F04BF3087CCED00CFEDAD /* DemoUpdatePayPalSetupTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8F04BE3087CCE800CFEDAD /* DemoUpdatePayPalSetupTokenRequest.swift */; };
 		BC8F04C33087EF9900CFEDAD /* PayPalVaultResult+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8F04C23087EF9400CFEDAD /* PayPalVaultResult+Hashable.swift */; };
 		BC8F04C53087FA5700CFEDAD /* UpdateSetupTokenResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8F04C43087FA5100CFEDAD /* UpdateSetupTokenResult.swift */; };
@@ -149,8 +149,8 @@
 		BC8CEB19306D7148003068FE /* DemoCreateCardSetupTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCreateCardSetupTokenRequest.swift; sourceTree = "<group>"; };
 		BC8CEB1B306D937A003068FE /* DemoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCard.swift; sourceTree = "<group>"; };
 		BC8CEB1D306D95E8003068FE /* CardVaultResult+Hashable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CardVaultResult+Hashable.swift"; sourceTree = "<group>"; };
-		BC8F04BA3087AFA700CFEDAD /* PayPalVaultViewV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalVaultViewV2.swift; sourceTree = "<group>"; };
-		BC8F04BC3087B69200CFEDAD /* PayPalVaultViewModelV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalVaultViewModelV2.swift; sourceTree = "<group>"; };
+		BC8F04BA3087AFA700CFEDAD /* PayPalVaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalVaultView.swift; sourceTree = "<group>"; };
+		BC8F04BC3087B69200CFEDAD /* PayPalVaultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalVaultViewModel.swift; sourceTree = "<group>"; };
 		BC8F04BE3087CCE800CFEDAD /* DemoUpdatePayPalSetupTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoUpdatePayPalSetupTokenRequest.swift; sourceTree = "<group>"; };
 		BC8F04C23087EF9400CFEDAD /* PayPalVaultResult+Hashable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PayPalVaultResult+Hashable.swift"; sourceTree = "<group>"; };
 		BC8F04C43087FA5100CFEDAD /* UpdateSetupTokenResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSetupTokenResult.swift; sourceTree = "<group>"; };
@@ -235,8 +235,8 @@
 		1001E2B72CF6432F0023A03C /* PayPalVault */ = {
 			isa = PBXGroup;
 			children = (
-				BC8F04BC3087B69200CFEDAD /* PayPalVaultViewModelV2.swift */,
-				BC8F04BA3087AFA700CFEDAD /* PayPalVaultViewV2.swift */,
+				BC8F04BC3087B69200CFEDAD /* PayPalVaultViewModel.swift */,
+				BC8F04BA3087AFA700CFEDAD /* PayPalVaultView.swift */,
 			);
 			path = PayPalVault;
 			sourceTree = "<group>";
@@ -600,7 +600,7 @@
 				BE8117682B080472009867B9 /* CurrentState.swift in Sources */,
 				BC14A9EC307844C300096A7A /* DemoApproveOrderWithPayPalRequest.swift in Sources */,
 				3BDB348E2A7CB02C008100D7 /* CreateSetupTokenParam.swift in Sources */,
-				BC8F04BD3087B69800CFEDAD /* PayPalVaultViewModelV2.swift in Sources */,
+				BC8F04BD3087B69800CFEDAD /* PayPalVaultViewModel.swift in Sources */,
 				80F33CF326F8EA50006811B1 /* DemoSettings.swift in Sources */,
 				BC8CEB1A306D714E003068FE /* DemoCreateCardSetupTokenRequest.swift in Sources */,
 				3BA5700B2AA13C1C0081D14F /* CoreConfigManager.swift in Sources */,
@@ -615,7 +615,7 @@
 				9A8C7ADC2FF6FD1B00471F38 /* CustomEnvironmentView.swift in Sources */,
 				BC8CEB1E306D95EE003068FE /* CardVaultResult+Hashable.swift in Sources */,
 				BECD84A227036DDB007CCAE4 /* Intent.swift in Sources */,
-				BC8F04BB3087AFAC00CFEDAD /* PayPalVaultViewV2.swift in Sources */,
+				BC8F04BB3087AFAC00CFEDAD /* PayPalVaultView.swift in Sources */,
 				3BB7A9772A5CA6FD00C05140 /* MerchantIntegration.swift in Sources */,
 				BC8CEB1C306D937F003068FE /* DemoCard.swift in Sources */,
 				BE1766B326F911A2007EF438 /* URLResponseError.swift in Sources */,

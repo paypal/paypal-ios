@@ -1,9 +1,9 @@
 import SwiftUI
 import PayPalPayments
 
-struct PayPalVaultViewV2: View {
+struct PayPalVaultView: View {
     
-    @Environment(PayPalVaultViewModelV2.self)
+    @Environment(PayPalVaultViewModel.self)
     var viewModel
     
     var isCreateSetupTokenLoading: Bool {
