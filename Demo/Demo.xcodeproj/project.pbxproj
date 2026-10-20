@@ -270,7 +270,6 @@
 		3B2501052B2679F000903EAB /* VaultViews */ = {
 			isa = PBXGroup;
 			children = (
-				BC281B55306FFB9A0026566D /* PaymentTokenResponseView.swift */,
 			);
 			path = VaultViews;
 			sourceTree = "<group>";
@@ -291,6 +290,7 @@
 				BE5898942B2B91F800AA196E /* LabelViewText.swift */,
 				3BC622082A97198500251B85 /* LeadingText.swift */,
 				BCEAACB3305C4AA300BA09FB /* OrderView.swift */,
+				BC281B55306FFB9A0026566D /* PaymentTokenResponseView.swift */,
 				3BC622062A97115700251B85 /* RoundedBlueButtonStyle.swift */,
 				BCEAACB4305C4AA300BA09FB /* ScrollAnchor.swift */,
 				BCEAACB5305C4AA300BA09FB /* SegmentedEnumPicker.swift */,
