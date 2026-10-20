@@ -1,5 +1,5 @@
 import Foundation
-import AuthenticationServices
+@preconcurrency import AuthenticationServices
 
 @_documentation(visibility: private)
 public class WebAuthenticationSession: NSObject {
@@ -7,9 +7,9 @@ public class WebAuthenticationSession: NSObject {
     public func start(
         url: URL,
         context: ASWebAuthenticationPresentationContextProviding,
-        sessionDidDisplay: @escaping (Bool) -> Void,
-        sessionDidCancel: (() -> Void)? = nil,
-        sessionDidComplete: @escaping (URL?, Error?) -> Void
+        sessionDidDisplay: @escaping @Sendable (Bool) -> Void,
+        sessionDidCancel: (@Sendable () -> Void)? = nil,
+        sessionDidComplete: @escaping @Sendable (URL?, Error?) -> Void
     ) {
         let authenticationSession = ASWebAuthenticationSession(
             url: url,

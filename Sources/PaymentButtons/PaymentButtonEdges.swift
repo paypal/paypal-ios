@@ -15,6 +15,7 @@ public enum PaymentButtonEdges: Equatable {
     /// Custom corner radius.
     case custom(CGFloat)
 
+    @MainActor
     func cornerRadius(for view: UIView) -> CGFloat {
         switch self {
         case .hardEdges:
