@@ -14,7 +14,7 @@ struct PayPalVaultView: View {
                         paymentType: .paypal
                     )
                     SetupTokenResultView(vaultViewModel: paypalVaultViewModel)
-                    PayPalVaultResultView(viewModel: paypalVaultViewModel)
+                    PayPalVaultResultViewLegacy(viewModel: paypalVaultViewModel)
                     if let paypalVaultResult = paypalVaultViewModel.state.paypalVaultToken {
                         CreatePaymentTokenView(
                             vaultViewModel: paypalVaultViewModel,

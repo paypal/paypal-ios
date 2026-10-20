@@ -23,8 +23,14 @@ struct PayPalVaultViewV2: View {
                             viewModel.updateSetupToken(using: request)
                         }
                     }
+                    if let updateSetupTokenResponse = viewModel.updateSetupTokenState.value {
+                        PayPalVaultResultView(result: updateSetupTokenResponse)
+                    }
                 }
             }
+        }
+        .onOpenURL { url in
+            viewModel.handleUniveralLink(url)
         }
     }
 }
@@ -60,5 +66,33 @@ struct UpdatePayPalSetupTokenForm: View {
                 onSubmit(request)
             }
         }
+    }
+}
+
+struct PayPalVaultResultView: View {
+    
+    let result: PayPalVaultResult
+    
+    var body: some View {
+        VStack(spacing: 16) {
+            HStack {
+                Text("Vault Success")
+                    .font(.system(size: 20))
+                Spacer()
+            }
+            LeadingText("ID", weight: .bold)
+            LeadingText("\(result.tokenID)")
+            LeadingText("Status", weight: .bold)
+            LeadingText("APPROVED")
+            LeadingText("Approval Session ID", weight: .bold)
+            LeadingText("\(result.approvalSessionID)")
+        }
+        .frame(maxWidth: .infinity)
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(.gray, lineWidth: 2)
+                .padding(5)
+        )
     }
 }

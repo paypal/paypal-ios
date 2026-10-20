@@ -53,7 +53,7 @@ class PayPalVaultViewModelV2 {
                 updateSetupTokenState = .loaded(result)
             } catch {
                 if error as? CoreSDKError == PayPalError.checkoutCanceledError {
-                    updateSetupTokenState = .error(message: "PayPal checkout was canceled.")
+                    updateSetupTokenState = .error(message: "PayPal vault was canceled.")
                 } else {
                     updateSetupTokenState = .error(message: error.localizedDescription)
                 }
@@ -61,6 +61,10 @@ class PayPalVaultViewModelV2 {
         }
     }
     
+    func handleUniveralLink(_ url: URL) {
+        payPalClient.handleReturnURL(url)
+    }
+
     private func startPayPalVault(withSetupTokenID setupTokenID: String) async throws -> PayPalVaultResult {
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<PayPalVaultResult, Error>) in
             payPalClient.vault(setupTokenID: setupTokenID) { result in
