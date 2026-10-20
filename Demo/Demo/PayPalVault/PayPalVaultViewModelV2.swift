@@ -16,6 +16,12 @@ class PayPalVaultViewModelV2 {
     // MARK: Observable Properties
     var createSetupTokenState: AsyncState<CreateSetupTokenResponse> = .idle
     var updateSetupTokenState: AsyncState<PayPalVaultResult> = .idle
+    var createPaymentTokenState: AsyncState<PaymentTokenResponse> = .idle
+    
+    // this is used to track changes and drive the scroll-to-bottom animation
+    var stateHash: Int {
+        return hash(createSetupTokenState, updateSetupTokenState, createPaymentTokenState)
+    }
 
     // MARK: Initializers
     init() {
@@ -61,6 +67,23 @@ class PayPalVaultViewModelV2 {
         }
     }
     
+    func createPaymentToken() {
+        guard let setupTokenID = createSetupTokenState.value?.id else {
+            createPaymentTokenState = .error(message: "Setup Token Required.")
+            return
+        }
+
+        createPaymentTokenState = .loading
+        Task {
+            do {
+                let result = try await api.createPaymentToken(setupTokenID: setupTokenID)
+                createPaymentTokenState = .loaded(result)
+            } catch {
+                createPaymentTokenState = .error(message: error.localizedDescription)
+            }
+        }
+    }
+
     func handleUniveralLink(_ url: URL) {
         payPalClient.handleReturnURL(url)
     }

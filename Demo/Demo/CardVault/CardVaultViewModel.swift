@@ -82,19 +82,19 @@ class CardVaultViewModel {
     }
     
     func createPaymentToken() {
-        if let setupTokenResult = createSetupTokenState.value {
-            createPaymentTokenState = .loading
-            Task {
-                do {
-                    let paymentTokenResult =
-                        try await api.createPaymentToken(setupTokenID: setupTokenResult.id)
-                    createPaymentTokenState = .loaded(paymentTokenResult)
-                } catch {
-                    createPaymentTokenState = .error(message: error.localizedDescription)
-                }
-            }
-        } else {
+        guard let setupTokenID = createSetupTokenState.value?.id else {
             createPaymentTokenState = .error(message: "Setup Token Required.")
+            return
+        }
+        
+        createPaymentTokenState = .loading
+        Task {
+            do {
+                let result = try await api.createPaymentToken(setupTokenID: setupTokenID)
+                createPaymentTokenState = .loaded(result)
+            } catch {
+                createPaymentTokenState = .error(message: error.localizedDescription)
+            }
         }
     }
 }

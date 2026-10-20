@@ -13,10 +13,14 @@ struct PayPalVaultViewV2: View {
     var isUpdateSetupTokenLoading: Bool {
         viewModel.updateSetupTokenState.isLoading
     }
+    
+    var isCreatePaymentTokenLoading: Bool {
+        viewModel.createPaymentTokenState.isLoading
+    }
 
     var body: some View {
         ScrollView {
-            ScrollViewReader { scrollView in
+            ScrollViewReader { proxy in
                 VStack(spacing: 16) {
                     CreateCardSetupTokenForm(isLoading: isCreateSetupTokenLoading) { request in
                         viewModel.createSetupToken(using: request)
@@ -29,6 +33,18 @@ struct PayPalVaultViewV2: View {
                     }
                     if let updateSetupTokenResponse = viewModel.updateSetupTokenState.value {
                         PayPalVaultResultView(result: updateSetupTokenResponse)
+                        CreatePaymentTokenForm(isLoading: isCreatePaymentTokenLoading) {
+                            viewModel.createPaymentToken()
+                        }
+                    }
+                    if let paymentTokenResponse = viewModel.createPaymentTokenState.value {
+                        PaymentTokenResponseView(response: paymentTokenResponse)
+                    }
+                    ScrollAnchor(id: "bottomAnchor")
+                }
+                .onChange(of: viewModel.stateHash) {
+                    withAnimation {
+                        proxy.scrollTo("bottomAnchor")
                     }
                 }
             }
