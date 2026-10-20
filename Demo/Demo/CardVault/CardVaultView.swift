@@ -29,7 +29,7 @@ struct CardVaultView: View {
                     }
                     if let createSetupTokenResponse = viewModel.createSetupTokenState.value {
                         CreateSetupTokenResponseView(response: createSetupTokenResponse)
-                        UpdateSetupTokenForm(isLoading: isUpdateSetupTokenLoading) { card in
+                        UpdateCardSetupTokenForm(isLoading: isUpdateSetupTokenLoading) { card in
                             viewModel.updateSetupToken(with: card)
                         }
                     }
@@ -54,7 +54,7 @@ struct CardVaultView: View {
     }
 }
 
-struct UpdateSetupTokenForm: View {
+struct UpdateCardSetupTokenForm: View {
     
     let isLoading: Bool
     let onSubmit: (_ card: Card) -> Void

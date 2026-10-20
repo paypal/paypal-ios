@@ -13,7 +13,7 @@ class PayPalVaultViewModelV2 {
     var createSetupTokenState: AsyncState<CreateSetupTokenResponse> = .idle
 
     // MARK: Methods
-    func createSetupToken(with request: DemoCreateCardSetupTokenRequest) {
+    func createSetupToken(using request: DemoCreateCardSetupTokenRequest) {
         createSetupTokenState = .loading
         Task {
             do {
@@ -23,5 +23,9 @@ class PayPalVaultViewModelV2 {
                 createSetupTokenState = .error(message: error.localizedDescription)
             }
         }
+    }
+    
+    func updateSetupToken(using request: DemoUpdatePayPalSetupTokenRequest) {
+        
     }
 }
