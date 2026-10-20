@@ -32,15 +32,7 @@ class CardVaultViewModel {
         createSetupTokenState = .loading
         Task {
             do {
-                let experienceContext = VaultExperienceContext()
-                let verification = request.sca.rawValue
-                let paymentSource: PaymentSourceType =
-                    .card(verification: verification, experienceContext: experienceContext)
-                let customerID = request.customerID
-                let response = try await api.createSetupToken(
-                    customerID: customerID,
-                    paymentSource: paymentSource
-                )
+                let response = try await api.createSetupToken(using: request)
                 createSetupTokenState = .loaded(response)
             } catch {
                 createSetupTokenState = .error(message: error.localizedDescription)

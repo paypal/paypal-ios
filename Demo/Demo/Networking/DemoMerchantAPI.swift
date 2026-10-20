@@ -42,6 +42,17 @@ final class DemoMerchantAPI {
     static let shared = DemoMerchantAPI()
 
     private init() {}
+    
+    func createSetupToken(
+        using request: DemoCreateCardSetupTokenRequest
+    ) async throws -> CreateSetupTokenResponse {
+        let experienceContext = VaultExperienceContext()
+        let verification = request.sca.rawValue
+        let paymentSource: PaymentSourceType =
+            .card(verification: verification, experienceContext: experienceContext)
+        let customerID = request.customerID
+        return try await createSetupToken(customerID: customerID, paymentSource: paymentSource)
+    }
 
     func createSetupToken(
         customerID: String? = nil,

@@ -8,7 +8,6 @@ import FraudProtection
 class PayPalPaymentViewModel {
     
     let api = DemoMerchantAPI.shared
-
     var orderIntent: Intent = .authorize
     
     var createOrderState: AsyncState<Order> = .idle
