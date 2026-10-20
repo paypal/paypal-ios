@@ -32,7 +32,7 @@ class CardVaultViewModel {
         createSetupTokenState = .loading
         Task {
             do {
-                let response = try await api.createSetupToken(using: request)
+                let response = try await api.createCardSetupToken(using: request)
                 createSetupTokenState = .loaded(response)
             } catch {
                 createSetupTokenState = .error(message: error.localizedDescription)
