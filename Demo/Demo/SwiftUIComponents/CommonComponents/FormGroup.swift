@@ -13,6 +13,5 @@ struct FormGroup<Content: View>: View {
                     .stroke(.gray, lineWidth: 2)
                     .padding(8)
             )
-            .frame(width: .infinity)
     }
 }
