@@ -1,9 +1,8 @@
 import Foundation
 import CardPayments
 
-// TODO: rename to DemoCreateSetupTokenRequest
 @Observable
-class DemoCreateCardSetupTokenRequest {
+class DemoCreateSetupTokenRequest {
     
     var sca: SCA = .scaAlways
     var customerID = ""
