@@ -58,7 +58,7 @@ class PayPalVaultViewModel {
                 let result = try await startPayPalVault(withSetupTokenID: setupTokenID)
                 updateSetupTokenState = .loaded(result)
             } catch {
-                if error as? CoreSDKError == PayPalError.checkoutCanceledError {
+                if error as? CoreSDKError == PayPalError.vaultCanceledError {
                     updateSetupTokenState = .error(message: "PayPal vault was canceled.")
                 } else {
                     updateSetupTokenState = .error(message: error.localizedDescription)
