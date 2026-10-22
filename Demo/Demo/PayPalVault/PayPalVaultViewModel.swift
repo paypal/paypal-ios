@@ -102,12 +102,7 @@ class PayPalVaultViewModel {
     }
 
     private func initiatePayPalSession(using request: DemoUpdatePayPalSetupTokenRequest) throws {
-        let urlConfig: PayPalURLConfig
-        do {
-            urlConfig = try ShopperSessionURLConfigFactory.makeURLConfig()
-        } catch {
-            throw error
-        }
+        let urlConfig = try ShopperSessionURLConfigFactory.makeURLConfig()
         let userIdentity = UserIdentityFactory.makeUserIdentity(
             selection: request.userIdentity,
             email: request.email,
