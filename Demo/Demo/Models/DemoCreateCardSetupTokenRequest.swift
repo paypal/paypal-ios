@@ -2,7 +2,7 @@ import Foundation
 import CardPayments
 
 @Observable
-class DemoCreateCardSetupToken {
+class DemoCreateCardSetupTokenRequest {
     
     var sca: SCA = .scaAlways
     var customerID = ""

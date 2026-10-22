@@ -33,7 +33,7 @@ class PayPalVaultViewModel {
     }
 
     // MARK: Methods
-    func createSetupToken(using request: DemoCreatePayPalSetupToken) {
+    func createSetupToken(using request: DemoCreatePayPalSetupTokenRequest) {
         createSetupTokenState = .loading
         Task {
             do {

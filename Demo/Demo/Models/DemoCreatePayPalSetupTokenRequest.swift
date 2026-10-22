@@ -1,7 +1,7 @@
 import Foundation
 
 @Observable
-class DemoCreatePayPalSetupToken {
+class DemoCreatePayPalSetupTokenRequest {
     
     var customerID = ""
 }
