@@ -22,7 +22,7 @@ struct PayPalVaultView: View {
         ScrollView {
             ScrollViewReader { proxy in
                 VStack(spacing: 16) {
-                    CreateCardSetupTokenForm(isLoading: isCreateSetupTokenLoading) { request in
+                    CreatePayPalSetupTokenForm(isLoading: isCreateSetupTokenLoading) { request in
                         viewModel.createSetupToken(using: request)
                     }
                     if let createSetupTokenResponse = viewModel.createSetupTokenState.value {

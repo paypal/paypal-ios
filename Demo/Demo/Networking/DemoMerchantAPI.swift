@@ -55,7 +55,7 @@ final class DemoMerchantAPI {
     }
     
     func createPayPalSetupToken(
-        using request: DemoCreateCardSetupToken
+        using request: DemoCreatePayPalSetupToken
     ) async throws -> CreateSetupTokenResponse {
         let appSwitchURL = DemoSettings.environment.returnBaseURL
         let experienceContext =
