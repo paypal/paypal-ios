@@ -102,8 +102,6 @@ struct PayPalVaultResultView: View {
             }
             LeadingText("ID", weight: .bold)
             LeadingText("\(result.tokenID)")
-            LeadingText("Status", weight: .bold)
-            LeadingText("APPROVED")
             LeadingText("Approval Session ID", weight: .bold)
             LeadingText("\(result.approvalSessionID)")
         }
