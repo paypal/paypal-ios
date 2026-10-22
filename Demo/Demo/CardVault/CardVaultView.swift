@@ -100,7 +100,7 @@ struct UpdateCardSetupTokenForm: View {
 
 struct UpdateSetupTokenResultView: View {
     
-    let result: UpdateSetupTokenResult
+    let result: CardVaultResult
 
     var body: some View {
         VStack(spacing: 16) {
@@ -110,7 +110,7 @@ struct UpdateSetupTokenResultView: View {
                 Spacer()
             }
             LeadingText("ID", weight: .bold)
-            LeadingText("\(result.id)")
+            LeadingText("\(result.setupTokenID)")
             if let status = result.status {
                 LeadingText("status", weight: .bold)
                 LeadingText("\(status)")

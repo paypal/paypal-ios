@@ -12,7 +12,7 @@ class CardVaultViewModel {
     
     // MARK: Observable Properties
     var createSetupTokenState: AsyncState<CreateSetupTokenResponse> = .idle
-    var updateSetupTokenState: AsyncState<UpdateSetupTokenResult> = .idle
+    var updateSetupTokenState: AsyncState<CardVaultResult> = .idle
     var createPaymentTokenState: AsyncState<PaymentTokenResponse> = .idle
     
     // this is used to track changes and drive the scroll-to-bottom animation
@@ -60,17 +60,7 @@ class CardVaultViewModel {
     private func captureVaultResult(_ vaultResult: Result<CardVaultResult, CoreSDKError>) {
         switch vaultResult {
         case .success(let vaultResult):
-            let didAttemptThreeDSecureAuthentication =
-                vaultResult.didAttemptThreeDSecureAuthentication
-            updateSetupTokenState = .loaded(
-                // TODO: determine if this type is actually needed; we should be able to forward
-                // the SDK type instead here
-                UpdateSetupTokenResult(
-                    id: vaultResult.setupTokenID,
-                    status: vaultResult.status,
-                    didAttemptThreeDSecureAuthentication: didAttemptThreeDSecureAuthentication
-                )
-            )
+            updateSetupTokenState = .loaded(vaultResult)
         case .failure(let error):
             if error == CardError.threeDSecureCanceledError {
                 updateSetupTokenState = .idle
