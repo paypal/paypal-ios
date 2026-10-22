@@ -29,7 +29,7 @@ struct CardVaultView: View {
                     }
                     if let createSetupTokenResponse = viewModel.createSetupTokenState.value {
                         CreateSetupTokenResponseView(response: createSetupTokenResponse)
-                        UpdateSetupTokenForm(isLoading: isUpdateSetupTokenLoading) { card in
+                        UpdateCardSetupTokenForm(isLoading: isUpdateSetupTokenLoading) { card in
                             viewModel.updateSetupToken(with: card)
                         }
                     }
@@ -54,7 +54,7 @@ struct CardVaultView: View {
     }
 }
 
-struct UpdateSetupTokenForm: View {
+struct UpdateCardSetupTokenForm: View {
     
     let isLoading: Bool
     let onSubmit: (_ card: Card) -> Void
@@ -100,7 +100,7 @@ struct UpdateSetupTokenForm: View {
 
 struct UpdateSetupTokenResultView: View {
     
-    let result: UpdateSetupTokenResult
+    let result: CardVaultResult
 
     var body: some View {
         VStack(spacing: 16) {
@@ -110,7 +110,7 @@ struct UpdateSetupTokenResultView: View {
                 Spacer()
             }
             LeadingText("ID", weight: .bold)
-            LeadingText("\(result.id)")
+            LeadingText("\(result.setupTokenID)")
             if let status = result.status {
                 LeadingText("status", weight: .bold)
                 LeadingText("\(status)")

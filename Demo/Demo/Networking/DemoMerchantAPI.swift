@@ -42,8 +42,31 @@ final class DemoMerchantAPI {
     static let shared = DemoMerchantAPI()
 
     private init() {}
-
+    
     func createSetupToken(
+        using request: DemoCreateCardSetupTokenRequest
+    ) async throws -> CreateSetupTokenResponse {
+        let experienceContext = VaultExperienceContext()
+        let verification = request.sca.rawValue
+        return try await createSetupToken(
+            customerID: request.customerID,
+            paymentSource: .card(verification: verification, experienceContext: experienceContext)
+        )
+    }
+    
+    func createSetupToken(
+        using request: DemoCreatePayPalSetupTokenRequest
+    ) async throws -> CreateSetupTokenResponse {
+        let appSwitchURL = DemoSettings.environment.returnBaseURL
+        let experienceContext =
+            VaultExperienceContext(appSwitchContext: AppSwitchContext(appUrl: appSwitchURL))
+        return try await createSetupToken(
+            customerID: request.customerID,
+            paymentSource: .paypal(usageType: "MERCHANT", experienceContext: experienceContext)
+        )
+    }
+    
+    private func createSetupToken(
         customerID: String? = nil,
         paymentSource: PaymentSourceType
     ) async throws -> CreateSetupTokenResponse {

@@ -12,7 +12,7 @@ class CardVaultViewModel {
     
     // MARK: Observable Properties
     var createSetupTokenState: AsyncState<CreateSetupTokenResponse> = .idle
-    var updateSetupTokenState: AsyncState<UpdateSetupTokenResult> = .idle
+    var updateSetupTokenState: AsyncState<CardVaultResult> = .idle
     var createPaymentTokenState: AsyncState<PaymentTokenResponse> = .idle
     
     // this is used to track changes and drive the scroll-to-bottom animation
@@ -32,15 +32,7 @@ class CardVaultViewModel {
         createSetupTokenState = .loading
         Task {
             do {
-                let experienceContext = VaultExperienceContext()
-                let verification = request.sca.rawValue
-                let paymentSource: PaymentSourceType =
-                    .card(verification: verification, experienceContext: experienceContext)
-                let customerID = request.customerID
-                let response = try await api.createSetupToken(
-                    customerID: customerID,
-                    paymentSource: paymentSource
-                )
+                let response = try await api.createSetupToken(using: request)
                 createSetupTokenState = .loaded(response)
             } catch {
                 createSetupTokenState = .error(message: error.localizedDescription)
@@ -68,17 +60,7 @@ class CardVaultViewModel {
     private func captureVaultResult(_ vaultResult: Result<CardVaultResult, CoreSDKError>) {
         switch vaultResult {
         case .success(let vaultResult):
-            let didAttemptThreeDSecureAuthentication =
-                vaultResult.didAttemptThreeDSecureAuthentication
-            updateSetupTokenState = .loaded(
-                // TODO: determine if this type is actually needed; we should be able to forward
-                // the SDK type instead here
-                UpdateSetupTokenResult(
-                    id: vaultResult.setupTokenID,
-                    status: vaultResult.status,
-                    didAttemptThreeDSecureAuthentication: didAttemptThreeDSecureAuthentication
-                )
-            )
+            updateSetupTokenState = .loaded(vaultResult)
         case .failure(let error):
             if error == CardError.threeDSecureCanceledError {
                 updateSetupTokenState = .idle
@@ -90,19 +72,19 @@ class CardVaultViewModel {
     }
     
     func createPaymentToken() {
-        if let setupTokenResult = createSetupTokenState.value {
-            createPaymentTokenState = .loading
-            Task {
-                do {
-                    let paymentTokenResult =
-                        try await api.createPaymentToken(setupTokenID: setupTokenResult.id)
-                    createPaymentTokenState = .loaded(paymentTokenResult)
-                } catch {
-                    createPaymentTokenState = .error(message: error.localizedDescription)
-                }
-            }
-        } else {
+        guard let setupTokenID = createSetupTokenState.value?.id else {
             createPaymentTokenState = .error(message: "Setup Token Required.")
+            return
+        }
+        
+        createPaymentTokenState = .loading
+        Task {
+            do {
+                let result = try await api.createPaymentToken(setupTokenID: setupTokenID)
+                createPaymentTokenState = .loaded(result)
+            } catch {
+                createPaymentTokenState = .error(message: error.localizedDescription)
+            }
         }
     }
 }
