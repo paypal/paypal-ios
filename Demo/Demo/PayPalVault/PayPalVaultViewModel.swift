@@ -84,7 +84,7 @@ class PayPalVaultViewModel {
         }
     }
 
-    func handleUniveralLink(_ url: URL) {
+    func handleUniversalLink(_ url: URL) {
         payPalClient.handleReturnURL(url)
     }
 

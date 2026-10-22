@@ -50,7 +50,7 @@ struct PayPalVaultView: View {
             }
         }
         .onOpenURL { url in
-            viewModel.handleUniveralLink(url)
+            viewModel.handleUniversalLink(url)
         }
     }
 }
