@@ -37,7 +37,7 @@ class PayPalVaultViewModel {
         createSetupTokenState = .loading
         Task {
             do {
-                let response = try await api.createPayPalSetupToken(using: request)
+                let response = try await api.createSetupToken(using: request)
                 createSetupTokenState = .loaded(response)
             } catch {
                 createSetupTokenState = .error(message: error.localizedDescription)
