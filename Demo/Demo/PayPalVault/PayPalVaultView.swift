@@ -60,7 +60,7 @@ struct UpdatePayPalSetupTokenForm: View {
     let isLoading: Bool
     let onSubmit: (_ request: DemoUpdatePayPalSetupTokenRequest) -> Void
     
-    let userActions: [PayPalUserAction] = [.payNow, .continue]
+    let userActions: [PayPalUserAction] = [.setupNow, .continue]
     @State var request = DemoUpdatePayPalSetupTokenRequest()
 
     var body: some View {
