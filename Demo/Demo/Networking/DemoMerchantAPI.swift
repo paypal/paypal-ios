@@ -44,7 +44,7 @@ final class DemoMerchantAPI {
     private init() {}
     
     func createCardSetupToken(
-        using request: DemoCreateSetupTokenRequest
+        using request: DemoCreateCardSetupToken
     ) async throws -> CreateSetupTokenResponse {
         let experienceContext = VaultExperienceContext()
         let verification = request.sca.rawValue
@@ -55,7 +55,7 @@ final class DemoMerchantAPI {
     }
     
     func createPayPalSetupToken(
-        using request: DemoCreateSetupTokenRequest
+        using request: DemoCreateCardSetupToken
     ) async throws -> CreateSetupTokenResponse {
         let appSwitchURL = DemoSettings.environment.returnBaseURL
         let experienceContext =

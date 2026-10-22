@@ -4,9 +4,9 @@ import PayPalPayments
 struct CreateCardSetupTokenForm: View {
 
     let isLoading: Bool
-    let onSubmit: (_ request: DemoCreateSetupTokenRequest) -> Void
+    let onSubmit: (_ request: DemoCreateCardSetupToken) -> Void
 
-    @State var request = DemoCreateSetupTokenRequest()
+    @State var request = DemoCreateCardSetupToken()
     
     var body: some View {
         VStack(spacing: 16) {

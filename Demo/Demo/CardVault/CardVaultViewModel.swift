@@ -28,7 +28,7 @@ class CardVaultViewModel {
     }
 
     // MARK: Methods
-    func createSetupToken(with request: DemoCreateSetupTokenRequest) {
+    func createSetupToken(with request: DemoCreateCardSetupToken) {
         createSetupTokenState = .loading
         Task {
             do {
