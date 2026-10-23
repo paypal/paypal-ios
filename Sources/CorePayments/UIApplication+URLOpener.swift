@@ -8,6 +8,8 @@ public protocol URLOpener {
         universalLinksOnly: Bool,
         completionHandler completion: (@Sendable (Bool) -> Void)?
     )
+
+    func isVenmoAppInstalled() -> Bool
 }
 
 public extension URLOpener {
@@ -18,6 +20,13 @@ public extension URLOpener {
 }
 
 extension UIApplication: URLOpener {
+
+    public func isVenmoAppInstalled() -> Bool {
+        guard let venmoURL = URL(string: "com.venmo.touch.v2://") else {
+            return false
+        }
+        return canOpenURL(venmoURL)
+    }
 
     public func open(
         _ url: URL,

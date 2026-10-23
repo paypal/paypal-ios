@@ -4,6 +4,7 @@ import Foundation
 class MockURLOpener: URLOpener {
 
     var mockIsPayPalAppInstalled = false
+    var mockIsVenmoAppInstalled = false
     var mockOpenURLSuccess = true
     var lastOpenedURL: URL?
     var lastUniversalLinksOnly: Bool?
@@ -13,7 +14,11 @@ class MockURLOpener: URLOpener {
     func isPayPalAppInstalled() -> Bool {
         mockIsPayPalAppInstalled
     }
-    
+
+    func isVenmoAppInstalled() -> Bool {
+        mockIsVenmoAppInstalled
+    }
+
     func open(_ url: URL, universalLinksOnly: Bool, completionHandler completion: ((Bool) -> Void)?) {
         lastOpenedURL = url
         lastUniversalLinksOnly = universalLinksOnly
