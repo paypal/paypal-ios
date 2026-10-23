@@ -6,41 +6,33 @@ struct PayPalPaymentView: View {
     @Environment(PayPalPaymentViewModel.self)
     var viewModel
     
-    var isOrderCreationLoading: Bool {
-        viewModel.createOrderState.isLoading
-    }
-    
-    var isApproveOrderLoading: Bool {
-        viewModel.approveOrderState.isLoading
-    }
-    
-    var isCompleteOrderLoading: Bool {
-        viewModel.completeOrderState.isLoading
-    }
-    
+    var createOrderState: AsyncState<Order> { viewModel.createOrderState }
+    var approveOrderState: AsyncState<PayPalCheckoutResult> { viewModel.approveOrderState }
+    var completeOrderState: AsyncState<Order> { viewModel.completeOrderState }
+
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView {
                 VStack(spacing: 16) {
-                    CreateOrderForm(isLoading: isOrderCreationLoading) { request in
+                    CreateOrderForm(isLoading: createOrderState.isLoading) { request in
                         viewModel.createOrder(using: request)
                     }
-                    if let order = viewModel.createOrderState.value {
+                    UnwrapValueOrError(createOrderState) { order in
                         OrderView(order: order)
-                        ApproveOrderWithPayPalForm(isLoading: isApproveOrderLoading) { request in
+                        ApproveOrderWithPayPalForm(isLoading: approveOrderState.isLoading) { request in
                             viewModel.approveOrder(using: request)
                         }
                     }
-                    
-                    if let approveOrderResult = viewModel.approveOrderState.value {
+
+                    UnwrapValueOrError(approveOrderState) { approveOrderResult in
                         PayPalCheckoutResultView(result: approveOrderResult)
                         let intent = viewModel.orderIntent
-                        CompleteOrderForm(intent: intent, isLoading: isCompleteOrderLoading) {
+                        CompleteOrderForm(intent: intent, isLoading: completeOrderState.isLoading) {
                             viewModel.completeOrder()
                         }
                     }
-                    
-                    if let completeOrderResult = viewModel.completeOrderState.value {
+
+                    UnwrapValueOrError(completeOrderState) { completeOrderResult in
                         OrderView(order: completeOrderResult)
                     }
                     ScrollAnchor(id: "bottomAnchor")
