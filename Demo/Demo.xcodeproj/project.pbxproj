@@ -239,8 +239,8 @@
 		1001E2B72CF6432F0023A03C /* PayPalVault */ = {
 			isa = PBXGroup;
 			children = (
-				BC8F04BC3087B69200CFEDAD /* PayPalVaultViewModel.swift */,
 				BC8F04BA3087AFA700CFEDAD /* PayPalVaultView.swift */,
+				BC8F04BC3087B69200CFEDAD /* PayPalVaultViewModel.swift */,
 			);
 			path = PayPalVault;
 			sourceTree = "<group>";

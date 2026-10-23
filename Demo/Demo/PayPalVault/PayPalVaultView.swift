@@ -6,38 +6,30 @@ struct PayPalVaultView: View {
     @Environment(PayPalVaultViewModel.self)
     var viewModel
     
-    var isCreateSetupTokenLoading: Bool {
-        viewModel.createSetupTokenState.isLoading
-    }
-    
-    var isUpdateSetupTokenLoading: Bool {
-        viewModel.updateSetupTokenState.isLoading
-    }
-    
-    var isCreatePaymentTokenLoading: Bool {
-        viewModel.createPaymentTokenState.isLoading
-    }
+    var createSetupTokenState: AsyncState<CreateSetupTokenResponse> { viewModel.createSetupTokenState }
+    var updateSetupTokenState: AsyncState<PayPalVaultResult> { viewModel.updateSetupTokenState }
+    var createPaymentTokenState: AsyncState<PaymentTokenResponse> { viewModel.createPaymentTokenState }
 
     var body: some View {
         ScrollView {
             ScrollViewReader { proxy in
                 VStack(spacing: 16) {
-                    CreatePayPalSetupTokenForm(isLoading: isCreateSetupTokenLoading) { request in
+                    CreatePayPalSetupTokenForm(isLoading: createSetupTokenState.isLoading) { request in
                         viewModel.createSetupToken(using: request)
                     }
-                    if let createSetupTokenResponse = viewModel.createSetupTokenState.value {
+                    UnwrapValueOrError(createSetupTokenState) { createSetupTokenResponse in
                         CreateSetupTokenResponseView(response: createSetupTokenResponse)
-                        UpdatePayPalSetupTokenForm(isLoading: isUpdateSetupTokenLoading) { request in
+                        UpdatePayPalSetupTokenForm(isLoading: updateSetupTokenState.isLoading) { request in
                             viewModel.updateSetupToken(using: request)
                         }
                     }
-                    if let updateSetupTokenResponse = viewModel.updateSetupTokenState.value {
+                    UnwrapValueOrError(updateSetupTokenState) { updateSetupTokenResponse in
                         PayPalVaultResultView(result: updateSetupTokenResponse)
-                        CreatePaymentTokenForm(isLoading: isCreatePaymentTokenLoading) {
+                        CreatePaymentTokenForm(isLoading: createPaymentTokenState.isLoading) {
                             viewModel.createPaymentToken()
                         }
                     }
-                    if let paymentTokenResponse = viewModel.createPaymentTokenState.value {
+                    UnwrapValueOrError(createPaymentTokenState) { paymentTokenResponse in
                         PaymentTokenResponseView(response: paymentTokenResponse)
                     }
                     ScrollAnchor(id: "bottomAnchor")
