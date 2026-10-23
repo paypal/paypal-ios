@@ -25,6 +25,10 @@ let package = Package(
             targets: ["CardPayments"]
         ),
         .library(
+            name: "VenmoPayments",
+            targets: ["VenmoPayments"]
+        ),
+        .library(
             name: "FraudProtection",
             targets: ["FraudProtection"]
         )
@@ -52,6 +56,11 @@ let package = Package(
         ),
         .target(
             name: "PayPalPayments",
+            dependencies: ["CorePayments"],
+            resources: [.copy("PrivacyInfo.xcprivacy")]
+        ),
+        .target(
+            name: "VenmoPayments",
             dependencies: ["CorePayments"],
             resources: [.copy("PrivacyInfo.xcprivacy")]
         ),
