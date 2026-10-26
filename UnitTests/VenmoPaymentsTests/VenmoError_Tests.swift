@@ -22,22 +22,6 @@ class VenmoError_Tests: XCTestCase {
         XCTAssertEqual(VenmoError.checkoutCanceledError.errorDescription, "Venmo checkout has been canceled by the user")
     }
 
-    func testVenmoNotEligible_hasCorrectCodeAndDomain() {
-        XCTAssertEqual(VenmoError.venmoNotEligible.code, 4)
-        XCTAssertEqual(VenmoError.venmoNotEligible.domain, "VenmoClientErrorDomain")
-        XCTAssertEqual(
-            VenmoError.venmoNotEligible.errorDescription,
-            "Venmo is not eligible as a funding source for this transaction."
-        )
-    }
-
-    func testFundingEligibilityError_includesReason() {
-        let error = VenmoError.fundingEligibilityError(reason: "buyer not eligible")
-        XCTAssertEqual(error.code, 4)
-        XCTAssertEqual(error.domain, "VenmoClientErrorDomain")
-        XCTAssertEqual(error.errorDescription, "Venmo is not eligible as a funding source: buyer not eligible")
-    }
-
     func testIsCheckoutCanceled_returnsTrueForCanceledError() {
         XCTAssertTrue(VenmoError.isCheckoutCanceled(VenmoError.checkoutCanceledError))
     }

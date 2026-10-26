@@ -10,7 +10,7 @@ import CorePayments
 
 /// `VenmoClient` handles Venmo checkout flows. When the merchant opts into app switch and the Venmo
 /// app is installed, it launches the Venmo app for approval; otherwise it presents checkout in a web
-/// authentication session. It also checks funding eligibility and updates client configuration.
+/// authentication session. It also updates client configuration.
 public class VenmoClient: NSObject {
 
     static let serialDispatchQueue =
@@ -22,7 +22,6 @@ public class VenmoClient: NSObject {
     var application: URLOpener = UIApplication.shared
 
     private let clientConfigAPI: UpdateClientConfigAPI
-    private let fundingEligibilityAPI: GetFundingEligibilityAPI
     private let webAuthenticationSession: WebAuthenticationSession
     private var analyticsService: AnalyticsService?
 
@@ -30,12 +29,12 @@ public class VenmoClient: NSObject {
 
     /// Initialize a `VenmoClient` to process Venmo checkout transactions.
     /// - Parameter config: The `CoreConfig` object.
-    public init(config: CoreConfig) {
-        self.config = config
-        self.clientConfigAPI = UpdateClientConfigAPI(coreConfig: config)
-        self.fundingEligibilityAPI = GetFundingEligibilityAPI(coreConfig: config)
-        self.webAuthenticationSession = WebAuthenticationSession()
-        super.init()
+    public convenience init(config: CoreConfig) {
+        self.init(
+            config: config,
+            clientConfigAPI: UpdateClientConfigAPI(coreConfig: config),
+            webAuthenticationSession: WebAuthenticationSession()
+        )
     }
 
     // MARK: - Internal Initializer
@@ -44,12 +43,10 @@ public class VenmoClient: NSObject {
     init(
         config: CoreConfig,
         clientConfigAPI: UpdateClientConfigAPI,
-        fundingEligibilityAPI: GetFundingEligibilityAPI,
         webAuthenticationSession: WebAuthenticationSession = WebAuthenticationSession()
     ) {
         self.config = config
         self.clientConfigAPI = clientConfigAPI
-        self.fundingEligibilityAPI = fundingEligibilityAPI
         self.webAuthenticationSession = webAuthenticationSession
         super.init()
     }
@@ -227,39 +224,12 @@ public class VenmoClient: NSObject {
         }
     }
 
-    /// Run funding eligibility + client config, then present checkout in a web authentication session.
+    /// Update client config, then present checkout in a web authentication session.
     private func startWebCheckoutFlow(
         request: VenmoCheckoutRequest,
         completion: @escaping (Result<VenmoCheckoutResult, CoreSDKError>) -> Void
     ) async {
-        // Step 1: Check funding eligibility
-        do {
-            let eligibility = try await fundingEligibilityAPI.getFundingEligibility(
-                intent: "capture",
-                currency: request.currency,
-                enableFunding: ["VENMO"]
-            )
-
-            guard eligibility.eligible else {
-                let reason = eligibility.reasons?.joined(separator: ", ") ?? "unknown"
-                analyticsService?.sendEvent("venmo-payments:checkout:funding-eligibility:ineligible")
-                notifyFailure(with: VenmoError.fundingEligibilityError(reason: reason), completion: completion)
-                return
-            }
-
-            analyticsService?.sendEvent("venmo-payments:checkout:funding-eligibility:eligible")
-        } catch {
-            analyticsService?.sendEvent("venmo-payments:checkout:funding-eligibility:failed")
-            let sdkError = (error as? CoreSDKError) ?? CoreSDKError(
-                code: VenmoError.Code.unknown.rawValue,
-                domain: VenmoError.domain,
-                errorDescription: error.localizedDescription
-            )
-            notifyFailure(with: sdkError, completion: completion)
-            return
-        }
-
-        // Step 2: Update client configuration (CCO)
+        // Update client configuration (CCO)
         do {
             _ = try await clientConfigAPI.updateClientConfig(
                 token: request.orderID,
@@ -270,7 +240,7 @@ public class VenmoClient: NSObject {
             analyticsService?.sendEvent("venmo-payments:checkout:update-client-config:failed")
         }
 
-        // Step 3: Present the web authentication session
+        // Present the web authentication session
         guard let webCheckoutURL = buildWebCheckoutURL(orderID: request.orderID) else {
             notifyFailure(with: VenmoError.venmoURLError, completion: completion)
             return

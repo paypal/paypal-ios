@@ -3,13 +3,11 @@ import XCTest
 @testable import VenmoPayments
 @testable import TestShared
 
-// swiftlint:disable:next type_body_length
 class VenmoClient_Tests: XCTestCase {
 
     var config: CoreConfig!
     var venmoClient: VenmoClient!
     var mockClientConfigAPI: MockClientConfigAPI!
-    var mockFundingEligibilityAPI: MockGetFundingEligibilityAPI!
     var mockURLOpener: MockURLOpener!
     var mockNetworkingClient: MockNetworkingClient!
     var mockWebAuthenticationSession: MockWebAuthenticationSession!
@@ -19,69 +17,20 @@ class VenmoClient_Tests: XCTestCase {
         config = CoreConfig(clientID: "testClientID", environment: .sandbox, merchantID: "testMerchantID")
         mockNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: config))
         mockClientConfigAPI = MockClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)
-        mockFundingEligibilityAPI = MockGetFundingEligibilityAPI(coreConfig: config)
         mockURLOpener = MockURLOpener()
         mockWebAuthenticationSession = MockWebAuthenticationSession()
 
         venmoClient = VenmoClient(
             config: config,
             clientConfigAPI: mockClientConfigAPI,
-            fundingEligibilityAPI: mockFundingEligibilityAPI,
             webAuthenticationSession: mockWebAuthenticationSession
         )
         venmoClient.application = mockURLOpener
     }
 
-    // MARK: - Eligibility Tests
-
-    func testStart_whenVenmoNotEligible_returnsEligibilityError() {
-        mockFundingEligibilityAPI.stubEligibilityResponse = VenmoFundingEligibility(eligible: false, reasons: ["NOT_ENABLED"])
-        mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
-
-        let expectation = expectation(description: "start(request:) completed")
-
-        let request = VenmoCheckoutRequest(orderID: "ORDER-123")
-        venmoClient.start(request: request) { result in
-            switch result {
-            case .success:
-                XCTFail("Expected failure when Venmo is not eligible")
-            case .failure(let error):
-                XCTAssertEqual(error.domain, VenmoError.domain)
-                XCTAssertEqual(error.code, VenmoError.Code.fundingEligibilityError.rawValue)
-            }
-            expectation.fulfill()
-        }
-
-        waitForExpectations(timeout: 5)
-    }
-
-    func testStart_whenEligibilityCheckFails_returnsError() {
-        mockFundingEligibilityAPI.stubError = CoreSDKError(
-            code: 0,
-            domain: "TestDomain",
-            errorDescription: "Network error"
-        )
-
-        let expectation = expectation(description: "start(request:) completed")
-
-        let request = VenmoCheckoutRequest(orderID: "ORDER-123")
-        venmoClient.start(request: request) { result in
-            switch result {
-            case .success:
-                XCTFail("Expected failure when eligibility check fails")
-            case .failure(let error):
-                XCTAssertEqual(error.errorDescription, "Network error")
-            }
-            expectation.fulfill()
-        }
-
-        waitForExpectations(timeout: 5)
-    }
-
     // MARK: - Web Flow URL Construction Tests
 
-    func testStart_webFlow_whenEligible_launchesWebSessionWithSandboxURL() async throws {
-        mockFundingEligibilityAPI.stubEligibilityResponse = VenmoFundingEligibility(eligible: true, reasons: nil)
+    func testStart_webFlow_launchesWebSessionWithSandboxURL() async throws {
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
         // swiftlint:disable:next force_unwrapping
         mockWebAuthenticationSession.cannedResponseURL = URL(
@@ -110,19 +59,16 @@ class VenmoClient_Tests: XCTestCase {
 
     func testStart_webFlow_whenLive_usesCorrectBaseURL() async throws {
         let liveConfig = CoreConfig(clientID: "testClientID", environment: .live, merchantID: "testMerchantID")
-        let liveFundingEligibilityAPI = MockGetFundingEligibilityAPI(coreConfig: liveConfig)
         let liveNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: liveConfig))
         let liveClientConfigAPI = MockClientConfigAPI(coreConfig: liveConfig, networkingClient: liveNetworkingClient)
         let liveWebAuthenticationSession = MockWebAuthenticationSession()
         let liveClient = VenmoClient(
             config: liveConfig,
             clientConfigAPI: liveClientConfigAPI,
-            fundingEligibilityAPI: liveFundingEligibilityAPI,
             webAuthenticationSession: liveWebAuthenticationSession
         )
         liveClient.application = mockURLOpener
 
-        liveFundingEligibilityAPI.stubEligibilityResponse = VenmoFundingEligibility(eligible: true, reasons: nil)
         liveClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
         // swiftlint:disable:next force_unwrapping
         liveWebAuthenticationSession.cannedResponseURL = URL(
@@ -147,7 +93,6 @@ class VenmoClient_Tests: XCTestCase {
     func testStart_appSwitch_whenOpenURLFails_fallsBackToWebFlow() async throws {
         mockURLOpener.mockIsVenmoAppInstalled = true
         mockURLOpener.mockOpenURLSuccess = false
-        mockFundingEligibilityAPI.stubEligibilityResponse = VenmoFundingEligibility(eligible: true, reasons: nil)
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
         // swiftlint:disable:next force_unwrapping
         mockWebAuthenticationSession.cannedResponseURL = URL(
@@ -265,11 +210,7 @@ class VenmoClient_Tests: XCTestCase {
 
     func testBuildCheckoutURL_sandbox_hasCorrectHost() throws {
         let sandboxConfig = CoreConfig(clientID: "testClientID", environment: .sandbox, merchantID: "testMerchantID")
-        let client = VenmoClient(
-            config: sandboxConfig,
-            clientConfigAPI: mockClientConfigAPI,
-            fundingEligibilityAPI: mockFundingEligibilityAPI
-        )
+        let client = VenmoClient(config: sandboxConfig, clientConfigAPI: mockClientConfigAPI)
 
         let url = try client.buildCheckoutURL(request: VenmoCheckoutRequest(orderID: "ORDER-123"))
         XCTAssertEqual(url.host, "account.venmo.com")
@@ -279,12 +220,7 @@ class VenmoClient_Tests: XCTestCase {
         let liveConfig = CoreConfig(clientID: "testClientID", environment: .live, merchantID: "testMerchantID")
         let liveNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: liveConfig))
         let liveClientConfigAPI = MockClientConfigAPI(coreConfig: liveConfig, networkingClient: liveNetworkingClient)
-        let liveFundingEligibilityAPI = MockGetFundingEligibilityAPI(coreConfig: liveConfig)
-        let client = VenmoClient(
-            config: liveConfig,
-            clientConfigAPI: liveClientConfigAPI,
-            fundingEligibilityAPI: liveFundingEligibilityAPI
-        )
+        let client = VenmoClient(config: liveConfig, clientConfigAPI: liveClientConfigAPI)
 
         let url = try client.buildCheckoutURL(request: VenmoCheckoutRequest(orderID: "ORDER-123"))
         XCTAssertEqual(url.host, "account.venmo.com")
@@ -298,12 +234,7 @@ class VenmoClient_Tests: XCTestCase {
         )
         let customNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: customConfig))
         let customClientConfigAPI = MockClientConfigAPI(coreConfig: customConfig, networkingClient: customNetworkingClient)
-        let customFundingEligibilityAPI = MockGetFundingEligibilityAPI(coreConfig: customConfig)
-        let client = VenmoClient(
-            config: customConfig,
-            clientConfigAPI: customClientConfigAPI,
-            fundingEligibilityAPI: customFundingEligibilityAPI
-        )
+        let client = VenmoClient(config: customConfig, clientConfigAPI: customClientConfigAPI)
 
         let url = try client.buildCheckoutURL(request: VenmoCheckoutRequest(orderID: "ORDER-123"))
         XCTAssertEqual(url.host, "account.qa.venmo.com")

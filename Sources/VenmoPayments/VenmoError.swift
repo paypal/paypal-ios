@@ -21,9 +21,6 @@ public enum VenmoError {
 
         /// 3. The user canceled the Venmo checkout.
         case checkoutCanceledError
-
-        /// 4. Venmo is not eligible as a funding source.
-        case fundingEligibilityError
     }
 
     /// An error constructing the Venmo checkout URL.
@@ -47,13 +44,6 @@ public enum VenmoError {
         errorDescription: "Venmo checkout has been canceled by the user"
     )
 
-    /// Venmo is not eligible as a funding source for this transaction.
-    public static let venmoNotEligible = CoreSDKError(
-        code: Code.fundingEligibilityError.rawValue,
-        domain: domain,
-        errorDescription: "Venmo is not eligible as a funding source for this transaction."
-    )
-
     /// An error occurred during the web authentication session.
     /// - Parameter error: The underlying error from the web session.
     /// - Returns: A `CoreSDKError` describing the web session failure.
@@ -62,17 +52,6 @@ public enum VenmoError {
             code: Code.unknown.rawValue,
             domain: domain,
             errorDescription: error.localizedDescription
-        )
-    }
-
-    /// Creates a funding eligibility error with a specific reason.
-    /// - Parameter reason: The reason Venmo is not eligible.
-    /// - Returns: A `CoreSDKError` describing the eligibility failure.
-    public static func fundingEligibilityError(reason: String) -> CoreSDKError {
-        CoreSDKError(
-            code: Code.fundingEligibilityError.rawValue,
-            domain: domain,
-            errorDescription: "Venmo is not eligible as a funding source: \(reason)"
         )
     }
 

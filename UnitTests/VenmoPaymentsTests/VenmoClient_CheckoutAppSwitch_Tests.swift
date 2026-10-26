@@ -11,7 +11,6 @@ class VenmoClient_CheckoutAppSwitch_Tests: XCTestCase {
     var venmoClient: VenmoClient!
     var mockNetworkingClient: MockNetworkingClient!
     var mockClientConfigAPI: MockClientConfigAPI!
-    var mockFundingEligibilityAPI: MockGetFundingEligibilityAPI!
     var mockURLOpener: MockURLOpener!
 
     override func setUp() {
@@ -20,14 +19,12 @@ class VenmoClient_CheckoutAppSwitch_Tests: XCTestCase {
         mockWebAuthenticationSession = MockWebAuthenticationSession()
         mockNetworkingClient = MockNetworkingClient(http: MockHTTP(coreConfig: config))
         mockClientConfigAPI = MockClientConfigAPI(coreConfig: config, networkingClient: mockNetworkingClient)
-        mockFundingEligibilityAPI = MockGetFundingEligibilityAPI(coreConfig: config)
 
         mockURLOpener = MockURLOpener()
 
         venmoClient = VenmoClient(
             config: config,
             clientConfigAPI: mockClientConfigAPI,
-            fundingEligibilityAPI: mockFundingEligibilityAPI,
             webAuthenticationSession: mockWebAuthenticationSession
         )
         venmoClient.application = mockURLOpener
@@ -42,7 +39,6 @@ class VenmoClient_CheckoutAppSwitch_Tests: XCTestCase {
 
     func test_appSwitchDisabled_venmoInstalled_invokesWebFlow() async throws {
         mockURLOpener.mockIsVenmoAppInstalled = true
-        mockFundingEligibilityAPI.stubEligibilityResponse = VenmoFundingEligibility(eligible: true, reasons: nil)
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
 
         // swiftlint:disable:next force_unwrapping
@@ -61,7 +57,6 @@ class VenmoClient_CheckoutAppSwitch_Tests: XCTestCase {
 
     func test_appSwitchEnabled_venmoNotInstalled_invokesWebFlow() async throws {
         mockURLOpener.mockIsVenmoAppInstalled = false
-        mockFundingEligibilityAPI.stubEligibilityResponse = VenmoFundingEligibility(eligible: true, reasons: nil)
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
 
         // swiftlint:disable:next force_unwrapping
@@ -145,7 +140,6 @@ class VenmoClient_CheckoutAppSwitch_Tests: XCTestCase {
     func test_appSwitchOpenFails_fallsBackToWebFlow() async throws {
         mockURLOpener.mockIsVenmoAppInstalled = true
         mockURLOpener.mockOpenURLSuccess = false
-        mockFundingEligibilityAPI.stubEligibilityResponse = VenmoFundingEligibility(eligible: true, reasons: nil)
         mockClientConfigAPI.stubUpdateClientConfigResponse = ClientConfigResponse(updateClientConfig: true)
 
         // swiftlint:disable:next force_unwrapping
