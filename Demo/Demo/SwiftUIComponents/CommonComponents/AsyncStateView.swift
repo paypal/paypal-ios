@@ -3,7 +3,7 @@ import SwiftUI
 struct AsyncStateView<T: Hashable, Content: View>: View {
     
     let state: AsyncState<T>
-    @ViewBuilder let content: (T) -> Content
+    let content: (T) -> Content
     
     init(_ state: AsyncState<T>, @ViewBuilder content: @escaping (T) -> Content) {
         self.state = state
