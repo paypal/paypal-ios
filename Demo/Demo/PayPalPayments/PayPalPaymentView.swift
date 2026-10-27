@@ -17,14 +17,14 @@ struct PayPalPaymentView: View {
                     CreateOrderForm(isLoading: createOrderState.isLoading) { request in
                         viewModel.createOrder(using: request)
                     }
-                    UnwrapValueOrError(createOrderState) { order in
+                    AsyncStateView(createOrderState) { order in
                         OrderView(order: order)
                         ApproveOrderWithPayPalForm(isLoading: approveOrderState.isLoading) { request in
                             viewModel.approveOrder(using: request)
                         }
                     }
 
-                    UnwrapValueOrError(approveOrderState) { approveOrderResult in
+                    AsyncStateView(approveOrderState) { approveOrderResult in
                         PayPalCheckoutResultView(result: approveOrderResult)
                         let intent = viewModel.orderIntent
                         CompleteOrderForm(intent: intent, isLoading: completeOrderState.isLoading) {
@@ -32,7 +32,7 @@ struct PayPalPaymentView: View {
                         }
                     }
 
-                    UnwrapValueOrError(completeOrderState) { completeOrderResult in
+                    AsyncStateView(completeOrderState) { completeOrderResult in
                         OrderView(order: completeOrderResult)
                     }
                     ScrollAnchor(id: "bottomAnchor")

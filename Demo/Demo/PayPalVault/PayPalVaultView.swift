@@ -17,19 +17,19 @@ struct PayPalVaultView: View {
                     CreatePayPalSetupTokenForm(isLoading: createSetupTokenState.isLoading) { request in
                         viewModel.createSetupToken(using: request)
                     }
-                    UnwrapValueOrError(createSetupTokenState) { createSetupTokenResponse in
+                    AsyncStateView(createSetupTokenState) { createSetupTokenResponse in
                         CreateSetupTokenResponseView(response: createSetupTokenResponse)
                         UpdatePayPalSetupTokenForm(isLoading: updateSetupTokenState.isLoading) { request in
                             viewModel.updateSetupToken(using: request)
                         }
                     }
-                    UnwrapValueOrError(updateSetupTokenState) { updateSetupTokenResponse in
+                    AsyncStateView(updateSetupTokenState) { updateSetupTokenResponse in
                         PayPalVaultResultView(result: updateSetupTokenResponse)
                         CreatePaymentTokenForm(isLoading: createPaymentTokenState.isLoading) {
                             viewModel.createPaymentToken()
                         }
                     }
-                    UnwrapValueOrError(createPaymentTokenState) { paymentTokenResponse in
+                    AsyncStateView(createPaymentTokenState) { paymentTokenResponse in
                         PaymentTokenResponseView(response: paymentTokenResponse)
                     }
                     ScrollAnchor(id: "bottomAnchor")

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct UnwrapValueOrError<T: Hashable, Content: View>: View {
+struct AsyncStateView<T: Hashable, Content: View>: View {
     
     let state: AsyncState<T>
     @ViewBuilder let content: (T) -> Content

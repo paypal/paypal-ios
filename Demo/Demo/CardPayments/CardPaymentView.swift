@@ -17,20 +17,20 @@ struct CardPaymentView: View {
                     CreateOrderForm(isLoading: createOrderState.isLoading) { request in
                         viewModel.createOrder(using: request)
                     }
-                    UnwrapValueOrError(createOrderState) { order in
+                    AsyncStateView(createOrderState) { order in
                         OrderView(order: order)
                         ApproveOrderWithCardForm(isLoading: approveOrderState.isLoading) { request in
                             viewModel.approveOrder(using: request)
                         }
                     }
-                    UnwrapValueOrError(approveOrderState) { cardResult in
+                    AsyncStateView(approveOrderState) { cardResult in
                         CardResultView(cardResult: cardResult)
                         let intent = viewModel.orderIntent
                         CompleteOrderForm(intent: intent, isLoading: completeOrderState.isLoading) {
                             viewModel.completeOrder()
                         }
                     }
-                    UnwrapValueOrError(completeOrderState) { completeOrderResult in
+                    AsyncStateView(completeOrderState) { completeOrderResult in
                         OrderView(order: completeOrderResult)
                     }
                     ScrollAnchor(id: "bottomAnchor")

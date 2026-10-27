@@ -19,19 +19,19 @@ struct CardVaultView: View {
                     CreateCardSetupTokenForm(isLoading: createSetupTokenState.isLoading) { request in
                         viewModel.createSetupToken(with: request)
                     }
-                    UnwrapValueOrError(createSetupTokenState) { createSetupTokenResponse in
+                    AsyncStateView(createSetupTokenState) { createSetupTokenResponse in
                         CreateSetupTokenResponseView(response: createSetupTokenResponse)
                         UpdateCardSetupTokenForm(isLoading: updateSetupTokenState.isLoading) { card in
                             viewModel.updateSetupToken(with: card)
                         }
                     }
-                    UnwrapValueOrError(updateSetupTokenState) { updateSetupTokenResult in
+                    AsyncStateView(updateSetupTokenState) { updateSetupTokenResult in
                         UpdateSetupTokenResultView(result: updateSetupTokenResult)
                         CreatePaymentTokenForm(isLoading: createPaymentTokenState.isLoading) {
                             viewModel.createPaymentToken()
                         }
                     }
-                    UnwrapValueOrError(createPaymentTokenState) { paymentTokenResponse in
+                    AsyncStateView(createPaymentTokenState) { paymentTokenResponse in
                         PaymentTokenResponseView(response: paymentTokenResponse)
                     }
                     ScrollAnchor(id: "bottomAnchor")
