@@ -1,6 +1,16 @@
 
 # PayPal iOS SDK Release Notes
 
+## Unreleased
+
+* VenmoPayments (New Module)
+  * Add `VenmoClient` with `start(request:completion:)` and `start(request:) async throws` for Venmo checkout
+  * Add `handleReturnURL(_:)` for processing Venmo app switch / browser returns
+  * Add `VenmoCheckoutRequest` with `orderID`, `appSwitchIfEligible`, and `currency` properties
+  * Add `VenmoCheckoutResult` with `orderID` and `payerID` properties
+  * Add `VenmoError` with error codes for URL errors, malformed results, cancellation, and funding eligibility
+  * Add `VenmoError.isCheckoutCanceled(_:)` helper to distinguish user cancellation
+
 ## 3.1.1 (2026-10-08)
 
 * PayPal
