@@ -266,6 +266,7 @@
 		3BCCFE472A9D962E00C5102F /* CommonComponents */ = {
 			isa = PBXGroup;
 			children = (
+				BC15654B308BA19B0028D500 /* AsyncStateView.swift */,
 				BCEAACB1305C4AA300BA09FB /* ButtonWithProgress.swift */,
 				3B4DD9A12A8982B000F4A716 /* CardFormView.swift */,
 				3BC6220A2A97204E00251B85 /* CircularProgressView.swift */,
@@ -286,7 +287,6 @@
 				BCEAACB5305C4AA300BA09FB /* SegmentedEnumPicker.swift */,
 				C2DFDC66B206AB9B11A80589 /* ShopperSessionURLConfigFactory.swift */,
 				BCEAACB6305C4AA300BA09FB /* StepHeader.swift */,
-				BC15654B308BA19B0028D500 /* AsyncStateView.swift */,
 				E100A9BBE64964EE134DB022 /* UserIdentityFactory.swift */,
 				C5DDBA0EEDF0422CA93EDE6B /* UserIdentityView.swift */,
 			);
@@ -409,8 +409,8 @@
 			isa = PBXGroup;
 			children = (
 				80F33CE726F8DE29006811B1 /* DemoMerchantAPI.swift */,
-				BE1766B226F911A2007EF438 /* URLResponseError.swift */,
 				3BB7A9762A5CA6FD00C05140 /* MerchantIntegration.swift */,
+				BE1766B226F911A2007EF438 /* URLResponseError.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -419,8 +419,8 @@
 			isa = PBXGroup;
 			children = (
 				9A8C7ADB2FF6FD0F00471F38 /* CustomEnvironmentView.swift */,
-				80F33CF226F8EA50006811B1 /* DemoSettings.swift */,
 				BCC4807D301CEA2700844DFF /* DemoEnvironment.swift */,
+				80F33CF226F8EA50006811B1 /* DemoSettings.swift */,
 				BECD84A127036DDB007CCAE4 /* Intent.swift */,
 			);
 			path = DemoSettings;
@@ -429,8 +429,8 @@
 		BED0422F2710833100C80954 /* Card */ = {
 			isa = PBXGroup;
 			children = (
-				BED042302710833F00C80954 /* CardType.swift */,
 				BED04232271084DF00C80954 /* CardFormatter.swift */,
+				BED042302710833F00C80954 /* CardType.swift */,
 			);
 			path = Card;
 			sourceTree = "<group>";
