@@ -102,7 +102,9 @@ class VenmoClient_CheckoutAppSwitch_Tests: XCTestCase {
 
         // Simulate return from Venmo app
         // swiftlint:disable:next force_unwrapping
-        let returnURL = URL(string: "sdk.ios.paypal://x-callback-url/paypal-sdk/venmo-checkout?token=test-order-id&PayerID=test-payer-id&approved=true")!
+        let returnURL = URL(
+            string: "sdk.ios.paypal://x-callback-url/paypal-sdk/venmo-checkout?token=test-order-id&PayerID=test-payer-id&approved=true"
+        )!
         venmoClient.handleReturnURL(returnURL)
 
         await fulfillment(of: [completionExpectation], timeout: 5.0)
