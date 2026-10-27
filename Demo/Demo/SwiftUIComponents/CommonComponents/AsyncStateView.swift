@@ -16,7 +16,7 @@ struct AsyncStateView<T: Hashable, Content: View>: View {
             content(value)
         case .error(let errorMessage):
             ErrorView(errorMessage: errorMessage)
-        default:
+        case .idle, .loading:
             EmptyView()
         }
     }
