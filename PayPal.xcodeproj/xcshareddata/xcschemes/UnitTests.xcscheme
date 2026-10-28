@@ -183,6 +183,16 @@
                ReferencedContainer = "container:PayPal.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A3C9ABB2C7A8BCEFBFA2E338"
+               BuildableName = "VenmoPaymentsTests.xctest"
+               BlueprintName = "VenmoPaymentsTests"
+               ReferencedContainer = "container:PayPal.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

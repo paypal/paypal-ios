@@ -1,16 +1,12 @@
 import Foundation
 import UIKit
-import AuthenticationServices
 
 #if canImport(CorePayments)
 import CorePayments
 #endif
 
-// swiftlint:disable type_body_length file_length
-
-/// `VenmoClient` handles Venmo checkout flows. When the merchant opts into app switch and the Venmo
-/// app is installed, it launches the Venmo app for approval; otherwise it presents checkout in a web
-/// authentication session. It also updates client configuration.
+/// `VenmoClient` handles Venmo checkout flows. It opens the Venmo checkout URL, which switches to the
+/// Venmo app when installed and otherwise opens in Safari, and updates client configuration.
 public class VenmoClient: NSObject {
 
     static let serialDispatchQueue =
@@ -22,8 +18,8 @@ public class VenmoClient: NSObject {
     var application: URLOpener = UIApplication.shared
 
     private let clientConfigAPI: UpdateClientConfigAPI
-    private let webAuthenticationSession: WebAuthenticationSession
     private var analyticsService: AnalyticsService?
+    private let checkoutAnalyticsData = PayPalCheckoutAnalyticsData()
 
     // MARK: - Public Initializer
 
@@ -32,8 +28,7 @@ public class VenmoClient: NSObject {
     public convenience init(config: CoreConfig) {
         self.init(
             config: config,
-            clientConfigAPI: UpdateClientConfigAPI(coreConfig: config),
-            webAuthenticationSession: WebAuthenticationSession()
+            clientConfigAPI: UpdateClientConfigAPI(coreConfig: config)
         )
     }
 
@@ -42,47 +37,45 @@ public class VenmoClient: NSObject {
     /// For internal use for testing/mocking purposes.
     init(
         config: CoreConfig,
-        clientConfigAPI: UpdateClientConfigAPI,
-        webAuthenticationSession: WebAuthenticationSession = WebAuthenticationSession()
+        clientConfigAPI: UpdateClientConfigAPI
     ) {
         self.config = config
         self.clientConfigAPI = clientConfigAPI
-        self.webAuthenticationSession = webAuthenticationSession
         super.init()
     }
 
     // MARK: - Checkout (Completion Handler)
 
-    /// Start the Venmo checkout flow.
+    /// Start the Venmo checkout flow. Opens the Venmo checkout URL: the OS switches to the Venmo app when it
+    /// handles the link, otherwise the URL opens in Safari. The result is delivered via `handleReturnURL(_:)`.
     /// - Parameters:
-    ///   - request: The `VenmoCheckoutRequest` for the transaction.
+    ///   - orderID: The ID of the order to be approved.
     ///   - completion: A completion block invoked when the request is completed.
     ///                 The closure returns a `Result`:
     ///                 - `.success(VenmoCheckoutResult)` containing `orderID` and `payerID`.
     ///                 - `.failure(CoreSDKError)` describing the reason for failure.
     public func start(
-        request: VenmoCheckoutRequest,
+        orderID: String,
         completion: @escaping (Result<VenmoCheckoutResult, CoreSDKError>) -> Void
     ) {
-        analyticsService = AnalyticsService(coreConfig: config, orderID: request.orderID)
-        analyticsService?.sendEvent("venmo-payments:checkout:started")
+        analyticsService = AnalyticsService(coreConfig: config, orderID: orderID)
 
         let completionOnce = makeCompletionOnce(completion)
 
         Task {
-            await performCheckoutFlow(request: request, completion: completionOnce)
+            await performCheckoutFlow(orderID: orderID, completion: completionOnce)
         }
     }
 
     // MARK: - Checkout (Async/Await)
 
     /// Start the Venmo checkout flow.
-    /// - Parameter request: The `VenmoCheckoutRequest` for the transaction.
+    /// - Parameter orderID: The ID of the order to be approved.
     /// - Returns: A `VenmoCheckoutResult` if successful.
     /// - Throws: A `CoreSDKError` describing the failure.
-    public func start(request: VenmoCheckoutRequest) async throws -> VenmoCheckoutResult {
+    public func start(orderID: String) async throws -> VenmoCheckoutResult {
         try await withCheckedThrowingContinuation { continuation in
-            start(request: request) { result in
+            start(orderID: orderID) { result in
                 switch result {
                 case .success(let checkoutResult):
                     continuation.resume(returning: checkoutResult)
@@ -93,23 +86,17 @@ public class VenmoClient: NSObject {
         }
     }
 
-    /// Build the Venmo app-switch checkout URL.
-    ///
-    /// Matches the Venmo QA app-switch contract confirmed with the Android team, plus `env` so the
-    /// Direct API pay sheet can resolve the order's backend: `channel`, `env`, and `token`.
-    /// - Parameter request: The `VenmoCheckoutRequest` for the transaction.
+    /// Build the Venmo checkout URL (`channel` and `token`).
+    /// - Parameter orderID: The ID of the order to be approved.
     /// - Returns: The constructed checkout URL.
     /// - Throws: `VenmoError.venmoURLError` if URL construction fails.
-    func buildCheckoutURL(request: VenmoCheckoutRequest) throws -> URL {
+    func buildCheckoutURL(orderID: String) throws -> URL {
         let baseURL = config.environment.venmoBaseURL
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)
         components?.path = "/go/web/paypal"
-        // The Venmo app parses `env` to resolve the order's backend; without it the Direct API
-        // pay sheet gets a nil environment and can't load. `channel` + `token` complete the contract.
         components?.queryItems = [
             URLQueryItem(name: "channel", value: "in-app"),
-            URLQueryItem(name: "env", value: config.environment.venmoEnvironmentString),
-            URLQueryItem(name: "token", value: request.orderID)
+            URLQueryItem(name: "token", value: orderID)
         ]
 
         guard let url = components?.url else {
@@ -118,27 +105,12 @@ public class VenmoClient: NSObject {
         return url
     }
 
-    /// Build the Venmo web checkout URL used by the web authentication session fallback.
-    /// - Parameter orderID: The order ID for the transaction.
-    /// - Returns: The constructed web checkout URL, or `nil` if construction fails.
-    func buildWebCheckoutURL(orderID: String) -> URL? {
-        let baseURL = config.environment.venmoCheckoutBaseURL
-        var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)
-        components?.queryItems = [
-            URLQueryItem(name: "token", value: orderID),
-            URLQueryItem(name: "fundingSource", value: "venmo"),
-            URLQueryItem(name: "env", value: config.environment.venmoEnvironmentString),
-            URLQueryItem(name: "enableFunding", value: "venmo")
-        ]
-        return components?.url
-    }
-
     // MARK: - Return URL Handling
 
-    /// Handle the return URL from Venmo app switch.
+    /// Handle the return URL from Venmo (app or web).
     ///
     /// Call this method from your app's `.onOpenURL` modifier or `SceneDelegate`
-    /// when the user returns from the Venmo app.
+    /// when the user returns from Venmo.
     /// - Parameter url: The URL received by the app.
     public func handleReturnURL(_ url: URL) {
         guard let completion = appSwitchCompletion else {
@@ -166,42 +138,20 @@ public class VenmoClient: NSObject {
     }
 
     private func performCheckoutFlow(
-        request: VenmoCheckoutRequest,
+        orderID: String,
         completion: @escaping (Result<VenmoCheckoutResult, CoreSDKError>) -> Void
     ) async {
-        let venmoAppInstalled = await isVenmoAppInstalled()
+        checkoutAnalyticsData.venmoInstalled = await isVenmoAppInstalled()
+        sendEvent("venmo-payments:checkout:started")
 
-        if request.appSwitchIfEligible && venmoAppInstalled {
-            analyticsService?.sendEvent("venmo-payments:checkout:venmo-app-installed")
-            await attemptAppSwitch(request: request, completion: completion)
-        } else {
-            if request.appSwitchIfEligible {
-                analyticsService?.sendEvent("venmo-payments:checkout:fallback-to-web")
-            }
-            await startWebCheckoutFlow(request: request, completion: completion)
-        }
-    }
-
-    @MainActor
-    private func isVenmoAppInstalled() -> Bool {
-        application.isVenmoAppInstalled()
-    }
-
-    /// Attempt to switch to the Venmo app. Falls back to the web flow if the app cannot be opened.
-    private func attemptAppSwitch(
-        request: VenmoCheckoutRequest,
-        completion: @escaping (Result<VenmoCheckoutResult, CoreSDKError>) -> Void
-    ) async {
-        // Prime the order for the Venmo funding source before switching. Matches the Android
-        // app-switch flow; without this the Venmo pay sheet may fail to load. Logged but not fatal
-        // — consistent with the web checkout flow — so the switch is still attempted on failure.
+        // Update client config; ignore failure as the transaction should proceed regardless.
         do {
-            _ = try await clientConfigAPI.updateClientConfig(token: request.orderID, fundingSource: "venmo")
+            _ = try await clientConfigAPI.updateClientConfig(token: orderID, fundingSource: "venmo")
         } catch {
-            analyticsService?.sendEvent("venmo-payments:checkout:update-client-config:failed")
+            sendEvent("venmo-payments:checkout:update-client-config:failed")
         }
 
-        guard let checkoutURL = try? buildCheckoutURL(request: request) else {
+        guard let checkoutURL = try? buildCheckoutURL(orderID: orderID) else {
             notifyFailure(with: VenmoError.venmoURLError, completion: completion)
             return
         }
@@ -210,79 +160,27 @@ public class VenmoClient: NSObject {
             appSwitchCompletion = completion
         }
 
-        let opened = await openURL(checkoutURL)
+        let opened = await openURL(checkoutURL, universalLinksOnly: false)
 
         if opened {
-            analyticsService?.sendEvent("venmo-payments:checkout:app-switch-open:succeeded")
-            // Result is delivered later via handleReturnURL when the user returns from the Venmo app.
+            sendEvent("venmo-payments:checkout:auth-challenge-presentation:succeeded")
+            // Result is delivered later via handleReturnURL.
         } else {
-            analyticsService?.sendEvent("venmo-payments:checkout:app-switch-open:failed")
+            sendEvent("venmo-payments:checkout:auth-challenge-presentation:failed")
             await MainActor.run {
                 appSwitchCompletion = nil
             }
-            await startWebCheckoutFlow(request: request, completion: completion)
+            notifyFailure(with: VenmoError.venmoURLError, completion: completion)
         }
     }
 
-    /// Update client config, then present checkout in a web authentication session.
-    private func startWebCheckoutFlow(
-        request: VenmoCheckoutRequest,
-        completion: @escaping (Result<VenmoCheckoutResult, CoreSDKError>) -> Void
-    ) async {
-        // Update client configuration (CCO)
-        do {
-            _ = try await clientConfigAPI.updateClientConfig(
-                token: request.orderID,
-                fundingSource: "venmo"
-            )
-        } catch {
-            // Log but don't fail — matches PayPalClient behavior
-            analyticsService?.sendEvent("venmo-payments:checkout:update-client-config:failed")
-        }
-
-        // Present the web authentication session
-        guard let webCheckoutURL = buildWebCheckoutURL(orderID: request.orderID) else {
-            notifyFailure(with: VenmoError.venmoURLError, completion: completion)
-            return
-        }
-
-        await launchWebAuthenticationSession(url: webCheckoutURL, completion: completion)
+    private func sendEvent(_ name: String) {
+        analyticsService?.sendEvent(name, checkoutAnalyticsData: checkoutAnalyticsData)
     }
 
     @MainActor
-    private func launchWebAuthenticationSession(
-        url: URL,
-        completion: @escaping (Result<VenmoCheckoutResult, CoreSDKError>) -> Void
-    ) {
-        webAuthenticationSession.start(
-            url: url,
-            context: self,
-            sessionDidDisplay: { [weak self] didDisplay in
-                if didDisplay {
-                    self?.analyticsService?.sendEvent("venmo-payments:checkout:auth-challenge-presentation:succeeded")
-                } else {
-                    self?.analyticsService?.sendEvent("venmo-payments:checkout:auth-challenge-presentation:failed")
-                }
-            },
-            sessionDidCancel: { [weak self] in
-                guard let self else { return }
-                self.notifyCanceled(completion: completion)
-            },
-            sessionDidComplete: { [weak self] url, error in
-                guard let self else { return }
-                if let error {
-                    self.notifyFailure(with: VenmoError.webSessionError(error), completion: completion)
-                    return
-                }
-
-                guard let url else {
-                    self.notifyFailure(with: VenmoError.malformedResultError, completion: completion)
-                    return
-                }
-
-                self.deliver(self.parseVenmoReturn(url), completion: completion)
-            }
-        )
+    private func isVenmoAppInstalled() -> Bool {
+        application.isVenmoAppInstalled()
     }
 
     /// Parse a Venmo return/redirect URL into a checkout result.
@@ -294,16 +192,18 @@ public class VenmoClient: NSObject {
             items.first { $0.name.compare(name) == .orderedSame }?.value
         }
 
-        let isCancel = url.path.lowercased().contains("/cancel")
-        let approved = queryValue("approved")
-        let orderID = queryValue("token")
-        let payerID = queryValue("PayerID")
+        let orderID = queryValue("token") ?? ""
+        let canceled = queryValue("canceled")?.lowercased() == "true"
+        let approved = queryValue("approved")?.lowercased() == "true"
 
-        if isCancel || approved == "false" {
+        if canceled {
             return .failure(VenmoError.checkoutCanceledError)
         }
 
-        if let orderID, let payerID, !orderID.isEmpty, !payerID.isEmpty {
+        if approved {
+            guard let payerID = queryValue("PayerID"), !payerID.isEmpty else {
+                return .failure(VenmoError.malformedResultError)
+            }
             return .success(VenmoCheckoutResult(orderID: orderID, payerID: payerID))
         }
 
@@ -327,9 +227,9 @@ public class VenmoClient: NSObject {
     }
 
     @MainActor
-    private func openURL(_ url: URL) async -> Bool {
+    private func openURL(_ url: URL, universalLinksOnly: Bool = true) async -> Bool {
         await withCheckedContinuation { continuation in
-            application.open(url) { success in
+            application.open(url, universalLinksOnly: universalLinksOnly) { success in
                 continuation.resume(returning: success)
             }
         }
@@ -339,7 +239,7 @@ public class VenmoClient: NSObject {
         for result: VenmoCheckoutResult,
         completion: (Result<VenmoCheckoutResult, CoreSDKError>) -> Void
     ) {
-        analyticsService?.sendEvent("venmo-payments:checkout:succeeded")
+        sendEvent("venmo-payments:checkout:succeeded")
         completion(.success(result))
     }
 
@@ -347,32 +247,14 @@ public class VenmoClient: NSObject {
         with error: CoreSDKError,
         completion: (Result<VenmoCheckoutResult, CoreSDKError>) -> Void
     ) {
-        analyticsService?.sendEvent("venmo-payments:checkout:failed")
+        sendEvent("venmo-payments:checkout:failed")
         completion(.failure(error))
     }
 
     private func notifyCanceled(
         completion: (Result<VenmoCheckoutResult, CoreSDKError>) -> Void
     ) {
-        analyticsService?.sendEvent("venmo-payments:checkout:canceled")
+        sendEvent("venmo-payments:checkout:canceled")
         completion(.failure(VenmoError.checkoutCanceledError))
     }
 }
-
-// MARK: - ASWebAuthenticationPresentationContextProviding conformance
-
-extension VenmoClient: ASWebAuthenticationPresentationContextProviding {
-
-    @MainActor
-    public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-        if #available(iOS 15, *) {
-            let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-            let window = firstScene?.windows.first { $0.isKeyWindow }
-            return window ?? ASPresentationAnchor()
-        } else {
-            let window = UIApplication.shared.windows.first { $0.isKeyWindow }
-            return window ?? ASPresentationAnchor()
-        }
-    }
-}
-// swiftlint:enable type_body_length file_length

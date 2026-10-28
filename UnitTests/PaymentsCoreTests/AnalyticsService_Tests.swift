@@ -110,6 +110,7 @@ class AnalyticsService_Tests: XCTestCase {
         checkoutAnalyticsData.isVaultRequest = true
         checkoutAnalyticsData.userAction = "CONTINUE"
         checkoutAnalyticsData.paypalNativeAppInstalled = true
+        checkoutAnalyticsData.venmoInstalled = true
         checkoutAnalyticsData.returnAppURL = returnAppURL
         checkoutAnalyticsData.cancelAppURL = cancelAppURL
         checkoutAnalyticsData.fallbackSchemeURL = fallbackSchemeURL
@@ -135,6 +136,7 @@ class AnalyticsService_Tests: XCTestCase {
         XCTAssertEqual(capturedData?.cancelAppURL, cancelAppURL)
         XCTAssertEqual(capturedData?.userAction, "CONTINUE")
         XCTAssertEqual(capturedData?.paypalNativeAppInstalled, true)
+        XCTAssertEqual(capturedData?.venmoInstalled, true)
         XCTAssertEqual(capturedData?.isCachedSession, true)
         XCTAssertEqual(capturedData?.isVaultRequest, true)
         XCTAssertEqual(capturedData?.shopperSessionId, "fake-shopper-session-id")
@@ -218,6 +220,7 @@ class AnalyticsService_Tests: XCTestCase {
         XCTAssertNil(capturedData?.cancelAppURL)
         XCTAssertNil(capturedData?.userAction)
         XCTAssertNil(capturedData?.paypalNativeAppInstalled)
+        XCTAssertNil(capturedData?.venmoInstalled)
         XCTAssertNil(capturedData?.errorDescription)
         XCTAssertNil(capturedData?.isCachedSession)
         XCTAssertNil(capturedData?.isVaultRequest)

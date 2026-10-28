@@ -10,18 +10,15 @@ class MockWebAuthenticationSession: WebAuthenticationSession {
     var lastLaunchedURL: URL?
 
     var onStart: (() -> Void)?
-    var lastLaunchedCallbackURLScheme: String?
 
     override func start(
         url: URL,
-        callbackURLScheme: String = PayPalCoreConstants.callbackURLScheme,
         context: ASWebAuthenticationPresentationContextProviding,
-        sessionDidDisplay: @escaping (Bool) -> Void,
-        sessionDidCancel: (() -> Void)? = nil,
-        sessionDidComplete: @escaping (URL?, Error?) -> Void
+        sessionDidDisplay: @escaping @Sendable (Bool) -> Void,
+        sessionDidCancel: (@Sendable () -> Void)? = nil,
+        sessionDidComplete: @escaping @Sendable (URL?, Error?) -> Void
     ) {
         lastLaunchedURL = url
-        lastLaunchedCallbackURLScheme = callbackURLScheme
         onStart?()
 
         sessionDidDisplay(cannedDidDisplayResult)
