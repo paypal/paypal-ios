@@ -552,11 +552,11 @@
 		061A32A826FA3C330003A736 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				3BF06F422E16477D002CA7B4 /* CorePaymentTests */,
 				80E8DAE726B8785D00FAFC3F /* CardPaymentsTests */,
-				8036C1DE270F9BCF00C0F091 /* PaymentsCoreTests */,
+				3BF06F422E16477D002CA7B4 /* CorePaymentTests */,
 				BCF735F427D2708E00A52E03 /* FraudProtectionTests */,
 				BCFAC72227ED05D900C3AF00 /* PaymentButtonsTests */,
+				8036C1DE270F9BCF00C0F091 /* PaymentsCoreTests */,
 				BCE8A7F027EA52BF00AC301B /* PayPalPaymentsTests */,
 				80E743F9270E40CE00BACECA /* TestShared */,
 				86FEEA216F1A531A670C05A5 /* VenmoPaymentsTests */,
@@ -591,8 +591,8 @@
 			isa = PBXGroup;
 			children = (
 				3B857B182E69FAB9006F3CBC /* AuthenticationSecureTokenServiceAPI_Tests.swift */,
-				3B8F84852D93318D00A151AC /* UpdateClientConfigAP_Tests.swift */,
 				BB86FB9532BC4C2B934D2D4D /* CoreConfig_Tests.swift */,
+				3B8F84852D93318D00A151AC /* UpdateClientConfigAP_Tests.swift */,
 			);
 			path = CorePaymentTests;
 			sourceTree = "<group>";
@@ -610,13 +610,13 @@
 			children = (
 				808EEA80291321FE001B6765 /* AnalyticsEventData_Tests.swift */,
 				802C4A752945676E00896A5D /* AnalyticsService_Tests.swift */,
-				8036C1E0270F9BE700C0F091 /* NetworkingClient_Tests.swift */,
 				8036C1E1270F9BE700C0F091 /* Environment_Tests.swift */,
 				80FC261C29847AC7008EC841 /* HTTP_Tests.swift */,
 				8036F87F2A30E492005B6186 /* HTTPResponse_Tests.swift */,
 				807BF5902A2A5D48002F32B3 /* HTTPResponseParser_Tests.swift */,
-				802EFBD92A968BCD00AB709D /* TrackingEventsAPI_Tests.swift */,
 				80B96AAD2A9806B300C62916 /* Mocks */,
+				8036C1E0270F9BE700C0F091 /* NetworkingClient_Tests.swift */,
+				802EFBD92A968BCD00AB709D /* TrackingEventsAPI_Tests.swift */,
 			);
 			path = PaymentsCoreTests;
 			sourceTree = "<group>";
@@ -633,9 +633,9 @@
 			isa = PBXGroup;
 			children = (
 				CB16E6D7285B7A2B00FD6F52 /* FakeConfirmPaymentResponse.swift */,
+				3B783DC22B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift */,
 				808E3EDC2A981F240017FE46 /* MockCheckoutOrdersAPI.swift */,
 				808E3EDE2A981F390017FE46 /* MockVaultPaymentTokensAPI.swift */,
-				3B783DC22B7A69C2004623DB /* FakeUpdateSetupTokenResponse.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -682,15 +682,15 @@
 		80E743F9270E40CE00BACECA /* TestShared */ = {
 			isa = PBXGroup;
 			children = (
-				3BB1A3132E86F3F4000FB9D6 /* MockURLOpener.swift */,
-				AA11223344556600AABB0007 /* MockCreateShopperSessionAPI.swift */,
-				3B95C9842E6BA124004C6F65 /* MockAuthenticationSecureTokenServiceAPI.swift */,
 				3B80D50B2A27979000D2EAC4 /* FailingJSONEncoder.swift */,
 				80E743FF270E40F300BACECA /* FakeRequests.swift */,
-				E64763702899B60C00074113 /* MockNetworkingClient.swift */,
+				3B95C9842E6BA124004C6F65 /* MockAuthenticationSecureTokenServiceAPI.swift */,
+				AA11223344556600AABB0007 /* MockCreateShopperSessionAPI.swift */,
 				802C4A732945670400896A5D /* MockHTTP.swift */,
+				E64763702899B60C00074113 /* MockNetworkingClient.swift */,
 				CB4BE28928512A9800EA2DD1 /* MockQuededURLSession.swift */,
 				3B8F84912D933FAE00A151AC /* MockUpdateClientConfigAPI.swift */,
+				3BB1A3132E86F3F4000FB9D6 /* MockURLOpener.swift */,
 				803C31B8270E4C560067D36E /* MockURLSession.swift */,
 				BCE8A7F427EA544000AC301B /* MockViewController.swift */,
 				BCE8A7F627EA54A000AC301B /* MockWebAuthenticationSession.swift */,
@@ -717,8 +717,8 @@
 				065A4DBE26FCDA5B0007014A /* CardClient_Tests.swift */,
 				8008D2042A9E54FF0003CAF4 /* CheckoutOrdersAPI_Tests.swift */,
 				065A4DC226FCE1D20007014A /* ConfirmPaymentSourceRequest_Tests.swift */,
-				80B27AF02A9E9EE60008EA45 /* VaultPaymentTokensAPI_Tests.swift */,
 				808E3EDB2A981F130017FE46 /* Mocks */,
+				80B27AF02A9E9EE60008EA45 /* VaultPaymentTokensAPI_Tests.swift */,
 			);
 			path = CardPaymentsTests;
 			sourceTree = "<group>";
@@ -772,14 +772,14 @@
 		BCE8A7F027EA52BF00AC301B /* PayPalPaymentsTests */ = {
 			isa = PBXGroup;
 			children = (
-				3B3EB0612E8380D600B1D552 /* PayPalClients_HandleRequestURL_Tests.swift */,
-				BCE8A7FA27EA5B1D00AC301B /* Environment+PayPalWebCheckout_Tests.swift */,
-				BCE8A7F827EA555800AC301B /* PayPalWebCheckoutClient_Tests.swift */,
-				AA11223344556600AABB000A /* PayPalWebCheckoutClient_CreateSession_Tests.swift */,
 				AA11BB22CC33DD44EE550001 /* CreateShopperSessionAPI_Tests.swift */,
-				AA11BB22CC33DD44EE550003 /* SystemLatencyTracker_Tests.swift */,
+				BCE8A7FA27EA5B1D00AC301B /* Environment+PayPalWebCheckout_Tests.swift */,
+				3B3EB0612E8380D600B1D552 /* PayPalClients_HandleRequestURL_Tests.swift */,
 				D3A1B2C4E5F6789012345678 /* PayPalURLConfig_Tests.swift */,
+				AA11223344556600AABB000A /* PayPalWebCheckoutClient_CreateSession_Tests.swift */,
+				BCE8A7F827EA555800AC301B /* PayPalWebCheckoutClient_Tests.swift */,
 				33BDD03914091D1FC998DA06 /* PayPalWebCheckoutURLBuilder_Tests.swift */,
+				AA11BB22CC33DD44EE550003 /* SystemLatencyTracker_Tests.swift */,
 			);
 			path = PayPalPaymentsTests;
 			sourceTree = "<group>";
