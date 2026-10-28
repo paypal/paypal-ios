@@ -24,15 +24,15 @@ class VenmoClient_CheckoutAppSwitch_Tests: XCTestCase {
         venmoClient.application = mockURLOpener
     }
 
-    func test_start_opensCheckoutURL_whenVenmoInstalled() async throws {
+    func testStart_opensCheckoutURL_whenVenmoInstalled() async throws {
         try await assertOpensCheckoutURL(venmoInstalled: true)
     }
 
-    func test_start_opensCheckoutURL_whenVenmoNotInstalled() async throws {
+    func testStart_opensCheckoutURL_whenVenmoNotInstalled() async throws {
         try await assertOpensCheckoutURL(venmoInstalled: false)
     }
 
-    func test_start_opensChannelAndTokenURL() async throws {
+    func testStart_opensChannelAndTokenURL() async throws {
         try await assertOpensCheckoutURL(venmoInstalled: false)
 
         let openedURL = try XCTUnwrap(mockURLOpener.lastOpenedURL)
@@ -48,14 +48,17 @@ class VenmoClient_CheckoutAppSwitch_Tests: XCTestCase {
         XCTAssertEqual(components?.queryItems?.count, 2)
     }
 
-    func test_start_whenOpenFails_returnsFailure() async {
+    func testStart_whenOpenFails_returnsFailure() async {
         mockURLOpener.mockOpenURLSuccess = false
 
         do {
             _ = try await venmoClient.start(orderID: "test-order-id")
             XCTFail("Expected failure")
-        } catch {
+        } catch let error as CoreSDKError {
+            XCTAssertEqual(error.code, VenmoError.Code.venmoURLError.rawValue)
             XCTAssertNotNil(mockURLOpener.lastOpenedURL)
+        } catch {
+            XCTFail("Unexpected error type: \(error)")
         }
     }
 
@@ -87,8 +90,8 @@ class VenmoClient_CheckoutAppSwitch_Tests: XCTestCase {
         XCTAssertTrue(openedURL.absoluteString.contains("token=test-order-id"))
 
         // swiftlint:disable:next force_unwrapping
-        let returnURL = URL(string: "https://example.com/success?token=test-order-id&PayerID=test-payer-id&approved=true")!
-        venmoClient.handleReturnURL(returnURL)
+        let fakeReturnURL = URL(string: "https://example.com/success?token=test-order-id&PayerID=test-payer-id&approved=true")!
+        venmoClient.handleReturnURL(fakeReturnURL)
 
         await fulfillment(of: [completionExpectation], timeout: 5.0)
     }

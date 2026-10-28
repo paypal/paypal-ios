@@ -3,13 +3,11 @@ import SwiftUI
 struct VenmoPaymentsView: View {
 
     @StateObject private var viewModel = VenmoViewModel()
-    @State private var selectedIntent: Intent = .authorize
-    @State private var amount = "10.00"
 
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                checkoutCard
+                VenmoCheckoutCard(viewModel: viewModel)
                 createdOrderSection
                 approvalSection
                 completionSection
@@ -19,41 +17,6 @@ struct VenmoPaymentsView: View {
         .onOpenURL { url in
             viewModel.handleReturnURL(url)
         }
-    }
-
-    private var checkoutCard: some View {
-        VStack(spacing: 16) {
-            HStack {
-                Text("Checkout")
-                    .font(.system(size: 20))
-                Spacer()
-                Button("Reset") { viewModel.resetState() }
-            }
-            .font(.headline)
-
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Intent").font(.subheadline)
-                Picker("Intent", selection: $selectedIntent) {
-                    ForEach(Intent.allCases, id: \.self) { Text($0.rawValue).tag($0) }
-                }
-                .pickerStyle(SegmentedPickerStyle())
-            }
-
-            FloatingLabelTextField(placeholder: "Amount", text: $amount, keyboardType: .decimalPad)
-
-            ZStack {
-                Button("Pay with Venmo") {
-                    viewModel.intent = selectedIntent
-                    Task { await viewModel.checkout(amount: amount) }
-                }
-                .buttonStyle(RoundedBlueButtonStyle())
-                if case .loading = viewModel.state.createdOrderResponse {
-                    CircularProgressView()
-                }
-            }
-        }
-        .padding()
-        .background(RoundedRectangle(cornerRadius: 10).stroke(.gray, lineWidth: 2).padding(5))
     }
 
     @ViewBuilder private var createdOrderSection: some View {
@@ -117,5 +80,47 @@ struct VenmoPaymentsView: View {
             .frame(maxWidth: .infinity)
             .padding()
             .background(RoundedRectangle(cornerRadius: 10).stroke(.gray, lineWidth: 2).padding(5))
+    }
+}
+
+private struct VenmoCheckoutCard: View {
+
+    @ObservedObject var viewModel: VenmoViewModel
+    @State private var selectedIntent: Intent = .authorize
+    @State private var amount = "10.00"
+
+    var body: some View {
+        VStack(spacing: 16) {
+            HStack {
+                Text("Checkout")
+                    .font(.system(size: 20))
+                Spacer()
+                Button("Reset") { viewModel.resetState() }
+            }
+            .font(.headline)
+
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Intent").font(.subheadline)
+                Picker("Intent", selection: $selectedIntent) {
+                    ForEach(Intent.allCases, id: \.self) { Text($0.rawValue).tag($0) }
+                }
+                .pickerStyle(SegmentedPickerStyle())
+            }
+
+            FloatingLabelTextField(placeholder: "Amount", text: $amount, keyboardType: .decimalPad)
+
+            ZStack {
+                Button("Pay with Venmo") {
+                    viewModel.intent = selectedIntent
+                    Task { await viewModel.checkout(amount: amount) }
+                }
+                .buttonStyle(RoundedBlueButtonStyle())
+                if case .loading = viewModel.state.createdOrderResponse {
+                    CircularProgressView()
+                }
+            }
+        }
+        .padding()
+        .background(RoundedRectangle(cornerRadius: 10).stroke(.gray, lineWidth: 2).padding(5))
     }
 }

@@ -48,6 +48,10 @@ public class VenmoClient: NSObject {
 
     /// Start the Venmo checkout flow. Opens the Venmo checkout URL: the OS switches to the Venmo app when it
     /// handles the link, otherwise the URL opens in Safari. The result is delivered via `handleReturnURL(_:)`.
+    ///
+    /// - Note: The completion only fires when a return URL reaches `handleReturnURL(_:)`. If the user dismisses
+    ///   Venmo or Safari without returning, no callback is made, so merchants should provide their own way to
+    ///   abandon the pending checkout.
     /// - Parameters:
     ///   - orderID: The ID of the order to be approved.
     ///   - completion: A completion block invoked when the request is completed.
@@ -192,7 +196,6 @@ public class VenmoClient: NSObject {
             items.first { $0.name.compare(name) == .orderedSame }?.value
         }
 
-        let orderID = queryValue("token") ?? ""
         let canceled = queryValue("canceled")?.lowercased() == "true"
         let approved = queryValue("approved")?.lowercased() == "true"
 
@@ -201,7 +204,8 @@ public class VenmoClient: NSObject {
         }
 
         if approved {
-            guard let payerID = queryValue("PayerID"), !payerID.isEmpty else {
+            guard let orderID = queryValue("token"), !orderID.isEmpty,
+                  let payerID = queryValue("PayerID"), !payerID.isEmpty else {
                 return .failure(VenmoError.malformedResultError)
             }
             return .success(VenmoCheckoutResult(orderID: orderID, payerID: payerID))
@@ -227,7 +231,7 @@ public class VenmoClient: NSObject {
     }
 
     @MainActor
-    private func openURL(_ url: URL, universalLinksOnly: Bool = true) async -> Bool {
+    private func openURL(_ url: URL, universalLinksOnly: Bool) async -> Bool {
         await withCheckedContinuation { continuation in
             application.open(url, universalLinksOnly: universalLinksOnly) { success in
                 continuation.resume(returning: success)

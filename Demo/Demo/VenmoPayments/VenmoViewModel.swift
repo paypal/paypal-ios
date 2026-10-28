@@ -8,12 +8,12 @@ class VenmoViewModel: ObservableObject {
     @Published var state = VenmoPaymentState()
     @Published var intent: Intent = .authorize
 
-    private static let clientID = "AcXwOk3dof7NCNcriyS8RVh5q39ozvdWUF9oHPrWqfyrDS4AwVdKe32Axuk2ADo6rI_31Vv6MGgOyzRt"
+    private let configManager = CoreConfigManager(domain: "Venmo Payments")
 
     private var venmoClient: VenmoClient?
 
     /// Callback host for app switch, resolved from the environment selected in Demo settings.
-    var returnURL: String { DemoSettings.environment.returnBaseURL }
+    private var returnURL: String { DemoSettings.environment.returnBaseURL }
 
     func checkout(amount: String) async {
         state = VenmoPaymentState()
@@ -29,12 +29,7 @@ class VenmoViewModel: ObservableObject {
         state.createdOrderResponse = .loaded(order)
         state.approveResultResponse = .loading
 
-        let client = VenmoClient(config: CoreConfig(
-            clientID: Self.clientID,
-            environment: DemoSettings.environment.paypalSDKEnvironment,
-            merchantID: DemoSettings.merchantIntegration.merchantID,
-            bnCode: DemoSettings.bnCode
-        ))
+        let client = VenmoClient(config: configManager.getCoreConfig())
         venmoClient = client
 
         do {

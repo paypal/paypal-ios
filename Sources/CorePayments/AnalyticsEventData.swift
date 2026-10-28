@@ -52,8 +52,8 @@ struct AnalyticsEventData: Encodable {
         case tenantName = "tenant_name"
         case timestamp = "t"
         case url = "url"
-        case venmoInstalled = "venmo_installed"
         case userAction = "user_action"
+        case venmoInstalled = "venmo_installed"
     }
     
     let appID: String = Bundle.main.infoDictionary?[kCFBundleIdentifierKey as String] as? String ?? "N/A"

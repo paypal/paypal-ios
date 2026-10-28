@@ -25,33 +25,18 @@ class VenmoClient_Tests: XCTestCase {
 
     // MARK: - handleReturnURL Tests
 
-    func testHandleReturnURL_success_returnsResult() {
-        mockURLOpener.mockIsVenmoAppInstalled = true
-        mockURLOpener.mockOpenURLSuccess = true
-
-        let expectation = expectation(description: "checkout completed with result")
-
-        venmoClient.start(orderID: "ORDER-123") { result in
-            switch result {
-            case .success(let checkoutResult):
-                XCTAssertEqual(checkoutResult.orderID, "ORDER-123")
-                XCTAssertEqual(checkoutResult.payerID, "PAYER-456")
-            case .failure:
-                XCTFail("Expected success")
-            }
-            expectation.fulfill()
-        }
-
-        // Wait for the app switch to be set up, then simulate return
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+    func testHandleReturnURL_customSchemeSuccess_returnsResult() {
+        assertSuccessfulReturn(
             // swiftlint:disable:next force_unwrapping
-            let returnURL = URL(
-                string: "sdk.ios.paypal://x-callback-url/paypal-sdk/venmo-checkout?token=ORDER-123&PayerID=PAYER-456&approved=true"
-            )!
-            self.venmoClient.handleReturnURL(returnURL)
-        }
+            URL(string: "sdk.ios.paypal://x-callback-url/paypal-sdk/venmo-checkout?token=ORDER-123&PayerID=PAYER-456&approved=true")!
+        )
+    }
 
-        waitForExpectations(timeout: 5)
+    func testHandleReturnURL_httpsSuccess_returnsResult() {
+        assertSuccessfulReturn(
+            // swiftlint:disable:next force_unwrapping
+            URL(string: "https://example.com/success?token=ORDER-123&PayerID=PAYER-456&approved=true")!
+        )
     }
 
     func testHandleReturnURL_canceledTrueQueryParam_returnsCancelError() {
@@ -129,10 +114,59 @@ class VenmoClient_Tests: XCTestCase {
         waitForExpectations(timeout: 5)
     }
 
+    func testHandleReturnURL_approvedWithoutToken_returnsMalformedError() {
+        mockURLOpener.mockOpenURLSuccess = true
+
+        let expectation = expectation(description: "checkout returned malformed")
+
+        venmoClient.start(orderID: "ORDER-123") { result in
+            switch result {
+            case .success:
+                XCTFail("Expected malformed error")
+            case .failure(let error):
+                XCTAssertEqual(error.code, VenmoError.Code.malformedResultError.rawValue)
+            }
+            expectation.fulfill()
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            // swiftlint:disable:next force_unwrapping
+            let url = URL(string: "https://example.com/success?approved=true&PayerID=P1")!
+            self.venmoClient.handleReturnURL(url)
+        }
+
+        waitForExpectations(timeout: 5)
+    }
+
     func testHandleReturnURL_withoutStart_isIgnored() {
         // swiftlint:disable:next force_unwrapping
         venmoClient.handleReturnURL(URL(string: "https://example.com/success?approved=true&PayerID=P1")!)
         XCTAssertNil(venmoClient.appSwitchCompletion)
+    }
+
+    private func assertSuccessfulReturn(_ returnURL: URL) {
+        mockURLOpener.mockIsVenmoAppInstalled = true
+        mockURLOpener.mockOpenURLSuccess = true
+
+        let expectation = expectation(description: "checkout completed with result")
+
+        venmoClient.start(orderID: "ORDER-123") { result in
+            switch result {
+            case .success(let checkoutResult):
+                XCTAssertEqual(checkoutResult.orderID, "ORDER-123")
+                XCTAssertEqual(checkoutResult.payerID, "PAYER-456")
+            case .failure:
+                XCTFail("Expected success")
+            }
+            expectation.fulfill()
+        }
+
+        // Wait for the app switch to be set up, then simulate return
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.venmoClient.handleReturnURL(returnURL)
+        }
+
+        waitForExpectations(timeout: 5)
     }
 
     // MARK: - VenmoError Helper Tests
