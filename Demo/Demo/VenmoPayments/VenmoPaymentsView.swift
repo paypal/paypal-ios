@@ -8,9 +8,9 @@ struct VenmoPaymentsView: View {
         ScrollView {
             VStack(spacing: 16) {
                 VenmoCheckoutCard(viewModel: viewModel)
-                createdOrderSection
-                approvalSection
-                completionSection
+                VenmoCreatedOrderView(viewModel: viewModel)
+                VenmoApprovalView(viewModel: viewModel)
+                VenmoCompletionView(viewModel: viewModel)
             }
             .padding(.bottom, 20)
         }
@@ -18,30 +18,40 @@ struct VenmoPaymentsView: View {
             viewModel.handleReturnURL(url)
         }
     }
+}
 
-    @ViewBuilder private var createdOrderSection: some View {
+private struct VenmoCreatedOrderView: View {
+
+    @ObservedObject var viewModel: VenmoViewModel
+
+    var body: some View {
         switch viewModel.state.createdOrderResponse {
         case .idle, .loading:
             EmptyView()
         case .error(let message):
             ErrorView(errorMessage: message)
         case .loaded(let order):
-            card {
+            VenmoCard {
                 Text("Order Details").font(.system(size: 20))
                 LabelViewText("Order ID:", bodyText: order.id)
                 LabelViewText("Status:", bodyText: order.status)
             }
         }
     }
+}
 
-    @ViewBuilder private var approvalSection: some View {
+private struct VenmoApprovalView: View {
+
+    @ObservedObject var viewModel: VenmoViewModel
+
+    var body: some View {
         switch viewModel.state.approveResultResponse {
         case .idle, .loading:
             EmptyView()
         case .error(let message):
             ErrorView(errorMessage: message)
         case .loaded(let result):
-            card {
+            VenmoCard {
                 Text("Approval Result").font(.headline)
                 LabelViewText("Order ID:", bodyText: result.id)
                 LabelViewText("Payer ID:", bodyText: result.payerID)
@@ -58,15 +68,20 @@ struct VenmoPaymentsView: View {
             }
         }
     }
+}
 
-    @ViewBuilder private var completionSection: some View {
+private struct VenmoCompletionView: View {
+
+    @ObservedObject var viewModel: VenmoViewModel
+
+    var body: some View {
         switch viewModel.state.completedOrderResponse {
         case .idle, .loading:
             EmptyView()
         case .error(let message):
             ErrorView(errorMessage: message)
         case .loaded(let order):
-            card {
+            VenmoCard {
                 Text("Order \(viewModel.intent == .authorize ? "Authorized" : "Captured") Successfully")
                     .font(.system(size: 20))
                 LabelViewText("Order ID:", bodyText: order.id)
@@ -74,8 +89,13 @@ struct VenmoPaymentsView: View {
             }
         }
     }
+}
 
-    private func card<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+private struct VenmoCard<Content: View>: View {
+
+    @ViewBuilder let content: () -> Content
+
+    var body: some View {
         VStack(alignment: .leading, spacing: 16) { content() }
             .frame(maxWidth: .infinity)
             .padding()
