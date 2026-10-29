@@ -68,6 +68,7 @@
 		80F33CF326F8EA50006811B1 /* DemoSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F33CF226F8EA50006811B1 /* DemoSettings.swift */; };
 		9A8C7ADC2FF6FD1B00471F38 /* CustomEnvironmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8C7ADB2FF6FD0F00471F38 /* CustomEnvironmentView.swift */; };
 		A30ABBEB9DF94308BED38BD9 /* UserIdentityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DDBA0EEDF0422CA93EDE6B /* UserIdentityView.swift */; };
+		BC03735C3093F9A1006EB57C /* VenmoPaymentsViewV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC03735B3093F99B006EB57C /* VenmoPaymentsViewV2.swift */; };
 		BC6460CD2A12A2A0002B974B /* EmptyBodyParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6460CC2A12A2A0002B974B /* EmptyBodyParams.swift */; };
 		BC9D4D2227C554090089E5B1 /* LaunchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2127C554090089E5B1 /* LaunchApp.swift */; };
 		BC9D4D2427C58B8D0089E5B1 /* XCUIApplication+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */; };
@@ -166,6 +167,7 @@
 		80F33CEE26F8E7CC006811B1 /* CreateOrderParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrderParams.swift; sourceTree = "<group>"; };
 		80F33CF226F8EA50006811B1 /* DemoSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSettings.swift; sourceTree = "<group>"; };
 		9A8C7ADB2FF6FD0F00471F38 /* CustomEnvironmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEnvironmentView.swift; sourceTree = "<group>"; };
+		BC03735B3093F99B006EB57C /* VenmoPaymentsViewV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoPaymentsViewV2.swift; sourceTree = "<group>"; };
 		BC6460CC2A12A2A0002B974B /* EmptyBodyParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyBodyParams.swift; sourceTree = "<group>"; };
 		BC9D4D1527C54F3F0089E5B1 /* DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC9D4D2127C554090089E5B1 /* LaunchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchApp.swift; sourceTree = "<group>"; };
@@ -406,10 +408,10 @@
 			isa = PBXGroup;
 			children = (
 				5878B1D7E21DFADF6FD664D6 /* VenmoPaymentState.swift */,
-				E0653C2A30EDD42516580FD1 /* VenmoViewModel.swift */,
 				607FB90DEB196FFBFBB1787F /* VenmoPaymentsView.swift */,
+				BC03735B3093F99B006EB57C /* VenmoPaymentsViewV2.swift */,
+				E0653C2A30EDD42516580FD1 /* VenmoViewModel.swift */,
 			);
-			name = VenmoPayments;
 			path = VenmoPayments;
 			sourceTree = "<group>";
 		};
@@ -635,7 +637,7 @@
 			);
 			mainGroup = 806F1E2C26B85367007A60E6;
 			packageReferences = (
-				BCDAC84C306F0DAB00C6626A /* XCLocalSwiftPackageReference ".." */,
+				BCDAC84C306F0DAB00C6626A /* XCLocalSwiftPackageReference "../" */,
 			);
 			productRefGroup = 806F1E3626B85367007A60E6 /* Products */;
 			projectDirPath = "";
@@ -725,6 +727,7 @@
 				3BA56FF22A9DCD440081D14F /* CardApprovalResultView.swift in Sources */,
 				3B3C51142B20F7CE009125FE /* PayPalVaultResultView.swift in Sources */,
 				3BA570012AA052E80081D14F /* PayPalWebPaymentsView.swift in Sources */,
+				BC03735C3093F9A1006EB57C /* VenmoPaymentsViewV2.swift in Sources */,
 				3BA56FFA2A9FE4180081D14F /* CardOrderCompletionResultView.swift in Sources */,
 				3BA56FF42A9DCD790081D14F /* CardPaymentView.swift in Sources */,
 				BE9F36D82745490400AFC7DA /* FloatingLabelTextField.swift in Sources */,
@@ -1014,7 +1017,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		BCDAC84C306F0DAB00C6626A /* XCLocalSwiftPackageReference ".." */ = {
+		BCDAC84C306F0DAB00C6626A /* XCLocalSwiftPackageReference "../" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../;
 		};
