@@ -110,6 +110,7 @@ class AnalyticsEventData_Tests: XCTestCase {
         checkoutAnalyticsData.isVaultRequest = true
         checkoutAnalyticsData.userAction = "CONTINUE"
         checkoutAnalyticsData.paypalNativeAppInstalled = true
+        checkoutAnalyticsData.venmoInstalled = true
         checkoutAnalyticsData.returnAppURL = returnAppURL
         checkoutAnalyticsData.cancelAppURL = cancelAppURL
         checkoutAnalyticsData.fallbackSchemeURL = fallbackSchemeURL
@@ -147,6 +148,7 @@ class AnalyticsEventData_Tests: XCTestCase {
         XCTAssertEqual(eventParams["cancel_app_url"] as? String, cancelAppURL.absoluteString)
         XCTAssertEqual(eventParams["user_action"] as? String, "CONTINUE")
         XCTAssertEqual(eventParams["paypal_installed"] as? Bool, true)
+        XCTAssertEqual(eventParams["venmo_installed"] as? Bool, true)
         XCTAssertEqual(eventParams["error_desc"] as? String, "fake-error-description")
         XCTAssertEqual(eventParams["is_cached_session"] as? Bool, true)
         XCTAssertEqual(eventParams["is_vault"] as? Bool, true)

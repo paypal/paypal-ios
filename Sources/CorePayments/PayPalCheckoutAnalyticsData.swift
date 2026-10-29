@@ -25,6 +25,7 @@ public final class PayPalCheckoutAnalyticsData {
     public var userAction: String?
 
     public var paypalNativeAppInstalled: Bool?
+    public var venmoInstalled: Bool?
     public var returnAppURL: URL?
     public var cancelAppURL: URL?
     public var fallbackSchemeURL: URL?
@@ -47,6 +48,7 @@ public final class PayPalCheckoutAnalyticsData {
         copy.isVaultRequest = isVaultRequest
         copy.userAction = userAction
         copy.paypalNativeAppInstalled = paypalNativeAppInstalled
+        copy.venmoInstalled = venmoInstalled
         copy.returnAppURL = returnAppURL
         copy.cancelAppURL = cancelAppURL
         copy.fallbackSchemeURL = fallbackSchemeURL

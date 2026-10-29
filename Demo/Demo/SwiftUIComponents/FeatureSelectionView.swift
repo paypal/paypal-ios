@@ -56,6 +56,12 @@ struct FeatureSelectionView: View {
                         Text("PayPal Web")
                     }
                     NavigationLink {
+                        VenmoPaymentsView()
+                            .navigationTitle("Venmo")
+                    } label: {
+                        Text("Venmo")
+                    }
+                    NavigationLink {
                         PayPalVaultView()
                             .navigationTitle("PayPal Vaulting")
                     } label: {

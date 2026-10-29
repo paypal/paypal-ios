@@ -53,6 +53,7 @@ struct AnalyticsEventData: Encodable {
         case timestamp = "t"
         case url = "url"
         case userAction = "user_action"
+        case venmoInstalled = "venmo_installed"
     }
     
     let appID: String = Bundle.main.infoDictionary?[kCFBundleIdentifierKey as String] as? String ?? "N/A"
@@ -142,6 +143,8 @@ struct AnalyticsEventData: Encodable {
 
     let paypalNativeAppInstalled: Bool?
 
+    let venmoInstalled: Bool?
+
     let errorDescription: String?
 
     let isCachedSession: Bool?
@@ -208,6 +211,7 @@ struct AnalyticsEventData: Encodable {
         self.cancelAppURL = checkoutAnalyticsData?.cancelAppURL
         self.userAction = checkoutAnalyticsData?.userAction
         self.paypalNativeAppInstalled = checkoutAnalyticsData?.paypalNativeAppInstalled
+        self.venmoInstalled = checkoutAnalyticsData?.venmoInstalled
         self.errorDescription = errorDescription
         self.isCachedSession = checkoutAnalyticsData?.isCachedSession
         self.isVaultRequest = checkoutAnalyticsData?.isVaultRequest
@@ -252,6 +256,7 @@ struct AnalyticsEventData: Encodable {
         try eventParameters.encode(cancelAppURL, forKey: .cancelAppURL)
         try eventParameters.encode(userAction, forKey: .userAction)
         try eventParameters.encode(paypalNativeAppInstalled, forKey: .paypalNativeAppInstalled)
+        try eventParameters.encode(venmoInstalled, forKey: .venmoInstalled)
         try eventParameters.encode(errorDescription, forKey: .errorDescription)
         try eventParameters.encode(isCachedSession, forKey: .isCachedSession)
         try eventParameters.encode(isVaultRequest, forKey: .isVaultRequest)

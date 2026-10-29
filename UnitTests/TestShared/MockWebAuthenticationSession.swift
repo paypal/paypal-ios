@@ -14,9 +14,9 @@ class MockWebAuthenticationSession: WebAuthenticationSession {
     override func start(
         url: URL,
         context: ASWebAuthenticationPresentationContextProviding,
-        sessionDidDisplay: @escaping (Bool) -> Void,
-        sessionDidCancel: (() -> Void)? = nil,
-        sessionDidComplete: @escaping (URL?, Error?) -> Void
+        sessionDidDisplay: @escaping @Sendable (Bool) -> Void,
+        sessionDidCancel: (@Sendable () -> Void)? = nil,
+        sessionDidComplete: @escaping @Sendable (URL?, Error?) -> Void
     ) {
         lastLaunchedURL = url
         onStart?()
