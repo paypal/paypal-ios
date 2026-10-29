@@ -1,7 +1,9 @@
 import Foundation
 import CorePayments
 import VenmoPayments
+import SwiftUI
 
+@Observable
 @MainActor
 class VenmoViewModelV2: ObservableObject {
 
