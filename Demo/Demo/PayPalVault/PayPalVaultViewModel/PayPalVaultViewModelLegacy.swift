@@ -3,7 +3,7 @@ import PayPalPayments
 import CorePayments
 
 @MainActor
-class PayPalVaultViewModel: VaultViewModel {
+class PayPalVaultViewModelLegacy: VaultViewModel {
 
     let configManager = CoreConfigManager(domain: "PayPal Vault")
     var paypalClient: PayPalClient?

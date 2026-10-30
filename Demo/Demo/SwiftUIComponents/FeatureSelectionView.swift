@@ -63,7 +63,7 @@ struct FeatureSelectionView: View {
                         Text("Venmo")
                     }
                     NavigationLink {
-                        PayPalVaultView()
+                        PayPalVaultViewLegacy()
                             .navigationTitle("PayPal Vaulting")
                     } label: {
                         Text("PayPal Vaulting")

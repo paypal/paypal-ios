@@ -3,7 +3,7 @@ import PayPalPayments
 
 struct PayPalVaultResultView: View {
 
-    @ObservedObject var viewModel: PayPalVaultViewModel
+    @ObservedObject var viewModel: PayPalVaultViewModelLegacy
 
     var body: some View {
         switch viewModel.state.paypalVaultTokenResponse {

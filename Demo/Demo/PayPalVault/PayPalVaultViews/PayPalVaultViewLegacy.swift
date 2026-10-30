@@ -1,8 +1,8 @@
 import SwiftUI
 
-struct PayPalVaultView: View {
+struct PayPalVaultViewLegacy: View {
 
-    @StateObject var paypalVaultViewModel = PayPalVaultViewModel()
+    @StateObject var paypalVaultViewModel = PayPalVaultViewModelLegacy()
 
     var body: some View {
         ScrollView {
