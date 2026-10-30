@@ -13,7 +13,6 @@
 		3B2027432A8A95EF0007907E /* SetupTokenResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2027422A8A95EF0007907E /* SetupTokenResultView.swift */; };
 		3B22E8BA2A842D8900962E34 /* PaymentTokenParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22E8B92A842D8900962E34 /* PaymentTokenParam.swift */; };
 		3B22E8BC2A84397600962E34 /* PaymentTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22E8BB2A84397600962E34 /* PaymentTokenResponse.swift */; };
-		3B3C51142B20F7CE009125FE /* PayPalVaultResultViewLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3C51132B20F7CE009125FE /* PayPalVaultResultViewLegacy.swift */; };
 		3B4DD9A22A8982B000F4A716 /* CardFormViewLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DD9A12A8982B000F4A716 /* CardFormViewLegacy.swift */; };
 		3B80D50E2A291C0800D2EAC4 /* ClientIDRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50D2A291C0800D2EAC4 /* ClientIDRequest.swift */; };
 		3B80D5102A291CB100D2EAC4 /* ClientIDResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50F2A291CB100D2EAC4 /* ClientIDResponse.swift */; };
@@ -42,8 +41,6 @@
 		9A8C7ADC2FF6FD1B00471F38 /* CustomEnvironmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8C7ADB2FF6FD0F00471F38 /* CustomEnvironmentView.swift */; };
 		A30ABBEB9DF94308BED38BD9 /* UserIdentityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DDBA0EEDF0422CA93EDE6B /* UserIdentityView.swift */; };
 		B0E65E5E4ABF494CBED06557 /* VenmoCheckoutResult+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D381DAE84C034EA6B50EFF39 /* VenmoCheckoutResult+Hashable.swift */; };
-		BC29AD3E3094E95A00E2429F /* PayPalVaultViewLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC29AD3D3094E95A00E2429F /* PayPalVaultViewLegacy.swift */; };
-		BC29AD403094E99600E2429F /* PayPalVaultViewModelLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC29AD3F3094E99600E2429F /* PayPalVaultViewModelLegacy.swift */; };
 		BC29AD673094EF8400E2429F /* CardPaymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC29AD663094EF8400E2429F /* CardPaymentViewModel.swift */; };
 		BC29AD683094EF8400E2429F /* CardPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC29AD653094EF8400E2429F /* CardPaymentView.swift */; };
 		BC29AD6A3094EFBD00E2429F /* AsyncState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC29AD693094EFBD00E2429F /* AsyncState.swift */; };
@@ -122,7 +119,6 @@
 		3B2027422A8A95EF0007907E /* SetupTokenResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupTokenResultView.swift; sourceTree = "<group>"; };
 		3B22E8B92A842D8900962E34 /* PaymentTokenParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentTokenParam.swift; sourceTree = "<group>"; };
 		3B22E8BB2A84397600962E34 /* PaymentTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentTokenResponse.swift; sourceTree = "<group>"; };
-		3B3C51132B20F7CE009125FE /* PayPalVaultResultViewLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalVaultResultViewLegacy.swift; sourceTree = "<group>"; };
 		3B4DD9A12A8982B000F4A716 /* CardFormViewLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardFormViewLegacy.swift; sourceTree = "<group>"; };
 		3B80D50D2A291C0800D2EAC4 /* ClientIDRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientIDRequest.swift; sourceTree = "<group>"; };
 		3B80D50F2A291CB100D2EAC4 /* ClientIDResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientIDResponse.swift; sourceTree = "<group>"; };
@@ -154,8 +150,6 @@
 		80F33CF226F8EA50006811B1 /* DemoSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSettings.swift; sourceTree = "<group>"; };
 		9A8C7ADB2FF6FD0F00471F38 /* CustomEnvironmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEnvironmentView.swift; sourceTree = "<group>"; };
 		B6889C4538D64E1BB48CA1A8 /* CreateOrderForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrderForm.swift; sourceTree = "<group>"; };
-		BC29AD3D3094E95A00E2429F /* PayPalVaultViewLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalVaultViewLegacy.swift; sourceTree = "<group>"; };
-		BC29AD3F3094E99600E2429F /* PayPalVaultViewModelLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalVaultViewModelLegacy.swift; sourceTree = "<group>"; };
 		BC29AD653094EF8400E2429F /* CardPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPaymentView.swift; sourceTree = "<group>"; };
 		BC29AD663094EF8400E2429F /* CardPaymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPaymentViewModel.swift; sourceTree = "<group>"; };
 		BC29AD693094EFBD00E2429F /* AsyncState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncState.swift; sourceTree = "<group>"; };
@@ -263,8 +257,6 @@
 			children = (
 				BC29ADA9309524E100E2429F /* PayPalVaultView.swift */,
 				BC29ADAA309524E100E2429F /* PayPalVaultViewModel.swift */,
-				1001E2BC2CF644BE0023A03C /* PayPalVaultViewModel */,
-				3BB60B512B1F9EE400A298CF /* PayPalVaultViews */,
 			);
 			path = PayPalVault;
 			sourceTree = "<group>";
@@ -285,14 +277,6 @@
 				BC29ADA23095240B00E2429F /* PayPalPaymentViewModel.swift */,
 			);
 			path = PayPalPayments;
-			sourceTree = "<group>";
-		};
-		1001E2BC2CF644BE0023A03C /* PayPalVaultViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				BC29AD3F3094E99600E2429F /* PayPalVaultViewModelLegacy.swift */,
-			);
-			path = PayPalVaultViewModel;
 			sourceTree = "<group>";
 		};
 		1001E2BE2CF6548E0023A03C /* VaultViewModel */ = {
@@ -322,15 +306,6 @@
 				3B2027422A8A95EF0007907E /* SetupTokenResultView.swift */,
 			);
 			path = VaultViews;
-			sourceTree = "<group>";
-		};
-		3BB60B512B1F9EE400A298CF /* PayPalVaultViews */ = {
-			isa = PBXGroup;
-			children = (
-				BC29AD3D3094E95A00E2429F /* PayPalVaultViewLegacy.swift */,
-				3B3C51132B20F7CE009125FE /* PayPalVaultResultViewLegacy.swift */,
-			);
-			path = PayPalVaultViews;
 			sourceTree = "<group>";
 		};
 		3BCCFE472A9D962E00C5102F /* CommonComponents */ = {
@@ -686,7 +661,6 @@
 				CB9ED44C283FDA900081F4DE /* PaymentButtonEnums+Extension.swift in Sources */,
 				3B80D50E2A291C0800D2EAC4 /* ClientIDRequest.swift in Sources */,
 				BE8117682B080472009867B9 /* CurrentState.swift in Sources */,
-				BC29AD3E3094E95A00E2429F /* PayPalVaultViewLegacy.swift in Sources */,
 				3BDB348E2A7CB02C008100D7 /* CreateSetupTokenParam.swift in Sources */,
 				3BA0A58B2B1E240300330681 /* VaultViewModel.swift in Sources */,
 				80F33CF326F8EA50006811B1 /* DemoSettings.swift in Sources */,
@@ -721,10 +695,8 @@
 				3BF9997A2A8AE12C009CBDF2 /* PaymentTokenResultView.swift in Sources */,
 				3BDB34922A7CB5DE008100D7 /* CreateSetupTokenResponse.swift in Sources */,
 				BC29AD6A3094EFBD00E2429F /* AsyncState.swift in Sources */,
-				3B3C51142B20F7CE009125FE /* PayPalVaultResultViewLegacy.swift in Sources */,
 				BC29ADA63095242F00E2429F /* PayPalCheckoutResult+Hashable.swift in Sources */,
 				B0E65E5E4ABF494CBED06557 /* VenmoCheckoutResult+Hashable.swift in Sources */,
-				BC29AD403094E99600E2429F /* PayPalVaultViewModelLegacy.swift in Sources */,
 				BC29ADAB309524E100E2429F /* PayPalVaultView.swift in Sources */,
 				BC29ADAC309524E100E2429F /* PayPalVaultViewModel.swift in Sources */,
 				BE9F36D82745490400AFC7DA /* FloatingLabelTextField.swift in Sources */,
