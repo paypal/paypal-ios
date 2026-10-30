@@ -21,6 +21,11 @@ class VenmoViewModel: ObservableObject {
         let config = configManager.getCoreConfig()
         venmoClient = VenmoClient(config: config)
     }
+    
+    // this is used to track changes and drive the scroll-to-bottom animation
+    var stateHash: Int {
+        return hash(createOrderState, checkoutState, completeOrderState)
+    }
 
     func createOrder(using request: DemoCreateOrderRequest) {
         orderIntent = request.intent
