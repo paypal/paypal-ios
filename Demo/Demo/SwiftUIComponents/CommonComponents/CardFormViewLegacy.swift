@@ -53,7 +53,7 @@ struct CardFormViewLegacy: View {
     }
 }
 
-struct CardFormView_Previews: PreviewProvider {
+struct CardFormViewLegacy_Previews: PreviewProvider {
 
     @State static var mockCardNumberText: String = "41111111111111111"
     @State static var mockExpirationDateText: String = "01/25"
