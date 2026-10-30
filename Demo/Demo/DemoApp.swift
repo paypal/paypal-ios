@@ -5,7 +5,7 @@ struct DemoApp: App {
     
     var body: some Scene {
         WindowGroup {
-            FeatureSelectionView()
+            FeatureSelectionViewLegacy()
         }
     }
 }
