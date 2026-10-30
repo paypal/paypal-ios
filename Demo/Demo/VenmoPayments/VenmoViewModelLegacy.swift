@@ -3,9 +3,9 @@ import CorePayments
 import VenmoPayments
 
 @MainActor
-class VenmoViewModel: ObservableObject {
+class VenmoViewModelLegacy: ObservableObject {
 
-    @Published var state = VenmoPaymentState()
+    @Published var state = VenmoPaymentStateLegacy()
     @Published var intent: Intent = .authorize
 
     private let configManager = CoreConfigManager(domain: "Venmo Payments")
@@ -16,7 +16,7 @@ class VenmoViewModel: ObservableObject {
     private var returnURL: String { DemoSettings.environment.returnBaseURL }
 
     func checkout(amount: String) async {
-        state = VenmoPaymentState()
+        state = VenmoPaymentStateLegacy()
         state.createdOrderResponse = .loading
 
         let order: Order
@@ -35,7 +35,7 @@ class VenmoViewModel: ObservableObject {
         do {
             let result = try await client.start(orderID: order.id)
             state.approveResultResponse = .loaded(
-                VenmoPaymentState.ApprovalResult(id: result.orderID, payerID: result.payerID)
+                VenmoPaymentStateLegacy.ApprovalResult(id: result.orderID, payerID: result.payerID)
             )
         } catch {
             if VenmoError.isCheckoutCanceled(error) {
@@ -66,7 +66,7 @@ class VenmoViewModel: ObservableObject {
     }
 
     func resetState() {
-        state = VenmoPaymentState()
+        state = VenmoPaymentStateLegacy()
     }
 
     private func fetchOrder(amount: String) async throws -> Order {
