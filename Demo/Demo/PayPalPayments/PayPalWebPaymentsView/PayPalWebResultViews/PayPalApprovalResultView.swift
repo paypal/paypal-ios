@@ -2,7 +2,7 @@ import SwiftUI
 
 struct PayPalApprovalResultView: View {
     
-    @ObservedObject var payPalWebViewModel: PayPalWebViewModel
+    @ObservedObject var payPalWebViewModel: PayPalWebViewModelLegacy
     
     var body: some View {
         switch payPalWebViewModel.state.approveResultResponse {

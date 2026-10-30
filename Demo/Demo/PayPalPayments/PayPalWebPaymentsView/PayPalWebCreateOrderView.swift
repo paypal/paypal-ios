@@ -8,7 +8,7 @@ extension PayPalUserAction {
 
 struct PayPalWebCreateOrderView: View {
 
-    @ObservedObject var payPalWebViewModel: PayPalWebViewModel
+    @ObservedObject var payPalWebViewModel: PayPalWebViewModelLegacy
 
     @State private var selectedIntent: Intent = .authorize
     @State private var selectedUserAction: PayPalUserAction = .payNow

@@ -50,7 +50,7 @@ struct FeatureSelectionView: View {
                         Text("Card Vaulting")
                     }
                     NavigationLink {
-                        PayPalWebPaymentsView()
+                        PayPalWebPaymentsViewLegacy()
                             .navigationTitle("PayPal Web")
                     } label: {
                         Text("PayPal Web")

@@ -4,7 +4,7 @@ import PayPalPayments
 import FraudProtection
 
 @MainActor
-class PayPalWebViewModel: ObservableObject {
+class PayPalWebViewModelLegacy: ObservableObject {
 
     private enum DemoFixtures {
         static let vaultAttributes = Vault(storeInVault: "ON_SUCCESS", usageType: "MERCHANT", customerType: "CONSUMER")
