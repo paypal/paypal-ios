@@ -41,7 +41,7 @@
 		3BC6220B2A97204E00251B85 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC6220A2A97204E00251B85 /* CircularProgressView.swift */; };
 		3BCCFE462A9D47AC00C5102F /* CardExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCCFE452A9D47AC00C5102F /* CardExtensions.swift */; };
 		3BCCFE492A9D96CA00C5102F /* DemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCCFE482A9D96CA00C5102F /* DemoApp.swift */; };
-		3BCCFE4B2A9D985F00C5102F /* FeatureSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCCFE4A2A9D985F00C5102F /* FeatureSelectionView.swift */; };
+		3BCCFE4B2A9D985F00C5102F /* FeatureSelectionViewLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCCFE4A2A9D985F00C5102F /* FeatureSelectionViewLegacy.swift */; };
 		3BDB348E2A7CB02C008100D7 /* CreateSetupTokenParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB348D2A7CB02C008100D7 /* CreateSetupTokenParam.swift */; };
 		3BDB34922A7CB5DE008100D7 /* CreateSetupTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB34912A7CB5DE008100D7 /* CreateSetupTokenResponse.swift */; };
 		3BF999762A8AC093009CBDF2 /* UpdateSetupTokenResultViewLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF999752A8AC093009CBDF2 /* UpdateSetupTokenResultViewLegacy.swift */; };
@@ -174,7 +174,7 @@
 		3BC6220A2A97204E00251B85 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		3BCCFE452A9D47AC00C5102F /* CardExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardExtensions.swift; sourceTree = "<group>"; };
 		3BCCFE482A9D96CA00C5102F /* DemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoApp.swift; sourceTree = "<group>"; };
-		3BCCFE4A2A9D985F00C5102F /* FeatureSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureSelectionView.swift; sourceTree = "<group>"; };
+		3BCCFE4A2A9D985F00C5102F /* FeatureSelectionViewLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureSelectionViewLegacy.swift; sourceTree = "<group>"; };
 		3BDB348D2A7CB02C008100D7 /* CreateSetupTokenParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSetupTokenParam.swift; sourceTree = "<group>"; };
 		3BDB34912A7CB5DE008100D7 /* CreateSetupTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSetupTokenResponse.swift; sourceTree = "<group>"; };
 		3BF999752A8AC093009CBDF2 /* UpdateSetupTokenResultViewLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSetupTokenResultViewLegacy.swift; sourceTree = "<group>"; };
@@ -661,7 +661,7 @@
 			children = (
 				3BCCFE472A9D962E00C5102F /* CommonComponents */,
 				BE8117672B080472009867B9 /* CurrentState.swift */,
-				3BCCFE4A2A9D985F00C5102F /* FeatureSelectionView.swift */,
+				3BCCFE4A2A9D985F00C5102F /* FeatureSelectionViewLegacy.swift */,
 				CB9ED44D28411B110081F4DE /* SwiftUIPaymentButtonDemo.swift */,
 			);
 			path = SwiftUIComponents;
@@ -826,7 +826,7 @@
 				3B2027432A8A95EF0007907E /* SetupTokenResultView.swift in Sources */,
 				3BF999762A8AC093009CBDF2 /* UpdateSetupTokenResultViewLegacy.swift in Sources */,
 				1001E2C12CFFC72E0023A03C /* PayPalPaymentState.swift in Sources */,
-				3BCCFE4B2A9D985F00C5102F /* FeatureSelectionView.swift in Sources */,
+				3BCCFE4B2A9D985F00C5102F /* FeatureSelectionViewLegacy.swift in Sources */,
 				BC29AD7A3094F17700E2429F /* hash.swift in Sources */,
 				CB9ED44C283FDA900081F4DE /* PaymentButtonEnums+Extension.swift in Sources */,
 				3B80D50E2A291C0800D2EAC4 /* ClientIDRequest.swift in Sources */,
