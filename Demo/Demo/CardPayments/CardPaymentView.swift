@@ -58,7 +58,7 @@ struct CreateOrderForm: View {
             SegmentedEnumPicker(label: "Intent", selection: $request.intent)
             Toggle("Should Vault with Purchase", isOn: $request.shouldVault)
             FloatingLabelTextField(placeholder: "Vault Customer ID (Optional)", text: $request.vaultCustomerID)
-            
+            FloatingLabelTextField(placeholder: "Amount", text: $request.amount, keyboardType: .decimalPad)
             ButtonWithProgress(label: "Create an Order", isLoading: isLoading) {
                 onSubmit(request)
             }
