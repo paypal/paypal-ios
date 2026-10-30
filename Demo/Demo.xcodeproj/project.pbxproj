@@ -105,6 +105,7 @@
 		BC29ADB03095252400E2429F /* CreatePayPalSetupTokenForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC29ADAF3095252400E2429F /* CreatePayPalSetupTokenForm.swift */; };
 		BC29ADB23095254900E2429F /* DemoUpdatePayPalSetupTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC29ADB13095254900E2429F /* DemoUpdatePayPalSetupTokenRequest.swift */; };
 		BC49E28130952A49004EDEE0 /* FeatureSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC49E28030952A49004EDEE0 /* FeatureSelectionView.swift */; };
+		E7A16C076ACE4880A82AC0D4 /* CreateOrderForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6889C4538D64E1BB48CA1A8 /* CreateOrderForm.swift */; };
 		BC49E28330952BC4004EDEE0 /* VenmoPaymentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC49E28230952BC4004EDEE0 /* VenmoPaymentsView.swift */; };
 		BC49E28530952BDD004EDEE0 /* VenmoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC49E28430952BDD004EDEE0 /* VenmoViewModel.swift */; };
 		BC6460CD2A12A2A0002B974B /* EmptyBodyParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6460CC2A12A2A0002B974B /* EmptyBodyParams.swift */; };
@@ -241,6 +242,7 @@
 		BC29ADAF3095252400E2429F /* CreatePayPalSetupTokenForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePayPalSetupTokenForm.swift; sourceTree = "<group>"; };
 		BC29ADB13095254900E2429F /* DemoUpdatePayPalSetupTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoUpdatePayPalSetupTokenRequest.swift; sourceTree = "<group>"; };
 		BC49E28030952A49004EDEE0 /* FeatureSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureSelectionView.swift; sourceTree = "<group>"; };
+		B6889C4538D64E1BB48CA1A8 /* CreateOrderForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrderForm.swift; sourceTree = "<group>"; };
 		BC49E28230952BC4004EDEE0 /* VenmoPaymentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoPaymentsView.swift; sourceTree = "<group>"; };
 		BC49E28430952BDD004EDEE0 /* VenmoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoViewModel.swift; sourceTree = "<group>"; };
 		BC6460CC2A12A2A0002B974B /* EmptyBodyParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyBodyParams.swift; sourceTree = "<group>"; };
@@ -660,6 +662,7 @@
 			isa = PBXGroup;
 			children = (
 				BC49E28030952A49004EDEE0 /* FeatureSelectionView.swift */,
+				B6889C4538D64E1BB48CA1A8 /* CreateOrderForm.swift */,
 				3BCCFE472A9D962E00C5102F /* CommonComponents */,
 				BE8117672B080472009867B9 /* CurrentState.swift */,
 				CB9ED44D28411B110081F4DE /* SwiftUIPaymentButtonDemo.swift */,
@@ -899,6 +902,7 @@
 				3BF999782A8AD072009CBDF2 /* CreatePaymentTokenView.swift in Sources */,
 				BED042312710833F00C80954 /* CardType.swift in Sources */,
 				BC49E28130952A49004EDEE0 /* FeatureSelectionView.swift in Sources */,
+				E7A16C076ACE4880A82AC0D4 /* CreateOrderForm.swift in Sources */,
 				3B6472A72AFAEB3A004745C4 /* PayPalWebTransactionView.swift in Sources */,
 				5301468C28918B4D00184F22 /* ApprovalResult.swift in Sources */,
 				3BC6220B2A97204E00251B85 /* CircularProgressView.swift in Sources */,
