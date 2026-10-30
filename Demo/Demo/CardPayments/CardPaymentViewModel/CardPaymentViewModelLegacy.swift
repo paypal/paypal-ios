@@ -4,7 +4,7 @@ import CorePayments
 import FraudProtection
 
 @MainActor
-class CardPaymentViewModel: ObservableObject {
+class CardPaymentViewModelLegacy: ObservableObject {
 
     @Published var state = CardPaymentState()
     private var payPalDataCollector: PayPalDataCollector?

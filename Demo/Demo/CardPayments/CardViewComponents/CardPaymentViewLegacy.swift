@@ -2,7 +2,7 @@ import SwiftUI
 
 struct CardPaymentViewLegacy: View {
 
-    @StateObject var cardPaymentViewModel = CardPaymentViewModel()
+    @StateObject var cardPaymentViewModel = CardPaymentViewModelLegacy()
 
     var body: some View {
         ScrollView {

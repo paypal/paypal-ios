@@ -3,7 +3,7 @@ import SwiftUI
 struct CardPaymentOrderCompletionView: View {
 
     let orderID: String
-    @ObservedObject var cardPaymentViewModel: CardPaymentViewModel
+    @ObservedObject var cardPaymentViewModel: CardPaymentViewModelLegacy
 
     var body: some View {
         let state = cardPaymentViewModel.state

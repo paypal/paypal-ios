@@ -2,7 +2,7 @@ import SwiftUI
 
 struct CardApprovalResultView: View {
 
-    @ObservedObject var cardPaymentViewModel: CardPaymentViewModel
+    @ObservedObject var cardPaymentViewModel: CardPaymentViewModelLegacy
 
     var body: some View {
         switch cardPaymentViewModel.state.approveResultResponse {
