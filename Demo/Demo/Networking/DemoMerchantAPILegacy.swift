@@ -2,7 +2,7 @@ import Foundation
 import CorePayments
 
 /// API Client used to create and process orders on sample merchant server
-final class DemoMerchantAPI {
+final class DemoMerchantAPILegacy {
 
     /// Merchant endpoints, which differ per environment: the Live merchant proxies the PayPal
     /// REST API, while the sandbox sample server exposes its own shorthand routes.
@@ -39,7 +39,7 @@ final class DemoMerchantAPI {
         }
     }
 
-    static let shared = DemoMerchantAPI()
+    static let shared = DemoMerchantAPILegacy()
 
     private init() {}
 
