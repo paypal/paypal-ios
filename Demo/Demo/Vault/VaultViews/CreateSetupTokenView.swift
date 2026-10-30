@@ -60,7 +60,7 @@ struct CreateSetupTokenView: View {
                         do {
                             switch paymentType {
                             case .paypal:
-                                guard let paypalVaultViewModel = vaultViewModel as? PayPalVaultViewModel else { return }
+                                guard let paypalVaultViewModel = vaultViewModel as? PayPalVaultViewModelLegacy else { return }
                                 try await paypalVaultViewModel.vault()
                             case .card:
                                 _ = try await vaultViewModel.fetchSetupToken(
