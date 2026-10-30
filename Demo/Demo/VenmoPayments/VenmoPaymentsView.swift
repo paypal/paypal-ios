@@ -34,6 +34,11 @@ struct VenmoPaymentsView: View {
                         }
                     }
                 }
+                .onChange(of: viewModel.stateHash) {
+                    withAnimation {
+                        proxy.scrollTo("bottomAnchor")
+                    }
+                }
             }
         }
         .onOpenURL { url in
