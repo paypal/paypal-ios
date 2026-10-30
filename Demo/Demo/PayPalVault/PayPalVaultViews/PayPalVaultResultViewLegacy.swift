@@ -1,7 +1,7 @@
 import SwiftUI
 import PayPalPayments
 
-struct PayPalVaultResultView: View {
+struct PayPalVaultResultViewLegacy: View {
 
     @ObservedObject var viewModel: PayPalVaultViewModelLegacy
 
