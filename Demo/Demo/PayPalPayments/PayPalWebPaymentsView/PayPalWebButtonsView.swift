@@ -4,7 +4,7 @@ import PayPalPayments
 
 struct PayPalWebButtonsView: View {
 
-    @ObservedObject var payPalWebViewModel: PayPalWebViewModel
+    @ObservedObject var payPalWebViewModel: PayPalWebViewModelLegacy
 
     @State private var selectedFundingSource: PayPalCheckoutFundingSource = .paypal
 

@@ -2,7 +2,7 @@ import SwiftUI
 
 struct PayPalOrderCompletionResultView: View {
     
-    @ObservedObject var payPalWebViewModel: PayPalWebViewModel
+    @ObservedObject var payPalWebViewModel: PayPalWebViewModelLegacy
     
     var body: some View {
         VStack {
