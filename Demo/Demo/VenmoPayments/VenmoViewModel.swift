@@ -1,88 +1,106 @@
 import Foundation
 import CorePayments
 import VenmoPayments
+import SwiftUI
 
+@Observable
 @MainActor
 class VenmoViewModel: ObservableObject {
+    
+    let api = DemoMerchantAPI.shared
+    var orderIntent: Intent = .authorize
+    
+    var createOrderState: AsyncState<Order> = .idle
+    var checkoutState: AsyncState<VenmoCheckoutResult> = .idle
+    var completeOrderState: AsyncState<Order> = .idle
 
-    @Published var state = VenmoPaymentState()
-    @Published var intent: Intent = .authorize
+    private let venmoClient: VenmoClient
 
-    private let configManager = CoreConfigManager(domain: "Venmo Payments")
+    init() {
+        let configManager = CoreConfigManager(domain: "Venmo Payments")
+        let config = configManager.getCoreConfig()
+        venmoClient = VenmoClient(config: config)
+    }
+    
+    // this is used to track changes and drive the scroll-to-bottom animation
+    var stateHash: Int {
+        return hash(createOrderState, checkoutState, completeOrderState)
+    }
 
-    private var venmoClient: VenmoClient?
-
-    /// Callback host for app switch, resolved from the environment selected in Demo settings.
-    private var returnURL: String { DemoSettings.environment.returnBaseURL }
-
-    func checkout(amount: String) async {
-        state = VenmoPaymentState()
-        state.createdOrderResponse = .loading
-
-        let order: Order
-        do {
-            order = try await fetchOrder(amount: amount)
-        } catch {
-            state.createdOrderResponse = .error(message: error.localizedDescription)
+    func createOrder(using request: DemoCreateOrderRequest) {
+        orderIntent = request.intent
+        createOrderState = .loading
+        Task {
+            let params = makeVenmoOrderParams(request: request)
+            do {
+                let order = try await api.createOrder(orderParams: params)
+                createOrderState = .loaded(order)
+            } catch {
+                createOrderState = .error(message: error.localizedDescription)
+            }
+        }
+    }
+    
+    func startVenmoCheckout() {
+        guard let orderID = createOrderState.value?.id else {
+            checkoutState = .error(message: "Order ID Required.")
             return
         }
-        state.createdOrderResponse = .loaded(order)
-        state.approveResultResponse = .loading
-
-        let client = VenmoClient(config: configManager.getCoreConfig())
-        venmoClient = client
-
-        do {
-            let result = try await client.start(orderID: order.id)
-            state.approveResultResponse = .loaded(
-                VenmoPaymentState.ApprovalResult(id: result.orderID, payerID: result.payerID)
-            )
-        } catch {
-            if VenmoError.isCheckoutCanceled(error) {
-                state.approveResultResponse = .error(message: "Venmo checkout was canceled.")
-            } else {
-                state.approveResultResponse = .error(message: error.localizedDescription)
+        
+        Task {
+            do {
+                let result = try await venmoClient.start(orderID: orderID)
+                checkoutState = .loaded(result)
+            } catch {
+                if VenmoError.isCheckoutCanceled(error) {
+                    checkoutState = .error(message: "Venmo checkout was canceled.")
+                } else {
+                    checkoutState = .error(message: error.localizedDescription)
+                }
             }
         }
     }
 
-    func completeTransaction() async {
-        guard let orderID = state.createOrder?.id else { return }
-        state.completedOrderResponse = .loading
-        do {
-            let order = try await DemoMerchantAPI.shared.completeOrder(
-                intent: intent,
-                orderID: orderID,
-                clientMetadataID: nil
-            )
-            state.completedOrderResponse = .loaded(order)
-        } catch {
-            state.completedOrderResponse = .error(message: error.localizedDescription)
+    func completeOrder() {
+        guard let orderID = createOrderState.value?.id else {
+            completeOrderState = .error(message: "Order ID Required.")
+            return
+        }
+        
+        completeOrderState = .loading
+        Task {
+            do {
+                let completedOrder: Order
+                switch orderIntent {
+                case .capture:
+                    completedOrder = try await api.captureOrder(orderID: orderID)
+                case .authorize:
+                    completedOrder = try await api.authorizeOrder(orderID: orderID)
+                }
+                completeOrderState = .loaded(completedOrder)
+            } catch {
+                print("Error capturing order: \(error.localizedDescription)")
+                completeOrderState = .error(message: error.localizedDescription)
+            }
         }
     }
 
     func handleReturnURL(_ url: URL) {
-        venmoClient?.handleReturnURL(url)
+        venmoClient.handleReturnURL(url)
     }
 
-    func resetState() {
-        state = VenmoPaymentState()
-    }
-
-    private func fetchOrder(amount: String) async throws -> Order {
+    private func makeVenmoOrderParams(request: DemoCreateOrderRequest) -> CreateOrderParams {
+        let returnURL: String = DemoSettings.environment.returnBaseURL
         let experience = VenmoExperienceContext(
             returnUrl: "\(returnURL)/success",
             cancelUrl: "\(returnURL)/cancel",
             appSwitchContext: VenmoAppSwitchContext()
         )
-        let params = CreateOrderParams(
-            intent: intent.rawValue,
-            purchaseUnits: [PurchaseUnit(amount: Amount(currencyCode: "USD", value: amount.isEmpty ? "10.00" : amount))],
+        let amountValue = request.amount.isEmpty ? "10.00" : request.amount
+        return CreateOrderParams(
+            intent: orderIntent.rawValue,
+            purchaseUnits: [PurchaseUnit(amount: Amount(currencyCode: "USD", value: amountValue))],
             paymentSource: .venmo(OrderVenmoPaymentSource(venmo: VenmoSource(experienceContext: experience)))
-        )
-        return try await DemoMerchantAPI.shared.createOrder(
-            orderParams: params,
-            integration: DemoSettings.merchantIntegration
         )
     }
 }
