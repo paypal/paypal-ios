@@ -1,0 +1,63 @@
+import SwiftUI
+
+struct CardFormView: View {
+
+    let cards: [DemoCard]
+    private let cardFormatter = CardFormatter()
+
+    @Binding var cardNumberText: String
+    @Binding var expirationDateText: String
+    @Binding var cvvText: String
+
+    var body: some View {
+        VStack(spacing: 16) {
+            HStack {
+                FloatingLabelTextField(placeholder: "Card Number", text: $cardNumberText)
+                    .onChange(of: cardNumberText) { _, newValue in
+                        cardNumberText = cardFormatter.formatFieldWith(newValue, field: .cardNumber)
+                        // 4 digit cvv for amex
+                        cvvText = CardType.unknown.getCardType(newValue) == .americanExpress ? "1234" : "123"
+                    }
+                if !cards.isEmpty {
+                    Menu {
+                        ForEach(cards, id: \.self.title) { card in
+                            Section(header: Text(card.title)) {
+                                ForEach(card.numbers, id: \.self) { number in
+                                    Button(number) {
+                                        cardNumberText = number
+                                    }
+                                }
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "chevron.down.circle")
+                    }
+                }
+            }
+            FloatingLabelTextField(placeholder: "Expiration Date", text: $expirationDateText)
+                .onChange(of: expirationDateText) { _, newValue in
+                    expirationDateText = cardFormatter.formatFieldWith(newValue, field: .expirationDate)
+                }
+            FloatingLabelTextField(placeholder: "CVV", text: $cvvText)
+                .onChange(of: cvvText) { _, newValue in
+                    cvvText = cardFormatter.formatFieldWith(newValue, field: .cvv)
+                }
+        }
+    }
+}
+
+struct CardFormView_Previews: PreviewProvider {
+
+    @State static var mockCardNumberText: String = "41111111111111111"
+    @State static var mockExpirationDateText: String = "01/25"
+    @State static var mockCvvText: String = "123"
+
+    static var previews: some View {
+        CardFormView(
+            cards: Array(DemoCard.allCards[0..<2]),
+            cardNumberText: $mockCardNumberText,
+            expirationDateText: $mockExpirationDateText,
+            cvvText: $mockCvvText
+        )
+    }
+}
