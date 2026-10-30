@@ -50,7 +50,7 @@ class VenmoViewModelLegacy: ObservableObject {
         guard let orderID = state.createOrder?.id else { return }
         state.completedOrderResponse = .loading
         do {
-            let order = try await DemoMerchantAPI.shared.completeOrder(
+            let order = try await DemoMerchantAPILegacy.shared.completeOrder(
                 intent: intent,
                 orderID: orderID,
                 clientMetadataID: nil
@@ -80,7 +80,7 @@ class VenmoViewModelLegacy: ObservableObject {
             purchaseUnits: [PurchaseUnit(amount: Amount(currencyCode: "USD", value: amount.isEmpty ? "10.00" : amount))],
             paymentSource: .venmo(OrderVenmoPaymentSource(venmo: VenmoSource(experienceContext: experience)))
         )
-        return try await DemoMerchantAPI.shared.createOrder(
+        return try await DemoMerchantAPILegacy.shared.createOrder(
             orderParams: params,
             integration: DemoSettings.merchantIntegration
         )

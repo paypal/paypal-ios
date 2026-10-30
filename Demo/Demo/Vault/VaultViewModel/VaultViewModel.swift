@@ -40,7 +40,7 @@ class VaultViewModel: ObservableObject {
                 paymentSourceType = PaymentSourceType.paypal(usageType: "MERCHANT", experienceContext: experienceContext)
             }
 
-            let setupTokenResult = try await DemoMerchantAPI.shared.createSetupToken(
+            let setupTokenResult = try await DemoMerchantAPILegacy.shared.createSetupToken(
                 customerID: customerID,
                 integration: selectedMerchantIntegration,
                 paymentSource: paymentSourceType
@@ -71,7 +71,7 @@ class VaultViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.state.paymentTokenResponse = .loading
             }
-            let paymentTokenResult = try await DemoMerchantAPI.shared.createPaymentToken(
+            let paymentTokenResult = try await DemoMerchantAPILegacy.shared.createPaymentToken(
                 setupToken: setupToken,
                 integration: selectedMerchantIntegration
             )
