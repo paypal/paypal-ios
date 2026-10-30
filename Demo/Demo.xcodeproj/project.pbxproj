@@ -98,6 +98,7 @@
 		BC29ADA33095240B00E2429F /* PayPalPaymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC29ADA23095240B00E2429F /* PayPalPaymentViewModel.swift */; };
 		BC29ADA43095240B00E2429F /* PayPalPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC29ADA13095240B00E2429F /* PayPalPaymentView.swift */; };
 		BC29ADA63095242F00E2429F /* PayPalCheckoutResult+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC29ADA53095242F00E2429F /* PayPalCheckoutResult+Hashable.swift */; };
+		B0E65E5E4ABF494CBED06557 /* VenmoCheckoutResult+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D381DAE84C034EA6B50EFF39 /* VenmoCheckoutResult+Hashable.swift */; };
 		BC29ADA83095245900E2429F /* DemoApproveOrderWithPayPalRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC29ADA73095245900E2429F /* DemoApproveOrderWithPayPalRequest.swift */; };
 		BC29ADAB309524E100E2429F /* PayPalVaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC29ADA9309524E100E2429F /* PayPalVaultView.swift */; };
 		BC29ADAC309524E100E2429F /* PayPalVaultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC29ADAA309524E100E2429F /* PayPalVaultViewModel.swift */; };
@@ -235,6 +236,7 @@
 		BC29ADA13095240B00E2429F /* PayPalPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalPaymentView.swift; sourceTree = "<group>"; };
 		BC29ADA23095240B00E2429F /* PayPalPaymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalPaymentViewModel.swift; sourceTree = "<group>"; };
 		BC29ADA53095242F00E2429F /* PayPalCheckoutResult+Hashable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PayPalCheckoutResult+Hashable.swift"; sourceTree = "<group>"; };
+		D381DAE84C034EA6B50EFF39 /* VenmoCheckoutResult+Hashable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VenmoCheckoutResult+Hashable.swift"; sourceTree = "<group>"; };
 		BC29ADA73095245900E2429F /* DemoApproveOrderWithPayPalRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoApproveOrderWithPayPalRequest.swift; sourceTree = "<group>"; };
 		BC29ADA9309524E100E2429F /* PayPalVaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalVaultView.swift; sourceTree = "<group>"; };
 		BC29ADAA309524E100E2429F /* PayPalVaultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalVaultViewModel.swift; sourceTree = "<group>"; };
@@ -675,6 +677,7 @@
 			children = (
 				BC29ADAD3095251A00E2429F /* PayPalVaultResult+Hashable.swift */,
 				BC29ADA53095242F00E2429F /* PayPalCheckoutResult+Hashable.swift */,
+				D381DAE84C034EA6B50EFF39 /* VenmoCheckoutResult+Hashable.swift */,
 				BC29AD9930951CF000E2429F /* CardVaultResult+Hashable.swift */,
 				BC29AD933094F34A00E2429F /* SCA+CaseIterable.swift */,
 				BC29AD6B3094F02B00E2429F /* CardResult+Hashable.swift */,
@@ -881,6 +884,7 @@
 				3BA56FF22A9DCD440081D14F /* CardApprovalResultView.swift in Sources */,
 				3B3C51142B20F7CE009125FE /* PayPalVaultResultViewLegacy.swift in Sources */,
 				BC29ADA63095242F00E2429F /* PayPalCheckoutResult+Hashable.swift in Sources */,
+				B0E65E5E4ABF494CBED06557 /* VenmoCheckoutResult+Hashable.swift in Sources */,
 				BC29AD403094E99600E2429F /* PayPalVaultViewModelLegacy.swift in Sources */,
 				BC29AD3A3094E89D00E2429F /* PayPalWebPaymentsViewLegacy.swift in Sources */,
 				3BA56FFA2A9FE4180081D14F /* CardOrderCompletionResultView.swift in Sources */,

@@ -19,8 +19,28 @@ struct VenmoPaymentsView: View {
                     }
                     AsyncStateView(createOrderState) { order in
                         OrderView(order: order)
+                        ApproveOrderWithVenmoForm(isLoading: false) {
+                            viewModel.startVenmoCheckout()
+                        }
                     }
                 }
+            }
+        }
+    }
+}
+
+struct ApproveOrderWithVenmoForm: View {
+    
+    let isLoading: Bool
+    let onSubmit: () -> Void
+
+    var body: some View {
+        FormGroup {
+            Text("Checkout with Venmo")
+                .font(.subheadline)
+                .foregroundColor(.primary)
+            ButtonWithProgress(label: "Checkout with Venmo", isLoading: isLoading) {
+                onSubmit()
             }
         }
     }

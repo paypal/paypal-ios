@@ -11,6 +11,15 @@ class VenmoViewModel: ObservableObject {
     var orderIntent: Intent = .authorize
     
     var createOrderState: AsyncState<Order> = .idle
+    var checkoutState: AsyncState<VenmoCheckoutResult> = .idle
+
+    private let venmoClient: VenmoClient
+
+    init() {
+        let configManager = CoreConfigManager(domain: "Venmo Payments")
+        let config = configManager.getCoreConfig()
+        venmoClient = VenmoClient(config: config)
+    }
 
     func createOrder(using request: DemoCreateOrderRequest) {
         orderIntent = request.intent
@@ -25,7 +34,27 @@ class VenmoViewModel: ObservableObject {
             }
         }
     }
-
+    
+    func startVenmoCheckout() {
+        guard let orderID = createOrderState.value?.id else {
+            checkoutState = .error(message: "Order ID Required.")
+            return
+        }
+        
+        Task {
+            do {
+                let result = try await venmoClient.start(orderID: orderID)
+                checkoutState = .loaded(result)
+            } catch {
+                if VenmoError.isCheckoutCanceled(error) {
+                    checkoutState = .error(message: "Venmo checkout was canceled.")
+                } else {
+                    checkoutState = .error(message: error.localizedDescription)
+                }
+            }
+        }
+    }
+    
     func checkout(amount: String) async {
     }
 
