@@ -1,6 +1,6 @@
 import Foundation
 
-struct VenmoPaymentState: Equatable {
+struct VenmoPaymentStateLegacy: Equatable {
 
     struct ApprovalResult: Decodable, Equatable {
 

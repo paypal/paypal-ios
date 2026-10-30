@@ -1,8 +1,8 @@
 import SwiftUI
 
-struct VenmoPaymentsView: View {
+struct VenmoPaymentsViewLegacy: View {
 
-    @StateObject private var viewModel = VenmoViewModel()
+    @StateObject private var viewModel = VenmoViewModelLegacy()
 
     var body: some View {
         ScrollView {
@@ -22,7 +22,7 @@ struct VenmoPaymentsView: View {
 
 private struct VenmoCreatedOrderView: View {
 
-    @ObservedObject var viewModel: VenmoViewModel
+    @ObservedObject var viewModel: VenmoViewModelLegacy
 
     var body: some View {
         switch viewModel.state.createdOrderResponse {
@@ -42,7 +42,7 @@ private struct VenmoCreatedOrderView: View {
 
 private struct VenmoApprovalView: View {
 
-    @ObservedObject var viewModel: VenmoViewModel
+    @ObservedObject var viewModel: VenmoViewModelLegacy
 
     var body: some View {
         switch viewModel.state.approveResultResponse {
@@ -72,7 +72,7 @@ private struct VenmoApprovalView: View {
 
 private struct VenmoCompletionView: View {
 
-    @ObservedObject var viewModel: VenmoViewModel
+    @ObservedObject var viewModel: VenmoViewModelLegacy
 
     var body: some View {
         switch viewModel.state.completedOrderResponse {
@@ -105,7 +105,7 @@ private struct VenmoCard<Content: View>: View {
 
 private struct VenmoCheckoutCard: View {
 
-    @ObservedObject var viewModel: VenmoViewModel
+    @ObservedObject var viewModel: VenmoViewModelLegacy
     @State private var selectedIntent: Intent = .authorize
     @State private var amount = "10.00"
 
