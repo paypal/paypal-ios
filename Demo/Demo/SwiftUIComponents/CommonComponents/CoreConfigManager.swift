@@ -10,7 +10,7 @@ class CoreConfigManager {
     }
 
     func getClientID() -> String {
-        DemoMerchantAPILegacy.shared.getClientID(environment: DemoSettings.environment)
+        DemoMerchantAPI.shared.getClientID(environment: DemoSettings.environment)
     }
 
     func getCoreConfig() -> CoreConfig {
