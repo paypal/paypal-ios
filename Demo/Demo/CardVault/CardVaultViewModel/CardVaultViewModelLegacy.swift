@@ -3,7 +3,7 @@ import CardPayments
 import CorePayments
 
 @MainActor
-class CardVaultViewModel: VaultViewModel {
+class CardVaultViewModelLegacy: VaultViewModel {
 
     let configManager = CoreConfigManager(domain: "Card Vault")
 

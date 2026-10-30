@@ -12,14 +12,12 @@
 		1001E2C72CFFD2A30023A03C /* PayPalOrderCompletionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1001E2C62CFFD2A20023A03C /* PayPalOrderCompletionResultView.swift */; };
 		124C8152ECE4F0ADD04DA4F0 /* VenmoPayments in Frameworks */ = {isa = PBXBuildFile; productRef = CB49968A513F1B0169A9AC63 /* VenmoPayments */; };
 		3B20273D2A89E3F00007907E /* CreateSetupTokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20273C2A89E3F00007907E /* CreateSetupTokenView.swift */; };
-		3B20273F2A89F24E0007907E /* CardVaultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20273E2A89F24E0007907E /* CardVaultViewModel.swift */; };
 		3B2027412A8A72050007907E /* VaultState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2027402A8A72050007907E /* VaultState.swift */; };
 		3B2027432A8A95EF0007907E /* SetupTokenResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2027422A8A95EF0007907E /* SetupTokenResultView.swift */; };
 		3B2027452A8AA78B0007907E /* UpdateSetupTokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2027442A8AA78B0007907E /* UpdateSetupTokenView.swift */; };
 		3B22E8BA2A842D8900962E34 /* PaymentTokenParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22E8B92A842D8900962E34 /* PaymentTokenParam.swift */; };
 		3B22E8BC2A84397600962E34 /* PaymentTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22E8BB2A84397600962E34 /* PaymentTokenResponse.swift */; };
 		3B3C51142B20F7CE009125FE /* PayPalVaultResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3C51132B20F7CE009125FE /* PayPalVaultResultView.swift */; };
-		3B4DD9A02A892A7000F4A716 /* CardVaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DD99F2A892A7000F4A716 /* CardVaultView.swift */; };
 		3B4DD9A22A8982B000F4A716 /* CardFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DD9A12A8982B000F4A716 /* CardFormView.swift */; };
 		3B6472A72AFAEB3A004745C4 /* PayPalWebTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6472A62AFAEB3A004745C4 /* PayPalWebTransactionView.swift */; };
 		3B80D50E2A291C0800D2EAC4 /* ClientIDRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80D50D2A291C0800D2EAC4 /* ClientIDRequest.swift */; };
@@ -71,6 +69,8 @@
 		BC0373643094E562006EB57C /* VenmoViewModelLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0373633094E562006EB57C /* VenmoViewModelLegacy.swift */; };
 		BC0373663094E5E6006EB57C /* CardPaymentViewLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0373653094E5E6006EB57C /* CardPaymentViewLegacy.swift */; };
 		BC29AD343094E76300E2429F /* CardPaymentViewModelLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC29AD333094E76300E2429F /* CardPaymentViewModelLegacy.swift */; };
+		BC29AD363094E7E000E2429F /* CardVaultViewLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC29AD353094E7E000E2429F /* CardVaultViewLegacy.swift */; };
+		BC29AD383094E80400E2429F /* CardVaultViewModelLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC29AD373094E80400E2429F /* CardVaultViewModelLegacy.swift */; };
 		BC6460CD2A12A2A0002B974B /* EmptyBodyParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6460CC2A12A2A0002B974B /* EmptyBodyParams.swift */; };
 		BC9D4D2227C554090089E5B1 /* LaunchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2127C554090089E5B1 /* LaunchApp.swift */; };
 		BC9D4D2427C58B8D0089E5B1 /* XCUIApplication+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */; };
@@ -109,14 +109,12 @@
 		1001E2C42CFFD2800023A03C /* PayPalApprovalResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalApprovalResultView.swift; sourceTree = "<group>"; };
 		1001E2C62CFFD2A20023A03C /* PayPalOrderCompletionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalOrderCompletionResultView.swift; sourceTree = "<group>"; };
 		3B20273C2A89E3F00007907E /* CreateSetupTokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSetupTokenView.swift; sourceTree = "<group>"; };
-		3B20273E2A89F24E0007907E /* CardVaultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultViewModel.swift; sourceTree = "<group>"; };
 		3B2027402A8A72050007907E /* VaultState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultState.swift; sourceTree = "<group>"; };
 		3B2027422A8A95EF0007907E /* SetupTokenResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupTokenResultView.swift; sourceTree = "<group>"; };
 		3B2027442A8AA78B0007907E /* UpdateSetupTokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSetupTokenView.swift; sourceTree = "<group>"; };
 		3B22E8B92A842D8900962E34 /* PaymentTokenParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentTokenParam.swift; sourceTree = "<group>"; };
 		3B22E8BB2A84397600962E34 /* PaymentTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentTokenResponse.swift; sourceTree = "<group>"; };
 		3B3C51132B20F7CE009125FE /* PayPalVaultResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalVaultResultView.swift; sourceTree = "<group>"; };
-		3B4DD99F2A892A7000F4A716 /* CardVaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultView.swift; sourceTree = "<group>"; };
 		3B4DD9A12A8982B000F4A716 /* CardFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardFormView.swift; sourceTree = "<group>"; };
 		3B6472A62AFAEB3A004745C4 /* PayPalWebTransactionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayPalWebTransactionView.swift; sourceTree = "<group>"; };
 		3B80D50D2A291C0800D2EAC4 /* ClientIDRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientIDRequest.swift; sourceTree = "<group>"; };
@@ -171,6 +169,8 @@
 		BC0373633094E562006EB57C /* VenmoViewModelLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoViewModelLegacy.swift; sourceTree = "<group>"; };
 		BC0373653094E5E6006EB57C /* CardPaymentViewLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPaymentViewLegacy.swift; sourceTree = "<group>"; };
 		BC29AD333094E76300E2429F /* CardPaymentViewModelLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPaymentViewModelLegacy.swift; sourceTree = "<group>"; };
+		BC29AD353094E7E000E2429F /* CardVaultViewLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultViewLegacy.swift; sourceTree = "<group>"; };
+		BC29AD373094E80400E2429F /* CardVaultViewModelLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVaultViewModelLegacy.swift; sourceTree = "<group>"; };
 		BC6460CC2A12A2A0002B974B /* EmptyBodyParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyBodyParams.swift; sourceTree = "<group>"; };
 		BC9D4D1527C54F3F0089E5B1 /* DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC9D4D2127C554090089E5B1 /* LaunchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchApp.swift; sourceTree = "<group>"; };
@@ -290,7 +290,7 @@
 		1001E2BD2CF644E00023A03C /* CardVaultViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				3B20273E2A89F24E0007907E /* CardVaultViewModel.swift */,
+				BC29AD373094E80400E2429F /* CardVaultViewModelLegacy.swift */,
 			);
 			path = CardVaultViewModel;
 			sourceTree = "<group>";
@@ -348,7 +348,7 @@
 		3B43290F2A8FD7FD00C5441A /* CardVaultViews */ = {
 			isa = PBXGroup;
 			children = (
-				3B4DD99F2A892A7000F4A716 /* CardVaultView.swift */,
+				BC29AD353094E7E000E2429F /* CardVaultViewLegacy.swift */,
 				3BF999752A8AC093009CBDF2 /* UpdateSetupTokenResultView.swift */,
 				3B2027442A8AA78B0007907E /* UpdateSetupTokenView.swift */,
 			);
@@ -680,15 +680,16 @@
 				3BA56FE92A9DCA520081D14F /* CardPaymentState.swift in Sources */,
 				3B2027412A8A72050007907E /* VaultState.swift in Sources */,
 				80F33CED26F8E7A9006811B1 /* Order.swift in Sources */,
-				3B4DD9A02A892A7000F4A716 /* CardVaultView.swift in Sources */,
 				BC29AD343094E76300E2429F /* CardPaymentViewModelLegacy.swift in Sources */,
 				BE8117642B07E778009867B9 /* PayPalOrderCreateResultView.swift in Sources */,
+				BC29AD363094E7E000E2429F /* CardVaultViewLegacy.swift in Sources */,
 				3BA56FF62A9E9AAB0081D14F /* CardOrderActionButton.swift in Sources */,
 				3BC622092A97198500251B85 /* LeadingText.swift in Sources */,
 				3B80D5102A291CB100D2EAC4 /* ClientIDResponse.swift in Sources */,
 				3BCCFE462A9D47AC00C5102F /* CardExtensions.swift in Sources */,
 				BE5898952B2B91F800AA196E /* LabelViewText.swift in Sources */,
 				3BC622072A97115700251B85 /* RoundedBlueButtonStyle.swift in Sources */,
+				BC29AD383094E80400E2429F /* CardVaultViewModelLegacy.swift in Sources */,
 				3B4DD9A22A8982B000F4A716 /* CardFormView.swift in Sources */,
 				BED04233271084DF00C80954 /* CardFormatter.swift in Sources */,
 				CB9ED44E28411B120081F4DE /* SwiftUIPaymentButtonDemo.swift in Sources */,
@@ -742,7 +743,6 @@
 				3BCCFE492A9D96CA00C5102F /* DemoApp.swift in Sources */,
 				BC0373663094E5E6006EB57C /* CardPaymentViewLegacy.swift in Sources */,
 				3BA56FEC2A9DCBF30081D14F /* CreateOrderCardPaymentView.swift in Sources */,
-				3B20273F2A89F24E0007907E /* CardVaultViewModel.swift in Sources */,
 				BC6460CD2A12A2A0002B974B /* EmptyBodyParams.swift in Sources */,
 				BC0373643094E562006EB57C /* VenmoViewModelLegacy.swift in Sources */,
 				3BF999782A8AD072009CBDF2 /* CreatePaymentTokenView.swift in Sources */,
