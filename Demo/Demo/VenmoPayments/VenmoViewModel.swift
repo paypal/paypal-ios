@@ -12,6 +12,7 @@ class VenmoViewModel: ObservableObject {
     
     var createOrderState: AsyncState<Order> = .idle
     var checkoutState: AsyncState<VenmoCheckoutResult> = .idle
+    var completeOrderState: AsyncState<Order> = .idle
 
     private let venmoClient: VenmoClient
 
@@ -54,24 +55,35 @@ class VenmoViewModel: ObservableObject {
             }
         }
     }
-    
-    func checkout(amount: String) async {
-    }
 
-    func completeTransaction() async {
+    func completeOrder() {
+        guard let orderID = createOrderState.value?.id else {
+            completeOrderState = .error(message: "Order ID Required.")
+            return
+        }
+        
+        completeOrderState = .loading
+        Task {
+            do {
+                let completedOrder: Order
+                switch orderIntent {
+                case .capture:
+                    completedOrder = try await api.captureOrder(orderID: orderID)
+                case .authorize:
+                    completedOrder = try await api.authorizeOrder(orderID: orderID)
+                }
+                completeOrderState = .loaded(completedOrder)
+            } catch {
+                print("Error capturing order: \(error.localizedDescription)")
+                completeOrderState = .error(message: error.localizedDescription)
+            }
+        }
     }
 
     func handleReturnURL(_ url: URL) {
         venmoClient.handleReturnURL(url)
     }
 
-    func resetState() {
-    }
-
-    private func fetchOrder(amount: String) async throws -> Order {
-        throw NSError(domain: "TODO: implement", code: 123)
-    }
-    
     private func makeVenmoOrderParams(request: DemoCreateOrderRequest) -> CreateOrderParams {
         let returnURL: String = DemoSettings.environment.returnBaseURL
         let experience = VenmoExperienceContext(
