@@ -44,7 +44,7 @@ struct FeatureSelectionView: View {
                         Text("Card Payment")
                     }
                     NavigationLink {
-                        CardVaultView()
+                        CardVaultViewLegacy()
                             .navigationTitle("Card Vaulting")
                     } label: {
                         Text("Card Vaulting")

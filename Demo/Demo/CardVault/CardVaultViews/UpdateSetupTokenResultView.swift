@@ -2,7 +2,7 @@ import SwiftUI
 
 struct UpdateSetupTokenResultView: View {
 
-    @ObservedObject var cardVaultViewModel: CardVaultViewModel
+    @ObservedObject var cardVaultViewModel: CardVaultViewModelLegacy
 
     var body: some View {
         switch cardVaultViewModel.state.updateSetupTokenResponse {
