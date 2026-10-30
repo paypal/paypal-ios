@@ -6,6 +6,14 @@ struct VenmoPaymentsView: View {
     var viewModel
     
     var body: some View {
-        Text("Hello")
+        ScrollViewReader { proxy in
+            ScrollView {
+                VStack(spacing: 16) {
+                    CreateOrderForm(isLoading: false) { request in
+                        // TODO: create an order
+                    }
+                }
+            }
+        }
     }
 }
