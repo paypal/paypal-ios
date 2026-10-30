@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct UpdateSetupTokenResultView: View {
+struct UpdateSetupTokenResultViewLegacy: View {
 
     @ObservedObject var cardVaultViewModel: CardVaultViewModelLegacy
 
