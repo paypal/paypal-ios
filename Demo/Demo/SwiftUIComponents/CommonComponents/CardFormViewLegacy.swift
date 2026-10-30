@@ -7,7 +7,7 @@ struct CardSection: Identifiable {
     let numbers: [String]
 }
 
-struct CardFormView: View {
+struct CardFormViewLegacy: View {
 
     let cardSections: [CardSection]
     private let cardFormatter = CardFormatter()
@@ -64,7 +64,7 @@ struct CardFormView_Previews: PreviewProvider {
     ]
 
     static var previews: some View {
-        CardFormView(
+        CardFormViewLegacy(
             cardSections: cardData,
             cardNumberText: $mockCardNumberText,
             expirationDateText: $mockExpirationDateText,

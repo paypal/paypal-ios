@@ -35,7 +35,7 @@ struct UpdateSetupTokenView: View {
                 Spacer()
             }
 
-            CardFormView(
+            CardFormViewLegacy(
                 cardSections: cardSections,
                 cardNumberText: $cardNumberText,
                 expirationDateText: $expirationDateText,
