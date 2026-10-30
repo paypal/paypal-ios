@@ -38,31 +38,31 @@ struct FeatureSelectionView: View {
 
                 Section(header: Text("Features")) {
                     NavigationLink {
-                        CardPaymentView()
+                        CardPaymentViewLegacy()
                             .navigationTitle("Card Payment")
                     } label: {
                         Text("Card Payment")
                     }
                     NavigationLink {
-                        CardVaultView()
+                        CardVaultViewLegacy()
                             .navigationTitle("Card Vaulting")
                     } label: {
                         Text("Card Vaulting")
                     }
                     NavigationLink {
-                        PayPalWebPaymentsView()
+                        PayPalWebPaymentsViewLegacy()
                             .navigationTitle("PayPal Web")
                     } label: {
                         Text("PayPal Web")
                     }
                     NavigationLink {
-                        VenmoPaymentsView()
+                        VenmoPaymentsViewLegacy()
                             .navigationTitle("Venmo")
                     } label: {
                         Text("Venmo")
                     }
                     NavigationLink {
-                        PayPalVaultView()
+                        PayPalVaultViewLegacy()
                             .navigationTitle("PayPal Vaulting")
                     } label: {
                         Text("PayPal Vaulting")
