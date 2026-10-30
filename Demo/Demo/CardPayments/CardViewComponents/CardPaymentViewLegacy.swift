@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct CardPaymentView: View {
+struct CardPaymentViewLegacy: View {
 
     @StateObject var cardPaymentViewModel = CardPaymentViewModel()
 
