@@ -62,6 +62,7 @@ class VenmoViewModel: ObservableObject {
     }
 
     func handleReturnURL(_ url: URL) {
+        venmoClient.handleReturnURL(url)
     }
 
     func resetState() {

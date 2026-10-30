@@ -26,6 +26,9 @@ struct VenmoPaymentsView: View {
                 }
             }
         }
+        .onOpenURL { url in
+            viewModel.handleReturnURL(url)
+        }
     }
 }
 
