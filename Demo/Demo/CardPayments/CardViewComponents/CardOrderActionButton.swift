@@ -6,7 +6,7 @@ struct CardOrderActionButton: View {
     let orderID: String
     let selectedMerchantIntegration: MerchantIntegration
 
-    @ObservedObject var cardPaymentViewModel: CardPaymentViewModel
+    @ObservedObject var cardPaymentViewModel: CardPaymentViewModelLegacy
 
     var body: some View {
         ZStack {
