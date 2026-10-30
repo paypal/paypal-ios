@@ -38,7 +38,7 @@ struct FeatureSelectionView: View {
 
                 Section(header: Text("Features")) {
                     NavigationLink {
-                        CardPaymentView()
+                        CardPaymentViewLegacy()
                             .navigationTitle("Card Payment")
                     } label: {
                         Text("Card Payment")

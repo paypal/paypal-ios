@@ -32,7 +32,6 @@
 		3BA56FEE2A9DCC340081D14F /* OrderCreateCardResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA56FED2A9DCC340081D14F /* OrderCreateCardResultView.swift */; };
 		3BA56FF02A9DCCFD0081D14F /* CardOrderApproveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA56FEF2A9DCCFD0081D14F /* CardOrderApproveView.swift */; };
 		3BA56FF22A9DCD440081D14F /* CardApprovalResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA56FF12A9DCD440081D14F /* CardApprovalResultView.swift */; };
-		3BA56FF42A9DCD790081D14F /* CardPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA56FF32A9DCD790081D14F /* CardPaymentView.swift */; };
 		3BA56FF62A9E9AAB0081D14F /* CardOrderActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA56FF52A9E9AAB0081D14F /* CardOrderActionButton.swift */; };
 		3BA56FF82A9FDB5A0081D14F /* CardPaymentOrderCompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA56FF72A9FDB5A0081D14F /* CardPaymentOrderCompletionView.swift */; };
 		3BA56FFA2A9FE4180081D14F /* CardOrderCompletionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA56FF92A9FE4180081D14F /* CardOrderCompletionResultView.swift */; };
@@ -71,6 +70,7 @@
 		BC0373603094E524006EB57C /* VenmoPaymentsViewLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC03735F3094E524006EB57C /* VenmoPaymentsViewLegacy.swift */; };
 		BC0373623094E54B006EB57C /* VenmoPaymentStateLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0373613094E54B006EB57C /* VenmoPaymentStateLegacy.swift */; };
 		BC0373643094E562006EB57C /* VenmoViewModelLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0373633094E562006EB57C /* VenmoViewModelLegacy.swift */; };
+		BC0373663094E5E6006EB57C /* CardPaymentViewLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0373653094E5E6006EB57C /* CardPaymentViewLegacy.swift */; };
 		BC6460CD2A12A2A0002B974B /* EmptyBodyParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6460CC2A12A2A0002B974B /* EmptyBodyParams.swift */; };
 		BC9D4D2227C554090089E5B1 /* LaunchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2127C554090089E5B1 /* LaunchApp.swift */; };
 		BC9D4D2427C58B8D0089E5B1 /* XCUIApplication+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9D4D2327C58B8D0089E5B1 /* XCUIApplication+Helpers.swift */; };
@@ -129,7 +129,6 @@
 		3BA56FED2A9DCC340081D14F /* OrderCreateCardResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCreateCardResultView.swift; sourceTree = "<group>"; };
 		3BA56FEF2A9DCCFD0081D14F /* CardOrderApproveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardOrderApproveView.swift; sourceTree = "<group>"; };
 		3BA56FF12A9DCD440081D14F /* CardApprovalResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardApprovalResultView.swift; sourceTree = "<group>"; };
-		3BA56FF32A9DCD790081D14F /* CardPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPaymentView.swift; sourceTree = "<group>"; };
 		3BA56FF52A9E9AAB0081D14F /* CardOrderActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardOrderActionButton.swift; sourceTree = "<group>"; };
 		3BA56FF72A9FDB5A0081D14F /* CardPaymentOrderCompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPaymentOrderCompletionView.swift; sourceTree = "<group>"; };
 		3BA56FF92A9FE4180081D14F /* CardOrderCompletionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardOrderCompletionResultView.swift; sourceTree = "<group>"; };
@@ -171,6 +170,7 @@
 		BC03735F3094E524006EB57C /* VenmoPaymentsViewLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoPaymentsViewLegacy.swift; sourceTree = "<group>"; };
 		BC0373613094E54B006EB57C /* VenmoPaymentStateLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoPaymentStateLegacy.swift; sourceTree = "<group>"; };
 		BC0373633094E562006EB57C /* VenmoViewModelLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoViewModelLegacy.swift; sourceTree = "<group>"; };
+		BC0373653094E5E6006EB57C /* CardPaymentViewLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPaymentViewLegacy.swift; sourceTree = "<group>"; };
 		BC6460CC2A12A2A0002B974B /* EmptyBodyParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyBodyParams.swift; sourceTree = "<group>"; };
 		BC9D4D1527C54F3F0089E5B1 /* DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC9D4D2127C554090089E5B1 /* LaunchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchApp.swift; sourceTree = "<group>"; };
@@ -358,11 +358,11 @@
 		3BA56FEA2A9DCBB30081D14F /* CardViewComponents */ = {
 			isa = PBXGroup;
 			children = (
+				BC0373653094E5E6006EB57C /* CardPaymentViewLegacy.swift */,
 				3BA56FF52A9E9AAB0081D14F /* CardOrderActionButton.swift */,
 				3BA56FEF2A9DCCFD0081D14F /* CardOrderApproveView.swift */,
 				3BA56FF72A9FDB5A0081D14F /* CardPaymentOrderCompletionView.swift */,
 				1001E2CD2D0B5A6B0023A03C /* CardPaymentsResultViews */,
-				3BA56FF32A9DCD790081D14F /* CardPaymentView.swift */,
 				3BA56FEB2A9DCBF30081D14F /* CreateOrderCardPaymentView.swift */,
 			);
 			path = CardViewComponents;
@@ -735,12 +735,12 @@
 				3BA570012AA052E80081D14F /* PayPalWebPaymentsView.swift in Sources */,
 				BC03735C3093F9A1006EB57C /* VenmoPaymentsViewV2.swift in Sources */,
 				3BA56FFA2A9FE4180081D14F /* CardOrderCompletionResultView.swift in Sources */,
-				3BA56FF42A9DCD790081D14F /* CardPaymentView.swift in Sources */,
 				BE9F36D82745490400AFC7DA /* FloatingLabelTextField.swift in Sources */,
 				3B20273D2A89E3F00007907E /* CreateSetupTokenView.swift in Sources */,
 				3B22E8BA2A842D8900962E34 /* PaymentTokenParam.swift in Sources */,
 				3BA570072AA0DF330081D14F /* PayPalWebButtonsView.swift in Sources */,
 				3BCCFE492A9D96CA00C5102F /* DemoApp.swift in Sources */,
+				BC0373663094E5E6006EB57C /* CardPaymentViewLegacy.swift in Sources */,
 				3BA56FEC2A9DCBF30081D14F /* CreateOrderCardPaymentView.swift in Sources */,
 				3B20273F2A89F24E0007907E /* CardVaultViewModel.swift in Sources */,
 				BC6460CD2A12A2A0002B974B /* EmptyBodyParams.swift in Sources */,
