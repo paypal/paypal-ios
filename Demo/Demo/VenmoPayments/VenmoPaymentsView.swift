@@ -1,8 +1,8 @@
 import SwiftUI
 
-struct VenmoPaymentsViewV2: View {
+struct VenmoPaymentsView: View {
     
-    @Environment(VenmoViewModelV2.self)
+    @Environment(VenmoViewModel.self)
     var viewModel
     
     var body: some View {

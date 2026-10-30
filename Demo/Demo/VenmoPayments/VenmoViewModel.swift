@@ -5,7 +5,7 @@ import SwiftUI
 
 @Observable
 @MainActor
-class VenmoViewModelV2: ObservableObject {
+class VenmoViewModel: ObservableObject {
 
     func checkout(amount: String) async {
     }
