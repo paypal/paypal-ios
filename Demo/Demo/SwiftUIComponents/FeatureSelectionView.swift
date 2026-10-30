@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct FeatureSelectionViewLegacy: View {
+struct FeatureSelectionView: View {
 
     @State private var selectedEnvironment: DemoEnvironment = DemoSettings.environment
     @State private var selectedIntegration: MerchantIntegration = DemoSettings.merchantIntegration
