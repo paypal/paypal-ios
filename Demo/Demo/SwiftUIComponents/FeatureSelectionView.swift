@@ -1,16 +1,28 @@
 import SwiftUI
 
+enum Feature: Int {
+    case cardPayment
+    case cardVaulting
+    case payPalWeb
+    case payPalVaulting
+    case venmo
+    case paymentButtons
+}
+
 struct FeatureSelectionView: View {
 
     @State private var selectedEnvironment: DemoEnvironment = DemoSettings.environment
     @State private var selectedIntegration: MerchantIntegration = DemoSettings.merchantIntegration
+    
     #if DEBUG
     @State private var lastCommittedEnvironment: DemoEnvironment = DemoSettings.environment
     @State private var showCustomEnvironmentSheet = false
     #endif
-
+    
+    @State private var path: [Feature] = []
+    
     var body: some View {
-        NavigationView {
+        NavigationStack(path: $path) {
             List {
                 Section(header: Text("Settings")) {
                     Picker("Environment", selection: $selectedEnvironment.onChange(updateEnvironment)) {
@@ -35,47 +47,45 @@ struct FeatureSelectionView: View {
                     }
                     .pickerStyle(MenuPickerStyle())
                 }
-
+                
                 Section(header: Text("Features")) {
-                    NavigationLink {
-                        CardPaymentView()
-                            .navigationTitle("Card Payment")
-                    } label: {
-                        Text("Card Payment")
-                    }
-                    NavigationLink {
-                        CardVaultView()
-                            .navigationTitle("Card Vaulting")
-                    } label: {
-                        Text("Card Vaulting")
-                    }
-                    NavigationLink {
-                        PayPalWebPaymentsView()
-                            .navigationTitle("PayPal Web")
-                    } label: {
-                        Text("PayPal Web")
-                    }
-                    NavigationLink {
-                        VenmoPaymentsView()
-                            .navigationTitle("Venmo")
-                    } label: {
-                        Text("Venmo")
-                    }
-                    NavigationLink {
-                        PayPalVaultView()
-                            .navigationTitle("PayPal Vaulting")
-                    } label: {
-                        Text("PayPal Vaulting")
-                    }
-                    NavigationLink {
-                        SwiftUIPaymentButtonDemo()
-                    } label: {
-                        Text("Payment Button")
-                    }
+                    NavigationLink("Card Payment", value: Feature.cardPayment)
+                    NavigationLink("Card Vaulting", value: Feature.cardVaulting)
+                    NavigationLink("PayPal Web", value: Feature.payPalWeb)
+                    NavigationLink("PayPal Vaulting", value: Feature.payPalVaulting)
+                    NavigationLink("Venmo", value: Feature.venmo)
+                    NavigationLink("Payment Button", value: Feature.paymentButtons)
                 }
                 .listStyle(InsetGroupedListStyle())
                 .navigationTitle("Feature Selection")
             }
+            .navigationDestination(for: Feature.self) { feature in
+                switch feature {
+                case .cardPayment:
+                    CardPaymentView()
+                        .navigationTitle("Card Payment")
+                        .environment(CardPaymentViewModel())
+                case .cardVaulting:
+                    CardVaultView()
+                        .navigationTitle("Card Vaulting")
+                        .environment(CardVaultViewModel())
+                case .payPalWeb:
+                    PayPalPaymentView()
+                        .navigationTitle("PayPal Web")
+                        .environment(PayPalPaymentViewModel())
+                case .payPalVaulting:
+                    PayPalVaultView()
+                        .navigationTitle("PayPal Vaulting")
+                        .environment(PayPalVaultViewModel())
+                case .venmo:
+                    VenmoPaymentsView()
+                        .navigationTitle("Venmo")
+                        .environment(VenmoViewModel())
+                case .paymentButtons:
+                    SwiftUIPaymentButtonDemo()
+                }
+            }
+            
             #if DEBUG
             .sheet(isPresented: $showCustomEnvironmentSheet) {
                 CustomEnvironmentView(

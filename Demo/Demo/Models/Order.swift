@@ -1,10 +1,10 @@
-struct Order: Codable, Equatable {
+struct Order: Codable, Equatable, Hashable {
     
     let id: String
     let status: String
     let paymentSource: PaymentSource?
 
-    struct PaymentSource: Codable, Equatable {
+    struct PaymentSource: Codable, Equatable, Hashable {
         
         let card: Card?
         let paypal: PayPal?
@@ -29,32 +29,32 @@ struct Order: Codable, Equatable {
         paymentSource = try container.decodeIfPresent(PaymentSource.self, forKey: .paymentSource)
     }
 
-    struct Card: Codable, Equatable {
+    struct Card: Codable, Equatable, Hashable {
 
         let lastDigits: String?
         let brand: String?
         let attributes: Attributes?
     }
 
-    struct PayPal: Codable, Equatable {
+    struct PayPal: Codable, Equatable, Hashable {
 
         let emailAddress: String?
         let attributes: Attributes?
     }
 
-    struct Attributes: Codable, Equatable {
+    struct Attributes: Codable, Equatable, Hashable {
         
         let vault: Vault
     }
 
-    struct Vault: Codable, Equatable {
+    struct Vault: Codable, Equatable, Hashable {
         
         let id: String?
         let status: String
         let customer: Customer?
     }
 
-    struct Customer: Codable, Equatable {
+    struct Customer: Codable, Equatable, Hashable {
         
         let id: String
     }
