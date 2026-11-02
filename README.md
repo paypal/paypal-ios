@@ -34,6 +34,8 @@ The PayPal SDK uses a client ID for authentication. This can be found in your [P
 
 Documentation for the PayPal iOS SDK can be found [here](https://developer.paypal.com/docs/checkout/advanced/ios/).
 
+Reference docs for the SDK can be found [here](https://paypal.github.io/paypal-ios/documentation).
+
 ## Demo
 
 1. Open `PayPal.xcworkspace` in Xcode
