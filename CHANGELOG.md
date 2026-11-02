@@ -1,7 +1,7 @@
 
 # PayPal iOS SDK Release Notes
 
-## Unreleased
+## unreleased
 
 * VenmoPayments (New Module)
   * Add `VenmoClient` with `start(orderID:completion:)` and `start(orderID:) async throws` for Venmo checkout; opens the Venmo app when installed, otherwise Safari
