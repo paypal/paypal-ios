@@ -37,6 +37,7 @@ let venmoClient = VenmoClient(config: config)
 
 * Unlike PayPal Checkout, `VenmoClient` doesn't take a `PayPalURLConfig` or any URL config from the SDK — it never reads `fallbackSchemeURL` or Associated Domains settings from `CoreConfig`. The URL it opens to switch to Venmo is a fixed, SDK-built checkout URL with no merchant-configurable return path. The buyer's way back to your app instead comes from the `return_url` / `cancel_url` you set per-order, server-side (see below) — as long as those sit under the same Universal Link domain you registered in Install & Setup, iOS delivers the return through your `scene(_:continue:)` / `.onOpenURL` handler, and `venmoClient.handleReturnURL(url)` parses the result from that URL. There is currently no custom-scheme fallback for Venmo — if the Universal Link isn't verified, there's no documented fallback path back to your app.
 * Add `com.venmo.touch.v2` under `LSApplicationQueriesSchemes` in Info.plist — the SDK uses it to detect whether the Venmo app is installed. This is in addition to the `paypal` entry from Install & Setup, not a replacement for it.
+* In production, SDK app switch requires Venmo app version 26.26.0 or later on the buyer's device.
 
 ## Server: create the order with the Venmo payment source
 
@@ -131,12 +132,9 @@ Follow the same physical-device approach as PayPal App Switch, with two differen
 
 ### Go live
 
-> **Production requirement:** SDK app switch requires Venmo app version 26.26.0 or later.
-
 - [ ] Switch `.sandbox` to `.live` and use your live client ID and merchant ID.
 - [ ] Verify the Universal Link return works in a release build; confirm your order's `return_url`/`cancel_url` share the same domain as that Universal Link. Confirm `com.venmo.touch.v2` is declared under `LSApplicationQueriesSchemes`.
 - [ ] Confirm success, cancel (`VenmoError.isCheckoutCanceled`), and other failures are handled.
-- [ ] Confirm buyers have Venmo app version 26.26.0 or later. In production, SDK app switch requires it.
 - [ ] Contact your PayPal account team to enable Venmo for production traffic.
 
 ## Related
