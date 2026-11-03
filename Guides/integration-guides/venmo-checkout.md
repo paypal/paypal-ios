@@ -131,9 +131,12 @@ Follow the same physical-device approach as PayPal App Switch, with two differen
 
 ### Go live
 
+> **Production requirement:** SDK app switch requires Venmo app version 26.26.0 or later.
+
 - [ ] Switch `.sandbox` to `.live` and use your live client ID and merchant ID.
 - [ ] Verify the Universal Link return works in a release build; confirm your order's `return_url`/`cancel_url` share the same domain as that Universal Link. Confirm `com.venmo.touch.v2` is declared under `LSApplicationQueriesSchemes`.
 - [ ] Confirm success, cancel (`VenmoError.isCheckoutCanceled`), and other failures are handled.
+- [ ] Confirm buyers have Venmo app version 26.26.0 or later. In production, SDK app switch requires it.
 - [ ] Contact your PayPal account team to enable Venmo for production traffic.
 
 ## Related
