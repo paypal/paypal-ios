@@ -24,6 +24,12 @@ sequenceDiagram
     App->>Server: Capture order (Orders v2)
 ```
 
+### How the app switch works
+
+`start(orderID:)` opens the Venmo checkout URL with `UIApplication.open`. The SDK does not target the Venmo app directly, and it does not check whether the Venmo app is installed or whether the buyer is eligible. If the Venmo app handles the link, the OS switches to it; otherwise the URL opens in Safari. Either way the buyer returns to your app through the order's `return_url` / `cancel_url`.
+
+The URL depends on `CoreConfig`'s environment: `.live` uses `account.venmo.com`, and `.sandbox` uses `account.ext.live.venmo.com`.
+
 ## Before you begin
 
 Complete [Install & Setup (iOS)](../getting-started/install-and-setup.md). For Venmo specifically:

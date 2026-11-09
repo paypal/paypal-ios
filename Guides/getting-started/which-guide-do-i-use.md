@@ -1,4 +1,4 @@
-Use this to find the right page in the PayPal Mobile SDK V3.0.0 iOS guide set.
+Use this to find the right page in the PayPal Mobile SDK V3.2.0 iOS guide set.
 
 ## What are you trying to do?
 
