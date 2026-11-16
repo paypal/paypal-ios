@@ -22,7 +22,7 @@ struct VenmoPaymentsView: View {
                     }
                     AsyncStateView(createOrderState) { order in
                         OrderView(order: order)
-                        ApproveOrderWithVenmoForm(isLoading: false) {
+                        ApproveOrderWithVenmoForm(isLoading: checkoutState.isLoading) {
                             viewModel.startVenmoCheckout()
                         }
                     }
