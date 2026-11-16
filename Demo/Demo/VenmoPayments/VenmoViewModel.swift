@@ -47,6 +47,7 @@ class VenmoViewModel: ObservableObject {
             return
         }
         
+        checkoutState = .loading
         Task {
             do {
                 let result = try await venmoClient.start(orderID: orderID)
