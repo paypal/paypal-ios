@@ -55,9 +55,7 @@ struct ApproveOrderWithVenmoForm: View {
 
     var body: some View {
         FormGroup {
-            Text("Checkout with Venmo")
-                .font(.subheadline)
-                .foregroundColor(.primary)
+            StepHeader(text: "Checkout with Venmo")
             ButtonWithProgress(label: "Checkout with Venmo", isLoading: isLoading) {
                 onSubmit()
             }
