@@ -11,7 +11,7 @@ struct CreateOrderForm: View {
     init(
         isLoading: Bool,
         shouldOfferVaultWithPurchase: Bool = true,
-        onSubmit: @escaping (_ request: DemoCreateOrderRequest) -> Void = { _ in }
+        onSubmit: @escaping (_ request: DemoCreateOrderRequest) -> Void
     ) {
         self.isLoading = isLoading
         self.shouldOfferVaultWithPurchase = shouldOfferVaultWithPurchase
