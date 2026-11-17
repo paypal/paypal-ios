@@ -5,7 +5,7 @@ import SwiftUI
 
 @Observable
 @MainActor
-class VenmoViewModel: ObservableObject {
+class VenmoViewModel {
     
     let api = DemoMerchantAPI.shared
     var orderIntent: Intent = .authorize
