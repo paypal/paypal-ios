@@ -2,5 +2,5 @@ import CardPayments
 
 extension SCA: @retroactive CaseIterable {
     
-    public static var allCases: [SCA] = [.scaAlways, .scaWhenRequired]
+    public static let allCases: [SCA] = [.scaAlways, .scaWhenRequired]
 }
