@@ -24,7 +24,7 @@ class VenmoViewModel: ObservableObject {
     
     // this is used to track changes and drive the scroll-to-bottom animation
     var stateHash: Int {
-        return hash(createOrderState, checkoutState, completeOrderState)
+        return combinedHash(of: createOrderState, checkoutState, completeOrderState)
     }
 
     func createOrder(using request: DemoCreateOrderRequest) {

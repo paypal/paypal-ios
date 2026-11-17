@@ -17,7 +17,7 @@ class CardVaultViewModel {
     
     // this is used to track changes and drive the scroll-to-bottom animation
     var stateHash: Int {
-        return hash(createSetupTokenState, updateSetupTokenState, createPaymentTokenState)
+        return combinedHash(of: createSetupTokenState, updateSetupTokenState, createPaymentTokenState)
     }
 
     // MARK: Initializers

@@ -28,7 +28,7 @@ class CardPaymentViewModel {
     
     // this is used to track changes and drive the scroll-to-bottom animation
     var stateHash: Int {
-        return hash(createOrderState, approveOrderState, completeOrderState)
+        return combinedHash(of: createOrderState, approveOrderState, completeOrderState)
     }
 
     func createOrder(using request: DemoCreateOrderRequest) {
