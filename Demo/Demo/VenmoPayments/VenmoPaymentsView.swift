@@ -33,6 +33,7 @@ struct VenmoPaymentsView: View {
                             viewModel.completeOrder()
                         }
                     }
+                    ScrollAnchor(id: "bottomAnchor")
                 }
                 .onChange(of: viewModel.stateHash) {
                     withAnimation {
