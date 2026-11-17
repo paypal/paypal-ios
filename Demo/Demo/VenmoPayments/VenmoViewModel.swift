@@ -80,7 +80,7 @@ class VenmoViewModel {
                 }
                 completeOrderState = .loaded(completedOrder)
             } catch {
-                print("Error capturing order: \(error.localizedDescription)")
+                print("Error completing order: \(error.localizedDescription)")
                 completeOrderState = .error(message: error.localizedDescription)
             }
         }
