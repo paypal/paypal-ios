@@ -99,7 +99,7 @@ class VenmoViewModel {
         )
         let amountValue = request.amount.isEmpty ? "10.00" : request.amount
         return CreateOrderParams(
-            intent: orderIntent.rawValue,
+            intent: request.intent.rawValue,
             purchaseUnits: [PurchaseUnit(amount: Amount(currencyCode: "USD", value: amountValue))],
             paymentSource: .venmo(OrderVenmoPaymentSource(venmo: VenmoSource(experienceContext: experience)))
         )
