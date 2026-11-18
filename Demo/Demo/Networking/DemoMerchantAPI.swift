@@ -42,14 +42,39 @@ final class DemoMerchantAPI {
     static let shared = DemoMerchantAPI()
 
     private init() {}
-
+    
     func createSetupToken(
+        using request: DemoCreateCardSetupTokenRequest
+    ) async throws -> CreateSetupTokenResponse {
+        let experienceContext = VaultExperienceContext()
+        let verification = request.sca.rawValue
+        return try await createSetupToken(
+            customerID: request.customerID,
+            paymentSource: .card(verification: verification, experienceContext: experienceContext)
+        )
+    }
+    
+    func createSetupToken(
+        using request: DemoCreatePayPalSetupTokenRequest
+    ) async throws -> CreateSetupTokenResponse {
+        let appSwitchURL = DemoSettings.environment.returnBaseURL
+        let experienceContext =
+            VaultExperienceContext(appSwitchContext: AppSwitchContext(appUrl: appSwitchURL))
+        return try await createSetupToken(
+            customerID: request.customerID,
+            paymentSource: .paypal(usageType: "MERCHANT", experienceContext: experienceContext)
+        )
+    }
+    
+    private func createSetupToken(
         customerID: String? = nil,
-        integration: MerchantIntegration,
         paymentSource: PaymentSourceType
     ) async throws -> CreateSetupTokenResponse {
         do {
-            let customer = VaultCustomer(id: customerID)
+            var customer: VaultCustomer?
+            if let customerID, !customerID.isEmpty {
+                customer = VaultCustomer(id: customerID)
+            }
             let requestBody =
                 CreateSetupTokenParam(customer: customer, paymentSource: paymentSource)
 
@@ -65,12 +90,9 @@ final class DemoMerchantAPI {
         }
     }
 
-    func createPaymentToken(
-        setupToken: String,
-        integration: MerchantIntegration
-    ) async throws -> PaymentTokenResponse {
+    func createPaymentToken(setupTokenID: String) async throws -> PaymentTokenResponse {
         do {
-            let paymentSource = PaymentTokenParam.PaymentSource(setupTokenID: setupToken)
+            let paymentSource = PaymentTokenParam.PaymentSource(setupTokenID: setupTokenID)
             let requestBody = PaymentTokenParam(paymentSource: paymentSource)
             guard let url = buildURL(for: .paymentTokens) else {
                 throw URLResponseError.invalidURL
@@ -108,7 +130,6 @@ final class DemoMerchantAPI {
 
     func captureOrder(
         orderID: String,
-        integration: MerchantIntegration,
         clientMetadataID: String? = nil
     ) async throws -> Order {
         guard let url = buildURL(for: .orderCapture(orderID: orderID)) else {
@@ -125,7 +146,6 @@ final class DemoMerchantAPI {
     
     func authorizeOrder(
         orderID: String,
-        integration: MerchantIntegration,
         clientMetadataID: String? = nil
     ) async throws -> Order {
         guard let url = buildURL(for: .orderAuthorize(orderID: orderID)) else {
@@ -142,14 +162,11 @@ final class DemoMerchantAPI {
     
     /// This function replicates a way a merchant may go about creating an order on their server
     /// and is not part of the SDK flow.
-    /// 
+    ///
     /// - Parameter orderParams: the parameters to create the order with
     /// - Returns: an order
     /// - Throws: an error explaining why create order failed
-    func createOrder(
-        orderParams: CreateOrderParams,
-        integration: MerchantIntegration
-    ) async throws -> Order {
+    func createOrder(orderParams: CreateOrderParams) async throws -> Order {
         guard let url = buildURL(for: .orders) else {
             throw URLResponseError.invalidURL
         }
